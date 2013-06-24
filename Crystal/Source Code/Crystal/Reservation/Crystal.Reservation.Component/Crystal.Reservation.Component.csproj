@@ -51,6 +51,10 @@
     <Compile Include="Reserver\Server.cs" />
     <Compile Include="Reserver\Validator.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="Status\Dao.cs" />
+    <Compile Include="Status\Data.cs" />
+    <Compile Include="Status\Server.cs" />
+    <Compile Include="Status\Validator.cs" />
     <Compile Include="Validator.cs" />
   </ItemGroup>
   <ItemGroup>
