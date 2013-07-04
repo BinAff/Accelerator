@@ -150,7 +150,6 @@ namespace Crystal.Invoice.Component
 
             return dataList;
         }
-             
 
         protected override bool CreateAfter()
         {
@@ -161,28 +160,11 @@ namespace Crystal.Invoice.Component
             return retVal;
         }
 
-        //protected override bool UpdateBefore()
-        //{
-        //    return base.UpdateBefore();
-        //}
-
-        public override Boolean Update()
-        {            
-            if(!this.DeleteBefore()) return false;//Delete childrens
-            if(!base.Update()) return false;            
-            return this.CreateAfter();//Add childrens
-        }
-
-        //protected override bool UpdateAfter()
-        //{
-        //    return base.DeleteAndCreateForList();
-        //}
-
         protected override bool ReadAfter()
         {
             this.ReadInvoiceTaxationLink();
             this.ReadInvoicePaymentLink();
-          
+
             return true;
         }
 
@@ -298,8 +280,6 @@ namespace Crystal.Invoice.Component
                 return false;//Foreign key violation  
             else
                 retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
-          
-
             return retVal;
         }
 
@@ -317,8 +297,6 @@ namespace Crystal.Invoice.Component
                 return false;//Foreign key violation  
             else
                 retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
-
-
             return retVal;
         }
 
