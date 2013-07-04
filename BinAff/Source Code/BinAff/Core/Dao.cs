@@ -168,7 +168,7 @@ namespace BinAff.Core
             //connStr = "Data Source=ba_server_blr\\sqlexpress;Initial Catalog=Splash;Integrated Security=True;"; //Arpan
             //connStr = "Data Source=biraj-netbook\\sqlexpress;Initial Catalog=DevelopmentRND;Integrated Security=True;"; //Biraj
 
-            connStr = "Data Source=RENTAL2;Initial Catalog=AutoTourism;User Id=sa;Password=infotech@1;"; //Untrusted connection
+            connStr = "Data Source=INMUVALP010308;Initial Catalog=AutoTourism;User Id=BinAffAppUsr;Password=BinAff@1;"; //Untrusted connection
 
             this.conn = new SqlConnection(connStr);
             if (this.conn.State != ConnectionState.Open) this.conn.Open();
@@ -202,6 +202,7 @@ namespace BinAff.Core
         /// <returns></returns>
         protected DbCommand CreateCommand(String spName)
         {
+            this.CreateConnection();
             this.command = new SqlCommand(spName, (SqlConnection)this.conn);
             this.command.CommandType = CommandType.StoredProcedure;
 
@@ -358,7 +359,7 @@ namespace BinAff.Core
             retVal = this.DeleteBefore();
             if (retVal)
                 retVal = this.CreateAfter();
-
+            this.CloseConnection();
             return retVal;
         }
 
@@ -538,42 +539,42 @@ namespace BinAff.Core
 
         #region Hook
 
-        protected virtual Boolean CreateBefore()
+        internal protected virtual Boolean CreateBefore()
         {
             return true;
         }
 
-        protected virtual Boolean CreateAfter()
+        internal protected virtual Boolean CreateAfter()
         {
             return true;
         }
 
-        protected virtual Boolean UpdateBefore()
+        internal protected virtual Boolean UpdateBefore()
         {
             return true;
         }
 
-        protected virtual Boolean UpdateAfter()
+        internal protected virtual Boolean UpdateAfter()
         {
             return true;
         }
 
-        protected virtual Boolean DeleteBefore()
+        internal protected virtual Boolean DeleteBefore()
         {
             return true;
         }
 
-        protected virtual Boolean DeleteAfter()
+        internal protected virtual Boolean DeleteAfter()
         {
             return true;
         }
 
-        protected virtual Boolean ReadBefore()
+        internal protected virtual Boolean ReadBefore()
         {
             return true;
         }
 
-        protected virtual Boolean ReadAfter()
+        internal protected virtual Boolean ReadAfter()
         {
             return true;
         }

@@ -256,10 +256,37 @@ namespace BinAff.Core
             using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
             {
                 //Manage hook before
-                if (!ManipulateRetuenObject(retObj, this.actionType == Action.Create ? this.CreateBefore() : this.UpdateBefore()).Value) return retObj;
+                if (!ManipulateReturnObject(retObj, this.actionType == Action.Create ? this.CreateBefore() : this.UpdateBefore()).Value) return retObj;
 
-                if (this.actionType == Action.Update) this.PrepareChildrenForUpdate();
+                //Update manipulation of children
+                if (this.actionType == Action.Update)
+                {
+                    this.PrepareChildrenForUpdate();
 
+                    //Delete children linking data for update
+                    if (this.independentChildren.Exists((p) => p.actionType == Action.Delete))
+                    {
+                        this.ManipulateReturnObject(retObj, this.dataAccess.DeleteBefore() ?
+                            new ReturnObject<Boolean>
+                            {
+                                Value = true,
+                                MessageList = new List<Message>
+                                {
+                                    new Message(String.IsNullOrEmpty(this.Name)? "Children link deleted." : "Children link for " +  this.Name + " deleted.", Message.Type.Information)
+                                },
+                            } :
+                            new ReturnObject<Boolean>
+                            {
+                                Value = false,
+                                MessageList = new List<Message>
+                                {
+                                    new Message(String.IsNullOrEmpty(this.Name)? "Children link deletion failed." : "Children link deletion for " +  this.Name + " failed.", Message.Type.Error)
+                                },
+                            });
+                        if (retObj.HasError()) return retObj;
+                    }
+                }
+                
                 //Save independent children
                 foreach (ICrud child in this.independentChildren)
                 {
@@ -267,7 +294,7 @@ namespace BinAff.Core
                 }
 
                 //Save own
-                if (!ManipulateRetuenObject(retObj, this.actionType == Action.Create ? this.Create() : this.Update()).Value) return retObj;
+                if (!ManipulateReturnObject(retObj, this.actionType == Action.Create ? this.Create() : this.Update()).Value) return retObj;
 
                 //Save dependent children
                 foreach (ICrud child in this.dependentChildren)
@@ -275,8 +302,34 @@ namespace BinAff.Core
                     if (!((Crud)child).IsReadOnly && !this.SaveOrDelete(child, retObj).Value) return retObj;
                 }
 
+                //Create link data in case of update
+                if (this.actionType == Action.Update)
+                {
+                    if (this.independentChildren.Exists((p) => p.actionType == Action.Create))
+                    {
+                        this.ManipulateReturnObject(retObj, this.dataAccess.CreateAfter()?
+                            new ReturnObject<Boolean>
+                            {
+                                Value = true,
+                                MessageList = new List<Message>
+                                {
+                                    new Message(String.IsNullOrEmpty(this.Name)? "Children link created." : "Children link for " +  this.Name + " created.", Message.Type.Information)
+                                },
+                            } :
+                            new ReturnObject<Boolean>
+                            {
+                                Value = false,
+                                MessageList = new List<Message>
+                                {
+                                    new Message(String.IsNullOrEmpty(this.Name)? "Children link creation failed." : "Children link creation for " +  this.Name + " failed.", Message.Type.Error)
+                                },
+                            });
+                        if (retObj.HasError()) return retObj;
+                    }
+                }
+
                 //Manage hook after
-                if (!ManipulateRetuenObject(retObj, this.actionType == Action.Create ? this.CreateAfter() : this.UpdateAfter()).Value) return retObj;
+                if (!ManipulateReturnObject(retObj, this.actionType == Action.Create ? this.CreateAfter() : this.UpdateAfter()).Value) return retObj;
                 T.Complete();
             }
             
@@ -288,11 +341,19 @@ namespace BinAff.Core
             //Mark Id all existing children to 0, such that it will insert only
             foreach (Crud child in this.dependentChildren)
             {
-                if(child.isMultiValuedChild && !child.IsReadOnly) child.Data.Id = 0;
+                if (child.isMultiValuedChild && !child.IsReadOnly)
+                {
+                    child.Data.Id = 0;
+                    child.actionType = Action.Create;
+                }
             }
             foreach (Crud child in this.independentChildren)
             {
-                if (child.isMultiValuedChild && !child.IsReadOnly) child.Data.Id = 0;
+                if (child.isMultiValuedChild && !child.IsReadOnly)
+                {
+                    child.Data.Id = 0;
+                    child.actionType = Action.Create;
+                }
             }
 
             //Prepare children for deletion
@@ -310,7 +371,8 @@ namespace BinAff.Core
                 if (child.isMultiValuedChild)
                 {
                     child.Data.IsDeletable = true;
-                    this.dependentChildren.Add(child);
+                    child.actionType = Action.Delete;
+                    this.dependentChildren.Insert(0, child);
                 }
             }
             //Map deletable independent children
@@ -319,7 +381,8 @@ namespace BinAff.Core
                 if (child.isMultiValuedChild)
                 {
                     child.Data.IsDeletable = true;
-                    this.independentChildren.Add(child);
+                    child.actionType = Action.Delete;
+                    this.independentChildren.Insert(0, child);
                 }
             }
         }
@@ -365,37 +428,16 @@ namespace BinAff.Core
         {
             if (!((Crud)crud).IsSkip && ((Crud)crud).Data != null)
             {
-                if (!ManipulateRetuenObject(retObj, (((Crud)crud).Data.IsDeletable && this.actionType == Action.Update) ? crud.Delete() : crud.Save()).Value) return retObj;
+                if((((Crud)crud).actionType == Action.Delete && this.actionType == Action.Update))
+                {
+                    if (!this.ManipulateReturnObject(retObj, crud.Delete()).Value) return retObj;
+                }
+                else
+                {
+                    if (!ManipulateReturnObject(retObj, crud.Save()).Value) return retObj;
+                }                
             }
             return retObj;
-            //if (!((Crud)crud).IsSkip && ((Crud)crud).Data != null)
-            //{
-            //    if (((Crud)crud).Data.IsDeletable && this.actionType == Action.Update)
-            //    {
-            //        //Manage before hook
-            //        if (this.DataAccess.DeleteBefore())
-            //        {
-            //            return new ReturnObject<Boolean>
-            //            {
-            //            };
-            //        }
-            //        //if (!this.ManipulateRetuenObject(retObj, this.DataAccess.DeleteBefore()).Value) return retObj;
-            //        //Delete own with all children
-            //        if (!this.ManipulateRetuenObject(retObj, crud.Delete()).Value) return retObj;
-            //        //Manage after hook
-            //        if (!this.ManipulateRetuenObject(retObj, this.DeleteAfter()).Value) return retObj;
-            //    }
-            //    else
-            //    {
-            //        //Manage hook before
-            //        if (!ManipulateRetuenObject(retObj, this.actionType == Action.Create ? this.CreateBefore() : this.UpdateBefore()).Value) return retObj;
-            //        //Save own
-            //        if (!ManipulateRetuenObject(retObj, crud.Save()).Value) return retObj;
-            //        //Manage hook after
-            //        if (!ManipulateRetuenObject(retObj, this.actionType == Action.Create ? this.CreateAfter() : this.UpdateAfter()).Value) return retObj;
-            //    }
-            //}
-            //return retObj;
         }
 
         /// <summary>
@@ -476,16 +518,16 @@ namespace BinAff.Core
                 using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
                 {
                     //Manage before hook
-                    if (!this.ManipulateRetuenObject(retObj, this.DeleteBefore()).Value) return retObj;
+                    if (!this.ManipulateReturnObject(retObj, this.DeleteBefore()).Value) return retObj;
 
                     //Check the data is deletable or not
-                    if(!this.ManipulateRetuenObject(retObj, this.validator.IsDeletable()).Value) return retObj;
+                    if(!this.ManipulateReturnObject(retObj, this.validator.IsDeletable()).Value) return retObj;
 
                     //Delete own with all children
-                    if (!this.ManipulateRetuenObject(retObj, this.Delete()).Value) return retObj;
+                    if (!this.ManipulateReturnObject(retObj, this.Delete()).Value) return retObj;
 
                     //Manage after hook
-                    if (!this.ManipulateRetuenObject(retObj, this.DeleteAfter()).Value) return retObj;
+                    if (!this.ManipulateReturnObject(retObj, this.DeleteAfter()).Value) return retObj;
                     T.Complete();
                 }
             }
@@ -506,13 +548,13 @@ namespace BinAff.Core
             };
 
             //Delete dependent children
-            if (!ManipulateRetuenObject(retObj, this.DeleteChildren(this.dependentChildren)).Value) return retObj;
+            if (!ManipulateReturnObject(retObj, this.DeleteChildren(this.dependentChildren)).Value) return retObj;
 
             //Delete own
-            if (!ManipulateRetuenObject(retObj, this.DeleteOwn()).Value) return retObj;
+            if (!ManipulateReturnObject(retObj, this.DeleteOwn()).Value) return retObj;
 
             //Delete independent children
-            if (!ManipulateRetuenObject(retObj, this.DeleteChildren(this.independentChildren)).Value) return retObj;
+            if (!ManipulateReturnObject(retObj, this.DeleteChildren(this.independentChildren)).Value) return retObj;
 
             return retObj;
         }
@@ -566,7 +608,7 @@ namespace BinAff.Core
             {
                 if (!((Crud)child).IsSkip && !((Crud)child).IsReadOnly && ((Crud)child).Data != null)
                 {
-                    if (!ManipulateRetuenObject(retObj, child.Delete()).Value) return retObj;
+                    if (!ManipulateReturnObject(retObj, child.Delete()).Value) return retObj;
                 }
             }
             return retObj;
@@ -720,7 +762,7 @@ namespace BinAff.Core
 
         #endregion
 
-        protected ReturnObject<Boolean> ManipulateRetuenObject(ReturnObject<Boolean> retObj, ReturnObject<Boolean> result)
+        protected ReturnObject<Boolean> ManipulateReturnObject(ReturnObject<Boolean> retObj, ReturnObject<Boolean> result)
         {
             if (result.MessageList != null && result.MessageList.Count > 0)
                 retObj.MessageList.AddRange(result.MessageList);

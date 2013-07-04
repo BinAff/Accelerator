@@ -44,7 +44,7 @@ namespace BinAff.Core.Observer
             foreach (ObserverCrud o in this.observers)
             {
                 IObserver observer = o;
-                base.ManipulateRetuenObject(notification, observer.Update(this.Data));
+                base.ManipulateReturnObject(notification, observer.Update(this.Data));
             }
 
             return notification;
