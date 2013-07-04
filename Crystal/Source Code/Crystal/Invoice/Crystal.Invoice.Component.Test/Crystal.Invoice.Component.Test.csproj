@@ -38,6 +38,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -52,6 +54,10 @@
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
       <Project>{D25DF173-3451-49AA-9570-269B2880C393}</Project>
       <Name>BinAff.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Utility\BinAff.Utility.csproj">
+      <Project>{ED04BF0C-B4F1-4E9C-80C5-799027EBE260}</Project>
+      <Name>BinAff.Utility</Name>
     </ProjectReference>
     <ProjectReference Include="..\Crystal.Invoice.Component\Crystal.Invoice.Component.csproj">
       <Project>{CA372D03-699E-4D6A-80FA-567940BFA130}</Project>

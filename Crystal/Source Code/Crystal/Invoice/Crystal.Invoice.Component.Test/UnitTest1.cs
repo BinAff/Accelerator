@@ -439,7 +439,7 @@ namespace Crystal.Invoice.Component.Test
                    Name = "SL",
                    Address = "HSR Layout",
                    Liscence = "A123",
-                   Email = "bir@dd.com",
+                   Email = "biraj@dd.com",
                    ContactNumber = "1236547896",
                },
                Buyer = new Buyer()
@@ -450,14 +450,14 @@ namespace Crystal.Invoice.Component.Test
                     new LineItem.Data(){
                             Start = DateTime.Today,
                             End = DateTime.Today,
-                            Description = "Bx 150",
+                            Description = "Tx 150",
                             UnitRate = 1572.75,
                             Count = 3
                     },
                     new LineItem.Data(){
                             Start = DateTime.Today,
                             End = DateTime.Today,
-                            Description = "Zx 750",
+                            Description = "Dx 750",
                             UnitRate = 1572.75,
                             Count = 2
                     },
@@ -467,8 +467,8 @@ namespace Crystal.Invoice.Component.Test
                },
                Payment = new List<BinAff.Core.Data>() { 
                    new Invoice.Component.Payment.Data(){
-                        CardNumber = "2356",
-                        Remark = "test Payment 1",
+                        CardNumber = "1234",
+                        Remark = "test Payment 2",
                 
                         Type = new Payment.Type.Data(){  Id = 2  }
                         }
