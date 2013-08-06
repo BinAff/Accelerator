@@ -34,6 +34,10 @@
     <ApplicationIcon>Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BinAff.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Reference\Lib\BinAff.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -109,12 +113,6 @@
     <Content Include="Image\Logo.ico" />
     <Content Include="Image\OK.png" />
     <Content Include="Image\Refresh.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\BinAff.Core.csproj">
-      <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
-      <Name>BinAff.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
