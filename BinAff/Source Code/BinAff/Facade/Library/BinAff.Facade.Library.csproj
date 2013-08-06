@@ -34,10 +34,6 @@
     <ApplicationIcon>Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BinAff.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Reference\Lib\BinAff.Core.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +43,10 @@
     <Compile Include="Server.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\BinAff.Core.csproj">
+      <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
+      <Name>BinAff.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Utility\BinAff.Utility.csproj">
       <Project>{ED04BF0C-B4F1-4E9C-80C5-799027EBE260}</Project>
       <Name>BinAff.Utility</Name>
