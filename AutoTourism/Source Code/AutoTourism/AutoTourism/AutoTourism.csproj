@@ -74,7 +74,7 @@
       <Name>Vanilla.Guardian.WinForm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Vanilla\Source Code\Vanilla\Navigator\WinForm\Vanilla.Navigator.WinForm.csproj">
-      <Project>{426DBEE2-EB08-4CAF-806B-5BEC0F0A97F5}</Project>
+      <Project>{0b1cd68a-f3e8-4a59-a615-89b5fea46fcf}</Project>
       <Name>Vanilla.Navigator.WinForm</Name>
     </ProjectReference>
   </ItemGroup>

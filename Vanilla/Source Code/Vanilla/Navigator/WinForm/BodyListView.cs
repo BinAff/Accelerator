@@ -7,6 +7,7 @@ using WinForm = System.Windows.Forms;
 using BinAff.Presentation.Library;
 
 using Crystal.Navigator.Component;
+using System.Windows.Forms;
 
 namespace Vanilla.Navigator.Presentation
 {
@@ -37,7 +38,7 @@ namespace Vanilla.Navigator.Presentation
             }
         }
 
-        protected WinForm.View ViewStyle
+        protected View ViewStyle
         {
             get
             {
@@ -64,22 +65,22 @@ namespace Vanilla.Navigator.Presentation
 
         private void lsvBody_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.SelectNode((WinForm.ListView)sender);
+            this.SelectNode((ListView)sender);
             this.OnClick(e);
         }
 
         private void lsvBody_DoubleClick(object sender, EventArgs e)
         {
-            this.SelectNode((WinForm.ListView)sender);
+            this.SelectNode((ListView)sender);
             this.OnDoubleClick(e);
         }
 
-        private void SelectNode(WinForm.ListView listView)
+        private void SelectNode(ListView listView)
         {
-            if (this.SelectedItem == null) this.SelectedItem = new Artifact();
+            if (this.SelectedItem == null) this.SelectedItem = new Crystal.Navigator.Component.Artifact.Data();
             if (listView != null && listView.SelectedItems != null && listView.SelectedItems.Count > 0)
             {
-                this.SelectedItem = (Artifact)this.rootNodes[listView.SelectedItems[0].Index].Tag;
+                this.SelectedItem = (Crystal.Navigator.Component.Artifact.Data)this.rootNodes[listView.SelectedItems[0].Index].Tag;
             }
         }
         
@@ -97,18 +98,18 @@ namespace Vanilla.Navigator.Presentation
         {
         }
 
-        protected virtual List<Artifact> CreateNodes()
+        protected virtual List<Crystal.Navigator.Component.Artifact.Data> CreateNodes()
         {
             return null;
         }
 
-        private ListViewItemWithImage[] ConvertToListViewItem(List<Artifact> items)
+        private ListViewItemWithImage[] ConvertToListViewItem(List<Crystal.Navigator.Component.Artifact.Data> items)
         {
             if (items != null && items.Count > 0)
             {
                 ListViewItemWithImage[] retArray = new ListViewItemWithImage[items.Count];
                 Int32 i = 0;
-                foreach (Artifact artf in items)
+                foreach (Crystal.Navigator.Component.Artifact.Data artf in items)
                 {
                     retArray[i] = CreateListViewItem(artf);
                     retArray[i++].Tag = artf;
@@ -119,13 +120,13 @@ namespace Vanilla.Navigator.Presentation
             return null;
         }
 
-        public ListViewItemWithImage CreateListViewItem(Artifact artf)
+        public ListViewItemWithImage CreateListViewItem(Crystal.Navigator.Component.Artifact.Data artf)
         {
             return new ListViewItemWithImage
             {
                 Text = artf.FileName,
                 Tag = artf,
-                ImageIndex = (artf.Style == Artifact.Type.Document) ? 0 : 1,
+                ImageIndex = (artf.Style == Crystal.Navigator.Component.Artifact.Data.Type.Document) ? 0 : 1,
             };
         }
 
@@ -139,20 +140,20 @@ namespace Vanilla.Navigator.Presentation
         {
             this.lblNameValue.Text = base.SelectedItem.FileName;
             this.lblVersionValue.Text = base.SelectedItem.Version.ToString();
-            this.lblCreatedByValue.Text = base.SelectedItem.CreatedBy.Name;
+            this.lblCreatedByValue.Text = base.SelectedItem.CreatedBy.Profile.Name;
             this.lblCreatedAtValue.Text = base.SelectedItem.CreatedAt.ToShortDateString();
-            this.lblModifiedByValue.Text = base.SelectedItem.ModifiedBy.Name;
+            this.lblModifiedByValue.Text = base.SelectedItem.ModifiedBy.Profile.Name;
             this.lblModifiedAtValue.Text = base.SelectedItem.ModifiedAt == DateTime.MinValue? String.Empty : base.SelectedItem.ModifiedAt.ToShortDateString();
         }
 
         protected sealed override void HandleDoubleClick()
         {
-            if (base.SelectedItem != null && base.SelectedItem.Style == Artifact.Type.Document)
+            if (base.SelectedItem != null && base.SelectedItem.Style == Crystal.Navigator.Component.Artifact.Data.Type.Document)
             {
                 //Open form by passing artifact
                 Thread t = new Thread(new ThreadStart(delegate()
                 {
-                    WinForm.Application.Run(GetStartUpForm());
+                    Application.Run(GetStartUpForm());
                 }));
                 t.SetApartmentState(ApartmentState.STA);
                 t.Start();
@@ -176,9 +177,9 @@ namespace Vanilla.Navigator.Presentation
         /// 
         /// </summary>
         /// <returns></returns>
-        protected virtual WinForm.Form GetStartUpForm()
+        protected virtual System.Windows.Forms.Form GetStartUpForm()
         {
-            return new WinForm.Form();
+            return new System.Windows.Forms.Form();
         }
 
     }

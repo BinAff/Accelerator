@@ -104,7 +104,7 @@ namespace Vanilla.Navigator.Presentation
 
         private void Navidate()
         {
-            String[] tokens = this.txtAddress.Text.Split(new String[] { Crystal.Navigator.Rule.Data.ModuleSeperator }, StringSplitOptions.RemoveEmptyEntries);
+            String[] tokens = this.txtAddress.Text.Split(new String[] { new Crystal.Navigator.Rule.Data().ModuleSeperator }, StringSplitOptions.RemoveEmptyEntries);
             if (tokens.Length > 0)
             {
                 MenuSummary menu = GetMenuSummary(tokens[0]);

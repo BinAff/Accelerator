@@ -42,10 +42,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Component\Autotourism.Component.Customer\Autotourism.Component.Customer.csproj">
-      <Project>{9E9F89C1-91BE-4595-8D69-3E56AFC1BC4C}</Project>
-      <Name>Autotourism.Component.Customer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
       <Project>{D25DF173-3451-49AA-9570-269B2880C393}</Project>
       <Name>BinAff.Core</Name>

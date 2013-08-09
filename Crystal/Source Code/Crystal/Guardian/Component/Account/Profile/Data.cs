@@ -23,6 +23,16 @@ namespace Crystal.Guardian.Component.Account.Profile
         /// </summary>
         public Crystal.Configuration.Component.Initial.Data Initial { get; set; }
 
+        public String Name
+        {
+            get
+            {
+                return this.FirstName
+                    + (String.IsNullOrEmpty(this.MiddleName) ? "" : " " + this.MiddleName)
+                    + (String.IsNullOrEmpty(this.LastName)?  "" : " " + this.LastName);
+            }
+        }
+
         /// <summary>
         /// First name of user
         /// </summary>

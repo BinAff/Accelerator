@@ -21,7 +21,7 @@ namespace Vanilla.Navigator.Presentation
 
         private void trvMenu_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            base.SelectedArtifact = (Artifact)e.Node.Tag;
+            base.SelectedArtifact = (Crystal.Navigator.Component.Artifact.Data)e.Node.Tag;
             base.OnClick(e);
         }
 
