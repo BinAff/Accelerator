@@ -60,7 +60,7 @@
       <Name>Crystal.Guardian.Component</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Guardian\Rule\Crystal.Guardian.Rule.csproj">
-      <Project>{E3BC5B92-3318-40C2-B7A7-73300F0DCE81}</Project>
+      <Project>{e3bc5b92-3318-40c2-b7a7-73300f0dce81}</Project>
       <Name>Crystal.Guardian.Rule</Name>
     </ProjectReference>
   </ItemGroup>

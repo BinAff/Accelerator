@@ -81,9 +81,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
+      <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
+      <Name>BinAff.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Presentation\Library\BinAff.Presentation.Library.csproj">
       <Project>{1EE9A9DD-9151-437A-B1A3-28015975EF52}</Project>
       <Name>BinAff.Presentation.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Guardian\Component\Crystal.Guardian.Component.csproj">
+      <Project>{1c4faab4-7ce4-4a10-9600-855a984b0805}</Project>
+      <Name>Crystal.Guardian.Component</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Navigator\Component\Crystal.Navigator.Component.csproj">
       <Project>{3E089798-771D-44F3-8A99-C990AB47A0B4}</Project>

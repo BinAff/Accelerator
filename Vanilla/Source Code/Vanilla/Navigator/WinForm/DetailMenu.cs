@@ -25,9 +25,9 @@ namespace Vanilla.Navigator.Presentation
             }
         }
 
-        public Artifact Artifact { get; protected set; }
+        public Crystal.Navigator.Component.Artifact.Data Artifact { get; protected set; }
 
-        public Artifact SelectedArtifact { get; set; }
+        public Crystal.Navigator.Component.Artifact.Data SelectedArtifact { get; set; }
 
         public DetailMenu()
         {

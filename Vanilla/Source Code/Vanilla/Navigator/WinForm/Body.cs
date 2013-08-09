@@ -15,8 +15,8 @@ namespace Vanilla.Navigator.Presentation
 
         protected String PathSeperator { get; private set; }
 
-        private List<Artifact> visibleItems;
-        protected virtual List<Artifact> VisibleItems
+        private List<Crystal.Navigator.Component.Artifact.Data> visibleItems;
+        protected virtual List<Crystal.Navigator.Component.Artifact.Data> VisibleItems
         {
             get
             {
@@ -32,7 +32,7 @@ namespace Vanilla.Navigator.Presentation
             }
         }
 
-        public Artifact SelectedItem { get; protected set; }
+        public Crystal.Navigator.Component.Artifact.Data SelectedItem { get; protected set; }
 
         public Body()
         {
@@ -41,7 +41,7 @@ namespace Vanilla.Navigator.Presentation
 
         private void Body_Load(object sender, EventArgs e)
         {
-            this.PathSeperator = Crystal.Navigator.Rule.Data.PathSeperator;
+            this.PathSeperator = new Crystal.Navigator.Rule.Data().PathSeperator;
             this.BindToContainer();
         }
 
@@ -60,7 +60,7 @@ namespace Vanilla.Navigator.Presentation
         /// Select children under given path
         /// </summary>
         /// <param name="path">Path of current folder</param>
-        public void SelectChildern(Artifact selectedNode)
+        public void SelectChildern(Crystal.Navigator.Component.Artifact.Data selectedNode)
         {
             this.VisibleItems = selectedNode.Children;
         }
@@ -69,7 +69,7 @@ namespace Vanilla.Navigator.Presentation
         /// Attach artifacts to body container
         /// </summary>
         /// <param name="artifacts"></param>
-        public void AttachArtifacts(List<Artifact> artifacts)
+        public void AttachArtifacts(List<Crystal.Navigator.Component.Artifact.Data> artifacts)
         {
             this.VisibleItems = artifacts;
         }
