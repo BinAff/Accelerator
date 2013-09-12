@@ -33,45 +33,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Body.cs">
+    <Compile Include="Container.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Container.Designer.cs">
+      <DependentUpon>Container.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Module.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Body.Designer.cs">
-      <DependentUpon>Body.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BodyListView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BodyListView.Designer.cs">
-      <DependentUpon>BodyListView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controller.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controller.Designer.cs">
-      <DependentUpon>Controller.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DetailMenu.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DetailMenu.Designer.cs">
-      <DependentUpon>DetailMenu.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DetailMenuTreeView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DetailMenuTreeView.Designer.cs">
-      <DependentUpon>DetailMenuTreeView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MenuSummary.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MenuSummary.Designer.cs">
-      <DependentUpon>MenuSummary.cs</DependentUpon>
+    <Compile Include="Module.Designer.cs">
+      <DependentUpon>Module.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -84,6 +62,10 @@
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
       <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
       <Name>BinAff.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
+      <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
+      <Name>BinAff.Facade.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Presentation\Library\BinAff.Presentation.Library.csproj">
       <Project>{1EE9A9DD-9151-437A-B1A3-28015975EF52}</Project>
@@ -101,23 +83,17 @@
       <Project>{A42C45CD-FFBB-425E-A5D8-540B365D97BB}</Project>
       <Name>Crystal.Navigator.Rule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Facade\Vanilla.Navigator.Facade.csproj">
+      <Project>{5fd93a71-d5b7-43ff-8996-29232b518b3a}</Project>
+      <Name>Vanilla.Navigator.Facade</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BodyListView.resx">
-      <DependentUpon>BodyListView.cs</DependentUpon>
+    <EmbeddedResource Include="Container.resx">
+      <DependentUpon>Container.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controller.resx">
-      <DependentUpon>Controller.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DetailMenu.resx">
-      <DependentUpon>DetailMenu.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DetailMenuTreeView.resx">
-      <DependentUpon>DetailMenuTreeView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MenuSummary.resx">
-      <DependentUpon>MenuSummary.cs</DependentUpon>
+    <EmbeddedResource Include="Module.resx">
+      <DependentUpon>Module.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
