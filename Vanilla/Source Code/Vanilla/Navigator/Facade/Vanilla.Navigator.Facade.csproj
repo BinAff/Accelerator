@@ -35,24 +35,29 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BodyListView\Dto.cs" />
-    <Compile Include="BodyListView\FormDto.cs" />
-    <Compile Include="BodyListView\Server.cs" />
-    <Compile Include="Body\Dto.cs" />
-    <Compile Include="Body\FormDto.cs" />
-    <Compile Include="Body\Server.cs" />
-    <Compile Include="DetailMenu\Dto.cs" />
-    <Compile Include="MenuSummary\Dto.cs" />
-    <Compile Include="MenuSummary\FormDto.cs" />
-    <Compile Include="MenuSummary\Server.cs" />
+    <Compile Include="Artifact\Dto.cs" />
+    <Compile Include="Container\Dto.cs" />
+    <Compile Include="Container\FormDto.cs" />
+    <Compile Include="Container\Server.cs" />
+    <Compile Include="Module\Document\Dto.cs" />
+    <Compile Include="Module\Dto.cs" />
+    <Compile Include="Module\FormDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
+      <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
+      <Name>BinAff.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
       <Project>{F6AB9943-F271-4293-B13E-DC58DEF3F59D}</Project>
       <Name>BinAff.Facade.Library</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\..\POC\Navigator\Crystal\Navigator\Crystal.Navigator.Component\Crystal.Navigator.Component.csproj">
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\License\Crystal.License\Crystal.License.csproj">
+      <Project>{05dedcc9-9d79-4f0e-a869-8c6f880a13b8}</Project>
+      <Name>Crystal.License</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Navigator\Component\Crystal.Navigator.Component.csproj">
       <Project>{3E089798-771D-44F3-8A99-C990AB47A0B4}</Project>
       <Name>Crystal.Navigator.Component</Name>
     </ProjectReference>
