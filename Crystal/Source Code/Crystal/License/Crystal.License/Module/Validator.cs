@@ -7,10 +7,10 @@ using BinAff.Utility;
 namespace Crystal.License.Module
 {
 
-    public class Validator : BinAff.Core.Validator
+    internal class Validator : BinAff.Core.Validator
     {
 
-        public Validator(Data data)
+        internal Validator(Data data)
             : base(data)
         {
 
@@ -42,7 +42,7 @@ namespace Crystal.License.Module
             return retMsg;
         }
 
-        public Boolean IsExist()
+        internal Boolean IsExist()
         {
             return this.Server.DataAccess.Read() != null;
         }

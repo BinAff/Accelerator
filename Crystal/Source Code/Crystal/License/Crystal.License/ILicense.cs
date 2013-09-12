@@ -1,10 +1,11 @@
-﻿
-namespace Crystal.License
+﻿namespace Crystal.License
 {
 
     public interface ILicense
     {
+
         Data Get();
+
     }
 
 }

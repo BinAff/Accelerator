@@ -4,10 +4,10 @@ using System.Data;
 namespace Crystal.License.Module
 {
 
-    public class Dao : BinAff.Core.Dao
+    internal class Dao : BinAff.Core.Dao
     {
 
-        public Dao(Data data)
+        internal Dao(Data data)
             : base(data)
         {
 
