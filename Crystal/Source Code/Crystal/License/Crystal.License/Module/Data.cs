@@ -3,33 +3,33 @@
 namespace Crystal.License.Module
 {
 
-    public class Data : BinAff.Core.Data
+    internal class Data : BinAff.Core.Data
     {
 
         /// <summary>
         /// Module name
         /// </summary>
-        public String Name { get; set; }
+        internal String Name { get; set; }
 
         /// <summary>
         /// Module description
         /// </summary>
-        public String Description { get; set; }
+        internal String Description { get; set; }
 
         /// <summary>
         /// Is there any form for module
         /// </summary>
-        public Boolean IsForm { get; set; }
+        internal Boolean IsForm { get; set; }
 
         /// <summary>
         /// Is there any report for module
         /// </summary>
-        public Boolean IsReport { get; set; }
+        internal Boolean IsReport { get; set; }
 
         /// <summary>
         /// Is there any catalogue for module
         /// </summary>
-        public Boolean IsCatalogue { get; set; }
+        internal Boolean IsCatalogue { get; set; }
 
     }
 
