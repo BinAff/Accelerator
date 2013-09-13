@@ -168,7 +168,7 @@ namespace BinAff.Core
             //connStr = "Data Source=ba_server_blr\\sqlexpress;Initial Catalog=Splash;Integrated Security=True;"; //Arpan
             //connStr = "Data Source=biraj-netbook\\sqlexpress;Initial Catalog=DevelopmentRND;Integrated Security=True;"; //Biraj
 
-            connStr = "Data Source=INMUVALP010308;Initial Catalog=AutoTourism;User Id=BinAffAppUsr;Password=BinAff@1;"; //Untrusted connection
+            connStr = "Data Source=.\\SQLEXPRESS;Initial Catalog=AutoTourism;User Id=sa;Password=infotech@1;"; //Untrusted connection
 
             this.conn = new SqlConnection(connStr);
             if (this.conn.State != ConnectionState.Open) this.conn.Open();

@@ -17,11 +17,9 @@ namespace Vanilla.Navigator.WinForm
         private void Container_Load(object sender, EventArgs e)
         {
             this.txtAddress.Text = @"Form::";
-
+            this.formDto = new FormDto();
             Facade.Container.Server container = new Server(this.formDto);
             container.LoadForm();
-
-            this.formDto.CurrentModules = this.formDto.FormModules; //Form is default
             this.LoadCurrentModules();
         }
 
@@ -35,6 +33,8 @@ namespace Vanilla.Navigator.WinForm
 
         void LoadCurrentModules()
         {
+            Int16 leftPos = 2;
+            this.pnlModule.Controls.Clear();
             foreach (Facade.Module.Dto module in this.formDto.CurrentModules)
             {
                 this.pnlModule.Controls.Add(new Module
@@ -43,7 +43,9 @@ namespace Vanilla.Navigator.WinForm
                     {
                         Dto = module,
                     },
+                    Left = leftPos,
                 });
+                leftPos += 28;
             }
         }
 

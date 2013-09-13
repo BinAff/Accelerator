@@ -42,6 +42,7 @@
     <Compile Include="Module\Document\Dto.cs" />
     <Compile Include="Module\Dto.cs" />
     <Compile Include="Module\FormDto.cs" />
+    <Compile Include="Module\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
