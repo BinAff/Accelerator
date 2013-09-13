@@ -18,15 +18,19 @@ namespace Vanilla.Navigator.WinForm
 
         private void Module_Load(object sender, System.EventArgs e)
         {
+            this.lblName.Text = this.formDto.Dto.Name;
+        }
+
+        private void Module_Click(object sender, System.EventArgs e)
+        {
             this.LoadArtifacts();
         }
 
         private void LoadArtifacts()
         {
-            //Crystal.Navigator.Component.Artifact.Data artifact = new Crystal.Navigator.Component.Artifact.Data()
-            //ICrud server = new Crystal.Navigator.Component.Artifact.Server(artifact);
-            //server.Read();
-            ////this.artifactList = server.Read().Value;
+            Crystal.Navigator.Component.Artifact.Data artifact = new Crystal.Navigator.Component.Artifact.Data();
+            (new Crystal.Navigator.Component.Artifact.Server(artifact) as ICrud).Read();
+            //this.artifactList = server.Read().Value;
         }
 
     }

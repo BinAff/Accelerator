@@ -38,7 +38,9 @@ namespace Crystal.License.Module
             dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
             dt.Name = Convert.IsDBNull(dr["Name"]) ? String.Empty : Convert.ToString(dr["Name"]);
             dt.Description = Convert.IsDBNull(dr["Description"]) ? String.Empty : Convert.ToString(dr["Description"]);
-
+            dt.IsForm = Convert.IsDBNull(dr["IsForm"]) ? false : Convert.ToBoolean(dr["IsForm"]);
+            dt.IsReport = Convert.IsDBNull(dr["IsReport"]) ? false : Convert.ToBoolean(dr["IsReport"]);
+            dt.IsCatalogue = Convert.IsDBNull(dr["IsCatalogue"]) ? false : Convert.ToBoolean(dr["IsCatalogue"]);
             return data;
         }
         

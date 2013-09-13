@@ -9,7 +9,7 @@ namespace BinAff.Facade.Library
     {
 
         protected FormDto FormDto { get; set; }
-        //private Core.Data data;
+        //protected Core.Data data;
         //private Crud crud;
 
         protected Server(FormDto formDto)
