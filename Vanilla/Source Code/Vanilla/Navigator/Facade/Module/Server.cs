@@ -1,14 +1,16 @@
 ﻿using BinAff.Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Vanilla.Navigator.Facade.Module
 {
 
     public class Server : BinAff.Facade.Library.Server
     {
+
+        public Server(FormDto formDto)
+            : base(formDto)
+        {
+        }
 
         public override void LoadForm()
         {
