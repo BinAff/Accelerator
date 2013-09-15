@@ -7,7 +7,8 @@ namespace Vanilla.Navigator.WinForm
     public partial class Container : Form
     {
 
-        FormDto formDto;
+        private FormDto formDto;
+        private Facade.Container.Server facade;
 
         public Container()
         {
@@ -17,25 +18,40 @@ namespace Vanilla.Navigator.WinForm
         private void Container_Load(object sender, EventArgs e)
         {
             this.txtAddress.Text = @"Form::";
-            this.formDto = new FormDto();
-            Facade.Container.Server container = new Server(this.formDto);
-            container.LoadForm();
-            this.LoadCurrentModules();
+            facade = new Server(this.formDto = new FormDto());
+            facade.LoadForm();
+            this.LoadModules();
         }
 
         private void tbpForm_Enter(object sender, EventArgs e)
         {
             this.txtAddress.Text = @"Form::";
 
-            this.formDto.CurrentModules = this.formDto.FormModules;
-            this.LoadCurrentModules();
+            this.facade.GetModules(Facade.Group.Form);
+            this.LoadModules();
         }
 
-        void LoadCurrentModules()
+        private void tbpCatalogue_Enter(object sender, EventArgs e)
+        {
+            this.txtAddress.Text = @"Catalogue::";
+
+            this.facade.GetModules(Facade.Group.Catalogue);
+            this.LoadModules();
+        }
+
+        private void tbpReport_Enter(object sender, EventArgs e)
+        {
+            this.txtAddress.Text = @"Report::";
+
+            this.facade.GetModules(Facade.Group.Report);
+            this.LoadModules();
+        }
+
+        void LoadModules()
         {
             Int16 leftPos = 2;
             this.pnlModule.Controls.Clear();
-            foreach (Facade.Module.Dto module in this.formDto.CurrentModules)
+            foreach (Facade.Module.Dto module in this.formDto.Dto.Modules)
             {
                 this.pnlModule.Controls.Add(new Module
                 {
@@ -47,22 +63,6 @@ namespace Vanilla.Navigator.WinForm
                 });
                 leftPos += 28;
             }
-        }
-
-        private void tbpCatalogue_Enter(object sender, EventArgs e)
-        {
-            this.txtAddress.Text = @"Catalogue::";
-
-            this.formDto.CurrentModules = this.formDto.CatalogueModules;
-            this.LoadCurrentModules();
-        }
-
-        private void tbpReport_Enter(object sender, EventArgs e)
-        {
-            this.txtAddress.Text = @"Report::";
-
-            this.formDto.CurrentModules = this.formDto.ReportModules;
-            this.LoadCurrentModules();
         }
 
     }
