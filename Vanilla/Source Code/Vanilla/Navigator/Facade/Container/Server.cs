@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Vanilla.Navigator.Facade;
+
 namespace Vanilla.Navigator.Facade.Container
 {
 
@@ -8,6 +10,9 @@ namespace Vanilla.Navigator.Facade.Container
     {
 
         private Crystal.License.Data data;
+        private List<Module.Dto> formModules;
+        private List<Module.Dto> catalogueModules;
+        private List<Module.Dto> reportModules;
 
         public Server(FormDto formDto)
             :base(formDto)
@@ -17,19 +22,19 @@ namespace Vanilla.Navigator.Facade.Container
 
         public override void LoadForm()
         {
-            Crystal.License.Data data = new Crystal.License.Data();
-            (new Crystal.License.Server(data) as Crystal.License.ILicense).Get();
-            ((FormDto)this.FormDto).FormModules = this.ConvertToDto(data.FormList);
-            ((FormDto)this.FormDto).ReportModules = this.ConvertToDto(data.ReportList);
-            ((FormDto)this.FormDto).CatalogueModules = this.ConvertToDto(data.CatalogueList);
-            ((FormDto)this.FormDto).CurrentModules = ((FormDto)this.FormDto).FormModules;
+            (new Crystal.License.Server(data = new Crystal.License.Data()) as Crystal.License.ILicense).Get();
+            this.formModules = this.ConvertToDto(data.FormList);
+            this.reportModules = this.ConvertToDto(data.ReportList);
+            this.catalogueModules = this.ConvertToDto(data.CatalogueList);
+
+            this.GetModules(Group.Form);
         }
 
-        private List<Module.Dto> ConvertToDto(List<Crystal.License.Document.Data> dataList)
+        private List<Module.Dto> ConvertToDto(List<Crystal.License.Module.Data> dataList)
         {
             List<Module.Dto> ret = new List<Module.Dto>();
 
-            foreach (Crystal.License.Document.Data doc in dataList)
+            foreach (Crystal.License.Module.Data doc in dataList)
             {
                 ret.Add(new Module.Dto
                 {
@@ -43,7 +48,17 @@ namespace Vanilla.Navigator.Facade.Container
 
         public override void ConvertToDto()
         {
-           
+            //Dto dto = (this.FormDto as FormDto).Dto;
+            //dto.Group = Module.Group.Form;
+
+            //foreach (Crystal.License.Module.Data doc in dataList)
+            //{
+            //    ret.Add(new Module.Dto
+            //    {
+            //        Id = doc.Id,
+            //        Name = doc.Name,
+            //    });
+            //}
         }
 
         public override void ConvertFromDto()
@@ -57,6 +72,29 @@ namespace Vanilla.Navigator.Facade.Container
             //        Name = dto.Name,
             //    });
             //}
+        }
+
+        public void GetModules(Group group)
+        {
+            Dto dto = new Dto
+            {
+                Group = group,
+            };
+
+            switch (group)
+            {
+                case Group.Form:
+                    dto.Modules = this.formModules;
+                    break;
+                case Group.Report:
+                    dto.Modules = this.reportModules;
+                    break;
+                case Group.Catalogue:
+                    dto.Modules = this.catalogueModules;
+                    break;
+            }
+            (this.FormDto as FormDto).Dto = dto;
+
         }
 
     }

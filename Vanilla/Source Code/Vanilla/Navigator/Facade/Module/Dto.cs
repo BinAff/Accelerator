@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Vanilla.Navigator.Facade.Module
 {
@@ -7,6 +8,8 @@ namespace Vanilla.Navigator.Facade.Module
     {
 
         public String Name { get; set; }
+
+        public List<Artifact.Dto> ArtifactList { get; set; }
 
     }
 
