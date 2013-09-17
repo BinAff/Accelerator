@@ -37,15 +37,14 @@ namespace Crystal.License
             if (moduleDataList != null && moduleDataList.Count > 0)
             {
                 Data data = this.Data as Data;
-                data.FormList = new List<Document.Data>();
-                data.CatalogueList = new List<Document.Data>();
-                data.ReportList = new List<Document.Data>();
+                data.FormList = new List<Module.Data>();
+                data.CatalogueList = new List<Module.Data>();
+                data.ReportList = new List<Module.Data>();
                 foreach (Module.Data module in moduleDataList)
                 {
-                    Document.Data doc = new Document.Data { Id = module.Id, Name = module.Name };
-                    if (module.IsForm) data.FormList.Add(doc);
-                    if (module.IsCatalogue) data.CatalogueList.Add(doc);
-                    if (module.IsReport) data.ReportList.Add(doc);
+                    if (module.IsForm) data.FormList.Add(module);
+                    if (module.IsCatalogue) data.CatalogueList.Add(module);
+                    if (module.IsReport) data.ReportList.Add(module);
                 }
             }
 

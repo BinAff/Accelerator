@@ -3,13 +3,13 @@
 namespace Crystal.License.Module
 {
 
-    internal class Data : BinAff.Core.Data
+    public class Data : BinAff.Core.Data
     {
 
         /// <summary>
         /// Module name
         /// </summary>
-        internal String Name { get; set; }
+        public String Name { get; set; }
 
         /// <summary>
         /// Module description

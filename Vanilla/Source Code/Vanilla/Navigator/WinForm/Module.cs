@@ -9,7 +9,7 @@ namespace Vanilla.Navigator.WinForm
 
         public Facade.Module.FormDto formDto { get; set; }
 
-        private Facade.Artifact.Dto artifactList;
+        private Facade.Artifact.Dto dto;
 
         public Module()
         {
@@ -29,7 +29,7 @@ namespace Vanilla.Navigator.WinForm
         private void LoadArtifacts()
         {
             Crystal.Navigator.Component.Artifact.Data artifact = new Crystal.Navigator.Component.Artifact.Data();
-            (new Crystal.Navigator.Component.Artifact.Server(artifact) as ICrud).Read();
+            (new Crystal.Navigator.Component.Artifact.Server(artifact = new Crystal.Navigator.Component.Artifact.Data()) as ICrud).ReadAll();
             //this.artifactList = server.Read().Value;
         }
 
