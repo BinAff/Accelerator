@@ -18,11 +18,11 @@ namespace Crystal.Navigator.Component.Artifact
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "ArtifactInsert";
+            base.CreateStoredProcedure = "Navigator.ArtifactInsert";
             base.NumberOfRowsAffectedInCreate = 1;
             base.ReadStoredProcedure = "ArtifactRead";
             base.ReadAllStoredProcedure = "ArtifactReadAll";
-            base.UpdateStoredProcedure = "SArtifactUpdate";
+            base.UpdateStoredProcedure = "ArtifactUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
             base.DeleteStoredProcedure = "ArtifactDelete";
             base.NumberOfRowsAffectedInDelete = -1;

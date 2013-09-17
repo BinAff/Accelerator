@@ -38,7 +38,6 @@
   <ItemGroup>
     <Compile Include="Dao.cs" />
     <Compile Include="Data.cs" />
-    <Compile Include="Document\Data.cs" />
     <Compile Include="ILicense.cs" />
     <Compile Include="Module\Dao.cs" />
     <Compile Include="Module\Data.cs" />
