@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4B8E9DB9-1E3C-42E2-8A61-6BF503CD44AF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Vanilla.Configuration.Lodge.Facade</RootNamespace>
+    <AssemblyName>Vanilla.Configuration.Lodge.Facade</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Building\BuildingServer.cs" />
+    <Compile Include="Building\BuildingType\BuildingTypeServer.cs" />
+    <Compile Include="Building\BuildingType\Dto.cs" />
+    <Compile Include="Building\BuildingType\FormDto.cs" />
+    <Compile Include="Building\BuildingType\IBuildingType.cs" />
+    <Compile Include="Building\Dto.cs" />
+    <Compile Include="Building\FormDto.cs" />
+    <Compile Include="Building\IBuilding.cs" />
+    <Compile Include="Lodge\ContactNumberDto.cs" />
+    <Compile Include="Lodge\Dto.cs" />
+    <Compile Include="Lodge\EmailDto.cs" />
+    <Compile Include="Lodge\FaxDto.cs" />
+    <Compile Include="Lodge\FormDto.cs" />
+    <Compile Include="Lodge\ILodge.cs" />
+    <Compile Include="Lodge\LodgeServer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Room\Dto.cs" />
+    <Compile Include="Room\FormDto.cs" />
+    <Compile Include="Room\ImageDto.cs" />
+    <Compile Include="Room\IRoom.cs" />
+    <Compile Include="Room\RoomCategory\Dto.cs" />
+    <Compile Include="Room\RoomCategory\FormDto.cs" />
+    <Compile Include="Room\RoomCategory\IRoomCategory.cs" />
+    <Compile Include="Room\RoomCategory\RoomCategoryServer.cs" />
+    <Compile Include="Room\RoomServer.cs" />
+    <Compile Include="Room\RoomType\Dto.cs" />
+    <Compile Include="Room\RoomType\FormDto.cs" />
+    <Compile Include="Room\RoomType\IRoomType.cs" />
+    <Compile Include="Room\RoomType\RoomTypeServer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
+      <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
+      <Name>BinAff.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
+      <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
+      <Name>BinAff.Facade.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Lodge\Crystal.Lodge.Component\Crystal.Lodge.Component.csproj">
+      <Project>{191571fe-40d2-4095-9705-d3020445b65f}</Project>
+      <Name>Crystal.Lodge.Component</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
