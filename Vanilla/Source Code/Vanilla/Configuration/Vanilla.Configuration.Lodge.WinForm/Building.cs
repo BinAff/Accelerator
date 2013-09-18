@@ -42,12 +42,12 @@ namespace AutoTourism.Configuration
 
         private void Building_Load(object sender, System.EventArgs e)
         {
-            LoadForm();
-            Clear();
+            //LoadForm();
+            //Clear();
         }
 
-        protected override void btnAdd_Click(object sender, System.EventArgs e)
-        {
+        //protected override void btnAdd_Click(object sender, System.EventArgs e)
+        //{
             //if (ValidateUser())
             //{
             //    Dto buildingDto = new Dto()
@@ -67,10 +67,10 @@ namespace AutoTourism.Configuration
             //        base.ShowMessage(ret); //Show message     
             //    }
             //}
-        }
+        //}
 
-        protected override void btnChange_Click(object sender, EventArgs e)
-        {
+        //protected override void btnChange_Click(object sender, EventArgs e)
+        //{
             //if (this.cboBuildingList.SelectedIndex == -1)
             //{
             //    //Show message
@@ -99,10 +99,10 @@ namespace AutoTourism.Configuration
             //    }
 
             //}
-        }
+        //}
 
-        protected override void btnDelete_Click(object sender, EventArgs e)
-        {
+        //protected override void btnDelete_Click(object sender, EventArgs e)
+        //{
             //if (this.cboBuildingList.SelectedIndex == -1)
             //{
             //    //Show message
@@ -125,13 +125,13 @@ namespace AutoTourism.Configuration
             //    base.ShowMessage(ret); //Show message
             //}
             //else Clear();
-        }
+        //}
 
-        protected override void btnRefresh_Click(object sender, EventArgs e)
-        {
+        //protected override void btnRefresh_Click(object sender, EventArgs e)
+        //{
             //LoadForm();
             //Clear();
-        }
+        //}
 
         private void bttnAddContact_Click(object sender, EventArgs e)
         {
@@ -240,8 +240,8 @@ namespace AutoTourism.Configuration
             //}
         }
 
-        protected override void btnClose_Click(object sender, EventArgs e)
-        {
+        //protected override void btnClose_Click(object sender, EventArgs e)
+        //{
             //if (this.cboBuildingList.SelectedIndex == -1)
             //{
             //    //Show message
@@ -266,10 +266,10 @@ namespace AutoTourism.Configuration
             //    LoadForm();
             //    Clear();
             //}
-        }
+        //}
 
-        protected override void btnOpen_Click(object sender, EventArgs e)
-        {
+        //protected override void btnOpen_Click(object sender, EventArgs e)
+        //{
             //if (this.cboBuildingList.SelectedIndex == -1)
             //{
             //    //Show message
@@ -307,10 +307,10 @@ namespace AutoTourism.Configuration
             //    Clear();
 
             //}
-        }
+        //}
 
-        protected override void LoadForm()
-        {
+        //protected override void LoadForm()
+        //{
             //IBuilding building = new BuildingServer();
             //ReturnObject<FormDto> ret = building.LoadForm();
 
@@ -324,16 +324,16 @@ namespace AutoTourism.Configuration
             //this.cboType.DataSource = ret.Value.TypeList;
             //this.cboType.DisplayMember = "Name";
             //this.cboType.ValueMember = "Id";
-        }
+        //}
 
-        protected override void Clear()
-        {
-            this.txtName.Text = String.Empty;
-            this.txtFloor.Text = String.Empty;
-            this.lstFloorList.DataSource = null;
-            this.cboFloor.DataSource = null;
-            this.chkDefault.Checked = false;
-        }
+        //protected override void Clear()
+        //{
+        //    this.txtName.Text = String.Empty;
+        //    this.txtFloor.Text = String.Empty;
+        //    this.lstFloorList.DataSource = null;
+        //    this.cboFloor.DataSource = null;
+        //    this.chkDefault.Checked = false;
+        //}
 
         //private Boolean ValidateUnique(Dto data)
         //{

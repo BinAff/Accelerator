@@ -25,14 +25,14 @@ namespace AutoTourism.Presentation.Configuration
             InitializeComponent();
         }
 
-        protected override void btnRefresh_Click(object sender, EventArgs e)
-        {
-            this.Clear();
-            this.LoadForm();
-        }
+        //protected override void btnRefresh_Click(object sender, EventArgs e)
+        //{
+        //    this.Clear();
+        //    this.LoadForm();
+        //}
 
-        protected override void btnAdd_Click(object sender, EventArgs e)
-        {
+        //protected override void btnAdd_Click(object sender, EventArgs e)
+        //{
             //ReturnObject<Boolean> ret = null;
             //switch (trvOption.SelectedNode.Text)
             //{
@@ -98,10 +98,10 @@ namespace AutoTourism.Presentation.Configuration
             //        break;
             //}
             //base.ShowMessage(ret); //Show message
-        }
+        //}
 
-        protected override void btnChange_Click(object sender, EventArgs e)
-        {
+        //protected override void btnChange_Click(object sender, EventArgs e)
+        //{
             //if (this.lslList.SelectedIndex == -1)
             //{
             //    new MessageBox("Please select one item", MessageBox.Type.Alert);
@@ -196,10 +196,10 @@ namespace AutoTourism.Presentation.Configuration
             //        break;
             //}
             //base.ShowMessage(ret); //Show message
-        }
+        //}
 
-        protected override void btnDelete_Click(object sender, EventArgs e)
-        {
+        //protected override void btnDelete_Click(object sender, EventArgs e)
+        //{
             //if (this.lslList.SelectedIndex == -1)
             //{
             //    new MessageBox("Please select one item", MessageBox.Type.Alert);
@@ -348,10 +348,10 @@ namespace AutoTourism.Presentation.Configuration
             //    base.ShowMessage(ret); //Show message
             //else
             //    this.Clear();
-        }
+        //}
 
-        protected override void LoadForm()
-        {
+        //protected override void LoadForm()
+        //{
             //this.Clear();
             //if (trvOption.SelectedNode != null)
             //{
@@ -432,13 +432,13 @@ namespace AutoTourism.Presentation.Configuration
             //        this.lslList.SelectedIndex = -1;
             //    }
             //}
-        }
+        //}
 
-        protected override void Clear()
-        {
-            this.txtName.Text = String.Empty;
-            this.lslList.SelectedIndex = -1;
-        }
+        //protected override void Clear()
+        //{
+        //    this.txtName.Text = String.Empty;
+        //    this.lslList.SelectedIndex = -1;
+        //}
 
         private void lslList_Click(object sender, EventArgs e)
         {
@@ -481,13 +481,13 @@ namespace AutoTourism.Presentation.Configuration
         {
             if (e.KeyCode == System.Windows.Forms.Keys.Delete)
             {
-                this.btnDelete_Click(sender, e);
+                //this.btnDelete_Click(sender, e);
             }
         }
 
         private void trvOption_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
         {
-            this.LoadForm();
+            //this.LoadForm();
         }
 
     }

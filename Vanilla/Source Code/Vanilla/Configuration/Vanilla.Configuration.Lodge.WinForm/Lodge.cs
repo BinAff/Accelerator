@@ -27,7 +27,7 @@ namespace AutoTourism.Configuration
 
         private void Lodge_Load(object sender, EventArgs e)
         {
-            LoadForm();
+            //LoadForm();
         }
 
         private void bttnBrowse_Click(object sender, EventArgs e)
@@ -56,10 +56,10 @@ namespace AutoTourism.Configuration
             }
         }
 
-        protected override void btnOk_Click(object sender, EventArgs e)
-        {
-            if (SaveLodgeData()) this.Close();
-        }
+        //protected override void btnOk_Click(object sender, EventArgs e)
+        //{
+        //    if (SaveLodgeData()) this.Close();
+        //}
 
         private void bttnAddContact_Click(object sender, EventArgs e)
         {
@@ -332,8 +332,8 @@ namespace AutoTourism.Configuration
             //}
         }
 
-        protected override void LoadForm()
-        {
+        //protected override void LoadForm()
+        //{
             //ILodge Lodge = new LodgeServer();
             //ReturnObject<FormDto> ret = Lodge.LoadForm();
 
@@ -402,7 +402,7 @@ namespace AutoTourism.Configuration
             //    lstEmail.DisplayMember = "Name";
             //    lstEmail.SelectedIndex = -1;
             //}
-        }
+        //}
 
         private Boolean ValidateLodge()
         {
@@ -649,14 +649,14 @@ namespace AutoTourism.Configuration
         //    return emailList;
         //}
 
-        protected override void Clear()
-        {
-            this.txtStd.Text = String.Empty;
-            this.txtLandLine.Text = String.Empty;
-            this.txtMobile.Text = String.Empty;
-            this.txtFaxNumber.Text = String.Empty;
-            this.txtEmail.Text = String.Empty;
-        }
+        //protected override void Clear()
+        //{
+        //    this.txtStd.Text = String.Empty;
+        //    this.txtLandLine.Text = String.Empty;
+        //    this.txtMobile.Text = String.Empty;
+        //    this.txtFaxNumber.Text = String.Empty;
+        //    this.txtEmail.Text = String.Empty;
+        //}
 
         private Boolean SaveLodgeData()
         {
