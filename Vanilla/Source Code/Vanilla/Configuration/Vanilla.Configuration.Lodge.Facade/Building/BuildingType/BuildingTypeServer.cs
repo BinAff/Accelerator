@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Crystal.Lodge.Component.Building.Type;
 
-namespace AutoTourism.Facade.Configuration.BuildingType
+namespace Vanilla.Configuration.Lodge.Facade.Building.BuildingType
 {
 
     public class BuildingTypeServer : IBuildingType
@@ -47,15 +47,16 @@ namespace AutoTourism.Facade.Configuration.BuildingType
 
         BinAff.Core.ReturnObject<Boolean> IBuildingType.Delete(Dto dto)
         {
-            //Register Observers
-            Crystal.Lodge.Configuration.Observer.BuildingType buildingType = new Crystal.Lodge.Configuration.Observer.BuildingType();
+            ////Register Observers
+            //Crystal.Lodge.Configuration.Observer.BuildingType buildingType = new Crystal.Lodge.Configuration.Observer.BuildingType();
 
-            BinAff.Core.ICrud crud = buildingType.RegisterObserver(new Crystal.Lodge.Configuration.Building.Type.Data
-            {
-                Id = dto.Id
-            });
+            //BinAff.Core.ICrud crud = buildingType.RegisterObserver(new Crystal.Lodge.Configuration.Building.Type.Data
+            //{
+            //    Id = dto.Id
+            //});
 
-            return crud.Delete();
+            //return crud.Delete();
+            return null;
             
         }
 

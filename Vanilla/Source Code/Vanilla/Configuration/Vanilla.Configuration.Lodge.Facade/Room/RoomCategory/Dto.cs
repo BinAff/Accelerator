@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutoTourism.Facade.Configuration.RoomCategory
+namespace Vanilla.Configuration.Lodge.Facade.Room.RoomCategory
 {
 
     public class Dto

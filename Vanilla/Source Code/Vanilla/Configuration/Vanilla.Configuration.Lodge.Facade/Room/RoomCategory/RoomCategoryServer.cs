@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Crystal.Lodge.Component.Room.Category;
 
-namespace AutoTourism.Facade.Configuration.RoomCategory
+namespace Vanilla.Configuration.Lodge.Facade.Room.RoomCategory
 {
 
     public class RoomCategoryServer : IRoomCategory
@@ -46,15 +46,15 @@ namespace AutoTourism.Facade.Configuration.RoomCategory
 
         BinAff.Core.ReturnObject<Boolean> IRoomCategory.Delete(Dto dto)
         {
-            //Register Observers
-            Crystal.Lodge.Configuration.Observer.RoomCategory roomCategory = new Crystal.Lodge.Configuration.Observer.RoomCategory();
+            ////Register Observers
+            //Crystal.Lodge.Component.Lodge.Observer.RoomCategory roomCategory = new Crystal.Lodge.Configuration.Observer.RoomCategory();
 
-            BinAff.Core.ICrud crud = roomCategory.RegisterObserver(new Crystal.Lodge.Configuration.Room.Category.Data
-            {
-                Id = dto.Id
-            });
-            return crud.Delete();
-
+            //BinAff.Core.ICrud crud = roomCategory.RegisterObserver(new Crystal.Lodge.Configuration.Room.Category.Data
+            //{
+            //    Id = dto.Id
+            //});
+            //return crud.Delete();
+            return null;
         }
 
         BinAff.Core.ReturnObject<Dto> IRoomCategory.Read(Dto dto)

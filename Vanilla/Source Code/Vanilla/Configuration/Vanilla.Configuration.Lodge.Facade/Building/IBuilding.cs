@@ -1,9 +1,9 @@
 ﻿using System;
 
 using BinAff.Core;
-using AutoTourism.Facade.Library;
 
-namespace AutoTourism.Facade.Configuration.Building
+
+namespace Vanilla.Configuration.Lodge.Facade.Building
 {
     public interface IBuilding
     {

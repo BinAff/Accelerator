@@ -8,7 +8,7 @@ using BinAff.Core;
 using Crystal.Lodge.Component.Building;
 using System.Transactions;
 
-namespace AutoTourism.Facade.Configuration.Building
+namespace Vanilla.Configuration.Lodge.Facade.Building
 {
 
     public class BuildingServer : IBuilding 
@@ -66,7 +66,7 @@ namespace AutoTourism.Facade.Configuration.Building
         private ReturnObject<List<Dto>> ReadAllBuilding()
         {
             ReturnObject<List<Dto>> retObj = new ReturnObject<List<Dto>>();
-            ICrud crud = new Server(new Crystal.Lodge.Configuration.Building.Data());
+            ICrud crud = new Server(new Crystal.Lodge.Component.Building.Data());
             ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
 
             if (lstData.HasError())
@@ -88,15 +88,15 @@ namespace AutoTourism.Facade.Configuration.Building
                 ret.Value.Add(new Dto
                 {
                     Id = data.Id,
-                    Name = ((Crystal.Lodge.Configuration.Building.Data)data).Name,
+                    Name = ((Crystal.Lodge.Component.Building.Data)data).Name,
                     Type = new BuildingType.Dto
                     {
-                        Id = ((Crystal.Lodge.Configuration.Building.Data)data).BuildingType.Id,
+                        Id = ((Crystal.Lodge.Component.Building.Data)data).Type.Id,
                     },
-                    DefaultFloor = ((Crystal.Lodge.Configuration.Building.Data)data).DefaultFloor,
-                    Floor = ((Crystal.Lodge.Configuration.Building.Data)data).Floor,
-                    Status = ((Crystal.Lodge.Configuration.Building.Data)data).Status,
-                    IsDefault = ((Crystal.Lodge.Configuration.Building.Data)data).IsDefault,                    
+                    //DefaultFloor = ((Crystal.Lodge.Component.Building.Data)data).DefaultFloor,
+                    //Floor = ((Crystal.Lodge.Component.Building.Data)data).Floor,
+                    //Status = ((Crystal.Lodge.Component.Building.Data)data).Status,
+                    //IsDefault = ((Crystal.Lodge.Component.Building.Data)data).IsDefault,                    
                 });
             }
 
@@ -105,7 +105,7 @@ namespace AutoTourism.Facade.Configuration.Building
 
         private ReturnObject<List<BuildingType.Dto>> ReadAllBuildingType()
         {
-            ICrud crud = new Crystal.Lodge.Configuration.Building.Type.Server(null);
+            ICrud crud = new Crystal.Lodge.Component.Building.Type.Server(null);
             ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
 
             if (dataList.HasError())
@@ -127,7 +127,7 @@ namespace AutoTourism.Facade.Configuration.Building
                 ret.Value.Add(new BuildingType.Dto
                 {
                     Id = data.Id,
-                    Name = ((Crystal.Lodge.Configuration.Building.Type.Data)data).Name
+                    Name = ((Crystal.Lodge.Component.Building.Type.Data)data).Name
                 });
             }
          
@@ -136,76 +136,77 @@ namespace AutoTourism.Facade.Configuration.Building
 
         private ReturnObject<Boolean> Add(Dto dto)
         {
-            ICrud crud = new Server(new Crystal.Lodge.Configuration.Building.Data
+            ICrud crud = new Server(new Crystal.Lodge.Component.Building.Data
             {
                 Name = dto.Name,
-                Floor = dto.Floor,
-                BuildingType = new Crystal.Lodge.Configuration.Building.Type.Data
-                {
-                    Id = dto.Type.Id,
-                    Name = dto.Type.Name,
-                },
-                DefaultFloor = dto.DefaultFloor,
-                IsDefault = dto.IsDefault,
+                //Floor = dto.Floor,
+                //BuildingType = new Crystal.Lodge.Component.Building.Type.Data
+                //{
+                //    Id = dto.Type.Id,
+                //    Name = dto.Type.Name,
+                //},
+                //DefaultFloor = dto.DefaultFloor,
+                //IsDefault = dto.IsDefault,
             });
             return crud.Save();
         }
 
         private ReturnObject<Boolean> Change(Dto dto)
         {
-            ICrud crud = new Server(new Crystal.Lodge.Configuration.Building.Data
+            ICrud crud = new Server(new Crystal.Lodge.Component.Building.Data
             {
                 Id = dto.Id,
                 Name = dto.Name,
-                Floor = dto.Floor,
-                BuildingType = new Crystal.Lodge.Configuration.Building.Type.Data
-                {
-                    Id = dto.Type.Id,
-                    Name = dto.Type.Name,
-                },
-                DefaultFloor = dto.DefaultFloor,
-                IsDefault = dto.IsDefault,
+                //Floor = dto.Floor,
+                //BuildingType = new Crystal.Lodge.Component.Building.Type.Data
+                //{
+                //    Id = dto.Type.Id,
+                //    Name = dto.Type.Name,
+                //},
+                //DefaultFloor = dto.DefaultFloor,
+                //IsDefault = dto.IsDefault,
             });
             return crud.Save();
         }
 
         private ReturnObject<Boolean> Delete(Dto dto)
         {   
-            //Register Observers
-            Crystal.Lodge.Configuration.Observer.Building building = new Crystal.Lodge.Configuration.Observer.Building();
+            ////Register Observers
+            //Crystal.Lodge.Component.Observer.Building building = new Crystal.Lodge.Component.Observer.Building();
 
-            BinAff.Core.ICrud crud = building.RegisterObserver(new Crystal.Lodge.Configuration.Building.Data
-            {
-                Id = dto.Id
-            });
-            return crud.Delete();
+            //BinAff.Core.ICrud crud = building.RegisterObserver(new Crystal.Lodge.Component.Building.Data
+            //{
+            //    Id = dto.Id
+            //});
+            //return crud.Delete();
 
-
+            return null;
         }
 
         private ReturnObject<Boolean> Close(ReasonDto dto)
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
 
-            Crystal.Lodge.Configuration.Building.Data data = new Crystal.Lodge.Configuration.Building.Data
+            Crystal.Lodge.Component.Building.Data data = new Crystal.Lodge.Component.Building.Data
             {
-                ClosureReasonList = new List<ClosureData>(),
+                //ClosureReasonList = new List<ClosureData>(),
             };
-            data.ClosureReasonList.Add(new ClosureData
-            {
-                Reason = dto.Reason,
-                BuildingId = dto.Id,
-                UserId = dto.UserId,
-            });           
+            //data.ClosureReasonList.Add(new ClosureData
+            //{
+            //    Reason = dto.Reason,
+            //    BuildingId = dto.Id,
+            //    UserId = dto.UserAccount.Id,
+            //});           
 
             //validate checkedin rooms.  Cannot close checkedin rooms
-            Crystal.Lodge.Configuration.Room.IRoom roomServer = new Crystal.Lodge.Configuration.Room.Server(new Crystal.Lodge.Configuration.Room.Data()
+            Crystal.Lodge.Component.Room.IRoom roomServer = new Crystal.Lodge.Component.Room.Server(new Crystal.Lodge.Component.Room.Data()
             {
-                Building = new Crystal.Lodge.Configuration.Building.Data() {
+                Building = new Crystal.Lodge.Component.Building.Data()
+                {
                     Id = dto.Id,
                 }
             });
-            List<Crystal.Lodge.Configuration.Room.Data> checkInRoomList = roomServer.GetCheckedInRoomsForBuilding();
+            List<Crystal.Lodge.Component.Room.Data> checkInRoomList = roomServer.GetCheckedInRoomsForBuilding();
             Int32 count = checkInRoomList.Count;
             if (count > 0)
             {
@@ -226,7 +227,7 @@ namespace AutoTourism.Facade.Configuration.Building
             }
 
             //validate booked rooms. Notify before closing booked rooms.
-            List<Crystal.Lodge.Configuration.Room.Data> reservedRoomList = roomServer.GetBookedRoomsForBuilding();
+            List<Crystal.Lodge.Component.Room.Data> reservedRoomList = roomServer.GetBookedRoomsForBuilding();
             count = reservedRoomList.Count;
             if (count > 0)
             {
@@ -259,50 +260,50 @@ namespace AutoTourism.Facade.Configuration.Building
             {
                 //----------
                 //-- Close Room
-                Crystal.Lodge.Configuration.Room.IRoom roomServer = new Crystal.Lodge.Configuration.Room.Server(new Crystal.Lodge.Configuration.Room.Data()
+                Crystal.Lodge.Component.Room.IRoom roomServer = new Crystal.Lodge.Component.Room.Server(new Crystal.Lodge.Component.Room.Data()
                 {
-                    Building = new Crystal.Lodge.Configuration.Building.Data()
+                    Building = new Crystal.Lodge.Component.Building.Data()
                     {
                         Id = dto.Id,
                     }
                 });
-                List<Crystal.Lodge.Configuration.Room.Data> checkInRoomList = roomServer.GetOpenRoomsForBuilding();
+                List<Crystal.Lodge.Component.Room.Data> checkInRoomList = roomServer.GetOpenRoomsForBuilding();
                 Int32 count = checkInRoomList.Count;
                 if (count > 0)
                 {
-                    foreach (Crystal.Lodge.Configuration.Room.Data roomData in checkInRoomList)
+                    foreach (Crystal.Lodge.Component.Room.Data roomData in checkInRoomList)
                     {
-                        Crystal.Lodge.Configuration.Room.Data roomServerData = new Crystal.Lodge.Configuration.Room.Data()
+                        Crystal.Lodge.Component.Room.Data roomServerData = new Crystal.Lodge.Component.Room.Data()
                         {
-                            ClosureReasonList = new List<Crystal.Lodge.Configuration.Room.ClosureData>(),
+                            //ClosureReasonList = new List<Crystal.Lodge.Component.Room.ClosureData>(),
                         };
-                        roomServerData.ClosureReasonList.Add(new Crystal.Lodge.Configuration.Room.ClosureData()
-                        {
-                            RoomId = roomData.Id,
-                            Reason = "Building is closed.",
-                            UserId = dto.UserId,
-                        });
+                        //roomServerData.ClosureReasonList.Add(new Crystal.Lodge.Component.Room.ClosureData()
+                        //{
+                        //    RoomId = roomData.Id,
+                        //    Reason = "Building is closed.",
+                        //    UserId = dto.UserAccount.Id,
+                        //});
 
-                        Crystal.Lodge.Configuration.Room.IRoom crud = new Crystal.Lodge.Configuration.Room.Server(roomServerData);
+                        Crystal.Lodge.Component.Room.IRoom crud = new Crystal.Lodge.Component.Room.Server(roomServerData);
                         ret = crud.Close();
                         if (!ret.Value || ret.HasError()) return ret;
                     }
                 }
                 //--------------
                 //-- Close building
-                Crystal.Lodge.Configuration.Building.Data data = new Crystal.Lodge.Configuration.Building.Data
+                Crystal.Lodge.Component.Building.Data data = new Crystal.Lodge.Component.Building.Data
                 {
-                    ClosureReasonList = new List<ClosureData>(),
+                    //ClosureReasonList = new List<ClosureData>(),
                 };
-                data.ClosureReasonList.Add(new ClosureData
-                {
-                    Reason = dto.Reason,
-                    BuildingId = dto.Id,
-                    UserId = dto.UserId,
-                });
+                //data.ClosureReasonList.Add(new ClosureData
+                //{
+                //    Reason = dto.Reason,
+                //    BuildingId = dto.Id,
+                //    UserId = dto.UserAccount.Id,
+                //});
 
-                Crystal.Lodge.Configuration.Building.IBuilding buildingCrud = new Server(data);
-                ret = buildingCrud.Close();
+                //IBuilding buildingCrud = new Server(data);
+                //ret = buildingCrud.Close();
                 if (!ret.Value || ret.HasError()) return ret;
 
                 T.Complete();
@@ -314,7 +315,7 @@ namespace AutoTourism.Facade.Configuration.Building
         private ReturnObject<Boolean> Open(Dto dto)
         {
             //open the closed building
-            Crystal.Lodge.Configuration.Building.IBuilding crud = new Server(new Crystal.Lodge.Configuration.Building.Data
+            Crystal.Lodge.Component.Building.IBuilding crud = new Server(new Crystal.Lodge.Component.Building.Data
             {
                 Id = dto.Id
             });

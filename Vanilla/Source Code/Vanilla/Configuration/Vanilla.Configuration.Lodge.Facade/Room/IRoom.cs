@@ -1,9 +1,10 @@
 ﻿using System;
 
 using BinAff.Core;
+using Vanilla.Configuration.Lodge.Facade.Building;
 //using AutoTourism.Facade.Library;
 
-namespace AutoTourism.Facade.Configuration.Room
+namespace Vanilla.Configuration.Lodge.Facade.Room
 {
     public interface IRoom
     {

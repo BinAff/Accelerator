@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AutoTourism.Facade.Configuration.BuildingType
+namespace Vanilla.Configuration.Lodge.Facade.Building.BuildingType
 {
 
     public class FormDto
