@@ -76,17 +76,17 @@ namespace Crystal.Lodge.Component.Room.Image
 
         protected override void AttachChildDataToParent()
         {
-            ((Lodge.Component.Room.Data)this.ParentData).ImageList = new List<BinAff.Core.Data> { (Data)this.Data };
+            ((Room.Data)this.ParentData).ImageList = new List<BinAff.Core.Data> { (Data)this.Data };
         }
 
         protected override void AttachChildrenDataToParent(List<BinAff.Core.Data> dataList)
         {
             if (dataList.Count > 0)
             {
-                ((Lodge.Component.Room.Data)this.ParentData).ImageList = new List<BinAff.Core.Data>();
+                ((Room.Data)this.ParentData).ImageList = new List<BinAff.Core.Data>();
                 foreach (BinAff.Core.Data data in dataList)
                 {
-                    ((Lodge.Component.Room.Data)this.ParentData).ImageList.Add((Data)data);
+                    ((Room.Data)this.ParentData).ImageList.Add((Data)data);
                 }
             }
 

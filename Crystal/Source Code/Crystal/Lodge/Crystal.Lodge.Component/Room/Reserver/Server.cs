@@ -35,7 +35,7 @@ namespace Crystal.Lodge.Component.Room.Reserver
         protected override void CreateChildren()
         {
             base.CreateChildren();
-            base.AddChildren(new Lodge.Component.Room.Reservation.Server(null)
+            base.AddChildren(new Reservation.Server(null)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
