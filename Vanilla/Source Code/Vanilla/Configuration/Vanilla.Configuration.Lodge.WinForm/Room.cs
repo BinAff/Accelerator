@@ -41,18 +41,18 @@ namespace AutoTourism.Configuration
 
         private void Room_Load(object sender, EventArgs e)
         {
-            LoadForm();
-            Clear();
+            //LoadForm();
+            //Clear();
         }
 
-        protected override void btnRefresh_Click(object sender, EventArgs e)
-        {
-            LoadForm();
-            Clear();
-        }
+        //protected override void btnRefresh_Click(object sender, EventArgs e)
+        //{
+        //    LoadForm();
+        //    Clear();
+        //}
         
-        protected override void btnAdd_Click(object sender, EventArgs e)
-        {
+        //protected override void btnAdd_Click(object sender, EventArgs e)
+        //{
             //if (!ValidateRoom()) return;
             
             //Dto roomDto = new Dto() {
@@ -79,10 +79,10 @@ namespace AutoTourism.Configuration
             //};
 
             //Save(roomDto);                          
-        }
+        //}
 
-        protected override void btnDelete_Click(object sender, EventArgs e)
-        {
+        //protected override void btnDelete_Click(object sender, EventArgs e)
+        //{
             //if (this.cboRoomList.SelectedIndex == -1)
             //{
             //    //Show message
@@ -104,10 +104,10 @@ namespace AutoTourism.Configuration
             //    base.ShowMessage(ret);//Show message
             //}
             //else Clear();
-        }
+        //}
 
-        protected override void btnChange_Click(object sender, EventArgs e)
-        {
+        //protected override void btnChange_Click(object sender, EventArgs e)
+        //{
             //if (this.cboRoomList.SelectedIndex == -1)
             //{                
             //    new MessageBox("Please select one room", MessageBox.Type.Alert).ShowDialog(this);//Show message
@@ -143,10 +143,10 @@ namespace AutoTourism.Configuration
 
             //Save(roomDto);
 
-        }
+        //}
 
-        protected override void btnClose_Click(object sender, EventArgs e)
-        {
+        //protected override void btnClose_Click(object sender, EventArgs e)
+        //{
             //if (this.cboRoomList.SelectedIndex == -1)
             //{
             //    //Show message
@@ -172,10 +172,10 @@ namespace AutoTourism.Configuration
             //    Clear();
             //}
 
-        }
+        //}
 
-        protected override void btnOpen_Click(object sender, EventArgs e)
-        {
+        //protected override void btnOpen_Click(object sender, EventArgs e)
+        //{
             //if (this.cboRoomList.SelectedIndex == -1)
             //{
             //    new MessageBox("Please select one room", MessageBox.Type.Alert).ShowDialog(this);//Show message
@@ -198,7 +198,7 @@ namespace AutoTourism.Configuration
             //});
 
             //base.ShowMessage(ret);//Show message
-        }
+        //}
 
         private void cboBuilding_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -404,9 +404,9 @@ namespace AutoTourism.Configuration
             //}
         }
    
-        protected override void LoadForm()
-        {
-            //IRoom room = new RoomServer();
+        //protected override void LoadForm()
+        //{
+        //    //IRoom room = new RoomServer();
             //ReturnObject<FormDto> ret = room.LoadForm();
 
             ////populate Room List
@@ -457,10 +457,10 @@ namespace AutoTourism.Configuration
             //    this.cboType.SelectedIndex = -1;
             //}
            
-        }
+        //}
 
-        protected override void Clear()
-        {
+        //protected override void Clear()
+        //{
             //this.cboRoomList.SelectedIndex = -1;
             //this.txtNumber.Text = String.Empty;
             //this.txtName.Text = String.Empty;
@@ -487,7 +487,7 @@ namespace AutoTourism.Configuration
             //        break;
             //    }
             //}
-        }
+        //}
       
         private Boolean IsImageExist(String RoomImageName, List<String> ImageList)
         {   

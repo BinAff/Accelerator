@@ -14,12 +14,12 @@ namespace AutoTourism.Configuration
         {
             InitializeComponent();
 
-            LoadForm();
-            Clear();
+            //LoadForm();
+            //Clear();
         }
         
-        protected override void LoadForm()
-        {
+        //protected override void LoadForm()
+        //{
             //IRule rule = new RuleServer();            
             //ReturnObject<FormDto> ret = rule.LoadForm();
 
@@ -44,15 +44,15 @@ namespace AutoTourism.Configuration
             //    this.txtServiceTax.Text = ret.Value.RuleDto.TaxRule.ServiceTax == 0 ? String.Empty : ret.Value.RuleDto.TaxRule.ServiceTax.ToString();
             //    this.txtLuxuryTax.Text = ret.Value.RuleDto.TaxRule.LuxuryTax == 0 ? String.Empty : ret.Value.RuleDto.TaxRule.LuxuryTax.ToString();
             //}    
-        }
+        //}
         
-        protected override void Clear()
-        {
+        //protected override void Clear()
+        //{
             
-        }        
+        //}        
 
-        protected override void btnOk_Click(object sender, System.EventArgs e)
-        {
+        //protected override void btnOk_Click(object sender, System.EventArgs e)
+        //{
             //if (!ValidateRule()) return;
 
             //Dto RuleDto = new Dto()
@@ -77,7 +77,7 @@ namespace AutoTourism.Configuration
             //IRule rule = new RuleServer();
             //base.ShowMessage(rule.Save(RuleDto));//Show message  
             //this.Close();
-        }
+        //}
 
         private Boolean ValidateRule()
         {
