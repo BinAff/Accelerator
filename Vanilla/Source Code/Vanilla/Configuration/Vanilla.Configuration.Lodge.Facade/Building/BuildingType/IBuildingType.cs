@@ -2,7 +2,7 @@
 
 using BinAff.Core;
 
-namespace AutoTourism.Facade.Configuration.BuildingType
+namespace Vanilla.Configuration.Lodge.Facade.Building.BuildingType
 {
 
     public interface IBuildingType

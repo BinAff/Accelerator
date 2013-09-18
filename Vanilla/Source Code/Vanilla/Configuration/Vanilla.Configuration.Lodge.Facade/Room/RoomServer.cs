@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 
-using Crystal.Lodge.Component.Room;
-using AutoTourism.Facade.Library;
+//using Room = Crystal.Lodge.Component.Room;
+using Vanilla.Configuration.Lodge.Facade.Building;
+//using AutoTourism.Facade.Library;
 
-namespace AutoTourism.Facade.Configuration.Room
+namespace Vanilla.Configuration.Lodge.Facade.Room
 {
 
     public class RoomServer : IRoom 
@@ -70,7 +71,7 @@ namespace AutoTourism.Facade.Configuration.Room
         private ReturnObject<List<Dto>> ReadAllRoom()
         {
             BinAff.Core.ReturnObject<List<Dto>> retObj = new BinAff.Core.ReturnObject<List<Dto>>();
-            BinAff.Core.ICrud crud = new Crystal.Lodge.Configuration.Room.Server(null);
+            BinAff.Core.ICrud crud = new Crystal.Lodge.Component.Room.Server(null);
             BinAff.Core.ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
 
             if (lstData.HasError())
@@ -90,36 +91,36 @@ namespace AutoTourism.Facade.Configuration.Room
                 ret.Value.Add(new Dto
                 {
                     Id = data.Id,
-                    Number = ((Crystal.Lodge.Configuration.Room.Data)data).Number,
-                    Name = ((Crystal.Lodge.Configuration.Room.Data)data).Name,
-                    Description = ((Crystal.Lodge.Configuration.Room.Data)data).Description,
+                    Number = ((Crystal.Lodge.Component.Room.Data)data).Number,
+                    Name = ((Crystal.Lodge.Component.Room.Data)data).Name,
+                    Description = ((Crystal.Lodge.Component.Room.Data)data).Description,
                     Building = new Building.Dto()
                     {
-                        Id = ((Crystal.Lodge.Configuration.Room.Data)data).Building.Id,
+                        Id = ((Crystal.Lodge.Component.Room.Data)data).Building.Id,
                     },
-                    Floor = ((Crystal.Lodge.Configuration.Room.Data)data).Floor,
+                    //Floor = ((Crystal.Lodge.Component.Room.Data)data).Floor,
                     Category = new RoomCategory.Dto()
                     {
-                        Id = ((Crystal.Lodge.Configuration.Room.Data)data).Category.Id,
+                        Id = ((Crystal.Lodge.Component.Room.Data)data).Category.Id,
                     },
                     Type = new RoomType.Dto()
                     {
-                        Id = ((Crystal.Lodge.Configuration.Room.Data)data).Type.Id,
+                        Id = ((Crystal.Lodge.Component.Room.Data)data).Type.Id,
                     },
-                    IsAirconditioned = ((Crystal.Lodge.Configuration.Room.Data)data).IsAirConditioned,
-                    IsDormitory = ((Crystal.Lodge.Configuration.Room.Data)data).IsDormitory,
-                    ImageList = ((Crystal.Lodge.Configuration.Room.Data)data).ImageList == null ? null : GetImageList(((Crystal.Lodge.Configuration.Room.Data)data).ImageList),
-                    StatusId = ((Crystal.Lodge.Configuration.Room.Data)data).StatusId,
+                    IsAirconditioned = ((Crystal.Lodge.Component.Room.Data)data).IsAirConditioned,
+                    //IsDormitory = ((Crystal.Lodge.Component.Room.Data)data).IsDormitory,
+                    //ImageList = ((Crystal.Lodge.Component.Room.Data)data).ImageList == null ? null : GetImageList(((Crystal.Lodge.Component.Room.Data)data).ImageList),
+                    //StatusId = ((Crystal.Lodge.Component.Room.Data)data).StatusId,
                 });                
             }
 
             return ret;
         }
 
-        private List<ImageDto> GetImageList(List<ImageData> ImageList)
+        private List<ImageDto> GetImageList(List<Crystal.Lodge.Component.Room.Image.Data> ImageList)
         {
             List<ImageDto> ImageDtoList = new List<ImageDto>();
-            foreach (ImageData data in ImageList)
+            foreach (Crystal.Lodge.Component.Room.Image.Data data in ImageList)
             {
                 ImageDtoList.Add(new ImageDto()
                 {
@@ -134,7 +135,7 @@ namespace AutoTourism.Facade.Configuration.Room
         private ReturnObject<List<Building.Dto>> ReadAllBuilding()
         {
             BinAff.Core.ReturnObject<List<Dto>> retObj = new BinAff.Core.ReturnObject<List<Dto>>();
-            BinAff.Core.ICrud crud = new Crystal.Lodge.Configuration.Building.Server(null);
+            BinAff.Core.ICrud crud = new Crystal.Lodge.Component.Building.Server(null);
             BinAff.Core.ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
 
             if (lstData.HasError())
@@ -153,11 +154,11 @@ namespace AutoTourism.Facade.Configuration.Room
             {
                 ret.Value.Add(new Building.Dto
                 {
-                    Id = data.Id,                    
-                    Name = ((Crystal.Lodge.Configuration.Building.Data)data).Name,
-                    DefaultFloor = ((Crystal.Lodge.Configuration.Building.Data)data).DefaultFloor,
-                    IsDefault = ((Crystal.Lodge.Configuration.Building.Data)data).IsDefault,
-                    Floor = ((Crystal.Lodge.Configuration.Building.Data)data).Floor == null ? null : GetFloorList(((Crystal.Lodge.Configuration.Building.Data)data).Floor),
+                    Id = data.Id,
+                    Name = ((Crystal.Lodge.Component.Building.Data)data).Name,
+                    //DefaultFloor = ((Crystal.Lodge.Component.Building.Data)data).DefaultFloor,
+                    //IsDefault = ((Crystal.Lodge.Component.Building.Data)data).IsDefault,
+                    //Floor = ((Crystal.Lodge.Component.Building.Data)data).Floor == null ? null : GetFloorList(((Crystal.Lodge.Configuration.Building.Data)data).Floor),
                     
                 });
             }
@@ -178,7 +179,7 @@ namespace AutoTourism.Facade.Configuration.Room
         private ReturnObject<List<RoomCategory.Dto>> ReadAllCategory()
         {
             BinAff.Core.ReturnObject<List<RoomCategory.Dto>> retObj = new BinAff.Core.ReturnObject<List<RoomCategory.Dto>>();
-            BinAff.Core.ICrud crud = new Crystal.Lodge.Configuration.Room.Category.Server(null);
+            BinAff.Core.ICrud crud = new Crystal.Lodge.Component.Room.Category.Server(null);
             BinAff.Core.ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
 
             if (lstData.HasError())
@@ -197,8 +198,8 @@ namespace AutoTourism.Facade.Configuration.Room
             {
                 ret.Value.Add(new RoomCategory.Dto
                 {
-                    Id = data.Id,                    
-                    Name = ((Crystal.Lodge.Configuration.Room.Category.Data)data).Name,                    
+                    Id = data.Id,
+                    Name = ((Crystal.Lodge.Component.Room.Category.Data)data).Name,                    
                 });
             }
 
@@ -208,7 +209,7 @@ namespace AutoTourism.Facade.Configuration.Room
         private ReturnObject<List<RoomType.Dto>> ReadAllType()
         {
             BinAff.Core.ReturnObject<List<RoomType.Dto>> retObj = new BinAff.Core.ReturnObject<List<RoomType.Dto>>();
-            BinAff.Core.ICrud crud = new Crystal.Lodge.Configuration.Room.Type.Server(null);
+            BinAff.Core.ICrud crud = new Crystal.Lodge.Component.Room.Type.Server(null);
             BinAff.Core.ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
 
             if (lstData.HasError())
@@ -227,8 +228,8 @@ namespace AutoTourism.Facade.Configuration.Room
             {
                 ret.Value.Add(new RoomType.Dto
                 {
-                    Id = data.Id,                    
-                    Name = ((Crystal.Lodge.Configuration.Room.Type.Data)data).Name,                   
+                    Id = data.Id,
+                    Name = ((Crystal.Lodge.Component.Room.Type.Data)data).Name,                   
                 });
             }
 
@@ -237,19 +238,19 @@ namespace AutoTourism.Facade.Configuration.Room
 
         private ReturnObject<Boolean> AddRoom(Dto dto)
         {
-            ICrud crud = new Crystal.Lodge.Configuration.Room.Server(new Crystal.Lodge.Configuration.Room.Data
+            ICrud crud = new Crystal.Lodge.Component.Room.Server(new Crystal.Lodge.Component.Room.Data
             {
                 Number = dto.Number,
                 Name = dto.Name,
                 Description = dto.Description,
-                Building = dto.Building == null ? null : new Crystal.Lodge.Configuration.Building.Data() { Id = dto.Building.Id },
-                Floor = dto.Floor,
-                Category = dto.Category == null ? null : new Crystal.Lodge.Configuration.Room.Category.Data() { Id = dto.Category.Id },
-                Type = dto.Type == null ? null : new Crystal.Lodge.Configuration.Room.Type.Data() { Id = dto.Type.Id },
+                Building = dto.Building == null ? null : new Crystal.Lodge.Component.Building.Data() { Id = dto.Building.Id },
+                //Floor = dto.Floor,
+                Category = dto.Category == null ? null : new Crystal.Lodge.Component.Room.Category.Data() { Id = dto.Category.Id },
+                Type = dto.Type == null ? null : new Crystal.Lodge.Component.Room.Type.Data() { Id = dto.Type.Id },
                 IsAirConditioned = dto.IsAirconditioned,
-                IsDormitory = dto.IsDormitory,
+                //IsDormitory = dto.IsDormitory,
 
-                ImageList = dto.ImageList == null ? null : GetImageDataList(dto.ImageList),
+                //ImageList = dto.ImageList == null ? null : GetImageDataList(dto.ImageList),
             });
             return crud.Save();
         }
@@ -257,42 +258,43 @@ namespace AutoTourism.Facade.Configuration.Room
         private ReturnObject<Boolean> DeleteRoom(Dto dto)
         {
             //Register Observers
-            Crystal.Lodge.Configuration.Observer.Room room = new Crystal.Lodge.Configuration.Observer.Room();
+            //Crystal.Lodge.Component.Observer.Room room = new Crystal.Lodge.Component.Observer.Room();
 
-            BinAff.Core.ICrud crud = room.RegisterObserver(new Crystal.Lodge.Configuration.Room.Data
-            {
-                Id = dto.Id
-            });
-            return crud.Delete();
+            //BinAff.Core.ICrud crud = room.RegisterObserver(new Crystal.Lodge.Component.Room.Data
+            //{
+            //    Id = dto.Id
+            //});
+            //return crud.Delete();
+            return null;
 
         }
 
         private ReturnObject<Boolean> ChangeRoom(Dto dto)
         {
-            ICrud crud = new Crystal.Lodge.Configuration.Room.Server(new Crystal.Lodge.Configuration.Room.Data
+            ICrud crud = new Crystal.Lodge.Component.Room.Server(new Crystal.Lodge.Component.Room.Data
             {
                 Id = dto.Id,
                 Number = dto.Number,
                 Name = dto.Name,
                 Description = dto.Description,
-                Building = new Crystal.Lodge.Configuration.Building.Data() { Id = dto.Building.Id },
-                Floor = dto.Floor,
-                Category = new Crystal.Lodge.Configuration.Room.Category.Data() { Id = dto.Category.Id },
-                Type = new Crystal.Lodge.Configuration.Room.Type.Data() { Id = dto.Type.Id },
+                Building = new Crystal.Lodge.Component.Building.Data() { Id = dto.Building.Id },
+                //Floor = dto.Floor,
+                Category = new Crystal.Lodge.Component.Room.Category.Data() { Id = dto.Category.Id },
+                Type = new Crystal.Lodge.Component.Room.Type.Data() { Id = dto.Type.Id },
                 IsAirConditioned = dto.IsAirconditioned,
-                IsDormitory = dto.IsDormitory,
+                //IsDormitory = dto.IsDormitory,
 
-                ImageList = dto.ImageList == null ? null : GetImageDataList(dto.ImageList),
+                //ImageList = dto.ImageList == null ? null : GetImageDataList(dto.ImageList),
             });
             return crud.Save();
         }
 
-        private List<ImageData> GetImageDataList(List<ImageDto> ImageList)
+        private List<Crystal.Lodge.Component.Room.Image.Data> GetImageDataList(List<ImageDto> ImageList)
         {
-            List<ImageData> ImageDataList = new List<ImageData>();            
+            List<Crystal.Lodge.Component.Room.Image.Data> ImageDataList = new List<Crystal.Lodge.Component.Room.Image.Data>();            
             foreach (ImageDto data in ImageList)
             {
-                ImageDataList.Add(new ImageData()
+                ImageDataList.Add(new Crystal.Lodge.Component.Room.Image.Data()
                 {
                     Id = data.Id,
                     Image = data.Image,                    
@@ -306,25 +308,25 @@ namespace AutoTourism.Facade.Configuration.Room
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
 
-            Crystal.Lodge.Configuration.Room.Data data = new Crystal.Lodge.Configuration.Room.Data()
+            Crystal.Lodge.Component.Room.Data data = new Crystal.Lodge.Component.Room.Data()
             {
-                ClosureReasonList = new List<ClosureData>(),
-                Building = new Crystal.Lodge.Configuration.Building.Data() { Id = dto.BuildingId },
+                //ClosureReasonList = new List<ClosureData>(),
+                //Building = new Crystal.Lodge.Component.Building.Data() { Id = dto.Building.Id },
             };
-            data.ClosureReasonList.Add(new ClosureData()
-            {
-                RoomId = dto.Id,
-                Reason = dto.Reason,                
-                UserId = dto.UserId,                
-            });
+            //data.ClosureReasonList.Add(new ClosureData()
+            //{
+            //    RoomId = dto.Id,
+            //    Reason = dto.Reason,                
+            //    UserId = dto.UserId,                
+            //});
 
-            Crystal.Lodge.Configuration.Room.IRoom crud = new Crystal.Lodge.Configuration.Room.Server(data);
+            Crystal.Lodge.Component.Room.IRoom crud = new Crystal.Lodge.Component.Room.Server(data);
 
             //validate checkedin rooms.  Cannot close checkedin rooms
-            List<Crystal.Lodge.Configuration.Room.Data> checkInRoomList =  crud.GetCheckedInRoomsForBuilding();
+            List<Crystal.Lodge.Component.Room.Data> checkInRoomList = crud.GetCheckedInRoomsForBuilding();
             if (checkInRoomList.Count > 0)
             {
-                foreach (Crystal.Lodge.Configuration.Room.Data checkInData in checkInRoomList)
+                foreach (Crystal.Lodge.Component.Room.Data checkInData in checkInRoomList)
                 {
                     if (checkInData.Id == dto.Id)
                     {
@@ -338,10 +340,10 @@ namespace AutoTourism.Facade.Configuration.Room
             }
 
             //validate booked rooms. Notify before closing booked rooms.
-            List<Crystal.Lodge.Configuration.Room.Data> reservedRoomList = crud.GetBookedRoomsForBuilding();
+            List<Crystal.Lodge.Component.Room.Data> reservedRoomList = crud.GetBookedRoomsForBuilding();
             if (reservedRoomList.Count > 0)
             {
-                foreach (Crystal.Lodge.Configuration.Room.Data checkInData in reservedRoomList)
+                foreach (Crystal.Lodge.Component.Room.Data checkInData in reservedRoomList)
                 {
                     if (checkInData.Id == dto.Id)
                     {
@@ -358,19 +360,19 @@ namespace AutoTourism.Facade.Configuration.Room
         }
 
         private ReturnObject<Boolean> CloseWithNoCheck(ReasonDto dto)
-        {   
-            Crystal.Lodge.Configuration.Room.Data data = new Crystal.Lodge.Configuration.Room.Data()
+        {
+            Crystal.Lodge.Component.Room.Data data = new Crystal.Lodge.Component.Room.Data()
             {
-                ClosureReasonList = new List<ClosureData>(),                
+                //ClosureReasonList = new List<ClosureData>(),                
             };
-            data.ClosureReasonList.Add(new ClosureData()
-            {
-                RoomId = dto.Id,
-                Reason = dto.Reason,
-                UserId = dto.UserId,
-            });
+            //data.ClosureReasonList.Add(new ClosureData()
+            //{
+            //    RoomId = dto.Id,
+            //    Reason = dto.Reason,
+            //    UserId = dto.UserAccount.Id,
+            //});
 
-            Crystal.Lodge.Configuration.Room.IRoom crud = new Crystal.Lodge.Configuration.Room.Server(data);
+            Crystal.Lodge.Component.Room.IRoom crud = new Crystal.Lodge.Component.Room.Server(data);
             return crud.Close();
         }
         
@@ -378,10 +380,10 @@ namespace AutoTourism.Facade.Configuration.Room
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
 
-            ICrud buildingCrud = new Crystal.Lodge.Configuration.Building.Server(new Crystal.Lodge.Configuration.Building.Data() { Id = dto.Building.Id });
+            ICrud buildingCrud = new Crystal.Lodge.Component.Building.Server(new Crystal.Lodge.Component.Building.Data() { Id = dto.Building.Id });
             ReturnObject<BinAff.Core.Data> buildingData = buildingCrud.Read();
 
-            if (((Crystal.Lodge.Configuration.Building.Data)buildingData.Value).Status.Id == Convert.ToInt64(BuildingStatus.Close))
+            if (((Crystal.Lodge.Component.Building.Data)buildingData.Value).Status.Id == Convert.ToInt64(BuildingStatus.Close))
             {
                 ret.MessageList = new List<Message>
                         {
@@ -391,7 +393,7 @@ namespace AutoTourism.Facade.Configuration.Room
                 return ret;
             }
 
-            Crystal.Lodge.Configuration.Room.IRoom crud = new Crystal.Lodge.Configuration.Room.Server(new Crystal.Lodge.Configuration.Room.Data()
+            Crystal.Lodge.Component.Room.IRoom crud = new Crystal.Lodge.Component.Room.Server(new Crystal.Lodge.Component.Room.Data()
             {
                 Id = dto.Id
             });

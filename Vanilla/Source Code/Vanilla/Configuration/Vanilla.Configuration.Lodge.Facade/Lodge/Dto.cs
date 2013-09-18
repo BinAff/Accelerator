@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using BinAff.Core;
+using State = Vanilla.Configuration.Facade.State;
 
-namespace AutoTourism.Facade.Configuration.Lodge
+namespace Vanilla.Configuration.Lodge.Facade.Lodge
 {
     public class Dto
     {

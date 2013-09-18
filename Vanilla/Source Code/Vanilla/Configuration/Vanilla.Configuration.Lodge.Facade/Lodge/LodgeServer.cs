@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 
 using BinAff.Core;
+using State = Vanilla.Configuration.Facade.State;
+using Lodge = Crystal.Lodge.Component.Lodge;
+using Crystal.Lodge.Component.Lodge;
 
-using Crystal.Lodge.Configuration.Lodge;
-
-namespace AutoTourism.Facade.Configuration.Lodge
+namespace Vanilla.Configuration.Lodge.Facade.Lodge
 {
 
     public class LodgeServer : ILodge 
@@ -40,7 +41,7 @@ namespace AutoTourism.Facade.Configuration.Lodge
         {
             ReturnObject<Dto> retObj = new ReturnObject<Dto>();
 
-            ICrud crud = new Crystal.Lodge.Configuration.Lodge.Server(new Crystal.Lodge.Configuration.Lodge.Data() { Id = 0 });            
+            ICrud crud = new Crystal.Lodge.Component.Lodge.Server(new Crystal.Lodge.Component.Lodge.Data() { Id = 0 });            
             ReturnObject<BinAff.Core.Data> Data = crud.Read();
 
             if (Data.HasError())
@@ -53,27 +54,27 @@ namespace AutoTourism.Facade.Configuration.Lodge
             BinAff.Core.ReturnObject<Dto> ret = new BinAff.Core.ReturnObject<Dto>()
             {
                 Value =  (Data.Value == null || Data.Value.Id == 0) ? null : new Dto() {
-                    Id = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).Id == null ? 0 : ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).Id,
-                    Name = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).Name == null ? String.Empty : ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).Name,
-                    logo = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).Logo == null ? null : ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).Logo,
-                    LicenceNumber = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).LicenceNumber == null ? String.Empty : ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).LicenceNumber,
-                    Tan = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).Tan == null ? String.Empty : ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).Tan,
-                    Address = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).Address == null ? String.Empty : ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).Address,
-                    City = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).City == null ? String.Empty : ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).City,
-                    State = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).State == null ? null : new State.Dto()
+                    Id = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).Id == null ? 0 : ((Crystal.Lodge.Component.Lodge.Data)Data.Value).Id,
+                    Name = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).Name == null ? String.Empty : ((Crystal.Lodge.Component.Lodge.Data)Data.Value).Name,
+                    logo = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).Logo == null ? null : ((Crystal.Lodge.Component.Lodge.Data)Data.Value).Logo,
+                    LicenceNumber = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).LicenceNumber == null ? String.Empty : ((Crystal.Lodge.Component.Lodge.Data)Data.Value).LicenceNumber,
+                    Tan = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).Tan == null ? String.Empty : ((Crystal.Lodge.Component.Lodge.Data)Data.Value).Tan,
+                    Address = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).Address == null ? String.Empty : ((Crystal.Lodge.Component.Lodge.Data)Data.Value).Address,
+                    City = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).City == null ? String.Empty : ((Crystal.Lodge.Component.Lodge.Data)Data.Value).City,
+                    State = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).State == null ? null : new State.Dto()
                     {
-                        Id = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).State.Id == null? 0 : ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).State.Id,
-                        Name = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).State.Name == null ? null : ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).State.Name
+                        Id = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).State.Id == null? 0 : ((Crystal.Lodge.Component.Lodge.Data)Data.Value).State.Id,
+                        Name = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).State.Name == null ? null : ((Crystal.Lodge.Component.Lodge.Data)Data.Value).State.Name
                     },
-                    Pin = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).Pin == null ? 0 : ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).Pin,
-                    ContactName = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).ContactName == null ? String.Empty : ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).ContactName,
+                    Pin = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).Pin == null ? 0 : ((Crystal.Lodge.Component.Lodge.Data)Data.Value).Pin,
+                    ContactName = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).ContactName == null ? String.Empty : ((Crystal.Lodge.Component.Lodge.Data)Data.Value).ContactName,
 
-                    ContactNumberList = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).ContactNumberList == null ? null :
-                            GetContactNumberList(((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).ContactNumberList),
-                    EmailList = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).EmailList == null ? null : 
-                            GetEmailList(((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).EmailList),
-                    FaxList = ((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).FaxList == null ? null : 
-                            GetFaxList(((Crystal.Lodge.Configuration.Lodge.Data)Data.Value).FaxList),
+                    ContactNumberList = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).ContactNumberList == null ? null :
+                            GetContactNumberList(((Crystal.Lodge.Component.Lodge.Data)Data.Value).ContactNumberList),
+                    EmailList = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).EmailList == null ? null : 
+                            GetEmailList(((Crystal.Lodge.Component.Lodge.Data)Data.Value).EmailList),
+                    FaxList = ((Crystal.Lodge.Component.Lodge.Data)Data.Value).FaxList == null ? null : 
+                            GetFaxList(((Crystal.Lodge.Component.Lodge.Data)Data.Value).FaxList),
                 },
             };           
 
@@ -83,7 +84,7 @@ namespace AutoTourism.Facade.Configuration.Lodge
         private ReturnObject<List<Dto>> ReadAllLodge()
         {
             BinAff.Core.ReturnObject<List<Dto>> retObj = new BinAff.Core.ReturnObject<List<Dto>>();
-            BinAff.Core.ICrud crud = new Crystal.Lodge.Configuration.Lodge.Server(new Crystal.Lodge.Configuration.Lodge.Data());
+            BinAff.Core.ICrud crud = new Crystal.Lodge.Component.Lodge.Server(new Crystal.Lodge.Component.Lodge.Data());
             BinAff.Core.ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
 
             if (lstData.HasError())
@@ -103,22 +104,22 @@ namespace AutoTourism.Facade.Configuration.Lodge
                 ret.Value.Add(new Dto
                 {
                     Id = data.Id,
-                    Name = ((Crystal.Lodge.Configuration.Lodge.Data)data).Name,
-                    logo = ((Crystal.Lodge.Configuration.Lodge.Data)data).Logo,
-                    LicenceNumber = ((Crystal.Lodge.Configuration.Lodge.Data)data).LicenceNumber,
-                    Tan = ((Crystal.Lodge.Configuration.Lodge.Data)data).Tan,
-                    Address = ((Crystal.Lodge.Configuration.Lodge.Data)data).Address,
-                    City = ((Crystal.Lodge.Configuration.Lodge.Data)data).City,
+                    Name = ((Crystal.Lodge.Component.Lodge.Data)data).Name,
+                    logo = ((Crystal.Lodge.Component.Lodge.Data)data).Logo,
+                    LicenceNumber = ((Crystal.Lodge.Component.Lodge.Data)data).LicenceNumber,
+                    Tan = ((Crystal.Lodge.Component.Lodge.Data)data).Tan,
+                    Address = ((Crystal.Lodge.Component.Lodge.Data)data).Address,
+                    City = ((Crystal.Lodge.Component.Lodge.Data)data).City,
                     State = new State.Dto()
                     {
-                        Id = ((Crystal.Lodge.Configuration.Lodge.Data)data).State.Id,
+                        Id = ((Crystal.Lodge.Component.Lodge.Data)data).State.Id,
                     },
-                    Pin = ((Crystal.Lodge.Configuration.Lodge.Data)data).Pin,
-                    ContactName = ((Crystal.Lodge.Configuration.Lodge.Data)data).ContactName,
+                    Pin = ((Crystal.Lodge.Component.Lodge.Data)data).Pin,
+                    ContactName = ((Crystal.Lodge.Component.Lodge.Data)data).ContactName,
                     
-                    ContactNumberList = ((Crystal.Lodge.Configuration.Lodge.Data)data).ContactNumberList == null ? null : GetContactNumberList(((Crystal.Lodge.Configuration.Lodge.Data)data).ContactNumberList),
-                    EmailList = ((Crystal.Lodge.Configuration.Lodge.Data)data).EmailList == null ? null : GetEmailList(((Crystal.Lodge.Configuration.Lodge.Data)data).EmailList),
-                    FaxList = ((Crystal.Lodge.Configuration.Lodge.Data)data).FaxList == null ? null : GetFaxList(((Crystal.Lodge.Configuration.Lodge.Data)data).FaxList),                    
+                    ContactNumberList = ((Crystal.Lodge.Component.Lodge.Data)data).ContactNumberList == null ? null : GetContactNumberList(((Crystal.Lodge.Component.Lodge.Data)data).ContactNumberList),
+                    EmailList = ((Crystal.Lodge.Component.Lodge.Data)data).EmailList == null ? null : GetEmailList(((Crystal.Lodge.Component.Lodge.Data)data).EmailList),
+                    FaxList = ((Crystal.Lodge.Component.Lodge.Data)data).FaxList == null ? null : GetFaxList(((Crystal.Lodge.Component.Lodge.Data)data).FaxList),                    
 
                 });
             }
@@ -126,7 +127,7 @@ namespace AutoTourism.Facade.Configuration.Lodge
             return ret;
         }
 
-        private List<ContactNumberDto> GetContactNumberList(List<ContactNumberData> ContactNumberDataList)
+        private List<ContactNumberDto> GetContactNumberList(List<Crystal.Lodge.Component.Lodge.ContactNumberData> ContactNumberDataList)
         {
             List<ContactNumberDto> ContactNumberDtoList = new List<ContactNumberDto>();
             foreach (ContactNumberData data in ContactNumberDataList)
@@ -139,7 +140,7 @@ namespace AutoTourism.Facade.Configuration.Lodge
             return ContactNumberDtoList;
         }
 
-        private List<EmailDto> GetEmailList(List<EmailData> EmailDataList)
+        private List<EmailDto> GetEmailList(List<Crystal.Lodge.Component.Lodge.EmailData> EmailDataList)
         {
             List<EmailDto> EmailDtoList = new List<EmailDto>();
             foreach (EmailData data in EmailDataList)
@@ -153,7 +154,7 @@ namespace AutoTourism.Facade.Configuration.Lodge
             return EmailDtoList;
         }
 
-        private List<FaxDto> GetFaxList(List<FaxData> FaxDataList)
+        private List<FaxDto> GetFaxList(List<Crystal.Lodge.Component.Lodge.FaxData> FaxDataList)
         {
             List<FaxDto> FaxDtoList = new List<FaxDto>();
             foreach (FaxData data in FaxDataList)
@@ -169,7 +170,7 @@ namespace AutoTourism.Facade.Configuration.Lodge
 
         private ReturnObject<List<State.Dto>> ReadAllState()
         {
-            ICrud crud = new Crystal.Configuration.State.Server(null);
+            ICrud crud = new Crystal.Configuration.Component.State.Server(null);
             ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
 
             ReturnObject<List<State.Dto>> ret = new ReturnObject<List<State.Dto>>
@@ -178,7 +179,7 @@ namespace AutoTourism.Facade.Configuration.Lodge
             };           
 
             //Populate data in dto from business entity
-            foreach (Crystal.Configuration.State.Data data in dataList.Value)
+            foreach (Crystal.Configuration.Component.State.Data data in dataList.Value)
             {
                 ret.Value.Add(new State.Dto
                 {
@@ -192,7 +193,7 @@ namespace AutoTourism.Facade.Configuration.Lodge
 
         private ReturnObject<Boolean> Save(Dto dto)
         {
-            Crystal.Lodge.Configuration.Lodge.Data data = new Crystal.Lodge.Configuration.Lodge.Data()
+            Crystal.Lodge.Component.Lodge.Data data = new Crystal.Lodge.Component.Lodge.Data()
             {
                 Id = dto.Id,
                 Name = dto.Name,
@@ -201,7 +202,7 @@ namespace AutoTourism.Facade.Configuration.Lodge
                 Tan = dto.Tan,
                 Address = dto.Address,
                 City = dto.City,
-                State = new Crystal.Configuration.State.Data() { 
+                State = new Crystal.Configuration.Component.State.Data() { 
                     Id = dto.State.Id,
                 },
                 Pin = dto.Pin,
@@ -211,11 +212,11 @@ namespace AutoTourism.Facade.Configuration.Lodge
                 EmailList = dto.EmailList == null ? null : GetEmailList(dto.EmailList),
             };
 
-            ICrud crud = new Crystal.Lodge.Configuration.Lodge.Server(data);
+            ICrud crud = new Crystal.Lodge.Component.Lodge.Server(data);
             return crud.Save();
         }
 
-        private List<ContactNumberData> GetContactNumberDataList(List<ContactNumberDto> ContactNumberList)
+        private List<Crystal.Lodge.Component.Lodge.ContactNumberData> GetContactNumberDataList(List<ContactNumberDto> ContactNumberList)
         {
             List<ContactNumberData> ContactNumberDataList = new List<ContactNumberData>();
             foreach (ContactNumberDto dto in ContactNumberList)
@@ -229,7 +230,7 @@ namespace AutoTourism.Facade.Configuration.Lodge
             return ContactNumberDataList;
         }
 
-        private List<FaxData> GetFaxDataList(List<FaxDto> FaxList)
+        private List<Crystal.Lodge.Component.Lodge.FaxData> GetFaxDataList(List<FaxDto> FaxList)
         {
             List<FaxData> FaxDataList = new List<FaxData>();
             foreach (FaxDto dto in FaxList)
@@ -243,7 +244,7 @@ namespace AutoTourism.Facade.Configuration.Lodge
             return FaxDataList;
         }
 
-        private List<EmailData> GetEmailList(List<EmailDto> EmailList)
+        private List<Crystal.Lodge.Component.Lodge.EmailData> GetEmailList(List<EmailDto> EmailList)
         {
             List<EmailData> EmailDataList = new List<EmailData>();
 

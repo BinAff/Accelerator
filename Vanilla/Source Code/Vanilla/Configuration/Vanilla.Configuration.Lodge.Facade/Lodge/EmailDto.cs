@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutoTourism.Facade.Configuration.Lodge
+namespace Vanilla.Configuration.Lodge.Facade.Lodge
 {
     public class EmailDto
     {

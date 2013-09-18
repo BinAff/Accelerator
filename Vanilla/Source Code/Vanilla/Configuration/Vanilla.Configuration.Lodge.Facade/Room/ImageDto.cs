@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutoTourism.Facade.Configuration.Room
+namespace Vanilla.Configuration.Lodge.Facade.Room
 {
     public class ImageDto
     {

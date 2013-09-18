@@ -2,7 +2,7 @@
 
 using BinAff.Core;
 
-namespace AutoTourism.Facade.Configuration.RoomCategory
+namespace Vanilla.Configuration.Lodge.Facade.Room.RoomCategory
 {
     public interface IRoomCategory
     {

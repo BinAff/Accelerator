@@ -2,7 +2,7 @@
 
 using BinAff.Core;
 
-namespace AutoTourism.Facade.Configuration.Lodge
+namespace Vanilla.Configuration.Lodge.Facade.Lodge
 {
     public interface ILodge
     {
