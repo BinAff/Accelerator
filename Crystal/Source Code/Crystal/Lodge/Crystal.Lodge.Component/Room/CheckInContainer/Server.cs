@@ -35,7 +35,7 @@ namespace Crystal.Lodge.Component.Room.CheckInContainer
         protected override void CreateChildren()
         {
             base.CreateChildren();
-            base.AddChildren(new Lodge.Component.Room.CheckIn.Server(null)
+            base.AddChildren(new CheckIn.Server(null)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,

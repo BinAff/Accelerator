@@ -77,17 +77,17 @@ namespace Crystal.Lodge.Component.Building.Floor
 
         protected override void AttachChildDataToParent()
         {
-            ((Lodge.Component.Building.Data)this.ParentData).FloorList = new List<BinAff.Core.Data> { (Data)this.Data };
+            ((Building.Data)this.ParentData).FloorList = new List<BinAff.Core.Data> { (Data)this.Data };
         }
 
         protected override void AttachChildrenDataToParent(List<BinAff.Core.Data> dataList)
         {
             if (dataList.Count > 0)
             {
-                ((Lodge.Component.Building.Data)this.ParentData).FloorList = new List<BinAff.Core.Data>();
+                ((Building.Data)this.ParentData).FloorList = new List<BinAff.Core.Data>();
                 foreach (BinAff.Core.Data data in dataList)
                 {
-                    ((Lodge.Component.Building.Data)this.ParentData).FloorList.Add((Data)data);
+                    ((Building.Data)this.ParentData).FloorList.Add((Data)data);
                 }
             }
 

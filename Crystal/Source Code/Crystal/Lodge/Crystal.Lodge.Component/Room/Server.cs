@@ -142,9 +142,9 @@ namespace Crystal.Lodge.Component.Room
 
             using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
             {
-                ICrud crud = new Lodge.Component.Room.ClosureReason.Server(new Lodge.Component.Room.ClosureReason.Data()
+                ICrud crud = new Room.ClosureReason.Server(new Room.ClosureReason.Data()
                 {
-                    Reason = ((Lodge.Component.Room.ClosureReason.Data)((Data)this.Data).ClosureReasonList[0]).Reason
+                    Reason = ((Room.ClosureReason.Data)((Data)this.Data).ClosureReasonList[0]).Reason
                 })
                 {
                     ParentData = this.Data,
