@@ -32,10 +32,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -49,7 +45,7 @@
       <Name>BinAff.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Crystal.Invoice.Component\Crystal.Invoice.Component.csproj">
-      <Project>{CA372D03-699E-4D6A-80FA-567940BFA130}</Project>
+      <Project>{ca372d03-699e-4d6a-80fa-567940bfa130}</Project>
       <Name>Crystal.Invoice.Component</Name>
     </ProjectReference>
   </ItemGroup>
