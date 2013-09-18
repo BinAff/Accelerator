@@ -47,7 +47,7 @@
       <Name>BinAff.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Lodge\Crystal.Lodge.Component\Crystal.Lodge.Component.csproj">
-      <Project>{191571FE-40D2-4095-9705-D3020445B65F}</Project>
+      <Project>{191571fe-40d2-4095-9705-d3020445b65f}</Project>
       <Name>Crystal.Lodge.Component</Name>
     </ProjectReference>
   </ItemGroup>
