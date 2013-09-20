@@ -16,13 +16,13 @@ namespace Crystal.Configuration.Component.Initial
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "InitialInsert";
+            base.CreateStoredProcedure = "[Configuration].InitialInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "InitialRead";
-            base.ReadAllStoredProcedure = "InitialReadAll";
-            base.UpdateStoredProcedure = "InitialUpdate";
+            base.ReadStoredProcedure = "[Configuration].InitialRead";
+            base.ReadAllStoredProcedure = "[Configuration].InitialReadAll";
+            base.UpdateStoredProcedure = "[Configuration].InitialUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "InitialDelete";
+            base.DeleteStoredProcedure = "[Configuration].InitialDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -67,7 +67,7 @@ namespace Crystal.Configuration.Component.Initial
         {            
             Data data = (Data)this.Data;
             this.CreateConnection();
-            this.CreateCommand("InitialReadDuplicate");
+            this.CreateCommand("[Configuration].InitialReadDuplicate");
             this.AddInParameter("@Name", DbType.String, data.Name);
          
             DataSet ds = this.ExecuteDataSet();

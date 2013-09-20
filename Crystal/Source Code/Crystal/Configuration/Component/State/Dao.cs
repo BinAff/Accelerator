@@ -16,13 +16,13 @@ namespace Crystal.Configuration.Component.State
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "StateInsert";
+            base.CreateStoredProcedure = "[Configuration].StateInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "StateRead";
-            base.ReadAllStoredProcedure = "StateReadAll";
-            base.UpdateStoredProcedure = "StateUpdate";
+            base.ReadStoredProcedure = "[Configuration].StateRead";
+            base.ReadAllStoredProcedure = "[Configuration].StateReadAll";
+            base.UpdateStoredProcedure = "[Configuration].StateUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "StateDelete";
+            base.DeleteStoredProcedure = "[Configuration].StateDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -67,7 +67,7 @@ namespace Crystal.Configuration.Component.State
         {
             Data data = (Data)this.Data;
             this.CreateConnection();
-            this.CreateCommand("StateReadDuplicate");
+            this.CreateCommand("[Configuration].StateReadDuplicate");
             this.AddInParameter("@Name", DbType.String, data.Name);
 
             DataSet ds = this.ExecuteDataSet();           

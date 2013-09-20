@@ -16,13 +16,13 @@ namespace Crystal.Configuration.Component.IdentityProofType
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "IdentityProofTypeInsert";
+            base.CreateStoredProcedure = "[Configuration].IdentityProofTypeInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "IdentityProofTypeRead";
-            base.ReadAllStoredProcedure = "IdentityProofTypeReadAll";
-            base.UpdateStoredProcedure = "IdentityProofTypeUpdate";
+            base.ReadStoredProcedure = "[Configuration].IdentityProofTypeRead";
+            base.ReadAllStoredProcedure = "[Configuration].IdentityProofTypeReadAll";
+            base.UpdateStoredProcedure = "[Configuration].IdentityProofTypeUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "IdentityProofTypeDelete";
+            base.DeleteStoredProcedure = "[Configuration].IdentityProofTypeDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -67,7 +67,7 @@ namespace Crystal.Configuration.Component.IdentityProofType
         {
             Data data = (Data)this.Data;
             this.CreateConnection();
-            this.CreateCommand("IdentityProofTypeReadDuplicate");
+            this.CreateCommand("[Configuration].IdentityProofTypeReadDuplicate");
             this.AddInParameter("@Name", DbType.String, data.Name);
 
             DataSet ds = this.ExecuteDataSet();           

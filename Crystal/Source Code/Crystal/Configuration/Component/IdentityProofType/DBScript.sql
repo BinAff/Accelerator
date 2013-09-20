@@ -1,5 +1,6 @@
 ﻿
-/****** Object:  Table [dbo].[IdentityProofType]    Script Date: 05/02/2012 23:12:58 ******/
+
+/****** Object:  Table [Configuration].[IdentityProofType]    Script Date: 09/19/2013 17:49:06 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -9,7 +10,7 @@ GO
 SET ANSI_PADDING ON
 GO
 
-CREATE TABLE [dbo].[IdentityProofType](
+CREATE TABLE [Configuration].[IdentityProofType](
 	[Id] [numeric](10, 0) IDENTITY(1,1) NOT NULL,
 	[Name] [varchar](50) NOT NULL,
  CONSTRAINT [PK_IdentityProofType] PRIMARY KEY CLUSTERED 
@@ -23,14 +24,16 @@ GO
 SET ANSI_PADDING OFF
 GO
 
-/****** Object:  StoredProcedure [dbo].[IdentityProofTypeInsert]    Script Date: 05/02/2012 23:12:36 ******/
+/****** Object:  StoredProcedure [Configuration].[IdentityProofTypeInsert]    Script Date: 09/19/2013 17:49:46 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[IdentityProofTypeInsert]
+
+
+CREATE PROCEDURE [Configuration].[IdentityProofTypeInsert]
 (  
 	@Name Varchar(50),
 	@Id  Numeric(10,0) OUTPUT
@@ -38,22 +41,25 @@ CREATE PROCEDURE [dbo].[IdentityProofTypeInsert]
 AS
 BEGIN	
 	
-	INSERT INTO IdentityProofType([Name])
+	INSERT INTO [Configuration].IdentityProofType([Name])
 	VALUES(@Name)
    
 	SET @Id = @@IDENTITY
 END
 
+
 GO
 
-/****** Object:  StoredProcedure [dbo].[IdentityProofTypeRead]    Script Date: 05/02/2012 23:14:05 ******/
+/****** Object:  StoredProcedure [Configuration].[IdentityProofTypeRead]    Script Date: 09/19/2013 17:50:15 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[IdentityProofTypeRead]
+
+
+CREATE PROCEDURE [Configuration].[IdentityProofTypeRead]
 (
 	@Id Numeric(10,0)
 )
@@ -63,41 +69,44 @@ BEGIN
 	SELECT 
 		Id,
 		[Name]
-	FROM IdentityProofType
+	FROM [Configuration].IdentityProofType
 	WHERE Id = @Id   
 	
 END
 
+
 GO
 
-/****** Object:  StoredProcedure [dbo].[IdentityProofTypeReadAll]    Script Date: 05/02/2012 23:14:12 ******/
+/****** Object:  StoredProcedure [Configuration].[IdentityProofTypeReadAll]    Script Date: 09/19/2013 17:50:36 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[IdentityProofTypeReadAll]
+
+CREATE PROCEDURE [Configuration].[IdentityProofTypeReadAll]
 AS
 BEGIN
 	
 	SELECT 
 		Id,
 		[Name]
-	FROM IdentityProofType
+	FROM [Configuration].IdentityProofType
    
 END
 
 GO
 
-/****** Object:  StoredProcedure [dbo].[IdentityProofTypeUpdate]    Script Date: 05/02/2012 23:15:04 ******/
+/****** Object:  StoredProcedure [Configuration].[IdentityProofTypeUpdate]    Script Date: 09/19/2013 17:51:02 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[IdentityProofTypeUpdate]
+
+CREATE PROCEDURE [Configuration].[IdentityProofTypeUpdate]
 (
 	@Id Numeric(10,0),
 	@Name Varchar(50)
@@ -105,7 +114,7 @@ CREATE PROCEDURE [dbo].[IdentityProofTypeUpdate]
 AS
 BEGIN
 	
-	UPDATE IdentityProofType
+	UPDATE [Configuration].IdentityProofType
 	SET	
 		[Name] = @Name	
 	WHERE Id = @Id
@@ -114,14 +123,15 @@ END
 
 GO
 
-/****** Object:  StoredProcedure [dbo].[IdentityProofTypeDelete]    Script Date: 05/02/2012 23:15:11 ******/
+/****** Object:  StoredProcedure [Configuration].[IdentityProofTypeDelete]    Script Date: 09/19/2013 17:51:37 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[IdentityProofTypeDelete]
+
+CREATE PROCEDURE [Configuration].[IdentityProofTypeDelete]
 (
 	@Id Numeric(10,0)
 )
@@ -129,25 +139,28 @@ AS
 BEGIN
 	
 	DELETE 		
-	FROM IdentityProofType
+	FROM [Configuration].IdentityProofType
 	WHERE Id = @Id   
    
 END
 
 GO
 
+/****** Object:  StoredProcedure [Configuration].[IdentityProofTypeReadDuplicate]    Script Date: 09/19/2013 17:52:06 ******/
+SET ANSI_NULLS ON
 GO
-/****** Object:  StoredProcedure [dbo].[IdentityProofTypeReadDuplicate]    Script Date: 04/29/2013 14:56:51 ******/
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[IdentityProofTypeReadDuplicate]') AND type in (N'U'))
-Begin
-EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[IdentityProofTypeReadDuplicate]
-	(
-		@Name VARCHAR(10)		
-	)
-	AS
-	BEGIN
-		SELECT Id	
-		FROM IdentityProofType 
-		WHERE Name = @Name				
-	END'
-End
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [Configuration].[IdentityProofTypeReadDuplicate]
+(
+	@Name VARCHAR(150)		
+)
+AS
+BEGIN
+	SELECT Id	
+	FROM [Configuration].IdentityProofType 
+	WHERE Name = @Name				
+END
+GO
