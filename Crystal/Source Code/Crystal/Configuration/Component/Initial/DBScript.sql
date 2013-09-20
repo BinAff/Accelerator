@@ -1,5 +1,5 @@
 ﻿
-/****** Object:  Table [dbo].[Initial]    Script Date: 05/02/2012 23:08:14 ******/
+/****** Object:  Table [Configuration].[Initial]    Script Date: 09/19/2013 17:53:03 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -9,7 +9,7 @@ GO
 SET ANSI_PADDING ON
 GO
 
-CREATE TABLE [dbo].[Initial](
+CREATE TABLE [Configuration].[Initial](
 	[Id] [numeric](10, 0) IDENTITY(1,1) NOT NULL,
 	[Name] [varchar](10) NOT NULL,
  CONSTRAINT [PK_Initial] PRIMARY KEY CLUSTERED 
@@ -23,14 +23,16 @@ GO
 SET ANSI_PADDING OFF
 GO
 
-/****** Object:  StoredProcedure [dbo].[InitialInsert]    Script Date: 05/02/2012 23:07:49 ******/
+/****** Object:  StoredProcedure [Configuration].[InitialInsert]    Script Date: 09/19/2013 17:53:32 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[InitialInsert]
+
+
+CREATE PROCEDURE [Configuration].[InitialInsert]
 (  
 	@Name Varchar(50),
 	@Id  Numeric(10,0) OUTPUT
@@ -38,7 +40,7 @@ CREATE PROCEDURE [dbo].[InitialInsert]
 AS
 BEGIN	
 	
-	INSERT INTO Initial([Name])
+	INSERT INTO [Configuration].Initial([Name])
 	VALUES(@Name)
    
 	SET @Id = @@IDENTITY
@@ -46,14 +48,16 @@ END
 
 GO
 
-/****** Object:  StoredProcedure [dbo].[InitialRead]    Script Date: 05/02/2012 23:09:24 ******/
+/****** Object:  StoredProcedure [Configuration].[InitialRead]    Script Date: 09/19/2013 17:53:58 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[InitialRead]
+
+
+CREATE PROCEDURE [Configuration].[InitialRead]
 (
 	@Id Numeric(10,0)
 )
@@ -63,40 +67,45 @@ BEGIN
 	SELECT 
 		Id,
 		[Name]
-	FROM Initial
+	FROM [Configuration].Initial
 	WHERE Id = @Id   
 	
 END
 
 GO
 
-/****** Object:  StoredProcedure [dbo].[InitialReadAll]    Script Date: 05/02/2012 23:10:07 ******/
+/****** Object:  StoredProcedure [Configuration].[InitialReadAll]    Script Date: 09/19/2013 17:54:23 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[InitialReadAll]
+
+
+CREATE PROCEDURE [Configuration].[InitialReadAll]
 AS
 BEGIN
 	
 	SELECT 
 		Id,
 		[Name]
-	FROM Initial
+	FROM [Configuration].Initial
    
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[InitialUpdate]    Script Date: 05/02/2012 23:10:39 ******/
+
+/****** Object:  StoredProcedure [Configuration].[InitialUpdate]    Script Date: 09/19/2013 17:54:47 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[InitialUpdate]
+
+
+CREATE PROCEDURE [Configuration].[InitialUpdate]
 (
 	@Id Numeric(10,0),
 	@Name Varchar(50)
@@ -104,7 +113,7 @@ CREATE PROCEDURE [dbo].[InitialUpdate]
 AS
 BEGIN
 	
-	UPDATE Initial
+	UPDATE [Configuration].Initial
 	SET	
 		[Name] = @Name	
 	WHERE Id = @Id
@@ -113,14 +122,16 @@ END
 
 GO
 
-/****** Object:  StoredProcedure [dbo].[InitialDelete]    Script Date: 05/02/2012 23:11:18 ******/
+/****** Object:  StoredProcedure [Configuration].[InitialDelete]    Script Date: 09/19/2013 17:55:13 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[InitialDelete]
+
+
+CREATE PROCEDURE [Configuration].[InitialDelete]
 (
 	@Id Numeric(10,0)
 )
@@ -128,25 +139,30 @@ AS
 BEGIN
 	
 	DELETE 		
-	FROM Initial
+	FROM [Configuration].Initial
 	WHERE Id = @Id   
    
 END
 
 GO
 
+/****** Object:  StoredProcedure [Configuration].[InitialReadDuplicate]    Script Date: 09/19/2013 17:55:37 ******/
+SET ANSI_NULLS ON
 GO
-/****** Object:  StoredProcedure [dbo].[InitialReadDuplicate]    Script Date: 04/29/2013 14:59:16 ******/
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[InitialReadDuplicate]') AND type in (N'U'))
-Begin
-EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[InitialReadDuplicate]
-	(
-		@Name VARCHAR(10)		
-	)
-	AS
-	BEGIN
-		SELECT Id	
-		FROM Initial 
-		WHERE Name = @Name				
-	END'
-End
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [Configuration].[InitialReadDuplicate]
+(
+	@Name VARCHAR(50)		
+)
+AS
+BEGIN
+	SELECT Id	
+	FROM [Configuration].Initial 
+	WHERE Name = @Name				
+END
+
+GO
