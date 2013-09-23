@@ -15,10 +15,10 @@ namespace Crystal.Navigator.Rule
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "NavigatorRuleInsert";
+            base.CreateStoredProcedure = "Navigator.RuleInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "NavigatorRuleRead";
-            base.UpdateStoredProcedure = "NavigatorRuleUpdate";
+            base.ReadStoredProcedure = "Navigator.RuleRead";
+            base.UpdateStoredProcedure = "Navigator.RuleUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
         }
 
