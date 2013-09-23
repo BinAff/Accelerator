@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 using BinAff.Utility;
+using System;
 
 namespace Crystal.Guardian.Component.SecurityQuestion
 {
@@ -22,10 +23,16 @@ namespace Crystal.Guardian.Component.SecurityQuestion
 
             if (ValidationRule.IsNullOrEmpty(data.Question))
                 retMsg.Add(new Message("Security question cannot be empty.", Message.Type.Error));
+            else if (this.IsExist(data))
+                retMsg.Add(new Message("Same Security question already exists.", Message.Type.Error));
 
             return retMsg;
         }
 
+        private Boolean IsExist(Data data)
+        {
+            return new Dao(data).ReadDuplicate();
+        }
     }
 
 }
