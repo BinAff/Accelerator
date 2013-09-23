@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-//using BinAff.Core;
-//using BinAff.Utility;
+using BinAff.Core;
+using FacadeBuilding = Vanilla.Configuration.Lodge.Facade.Building;
+using PresentationLibrary = BinAff.Presentation.Library;
+using BinAff.Utility;
 
-//using AutoTourism.Presentation.Library;
-
-//using AutoTourism.Facade.Configuration.Building;
-
-namespace AutoTourism.Configuration
+namespace Vanilla.Configuration.Lodge.WinForm
 {
 
     public partial class Building : Form
@@ -21,8 +18,7 @@ namespace AutoTourism.Configuration
             Open = 10001,
             Close = 10002
         }
-
-
+        
         public Building()
         {
             InitializeComponent();
@@ -42,129 +38,128 @@ namespace AutoTourism.Configuration
 
         private void Building_Load(object sender, System.EventArgs e)
         {
-            //LoadForm();
-            //Clear();
+            LoadForm();
+            Clear();
         }
 
-        //protected override void btnAdd_Click(object sender, System.EventArgs e)
-        //{
-            //if (ValidateUser())
-            //{
-            //    Dto buildingDto = new Dto()
-            //    {
-            //        Name = txtName.Text.Trim(),
-            //        Floor = (List<Int32>)lstFloorList.DataSource,
-            //        Type = (AutoTourism.Facade.Configuration.BuildingType.Dto)this.cboType.SelectedItem,
-            //        DefaultFloor = Convert.ToInt32(this.cboFloor.SelectedItem),
-            //        IsDefault = chkDefault.Checked
-            //    };
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (ValidateUser())
+            {
+                FacadeBuilding.Dto buildingDto = new FacadeBuilding.Dto()
+                {
+                    Name = txtName.Text.Trim(),
+                    FloorList = (List<Int32>)lstFloorList.DataSource,
+                    Type = (FacadeBuilding.BuildingType.Dto)this.cboType.SelectedItem,
+                    Status = new Table { Id = Convert.ToInt64(BuildingStatus.Open) }
+                };
 
-            //    if (!ValidateUnique(buildingDto) && OverWriteDefaultIfExists(buildingDto))
-            //    {
-            //        IBuilding building = new BuildingServer();
-            //        ReturnObject<Boolean> ret = building.Add(buildingDto);
+                if (!ValidateUnique(buildingDto))
+                {
+                    FacadeBuilding.IBuilding building = new FacadeBuilding.BuildingServer();
+                    ReturnObject<Boolean> ret = building.Add(buildingDto);
+                    new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message  
+                    LoadForm();
+                    Clear();
+                }
+            }
+        }        
+        
+        private void btnChange_Click(object sender, EventArgs e)
+        {
+            if (this.cboBuildingList.SelectedIndex == -1)
+            {
+                //Show message
+                new PresentationLibrary.MessageBox("Please select one building", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);
+                return;
+            }
 
-            //        base.ShowMessage(ret); //Show message     
-            //    }
-            //}
-        //}
+            if (ValidateUser())
+            {
+                FacadeBuilding.Dto buildingDto = new FacadeBuilding.Dto()
+                {
+                    Id = ((FacadeBuilding.Dto)this.cboBuildingList.SelectedItem).Id,
+                    Name = txtName.Text.Trim(),
+                    FloorList = (List<Int32>)lstFloorList.DataSource,
+                    Type = (FacadeBuilding.BuildingType.Dto)this.cboType.SelectedItem,                  
+                };
 
-        //protected override void btnChange_Click(object sender, EventArgs e)
-        //{
-            //if (this.cboBuildingList.SelectedIndex == -1)
-            //{
-            //    //Show message
-            //    new MessageBox("Please select one building", MessageBox.Type.Alert).ShowDialog(this);
-            //    return;
-            //}
+                if (!ValidateUnique(buildingDto))
+                {
+                    FacadeBuilding.IBuilding building = new FacadeBuilding.BuildingServer();
+                    ReturnObject<Boolean> ret = building.Change(buildingDto);
 
-            //if (ValidateUser())
-            //{
-            //    Dto buildingDto = new Dto()
-            //    {
-            //        Id = ((Dto)this.cboBuildingList.SelectedItem).Id,
-            //        Name = txtName.Text.Trim(),
-            //        Floor = (List<Int32>)lstFloorList.DataSource,
-            //        Type = (AutoTourism.Facade.Configuration.BuildingType.Dto)this.cboType.SelectedItem,
-            //        DefaultFloor = Convert.ToInt32(this.cboFloor.SelectedItem),
-            //        IsDefault = chkDefault.Checked,
-            //    };
+                    new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message        
+                    LoadForm();
+                    Clear();
+                }
+            }
+        }
 
-            //    if (!ValidateUnique(buildingDto) && OverWriteDefaultIfExists(buildingDto))
-            //    {
-            //        IBuilding building = new BuildingServer();
-            //        ReturnObject<Boolean> ret = building.Change(buildingDto);
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (this.cboBuildingList.SelectedIndex == -1)
+            {
+                //Show message
+                new PresentationLibrary.MessageBox("Please select one building.", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);
+                return;
+            }
 
-            //        base.ShowMessage(ret); //Show message                    
-            //    }
+            if (System.Windows.Forms.MessageBox.Show("Are you sure you want to delete the building.?", "Building Delete",
+                            System.Windows.Forms.MessageBoxButtons.YesNo,
+                            System.Windows.Forms.MessageBoxIcon.Question)
+                              == System.Windows.Forms.DialogResult.Yes)
+            {
 
-            //}
-        //}
+                FacadeBuilding.IBuilding building = new FacadeBuilding.BuildingServer();
+                ReturnObject<Boolean> ret = building.Delete(new FacadeBuilding.Dto()
+                {
+                    Id = ((FacadeBuilding.Dto)this.cboBuildingList.SelectedItem).Id
+                });
 
-        //protected override void btnDelete_Click(object sender, EventArgs e)
-        //{
-            //if (this.cboBuildingList.SelectedIndex == -1)
-            //{
-            //    //Show message
-            //    new MessageBox("Please select one building.", MessageBox.Type.Alert).ShowDialog(this);
-            //    return;
-            //}
-
-            //if (System.Windows.Forms.MessageBox.Show("Are you sure you want to delete the building.?", "Building Delete",
-            //                System.Windows.Forms.MessageBoxButtons.YesNo,
-            //                System.Windows.Forms.MessageBoxIcon.Question)
-            //                  == System.Windows.Forms.DialogResult.Yes)
-            //{
-
-            //    IBuilding building = new BuildingServer();
-            //    ReturnObject<Boolean> ret = building.Delete(new Dto()
-            //    {
-            //        Id = ((Dto)this.cboBuildingList.SelectedItem).Id
-            //    });
-
-            //    base.ShowMessage(ret); //Show message
-            //}
-            //else Clear();
-        //}
-
-        //protected override void btnRefresh_Click(object sender, EventArgs e)
-        //{
-            //LoadForm();
-            //Clear();
-        //}
+                new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message                         
+            }
+            else Clear();
+        }
+        
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            LoadForm();
+            Clear();
+        }
 
         private void bttnAddContact_Click(object sender, EventArgs e)
         {
-            //errorProvider.Clear();
+            errorProvider.Clear();
 
-            //ReturnObject<List<Int32>> retObj;
-            //if (txtFloor.Text.Trim() != String.Empty)
-            //{
-            //    if (ValidationRule.IsInteger(txtFloor.Text.Trim()))
-            //    {
-            //        retObj = GetFloorList(Convert.ToInt32(txtFloor.Text.Trim()), (List<Int32>)lstFloorList.DataSource);
-            //        if (retObj.HasError())
-            //            errorProvider.SetError(txtFloor, "Entered floor already exists.");
-            //        else
-            //        {
-            //            lstFloorList.DataSource = null;
-            //            lstFloorList.DataSource = retObj.Value;
-            //            lstFloorList.SelectedIndex = -1;
+            ReturnObject<List<Int32>> retObj;
+            if (txtFloor.Text.Trim() != String.Empty)
+            {
+                if (ValidationRule.IsInteger(txtFloor.Text.Trim()))
+                {
+                    retObj = GetFloorList(Convert.ToInt32(txtFloor.Text.Trim()), (List<Int32>)lstFloorList.DataSource);
+                    if (retObj.HasError())
+                        errorProvider.SetError(txtFloor, "Entered floor already exists.");
+                    else
+                    {
+                        lstFloorList.DataSource = null;
+                        lstFloorList.DataSource = retObj.Value;
+                        lstFloorList.SelectedIndex = -1;
 
-            //            //populate Default floor
-            //            List<Int32> DefaultFloorList = new List<Int32>();
-            //            foreach (Int32 dFloor in retObj.Value)
-            //            {
-            //                DefaultFloorList.Add(dFloor);
-            //            }
-            //            cboFloor.DataSource = null;
-            //            cboFloor.DataSource = DefaultFloorList;
-            //        }
-            //        txtFloor.Text = String.Empty;
-            //    }
-            //    else
-            //        errorProvider.SetError(txtFloor, "Please enter integer values.");
-            //}
+                        //populate Default floor
+                        List<Int32> DefaultFloorList = new List<Int32>();
+                        foreach (Int32 dFloor in retObj.Value)
+                        {
+                            DefaultFloorList.Add(dFloor);
+                        }
+                        //cboFloor.DataSource = null;
+                        //cboFloor.DataSource = DefaultFloorList;
+                    }
+                    txtFloor.Text = String.Empty;
+                }
+                else
+                    errorProvider.SetError(txtFloor, "Please enter integer values.");
+            }
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
@@ -200,162 +195,150 @@ namespace AutoTourism.Configuration
                 {
                     DefaultFloorList.Add(dFloor);
                 }
-                cboFloor.DataSource = null;
-                cboFloor.DataSource = DefaultFloorList;
+                //cboFloor.DataSource = null;
+                //cboFloor.DataSource = DefaultFloorList;
             }
         }
 
         private void cboBuildingList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //if (this.cboBuildingList.SelectedIndex != -1)
-            //{
-            //    Dto data = (Dto)this.cboBuildingList.SelectedItem;
-            //    txtName.Text = data.Name;
-            //    chkDefault.Checked = data.IsDefault;
+            if (this.cboBuildingList.SelectedIndex != -1)
+            {
+                FacadeBuilding.Dto data = (FacadeBuilding.Dto)this.cboBuildingList.SelectedItem;
+                txtName.Text = data.Name;
 
-            //    lstFloorList.DataSource = data.Floor;
-            //    lstFloorList.SelectedIndex = -1;
+                lstFloorList.DataSource = data.FloorList;                
+                lstFloorList.SelectedIndex = -1;
 
-            //    for (int i = 0; i < cboType.Items.Count; i++)
-            //    {
-            //        if (data.Type.Id == ((AutoTourism.Facade.Configuration.BuildingType.Dto)cboType.Items[i]).Id)
-            //        {
-            //            cboType.SelectedIndex = i;
-            //            break;
-            //        }
-            //    }
-
-            //    //populate Default floor
-            //    if (data.Floor != null)
-            //    {
-            //        List<Int32> DefaultFloorList = new List<Int32>();
-            //        foreach (Int32 dFloor in data.Floor)
-            //        {
-            //            DefaultFloorList.Add(dFloor);
-            //        }
-            //        cboFloor.DataSource = null;
-            //        cboFloor.DataSource = DefaultFloorList;
-            //        cboFloor.SelectedItem = data.DefaultFloor;
-            //    }
-            //}
+                for (int i = 0; i < cboType.Items.Count; i++)
+                {
+                    if (data.Type.Id == ((FacadeBuilding.BuildingType.Dto)cboType.Items[i]).Id)
+                    {
+                        cboType.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
         }
 
-        //protected override void btnClose_Click(object sender, EventArgs e)
-        //{
-            //if (this.cboBuildingList.SelectedIndex == -1)
-            //{
-            //    //Show message
-            //    new MessageBox("Please select one building.", MessageBox.Type.Alert).ShowDialog(this);
-            //    return;
-            //}
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            if (this.cboBuildingList.SelectedIndex == -1)
+            {
+                //Show message
+                new PresentationLibrary.MessageBox("Please select one building.", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);
+                return;
+            }
 
-            //Facade.Configuration.Building.Dto dto = (Facade.Configuration.Building.Dto)this.cboBuildingList.SelectedItem;
-            //if (dto.Status.Id == Convert.ToInt64(BuildingStatus.Close))
-            //{
-            //    ReturnObject<Boolean> ret = new ReturnObject<Boolean>() { 
-            //        Value = true,
-            //        MessageList = new List<Message>(),
-            //    };
-            //    ret.MessageList.Add(new Message("Building is already closed.", Message.Type.Information));
-            //    base.ShowMessage(ret);
-            //}
-            //else
-            //{
-            //    new ReasonDialog(Convert.ToString(EnumDefination.FormName.Building), this.userDto, dto.Id,0).ShowDialog(this);
+            FacadeBuilding.Dto dto = (FacadeBuilding.Dto)this.cboBuildingList.SelectedItem;
+            if (dto.Status.Id == Convert.ToInt64(BuildingStatus.Close))
+            {
+                ReturnObject<Boolean> ret = new ReturnObject<Boolean>()
+                {
+                    Value = true,
+                    MessageList = new List<BinAff.Core.Message>(),
+                };
+                ret.MessageList.Add(new BinAff.Core.Message("Building is already closed.", BinAff.Core.Message.Type.Information));
+                new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message   
+            }
+            else
+            {
+                //new ReasonDialog(Convert.ToString(EnumDefination.FormName.Building), this.userDto, dto.Id, 0).ShowDialog(this);
 
-            //    LoadForm();
-            //    Clear();
-            //}
-        //}
+                LoadForm();
+                Clear();
+            }
+        }
 
-        //protected override void btnOpen_Click(object sender, EventArgs e)
-        //{
-            //if (this.cboBuildingList.SelectedIndex == -1)
-            //{
-            //    //Show message
-            //    new MessageBox("Please select one building.", MessageBox.Type.Alert).ShowDialog(this);
-            //    return;
-            //}
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            if (this.cboBuildingList.SelectedIndex == -1)
+            {
+                //Show message
+                new PresentationLibrary.MessageBox("Please select one building.", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);
+                return;
+            }
 
-            //if (((Dto)this.cboBuildingList.SelectedItem).Status.Id != Convert.ToInt64(BuildingStatus.Close))
-            //{
-            //    new MessageBox("Unable to open building. Only closed buildings can be opened", MessageBox.Type.Error).ShowDialog(this);//Show message
-            //    return;
-            //}
-           
-            //Facade.Configuration.Building.Dto dto = (Facade.Configuration.Building.Dto)this.cboBuildingList.SelectedItem;
-            //if (dto.Status.Id == Convert.ToInt64(BuildingStatus.Open))
-            //{
-            //    ReturnObject<Boolean> ret = new ReturnObject<Boolean>()
-            //    {
-            //        Value = true,
-            //        MessageList = new List<Message>(),
-            //    };
-            //    ret.MessageList.Add(new Message("Building is already open.", Message.Type.Information));
-            //    base.ShowMessage(ret);
-            //}
-            //else
-            //{
-            //    IBuilding building = new BuildingServer();
-            //    ReturnObject<Boolean> ret = building.Open(new Dto()
-            //    {
-            //        Id = ((Dto)this.cboBuildingList.SelectedItem).Id,
-            //    });
+            if (((FacadeBuilding.Dto)this.cboBuildingList.SelectedItem).Status.Id != Convert.ToInt64(BuildingStatus.Close))
+            {
+                new PresentationLibrary.MessageBox("Unable to open building. Only closed buildings can be opened", PresentationLibrary.MessageBox.Type.Error).ShowDialog(this);//Show message
+                return;
+            }
 
-            //    base.ShowMessage(ret);
-            //    LoadForm();
-            //    Clear();
+            FacadeBuilding.Dto dto = (FacadeBuilding.Dto)this.cboBuildingList.SelectedItem;
+            if (dto.Status.Id == Convert.ToInt64(BuildingStatus.Open))
+            {
+                ReturnObject<Boolean> ret = new ReturnObject<Boolean>()
+                {
+                    Value = true,
+                    MessageList = new List<BinAff.Core.Message>(),
+                };
+                ret.MessageList.Add(new BinAff.Core.Message("Building is already open.", BinAff.Core.Message.Type.Information));
+                new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message                  
+            }
+            else
+            {
+                FacadeBuilding.IBuilding building = new FacadeBuilding.BuildingServer();
+                ReturnObject<Boolean> ret = building.Open(new FacadeBuilding.Dto()
+                {
+                    Id = ((FacadeBuilding.Dto)this.cboBuildingList.SelectedItem).Id,
+                });
+                
+                new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message     
+                LoadForm();
+                Clear();
 
-            //}
-        //}
+            }
+        }
 
-        //protected override void LoadForm()
-        //{
-            //IBuilding building = new BuildingServer();
-            //ReturnObject<FormDto> ret = building.LoadForm();
+        private void LoadForm()
+        {
+            FacadeBuilding.IBuilding building = new FacadeBuilding.BuildingServer();
+            ReturnObject<FacadeBuilding.FormDto> ret = building.LoadForm();
 
-            ////Populate Floor List
-            //this.cboBuildingList.DataSource = ret.Value.BuildingList;
-            //this.cboBuildingList.DisplayMember = "Name";
-            //this.cboBuildingList.ValueMember = "Id";
-            //this.cboBuildingList.SelectedIndex = -1;
+            //Populate Building List
+            this.cboBuildingList.DataSource = ret.Value.BuildingList;
+            this.cboBuildingList.DisplayMember = "Name";
+            this.cboBuildingList.ValueMember = "Id";
+            this.cboBuildingList.SelectedIndex = -1;
 
-            ////populate Type List
-            //this.cboType.DataSource = ret.Value.TypeList;
-            //this.cboType.DisplayMember = "Name";
-            //this.cboType.ValueMember = "Id";
-        //}
+            //populate Type List
+            this.cboType.DataSource = ret.Value.TypeList;
+            this.cboType.DisplayMember = "Name";
+            this.cboType.ValueMember = "Id";
+        }
 
-        //protected override void Clear()
-        //{
-        //    this.txtName.Text = String.Empty;
-        //    this.txtFloor.Text = String.Empty;
-        //    this.lstFloorList.DataSource = null;
-        //    this.cboFloor.DataSource = null;
-        //    this.chkDefault.Checked = false;
-        //}
+        private void Clear()
+        {
+            this.txtName.Text = String.Empty;
+            this.txtFloor.Text = String.Empty;
+            this.lstFloorList.DataSource = null;
+            //this.cboFloor.DataSource = null;
+            //this.chkDefault.Checked = false;
+        }
 
-        //private Boolean ValidateUnique(Dto data)
-        //{
-        //    List<Dto> list = (List<Dto>)this.cboBuildingList.DataSource;
-        //    foreach (Dto dto in list)
-        //    {
-        //        if (dto.Name.ToUpper() == txtName.Text.Trim().ToUpper() && dto.Id != data.Id)
-        //        {
-        //            //Show message // TO DO :: Need to change
-        //            new MessageBox("Building already exists.", MessageBox.Type.Information).ShowDialog(this);
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
+        private Boolean ValidateUnique(FacadeBuilding.Dto data)
+        {
+            List<FacadeBuilding.Dto> list = (List<FacadeBuilding.Dto>)this.cboBuildingList.DataSource;
+            foreach (FacadeBuilding.Dto dto in list)
+            {
+                if (dto.Name.ToUpper() == txtName.Text.Trim().ToUpper() && dto.Id != data.Id)
+                {
+                    //Show message // TO DO :: Need to change
+                    new PresentationLibrary.MessageBox("Building already exists.", PresentationLibrary.MessageBox.Type.Information).ShowDialog(this);                    
+                    
+                    return true;
+                }
+            }
+            return false;
+        }
 
-        //private Boolean OverWriteDefaultIfExists(Dto data)
+        //private Boolean OverWriteDefaultIfExists(FacadeBuilding.Dto data)
         //{
         //    if (chkDefault.Checked)
         //    {
-        //        List<Dto> list = (List<Dto>)this.cboBuildingList.DataSource;
-        //        foreach (Dto dto in list)
+        //        List<FacadeBuilding.Dto> list = (List<FacadeBuilding.Dto>)this.cboBuildingList.DataSource;
+        //        foreach (FacadeBuilding.Dto dto in list)
         //        {
         //            if (dto.Id != data.Id && dto.IsDefault)
         //            {
@@ -407,38 +390,38 @@ namespace AutoTourism.Configuration
             return retVal;
         }
 
-        //private ReturnObject<List<Int32>> GetFloorList(Int32 val, List<Int32> floor)
-        //{
-        //    ReturnObject<List<Int32>> retObj = new ReturnObject<List<int>>()
-        //    {
-        //        Value = new List<Int32>()
-        //    };
+        private ReturnObject<List<Int32>> GetFloorList(Int32 val, List<Int32> floor)
+        {
+            ReturnObject<List<Int32>> retObj = new ReturnObject<List<int>>()
+            {
+                Value = new List<Int32>()
+            };
 
-        //    if (floor == null || floor.Count == 0)
-        //        retObj.Value.Add(val);
-        //    else
-        //    {
-        //        foreach (Int32 i in floor)
-        //        {
-        //            if (i == val)
-        //            {
-        //                retObj.Value = floor;
+            if (floor == null || floor.Count == 0)
+                retObj.Value.Add(val);
+            else
+            {
+                foreach (Int32 i in floor)
+                {
+                    if (i == val)
+                    {
+                        retObj.Value = floor;
 
-        //                retObj.MessageList = new List<BinAff.Core.Message>();
-        //                retObj.MessageList.Add(new BinAff.Core.Message()
-        //                {
-        //                    Description = "Duplicate",
-        //                    Category = BinAff.Core.Message.Type.Error
-        //                });
-        //                return retObj;
-        //            }
-        //        }
-        //        floor.Add(val);
-        //        retObj.Value = floor;
-        //    }
+                        retObj.MessageList = new List<BinAff.Core.Message>();
+                        retObj.MessageList.Add(new BinAff.Core.Message()
+                        {
+                            Description = "Duplicate",
+                            Category = BinAff.Core.Message.Type.Error
+                        });
+                        return retObj;
+                    }
+                }
+                floor.Add(val);
+                retObj.Value = floor;
+            }
 
-        //    return retObj;
-        //}
+            return retObj;
+        }
 
     }
 

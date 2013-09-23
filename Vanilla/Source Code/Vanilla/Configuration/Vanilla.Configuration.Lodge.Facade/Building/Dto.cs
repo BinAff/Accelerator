@@ -10,7 +10,8 @@ namespace Vanilla.Configuration.Lodge.Facade.Building
     {
 
         public String Name { get; set; }
-        public List<Int32> Floor { get; set; }
+        public List<Int32> FloorList { get; set; }        
+
         public BuildingType.Dto Type { get; set; }
         public Int32 DefaultFloor { get; set; }
         public Boolean IsDefault { get; set; }

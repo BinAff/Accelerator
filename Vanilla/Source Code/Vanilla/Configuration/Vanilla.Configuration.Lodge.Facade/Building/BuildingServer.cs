@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 
 using BinAff.Core;
-
-//using AutoTourism.Facade.Library;
-
-using Crystal.Lodge.Component.Building;
+using ComponentBuilding = Crystal.Lodge.Component.Building;
+using ComponentOrganization = Crystal.Organization.Component;
 using System.Transactions;
+using BinAff.Utility;
+
 
 namespace Vanilla.Configuration.Lodge.Facade.Building
 {
@@ -66,7 +66,7 @@ namespace Vanilla.Configuration.Lodge.Facade.Building
         private ReturnObject<List<Dto>> ReadAllBuilding()
         {
             ReturnObject<List<Dto>> retObj = new ReturnObject<List<Dto>>();
-            ICrud crud = new Server(new Crystal.Lodge.Component.Building.Data());
+            ICrud crud = new ComponentBuilding.Server(new ComponentBuilding.Data());
             ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
 
             if (lstData.HasError())
@@ -88,14 +88,20 @@ namespace Vanilla.Configuration.Lodge.Facade.Building
                 ret.Value.Add(new Dto
                 {
                     Id = data.Id,
-                    Name = ((Crystal.Lodge.Component.Building.Data)data).Name,
+                    Name = ((ComponentBuilding.Data)data).Name,
                     Type = new BuildingType.Dto
                     {
-                        Id = ((Crystal.Lodge.Component.Building.Data)data).Type.Id,
+                        Id = ((ComponentBuilding.Data)data).Type.Id,
+                        Name = ((ComponentBuilding.Data)data).Type.Name,
                     },
-                    //DefaultFloor = ((Crystal.Lodge.Component.Building.Data)data).DefaultFloor,
-                    //Floor = ((Crystal.Lodge.Component.Building.Data)data).Floor,
-                    //Status = ((Crystal.Lodge.Component.Building.Data)data).Status,
+                    FloorList = GetFloorList(((ComponentBuilding.Data)data).FloorList),
+                    Status = new Table{
+                        Id = ((ComponentBuilding.Data)data).Status.Id,
+                        Name = ((ComponentBuilding.Data)data).Status.Name,
+                    },
+                    
+                    //-- Below code are for second phase implementation
+                    //DefaultFloor = ((Crystal.Lodge.Component.Building.Data)data).DefaultFloor,  
                     //IsDefault = ((Crystal.Lodge.Component.Building.Data)data).IsDefault,                    
                 });
             }
@@ -105,7 +111,7 @@ namespace Vanilla.Configuration.Lodge.Facade.Building
 
         private ReturnObject<List<BuildingType.Dto>> ReadAllBuildingType()
         {
-            ICrud crud = new Crystal.Lodge.Component.Building.Type.Server(null);
+            ICrud crud = new ComponentBuilding.Type.Server(null);
             ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
 
             if (dataList.HasError())
@@ -127,7 +133,7 @@ namespace Vanilla.Configuration.Lodge.Facade.Building
                 ret.Value.Add(new BuildingType.Dto
                 {
                     Id = data.Id,
-                    Name = ((Crystal.Lodge.Component.Building.Type.Data)data).Name
+                    Name = ((ComponentBuilding.Type.Data)data).Name
                 });
             }
          
@@ -136,27 +142,40 @@ namespace Vanilla.Configuration.Lodge.Facade.Building
 
         private ReturnObject<Boolean> Add(Dto dto)
         {
-            ICrud crud = new Server(new Crystal.Lodge.Component.Building.Data
+
+            ICrud organizationCrud = new ComponentOrganization.Server(new ComponentOrganization.Data { Id = 1 });
+            ReturnObject<Data> organizationData = organizationCrud.Read();
+
+            ICrud crud = new ComponentBuilding.Server(new ComponentBuilding.Data
             {
                 Name = dto.Name,
-                //Floor = dto.Floor,
-                //BuildingType = new Crystal.Lodge.Component.Building.Type.Data
-                //{
-                //    Id = dto.Type.Id,
-                //    Name = dto.Type.Name,
-                //},
+                FloorList = GetFloorListForBuildingComponent(dto.FloorList),
+                Type = new ComponentBuilding.Type.Data
+                {
+                    Id = dto.Type.Id,
+                    Name = dto.Type.Name,
+                },
+                Organization = (ComponentOrganization.Data)organizationData.Value,
+                Status = new ComponentBuilding.Status.Data { Id = dto.Status.Id }
                 //DefaultFloor = dto.DefaultFloor,
                 //IsDefault = dto.IsDefault,
             });
-            return crud.Save();
+
+            return crud.Save();            
         }
 
         private ReturnObject<Boolean> Change(Dto dto)
         {
-            ICrud crud = new Server(new Crystal.Lodge.Component.Building.Data
+            ICrud crud = new ComponentBuilding.Server(new ComponentBuilding.Data
             {
                 Id = dto.Id,
                 Name = dto.Name,
+                FloorList = GetFloorListForBuildingComponent(dto.FloorList),
+                Type = new ComponentBuilding.Type.Data
+                {
+                    Id = dto.Type.Id,
+                    Name = dto.Type.Name,
+                }
                 //Floor = dto.Floor,
                 //BuildingType = new Crystal.Lodge.Component.Building.Type.Data
                 //{
@@ -187,7 +206,7 @@ namespace Vanilla.Configuration.Lodge.Facade.Building
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
 
-            Crystal.Lodge.Component.Building.Data data = new Crystal.Lodge.Component.Building.Data
+            ComponentBuilding.Data data = new ComponentBuilding.Data
             {
                 //ClosureReasonList = new List<ClosureData>(),
             };
@@ -201,7 +220,7 @@ namespace Vanilla.Configuration.Lodge.Facade.Building
             //validate checkedin rooms.  Cannot close checkedin rooms
             Crystal.Lodge.Component.Room.IRoom roomServer = new Crystal.Lodge.Component.Room.Server(new Crystal.Lodge.Component.Room.Data()
             {
-                Building = new Crystal.Lodge.Component.Building.Data()
+                Building = new ComponentBuilding.Data()
                 {
                     Id = dto.Id,
                 }
@@ -262,7 +281,7 @@ namespace Vanilla.Configuration.Lodge.Facade.Building
                 //-- Close Room
                 Crystal.Lodge.Component.Room.IRoom roomServer = new Crystal.Lodge.Component.Room.Server(new Crystal.Lodge.Component.Room.Data()
                 {
-                    Building = new Crystal.Lodge.Component.Building.Data()
+                    Building = new ComponentBuilding.Data()
                     {
                         Id = dto.Id,
                     }
@@ -291,7 +310,7 @@ namespace Vanilla.Configuration.Lodge.Facade.Building
                 }
                 //--------------
                 //-- Close building
-                Crystal.Lodge.Component.Building.Data data = new Crystal.Lodge.Component.Building.Data
+                ComponentBuilding.Data data = new ComponentBuilding.Data
                 {
                     //ClosureReasonList = new List<ClosureData>(),
                 };
@@ -315,7 +334,7 @@ namespace Vanilla.Configuration.Lodge.Facade.Building
         private ReturnObject<Boolean> Open(Dto dto)
         {
             //open the closed building
-            Crystal.Lodge.Component.Building.IBuilding crud = new Server(new Crystal.Lodge.Component.Building.Data
+            ComponentBuilding.IBuilding crud = new ComponentBuilding.Server(new ComponentBuilding.Data
             {
                 Id = dto.Id
             });
@@ -364,6 +383,36 @@ namespace Vanilla.Configuration.Lodge.Facade.Building
             //}
 
             //return ret;
+        }
+
+        private List<Int32> GetFloorList(List<BinAff.Core.Data> FloorList)
+        {
+            List<Int32> FloorListDto = new List<Int32>();
+            if (FloorList != null && FloorList.Count > 0)
+            {
+                foreach (BinAff.Core.Data data in FloorList)
+                {
+                    ComponentBuilding.Floor.Data floorData = (ComponentBuilding.Floor.Data)data;
+                    if(ValidationRule.IsInteger(floorData.Name))
+                        FloorListDto.Add(Convert.ToInt32(floorData.Name));
+                }
+            }
+            return FloorListDto;
+        }
+
+        private List<BinAff.Core.Data> GetFloorListForBuildingComponent(List<Int32> FloorList)
+        {
+            List<BinAff.Core.Data> FloorListData = new List<BinAff.Core.Data>();
+            if (FloorList != null && FloorList.Count > 0)
+            {
+                foreach (Int32 i in FloorList)
+                {
+                    FloorListData.Add(new ComponentBuilding.Floor.Data{
+                        Name = i.ToString()
+                    });                   
+                }
+            }
+            return FloorListData;
         }
        
     }

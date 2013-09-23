@@ -1,4 +1,4 @@
-﻿namespace AutoTourism.Configuration
+﻿namespace Vanilla.Configuration.Lodge.WinForm
 {
     partial class Room
     {

@@ -5,7 +5,7 @@ using System;
 using System.Windows.Forms;
 //using BinAff.Utility;
 
-namespace AutoTourism.Configuration
+namespace Vanilla.Configuration.Lodge.WinForm
 {
     //public partial class Rule : OkForm
     public partial class Rule : Form

@@ -14,7 +14,7 @@ using System.Windows.Forms;
 //using AutoTourism.Facade.Configuration.State;
 //using AutoTourism.Facade.Configuration.PaymentType;
 
-namespace AutoTourism.Presentation.Configuration
+namespace Vanilla.Configuration.Lodge.WinForm
 {
 
     public partial class ConfigManager : Form

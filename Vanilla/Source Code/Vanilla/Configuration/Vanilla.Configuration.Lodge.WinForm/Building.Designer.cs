@@ -1,4 +1,4 @@
-﻿namespace AutoTourism.Configuration
+﻿namespace Vanilla.Configuration.Lodge.WinForm
 {
     partial class Building
     {
@@ -39,10 +39,13 @@
             this.bttnAddContact = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.lstFloorList = new System.Windows.Forms.ListBox();
-            this.cboFloor = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.chkDefault = new System.Windows.Forms.CheckBox();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnChange = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnOpen = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -92,6 +95,7 @@
             // 
             // cboType
             // 
+            this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboType.FormattingEnabled = true;
             this.cboType.Location = new System.Drawing.Point(261, 154);
             this.cboType.Name = "cboType";
@@ -109,7 +113,7 @@
             // 
             // bttnAddContact
             // 
-            this.bttnAddContact.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bttnAddContact.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bttnAddContact.Location = new System.Drawing.Point(318, 65);
             this.bttnAddContact.Name = "bttnAddContact";
             this.bttnAddContact.Size = new System.Drawing.Size(32, 22);
@@ -138,49 +142,84 @@
             this.lstFloorList.Size = new System.Drawing.Size(69, 82);
             this.lstFloorList.TabIndex = 76;
             // 
-            // cboFloor
-            // 
-            this.cboFloor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFloor.FormattingEnabled = true;
-            this.cboFloor.Location = new System.Drawing.Point(261, 181);
-            this.cboFloor.Name = "cboFloor";
-            this.cboFloor.Size = new System.Drawing.Size(61, 21);
-            this.cboFloor.TabIndex = 82;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(193, 184);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 13);
-            this.label3.TabIndex = 81;
-            this.label3.Text = "Default Floor";
-            // 
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
             // 
-            // chkDefault
+            // btnAdd
             // 
-            this.chkDefault.AutoSize = true;
-            this.chkDefault.Location = new System.Drawing.Point(261, 210);
-            this.chkDefault.Name = "chkDefault";
-            this.chkDefault.Size = new System.Drawing.Size(68, 17);
-            this.chkDefault.TabIndex = 133;
-            this.chkDefault.Text = "IsDefault";
-            this.chkDefault.UseVisualStyleBackColor = true;
+            this.btnAdd.Location = new System.Drawing.Point(13, 288);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 134;
+            this.btnAdd.Text = "Add";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnChange
+            // 
+            this.btnChange.Location = new System.Drawing.Point(94, 287);
+            this.btnChange.Name = "btnChange";
+            this.btnChange.Size = new System.Drawing.Size(75, 23);
+            this.btnChange.TabIndex = 135;
+            this.btnChange.Text = "Change";
+            this.btnChange.UseVisualStyleBackColor = true;
+            this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(176, 287);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 136;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(261, 287);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 137;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Location = new System.Drawing.Point(346, 287);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 138;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnOpen
+            // 
+            this.btnOpen.Location = new System.Drawing.Point(428, 287);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(75, 23);
+            this.btnOpen.TabIndex = 139;
+            this.btnOpen.Text = "Open";
+            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // Building
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(490, 287);
-            this.Controls.Add(this.chkDefault);
+            this.ClientSize = new System.Drawing.Size(522, 322);
+            this.Controls.Add(this.btnOpen);
+            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.btnRefresh);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnChange);
+            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.cboBuildingList);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.lblName);
-            this.Controls.Add(this.cboFloor);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.lstFloorList);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.bttnAddContact);
@@ -191,19 +230,6 @@
             this.Name = "Building";
             this.Text = "Building Configuration";
             this.Load += new System.EventHandler(this.Building_Load);
-            this.Controls.SetChildIndex(this.label6, 0);
-            this.Controls.SetChildIndex(this.cboType, 0);
-            this.Controls.SetChildIndex(this.txtFloor, 0);
-            this.Controls.SetChildIndex(this.label1, 0);
-            this.Controls.SetChildIndex(this.bttnAddContact, 0);
-            this.Controls.SetChildIndex(this.btnRemove, 0);
-            this.Controls.SetChildIndex(this.lstFloorList, 0);
-            this.Controls.SetChildIndex(this.label3, 0);
-            this.Controls.SetChildIndex(this.cboFloor, 0);
-            this.Controls.SetChildIndex(this.lblName, 0);
-            this.Controls.SetChildIndex(this.txtName, 0);
-            this.Controls.SetChildIndex(this.cboBuildingList, 0);
-            this.Controls.SetChildIndex(this.chkDefault, 0);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -222,9 +248,12 @@
         private System.Windows.Forms.Button bttnAddContact;
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.ListBox lstFloorList;
-        private System.Windows.Forms.ComboBox cboFloor;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ErrorProvider errorProvider;
-        private System.Windows.Forms.CheckBox chkDefault;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnChange;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnOpen;
     }
 }
