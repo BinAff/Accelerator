@@ -7,11 +7,12 @@
         public Server(Data data)
             : base(data)
         {
-            base.Data.Id = 1;
+            
         }
 
         protected override void Compose()
         {
+            base.Data.Id = 1;
             this.Name = "Navigator Rule";
             this.DataAccess = new Dao((Data)this.Data);
             this.Validator = new Validator((Data)this.Data);
@@ -26,6 +27,7 @@
         {
             return new Server((Data)data);
         }
+
     }
 
 }
