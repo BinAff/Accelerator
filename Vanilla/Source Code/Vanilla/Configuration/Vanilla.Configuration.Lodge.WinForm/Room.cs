@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 //using AutoTourism.Presentation.Library;
 
-namespace AutoTourism.Configuration
+namespace Vanilla.Configuration.Lodge.WinForm
 {
 
     public partial class Room : Form

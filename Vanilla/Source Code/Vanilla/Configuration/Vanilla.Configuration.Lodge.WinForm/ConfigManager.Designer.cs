@@ -1,4 +1,4 @@
-﻿namespace AutoTourism.Presentation.Configuration
+﻿namespace Vanilla.Configuration.Lodge.WinForm
 {
     partial class ConfigManager
     {
