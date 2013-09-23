@@ -30,18 +30,21 @@ namespace Vanilla.Guardian.Facade.Account
         /// <returns></returns>
         private List<Role.Dto> GetRoleList()
         {
-            //Cal component for list of roles
+            //Call component for list of roles
             ICrud server = new Crystal.Guardian.Component.Role.Server(null);
             ReturnObject<List<BinAff.Core.Data>> roleList = server.ReadAll();
             if (roleList == null)
             {
-                //Display error
+                this.DisplayMessageList = new List<String>
+                {
+                    "No role configured."
+                };
             }
             else
             {
                 if (roleList.HasError())
                 {
-                    //Display error
+                    this.DisplayMessageList = roleList.GetMessage(Message.Type.Error);
                 }
                 else
                 {
@@ -75,23 +78,26 @@ namespace Vanilla.Guardian.Facade.Account
             };
         }
 
-        public override void ConvertToDto()
+        protected override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            this.data.Id = ((FormDto)this.FormDto).Dto.Id;
-            this.data.LoginId = ((FormDto)this.FormDto).Dto.LoginId;
-            this.data.Password = ((FormDto)this.FormDto).Dto.Password;
-            this.data.RoleList = new System.Collections.Generic.List<BinAff.Core.Data>();
-            foreach (Role.Dto dto in ((FormDto)this.FormDto).Dto.RoleList)
+            Crystal.Guardian.Component.Account.Data accountdata = data as Crystal.Guardian.Component.Account.Data;
+            Facade.Account.Dto dto = new Dto();
+            accountdata.Id = dto.Id;
+            accountdata.LoginId = dto.LoginId;
+            accountdata.Password = dto.Password;
+            accountdata.RoleList = new List<BinAff.Core.Data>();
+            foreach (Role.Dto role in dto.RoleList)
             {
-                this.data.RoleList.Add(new Crystal.Guardian.Component.Role.Data
+                accountdata.RoleList.Add(new Crystal.Guardian.Component.Role.Data
                 {
-                    Id = dto.Id,
-                    Name = dto.Name,
+                    Id = role.Id,
+                    Name = role.Name,
                 });
             }
+            return dto;
         }
 
-        public override void ConvertFromDto()
+        protected override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
             throw new System.NotImplementedException();
         }
