@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
+using System.Collections.Generic;
 
 using GaurdianAcc = Crystal.Guardian.Component.Account;
 
@@ -20,67 +20,57 @@ namespace Crystal.Navigator.Component.Artifact
         {
             base.CreateStoredProcedure = "Navigator.ArtifactInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "ArtifactRead";
-            base.ReadAllStoredProcedure = "ArtifactReadAll";
-            base.UpdateStoredProcedure = "ArtifactUpdate";
+            base.ReadStoredProcedure = "Navigator.ArtifactRead";
+            base.ReadAllStoredProcedure = "Navigator.ArtifactReadAll";
+            base.UpdateStoredProcedure = "Navigator.ArtifactUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "ArtifactDelete";
+            base.DeleteStoredProcedure = "Navigator.ArtifactDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
-        protected override void AssignParameter(string procedureName)
+        protected override void AssignParameter(String procedureName)
         {
             Data data = this.Data as Data;
             base.AssignParameter(procedureName);
-            //base.AddInParameter("@Question", DbType.String,data.Name;
-            //base.AddInParameter("@Question", DbType.String, ((Data)this.Data).Question);
+            base.AddInParameter("@FileName", DbType.String, data.FileName);
+            base.AddInParameter("@ParentId", DbType.Int64, data.ParentId);
+            if (data.Id == 0) //Insert, so only created information
+            {
+                base.AddInParameter("@CreatedByUserId", DbType.Int64, data.CreatedBy.Id);
+                base.AddInParameter("@CreatedAt", DbType.DateTime, data.CreatedAt);
+            }
+            else //Update, so modification information
+            {
+                base.AddInParameter("@ModifiedByUserId", DbType.Int64, data.ModifiedBy.Id);
+                base.AddInParameter("@ModifiedAt", DbType.DateTime, data.ModifiedAt);
+            }
+            base.AddInParameter("@Style", DbType.Int64, data.Style);
         }
 
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
+        protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
-            Data dt = data as Data;
-            DataRow row;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            Data dt = (Data)data;
+            dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
+            dt.FileName = Convert.IsDBNull(dr["FileName"]) ? String.Empty : Convert.ToString(dr["FileName"]);
+            //dt.Path = Convert.IsDBNull(dr["Path"]) ? String.Empty : Convert.ToString(dr["Path"]);
+            dt.Style = Convert.IsDBNull(dr["Style"]) ? Artifact.Type.Directory : (Artifact.Type)(Convert.ToInt32(dr["Style"]));
+            dt.Version = Convert.IsDBNull(dr["Version"]) ? 0 : Convert.ToInt32(dr["Version"]);
+            dt.CreatedBy = new GaurdianAcc.Data
             {
-                row = ds.Tables[0].Rows[0];
-                
-                dt.Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]);
-                dt.Name = Convert.IsDBNull(row["Name"]) ? String.Empty : Convert.ToString(row["Name"]);
-                dt.FileName = Convert.IsDBNull(row["FileName"]) ? String.Empty : Convert.ToString(row["FileName"]);
-                dt.Path = Convert.IsDBNull(row["Path"]) ? String.Empty : Convert.ToString(row["Path"]);
-                dt.Style = Convert.IsDBNull(row["Style"]) ? Artifact.Data.Type.Directory : (Artifact.Data.Type)(row["Style"]);
-                dt.Version = Convert.IsDBNull(row["Version"]) ? 0 : Convert.ToInt32(row["Version"]);
-                dt.CreatedBy = new GaurdianAcc.Data
-                {
-                    Id = Convert.IsDBNull(row["CreatedByUserId"]) ? 0 : Convert.ToInt64(row["CreatedByUserId"])
-                };
+                Id = Convert.IsDBNull(dr["CreatedByUserId"]) ? 0 : Convert.ToInt64(dr["CreatedByUserId"])
+            };
+            if (!Convert.IsDBNull(dr["ModifiedByUserId"]) && Convert.ToInt64(dr["ModifiedByUserId"]) > 0)
+            {
                 dt.ModifiedBy = new GaurdianAcc.Data
                 {
-                    Id = Convert.IsDBNull(row["ModifiedByUserId"]) ? 0 : Convert.ToInt64(row["ModifiedByUserId"])
+                    Id = Convert.IsDBNull(dr["ModifiedByUserId"]) ? 0 : Convert.ToInt64(dr["ModifiedByUserId"])
                 };
-                dt.CreatedAt = Convert.IsDBNull(row["CreatedAt"]) ? DateTime.MinValue : Convert.ToDateTime(row["CreatedAt"]);
-                dt.ModifiedAt = Convert.IsDBNull(row["ModifiedAt"]) ? DateTime.MinValue : Convert.ToDateTime(row["ModifiedAt"]);
-                dt.ParentId = Convert.IsDBNull(row["ParentId"]) ? 0 : Convert.ToInt64(row["ParentId"]);
             }
+            dt.CreatedAt = Convert.IsDBNull(dr["CreatedAt"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CreatedAt"]);
+            dt.ModifiedAt = Convert.IsDBNull(dr["ModifiedAt"]) ? DateTime.MinValue : Convert.ToDateTime(dr["ModifiedAt"]);
+            dt.ParentId = Convert.IsDBNull(dr["ParentId"]) ? 0 : Convert.ToInt64(dr["ParentId"]);
+
             return dt;
-        }
-
-        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
-        {
-            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
-
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    ret.Add(new Data
-                    {
-                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
-                        //Question = Convert.IsDBNull(row["Question"]) ? String.Empty : Convert.ToString(row["Question"])
-                    });
-                }
-            }
-            return ret;
         }
        
     }
