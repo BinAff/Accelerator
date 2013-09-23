@@ -8,12 +8,7 @@ namespace Crystal.Navigator.Component.Artifact
 
     public class Data : BinAff.Core.Data
     {
-
-        /// <summary>
-        /// Name of Artifact
-        /// </summary>
-        public String Name { get; set; }
-
+        
         /// <summary>
         /// File name associaated with Artifact
         /// </summary>
@@ -32,7 +27,7 @@ namespace Crystal.Navigator.Component.Artifact
         /// <summary>
         /// Version number
         /// </summary>
-        public Int32 Version { get; set; }
+        public Int32 Version { get; internal set; }
 
         /// <summary>
         /// Created by user
@@ -52,20 +47,15 @@ namespace Crystal.Navigator.Component.Artifact
         /// <summary>
         /// Time when artifact last modified
         /// </summary>
-        public DateTime ModifiedAt { get; set; }
+        public DateTime? ModifiedAt { get; set; }
 
         /// <summary>
         /// Children of srtifact
         /// </summary>
         public List<Data> Children { get; set; }
 
-        internal Int64 ParentId { get; set; }
+        internal Int64? ParentId { get; set; }
 
-        public enum Type
-        {
-            Document,
-            Directory
-        }
 
     }
 
