@@ -16,13 +16,13 @@ namespace Crystal.Guardian.Component.SecurityQuestion
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "SecurityQuestionInsert";
+            base.CreateStoredProcedure = "[Gaurdian].SecurityQuestionInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "SecurityQuestionRead";
-            base.ReadAllStoredProcedure = "SecurityQuestionReadAll";
-            base.UpdateStoredProcedure = "SecurityQuestionUpdate";
+            base.ReadStoredProcedure = "[Gaurdian].SecurityQuestionRead";
+            base.ReadAllStoredProcedure = "[Gaurdian].SecurityQuestionReadAll";
+            base.UpdateStoredProcedure = "[Gaurdian].SecurityQuestionUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "SecurityQuestionDelete";
+            base.DeleteStoredProcedure = "[Gaurdian].SecurityQuestionDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -63,7 +63,26 @@ namespace Crystal.Guardian.Component.SecurityQuestion
             }
             return ret;
         }
-       
+
+        internal Boolean ReadDuplicate()
+        {
+            Data data = (Data)this.Data;
+            this.CreateConnection();
+            this.CreateCommand("[Gaurdian].SecurityQuestionReadDuplicate");
+            this.AddInParameter("@Name", DbType.String, data.Question);
+
+            DataSet ds = this.ExecuteDataSet();
+
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    if (!Convert.IsDBNull(dr["Id"]) && Convert.ToInt64(dr["Id"]) != this.Data.Id) return true;
+                }
+            }
+
+            return false;
+        }
     }
 
 }
