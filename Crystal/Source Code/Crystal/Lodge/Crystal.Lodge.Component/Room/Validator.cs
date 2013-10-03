@@ -30,9 +30,10 @@ namespace Crystal.Lodge.Component.Room
                 retMsg.Add(new Message("Type cannot be empty.", Message.Type.Error));
 
             if (ValidationRule.IsNullOrEmpty(data.Category) || (data.Category.Id == 0))
-                retMsg.Add(new Message("Category cannot be empty.", Message.Type.Error));
-
-            if (ValidationRule.IsNullOrEmpty(data.Status) || (data.Status.Id == 0))
+                retMsg.Add(new Message("Category cannot be empty.", Message.Type.Error));            
+           
+            //-- This validation is applicable only for insert
+            if ((data.Id == 0) && (ValidationRule.IsNullOrEmpty(data.Status) || (data.Status.Id == 0)))
                 retMsg.Add(new Message("Room status cannot be empty.", Message.Type.Error));
            
             return retMsg;

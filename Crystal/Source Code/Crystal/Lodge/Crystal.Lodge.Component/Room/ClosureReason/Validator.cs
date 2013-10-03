@@ -19,8 +19,8 @@ namespace Crystal.Lodge.Component.Room.ClosureReason
             if (ValidationRule.IsNullOrEmpty(data.Reason))
                 retMsg.Add(new Message("Room closure reason cannot be empty.", BinAff.Core.Message.Type.Error));
 
-            if (ValidationRule.IsDateLessThanToday(data.ClosedDate))
-                retMsg.Add(new Message("Closure date cannot be less than today.", Message.Type.Error));
+            //if (ValidationRule.IsDateLessThanToday(data.ClosedDate))
+            //    retMsg.Add(new Message("Closure date cannot be less than today.", Message.Type.Error));
 
             return retMsg;
         }
