@@ -693,7 +693,7 @@ namespace AutoTourism.Lodge.WinForm
                 };
 
                 LodgeFacade.Server facade = new LodgeFacade.Server(this.formDto);
-                facade.Save();
+                facade.Add();
                 if (facade.IsError)
                 {
                     //Show message
