@@ -56,17 +56,17 @@
       <DependentUpon>Lodge.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReasonDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReasonDialog.Designer.cs">
+      <DependentUpon>ReasonDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Room.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Room.Designer.cs">
       <DependentUpon>Room.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Rule.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Rule.Designer.cs">
-      <DependentUpon>Rule.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -79,11 +79,11 @@
     <EmbeddedResource Include="Lodge.resx">
       <DependentUpon>Lodge.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ReasonDialog.resx">
+      <DependentUpon>ReasonDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Room.resx">
       <DependentUpon>Room.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Rule.resx">
-      <DependentUpon>Rule.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +102,10 @@
     <ProjectReference Include="..\..\..\..\..\..\BinAff\Source Code\BinAff\Utility\BinAff.Utility.csproj">
       <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
       <Name>BinAff.Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\..\Vanilla\Source Code\Vanilla\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
+      <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
+      <Name>Vanilla.Guardian.Facade</Name>
     </ProjectReference>
     <ProjectReference Include="..\AutoTourism.Lodge.Configuration.Facade\AutoTourism.Lodge.Configuration.Facade.csproj">
       <Project>{4b8e9db9-1e3c-42e2-8a61-6bf503cd44af}</Project>

@@ -45,13 +45,20 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cboRoomList = new System.Windows.Forms.ComboBox();
-            this.chkIsDormitory = new System.Windows.Forms.CheckBox();
             this.picPhoto = new System.Windows.Forms.PictureBox();
             this.imlPhotos = new System.Windows.Forms.ImageList(this.components);
             this.btnDeleteImage = new System.Windows.Forms.Button();
             this.btnAddImage = new System.Windows.Forms.Button();
             this.lstImage = new System.Windows.Forms.ListBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnChange = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnOpen = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblRoomStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picPhoto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -202,16 +209,6 @@
             this.cboRoomList.TabIndex = 54;
             this.cboRoomList.SelectedIndexChanged += new System.EventHandler(this.cboRoomList_SelectedIndexChanged);
             // 
-            // chkIsDormitory
-            // 
-            this.chkIsDormitory.AutoSize = true;
-            this.chkIsDormitory.Location = new System.Drawing.Point(346, 258);
-            this.chkIsDormitory.Name = "chkIsDormitory";
-            this.chkIsDormitory.Size = new System.Drawing.Size(70, 17);
-            this.chkIsDormitory.TabIndex = 9;
-            this.chkIsDormitory.Text = "Dormitory";
-            this.chkIsDormitory.UseVisualStyleBackColor = true;
-            // 
             // picPhoto
             // 
             this.picPhoto.Location = new System.Drawing.Point(659, 41);
@@ -259,16 +256,100 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(15, 361);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 80;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(109, 361);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 81;
+            this.btnAdd.Text = "Add";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(203, 361);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 82;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnChange
+            // 
+            this.btnChange.Location = new System.Drawing.Point(296, 361);
+            this.btnChange.Name = "btnChange";
+            this.btnChange.Size = new System.Drawing.Size(75, 23);
+            this.btnChange.TabIndex = 83;
+            this.btnChange.Text = "Change";
+            this.btnChange.UseVisualStyleBackColor = true;
+            this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Location = new System.Drawing.Point(389, 361);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 84;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnOpen
+            // 
+            this.btnOpen.Location = new System.Drawing.Point(483, 361);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(75, 23);
+            this.btnOpen.TabIndex = 85;
+            this.btnOpen.Text = "Open";
+            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(201, 297);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(68, 13);
+            this.label5.TabIndex = 86;
+            this.label5.Text = "Room Status";
+            // 
+            // lblRoomStatus
+            // 
+            this.lblRoomStatus.AutoSize = true;
+            this.lblRoomStatus.Location = new System.Drawing.Point(293, 297);
+            this.lblRoomStatus.Name = "lblRoomStatus";
+            this.lblRoomStatus.Size = new System.Drawing.Size(0, 13);
+            this.lblRoomStatus.TabIndex = 87;
+            // 
             // Room
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(860, 285);
+            this.ClientSize = new System.Drawing.Size(860, 439);
+            this.Controls.Add(this.lblRoomStatus);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.btnOpen);
+            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.btnChange);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.lstImage);
             this.Controls.Add(this.btnAddImage);
             this.Controls.Add(this.btnDeleteImage);
             this.Controls.Add(this.picPhoto);
-            this.Controls.Add(this.chkIsDormitory);
             this.Controls.Add(this.cboType);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cboCategory);
@@ -288,27 +369,6 @@
             this.Name = "Room";
             this.Text = "Room Configuration";
             this.Load += new System.EventHandler(this.Room_Load);
-            this.Controls.SetChildIndex(this.cboRoomList, 0);
-            this.Controls.SetChildIndex(this.label2, 0);
-            this.Controls.SetChildIndex(this.txtName, 0);
-            this.Controls.SetChildIndex(this.label7, 0);
-            this.Controls.SetChildIndex(this.txtDesc, 0);
-            this.Controls.SetChildIndex(this.label8, 0);
-            this.Controls.SetChildIndex(this.txtNumber, 0);
-            this.Controls.SetChildIndex(this.chkIsAC, 0);
-            this.Controls.SetChildIndex(this.label1, 0);
-            this.Controls.SetChildIndex(this.cboBuilding, 0);
-            this.Controls.SetChildIndex(this.label3, 0);
-            this.Controls.SetChildIndex(this.cboFloor, 0);
-            this.Controls.SetChildIndex(this.label4, 0);
-            this.Controls.SetChildIndex(this.cboCategory, 0);
-            this.Controls.SetChildIndex(this.label6, 0);
-            this.Controls.SetChildIndex(this.cboType, 0);
-            this.Controls.SetChildIndex(this.chkIsDormitory, 0);
-            this.Controls.SetChildIndex(this.picPhoto, 0);
-            this.Controls.SetChildIndex(this.btnDeleteImage, 0);
-            this.Controls.SetChildIndex(this.btnAddImage, 0);
-            this.Controls.SetChildIndex(this.lstImage, 0);
             ((System.ComponentModel.ISupportInitialize)(this.picPhoto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
@@ -334,12 +394,19 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cboRoomList;
-        private System.Windows.Forms.CheckBox chkIsDormitory;
         private System.Windows.Forms.PictureBox picPhoto;
         private System.Windows.Forms.ImageList imlPhotos;
         private System.Windows.Forms.Button btnDeleteImage;
         private System.Windows.Forms.Button btnAddImage;
         private System.Windows.Forms.ListBox lstImage;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnChange;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnOpen;
+        private System.Windows.Forms.Label lblRoomStatus;
+        private System.Windows.Forms.Label label5;
     }
 }

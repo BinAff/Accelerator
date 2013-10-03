@@ -49,14 +49,15 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 FacadeBuilding.Dto buildingDto = new FacadeBuilding.Dto()
                 {
                     Name = txtName.Text.Trim(),
-                    FloorList = (List<Int32>)lstFloorList.DataSource,
-                    Type = (FacadeBuilding.BuildingType.Dto)this.cboType.SelectedItem,
+                    FloorList = (List<Table>)lstFloorList.DataSource,
+                    //FloorList = ConvertFloorListToTable((List<Int32>)lstFloorList.DataSource),
+                    Type = (FacadeBuilding.Type.Dto)this.cboType.SelectedItem,
                     Status = new Table { Id = Convert.ToInt64(BuildingStatus.Open) }
                 };
 
                 if (!ValidateUnique(buildingDto))
                 {
-                    FacadeBuilding.IBuilding building = new FacadeBuilding.BuildingServer();
+                    FacadeBuilding.IBuilding building = new FacadeBuilding.Server();
                     ReturnObject<Boolean> ret = building.Add(buildingDto);
                     new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message  
                     LoadForm();
@@ -80,13 +81,13 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 {
                     Id = ((FacadeBuilding.Dto)this.cboBuildingList.SelectedItem).Id,
                     Name = txtName.Text.Trim(),
-                    FloorList = (List<Int32>)lstFloorList.DataSource,
-                    Type = (FacadeBuilding.BuildingType.Dto)this.cboType.SelectedItem,                  
+                    FloorList = (List<Table>)lstFloorList.DataSource,
+                    Type = (FacadeBuilding.Type.Dto)this.cboType.SelectedItem,                  
                 };
 
                 if (!ValidateUnique(buildingDto))
                 {
-                    FacadeBuilding.IBuilding building = new FacadeBuilding.BuildingServer();
+                    FacadeBuilding.IBuilding building = new FacadeBuilding.Server();
                     ReturnObject<Boolean> ret = building.Change(buildingDto);
 
                     new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message        
@@ -111,7 +112,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                               == System.Windows.Forms.DialogResult.Yes)
             {
 
-                FacadeBuilding.IBuilding building = new FacadeBuilding.BuildingServer();
+                FacadeBuilding.IBuilding building = new FacadeBuilding.Server();
                 ReturnObject<Boolean> ret = building.Delete(new FacadeBuilding.Dto()
                 {
                     Id = ((FacadeBuilding.Dto)this.cboBuildingList.SelectedItem).Id
@@ -132,26 +133,28 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         {
             errorProvider.Clear();
 
-            ReturnObject<List<Int32>> retObj;
+            ReturnObject<List<Table>> retObj;
             if (txtFloor.Text.Trim() != String.Empty)
             {
                 if (ValidationRule.IsInteger(txtFloor.Text.Trim()))
                 {
-                    retObj = GetFloorList(Convert.ToInt32(txtFloor.Text.Trim()), (List<Int32>)lstFloorList.DataSource);
+                    retObj = GetFloorList(txtFloor.Text.Trim(), (List<Table>)lstFloorList.DataSource);
                     if (retObj.HasError())
                         errorProvider.SetError(txtFloor, "Entered floor already exists.");
                     else
                     {
                         lstFloorList.DataSource = null;
                         lstFloorList.DataSource = retObj.Value;
+                        lstFloorList.DisplayMember = "Name";
+                        lstFloorList.ValueMember = "Id";
                         lstFloorList.SelectedIndex = -1;
 
                         //populate Default floor
-                        List<Int32> DefaultFloorList = new List<Int32>();
-                        foreach (Int32 dFloor in retObj.Value)
-                        {
-                            DefaultFloorList.Add(dFloor);
-                        }
+                        //List<Int32> DefaultFloorList = new List<Int32>();
+                        //foreach (Int32 dFloor in retObj.Value)
+                        //{
+                        //    DefaultFloorList.Add(dFloor);
+                        //}
                         //cboFloor.DataSource = null;
                         //cboFloor.DataSource = DefaultFloorList;
                     }
@@ -164,16 +167,16 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            List<Int32> retList = new List<Int32>();
-            List<Int32> FloorList = (List<Int32>)lstFloorList.DataSource;
+            List<Table> retList = new List<Table>();
+            List<Table> FloorList = (List<Table>)lstFloorList.DataSource;
             Boolean blnAdd = true;
             if (FloorList != null && lstFloorList.SelectedItems.Count > 0)
             {
-                foreach (Int32 iFloor in FloorList)
+                foreach (Table iFloor in FloorList)
                 {
-                    foreach (Int32 selFloor in lstFloorList.SelectedItems)
+                    foreach (Table selFloor in lstFloorList.SelectedItems)
                     {
-                        if (iFloor == selFloor)
+                        if (iFloor.Name == selFloor.Name)
                         {
                             blnAdd = false;
                             break;
@@ -187,14 +190,16 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
                 lstFloorList.DataSource = null;
                 lstFloorList.DataSource = retList;
+                lstFloorList.DisplayMember = "Name";
+                lstFloorList.ValueMember = "Id";
                 lstFloorList.SelectedIndex = -1;
 
                 //populate Default floor
-                List<Int32> DefaultFloorList = new List<Int32>();
-                foreach (Int32 dFloor in retList)
-                {
-                    DefaultFloorList.Add(dFloor);
-                }
+                //List<Int32> DefaultFloorList = new List<Int32>();
+                //foreach (Int32 dFloor in retList)
+                //{
+                //    DefaultFloorList.Add(dFloor);
+                //}
                 //cboFloor.DataSource = null;
                 //cboFloor.DataSource = DefaultFloorList;
             }
@@ -207,17 +212,21 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 FacadeBuilding.Dto data = (FacadeBuilding.Dto)this.cboBuildingList.SelectedItem;
                 txtName.Text = data.Name;
 
-                lstFloorList.DataSource = data.FloorList;                
+                lstFloorList.DataSource = data.FloorList;
+                lstFloorList.DisplayMember = "Name";
+                lstFloorList.ValueMember = "Id";
                 lstFloorList.SelectedIndex = -1;
 
                 for (int i = 0; i < cboType.Items.Count; i++)
                 {
-                    if (data.Type.Id == ((FacadeBuilding.BuildingType.Dto)cboType.Items[i]).Id)
+                    if (data.Type.Id == ((FacadeBuilding.Type.Dto)cboType.Items[i]).Id)
                     {
                         cboType.SelectedIndex = i;
                         break;
                     }
                 }
+
+                lblStatus.Text = data.Status == null ? String.Empty : data.Status.Name;
             }
         }
 
@@ -243,7 +252,8 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             }
             else
             {
-                //new ReasonDialog(Convert.ToString(EnumDefination.FormName.Building), this.userDto, dto.Id, 0).ShowDialog(this);
+                //todo : userInfo Dto needs to be populated
+                new ReasonDialog("Building", dto, null).ShowDialog(this);
 
                 LoadForm();
                 Clear();
@@ -278,7 +288,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             }
             else
             {
-                FacadeBuilding.IBuilding building = new FacadeBuilding.BuildingServer();
+                FacadeBuilding.IBuilding building = new FacadeBuilding.Server();
                 ReturnObject<Boolean> ret = building.Open(new FacadeBuilding.Dto()
                 {
                     Id = ((FacadeBuilding.Dto)this.cboBuildingList.SelectedItem).Id,
@@ -293,7 +303,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
         private void LoadForm()
         {
-            FacadeBuilding.IBuilding building = new FacadeBuilding.BuildingServer();
+            FacadeBuilding.IBuilding building = new FacadeBuilding.Server();
             ReturnObject<FacadeBuilding.FormDto> ret = building.LoadForm();
 
             //Populate Building List
@@ -313,6 +323,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             this.txtName.Text = String.Empty;
             this.txtFloor.Text = String.Empty;
             this.lstFloorList.DataSource = null;
+            this.cboBuildingList.SelectedIndex = -1;
             //this.cboFloor.DataSource = null;
             //this.chkDefault.Checked = false;
         }
@@ -390,21 +401,21 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             return retVal;
         }
 
-        private ReturnObject<List<Int32>> GetFloorList(Int32 val, List<Int32> floor)
+        private ReturnObject<List<Table>> GetFloorList(String val, List<Table> floor)
         {
-            ReturnObject<List<Int32>> retObj = new ReturnObject<List<int>>()
+            ReturnObject<List<Table>> retObj = new ReturnObject<List<Table>>()
             {
-                Value = new List<Int32>()
+                Value = new List<Table>()
             };
 
             if (floor == null || floor.Count == 0)
-                retObj.Value.Add(val);
+                retObj.Value.Add(new Table { Name = val });
             else
             {
-                foreach (Int32 i in floor)
+                foreach (Table i in floor)
                 {
-                    if (i == val)
-                    {
+                    if (Convert.ToInt32(i.Name) == Convert.ToInt32(val))
+                    {                        
                         retObj.Value = floor;
 
                         retObj.MessageList = new List<BinAff.Core.Message>();
@@ -416,12 +427,26 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                         return retObj;
                     }
                 }
-                floor.Add(val);
+                floor.Add(new Table { Name = val });
                 retObj.Value = floor;
             }
 
             return retObj;
         }
+
+        //private List<Table> ConvertFloorListToTable(List<Int32> floorList)
+        //{
+        //    List<Table> retFloorList = new List<Table>();
+        //    if (floorList != null && floorList.Count > 0)
+        //    {
+        //        foreach (Int32 i in floorList)
+        //            retFloorList.Add(new Table() { 
+        //                Name = i.ToString()
+        //            });
+        //    }
+
+        //    return retFloorList;
+        //}
 
     }
 
