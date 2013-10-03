@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace AutoTourism.Lodge.Configuration.Facade.Room
+namespace AutoTourism.Lodge.Configuration.Facade.Room.Image
 {
-    public class ImageDto
+    public class Dto
     {
         public Int64 Id { get; set; }
         public Byte[] Image { get; set; }

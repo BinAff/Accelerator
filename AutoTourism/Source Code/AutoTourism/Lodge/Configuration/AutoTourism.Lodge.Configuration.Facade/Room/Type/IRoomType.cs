@@ -2,10 +2,10 @@
 
 using BinAff.Core;
 
-namespace AutoTourism.Lodge.Configuration.Facade.Building.BuildingType
+namespace AutoTourism.Lodge.Configuration.Facade.Room.Type
 {
 
-    public interface IBuildingType
+    public interface IRoomType
     {
 
         ReturnObject<FormDto> LoadForm();

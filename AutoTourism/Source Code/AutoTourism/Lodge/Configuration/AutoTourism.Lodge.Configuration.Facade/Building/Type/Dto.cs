@@ -1,10 +1,14 @@
 ﻿using System;
 
-namespace AutoTourism.Lodge.Configuration.Facade.Lodge
+namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
 {
-    public class FaxDto
+
+    public class Dto
     {
+
         public Int64 Id { get; set; }
         public String Name { get; set; }
+
     }
+
 }

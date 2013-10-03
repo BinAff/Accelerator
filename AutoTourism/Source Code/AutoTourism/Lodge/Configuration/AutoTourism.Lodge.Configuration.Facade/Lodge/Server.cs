@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 
 using BinAff.Core;
-using State = Vanilla.Configuration.Facade.State;
+
 using Lodge = Crystal.Lodge.Component.Lodge;
 using Crystal.Lodge.Component.Lodge;
+
+using State = Vanilla.Configuration.Facade.State;
 
 namespace AutoTourism.Lodge.Configuration.Facade.Lodge
 {
 
-    public class LodgeServer : ILodge 
+    public class Server : ILodge 
     {
         
         #region IBuildingType
@@ -117,8 +119,8 @@ namespace AutoTourism.Lodge.Configuration.Facade.Lodge
                     Pin = ((Crystal.Lodge.Component.Lodge.Data)data).Pin,
                     ContactName = ((Crystal.Lodge.Component.Lodge.Data)data).ContactName,
                     
-                    ContactNumberList = ((Crystal.Lodge.Component.Lodge.Data)data).ContactNumberList == null ? null : GetContactNumberList(((Crystal.Lodge.Component.Lodge.Data)data).ContactNumberList),
-                    EmailList = ((Crystal.Lodge.Component.Lodge.Data)data).EmailList == null ? null : GetEmailList(((Crystal.Lodge.Component.Lodge.Data)data).EmailList),
+                    ContactNumberList = ((Crystal.Lodge.Component.Lodge.Data)data).ContactNumberList == null ? null : this.GetContactNumberList(((Crystal.Lodge.Component.Lodge.Data)data).ContactNumberList),
+                    EmailList = ((Crystal.Lodge.Component.Lodge.Data)data).EmailList == null ? null : this.GetEmailList(((Crystal.Lodge.Component.Lodge.Data)data).EmailList),
                     FaxList = ((Crystal.Lodge.Component.Lodge.Data)data).FaxList == null ? null : GetFaxList(((Crystal.Lodge.Component.Lodge.Data)data).FaxList),                    
 
                 });
@@ -127,12 +129,13 @@ namespace AutoTourism.Lodge.Configuration.Facade.Lodge
             return ret;
         }
 
-        private List<ContactNumberDto> GetContactNumberList(List<Crystal.Lodge.Component.Lodge.ContactNumberData> ContactNumberDataList)
+        private List<Table> GetContactNumberList(List<Crystal.Lodge.Component.Lodge.ContactNumberData> ContactNumberDataList)
         {
-            List<ContactNumberDto> ContactNumberDtoList = new List<ContactNumberDto>();
+            List<Table> ContactNumberDtoList = new List<Table>();
             foreach (ContactNumberData data in ContactNumberDataList)
             {
-                ContactNumberDtoList.Add(new ContactNumberDto() {
+                ContactNumberDtoList.Add(new Table
+                {
                     Id = data.Id,
                     Name = data.ContactNumber,
                 });
@@ -140,12 +143,12 @@ namespace AutoTourism.Lodge.Configuration.Facade.Lodge
             return ContactNumberDtoList;
         }
 
-        private List<EmailDto> GetEmailList(List<Crystal.Lodge.Component.Lodge.EmailData> EmailDataList)
+        private List<Table> GetEmailList(List<Crystal.Lodge.Component.Lodge.EmailData> EmailDataList)
         {
-            List<EmailDto> EmailDtoList = new List<EmailDto>();
+            List<Table> EmailDtoList = new List<Table>();
             foreach (EmailData data in EmailDataList)
             {
-                EmailDtoList.Add(new EmailDto()
+                EmailDtoList.Add(new Table
                 {
                     Id = data.Id, 
                     Name = data.Email,
@@ -154,12 +157,12 @@ namespace AutoTourism.Lodge.Configuration.Facade.Lodge
             return EmailDtoList;
         }
 
-        private List<FaxDto> GetFaxList(List<Crystal.Lodge.Component.Lodge.FaxData> FaxDataList)
+        private List<Table> GetFaxList(List<Crystal.Lodge.Component.Lodge.FaxData> FaxDataList)
         {
-            List<FaxDto> FaxDtoList = new List<FaxDto>();
+            List<Table> FaxDtoList = new List<Table>();
             foreach (FaxData data in FaxDataList)
             {
-                FaxDtoList.Add(new FaxDto()
+                FaxDtoList.Add(new Table
                 {
                     Id = data.Id,
                     Name = data.Fax,
@@ -207,8 +210,8 @@ namespace AutoTourism.Lodge.Configuration.Facade.Lodge
                 },
                 Pin = dto.Pin,
                 ContactName = dto.ContactName,
-                ContactNumberList = dto.ContactNumberList == null ? null : GetContactNumberDataList(dto.ContactNumberList),
-                FaxList = dto.FaxList == null ? null : GetFaxDataList(dto.FaxList),
+                ContactNumberList = dto.ContactNumberList == null ? null : this.GetContactNumberDataList(dto.ContactNumberList),
+                FaxList = dto.FaxList == null ? null : this.GetFaxDataList(dto.FaxList),
                 EmailList = dto.EmailList == null ? null : GetEmailList(dto.EmailList),
             };
 
@@ -216,12 +219,12 @@ namespace AutoTourism.Lodge.Configuration.Facade.Lodge
             return crud.Save();
         }
 
-        private List<Crystal.Lodge.Component.Lodge.ContactNumberData> GetContactNumberDataList(List<ContactNumberDto> ContactNumberList)
+        private List<Crystal.Lodge.Component.Lodge.ContactNumberData> GetContactNumberDataList(List<Table> contactNumberList)
         {
             List<ContactNumberData> ContactNumberDataList = new List<ContactNumberData>();
-            foreach (ContactNumberDto dto in ContactNumberList)
+            foreach (Table dto in contactNumberList)
             {
-                ContactNumberDataList.Add(new ContactNumberData()
+                ContactNumberDataList.Add(new ContactNumberData
                 {
                     Id = dto.Id,
                     ContactNumber = dto.Name,                    
@@ -230,12 +233,12 @@ namespace AutoTourism.Lodge.Configuration.Facade.Lodge
             return ContactNumberDataList;
         }
 
-        private List<Crystal.Lodge.Component.Lodge.FaxData> GetFaxDataList(List<FaxDto> FaxList)
+        private List<Crystal.Lodge.Component.Lodge.FaxData> GetFaxDataList(List<Table> faxList)
         {
             List<FaxData> FaxDataList = new List<FaxData>();
-            foreach (FaxDto dto in FaxList)
+            foreach (Table dto in faxList)
             {
-                FaxDataList.Add(new FaxData()
+                FaxDataList.Add(new FaxData
                 {
                     Id = dto.Id,
                     Fax = dto.Name,
@@ -244,13 +247,13 @@ namespace AutoTourism.Lodge.Configuration.Facade.Lodge
             return FaxDataList;
         }
 
-        private List<Crystal.Lodge.Component.Lodge.EmailData> GetEmailList(List<EmailDto> EmailList)
+        private List<Crystal.Lodge.Component.Lodge.EmailData> GetEmailList(List<Table> emailList)
         {
             List<EmailData> EmailDataList = new List<EmailData>();
 
-            foreach (EmailDto dto in EmailList)
+            foreach (Table dto in emailList)
             {
-                EmailDataList.Add(new EmailData()
+                EmailDataList.Add(new EmailData
                 {
                     Id = dto.Id,
                     Email = dto.Name,

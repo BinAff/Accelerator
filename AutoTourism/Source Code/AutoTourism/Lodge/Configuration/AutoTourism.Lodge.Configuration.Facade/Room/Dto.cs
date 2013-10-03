@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using BinAff.Core;
 
 namespace AutoTourism.Lodge.Configuration.Facade.Room
 {
-    public class Dto
+
+    public class Dto : BinAff.Facade.Library.Dto
     {
-        public Int64 Id { get; set; }
+
         public String Number { get; set; }
         public String Name { get; set; }
         public String Description { get; set; }
+        public Room.Category.Dto Category { get; set; }
+        public Room.Type.Dto Type { get; set; }
         public Building.Dto Building { get; set; }
-        public Int32 Floor { get; set; }
-        public RoomCategory.Dto Category { get; set; }
-        public RoomType.Dto Type { get; set; }
-        public Boolean IsAirconditioned { get; set; }
-        public Boolean IsDormitory { get; set; }
+        public Table Floor { get; set; }                
+        public Boolean IsAirconditioned { get; set; }       
         public Int64 StatusId { get; set; }
-
-        public List<ImageDto> ImageList { get; set; }
+        public List<Image.Dto> ImageList { get; set; }
+        //public Boolean IsDormitory { get; set; }
         
     }  
 

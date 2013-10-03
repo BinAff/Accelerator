@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using BinAff.Core;
+
 using State = Vanilla.Configuration.Facade.State;
 
 namespace AutoTourism.Lodge.Configuration.Facade.Lodge
 {
+
     public class Dto
     {
+
         public Int64 Id { get; set; }
         public String Name { get; set; }
         public Byte[] logo { get; set; }
@@ -18,9 +22,10 @@ namespace AutoTourism.Lodge.Configuration.Facade.Lodge
         public Int64 Pin { get; set; }
         public String ContactName { get; set; }
 
-        public List<ContactNumberDto> ContactNumberList { get; set; }
-        public List<FaxDto> FaxList { get; set; }
-        public List<EmailDto> EmailList { get; set; }
+        public List<Table> ContactNumberList { get; set; }
+        public List<Table> FaxList { get; set; }
+        public List<Table> EmailList { get; set; }
+
     }  
 
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutoTourism.Lodge.Configuration.Facade.Building.BuildingType
+namespace AutoTourism.Lodge.Configuration.Facade.Room.Type
 {
 
     public class Dto
