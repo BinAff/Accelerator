@@ -261,7 +261,7 @@ namespace Crystal.Lodge.Component.Room
         {
             List<Data> dataList = new List<Data>();
             this.CreateConnection();
-            this.CreateCommand("RoomReadCheckedInRoom");
+            this.CreateCommand("[Lodge].RoomReadCheckedInRoom");
             this.AddInParameter("@BuildingId", DbType.Int64, ((Data)this.Data).Building.Id);
             DataSet ds = this.ExecuteDataSet();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -285,7 +285,7 @@ namespace Crystal.Lodge.Component.Room
         {
             List<Data> dataList = new List<Data>();
             this.CreateConnection();
-            this.CreateCommand("RoomReadBookedRoom");
+            this.CreateCommand("[Lodge].RoomReadBookedRoom");
             this.AddInParameter("@BuildingId", DbType.Int64, ((Data)this.Data).Building.Id);
             DataSet ds = this.ExecuteDataSet();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -309,7 +309,7 @@ namespace Crystal.Lodge.Component.Room
         {
             List<Data> dataList = new List<Data>();
             this.CreateConnection();
-            this.CreateCommand("RoomReadOpenRoom");
+            this.CreateCommand("[Lodge].RoomReadOpenRoom");
             this.AddInParameter("@BuildingId", DbType.Int64, ((Data)this.Data).Building.Id);
             DataSet ds = this.ExecuteDataSet();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -321,7 +321,9 @@ namespace Crystal.Lodge.Component.Room
                         Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
                         Name = Convert.IsDBNull(row["Name"]) ? String.Empty : Convert.ToString(row["Name"]),
                         Number = Convert.IsDBNull(row["Number"]) ? String.Empty : Convert.ToString(row["Number"]),
-                        //Status = Convert.IsDBNull(row["StatusId"]) ? 0 : Convert.ToInt64(row["StatusId"]),
+                        Status = Convert.IsDBNull(row["StatusId"]) ? null : new Status.Data() {
+                            Id = Convert.ToInt64(row["StatusId"])
+                        }                        
                     });
                 }
             }
