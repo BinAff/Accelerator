@@ -314,7 +314,7 @@ EXEC dbo.sp_executesql @statement = N'Create PROCEDURE [Lodge].[BuildingStatusRe
 End
 
 GO
-/****** Object:  StoredProcedure [Lodge].[BuildingInsert]    Script Date: 03/06/2013 16:10:00 ******/
+/****** Object:  StoredProcedure [Lodge].[BuildingInsert]    Script Date: 09/26/2013 10:28:22 ******/
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Lodge].[BuildingInsert]') AND type in (N'U'))
 Begin
 EXEC dbo.sp_executesql @statement = N'Create PROCEDURE [Lodge].[BuildingInsert]
@@ -322,14 +322,17 @@ EXEC dbo.sp_executesql @statement = N'Create PROCEDURE [Lodge].[BuildingInsert]
 		@Name Varchar(50),	
 		@TypeId Numeric(10,0),
 		@StatusId Numeric(10,0),
-		@OrganizationId Numeric(10,0),
+		--@OrganizationId Numeric(10,0),
 		@Id  Numeric(10,0) OUTPUT
 	)
 	AS
 	BEGIN	
 		
-		INSERT INTO [Lodge].Building([Name],[TypeId],[StatusId],[OrganizationId])
-		VALUES(@Name,@TypeId,@StatusId,@OrganizationId)
+		--INSERT INTO [Lodge].Building([Name],[TypeId],[StatusId],[OrganizationId])
+		--VALUES(@Name,@TypeId,@StatusId,@OrganizationId)
+		
+		INSERT INTO [Lodge].Building([Name],[TypeId],[StatusId])
+		VALUES(@Name,@TypeId,@StatusId)
 	   
 		SET @Id = @@IDENTITY
 	END'
@@ -605,4 +608,24 @@ EXEC dbo.sp_executesql @statement = N'CREATE Procedure [Lodge].[IsBuildingTypeDe
 		select Name from [Lodge].Building
 		where TypeId = @TypeId
 	End'
+End
+
+/****** Object:  StoredProcedure [Lodge].[BuildingUpdate]    Script Date: 08/15/2013 10:05:24 ******/
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Lodge].[BuildingUpdate]') AND type in (N'U'))
+Begin
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [Lodge].[BuildingUpdate]
+	(  
+		@Id Numeric(10,0),
+		@Name Varchar(50),	
+		@TypeId Numeric(10,0),
+		@StatusId Numeric(10,0)
+	)
+	AS
+	BEGIN	
+		UPDATE [Lodge].Building
+		SET	
+			[Name] = @Name,
+			[TypeId] = @TypeId
+		WHERE Id = @Id
+	END'
 End

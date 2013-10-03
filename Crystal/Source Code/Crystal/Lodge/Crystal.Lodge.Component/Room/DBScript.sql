@@ -1393,3 +1393,86 @@ End
 /*****************************************************************************************************/
 /*****************************************************************************************************/
 
+/****** Object:  StoredProcedure [Lodge].[RoomReadCheckedInRoom]    Script Date: 08/15/2013 14:55:08 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+  
+CREATE PROCEDURE [Lodge].[RoomReadCheckedInRoom]
+(
+	@BuildingId numeric(10,0)
+)
+As
+Begin
+	SELECT Number,Name FROM [Lodge].[Room] 
+	WHERE BuildingId = @BuildingId
+	And StatusId = 10002 -- Occupied Room
+End
+
+GO
+
+/****** Object:  StoredProcedure [Lodge].[RoomReadBookedRoom]    Script Date: 09/27/2013 15:40:50 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [Lodge].[RoomReadBookedRoom]
+(
+	@BuildingId numeric(10,0)
+)
+
+As
+Begin	
+	Select id,Name,Number 
+	From [Lodge].[Room] 
+	Where BuildingId = @BuildingId
+	And StatusId != 10003 -- Closed Room
+	And Id In (
+	Select RRD.RoomId  
+	From [Lodge].RoomReservationDetails RRD
+	Inner Join  [Lodge].RoomReservation RR	on  RR.Id = RRD.ReservationId
+	Inner Join  [AutoTourism].CustomerRoomReservationLink CRRL on CRRL.RoomReservationId = RR.Id
+	Where RR.StatusId = 10001 -- open 
+	And(DATEADD(day,-1,RR.BookingFrom) > GETDATE()
+		or DATEADD(DAY,RR.NoOfDays,RR.BookingFrom) > GETDATE()) )
+		
+	--Select id,Name,Number 
+	--From Room
+	--Where BuildingId = @BuildingId
+	--And StatusId != 10003 -- Closed Room
+	--And Id In (
+	--Select LRR.RoomId from 
+	--LodgeReservation LR inner Join LodgeReservationRoom LRR
+	--On LR.Id = LRR.LodgeReservationId
+	--where DATEADD(day,-1,BookingFrom) > GETDATE()
+	--or DATEADD(DAY,NoOfDays,BookingFrom) > GETDATE() 
+	--and LodgeReservationStatusId = 10001) -- open 
+End
+GO
+
+/****** Object:  StoredProcedure [Lodge].[RoomReadOpenRoom]    Script Date: 09/27/2013 18:14:27 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE [Lodge].[RoomReadOpenRoom] 
+(
+	@BuildingId numeric(10,0)
+)
+As
+Begin
+	Select id,Number,Name,StatusId from 
+	[Lodge].Room 
+	where BuildingId = @BuildingId
+	And StatusId != 10003 -- Closed Room
+End
+GO

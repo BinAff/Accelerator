@@ -24,13 +24,14 @@ namespace Crystal.Lodge.Component.Building
             if (ValidationRule.IsNullOrEmpty(data.Name))
                 retMsg.Add(new Message("Building name cannot be empty.", Message.Type.Error));
 
-            if (ValidationRule.IsNullOrEmpty(data.Organization) || (data.Organization.Id == 0))
-                retMsg.Add(new Message("Organization is not selected.", Message.Type.Error));
+            //if (ValidationRule.IsNullOrEmpty(data.Organization) || (data.Organization.Id == 0))
+            //    retMsg.Add(new Message("Organization is not selected.", Message.Type.Error));
 
             if (ValidationRule.IsNullOrEmpty(data.Type) || (data.Type.Id == 0))
                 retMsg.Add(new Message("Building type is not selected.", Message.Type.Error));
-
-            if (ValidationRule.IsNullOrEmpty(data.Status) || (data.Status.Id == 0))
+            
+            //-- This validation is applicable only for insert
+            if ((data.Id == 0) && (ValidationRule.IsNullOrEmpty(data.Status) || (data.Status.Id == 0)))
                 retMsg.Add(new Message("Building status is not selected.", Message.Type.Error));
 
             if (ValidationRule.IsNullOrEmpty(data.FloorList) || (data.FloorList.Count == 0))
@@ -53,6 +54,7 @@ namespace Crystal.Lodge.Component.Building
 
                     ++innerLoopCnt;
                 }
+                innerLoopCnt = 1;
                 ++loopCnt;
             }
             return false;

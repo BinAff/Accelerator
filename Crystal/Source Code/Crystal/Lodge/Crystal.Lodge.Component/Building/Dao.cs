@@ -30,8 +30,8 @@ namespace Crystal.Lodge.Component.Building
         {
             base.AddInParameter("@Name", DbType.String, ((Data)this.Data).Name);
             base.AddInParameter("@TypeId", DbType.Int32, ((Data)this.Data).Type.Id);
-            base.AddInParameter("@StatusId", DbType.Int32, ((Data)this.Data).Status.Id);
-            base.AddInParameter("@OrganizationId", DbType.Int32, ((Data)this.Data).Organization.Id);
+            base.AddInParameter("@StatusId", DbType.Int32, ((Data)this.Data).Status == null ? 0 : ((Data)this.Data).Status.Id);
+            //base.AddInParameter("@OrganizationId", DbType.Int32, ((Data)this.Data).Organization.Id);
             
         }
 
@@ -52,10 +52,10 @@ namespace Crystal.Lodge.Component.Building
                 {
                     Id = Convert.IsDBNull(row["StatusId"]) ? 0 : Convert.ToInt64(row["StatusId"])
                 };
-                dt.Organization = new Organization.Component.Data()
-                {
-                    Id = Convert.IsDBNull(row["OrganizationId"]) ? 0 : Convert.ToInt64(row["OrganizationId"])
-                };
+                //dt.Organization = new Organization.Component.Data()
+                //{
+                //    Id = Convert.IsDBNull(row["OrganizationId"]) ? 0 : Convert.ToInt64(row["OrganizationId"])
+                //};
             }
             return dt;
         }
@@ -80,10 +80,10 @@ namespace Crystal.Lodge.Component.Building
                         {
                             Id = Convert.IsDBNull(row["StatusId"]) ? 0 : Convert.ToInt64(row["StatusId"])
                         },
-                        Organization = new Organization.Component.Data()
-                        {
-                            Id = Convert.IsDBNull(row["OrganizationId"]) ? 0 : Convert.ToInt64(row["OrganizationId"])
-                        },
+                        //Organization = new Organization.Component.Data()
+                        //{
+                        //    Id = Convert.IsDBNull(row["OrganizationId"]) ? 0 : Convert.ToInt64(row["OrganizationId"])
+                        //},
                     });
                 }
             }
