@@ -46,10 +46,6 @@
     <Compile Include="Building\FormDto.cs" />
     <Compile Include="Building\IBuilding.cs" />
     <Compile Include="Building\ReasonDto.cs" />
-    <Compile Include="Lodge\Dto.cs" />
-    <Compile Include="Lodge\FormDto.cs" />
-    <Compile Include="Lodge\ILodge.cs" />
-    <Compile Include="Lodge\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room\Category\Dto.cs" />
     <Compile Include="Room\Category\FormDto.cs" />
