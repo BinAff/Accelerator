@@ -5,11 +5,13 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 
+using BinAff.Utility;
 using BinAff.Core;
 
 using FacadeRoom = AutoTourism.Lodge.Configuration.Facade.Room;
 using FacadeBuilding = AutoTourism.Lodge.Configuration.Facade.Building;
 using PresentationLibrary = BinAff.Presentation.Library;
+
 
 
 
@@ -72,12 +74,12 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                               == System.Windows.Forms.DialogResult.Yes)
             {
                 FacadeRoom.IRoom room = new FacadeRoom.Server(this.formDto);
-                //ReturnObject<Boolean> ret = room.Delete(new FacadeRoom.Dto()
-                //{
-                //    Id = ((FacadeRoom.Dto)this.cboRoomList.SelectedItem).Id
-                //});
+                ReturnObject<Boolean> ret = room.Delete(new FacadeRoom.Dto()
+                {
+                    Id = ((FacadeRoom.Dto)this.cboRoomList.SelectedItem).Id
+                });
                 
-                //new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message  
+                new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message  
             }
             else Clear();
         }
@@ -91,32 +93,6 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             }
 
             if (!ValidateRoom()) return;
-
-            FacadeRoom.Dto roomDto = new FacadeRoom.Dto()
-            {
-                Id = ((FacadeRoom.Dto)this.cboRoomList.SelectedItem).Id,
-                Number = this.txtNumber.Text.Trim(),
-                Name = this.txtName.Text.Trim(),
-                Description = this.txtDesc.Text.Trim(),
-                Building = cboBuilding.SelectedItem == null ? null : new FacadeBuilding.Dto
-                {
-                    Id = ((FacadeBuilding.Dto)cboBuilding.SelectedItem).Id,
-                },
-                Floor = (Table)cboFloor.SelectedItem,
-                Category = cboCategory.SelectedItem == null ? null : new FacadeRoom.Category.Dto
-                {
-                    Id = ((FacadeRoom.Category.Dto)cboCategory.SelectedItem).Id,
-                },
-                Type = cboType.SelectedItem == null ? null : new FacadeRoom.Type.Dto
-                {
-                    Id = ((FacadeRoom.Type.Dto)cboType.SelectedItem).Id,
-                },
-                IsAirconditioned = this.chkIsAC.Checked,
-                //IsDormitory = this.chkIsDormitory.Checked,
-                               
-                ImageList = (this.imageDtoList == null || this.imageDtoList.Count == 0) ? null : this.imageDtoList
-            };
-
             this.Save();
         }
 
@@ -190,15 +166,6 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                     this.cboFloor.DataSource = dto.FloorList;
                     this.cboFloor.DisplayMember = "Name";
                     this.cboFloor.ValueMember = "Id";
-
-                    //for (int i = 0; i < dto.Floor.Count; i++)
-                    //{
-                    //    if (dto.Floor[i] == dto.DefaultFloor)
-                    //    {
-                    //        this.cboFloor.SelectedIndex = i;
-                    //        break;
-                    //    }
-                    //}
                 }
                 else this.cboFloor.DataSource = null;
             }
@@ -206,110 +173,111 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
         private void btnAddImage_Click(object sender, EventArgs e)
         {
-            //errorProvider.Clear();            
-            
-            //try
-            //{
-            //    System.Windows.Forms.OpenFileDialog open = new System.Windows.Forms.OpenFileDialog();
-            //    open.InitialDirectory = "c:\\";
-            //    open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
+            errorProvider.Clear();
 
-            //    if (open.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            //    {                  
-            //        String ImgName = GetImageName(open.FileName);
+            try
+            {
+                System.Windows.Forms.OpenFileDialog open = new System.Windows.Forms.OpenFileDialog();
+                open.InitialDirectory = "c:\\";
+                open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
 
-            //        if(IsImageExist(ImgName, (List<String>)this.lstImage.DataSource))                    
-            //            errorProvider.SetError(lstImage, "Image already included.");
-            //        else
-            //        {                        
-            //            //POPULATE this.ImageDtoList                        
-            //            Byte[] img = Converter.ReadFile(open.FileName);
-            //            this.ImageDtoList.Add(new ImageDto() {
-            //                Name = GetImageName(open.FileName),
-            //                Image = Converter.ReadFile(open.FileName),
-            //            });
+                if (open.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    String ImgName = GetImageName(open.FileName);
 
-            //            PopulateImageList(img);
-                        
-            //        }
+                    if (IsImageExist(ImgName, (List<String>)this.lstImage.DataSource))
+                        errorProvider.SetError(lstImage, "Image already included.");
+                    else
+                    {
+                        //POPULATE this.ImageDtoList                        
+                        Byte[] img = Converter.ReadFile(open.FileName);
+                        this.imageDtoList.Add(new FacadeRoom.Image.Dto
+                        {
+                            Name = GetImageName(open.FileName),
+                            Image = Converter.ReadFile(open.FileName),
+                        });
 
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    throw new ApplicationException("Failed loading image");
-            //}
+                        PopulateImageList(img);
+
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+                throw new ApplicationException("Failed loading image");
+            }
         }
 
         private void btnDeleteImage_Click(object sender, EventArgs e)
         {
-            //if (lstImage.SelectedItems.Count == 0) return;
+            if (lstImage.SelectedItems.Count == 0) return;
 
-            //Boolean blnExists = false;
-            //List<ImageDto> imageDtoNewList = new List<ImageDto>();
-            //List<String> ImageList = new List<string>();
+            Boolean blnExists = false;
+            List<FacadeRoom.Image.Dto> imageDtoNewList = new List<FacadeRoom.Image.Dto>();
+            List<String> ImageList = new List<string>();
 
-            //if (lstImage.SelectedItems.Count > 0)
-            //{
-            //    foreach (ImageDto dto in this.ImageDtoList)
-            //    {
-            //        blnExists = false;
-            //        foreach (String imgName in lstImage.SelectedItems)
-            //        {
-            //            if (dto.Name == imgName)
-            //            {
-            //                blnExists = true;
-            //                break;
-            //            }
-            //        }
+            if (lstImage.SelectedItems.Count > 0)
+            {
+                foreach (FacadeRoom.Image.Dto dto in this.imageDtoList)
+                {
+                    blnExists = false;
+                    foreach (String imgName in lstImage.SelectedItems)
+                    {
+                        if (dto.Name == imgName)
+                        {
+                            blnExists = true;
+                            break;
+                        }
+                    }
 
-            //        if (!blnExists) imageDtoNewList.Add(dto);
-            //    }
+                    if (!blnExists) imageDtoNewList.Add(dto);
+                }
 
-            //    this.ImageDtoList = new List<ImageDto>();
-            //    this.ImageDtoList = imageDtoNewList;
+                this.imageDtoList = new List<FacadeRoom.Image.Dto>();
+                this.imageDtoList = imageDtoNewList;
 
-            //    for (int i = this.ImageDtoList.Count - 1; i >= 0; i--)
-            //        ImageList.Add(this.ImageDtoList[i].Name);
+                for (int i = this.imageDtoList.Count - 1; i >= 0; i--)
+                    ImageList.Add(this.imageDtoList[i].Name);
 
-            //    lstImage.DataSource = null;
-            //    this.picPhoto.Image = null;
+                lstImage.DataSource = null;
+                this.picPhoto.Image = null;
 
-            //    if (ImageList != null && ImageList.Count > 0)
-            //    {
-            //        lstImage.DataSource = ImageList;
-            //        lstImage.SelectedIndex = 0;
-            //    }
-            //}
+                if (ImageList != null && ImageList.Count > 0)
+                {
+                    lstImage.DataSource = ImageList;
+                    lstImage.SelectedIndex = 0;
+                }
+            }
         }
 
         private void lstImage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //if (this.lstImage.SelectedIndex != -1)
-            //{
-            //    foreach (ImageDto dto in this.ImageDtoList)
-            //    {
-            //        if (dto.Name == (String)this.lstImage.SelectedItem)
-            //        {
-            //            //Initialize image variable
-            //            Image newImage;
-            //            //Read image data into a memory stream
-            //            using (MemoryStream ms = new MemoryStream(dto.Image, 0, dto.Image.Length))
-            //            {
-            //                ms.Write(dto.Image, 0, dto.Image.Length);
+            if (this.lstImage.SelectedIndex != -1)
+            {
+                foreach (FacadeRoom.Image.Dto dto in this.imageDtoList)
+                {
+                    if (dto.Name == (String)this.lstImage.SelectedItem)
+                    {
+                        //Initialize image variable
+                        Image newImage;
+                        //Read image data into a memory stream
+                        using (MemoryStream ms = new MemoryStream(dto.Image, 0, dto.Image.Length))
+                        {
+                            ms.Write(dto.Image, 0, dto.Image.Length);
 
-            //                //Set image variable value using memory stream.
-            //                newImage = Image.FromStream(ms, true);
-            //                //set picture
-            //                this.picPhoto.Image = newImage;
-            //                this.picPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            //            }
+                            //Set image variable value using memory stream.
+                            newImage = Image.FromStream(ms, true);
+                            //set picture
+                            this.picPhoto.Image = newImage;
+                            this.picPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+                        }
 
-            //            break;
-            //        }
+                        break;
+                    }
 
-            //    }
-            //}
+                }
+            }
         }
 
         private void cboRoomList_SelectedIndexChanged(object sender, EventArgs e)
@@ -396,7 +364,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         {
             new FacadeRoom.Server(this.formDto).LoadForm();
 
-            //populate Room List
+            //populate Room List            
             this.cboRoomList.DataSource = null;
             if (this.formDto.RoomList != null && this.formDto.RoomList.Count > 0)
             {
@@ -414,16 +382,6 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 this.cboBuilding.ValueMember = "Id";
                 this.cboBuilding.DisplayMember = "Name";
                 this.cboBuilding.SelectedIndex = -1;
-
-                ////select default building
-                //for (int i = 0; i < ret.Value.BuildingList.Count; i++)
-                //{
-                //    if (ret.Value.BuildingList[i].IsDefault)
-                //    {
-                //        this.cboBuilding.SelectedIndex = i;
-                //        break;
-                //    }
-                //}
             }
 
             this.cboCategory.DataSource = null;
@@ -456,24 +414,10 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             this.cboFloor.DataSource = null;
             this.cboCategory.SelectedIndex = -1;
             this.cboType.SelectedIndex = -1;
-            this.chkIsAC.Checked = false;
-            //this.chkIsDormitory.Checked = false;
+            this.chkIsAC.Checked = false;          
             this.picPhoto.Image = null;
             this.lstImage.DataSource = null;
             this.imageDtoList = new List<FacadeRoom.Image.Dto>();
-
-
-            ////select default building
-            //List<Facade.Configuration.Building.Dto> retVal = (List<Facade.Configuration.Building.Dto>)this.cboBuilding.DataSource;
-
-            //for (int i = 0; i < retVal.Count; i++)
-            //{
-            //    if (retVal[i].IsDefault)
-            //    {
-            //        this.cboBuilding.SelectedIndex = i;
-            //        break;
-            //    }
-            //}
         }
       
         private Boolean IsImageExist(String roomImageName, List<String> imageList)
@@ -584,6 +528,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         {
             this.formDto.Room = new FacadeRoom.Dto
             {
+                Id = this.cboRoomList.SelectedItem == null ? 0 : ((FacadeRoom.Dto)this.cboRoomList.SelectedItem).Id,
                 Number = this.txtNumber.Text.Trim(),
                 Name = this.txtName.Text.Trim(),
                 Description = this.txtDesc.Text.Trim(),
@@ -601,25 +546,17 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                     Id = ((FacadeRoom.Type.Dto)cboType.SelectedItem).Id,
                 },
                 IsAirconditioned = this.chkIsAC.Checked,
-                ImageList = this.imageDtoList.Count == 0 ? null : imageDtoList,
-                StatusId = Convert.ToInt64(RoomStatus.Open)
-                //IsDormitory = this.chkIsDormitory.Checked,
+                ImageList = (this.imageDtoList == null || this.imageDtoList.Count == 0) ? null : imageDtoList,
+                StatusId = Convert.ToInt64(RoomStatus.Open)             
             };
 
             if (!ValidateUnique(this.formDto.Room))
-            {
-                //ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
-                FacadeRoom.Server facade = new FacadeRoom.Server(this.formDto);
-                facade.Add();
-                //FacadeRoom.IRoom room = new FacadeRoom.Server(this.formDto);
-                if (this.formDto.Room.Id == 0)
-                {
+            {               
+                FacadeRoom.Server facade = new FacadeRoom.Server(this.formDto);                
+                if (this.formDto.Room.Id == 0)                
                     facade.Add();
-                }
-                else
-                {
+                else                
                     facade.Change();
-                }
 
                 if (facade.IsError)
                 {
@@ -627,10 +564,8 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                     MessageBox.Show(this, "Error"); //Change
                     return;
                 }
-                else
-                {
-                    MessageBox.Show(this, "Data saved successfully", "Splash", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                else                
+                    MessageBox.Show(this, "Data saved successfully", "Splash", MessageBoxButtons.OK, MessageBoxIcon.Information);                
 
                 this.LoadForm();
                 this.Clear();
@@ -655,8 +590,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         }
         
         public enum RoomStatus
-        {
-            //Unoccupied = 10001,
+        {          
             Open = 10001,
             Close = 10002,
             Occupied = 10003

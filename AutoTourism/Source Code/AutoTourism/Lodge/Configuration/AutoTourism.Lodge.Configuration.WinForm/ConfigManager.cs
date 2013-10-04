@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 
-//using BinAff.Core;
+using BinAff.Core;
 
-//using AutoTourism.Presentation.Library;
-
-//using AutoTourism.Facade.Configuration.BuildingType;
-//using AutoTourism.Facade.Configuration.IdentityProofType;
-//using AutoTourism.Facade.Configuration.Initial;
-//using AutoTourism.Facade.Configuration.RoomCategory;
-//using AutoTourism.Facade.Configuration.RoomType;
-//using AutoTourism.Facade.Configuration.SecurityQuestion;
-//using AutoTourism.Facade.Configuration.State;
-//using AutoTourism.Facade.Configuration.PaymentType;
+using FacadeBuildingType = AutoTourism.Lodge.Configuration.Facade.Building.Type;
+using FacadeRoom = AutoTourism.Lodge.Configuration.Facade.Room;
+using PresentationLibrary = BinAff.Presentation.Library;
 
 namespace AutoTourism.Lodge.Configuration.WinForm
 {
@@ -25,178 +18,97 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             InitializeComponent();
         }
 
-        //protected override void btnRefresh_Click(object sender, EventArgs e)
-        //{
-        //    this.Clear();
-        //    this.LoadForm();
-        //}
+        private void btnRefresh_Click_1(object sender, EventArgs e)
+        {
+            this.Clear();
+            this.LoadForm();
+        }
+        
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            ReturnObject<Boolean> ret = null;
+            switch (trvOption.SelectedNode.Text)
+            {
+                case "Building Type":
+                    FacadeBuildingType.IBuildingType building = new FacadeBuildingType.Server();
+                    ret = building.Add(new FacadeBuildingType.Dto
+                    {
+                        Name = this.txtName.Text.Trim()
+                    });
+                    break;
+                case "Room Category":
+                    FacadeRoom.Category.IRoomCategory roomCategory = new FacadeRoom.Category.Server();
+                    ret = roomCategory.Add(new FacadeRoom.Category.Dto
+                    {
+                        Name = this.txtName.Text.Trim()
+                    });
+                    break;
+                case "Room Type":
+                    FacadeRoom.Type.IRoomType roomType = new FacadeRoom.Type.Server();
+                    ret = roomType.Add(new FacadeRoom.Type.Dto
+                    {
+                        Name = this.txtName.Text.Trim()
+                    });
+                    break;              
+                default:
+                    this.Clear();
+                    break;
+            }            
+            new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message  
+            this.Clear();
+            this.LoadForm();
+        }
 
-        //protected override void btnAdd_Click(object sender, EventArgs e)
-        //{
-            //ReturnObject<Boolean> ret = null;
-            //switch (trvOption.SelectedNode.Text)
-            //{
-            //    case "State":
-            //        IState state = new StateServer();
-            //        ret = state.Add(new Facade.Configuration.State.Dto
-            //        {
-            //            Name = this.txtName.Text.Trim()
-            //        });
-            //        break;
-            //    case "Name Initial":
-            //        IInitial initial = new InitialServer();
-            //        ret = initial.Add(new Facade.Configuration.Initial.Dto
-            //        {
-            //            Name = this.txtName.Text.Trim()
-            //        });
-            //        break;
-            //    case "Identity Proof Type":
-            //        IIdentityProofType IdentityProof = new IdentityProofTypeServer();
-            //        ret = IdentityProof.Add(new Facade.Configuration.IdentityProofType.Dto
-            //        {
-            //            Name = this.txtName.Text.Trim()
-            //        });
-            //        break;
-            //    case "Security Question":
-            //        IQuestion question = new QuestionServer();
-            //        ret = question.Add(new Facade.Configuration.SecurityQuestion.Dto
-            //        {
-            //            Question = this.txtName.Text.Trim()
-            //        });
-            //        break;
-            //    case "Building Type":
-            //        IBuildingType building = new BuildingTypeServer();
-            //        ret = building.Add(new Facade.Configuration.BuildingType.Dto
-            //        {
-            //            Name = this.txtName.Text.Trim()
-            //        });
-            //        break;
-            //    case "Room Category":
-            //        IRoomCategory roomCategory = new RoomCategoryServer();
-            //        ret = roomCategory.Add(new Facade.Configuration.RoomCategory.Dto
-            //        {
-            //            Name = this.txtName.Text.Trim()
-            //        });
-            //        break;
-            //    case "Room Type":
-            //        IRoomType roomType = new RoomTypeServer();
-            //        ret = roomType.Add(new Facade.Configuration.RoomType.Dto
-            //        {
-            //            Name = this.txtName.Text.Trim()
-            //        });
-            //        break;
-            //    case "PaymentType":
-            //        {
-            //            IPaymentType paymentType = new PaymentTypeServer();
-            //            ret = paymentType.Add(new Facade.Configuration.PaymentType.Dto { 
-            //                Name = this.txtName.Text.Trim()
-            //            });
-            //        }
-            //        break;
-            //    default:
-            //        this.Clear();
-            //        break;
-            //}
-            //base.ShowMessage(ret); //Show message
-        //}
+        private void btnChange_Click(object sender, EventArgs e)
+        {
+            if (this.lslList.SelectedIndex == -1)
+            { 
+                new PresentationLibrary.MessageBox("Please select one item", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);//Show message
+                return;
+            }
 
-        //protected override void btnChange_Click(object sender, EventArgs e)
-        //{
-            //if (this.lslList.SelectedIndex == -1)
-            //{
-            //    new MessageBox("Please select one item", MessageBox.Type.Alert);
-            //    return;
-            //}
-
-            //ReturnObject<Boolean> ret = null;
-            //switch (trvOption.SelectedNode.Text)
-            //{
-            //    case "State":
-            //        {
-            //            IState state = new StateServer();
-            //            ret = state.Change(new Facade.Configuration.State.Dto
-            //            {
-            //                Id = ((Facade.Configuration.State.Dto)this.lslList.SelectedItem).Id,
-            //                Name = this.txtName.Text.Trim()
-            //            });
-            //        }
-            //        break;
-            //    case "Name Initial":
-            //        {
-            //            IInitial initial = new InitialServer();
-            //            ret = initial.Change(new Facade.Configuration.Initial.Dto
-            //            {
-            //                Id = ((Facade.Configuration.Initial.Dto)this.lslList.SelectedItem).Id,
-            //                Name = this.txtName.Text.Trim()
-            //            });
-            //        }
-            //        break;
-            //    case "Identity Proof Type":
-            //        {
-            //            IIdentityProofType IdentityProof = new IdentityProofTypeServer();
-            //            ret = IdentityProof.Change(new Facade.Configuration.IdentityProofType.Dto
-            //            {
-            //                Id = ((Facade.Configuration.IdentityProofType.Dto)this.lslList.SelectedItem).Id,
-            //                Name = this.txtName.Text.Trim()
-            //            });
-            //        }
-            //        break;
-            //    case "Security Question":
-            //        {
-            //            IQuestion question = new QuestionServer();
-            //            ret = question.Change(new Facade.Configuration.SecurityQuestion.Dto
-            //            {
-            //                Id = ((Facade.Configuration.SecurityQuestion.Dto)this.lslList.SelectedItem).Id,
-            //                Question = this.txtName.Text.Trim()
-            //            });
-            //        }
-            //        break;
-            //    case "Building Type":
-            //        {
-            //            IBuildingType building = new BuildingTypeServer();
-            //            ret = building.Change(new Facade.Configuration.BuildingType.Dto
-            //            {
-            //                Id = ((Facade.Configuration.BuildingType.Dto)this.lslList.SelectedItem).Id,
-            //                Name = this.txtName.Text.Trim()
-            //            });
-            //        }
-            //        break;
-            //    case "Room Category":
-            //        {
-            //            IRoomCategory roomCategory = new RoomCategoryServer();
-            //            ret = roomCategory.Change(new Facade.Configuration.RoomCategory.Dto
-            //            {
-            //                Id = ((Facade.Configuration.RoomCategory.Dto)this.lslList.SelectedItem).Id,
-            //                Name = this.txtName.Text.Trim()
-            //            });
-            //        }
-            //        break;
-            //    case "Room Type":
-            //        {
-            //            IRoomType roomType = new RoomTypeServer();
-            //            ret = roomType.Change(new Facade.Configuration.RoomType.Dto
-            //            {
-            //                Id = ((Facade.Configuration.RoomType.Dto)this.lslList.SelectedItem).Id,
-            //                Name = this.txtName.Text.Trim()
-            //            });
-            //        }
-            //        break;
-            //    case "PaymentType":
-            //        {
-            //            IPaymentType paymentType = new PaymentTypeServer();
-            //            ret = paymentType.Change(new Facade.Configuration.PaymentType.Dto
-            //            {
-            //                Id = ((Facade.Configuration.PaymentType.Dto)this.lslList.SelectedItem).Id,
-            //                Name = this.txtName.Text.Trim()
-            //            });
-            //        }
-            //        break;
-            //    default:
-            //        this.Clear();
-            //        break;
-            //}
-            //base.ShowMessage(ret); //Show message
-        //}
+            ReturnObject<Boolean> ret = null;
+            switch (trvOption.SelectedNode.Text)
+            {
+                case "Building Type":
+                    {
+                        FacadeBuildingType.IBuildingType building = new FacadeBuildingType.Server();
+                        ret = building.Change(new FacadeBuildingType.Dto
+                        {
+                            Id = ((FacadeBuildingType.Dto)this.lslList.SelectedItem).Id,
+                            Name = this.txtName.Text.Trim()
+                        });
+                    }
+                    break;
+                case "Room Category":
+                    {
+                        FacadeRoom.Category.IRoomCategory roomCategory = new FacadeRoom.Category.Server();
+                        ret = roomCategory.Change(new FacadeRoom.Category.Dto
+                        {
+                            Id = ((FacadeRoom.Category.Dto)this.lslList.SelectedItem).Id,
+                            Name = this.txtName.Text.Trim()
+                        });
+                    }
+                    break;
+                case "Room Type":
+                    {
+                        FacadeRoom.Type.IRoomType roomType = new FacadeRoom.Type.Server();
+                        ret = roomType.Change(new FacadeRoom.Type.Dto
+                        {
+                            Id = ((FacadeRoom.Type.Dto)this.lslList.SelectedItem).Id,
+                            Name = this.txtName.Text.Trim()
+                        });
+                    }
+                    break;               
+                default:
+                    this.Clear();
+                    break;
+            }
+            new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message  
+            this.Clear();
+            this.LoadForm();
+        }
+       
 
         //protected override void btnDelete_Click(object sender, EventArgs e)
         //{
@@ -350,131 +262,76 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             //    this.Clear();
         //}
 
-        //protected override void LoadForm()
-        //{
-            //this.Clear();
-            //if (trvOption.SelectedNode != null)
-            //{
-            //    switch (trvOption.SelectedNode.Text)
-            //    {
-            //        case "State":
-            //            {
-            //                IState state = new StateServer();
-            //                ReturnObject<Facade.Configuration.State.FormDto> ret = state.LoadForm();
-            //                this.lslList.DataSource = ret.Value.StateList;
-            //                this.lslList.DisplayMember = "Name";
-            //            }
-            //            break;
-            //        case "Name Initial":
-            //            {
-            //                IInitial initial = new InitialServer();
-            //                ReturnObject<Facade.Configuration.Initial.FormDto> ret = initial.LoadForm();
-            //                this.lslList.DataSource = ret.Value.InitialList;
-            //                this.lslList.DisplayMember = "Name";
-            //            }
-            //            break;
-            //        case "Identity Proof Type":
-            //            {
-            //                IIdentityProofType IdentityProof = new IdentityProofTypeServer();
-            //                ReturnObject<Facade.Configuration.IdentityProofType.FormDto> ret = IdentityProof.LoadForm();
-            //                this.lslList.DataSource = ret.Value.IdentityProofList;
-            //                this.lslList.DisplayMember = "Name";
-            //            }
-            //            break;
-            //        case "Security Question":
-            //            {
-            //                IQuestion question = new QuestionServer();
-            //                ReturnObject<Facade.Configuration.SecurityQuestion.FormDto> ret = question.LoadForm();
-            //                this.lslList.DataSource = ret.Value.QuestionList;
-            //                this.lslList.DisplayMember = "Question";
-            //            }
-            //            break;
-            //        case "Building Type":
-            //            {
-            //                IBuildingType building = new BuildingTypeServer();
-            //                ReturnObject<Facade.Configuration.BuildingType.FormDto> ret = building.LoadForm();
-            //                this.lslList.DataSource = ret.Value.BuildingTypeList;
-            //                this.lslList.DisplayMember = "Name";
-            //            }
-            //            break;
-            //        case "Room Category":
-            //            {
-            //                IRoomCategory roomCategory = new RoomCategoryServer();
-            //                ReturnObject<Facade.Configuration.RoomCategory.FormDto> ret = roomCategory.LoadForm();
-            //                this.lslList.DataSource = ret.Value.RoomCategoryList;
-            //                this.lslList.DisplayMember = "Name";
-            //            }
-            //            break;
-            //        case "Room Type":
-            //            {
-            //                IRoomType roomType = new RoomTypeServer();
-            //                ReturnObject<Facade.Configuration.RoomType.FormDto> ret = roomType.LoadForm();
-            //                this.lslList.DataSource = ret.Value.RoomTypeList;
-            //                this.lslList.DisplayMember = "Name";
-            //            }
-            //            break;
-            //        case "PaymentType":
-            //            {
-            //                IPaymentType paymentType = new PaymentTypeServer();
-            //                ReturnObject<Facade.Configuration.PaymentType.FormDto> ret = paymentType.LoadForm();
-            //                this.lslList.DataSource = ret.Value.PaymentTypeList;
-            //                this.lslList.DisplayMember = "Name";
-            //            }
-            //            break;
-            //        default:
-            //            this.Clear();
-            //            this.lslList.DataSource = null;
-            //            break;
-            //    }
-            //    if (this.lslList.DataSource != null)
-            //    {
-            //        this.lslList.ValueMember = "Id";
-            //        this.lslList.SelectedIndex = -1;
-            //    }
-            //}
-        //}
+        private void LoadForm()
+        {
+            this.Clear();
+            if (trvOption.SelectedNode != null)
+            {
+                switch (trvOption.SelectedNode.Text)
+                {
+                    case "Building Type":
+                        {
+                            FacadeBuildingType.IBuildingType building = new FacadeBuildingType.Server();
+                            ReturnObject<FacadeBuildingType.FormDto> ret = building.LoadForm();
+                            this.lslList.DataSource = ret.Value.BuildingTypeList;
+                            this.lslList.DisplayMember = "Name";
+                        }
+                        break;
+                    case "Room Category":
+                        {
+                            FacadeRoom.Category.IRoomCategory roomCategory = new FacadeRoom.Category.Server();
+                            ReturnObject<FacadeRoom.Category.FormDto> ret = roomCategory.LoadForm();
+                            this.lslList.DataSource = ret.Value.RoomCategoryList;
+                            this.lslList.DisplayMember = "Name";
+                        }
+                        break;
+                    case "Room Type":
+                        {
+                            FacadeRoom.Type.IRoomType roomType = new FacadeRoom.Type.Server();
+                            ReturnObject<FacadeRoom.Type.FormDto> ret = roomType.LoadForm();
+                            this.lslList.DataSource = ret.Value.RoomTypeList;
+                            this.lslList.DisplayMember = "Name";
+                        }
+                        break;                   
+                    default:
+                        this.Clear();
+                        this.lslList.DataSource = null;
+                        break;
+                }
+                if (this.lslList.DataSource != null)
+                {
+                    this.lslList.ValueMember = "Id";
+                    this.lslList.SelectedIndex = -1;
+                }
+            }
+        }
 
-        //protected override void Clear()
-        //{
-        //    this.txtName.Text = String.Empty;
-        //    this.lslList.SelectedIndex = -1;
-        //}
+        private void Clear()
+        {
+            this.txtName.Text = String.Empty;
+            this.lslList.SelectedIndex = -1;
+        }
 
         private void lslList_Click(object sender, EventArgs e)
         {
-            //if (this.lslList.SelectedIndex != -1)
-            //{
-            //    switch (trvOption.SelectedNode.Text)
-            //    {
-            //        case "State":
-            //            this.txtName.Text = ((Facade.Configuration.State.Dto)this.lslList.SelectedItem).Name;
-            //            break;
-            //        case "Name Initial":
-            //            this.txtName.Text = ((Facade.Configuration.Initial.Dto)this.lslList.SelectedItem).Name;
-            //            break;
-            //        case "Identity Proof Type":
-            //            this.txtName.Text = ((Facade.Configuration.IdentityProofType.Dto)this.lslList.SelectedItem).Name;
-            //            break;
-            //        case "Security Question":
-            //            this.txtName.Text = ((Facade.Configuration.SecurityQuestion.Dto)this.lslList.SelectedItem).Question;
-            //            break;
-            //        case "Building Type":
-            //            this.txtName.Text = ((Facade.Configuration.BuildingType.Dto)this.lslList.SelectedItem).Name;
-            //            break;
-            //        case "Room Category":
-            //            this.txtName.Text = ((Facade.Configuration.RoomCategory.Dto)this.lslList.SelectedItem).Name;
-            //            break;
-            //        case "Room Type":
-            //            this.txtName.Text = ((Facade.Configuration.RoomType.Dto)this.lslList.SelectedItem).Name;
-            //            break;
-            //        case "PaymentType":
-            //            this.txtName.Text = ((Facade.Configuration.PaymentType.Dto)this.lslList.SelectedItem).Name;
-            //            break;
-            //        default:
-            //            this.Clear();
-            //            break;
-            //    }
-            //}
+            if (this.lslList.SelectedIndex != -1)
+            {
+                switch (trvOption.SelectedNode.Text)
+                {                   
+                    case "Building Type":
+                        this.txtName.Text = ((FacadeBuildingType.Dto)this.lslList.SelectedItem).Name;
+                        break;
+                    case "Room Category":
+                        this.txtName.Text = ((FacadeRoom.Category.Dto)this.lslList.SelectedItem).Name;
+                        break;
+                    case "Room Type":
+                        this.txtName.Text = ((FacadeRoom.Type.Dto)this.lslList.SelectedItem).Name;
+                        break;                 
+                    default:
+                        this.Clear();
+                        break;
+                }
+            }
         }
 
         private void txtName_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -487,8 +344,11 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
         private void trvOption_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
         {
-            //this.LoadForm();
+            this.LoadForm();
         }
+
+        
+        
 
     }
 
