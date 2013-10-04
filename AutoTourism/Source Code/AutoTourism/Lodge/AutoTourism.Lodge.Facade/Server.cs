@@ -33,6 +33,16 @@ namespace AutoTourism.Lodge.Facade
 
         public override void Add()
         {
+            this.Save();
+        }
+
+        public override void Change()
+        {
+            this.Save();
+        }
+
+        private void Save()
+        {
             LodgeComponent.Data data = this.Convert((this.FormDto as FormDto).Lodge) as LodgeComponent.Data;
             ReturnObject<Boolean> ret = (new LodgeComponent.Server(data) as ICrud).Save();
 
