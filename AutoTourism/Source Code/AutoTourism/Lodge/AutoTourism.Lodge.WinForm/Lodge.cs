@@ -38,15 +38,17 @@ namespace AutoTourism.Lodge.WinForm
             try
             {
                 String file = String.Empty;
-                System.Windows.Forms.OpenFileDialog open = new System.Windows.Forms.OpenFileDialog();
-                open.InitialDirectory = "c:\\";
-                open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
-
-                if (open.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                System.Windows.Forms.OpenFileDialog dialog = new System.Windows.Forms.OpenFileDialog
                 {
-                    picLogo.Image = new Bitmap(open.FileName);
+                    InitialDirectory = "c:\\",
+                    Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp",
+                };
+
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    picLogo.Image = new Bitmap(dialog.FileName);
                     picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-                    ImagePath = open.FileName;
+                    ImagePath = dialog.FileName;
 
                     //file = open.FileName;
                     //String text = File.ReadAllText(file);
@@ -86,9 +88,9 @@ namespace AutoTourism.Lodge.WinForm
                     txtStd.Focus();
                 }
                 //Validate STD
-                else if (txtStd.Text.Trim().Length < 3)
+                else if (txtStd.Text.Trim().Length < 2)
                 {
-                    errorProvider.SetError(txtStd, "Entered text cannot be less than 3");
+                    errorProvider.SetError(txtStd, "Entered text cannot be less than 2");
                     txtStd.Focus();
                 }
                 else if (!(new Regex(@"^[0-9]*$").IsMatch(txtStd.Text.Trim())))
