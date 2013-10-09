@@ -1,4 +1,5 @@
 ﻿using BinAff.Core;
+using BinAff.Core.Observer;
 using System;
 using System.Collections.Generic;
 using CrystalComponent = Crystal.Lodge.Component.Building.Type;
@@ -6,45 +7,16 @@ using CrystalComponent = Crystal.Lodge.Component.Building.Type;
 namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
 {
 
-    public class Server : IBuildingType
+    public class Server : BinAff.Facade.Library.Server, IBuildingType
     {
 
+        public Server(FormDto formDto)
+            : base(formDto)
+        {
+            this.FormDto = formDto;
+        }
+
         #region IBuildingType
-
-        BinAff.Core.ReturnObject<FormDto> IBuildingType.LoadForm()
-        {
-            ReturnObject<List<BinAff.Core.Data>> dataList = (new CrystalComponent.Server(null) as ICrud).ReadAll();
-
-            ReturnObject<FormDto> ret = new ReturnObject<FormDto>
-            {
-                Value = new FormDto
-                {
-                    BuildingTypeList = new List<Dto>()
-                }
-            };
-
-            //Populate data in dto from business entity
-            foreach (CrystalComponent.Data data in dataList.Value)
-            {
-                ret.Value.BuildingTypeList.Add(new Dto
-                {
-                    Id = data.Id,
-                    Name = data.Name
-                });
-            }
-
-            return ret;
-        }
-
-        ReturnObject<Boolean> IBuildingType.Add(Dto dto)
-        {
-            BinAff.Core.ICrud crud = new CrystalComponent.Server(new CrystalComponent.Data
-            {
-                Name = dto.Name
-            });
-            return crud.Save();
-        }
-
         ReturnObject<Boolean> IBuildingType.Delete(Dto dto)
         {
             ////Register Observers
@@ -77,17 +49,71 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
             };
         }
 
-        ReturnObject<Boolean> IBuildingType.Change(Dto dto)
+        #endregion
+
+        public override void LoadForm()
         {
-            ICrud crud = new CrystalComponent.Server(new CrystalComponent.Data
+            ReturnObject<List<BinAff.Core.Data>> dataList = (new CrystalComponent.Server(null) as ICrud).ReadAll();
+            this.DisplayMessageList = dataList.GetMessage((this.IsError = dataList.HasError()) ? Message.Type.Error : Message.Type.Information);
+            
+            //Populate data in dto from business entity
+            FormDto formDto = this.FormDto as FormDto;
+            foreach (CrystalComponent.Data data in dataList.Value)
             {
-                Id = dto.Id,
-                Name = dto.Name
-            });
-            return crud.Save();
+                formDto.BuildingTypeList.Add(this.Convert(data) as Dto);
+            }
         }
 
-        #endregion
+        public override void Add()
+        {
+            this.Save();
+        }
+
+        public override void Change()
+        {
+            this.Save();
+        }
+
+        public override void Delete()
+        {
+            CrystalComponent.Server crud = new CrystalComponent.Server(new CrystalComponent.Data
+            {
+                Id = (this.FormDto as FormDto).BuildingType.Id
+            });
+            (new Crystal.Lodge.Observer.RoomCategory() as IRegistrar).Register(crud); //Register Observers
+
+            ReturnObject<bool> ret = (crud as ICrud).Delete();
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+        }
+
+        protected override BinAff.Facade.Library.Dto Convert(Data data)
+        {
+            CrystalComponent.Data value = data as CrystalComponent.Data;
+            return new Dto
+            {
+                Id = value.Id,
+                Name = value.Name
+            };
+        }
+
+        protected override Data Convert(BinAff.Facade.Library.Dto dto)
+        {
+            Dto value = dto as Dto;
+            return new CrystalComponent.Data
+            {
+                Id = value.Id,
+                Name = value.Name
+            };
+        }
+
+        private void Save()
+        {
+            Dto dto = (this.FormDto as FormDto).BuildingType;
+            ICrud crud = new CrystalComponent.Server(this.Convert(dto) as CrystalComponent.Data);
+            ReturnObject<Boolean> ret = crud.Save();
+
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+        }
 
     }
 

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using BinAff.Core;
+using System;
 using System.Collections.Generic;
-
 using Vanilla.Navigator.Facade;
 
 namespace Vanilla.Navigator.Facade.Container
@@ -46,7 +46,7 @@ namespace Vanilla.Navigator.Facade.Container
             return ret;
         }
 
-        public override void ConvertToDto()
+        protected override BinAff.Facade.Library.Dto Convert(Data data)
         {
             //Dto dto = (this.FormDto as FormDto).Dto;
             //dto.Group = Module.Group.Form;
@@ -59,9 +59,10 @@ namespace Vanilla.Navigator.Facade.Container
             //        Name = doc.Name,
             //    });
             //}
+            return null;
         }
 
-        public override void ConvertFromDto()
+        protected override Data Convert(BinAff.Facade.Library.Dto dto)
         {
             
             //foreach (Role.Dto dto in ((FormDto)this.FormDto).Dto.RoleList)
@@ -72,6 +73,7 @@ namespace Vanilla.Navigator.Facade.Container
             //        Name = dto.Name,
             //    });
             //}
+            return null;
         }
 
         public void GetModules(Group group)

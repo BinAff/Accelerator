@@ -698,8 +698,7 @@ namespace AutoTourism.Lodge.WinForm
                 facade.Add();
                 if (facade.IsError)
                 {
-                    //Show message
-                    MessageBox.Show(this, "Error");//Change
+                    MessageBox.Show(this, "Error", "Splash", MessageBoxButtons.OK, MessageBoxIcon.Error);//TO DO : Change
                     return false;
                 }
                 else

@@ -45,10 +45,10 @@ namespace Vanilla.Guardian.WinForm
                 {
                     Dto = accountDto,
                 });
-                ReturnObject<Boolean> retVal = accountFacade.Save();
-
-                new BinAff.Presentation.Library.MessageBox(retVal.MessageList).ShowDialog();
-                //base.ShowMessage(retVal); //Show message
+                accountFacade.Add();
+                //Show message
+                //new BinAff.Presentation.Library.MessageBox(retVal.MessageList).ShowDialog();
+                //base.ShowMessage(retVal); 
                 //this.Close();
             }
         }

@@ -1,4 +1,5 @@
 ﻿using BinAff.Core;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Vanilla.Navigator.WinForm
@@ -28,10 +29,15 @@ namespace Vanilla.Navigator.WinForm
 
         private void LoadArtifacts()
         {
-            Crystal.Navigator.Component.Artifact.Data artifact = new Crystal.Navigator.Component.Artifact.Data();
-            (new Crystal.Navigator.Component.Artifact.Server(artifact = new Crystal.Navigator.Component.Artifact.Data()) as ICrud).ReadAll();
-            //this.artifactList = server.Read().Value;
+            Facade.Module.Server facade = new Facade.Module.Server(this.formDto);
+            facade.LoadForm();
+            if (facade.DisplayMessageList != null && facade.DisplayMessageList.Count > 0)
+            {
+                //MessageBox.Show(
+            }
         }
+
+        
 
     }
 
