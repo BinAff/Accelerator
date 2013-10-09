@@ -102,7 +102,7 @@ namespace Vanilla.Guardian.Facade.Account
             throw new System.NotImplementedException();
         }
 
-        public override ReturnObject<Boolean> Save()
+        public override void Add()
         {
             Dto dto = ((FormDto)this.FormDto).Dto;
             Crystal.Guardian.Component.Account.Data data = new Crystal.Guardian.Component.Account.Data
@@ -122,10 +122,9 @@ namespace Vanilla.Guardian.Facade.Account
                 }
             }
 
-            ICrud server = new Crystal.Guardian.Component.Account.Server(data);
-            ReturnObject<Boolean> ret = server.Save();
-
-            return ret;
+            ReturnObject<Boolean> ret = (new Crystal.Guardian.Component.Account.Server(data) as ICrud).Save();
+            
+            this.DisplayMessageList = ret.GetMessage(ret.HasError() ? Message.Type.Error : Message.Type.Information);
         }
 
     }

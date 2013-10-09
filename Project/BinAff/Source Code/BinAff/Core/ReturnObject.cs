@@ -10,6 +10,22 @@ namespace BinAff.Core
         public T Value { get; set; }
         public List<Message> MessageList { get; set; }
 
+        public List<String> GetMessage(Message.Type type)
+        {
+            List<String> errorList = new List<string>();
+            if (this.MessageList != null)
+            {
+                foreach (Message msg in this.MessageList)
+                {
+                    if (msg.Category == type)
+                    {
+                        errorList.Add(msg.Description);
+                    }
+                }
+            }
+            return errorList;
+        }
+
         public Boolean HasError()
         {
             return (this.MessageList == null) ? false : this.MessageList.Exists((p) => p.Category == Message.Type.Error);

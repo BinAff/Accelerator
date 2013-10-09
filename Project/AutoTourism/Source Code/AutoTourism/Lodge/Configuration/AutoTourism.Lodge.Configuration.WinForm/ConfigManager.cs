@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 using BinAff.Core;
 
-using FacadeBuildingType = AutoTourism.Lodge.Configuration.Facade.Building.Type;
+using BuildingTypeFacade = AutoTourism.Lodge.Configuration.Facade.Building.Type;
 using FacadeRoom = AutoTourism.Lodge.Configuration.Facade.Room;
 using PresentationLibrary = BinAff.Presentation.Library;
 
@@ -13,9 +13,12 @@ namespace AutoTourism.Lodge.Configuration.WinForm
     public partial class ConfigManager : Form
     {
 
+        private BuildingTypeFacade.FormDto buildingTypeFormDto;
+
         public ConfigManager()
         {
             InitializeComponent();
+            buildingTypeFormDto = new BuildingTypeFacade.FormDto();
         }
 
         private void btnRefresh_Click_1(object sender, EventArgs e)
@@ -30,11 +33,21 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             switch (trvOption.SelectedNode.Text)
             {
                 case "Building Type":
-                    FacadeBuildingType.IBuildingType building = new FacadeBuildingType.Server();
-                    ret = building.Add(new FacadeBuildingType.Dto
+                    this.buildingTypeFormDto.BuildingType = new BuildingTypeFacade.Dto
                     {
                         Name = this.txtName.Text.Trim()
-                    });
+                    };
+                    BinAff.Facade.Library.Server facade = new BuildingTypeFacade.Server(this.buildingTypeFormDto);
+                    facade.Add();
+                    if (facade.IsError)
+                    {
+                        //Show message
+                        MessageBox.Show(this, "Error", "Splash", MessageBoxButtons.OK, MessageBoxIcon.Error);//TO DO : Change
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "Data saved successfully", "Splash", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                     break;
                 case "Room Category":
                     FacadeRoom.Category.IRoomCategory roomCategory = new FacadeRoom.Category.Server();
@@ -68,16 +81,24 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             }
 
             ReturnObject<Boolean> ret = null;
+            BinAff.Facade.Library.Server facade;
             switch (trvOption.SelectedNode.Text)
             {
                 case "Building Type":
+                    this.buildingTypeFormDto.BuildingType = new BuildingTypeFacade.Dto
                     {
-                        FacadeBuildingType.IBuildingType building = new FacadeBuildingType.Server();
-                        ret = building.Change(new FacadeBuildingType.Dto
-                        {
-                            Id = ((FacadeBuildingType.Dto)this.lslList.SelectedItem).Id,
-                            Name = this.txtName.Text.Trim()
-                        });
+                        Id = ((BuildingTypeFacade.Dto)this.lslList.SelectedItem).Id,
+                        Name = this.txtName.Text.Trim()
+                    };
+                    facade = new BuildingTypeFacade.Server(this.buildingTypeFormDto);
+                    facade.Change();
+                    if (facade.IsError)
+                    {
+                        MessageBox.Show(this, "Error", "Splash", MessageBoxButtons.OK, MessageBoxIcon.Error);//TO DO : Change
+                    }
+                    else
+                    {
+                        MessageBox.Show(this, "Data changed successfully", "Splash", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     break;
                 case "Room Category":
@@ -108,7 +129,6 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             this.Clear();
             this.LoadForm();
         }
-       
 
         //protected override void btnDelete_Click(object sender, EventArgs e)
         //{
@@ -271,9 +291,15 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 {
                     case "Building Type":
                         {
-                            FacadeBuildingType.IBuildingType building = new FacadeBuildingType.Server();
-                            ReturnObject<FacadeBuildingType.FormDto> ret = building.LoadForm();
-                            this.lslList.DataSource = ret.Value.BuildingTypeList;
+                            BinAff.Facade.Library.Server facade = new BuildingTypeFacade.Server(this.buildingTypeFormDto);
+                            facade.LoadForm();
+                            if (facade.IsError)
+                            {
+                                MessageBox.Show(this, "Error", "Splash", MessageBoxButtons.OK, MessageBoxIcon.Error);//TO DO : Change
+                                return;
+                            }
+
+                            this.lslList.DataSource = this.buildingTypeFormDto.BuildingTypeList;
                             this.lslList.DisplayMember = "Name";
                         }
                         break;
@@ -319,7 +345,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 switch (trvOption.SelectedNode.Text)
                 {                   
                     case "Building Type":
-                        this.txtName.Text = ((FacadeBuildingType.Dto)this.lslList.SelectedItem).Name;
+                        this.txtName.Text = ((BuildingTypeFacade.Dto)this.lslList.SelectedItem).Name;
                         break;
                     case "Room Category":
                         this.txtName.Text = ((FacadeRoom.Category.Dto)this.lslList.SelectedItem).Name;
@@ -346,9 +372,6 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         {
             this.LoadForm();
         }
-
-        
-        
 
     }
 

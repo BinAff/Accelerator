@@ -26,12 +26,21 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystal.Guardian.Rule", "..\..\..\Crystal\Source Code\Crystal\Guardian\Rule\Crystal.Guardian.Rule.csproj", "{E3BC5B92-3318-40C2-B7A7-73300F0DCE81}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.Core", "..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj", "{D25DF173-3451-49AA-9570-269B2880C393}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ED04BF0C-B4F1-4E9C-80C5-799027EBE260} = {ED04BF0C-B4F1-4E9C-80C5-799027EBE260}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.Utility", "..\..\..\BinAff\Source Code\BinAff\Utility\BinAff.Utility.csproj", "{ED04BF0C-B4F1-4E9C-80C5-799027EBE260}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.Facade.Library", "..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj", "{F6AB9943-F271-4293-B13E-DC58DEF3F59D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D25DF173-3451-49AA-9570-269B2880C393} = {D25DF173-3451-49AA-9570-269B2880C393}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.Presentation.Library", "..\..\..\BinAff\Source Code\BinAff\Presentation\Library\BinAff.Presentation.Library.csproj", "{1EE9A9DD-9151-437A-B1A3-28015975EF52}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D25DF173-3451-49AA-9570-269B2880C393} = {D25DF173-3451-49AA-9570-269B2880C393}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Guardian", "Guardian", "{F9DC7E86-7AB7-427E-BAB9-1D59315887A7}"
 EndProject
