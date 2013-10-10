@@ -41,7 +41,6 @@
     <Compile Include="Building\Type\Server.cs" />
     <Compile Include="Building\Type\Dto.cs" />
     <Compile Include="Building\Type\FormDto.cs" />
-    <Compile Include="Building\Type\IBuildingType.cs" />
     <Compile Include="Building\Dto.cs" />
     <Compile Include="Building\FormDto.cs" />
     <Compile Include="Building\IBuilding.cs" />
