@@ -33,7 +33,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             switch (trvOption.SelectedNode.Text)
             {
                 case "Building Type":
-                    this.buildingTypeFormDto.BuildingType = new BuildingTypeFacade.Dto
+                    this.buildingTypeFormDto.Dto = new BuildingTypeFacade.Dto
                     {
                         Name = this.txtName.Text.Trim()
                     };
@@ -85,7 +85,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             switch (trvOption.SelectedNode.Text)
             {
                 case "Building Type":
-                    this.buildingTypeFormDto.BuildingType = new BuildingTypeFacade.Dto
+                    this.buildingTypeFormDto.Dto = new BuildingTypeFacade.Dto
                     {
                         Id = ((BuildingTypeFacade.Dto)this.lslList.SelectedItem).Id,
                         Name = this.txtName.Text.Trim()
@@ -299,7 +299,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                                 return;
                             }
 
-                            this.lslList.DataSource = this.buildingTypeFormDto.BuildingTypeList;
+                            this.lslList.DataSource = this.buildingTypeFormDto.DtoList;
                             this.lslList.DisplayMember = "Name";
                         }
                         break;
