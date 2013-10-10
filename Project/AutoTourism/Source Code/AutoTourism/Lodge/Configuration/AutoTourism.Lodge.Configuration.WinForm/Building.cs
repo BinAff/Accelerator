@@ -307,7 +307,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             ReturnObject<FacadeBuilding.FormDto> ret = building.LoadForm();
 
             //Populate Building List
-            this.cboBuildingList.DataSource = ret.Value.BuildingList;
+            this.cboBuildingList.DataSource = ret.Value.DtoList;
             this.cboBuildingList.DisplayMember = "Name";
             this.cboBuildingList.ValueMember = "Id";
             this.cboBuildingList.SelectedIndex = -1;
