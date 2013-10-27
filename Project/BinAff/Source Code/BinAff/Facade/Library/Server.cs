@@ -19,7 +19,7 @@ namespace BinAff.Facade.Library
         /// </summary>
         public List<String> DisplayMessageList { get; protected set; }
 
-        public Boolean IsError { get; set; }
+        public Boolean IsError { get; protected set; }
 
         protected Server(FormDto formDto)
         {
@@ -52,10 +52,14 @@ namespace BinAff.Facade.Library
             throw new NotImplementedException("Change is not implemented in Facade");
         }
 
-
         public virtual void Delete()
         {
             throw new NotImplementedException("Delete is not implemented in Facade");
+        }
+
+        public virtual void Read()
+        {
+            throw new NotImplementedException("Read is not implemented in Facade");
         }
 
         /// <summary>

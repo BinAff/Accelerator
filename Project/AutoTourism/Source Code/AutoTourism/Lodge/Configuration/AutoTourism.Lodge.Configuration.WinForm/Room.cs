@@ -64,7 +64,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             if (this.cboRoomList.SelectedIndex == -1)
             {
                 //Show message
-                new PresentationLibrary.MessageBox("Please select one room", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);
+                //new PresentationLibrary.MessageBox("Please select one room", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);
                 return;
             }
 
@@ -79,7 +79,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                     Id = ((FacadeRoom.Dto)this.cboRoomList.SelectedItem).Id
                 });
                 
-                new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message  
+                //new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message  
             }
             else Clear();
         }
@@ -88,7 +88,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         {
             if (this.cboRoomList.SelectedIndex == -1)
             {
-                new PresentationLibrary.MessageBox("Please select one room", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);//Show message
+                //new PresentationLibrary.MessageBox("Please select one room", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);//Show message
                 return;
             }
 
@@ -101,7 +101,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             if (this.cboRoomList.SelectedIndex == -1)
             {
                 //Show message
-                new PresentationLibrary.MessageBox("Please select one room", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);
+                //new PresentationLibrary.MessageBox("Please select one room", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);
                 return;
             }
             FacadeRoom.Dto dto = (FacadeRoom.Dto)this.cboRoomList.SelectedItem;
@@ -113,7 +113,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                     MessageList = new List<BinAff.Core.Message>(),
                 };
                 ret.MessageList.Add(new BinAff.Core.Message("Room is already closed.", BinAff.Core.Message.Type.Information));
-                new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message 
+                //new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message 
             }
             else
             {
@@ -130,13 +130,13 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         {
             if (this.cboRoomList.SelectedIndex == -1)
             {
-                new PresentationLibrary.MessageBox("Please select one room", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);//Show message
+                //new PresentationLibrary.MessageBox("Please select one room", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);//Show message
                 return;
             }
 
             if (((FacadeRoom.Dto)this.cboRoomList.SelectedItem).StatusId != Convert.ToInt64(RoomStatus.Close))
             {
-                new PresentationLibrary.MessageBox("Unable to open room. Only closed rooms can be opened", PresentationLibrary.MessageBox.Type.Error).ShowDialog(this);//Show message
+                //new PresentationLibrary.MessageBox("Unable to open room. Only closed rooms can be opened", PresentationLibrary.MessageBox.Type.Error).ShowDialog(this);//Show message
                 return;
             }
 
@@ -150,7 +150,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 }
             });
 
-            new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message 
+            //new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message 
             LoadForm();
             Clear();
         }
@@ -582,7 +582,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 if (dto.Number == txtNumber.Text.Trim() && dto.Id != roomDto.Id)
                 {
                     //Show message                    
-                    new PresentationLibrary.MessageBox("Room already exists.", PresentationLibrary.MessageBox.Type.Information).ShowDialog(this);
+                    //new PresentationLibrary.MessageBox("Room already exists.", PresentationLibrary.MessageBox.Type.Information).ShowDialog(this);
                     return true;
                 }
             }
