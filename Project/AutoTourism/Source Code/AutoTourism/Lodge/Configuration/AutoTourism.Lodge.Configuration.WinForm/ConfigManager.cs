@@ -2,10 +2,10 @@
 using System.Windows.Forms;
 
 using BinAff.Core;
+using PresLib = BinAff.Presentation.Library;
 
 using BuildingTypeFacade = AutoTourism.Lodge.Configuration.Facade.Building.Type;
-using FacadeRoom = AutoTourism.Lodge.Configuration.Facade.Room;
-using PresentationLibrary = BinAff.Presentation.Library;
+using RoomFacade = AutoTourism.Lodge.Configuration.Facade.Room;
 
 namespace AutoTourism.Lodge.Configuration.WinForm
 {
@@ -50,15 +50,15 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                     }
                     break;
                 case "Room Category":
-                    FacadeRoom.Category.IRoomCategory roomCategory = new FacadeRoom.Category.Server();
-                    ret = roomCategory.Add(new FacadeRoom.Category.Dto
+                    RoomFacade.Category.IRoomCategory roomCategory = new RoomFacade.Category.Server();
+                    ret = roomCategory.Add(new RoomFacade.Category.Dto
                     {
                         Name = this.txtName.Text.Trim()
                     });
                     break;
                 case "Room Type":
-                    FacadeRoom.Type.IRoomType roomType = new FacadeRoom.Type.Server();
-                    ret = roomType.Add(new FacadeRoom.Type.Dto
+                    RoomFacade.Type.IRoomType roomType = new RoomFacade.Type.Server();
+                    ret = roomType.Add(new RoomFacade.Type.Dto
                     {
                         Name = this.txtName.Text.Trim()
                     });
@@ -66,8 +66,12 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 default:
                     this.Clear();
                     break;
-            }            
-            new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message  
+            }
+            new PresLib.MessageBox
+            {
+                DialogueType = PresLib.MessageBox.Type.Information,
+                Heading = "Splash",
+            }.Show(ret.MessageList);
             this.Clear();
             this.LoadForm();
         }
@@ -75,8 +79,12 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         private void btnChange_Click(object sender, EventArgs e)
         {
             if (this.lslList.SelectedIndex == -1)
-            { 
-                new PresentationLibrary.MessageBox("Please select one item", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);//Show message
+            {
+                new PresLib.MessageBox
+                {
+                    DialogueType = PresLib.MessageBox.Type.Alert,
+                    Heading = "Splash",
+                }.Show("Please select one item");
                 return;
             }
 
@@ -103,20 +111,20 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                     break;
                 case "Room Category":
                     {
-                        FacadeRoom.Category.IRoomCategory roomCategory = new FacadeRoom.Category.Server();
-                        ret = roomCategory.Change(new FacadeRoom.Category.Dto
+                        RoomFacade.Category.IRoomCategory roomCategory = new RoomFacade.Category.Server();
+                        ret = roomCategory.Change(new RoomFacade.Category.Dto
                         {
-                            Id = ((FacadeRoom.Category.Dto)this.lslList.SelectedItem).Id,
+                            Id = ((RoomFacade.Category.Dto)this.lslList.SelectedItem).Id,
                             Name = this.txtName.Text.Trim()
                         });
                     }
                     break;
                 case "Room Type":
                     {
-                        FacadeRoom.Type.IRoomType roomType = new FacadeRoom.Type.Server();
-                        ret = roomType.Change(new FacadeRoom.Type.Dto
+                        RoomFacade.Type.IRoomType roomType = new RoomFacade.Type.Server();
+                        ret = roomType.Change(new RoomFacade.Type.Dto
                         {
-                            Id = ((FacadeRoom.Type.Dto)this.lslList.SelectedItem).Id,
+                            Id = ((RoomFacade.Type.Dto)this.lslList.SelectedItem).Id,
                             Name = this.txtName.Text.Trim()
                         });
                     }
@@ -125,7 +133,11 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                     this.Clear();
                     break;
             }
-            new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message  
+            new PresLib.MessageBox
+            {
+                DialogueType = PresLib.MessageBox.Type.Information,
+                Heading = "Splash",
+            }.Show(ret.MessageList);
             this.Clear();
             this.LoadForm();
         }
@@ -305,16 +317,16 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                         break;
                     case "Room Category":
                         {
-                            FacadeRoom.Category.IRoomCategory roomCategory = new FacadeRoom.Category.Server();
-                            ReturnObject<FacadeRoom.Category.FormDto> ret = roomCategory.LoadForm();
+                            RoomFacade.Category.IRoomCategory roomCategory = new RoomFacade.Category.Server();
+                            ReturnObject<RoomFacade.Category.FormDto> ret = roomCategory.LoadForm();
                             this.lslList.DataSource = ret.Value.RoomCategoryList;
                             this.lslList.DisplayMember = "Name";
                         }
                         break;
                     case "Room Type":
                         {
-                            FacadeRoom.Type.IRoomType roomType = new FacadeRoom.Type.Server();
-                            ReturnObject<FacadeRoom.Type.FormDto> ret = roomType.LoadForm();
+                            RoomFacade.Type.IRoomType roomType = new RoomFacade.Type.Server();
+                            ReturnObject<RoomFacade.Type.FormDto> ret = roomType.LoadForm();
                             this.lslList.DataSource = ret.Value.RoomTypeList;
                             this.lslList.DisplayMember = "Name";
                         }
@@ -348,10 +360,10 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                         this.txtName.Text = ((BuildingTypeFacade.Dto)this.lslList.SelectedItem).Name;
                         break;
                     case "Room Category":
-                        this.txtName.Text = ((FacadeRoom.Category.Dto)this.lslList.SelectedItem).Name;
+                        this.txtName.Text = ((RoomFacade.Category.Dto)this.lslList.SelectedItem).Name;
                         break;
                     case "Room Type":
-                        this.txtName.Text = ((FacadeRoom.Type.Dto)this.lslList.SelectedItem).Name;
+                        this.txtName.Text = ((RoomFacade.Type.Dto)this.lslList.SelectedItem).Name;
                         break;                 
                     default:
                         this.Clear();

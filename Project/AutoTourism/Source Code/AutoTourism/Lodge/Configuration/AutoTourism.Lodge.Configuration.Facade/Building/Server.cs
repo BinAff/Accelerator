@@ -7,6 +7,7 @@ using BinAff.Utility;
 
 using CrystalComponent = Crystal.Lodge.Component.Building;
 using ComponentRoom = Crystal.Lodge.Component.Room;
+using BinAff.Core.Observer;
 
 namespace AutoTourism.Lodge.Configuration.Facade.Building
 {
@@ -22,19 +23,19 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
 
         #region IBuildingType
         
-        ReturnObject<Boolean> IBuilding.Open(Dto dto)
+        void IBuilding.Open()
         {
-            return this.Open(dto);
+            this.Open();
         }
 
-        ReturnObject<Boolean> IBuilding.Close(ReasonDto dto)
+        void IBuilding.Close(ReasonDto dto)
         {
-            return this.Close(dto);
+            this.Close(dto);
         }
 
-        ReturnObject<Boolean> IBuilding.CloseWithNoCheck(ReasonDto dto)
+        void IBuilding.CloseWithNoCheck(ReasonDto dto)
         {
-            return this.CloseWithNoCheck(dto);
+            this.CloseWithNoCheck(dto);
         }
         
         #endregion
@@ -52,11 +53,12 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
             }
 
             //Populate building type list
-            Type.FormDto typeFormDto = new Type.FormDto();
-            Type.Server typeFacade = new Type.Server(typeFormDto);
+            Type.Server typeFacade = new Type.Server(new Type.FormDto
+            {
+                DtoList = formDto.TypeList
+            });
             typeFacade.LoadForm();
             this.DisplayMessageList.AddRange(typeFacade.DisplayMessageList);
-            formDto.TypeList = typeFormDto.DtoList;
         }
 
         public override void Add()
@@ -101,7 +103,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
             {
                 Id = value.Id,
                 Name = value.Name,
-                FloorList = Convert(value.FloorList),
+                FloorList = this.Convert(value.FloorList),
                 Type = new CrystalComponent.Type.Data
                 {
                     Id = value.Type.Id,
@@ -159,36 +161,56 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
         }
 
         public override void Delete()
-        {   
-            ////Register Observers
-            //Crystal.Lodge.Component.Observer.Building building = new Crystal.Lodge.Component.Observer.Building();
+        {
+            CrystalComponent.Server crud = new CrystalComponent.Server(new CrystalComponent.Data
+            {
+                Id = (this.FormDto as FormDto).Dto.Id
+            });
+            (new Crystal.Lodge.Observer.RoomType() as IRegistrar).Register(crud); //Register Observers
 
-            //BinAff.Core.ICrud crud = building.RegisterObserver(new Crystal.Lodge.Component.Building.Data
-            //{
-            //    Id = dto.Id
-            //});
-            //return crud.Delete();
-
+            ReturnObject<Boolean> ret = (crud as ICrud).Delete();
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
-        private ReturnObject<Boolean> Close(ReasonDto reason)
+        private void Close(ReasonDto reason)
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
 
-            CrystalComponent.Data data = new CrystalComponent.Data
-            {
-                ClosureReasonList = new List<Data>()                
-            };
-            data.ClosureReasonList.Add(new CrystalComponent.ClosureReason.Data
-            {
-                Reason = reason.Reason,               
-                //UserId = dto.UserAccount.Id,
-            });           
+            #region Commented by Arpan... Not sure what is happening here
+            //CrystalComponent.Data data = new CrystalComponent.Data
+            //{
+            //    ClosureReasonList = new List<Data>()                
+            //};
+            //data.ClosureReasonList.Add(new CrystalComponent.ClosureReason.Data
+            //{
+            //    Reason = reason.Reason,               
+            //    //UserId = dto.UserAccount.Id,
+            //});
+            #endregion
 
-            //validate checkedin rooms.  Cannot close checkedin rooms
+            ret = this.CheckForCheckIn(reason);
+            if (ret.Value) //Rooms are not checked in
+            {
+                ret = this.CheckForReservation(reason);
+                if (ret.Value) //Rooms are not reserved
+                {
+                    ret = this.CloseInternal(reason);
+                }
+            }
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+        }
+
+        /// <summary>
+        /// Validate the room is occupied or not
+        /// </summary>
+        /// <param name="checkInRoomList"></param>
+        /// <returns></returns>
+        private ReturnObject<Boolean> CheckForCheckIn(ReasonDto reason)
+        {
+            ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
             ComponentRoom.IRoom roomServer = new ComponentRoom.Server(new Crystal.Lodge.Component.Room.Data
             {
-                Building = new CrystalComponent.Data()
+                Building = new CrystalComponent.Data
                 {
                     Id = reason.Building.Id,
                 }
@@ -209,13 +231,24 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
                 {
                     new Message(msg, Message.Type.Error)
                 };
-                ret.Value = false;
-                return ret;
             }
+            ret.Value = !ret.HasError();
+            return ret;
+        }
 
+        private ReturnObject<Boolean> CheckForReservation(ReasonDto reason)
+        {
+            ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
             //validate booked rooms. Notify before closing booked rooms.
+            ComponentRoom.IRoom roomServer = new ComponentRoom.Server(new Crystal.Lodge.Component.Room.Data
+            {
+                Building = new CrystalComponent.Data
+                {
+                    Id = reason.Building.Id,
+                }
+            });
             List<ComponentRoom.Data> reservedRoomList = roomServer.GetBookedRoomsForBuilding();
-            count = reservedRoomList.Count;
+            Int32 count = reservedRoomList.Count;
             if (count > 0)
             {
                 String msg = "Following rooms are booked in this building : ";
@@ -231,18 +264,14 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
                 {
                     new Message(msg, Message.Type.Error)
                 };
-                ret.Value = true;
-                return ret;
             }
-            
-            return CloseWithNoCheck(reason);
-
+            ret.Value = !ret.HasError();
+            return ret;
         }
 
-        private ReturnObject<Boolean> CloseWithNoCheck(ReasonDto reason)
+        private ReturnObject<Boolean> CloseInternal(ReasonDto reason)
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
-
             using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
             {
                 //----------
@@ -296,19 +325,26 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
 
                 T.Complete();
             }
-
+            ret.Value = !ret.HasError();
             return ret;
         }
 
-        private ReturnObject<Boolean> Open(Dto dto)
+        private void CloseWithNoCheck(ReasonDto reason)
+        {
+            ReturnObject<Boolean> ret = this.CloseInternal(reason);
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+        }
+
+        private void Open()
         {
             //open the closed building
             CrystalComponent.IBuilding crud = new CrystalComponent.Server(new CrystalComponent.Data
             {
-                Id = dto.Id
+                Id = (this.FormDto as FormDto).Dto.Id
             });
-            return crud.Open();
-
+            ReturnObject<Boolean> ret = crud.Open();
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+            
             //ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
 
             //using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))

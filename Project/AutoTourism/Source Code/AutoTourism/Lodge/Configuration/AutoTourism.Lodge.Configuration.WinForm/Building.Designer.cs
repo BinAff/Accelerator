@@ -55,7 +55,7 @@
             // 
             this.cboBuildingList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboBuildingList.FormattingEnabled = true;
-            this.cboBuildingList.Location = new System.Drawing.Point(8, 40);
+            this.cboBuildingList.Location = new System.Drawing.Point(12, 12);
             this.cboBuildingList.Name = "cboBuildingList";
             this.cboBuildingList.Size = new System.Drawing.Size(174, 241);
             this.cboBuildingList.TabIndex = 1;
@@ -63,16 +63,16 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(261, 40);
+            this.txtName.Location = new System.Drawing.Point(265, 12);
             this.txtName.MaxLength = 50;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(164, 20);
-            this.txtName.TabIndex = 3;
+            this.txtName.TabIndex = 10;
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(193, 44);
+            this.lblName.Location = new System.Drawing.Point(197, 16);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 2;
@@ -80,16 +80,16 @@
             // 
             // txtFloor
             // 
-            this.txtFloor.Location = new System.Drawing.Point(261, 66);
+            this.txtFloor.Location = new System.Drawing.Point(265, 38);
             this.txtFloor.MaxLength = 3;
             this.txtFloor.Name = "txtFloor";
             this.txtFloor.Size = new System.Drawing.Size(40, 20);
-            this.txtFloor.TabIndex = 5;
+            this.txtFloor.TabIndex = 11;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(193, 70);
+            this.label1.Location = new System.Drawing.Point(197, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 4;
@@ -99,7 +99,8 @@
             // 
             this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboType.FormattingEnabled = true;
-            this.cboType.Location = new System.Drawing.Point(261, 154);
+            this.cboType.ItemHeight = 13;
+            this.cboType.Location = new System.Drawing.Point(265, 126);
             this.cboType.Name = "cboType";
             this.cboType.Size = new System.Drawing.Size(164, 21);
             this.cboType.TabIndex = 72;
@@ -107,7 +108,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(193, 160);
+            this.label6.Location = new System.Drawing.Point(197, 132);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(31, 13);
             this.label6.TabIndex = 71;
@@ -116,10 +117,10 @@
             // bttnAddContact
             // 
             this.bttnAddContact.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bttnAddContact.Location = new System.Drawing.Point(318, 65);
+            this.bttnAddContact.Location = new System.Drawing.Point(322, 37);
             this.bttnAddContact.Name = "bttnAddContact";
             this.bttnAddContact.Size = new System.Drawing.Size(32, 22);
-            this.bttnAddContact.TabIndex = 74;
+            this.bttnAddContact.TabIndex = 12;
             this.bttnAddContact.Text = "  ►";
             this.bttnAddContact.UseVisualStyleBackColor = true;
             this.bttnAddContact.Click += new System.EventHandler(this.bttnAddContact_Click);
@@ -127,10 +128,10 @@
             // btnRemove
             // 
             this.btnRemove.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemove.Location = new System.Drawing.Point(318, 93);
+            this.btnRemove.Location = new System.Drawing.Point(322, 65);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(32, 22);
-            this.btnRemove.TabIndex = 75;
+            this.btnRemove.TabIndex = 14;
             this.btnRemove.Text = "X";
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
@@ -138,7 +139,7 @@
             // lstFloorList
             // 
             this.lstFloorList.FormattingEnabled = true;
-            this.lstFloorList.Location = new System.Drawing.Point(356, 66);
+            this.lstFloorList.Location = new System.Drawing.Point(360, 38);
             this.lstFloorList.Name = "lstFloorList";
             this.lstFloorList.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.lstFloorList.Size = new System.Drawing.Size(69, 82);
@@ -153,7 +154,7 @@
             this.btnAdd.Location = new System.Drawing.Point(13, 288);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnAdd.TabIndex = 134;
+            this.btnAdd.TabIndex = 100;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -163,7 +164,7 @@
             this.btnChange.Location = new System.Drawing.Point(94, 287);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 23);
-            this.btnChange.TabIndex = 135;
+            this.btnChange.TabIndex = 101;
             this.btnChange.Text = "Change";
             this.btnChange.UseVisualStyleBackColor = true;
             this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
@@ -173,7 +174,7 @@
             this.btnDelete.Location = new System.Drawing.Point(176, 287);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 136;
+            this.btnDelete.TabIndex = 102;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -183,7 +184,7 @@
             this.btnRefresh.Location = new System.Drawing.Point(261, 287);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 137;
+            this.btnRefresh.TabIndex = 103;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
@@ -193,7 +194,7 @@
             this.btnClose.Location = new System.Drawing.Point(346, 287);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 138;
+            this.btnClose.TabIndex = 104;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
@@ -203,7 +204,7 @@
             this.btnOpen.Location = new System.Drawing.Point(428, 287);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(75, 23);
-            this.btnOpen.TabIndex = 139;
+            this.btnOpen.TabIndex = 105;
             this.btnOpen.Text = "Open";
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
@@ -211,7 +212,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(197, 203);
+            this.label2.Location = new System.Drawing.Point(198, 175);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 13);
             this.label2.TabIndex = 140;
@@ -220,7 +221,7 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(258, 203);
+            this.lblStatus.Location = new System.Drawing.Point(262, 175);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(0, 13);
             this.lblStatus.TabIndex = 141;

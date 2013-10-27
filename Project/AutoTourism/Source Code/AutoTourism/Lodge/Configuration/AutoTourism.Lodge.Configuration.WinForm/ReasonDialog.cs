@@ -41,9 +41,11 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 if (this.FormName == "Building")
                 {
                     dto.Building = this.dto as FacadeBuilding.Dto;
-
-                    FacadeBuilding.IBuilding buildingServer = new FacadeBuilding.Server();                   
-                    ret = buildingServer.Close(dto);
+                    FacadeBuilding.IBuilding buildingServer = new FacadeBuilding.Server(new FacadeBuilding.FormDto
+                    {
+                        Dto = dto.Building
+                    });
+                    buildingServer.Close(dto);
                 }
                 else if (this.FormName == "Room")
                 {
@@ -57,7 +59,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                     ret = roomServer.Close(dto);
                 }
 
-                new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message 
+                //new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message 
                 this.Close();
             }
         }

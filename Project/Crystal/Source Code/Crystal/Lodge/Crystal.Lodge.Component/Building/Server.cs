@@ -56,7 +56,6 @@ namespace Crystal.Lodge.Component.Building
             base.AddChildren(new ClosureReason.Server(null)
             {
                 Type = ChildType.Dependent,
-                IsReadOnly = true,
             }, ((Data)base.Data).ClosureReasonList);
             base.AddChild(new Organization.Component.Server(((Data)this.Data).Organization)
             {

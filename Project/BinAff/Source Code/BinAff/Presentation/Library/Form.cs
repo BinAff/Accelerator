@@ -71,7 +71,7 @@ namespace BinAff.Presentation.Library
 
         protected void ShowMessage(ReturnObject<Boolean> ret)
         {
-            new MessageBox(ret.MessageList).ShowDialog(this);
+            new MessageBox().Show(ret.MessageList);
             if (!ret.HasError())
             {
                 this.LoadForm();

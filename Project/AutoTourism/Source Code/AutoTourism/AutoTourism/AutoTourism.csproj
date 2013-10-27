@@ -58,14 +58,24 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Customer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Customer.Designer.cs">
+      <DependentUpon>Customer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Customer.resx">
+      <DependentUpon>Customer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -103,6 +113,10 @@
     <ProjectReference Include="..\Lodge\AutoTourism.Lodge.WinForm\AutoTourism.Lodge.WinForm.csproj">
       <Project>{8d642295-3554-43b7-8e20-c73a745b9c5a}</Project>
       <Name>AutoTourism.Lodge.WinForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lodge\Configuration\AutoTourism.Lodge.Configuration.WinForm\AutoTourism.Lodge.Configuration.WinForm.csproj">
+      <Project>{8f9756b3-0119-4e0f-8e00-87374c072d28}</Project>
+      <Name>AutoTourism.Lodge.Configuration.WinForm</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
