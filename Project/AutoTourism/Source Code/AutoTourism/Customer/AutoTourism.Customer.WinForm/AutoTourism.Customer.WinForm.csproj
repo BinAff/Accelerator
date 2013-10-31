@@ -1,20 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CF2B7682-FA1E-4CDC-8A8C-30D610D18C5E}</ProjectGuid>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{99EEF65F-E520-4AA1-A9E0-DB3EA19A6C16}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Crystal.Customer.Component</RootNamespace>
-    <AssemblyName>Crystal.Customer.Component</AssemblyName>
+    <RootNamespace>AutoTourism.Customer.WinForm</RootNamespace>
+    <AssemblyName>AutoTourism.Customer.WinForm</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -24,8 +23,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -37,25 +36,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BinAff.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Reference\Lib\BinAff.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="BinAff.Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Reference\Lib\BinAff.Utility.dll</HintPath>
-    </Reference>
-    <Reference Include="Crystal.Configuration.Component, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Reference\Lib\Crystal.Configuration.Component.dll</HintPath>
-    </Reference>
-    <Reference Include="Crystal.Customer.Rule, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Reference\Lib\Crystal.Customer.Rule.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -64,34 +48,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Action\Dao.cs">
-      <SubType>Code</SubType>
+    <Compile Include="CustomerForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Action\Data.cs">
-      <SubType>Code</SubType>
+    <Compile Include="CustomerForm.Designer.cs">
+      <DependentUpon>CustomerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Action\IAction.cs" />
-    <Compile Include="Action\Server.cs">
-      <SubType>Code</SubType>
+    <Compile Include="PersonalInformation.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Action\Status\Dao.cs" />
-    <Compile Include="Action\Status\Data.cs" />
-    <Compile Include="Action\Status\Server.cs" />
-    <Compile Include="Action\Status\Validator.cs" />
-    <Compile Include="Action\Validator.cs">
-      <SubType>Code</SubType>
+    <Compile Include="PersonalInformation.Designer.cs">
+      <DependentUpon>PersonalInformation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Characteristic\Dao.cs" />
-    <Compile Include="Characteristic\Data.cs" />
-    <Compile Include="Characteristic\Server.cs" />
-    <Compile Include="Characteristic\Validator.cs" />
-    <Compile Include="ContactNumber\Data.cs" />
-    <Compile Include="Dao.cs" />
-    <Compile Include="Data.cs" />
-    <Compile Include="ICustomer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="Validator.cs" />
+    <EmbeddedResource Include="CustomerForm.resx">
+      <DependentUpon>CustomerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PersonalInformation.resx">
+      <DependentUpon>PersonalInformation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -100,6 +75,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -112,14 +88,24 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DBScript.sql" />
-    <Content Include="DBScript1.sql" />
-    <Content Include="DBScript2.sql" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Product\Crystal.Product.Component\Crystal.Product.Component.csproj">
-      <Project>{2CCCFC6A-E087-48B1-8600-5E619E07613A}</Project>
-      <Name>Crystal.Product.Component</Name>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
+      <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
+      <Name>BinAff.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Presentation\Library\BinAff.Presentation.Library.csproj">
+      <Project>{1ee9a9dd-9151-437a-b1a3-28015975ef52}</Project>
+      <Name>BinAff.Presentation.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Utility\BinAff.Utility.csproj">
+      <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
+      <Name>BinAff.Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">
+      <Project>{2099fb59-6194-4bc7-8ab2-6cabe513082a}</Project>
+      <Name>AutoTourism.Customer.Facade</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
