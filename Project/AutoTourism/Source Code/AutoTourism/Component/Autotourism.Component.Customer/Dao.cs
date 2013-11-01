@@ -62,6 +62,7 @@ namespace Autotourism.Component.Customer
 
         protected override Boolean ReadAfter()
         {
+            base.ReadAfter();
             this.ReadCustomerRoomReservationLink();
             this.ReadCustomerRoomCheckInLink();
             ////TO DO : Read the relationship between Customer and room reservation

@@ -99,11 +99,11 @@ namespace AutoTourism.Customer.WinForm
         //    SetMandatoryRule();
         //}
 
-        //public CustomerForm(Facade.CustomerManagement.Dto data)
-        //{
-        //    InitializeComponent();
-        //    this.customerDto = data;
-        //}
+        public CustomerForm(CustomerFacade.Dto data)
+        {
+            InitializeComponent();
+            this.customerDto = data;
+        }
 
         #endregion
 
@@ -119,8 +119,8 @@ namespace AutoTourism.Customer.WinForm
         {
             this.LoadForm();
 
-            //if (this.customerDto != null)
-            //    LoadCustomerData();
+            if (this.customerDto != null)
+                LoadCustomerData();
         }
 
         private void btnAddContact_Click(object sender, System.EventArgs e)
@@ -168,7 +168,7 @@ namespace AutoTourism.Customer.WinForm
                 }
                 else //Add the landline number to List
                 {
-                    retObj = GetContactNumberList(txtIsd.Text + "-" + txtStd.Text + "-" + txtLandLine.Text, (List<Table>)lstContact.DataSource);
+                    retObj = GetContactNumberList(txtIsd.Text + "-" + txtStd.Text + "-" + txtLandLine.Text, (List<Table>)lstContact.DataSource);                    
 
                     if (retObj.HasError())
                         errorProvider.SetError(txtLandLine, "Entered contact already exists.");
@@ -201,7 +201,7 @@ namespace AutoTourism.Customer.WinForm
                 else
                 {
                     retObj = GetContactNumberList(txtMobilePrefix.Text + "-" + txtMobile.Text, (List<Table>)lstContact.DataSource);
-
+                    
                     if (retObj.HasError())
                         errorProvider.SetError(txtLandLine, "Entered contact already exists.");
                     else
@@ -287,60 +287,60 @@ namespace AutoTourism.Customer.WinForm
         
         private void LoadCustomerData()
         {
-            //if (this.customerDto.Initial != null && this.customerDto.Initial.Id > 0)
-            //{
-            //    for (int i = 0; i < cboInitial.Items.Count; i++)
-            //    {
-            //        if (this.customerDto.Initial.Id == ((AutoTourism.Facade.Configuration.Initial.Dto)cboInitial.Items[i]).Id)
-            //        {
-            //            cboInitial.SelectedIndex = i;
-            //            break;
-            //        }
-            //    }
-            //}
+            if (this.customerDto.Initial != null && this.customerDto.Initial.Id > 0)
+            {
+                for (int i = 0; i < cboInitial.Items.Count; i++)
+                {
+                    if (this.customerDto.Initial.Id == ((Table)cboInitial.Items[i]).Id)
+                    {
+                        cboInitial.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
 
-            //txtFName.Text = this.customerDto.FirstName;
-            //txtMName.Text = this.customerDto.MiddleName;
-            //txtLName.Text = this.customerDto.LastName;
-            //txtAdds.Text = this.customerDto.Address;
+            txtFName.Text = this.customerDto.FirstName;
+            txtMName.Text = this.customerDto.MiddleName;
+            txtLName.Text = this.customerDto.LastName;
+            txtAdds.Text = this.customerDto.Address;
 
-            //if (this.customerDto.State != null && this.customerDto.State.Id > 0)
-            //{
-            //    for (int i = 0; i < cboState.Items.Count; i++)
-            //    {
-            //        if (this.customerDto.State.Id == ((AutoTourism.Facade.Configuration.State.Dto)cboState.Items[i]).Id)
-            //        {
-            //            cboState.SelectedIndex = i;
-            //            break;
-            //        }
-            //    }
-            //}
+            if (this.customerDto.State != null && this.customerDto.State.Id > 0)
+            {
+                for (int i = 0; i < cboState.Items.Count; i++)
+                {
+                    if (this.customerDto.State.Id == ((Table)cboState.Items[i]).Id)
+                    {
+                        cboState.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
 
-            //txtCity.Text = this.customerDto.City;
-            //txtPin.Text = this.customerDto.Pin == 0 ? String.Empty : this.customerDto.Pin.ToString();
+            txtCity.Text = this.customerDto.City;
+            txtPin.Text = this.customerDto.Pin == 0 ? String.Empty : this.customerDto.Pin.ToString();
 
-            //if (this.customerDto.ContactNumberList != null && this.customerDto.ContactNumberList.Count > 0)
-            //{
-            //    this.lstContact.DataSource = this.customerDto.ContactNumberList;
-            //    this.lstContact.DisplayMember = "Name";
-            //    this.lstContact.ValueMember = "Id";
-            //    this.lstContact.SelectedIndex = -1;
-            //}
-            //txtEmail.Text = this.customerDto.Email;
+            if (this.customerDto.ContactNumberList != null && this.customerDto.ContactNumberList.Count > 0)
+            {
+                this.lstContact.DataSource = this.customerDto.ContactNumberList;
+                this.lstContact.DisplayMember = "Name";
+                this.lstContact.ValueMember = "Id";
+                this.lstContact.SelectedIndex = -1;
+            }
+            txtEmail.Text = this.customerDto.Email;
 
-            //if (this.customerDto.IdentityProofType != null && this.customerDto.IdentityProofType.Id > 0)
-            //{
-            //    for (int i = 0; i < cboProofType.Items.Count; i++)
-            //    {
-            //        if (this.customerDto.IdentityProofType.Id == ((AutoTourism.Facade.Configuration.IdentityProofType.Dto)cboProofType.Items[i]).Id)
-            //        {
-            //            cboProofType.SelectedIndex = i;
-            //            break;
-            //        }
-            //    }
-            //}
+            if (this.customerDto.IdentityProofType != null && this.customerDto.IdentityProofType.Id > 0)
+            {
+                for (int i = 0; i < cboProofType.Items.Count; i++)
+                {
+                    if (this.customerDto.IdentityProofType.Id == ((Table)cboProofType.Items[i]).Id)
+                    {
+                        cboProofType.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
 
-            //txtIdentityProofName.Text = this.customerDto.IdentityProofName;
+            txtIdentityProofName.Text = this.customerDto.IdentityProofName;
         }
 
         private ReturnObject<List<Table>> GetContactNumberList(String val, List<Table> ContactNumberList)

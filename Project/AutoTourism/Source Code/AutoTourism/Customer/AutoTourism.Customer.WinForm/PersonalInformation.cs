@@ -35,15 +35,18 @@ namespace AutoTourism.Customer.WinForm
             }
 
         }
-
-
+        
         private void cboCustomer_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (cboCustomer.SelectedIndex != -1)
             {
-                CustomerFacade.Dto dto = (CustomerFacade.Dto)cboCustomer.SelectedItem;
-                txtName.Text = (dto.Initial == null ? String.Empty : dto.Initial.Name)
-                    + dto.FirstName + " " + dto.MiddleName + " " + dto.LastName;
+                CustomerFacade.Dto dto = (CustomerFacade.Dto)cboCustomer.SelectedItem;              
+                String Name = (dto.Initial == null ? String.Empty : dto.Initial.Name);
+                Name += (Name == String.Empty) ? (dto.FirstName == null ? String.Empty : dto.FirstName) : " " + (dto.FirstName == null ? String.Empty : dto.FirstName);
+                Name += (Name == String.Empty) ? (dto.MiddleName == null ? String.Empty : dto.MiddleName) : " " + (dto.MiddleName == null ? String.Empty : dto.MiddleName);
+                Name += (Name == String.Empty) ? (dto.LastName == null ? String.Empty : dto.LastName) : " " + (dto.LastName == null ? String.Empty : dto.LastName);
+                
+                txtName.Text = Name;
                 txtAdds.Text = dto.Address;
                 txtEmail.Text = dto.Email;
                 this.lblIdProofTypeName.Text = dto.IdentityProofType.Name;

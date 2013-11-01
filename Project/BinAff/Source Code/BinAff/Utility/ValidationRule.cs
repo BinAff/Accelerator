@@ -549,6 +549,17 @@ namespace BinAff.Utility
         /// <returns></returns>
         public static bool IsMobileNo(string value)
         {
+            //ToDo : Below condition for validating ISD code needs to be corrected later 
+            if (value.Contains("+91"))
+            {
+                String ISD = value.Substring(1, value.IndexOf("-")-1);
+
+                if (!ValidationRule.IsInteger(ISD) || ISD.Length > 4)
+                    return false;
+                else 
+                    value = value.Substring(value.IndexOf("-") + 1);
+            }
+
             return IsNullOrEmpty(value) ? false : value.Trim() == string.Empty ? true : new Regex(@"^[0-9]{10,12}$").IsMatch(value.Trim());
         }
 
@@ -561,6 +572,17 @@ namespace BinAff.Utility
         /// <returns></returns>
         public static bool IsTelephoneNumber(string value, int minimum, int maximum)
         {
+            //ToDo : Below condition for validating ISD code needs to be corrected later 
+            if (value.Contains("+91"))
+            {
+                String ISD = value.Substring(1, value.IndexOf("-") - 1);
+
+                if (!ValidationRule.IsInteger(ISD) || ISD.Length > 4)
+                    return false;
+                else
+                    value = value.Substring(value.IndexOf("-") + 1);
+            }
+
             return IsNullOrEmpty(value) ? false : new Regex(@"^[0-9\-]{" + minimum.ToString() + "," + maximum.ToString() + "}$").IsMatch(value.Trim());
         }
 

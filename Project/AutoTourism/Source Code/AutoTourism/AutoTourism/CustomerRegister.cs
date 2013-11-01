@@ -3,6 +3,7 @@ using System;
 using System.Windows.Forms;
 
 using AutoTourism.Customer.WinForm;
+using CustomerFacade = AutoTourism.Customer.Facade;
 
 namespace AutoTourism
 {
@@ -43,6 +44,20 @@ namespace AutoTourism
         private void btnAdd_Click(object sender, EventArgs e)
         {
             new CustomerForm().ShowDialog();
+        }
+
+        private void btnChange_Click(object sender, EventArgs e)
+        {           
+            PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
+            foreach (Control control in personalInformation.Controls)
+            {
+                if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
+                {
+                    CustomerFacade.Dto customerDto = (CustomerFacade.Dto)(control as ComboBox).SelectedItem;
+                    new CustomerForm(customerDto).ShowDialog();
+                    break;
+                }
+            }
         }
     }
 }
