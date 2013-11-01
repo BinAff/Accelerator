@@ -69,7 +69,7 @@ namespace Crystal.Customer.Component
             if (data.State == null || data.State.Id == 0)
                 retMsg.Add(new Message("State cannot be empty.", Message.Type.Error));
 
-            if (data.ContactNumberList != null && data.ContactNumberList.Count > 0 && !ValidatePhoneNumber(data.ContactNumberList))            
+            if (data.ContactNumberList != null && data.ContactNumberList.Count > 0 && !ValidatePhoneNumber(data.ContactNumberList))
                 retMsg.Add(new Message("Invalid phone number exists.", Message.Type.Error));
 
             if (data.IdentityProofType != null && !ValidationRule.IsNullOrEmpty(data.IdentityProofType.Name) && data.IdentityProofType.Name.Length > 50)
@@ -102,11 +102,11 @@ namespace Crystal.Customer.Component
                     {
                         ret.Append("Email: '" + d.Email + "' ");
                     }
-                    if (d.IdentityProofType.Id != 0 && d.IdentityProofType.Id == data.IdentityProofType.Id && String.Compare(d.IdentityProof, data.IdentityProof, StringComparison.OrdinalIgnoreCase) == 0)
+                    if (d.IdentityProofType != null && d.IdentityProofType.Id != 0 && d.IdentityProofType.Id == data.IdentityProofType.Id && String.Compare(d.IdentityProof, data.IdentityProof, StringComparison.OrdinalIgnoreCase) == 0)
                     {
                         ret.Append("Identity: '" + d.IdentityProofType.Name + " " + d.IdentityProof + "' ");
                     }
-                    Int32 len = d.ContactNumberList.Count;
+                    //Int32 len = d.ContactNumberList.Count;
                     Boolean isFirst = true;
                     if (d.ContactNumberList != null)
                     {
@@ -127,20 +127,21 @@ namespace Crystal.Customer.Component
             return ret.ToString();
         }
 
-        private void ValidateRule(List<Message> retMsg,Data customerData)
-        { 
+        private void ValidateRule(List<Message> retMsg, Data customerData)
+        {
             //Read rule
-            ICrud crud = new  Rule.Server(new Crystal.Customer.Rule.Data());
+            ICrud crud = new Rule.Server(new Crystal.Customer.Rule.Data());
             ReturnObject<BinAff.Core.Data> retVal = crud.Read();
-            
-            if (retVal.Value != null) {
+
+            if (retVal.Value != null)
+            {
                 Crystal.Customer.Rule.Data data = (Crystal.Customer.Rule.Data)retVal.Value;
 
                 if (data.IsPinNumber) // pin Mandatory
                 {
                     if (ValidationRule.IsNullOrEmpty(customerData.Pin))
                         retMsg.Add(new Message("Pin cannot be empty.", Message.Type.Error));
-                    else if(!ValidationRule.IsPinCode(customerData.Pin.ToString()))
+                    else if (!ValidationRule.IsPinCode(customerData.Pin.ToString()))
                         retMsg.Add(new Message("Pin is not valid.", Message.Type.Error));
                 }
                 else if (!ValidationRule.IsNullOrEmpty(customerData.Pin) && !ValidationRule.IsPinCode(customerData.Pin.ToString()))
@@ -167,7 +168,7 @@ namespace Crystal.Customer.Component
                     retMsg.Add(new Message("Email is not valid.", Message.Type.Error));
 
                 if (data.IsIdentityProof && ValidationRule.IsNullOrEmpty(customerData.IdentityProof)) // IdentityProof Mandatory               
-                    retMsg.Add(new Message("Identity Proof cannot be empty.", Message.Type.Error));                   
+                    retMsg.Add(new Message("Identity Proof cannot be empty.", Message.Type.Error));
             }
         }
 
@@ -181,6 +182,6 @@ namespace Crystal.Customer.Component
             return true;
         }
 
-        
+
     }
 }
