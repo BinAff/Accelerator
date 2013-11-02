@@ -9,6 +9,9 @@ namespace AutoTourism.Customer.WinForm
 {
     public partial class PersonalInformation : Form
     {
+
+        public CustomerFacade.Dto CurrentItem { get; private set; }
+
         public PersonalInformation()
         {
             InitializeComponent();
@@ -40,7 +43,8 @@ namespace AutoTourism.Customer.WinForm
         {
             if (cboCustomer.SelectedIndex != -1)
             {
-                CustomerFacade.Dto dto = (CustomerFacade.Dto)cboCustomer.SelectedItem;              
+                CustomerFacade.Dto dto = (CustomerFacade.Dto)cboCustomer.SelectedItem;
+                this.CurrentItem = dto;
                 String Name = (dto.Initial == null ? String.Empty : dto.Initial.Name);
                 Name += (Name == String.Empty) ? (dto.FirstName == null ? String.Empty : dto.FirstName) : " " + (dto.FirstName == null ? String.Empty : dto.FirstName);
                 Name += (Name == String.Empty) ? (dto.MiddleName == null ? String.Empty : dto.MiddleName) : " " + (dto.MiddleName == null ? String.Empty : dto.MiddleName);
