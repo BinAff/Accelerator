@@ -16,7 +16,7 @@ namespace AutoTourism
 
         private void CustomerRegister_Load(object sender, EventArgs e)
         {
-            PersonalInformation personalInformation = new PersonalInformation()
+            PersonalInformation personalInformation = new PersonalInformation
             {
                 TopLevel = false,
                 Dock = DockStyle.Fill,
@@ -58,6 +58,40 @@ namespace AutoTourism
                     break;
                 }
             }
+        }
+
+        private void btnBook_Click(object sender, EventArgs e)
+        {
+
+            //AutoTourism.Facade.LodgeManagement.Reservation.Dto bookingDto = new Facade.LodgeManagement.Reservation.Dto()
+            //{
+            //    Customer = (AutoTourism.Facade.CustomerManagement.Dto)this.cboCustomer.SelectedItem,
+            //};
+            //new Lodge.RoomReservation(bookingDto, ruleDto)
+            //{
+            //    MdiParent = this.MdiParent,
+            //}.Show();
+
+            //this.Close();
+
+            this.f();
+            PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
+            foreach (Control control in personalInformation.Controls)
+            {
+                if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
+                {
+                    CustomerFacade.Dto customerDto = (CustomerFacade.Dto)(control as ComboBox).SelectedItem;
+                    //new CustomerForm(customerDto).ShowDialog();
+                    break;
+                }
+            }
+        }
+
+        private void f()
+        {
+            PersonalInformation p = this.panel1.Controls[0] as PersonalInformation;
+            //PersonalInformation p = this.panel1.Controls.Find("personalInformation", true)[0] as PersonalInformation;
+            Int64 customerId = p.CurrentItem.Id; //id for customer
         }
     }
 }

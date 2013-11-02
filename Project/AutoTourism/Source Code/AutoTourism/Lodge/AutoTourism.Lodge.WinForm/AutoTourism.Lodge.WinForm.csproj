@@ -58,6 +58,12 @@
     <Compile Include="ReservationList.Designer.cs">
       <DependentUpon>ReservationList.cs</DependentUpon>
     </Compile>
+    <Compile Include="RoomReservationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RoomReservationForm.Designer.cs">
+      <DependentUpon>RoomReservationForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BookingDetails.resx">
@@ -68,6 +74,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ReservationList.resx">
       <DependentUpon>ReservationList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RoomReservationForm.resx">
+      <DependentUpon>RoomReservationForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
