@@ -45,6 +45,18 @@
     <Compile Include="BookingDetails.Designer.cs">
       <DependentUpon>BookingDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="CheckInForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckInForm.Designer.cs">
+      <DependentUpon>CheckInForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckInRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckInRegister.Designer.cs">
+      <DependentUpon>CheckInRegister.cs</DependentUpon>
+    </Compile>
     <Compile Include="Lodge.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,10 +76,22 @@
     <Compile Include="RoomReservationForm.Designer.cs">
       <DependentUpon>RoomReservationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RoomReservationRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RoomReservationRegister.Designer.cs">
+      <DependentUpon>RoomReservationRegister.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BookingDetails.resx">
       <DependentUpon>BookingDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckInForm.resx">
+      <DependentUpon>CheckInForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckInRegister.resx">
+      <DependentUpon>CheckInRegister.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Lodge.resx">
       <DependentUpon>Lodge.cs</DependentUpon>
@@ -77,6 +101,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RoomReservationForm.resx">
       <DependentUpon>RoomReservationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RoomReservationRegister.resx">
+      <DependentUpon>RoomReservationRegister.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
