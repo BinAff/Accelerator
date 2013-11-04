@@ -25,6 +25,29 @@ namespace AutoTourism
             };
             panel1.Controls.Add(personalInformation);
             personalInformation.Show();
+
+            foreach (Control control in personalInformation.Controls)
+            {
+                if (control.Name == "cboCustomer")
+                {
+                    (control as ComboBox).MouseClick += CustomerRegister_MouseClick;
+                    break;
+                }
+            }
+        }
+
+        void CustomerRegister_MouseClick(object sender, MouseEventArgs e)
+        {
+            CustomerFacade.Dto customerDto = new CustomerFacade.Dto(); ;
+            PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
+            foreach (Control control in personalInformation.Controls)
+            {
+                if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
+                {
+                    customerDto = (CustomerFacade.Dto)(control as ComboBox).SelectedItem;
+                    break;
+                }
+            }
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
