@@ -34,7 +34,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 Value = new FormDto()
                 {
-                    roomList = this.ReadAllRoom().Value,
+                    //roomList = this.ReadAllRoom().Value,
                 }
             };
 
@@ -52,7 +52,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 Value = new CheckInRegisterFormDto()
                 {
-                    CheckInRegisterDtoList = this.GetCheckInSearchRecords(reservationStatusId, startDate, endDate).Value,                   
+                    //CheckInRegisterDtoList = this.GetCheckInSearchRecords(reservationStatusId, startDate, endDate).Value,                   
                 }
             };
 
@@ -61,7 +61,8 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         ReturnObject<List<CheckInRegisterDto>> ICheckIn.Search(Int64 reservationStatusId, DateTime startDate, DateTime endDate)
         {
-            return this.GetCheckInSearchRecords(reservationStatusId, startDate, endDate);
+            //return this.GetCheckInSearchRecords(reservationStatusId, startDate, endDate);
+            return new ReturnObject<List<CheckInRegisterDto>>();
         }
         
         private ReturnObject<Boolean> SaveCheckIn(Dto dto)

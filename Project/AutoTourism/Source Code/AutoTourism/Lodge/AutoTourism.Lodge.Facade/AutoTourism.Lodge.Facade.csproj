@@ -36,6 +36,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookingDetails\Dto.cs" />
+    <Compile Include="BookingDetails\FormDto.cs" />
     <Compile Include="CheckIn\CheckInRegisterDto.cs" />
     <Compile Include="CheckIn\CheckInRegisterFormDto.cs" />
     <Compile Include="CheckIn\CheckInServer.cs" />
