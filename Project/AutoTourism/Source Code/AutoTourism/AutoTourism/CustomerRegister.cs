@@ -2,10 +2,12 @@
 using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Text;
 
 using AutoTourism.Customer.WinForm;
 using CustomerFacade = AutoTourism.Customer.Facade;
 using LodgeFacade = AutoTourism.Lodge.Facade;
+
 
 
 namespace AutoTourism
@@ -40,59 +42,15 @@ namespace AutoTourism
         }
 
         void CustomerRegister_MouseClick(object sender, MouseEventArgs e)
-        {
-            CustomerFacade.Dto customerDto = new CustomerFacade.Dto(); ;
+        {            
             PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
             
             foreach (Control control in personalInformation.Controls)
             {
                 if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
                 {
-                    customerDto = (CustomerFacade.Dto)(control as ComboBox).SelectedItem;
-
                     //load booking data
-                    if (customerDto.reservationList != null && customerDto.reservationList.Count > 0)
-                    {
-                        LodgeFacade.BookingDetails.FormDto bookingDetailsFormDto = new LodgeFacade.BookingDetails.FormDto { 
-                            bookingDetailList = new List<LodgeFacade.BookingDetails.Dto>()
-                        };
-
-                        foreach (CustomerFacade.Lodge.Reservation.Dto reservationDto in customerDto.reservationList)
-                        {
-                            bookingDetailsFormDto.bookingDetailList.Add(new LodgeFacade.BookingDetails.Dto
-                            {
-                                Id = reservationDto.Id,
-                                BookingDate = DateTime.Today.ToShortDateString(),
-                                StartDate = reservationDto.BookingFrom.ToShortDateString(),
-                                EndDate = reservationDto.BookingFrom.AddDays(reservationDto.NoOfDays).ToShortDateString(),
-                                //Rooms = GetRooms(reservationDto.RoomList),
-                                Advance = reservationDto.Advance,
-                            });
-                        }
-
-                        if (bookingDetailsFormDto.bookingDetailList != null && bookingDetailsFormDto.bookingDetailList.Count > 0)
-                        {
-                            foreach (Control bookingDetailsControl in this.bookingDetails1.Controls)
-                            {
-                                if (bookingDetailsControl.Name == "dgvBooking")
-                                {
-                                    DataGridView dgvBooking = bookingDetailsControl as DataGridView;
-
-                                    dgvBooking.Columns[0].DataPropertyName = "BookingDate";
-                                    dgvBooking.Columns[1].DataPropertyName = "StartDate";
-                                    dgvBooking.Columns[2].DataPropertyName = "EndDate";
-                                    dgvBooking.Columns[3].DataPropertyName = "Rooms";
-                                    dgvBooking.Columns[4].DataPropertyName = "Advance";
-                                    dgvBooking.Columns[4].HeaderText = "Advance Taken";
-                                    dgvBooking.AutoGenerateColumns = false;
-                                    dgvBooking.DataSource = bookingDetailsFormDto.bookingDetailList;
-
-                                    break;
-                                }
-                            }
-                        }                      
-                    }
-
+                    LoadBookingDetail((CustomerFacade.Dto)(control as ComboBox).SelectedItem);
                     break;
                 }
             }
@@ -101,6 +59,8 @@ namespace AutoTourism
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
+
+            //clear customer form
             foreach (Control control in personalInformation.Controls)
             {
                 if (control.Name == "cboCustomer")
@@ -109,6 +69,18 @@ namespace AutoTourism
                     (control as Label).Text = String.Empty;
                 else if (control.GetType() == typeof(TextBox))                
                     (control as TextBox).Text = String.Empty;
+            }
+
+            //clear booking detail grid
+            DataGridView dgvBooking = null;
+            foreach (Control bookingDetailsControl in this.bookingDetails1.Controls)
+            {
+                if (bookingDetailsControl.Name == "dgvBooking")
+                {
+                    dgvBooking = bookingDetailsControl as DataGridView;
+                    dgvBooking.DataSource = null;
+                    break;
+                }
             }
         }
 
@@ -163,6 +135,65 @@ namespace AutoTourism
             PersonalInformation p = this.panel1.Controls[0] as PersonalInformation;
             //PersonalInformation p = this.panel1.Controls.Find("personalInformation", true)[0] as PersonalInformation;
             Int64 customerId = p.CurrentItem.Id; //id for customer
+        }
+
+        private void LoadBookingDetail(CustomerFacade.Dto customerDto)
+        {
+            DataGridView dgvBooking = null;
+            foreach (Control bookingDetailsControl in this.bookingDetails1.Controls)
+            {
+                if (bookingDetailsControl.Name == "dgvBooking")
+                {
+                    dgvBooking = bookingDetailsControl as DataGridView;
+
+                    dgvBooking.Columns[0].DataPropertyName = "BookingDate";
+                    dgvBooking.Columns[1].DataPropertyName = "StartDate";
+                    dgvBooking.Columns[2].DataPropertyName = "EndDate";
+                    dgvBooking.Columns[3].DataPropertyName = "Rooms";
+                    dgvBooking.Columns[4].DataPropertyName = "Advance";
+                    dgvBooking.Columns[4].HeaderText = "Advance Taken";
+                    dgvBooking.AutoGenerateColumns = false;
+
+                    break;
+                }
+            }
+
+            LodgeFacade.BookingDetails.FormDto bookingDetailsFormDto = new LodgeFacade.BookingDetails.FormDto
+            {
+                bookingDetailList = new List<LodgeFacade.BookingDetails.Dto>()
+            };
+
+
+            if (customerDto != null && customerDto.reservationList != null && customerDto.reservationList.Count > 0)
+            {
+                foreach (CustomerFacade.Lodge.Reservation.Dto reservationDto in customerDto.reservationList)
+                {
+                    bookingDetailsFormDto.bookingDetailList.Add(new LodgeFacade.BookingDetails.Dto
+                    {
+                        Id = reservationDto.Id,
+                        BookingDate = DateTime.Today.ToShortDateString(),
+                        StartDate = reservationDto.BookingFrom.ToShortDateString(),
+                        EndDate = reservationDto.BookingFrom.AddDays(reservationDto.NoOfDays).ToShortDateString(),
+                        Rooms = GetRooms(reservationDto.RoomList),
+                        Advance = reservationDto.Advance,
+                    });
+                }
+            }
+
+            if (dgvBooking != null)
+                dgvBooking.DataSource = bookingDetailsFormDto.bookingDetailList;
+        }
+
+        private String GetRooms(List<CustomerFacade.Lodge.Room.Dto> roomList)
+        {
+            if (roomList == null || roomList.Count == 0)
+                return String.Empty;
+
+            StringBuilder strbRoom = new StringBuilder();
+            foreach (CustomerFacade.Lodge.Room.Dto room in roomList)
+                strbRoom.Append(", " + room.Number.ToString());
+
+            return strbRoom.ToString().Substring(1);
         }
     }
 }
