@@ -37,10 +37,10 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         //    return this.SaveReservation(dto);
         //}
 
-        ReturnObject<List<Dto>> IReservation.GetBooking(Int64 customerId)
-        {
-            return this.GetCustomerBooking(customerId);
-        }
+        //ReturnObject<List<Dto>> IReservation.GetBooking(Int64 customerId)
+        //{
+        //    return this.GetCustomerBooking(customerId);
+        //}
 
         //ReturnObject<List<RoomReservationRegisterDto>> IReservation.Search(Int64 bookingStatusId, DateTime startDate, DateTime endDate)
         //{
