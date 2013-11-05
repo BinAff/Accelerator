@@ -278,16 +278,41 @@ namespace AutoTourism.Customer.Facade
                 {
                     retVal.Add(new Lodge.Room.Dto()
                     {
-                        //Id = data.Id,
-                        //Number = data.Number,
-                        //Name = data.Name,
-                        //Description = data.Description,
-                        //Building = new Configuration.Building.Dto()
-                        //{
-                        //    Id = data.Building.Id,
-                        //},
-                        //IsDormitory = data.IsDormitory,
-                        //StatusId = data.StatusId,
+                        Id = data.Id,
+                        Number = ((LodgeComponent.Room.Data)data).Number,
+                        Name = ((LodgeComponent.Room.Data)data).Name,
+                        Description = ((LodgeComponent.Room.Data)data).Description,
+                        Building = new Lodge.Building.Dto
+                        {
+                            Id = ((LodgeComponent.Room.Data)data).Building.Id,
+                            Name = ((LodgeComponent.Room.Data)data).Building.Name,
+                            Status = new Table
+                            {
+                                Id = ((LodgeComponent.Room.Data)data).Building.Status.Id,
+                                Name = ((LodgeComponent.Room.Data)data).Building.Status.Name,
+                            },
+
+                            Type = new Table
+                            {
+                                Id = ((LodgeComponent.Room.Data)data).Building.Type.Id,
+                                Name = ((LodgeComponent.Room.Data)data).Building.Type.Name,
+                            }
+                        },
+                        Status = new Table
+                        {
+                            Id = ((LodgeComponent.Room.Data)data).Status.Id,
+                            Name = ((LodgeComponent.Room.Data)data).Status.Name
+                        },
+                        Type = new Table
+                        {
+                            Id = ((LodgeComponent.Room.Data)data).Type.Id,
+                            Name = ((LodgeComponent.Room.Data)data).Type.Name
+                        },
+                        IsAirconditioned = ((LodgeComponent.Room.Data)data).IsAirConditioned,
+                        Category = new Table {
+                            Id = ((LodgeComponent.Room.Data)data).Category.Id,
+                            Name = ((LodgeComponent.Room.Data)data).Category.Name
+                        }                        
                     });
                 }
             }
