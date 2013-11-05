@@ -8,8 +8,6 @@ using AutoTourism.Customer.WinForm;
 using CustomerFacade = AutoTourism.Customer.Facade;
 using LodgeFacade = AutoTourism.Lodge.Facade;
 
-
-
 namespace AutoTourism
 {
     public partial class CustomerRegister : Form
@@ -105,6 +103,25 @@ namespace AutoTourism
 
         private void btnBook_Click(object sender, EventArgs e)
         {
+            PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
+            CustomerFacade.Dto customerDto = null;
+            foreach (Control control in personalInformation.Controls)
+            {
+                if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
+                {
+                    customerDto = (CustomerFacade.Dto)(control as ComboBox).SelectedItem;
+                    new CustomerForm(customerDto).ShowDialog();
+                    break;
+                }
+            }
+
+            if(customerDto!=null)
+            {
+                LodgeFacade.RoomReservation.Dto bookingDto = new LodgeFacade.RoomReservation.Dto
+                {
+                    Customer = customerDto
+                };
+            }
 
             //AutoTourism.Facade.LodgeManagement.Reservation.Dto bookingDto = new Facade.LodgeManagement.Reservation.Dto()
             //{
@@ -117,25 +134,25 @@ namespace AutoTourism
 
             //this.Close();
 
-            this.f();
-            PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
-            foreach (Control control in personalInformation.Controls)
-            {
-                if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
-                {
-                    CustomerFacade.Dto customerDto = (CustomerFacade.Dto)(control as ComboBox).SelectedItem;
-                    //new CustomerForm(customerDto).ShowDialog();
-                    break;
-                }
-            }
+            //this.f();
+            //PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
+            //foreach (Control control in personalInformation.Controls)
+            //{
+            //    if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
+            //    {
+            //        CustomerFacade.Dto customerDto = (CustomerFacade.Dto)(control as ComboBox).SelectedItem;
+            //        //new CustomerForm(customerDto).ShowDialog();
+            //        break;
+            //    }
+            //}
         }
 
-        private void f()
-        {
-            PersonalInformation p = this.panel1.Controls[0] as PersonalInformation;
-            //PersonalInformation p = this.panel1.Controls.Find("personalInformation", true)[0] as PersonalInformation;
-            Int64 customerId = p.CurrentItem.Id; //id for customer
-        }
+        //private void f()
+        //{
+        //    PersonalInformation p = this.panel1.Controls[0] as PersonalInformation;
+        //    //PersonalInformation p = this.panel1.Controls.Find("personalInformation", true)[0] as PersonalInformation;
+        //    Int64 customerId = p.CurrentItem.Id; //id for customer
+        //}
 
         private void LoadBookingDetail(CustomerFacade.Dto customerDto)
         {
