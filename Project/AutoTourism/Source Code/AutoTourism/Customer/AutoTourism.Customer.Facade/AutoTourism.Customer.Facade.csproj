@@ -71,6 +71,10 @@
       <Project>{191571fe-40d2-4095-9705-d3020445b65f}</Project>
       <Name>Crystal.Lodge.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Product\Crystal.Product.Component\Crystal.Product.Component.csproj">
+      <Project>{2cccfc6a-e087-48b1-8600-5e619e07613a}</Project>
+      <Name>Crystal.Product.Component</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Reservation\Crystal.Reservation.Component\Crystal.Reservation.Component.csproj">
       <Project>{9ad10300-505d-4b2b-8376-b6049ee47bfa}</Project>
       <Name>Crystal.Reservation.Component</Name>

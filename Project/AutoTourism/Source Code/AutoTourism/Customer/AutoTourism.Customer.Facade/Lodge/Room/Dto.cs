@@ -15,7 +15,7 @@ namespace AutoTourism.Customer.Facade.Lodge.Room
         public Building.Dto Building { get; set; }
         public Table Floor { get; set; }
         public Boolean IsAirconditioned { get; set; }
-        public Int64 StatusId { get; set; }
+        public Table Status { get; set; }
         public List<Image.Dto> ImageList { get; set; }        
     }
 }
