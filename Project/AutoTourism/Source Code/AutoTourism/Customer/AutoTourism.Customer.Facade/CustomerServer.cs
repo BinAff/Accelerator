@@ -6,6 +6,8 @@ using BinAff.Core;
 using AutotourismComponent = Autotourism.Component.Customer;
 using CustomerComponent = Crystal.Customer.Component;
 using ConfigurationComponent = Crystal.Configuration.Component;
+using LodgeComponent = Crystal.Lodge.Component;
+
 
 namespace AutoTourism.Customer.Facade
 {
@@ -99,6 +101,8 @@ namespace AutoTourism.Customer.Facade
                         Name = ((CustomerComponent.Data)data).IdentityProofType.Name,
                     },
                     IdentityProofName = ((Crystal.Customer.Component.Data)data).IdentityProof,
+
+                    reservationList = this.ReadReservationData(((CustomerComponent.Data)data).CharacteristicList)
                 });
             }
 
@@ -231,6 +235,65 @@ namespace AutoTourism.Customer.Facade
             }
             return ContactNumberDtoList;
         }
+
+        private List<Lodge.Reservation.Dto> ReadReservationData(List<CustomerComponent.Characteristic.Data> characteristicList)
+        {
+            List<Lodge.Reservation.Dto> reservationList = new List<Lodge.Reservation.Dto>(); 
+            foreach (CustomerComponent.Characteristic.Data characteristicData in characteristicList)
+            {
+                if (characteristicData.GetType().FullName == "Crystal.Lodge.Component.Room.Reserver.Data") {
+                    if (characteristicData.AllList != null){
+                        foreach (LodgeComponent.Room.Reservation.Data reservationData in characteristicData.AllList) 
+                        {
+                            reservationList.Add(new Lodge.Reservation.Dto
+                            {
+                                Id = reservationData.Id,
+                                BookingDate = reservationData.ActivityDate,
+                                BookingFrom = reservationData.Date,
+                                NoOfDays = reservationData.NoOfDays,
+                                NoOfPersons = reservationData.NoOfPersons,
+                                NoOfRooms = reservationData.NoOfRooms,
+                                Advance = reservationData.Advance,
+                                BookingStatus = new Table{
+                                    Id = reservationData.Status.Id,
+                                    Name = reservationData.Status.Name
+                                },                                
+                                RoomList = reservationData.ProductList == null ? null : GetRoomDtoList(reservationData.ProductList),
+                            });
+                        }
+                    }
+                }
+            }
+            return reservationList;
+        }
+
+        private List<Lodge.Room.Dto> GetRoomDtoList(List<BinAff.Core.Data> roomDataList)
+        {
+            List<Lodge.Room.Dto> retVal = null;
+            if (roomDataList != null && roomDataList.Count > 0)
+            {
+                
+                retVal = new List<Lodge.Room.Dto>();
+                foreach (BinAff.Core.Data data in roomDataList)
+                {
+                    retVal.Add(new Lodge.Room.Dto()
+                    {
+                        //Id = data.Id,
+                        //Number = data.Number,
+                        //Name = data.Name,
+                        //Description = data.Description,
+                        //Building = new Configuration.Building.Dto()
+                        //{
+                        //    Id = data.Building.Id,
+                        //},
+                        //IsDormitory = data.IsDormitory,
+                        //StatusId = data.StatusId,
+                    });
+                }
+            }
+            return retVal;
+        }
+
 
     }
 
