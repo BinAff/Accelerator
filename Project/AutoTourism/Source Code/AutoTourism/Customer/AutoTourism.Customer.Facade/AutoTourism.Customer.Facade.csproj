@@ -44,12 +44,20 @@
     <Compile Include="Dto.cs" />
     <Compile Include="FormDto.cs" />
     <Compile Include="ICustomer.cs" />
+    <Compile Include="Lodge\Building\Dto.cs" />
+    <Compile Include="Lodge\Reservation\Dto.cs" />
+    <Compile Include="Lodge\Room\Dto.cs" />
+    <Compile Include="Lodge\Room\Image\Dto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
       <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
       <Name>BinAff.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
+      <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
+      <Name>BinAff.Facade.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Configuration\Component\Crystal.Configuration.Component.csproj">
       <Project>{8f052ccd-ea57-4d14-a9b1-af605e763d41}</Project>
@@ -63,6 +71,9 @@
       <Project>{9e9f89c1-91be-4595-8d69-3e56afc1bc4c}</Project>
       <Name>Autotourism.Component.Customer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lodge\CheckIn\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
