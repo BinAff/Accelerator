@@ -6,7 +6,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 {
     public interface IReservation
     {
-        //ReturnObject<FormDto> LoadForm();
+        ReturnObject<FormDto> LoadForm();
         //ReturnObject<Boolean> Save(Dto dto);
         //ReturnObject<List<Dto>> GetBooking(Int64 customerId);
         

@@ -135,7 +135,11 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
 
         #endregion
 
-        private ReturnObject<List<Dto>> ReadAllRoom()
+        /// <summary>
+        /// Function below is made public, since this will be read from  AutoTourism.Lodge.Facade.RoomReservation
+        /// </summary>
+        /// <returns></returns>
+        public ReturnObject<List<Dto>> ReadAllRoom()
         {
             ReturnObject<List<Dto>> retObj = new ReturnObject<List<Dto>>();
             ICrud crud = new ComponentRoom.Server(null);

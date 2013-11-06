@@ -5,16 +5,27 @@ using System.Collections.Generic;
 using System.Text;
 
 using AutoTourism.Customer.WinForm;
+using AutoTourism.Lodge.WinForm;
+
 using CustomerFacade = AutoTourism.Customer.Facade;
 using LodgeFacade = AutoTourism.Lodge.Facade;
+using RuleFacade = Autotourism.Configuration.Rule.Facade;
 
 namespace AutoTourism
 {
     public partial class CustomerRegister : Form
     {
+        private RuleFacade.Dto ruleDto;
+
         public CustomerRegister()
         {
+            InitializeComponent();            
+        }
+
+        public CustomerRegister(RuleFacade.Dto ruleDto)
+        {
             InitializeComponent();
+            this.ruleDto = ruleDto;
         }
 
         private void CustomerRegister_Load(object sender, EventArgs e)
@@ -103,57 +114,20 @@ namespace AutoTourism
 
         private void btnBook_Click(object sender, EventArgs e)
         {
-            PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
-            CustomerFacade.Dto customerDto = null;
+            PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;            
             foreach (Control control in personalInformation.Controls)
             {
                 if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
-                {
-                    customerDto = (CustomerFacade.Dto)(control as ComboBox).SelectedItem;
-                    new CustomerForm(customerDto).ShowDialog();
+                {                   
+                    new RoomReservationForm(new LodgeFacade.RoomReservation.Dto
+                                                {
+                                                    Customer = (CustomerFacade.Dto)(control as ComboBox).SelectedItem
+                                                }, this.ruleDto).ShowDialog();
                     break;
                 }
             }
-
-            if(customerDto!=null)
-            {
-                LodgeFacade.RoomReservation.Dto bookingDto = new LodgeFacade.RoomReservation.Dto
-                {
-                    Customer = customerDto
-                };
-            }
-
-            //AutoTourism.Facade.LodgeManagement.Reservation.Dto bookingDto = new Facade.LodgeManagement.Reservation.Dto()
-            //{
-            //    Customer = (AutoTourism.Facade.CustomerManagement.Dto)this.cboCustomer.SelectedItem,
-            //};
-            //new Lodge.RoomReservation(bookingDto, ruleDto)
-            //{
-            //    MdiParent = this.MdiParent,
-            //}.Show();
-
-            //this.Close();
-
-            //this.f();
-            //PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
-            //foreach (Control control in personalInformation.Controls)
-            //{
-            //    if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
-            //    {
-            //        CustomerFacade.Dto customerDto = (CustomerFacade.Dto)(control as ComboBox).SelectedItem;
-            //        //new CustomerForm(customerDto).ShowDialog();
-            //        break;
-            //    }
-            //}
-        }
-
-        //private void f()
-        //{
-        //    PersonalInformation p = this.panel1.Controls[0] as PersonalInformation;
-        //    //PersonalInformation p = this.panel1.Controls.Find("personalInformation", true)[0] as PersonalInformation;
-        //    Int64 customerId = p.CurrentItem.Id; //id for customer
-        //}
-
+        }       
+       
         private void LoadBookingDetail(CustomerFacade.Dto customerDto)
         {
             DataGridView dgvBooking = null;
@@ -212,5 +186,7 @@ namespace AutoTourism
 
             return strbRoom.ToString().Substring(1);
         }
+
+       
     }
 }

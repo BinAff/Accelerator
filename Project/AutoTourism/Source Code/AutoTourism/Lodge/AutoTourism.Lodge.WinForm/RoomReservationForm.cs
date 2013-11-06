@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 using BinAff.Core;
 using BinAff.Utility;
-using System.Windows.Forms;
+
+using LodgeFacade = AutoTourism.Lodge.Facade;
+using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 
 //using AutoTourism.Facade.LodgeManagement.Reservation;
 
@@ -17,8 +21,8 @@ namespace AutoTourism.Lodge.WinForm
     {
 
         //private static RoomReservation bookingForm;
-        //private Facade.LodgeManagement.Reservation.Dto BookingDto;
-        //private AutoTourism.Facade.Rule.Dto ruleDto;
+        private LodgeFacade.RoomReservation.Dto bookingDto;
+        private RuleFacade.Dto ruleDto;
 
         public enum LodgeReservationStatus
         {
@@ -33,25 +37,25 @@ namespace AutoTourism.Lodge.WinForm
             InitializeComponent();
         }
 
-        //public RoomReservation(AutoTourism.Facade.LodgeManagement.Reservation.Dto bookingDto, AutoTourism.Facade.Rule.Dto ruleDto)
-        //{
-        //    InitializeComponent();
-        //    this.BookingDto = bookingDto;
-        //    this.ruleDto = ruleDto;
-        //}
+        public RoomReservationForm(LodgeFacade.RoomReservation.Dto bookingDto, RuleFacade.Dto ruleDto)
+        {
+            InitializeComponent();
+            this.bookingDto = bookingDto;
+            this.ruleDto = ruleDto;
+        }
 
         private void RoomBookingForm_Load(object sender, System.EventArgs e)
-        {            
-            //dtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            //if(this.ruleDto.ConfigurationRule.DateFormat == String.Empty)
-            //    dtFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
-            //else
-            //    dtFrom.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
+        {
+            dtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            if (this.ruleDto == null || this.ruleDto.ConfigurationRule == null || this.ruleDto.ConfigurationRule.DateFormat == String.Empty)
+                dtFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+            else
+                dtFrom.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
 
-            //dtFromTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            //dtFromTime.ShowUpDown = true;
-            
-            //if (this.BookingDto != null)  LoadForm();
+            dtFromTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            dtFromTime.ShowUpDown = true;
+
+            if (this.bookingDto != null) LoadForm();
         }
                 
         //public static RoomReservation Create(System.Windows.Forms.Form mdiParent)
@@ -126,37 +130,38 @@ namespace AutoTourism.Lodge.WinForm
         }
 
         private void LoadForm()
-        {          
-            //IReservation reservation = new ReservationServer();
-            //ReturnObject<FormDto> ret = reservation.LoadForm();
-            //List<Facade.Configuration.Room.Dto> RoomList = new List<Facade.Configuration.Room.Dto>();
+        {
+            LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer();
+            ReturnObject<LodgeFacade.RoomReservation.FormDto> ret = reservation.LoadForm();
 
-            //if (ret.Value.roomList != null && ret.Value.roomList.Count > 0)
-            //{
-            //    if (this.BookingDto.RoomList == null || this.BookingDto.RoomList.Count == 0)
-            //        RoomList = ret.Value.roomList;
-            //    else
-            //    {
-            //        foreach (Facade.Configuration.Room.Dto roomDto in ret.Value.roomList)
-            //        {
-            //            Boolean blnNotExist = true;
-            //            foreach (Facade.Configuration.Room.Dto bookedRoomDto in this.BookingDto.RoomList)
-            //            {
-            //                if (roomDto.Id == bookedRoomDto.Id)
-            //                {
-            //                    blnNotExist = false;
-            //                    break;
-            //                }
-            //            }
-            //            if (blnNotExist) RoomList.Add(roomDto);
-            //        }
-            //    }
+            List<LodgeConfigurationFacade.Room.Dto> RoomList = new List<LodgeConfigurationFacade.Room.Dto>();
 
-            //    this.cboRoomList.DataSource = RoomList;
-            //    this.cboRoomList.DisplayMember = "Number";
-            //    this.cboRoomList.ValueMember = "Id";
-            //    this.cboRoomList.SelectedIndex = -1;
-            //}
+            if (ret.Value.roomList != null && ret.Value.roomList.Count > 0)
+            {
+                if (this.bookingDto.RoomList == null || this.bookingDto.RoomList.Count == 0)
+                    RoomList = ret.Value.roomList;
+                else
+                {
+                    foreach (LodgeConfigurationFacade.Room.Dto roomDto in ret.Value.roomList)
+                    {
+                        Boolean blnNotExist = true;
+                        foreach (LodgeConfigurationFacade.Room.Dto bookedRoomDto in this.bookingDto.RoomList)
+                        {
+                            if (roomDto.Id == bookedRoomDto.Id)
+                            {
+                                blnNotExist = false;
+                                break;
+                            }
+                        }
+                        if (blnNotExist) RoomList.Add(roomDto);
+                    }
+                }
+
+                this.cboRoomList.DataSource = RoomList;
+                this.cboRoomList.DisplayMember = "Number";
+                this.cboRoomList.ValueMember = "Id";
+                this.cboRoomList.SelectedIndex = -1;
+            }
 
             ////populate customer data
             //if (this.BookingDto != null)
