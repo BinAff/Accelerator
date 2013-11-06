@@ -147,6 +147,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTourism.Customer.Facade
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTourism.Customer.WinForm", "Customer\AutoTourism.Customer.WinForm\AutoTourism.Customer.WinForm.csproj", "{99EEF65F-E520-4AA1-A9E0-DB3EA19A6C16}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autotourism.Configuration.Rule.Facade", "Configuration\Autotourism.Configuration.Rule.Facade\Autotourism.Configuration.Rule.Facade.csproj", "{C8CF309D-21F1-43F7-BB6B-CF78E2B14245}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autotourism.Configuration.Rule.WinForm", "Configuration\Autotourism.Configuration.Rule.WinForm\Autotourism.Configuration.Rule.WinForm.csproj", "{CEDCE9B6-EF42-4ABC-8961-0D97C888E0C1}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -564,6 +568,26 @@ Global
 		{99EEF65F-E520-4AA1-A9E0-DB3EA19A6C16}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{99EEF65F-E520-4AA1-A9E0-DB3EA19A6C16}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{99EEF65F-E520-4AA1-A9E0-DB3EA19A6C16}.Release|x86.ActiveCfg = Release|Any CPU
+		{C8CF309D-21F1-43F7-BB6B-CF78E2B14245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8CF309D-21F1-43F7-BB6B-CF78E2B14245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8CF309D-21F1-43F7-BB6B-CF78E2B14245}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C8CF309D-21F1-43F7-BB6B-CF78E2B14245}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C8CF309D-21F1-43F7-BB6B-CF78E2B14245}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C8CF309D-21F1-43F7-BB6B-CF78E2B14245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8CF309D-21F1-43F7-BB6B-CF78E2B14245}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8CF309D-21F1-43F7-BB6B-CF78E2B14245}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C8CF309D-21F1-43F7-BB6B-CF78E2B14245}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C8CF309D-21F1-43F7-BB6B-CF78E2B14245}.Release|x86.ActiveCfg = Release|Any CPU
+		{CEDCE9B6-EF42-4ABC-8961-0D97C888E0C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEDCE9B6-EF42-4ABC-8961-0D97C888E0C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEDCE9B6-EF42-4ABC-8961-0D97C888E0C1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CEDCE9B6-EF42-4ABC-8961-0D97C888E0C1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CEDCE9B6-EF42-4ABC-8961-0D97C888E0C1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CEDCE9B6-EF42-4ABC-8961-0D97C888E0C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEDCE9B6-EF42-4ABC-8961-0D97C888E0C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEDCE9B6-EF42-4ABC-8961-0D97C888E0C1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CEDCE9B6-EF42-4ABC-8961-0D97C888E0C1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CEDCE9B6-EF42-4ABC-8961-0D97C888E0C1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -623,6 +647,8 @@ Global
 		{9AD10300-505D-4B2B-8376-B6049EE47BFA} = {7EC569BE-9A7A-4B21-BABA-000A8D45187F}
 		{63ED7282-D4D5-4AE0-B46A-E95582D9536D} = {A364D159-BBF9-4872-A03F-0A312AAA326D}
 		{242C27A8-FFBB-48C3-93BE-96AA11455BF3} = {5363500D-C42A-459A-9DFC-7BC55299458D}
+		{C8CF309D-21F1-43F7-BB6B-CF78E2B14245} = {5363500D-C42A-459A-9DFC-7BC55299458D}
+		{CEDCE9B6-EF42-4ABC-8961-0D97C888E0C1} = {5363500D-C42A-459A-9DFC-7BC55299458D}
 		{05DEDCC9-9D79-4F0E-A869-8C6F880A13B8} = {02E45B0D-F558-4510-8898-BBDC7F963BA2}
 		{48B07690-FE69-4BFE-8F99-5556AE60AE5A} = {9D00BC97-0F18-4C7F-A741-E542B7FEBF71}
 		{7D4930BB-2807-4F89-8318-A42941AE70D3} = {9D00BC97-0F18-4C7F-A741-E542B7FEBF71}

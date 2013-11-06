@@ -101,7 +101,7 @@
             this.btnCheckIn.Size = new System.Drawing.Size(66, 23);
             this.btnCheckIn.TabIndex = 112;
             this.btnCheckIn.Text = "CheckIn";
-            this.btnCheckIn.UseVisualStyleBackColor = true;
+            this.btnCheckIn.UseVisualStyleBackColor = true;          
             // 
             // bookingDetails1
             // 
