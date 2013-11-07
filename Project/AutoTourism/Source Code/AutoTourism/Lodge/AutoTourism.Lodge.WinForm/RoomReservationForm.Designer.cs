@@ -56,6 +56,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.dtFromTime = new System.Windows.Forms.DateTimePicker();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -73,7 +75,7 @@
             this.groupBox1.Controls.Add(this.txtName);
             this.groupBox1.Controls.Add(this.lblName);
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(302, 43);
+            this.groupBox1.Location = new System.Drawing.Point(322, 43);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(272, 273);
             this.groupBox1.TabIndex = 0;
@@ -184,7 +186,7 @@
             this.dtFrom.CalendarTitleForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
             this.dtFrom.Location = new System.Drawing.Point(110, 43);
             this.dtFrom.Name = "dtFrom";
-            this.dtFrom.Size = new System.Drawing.Size(91, 20);
+            this.dtFrom.Size = new System.Drawing.Size(108, 20);
             this.dtFrom.TabIndex = 1;
             // 
             // txtDays
@@ -282,7 +284,7 @@
             // 
             // btnAddRoom
             // 
-            this.btnAddRoom.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddRoom.Location = new System.Drawing.Point(124, 19);
             this.btnAddRoom.Name = "btnAddRoom";
             this.btnAddRoom.Size = new System.Drawing.Size(32, 22);
@@ -293,7 +295,7 @@
             // 
             // btnRemoveRoom
             // 
-            this.btnRemoveRoom.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemoveRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRemoveRoom.Location = new System.Drawing.Point(124, 47);
             this.btnRemoveRoom.Name = "btnRemoveRoom";
             this.btnRemoveRoom.Size = new System.Drawing.Size(32, 22);
@@ -325,16 +327,37 @@
             this.dtFromTime.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
             this.dtFromTime.CalendarTitleBackColor = System.Drawing.Color.LightSteelBlue;
             this.dtFromTime.CalendarTitleForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.dtFromTime.Location = new System.Drawing.Point(207, 42);
+            this.dtFromTime.Location = new System.Drawing.Point(224, 42);
             this.dtFromTime.Name = "dtFromTime";
             this.dtFromTime.Size = new System.Drawing.Size(86, 20);
             this.dtFromTime.TabIndex = 2;
             // 
-            // RoomReservation
+            // btnOk
+            // 
+            this.btnOk.Location = new System.Drawing.Point(603, 78);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.TabIndex = 95;
+            this.btnOk.Text = "OK";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(603, 49);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 96;
+            this.button1.Text = "Refresh";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // RoomReservationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 328);
+            this.ClientSize = new System.Drawing.Size(690, 328);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnOk);
             this.Controls.Add(this.dtFrom);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
@@ -348,22 +371,9 @@
             this.Controls.Add(this.txtRooms);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtPersons);
-            this.Name = "RoomReservation";
+            this.Name = "RoomReservationForm";
             this.Text = "Room Registration Form";
             this.Load += new System.EventHandler(this.RoomBookingForm_Load);
-            this.Controls.SetChildIndex(this.txtPersons, 0);
-            this.Controls.SetChildIndex(this.label4, 0);
-            this.Controls.SetChildIndex(this.txtRooms, 0);
-            this.Controls.SetChildIndex(this.label6, 0);
-            this.Controls.SetChildIndex(this.txtAdvance, 0);
-            this.Controls.SetChildIndex(this.groupBox2, 0);
-            this.Controls.SetChildIndex(this.dtFromTime, 0);
-            this.Controls.SetChildIndex(this.label3, 0);
-            this.Controls.SetChildIndex(this.txtDays, 0);
-            this.Controls.SetChildIndex(this.label2, 0);
-            this.Controls.SetChildIndex(this.label1, 0);
-            this.Controls.SetChildIndex(this.groupBox1, 0);
-            this.Controls.SetChildIndex(this.dtFrom, 0);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -402,5 +412,7 @@
         private System.Windows.Forms.Button btnPickCustomer;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.DateTimePicker dtFromTime;
+        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button button1;
     }
 }
