@@ -118,6 +118,10 @@
       <Project>{c8cf309d-21f1-43f7-bb6b-cf78e2b14245}</Project>
       <Name>Autotourism.Configuration.Rule.Facade</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Customer\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">
+      <Project>{2099fb59-6194-4bc7-8ab2-6cabe513082a}</Project>
+      <Name>AutoTourism.Customer.Facade</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AutoTourism.Lodge.Facade\AutoTourism.Lodge.Facade.csproj">
       <Project>{87b249d1-5284-4376-9c8f-990025c3aedd}</Project>
       <Name>AutoTourism.Lodge.Facade</Name>
