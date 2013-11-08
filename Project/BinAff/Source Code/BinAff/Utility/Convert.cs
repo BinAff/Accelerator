@@ -129,6 +129,49 @@ namespace BinAff.Utility
             return retVal;
         }
 
+        /// <summary>
+        /// Put comma in Indian style
+        /// </summary>
+        /// <param name="value">Currency value</param>
+        /// <returns></returns>
+        public static String ConvertToIndianCurrency(Double value)
+        {
+            String retVal = String.Empty;
+            Double amount = Math.Round(value, 2);
+            StringBuilder sb = new StringBuilder();
+            String Value = amount.ToString().Split('.')[0];
+            if (Value.Length > 3)
+            {
+                ArrayList list = new ArrayList();
+                ArrayList newList = new ArrayList();
+                for (int intCnt = 0; intCnt < Value.Length; intCnt++)
+                    list.Add(Value.Substring(intCnt, 1));
+
+                list.Reverse();
+                list.Insert(3, ",");
+
+                for (int intLst = 0; intLst < list.Count; intLst++)
+                {
+                    newList.Add(list[intLst]);
+
+                    if ((intLst > 4) && ((intLst % 2) != 0))
+                        newList.Add(",");
+                }
+
+                newList.Reverse();
+
+                for (int intNLst = 0; intNLst < newList.Count; intNLst++)
+                    sb.Append(newList[intNLst]);
+
+                retVal = sb.ToString().Substring(0, 1) == "," ? sb.ToString().Substring(1) : sb.ToString();
+                retVal = retVal + "." + amount.ToString().Split('.')[1];
+            }
+            else
+                retVal = amount.ToString();
+
+            return retVal;
+        }
+
     }
 
 }
