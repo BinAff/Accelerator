@@ -286,10 +286,10 @@ namespace AutoTourism.Lodge.WinForm
                 {
                     Id = this.bookingDto.Id,
                     BookingFrom = bookingDateTime,
-                    NoOfDays = Convert.ToInt32(txtDays.Text),
-                    NoOfPersons = Convert.ToInt32(txtPersons.Text),
-                    NoOfRooms = Convert.ToInt32(txtRooms.Text),
-                    Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDecimal(txtAdvance.Text.Replace(",", "")),
+                    NoOfDays = Convert.ToInt16(txtDays.Text),
+                    NoOfPersons = Convert.ToInt16(txtPersons.Text),
+                    NoOfRooms = Convert.ToInt16(txtRooms.Text),
+                    Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", "")),
                     Customer = new CustomerFacade.Dto()
                     {
                         Id = this.bookingDto.Customer.Id,

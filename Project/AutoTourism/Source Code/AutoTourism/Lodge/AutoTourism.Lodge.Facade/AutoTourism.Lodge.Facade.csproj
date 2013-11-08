@@ -69,6 +69,10 @@
       <Project>{8f052ccd-ea57-4d14-a9b1-af605e763d41}</Project>
       <Name>Crystal.Configuration.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Customer\Crystal.Customer.Component\Crystal.Customer.Component.csproj">
+      <Project>{cf2b7682-fa1e-4cdc-8a8c-30d610d18c5e}</Project>
+      <Name>Crystal.Customer.Component</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Lodge\Crystal.Lodge.Component\Crystal.Lodge.Component.csproj">
       <Project>{191571fe-40d2-4095-9705-d3020445b65f}</Project>
       <Name>Crystal.Lodge.Component</Name>
@@ -80,6 +84,10 @@
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Product\Crystal.Product.Component\Crystal.Product.Component.csproj">
       <Project>{2cccfc6a-e087-48b1-8600-5e619e07613a}</Project>
       <Name>Crystal.Product.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Reservation\Crystal.Reservation.Component\Crystal.Reservation.Component.csproj">
+      <Project>{9ad10300-505d-4b2b-8376-b6049ee47bfa}</Project>
+      <Name>Crystal.Reservation.Component</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Customer\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">
       <Project>{2099fb59-6194-4bc7-8ab2-6cabe513082a}</Project>

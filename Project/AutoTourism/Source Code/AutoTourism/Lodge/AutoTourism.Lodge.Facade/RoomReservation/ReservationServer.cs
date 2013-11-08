@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using BinAff.Core;
 
@@ -11,13 +9,7 @@ using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
     public class ReservationServer : IReservation
-    {
-        public enum RoomStatus
-        {
-            Unoccupied = 10001,
-            Occupied = 10002,
-            Closed = 10003
-        }
+    {       
 
         #region "IReservation"
 
@@ -76,7 +68,25 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         private ReturnObject<Boolean> SaveReservation(Dto dto)
         {
-            return new ReturnObject<bool>();
+            ICrud crud = new CrystalLodge.Room.Reservation.Server(new CrystalLodge.Room.Reservation.Data
+            {
+                Id = dto.Id,
+                //Description = "",
+                NoOfDays = dto.NoOfDays,
+                NoOfPersons = dto.NoOfPersons,
+                NoOfRooms = dto.NoOfRooms,
+                Advance = dto.Advance,
+                //IsCheckedIn = false,
+
+                ActivityDate = dto.BookingFrom,
+
+                Date = DateTime.Now,
+                ProductList = dto.RoomList == null ? null : GetRoomDataList(dto.RoomList),
+                Status = new Crystal.Customer.Component.Action.Status.Data
+                {
+                },
+            });
+            return crud.Save();
             //ICrud crud = new Server(new Crystal.Lodge.Reservation.Data
             //{
             //    Id = dto.Id,
@@ -94,12 +104,12 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             //return crud.Save();
         }
 
-        private List<CrystalLodge.Room.Data> GetRoomDataList(List<LodgeConfigurationFacade.Room.Dto> RoomList)
+        private List<Data> GetRoomDataList(List<LodgeConfigurationFacade.Room.Dto> RoomList)
         {
-            List<CrystalLodge.Room.Data> RoomDataList = new List<CrystalLodge.Room.Data>();
+            List<Data> RoomDataList = new List<Data>();
             foreach (LodgeConfigurationFacade.Room.Dto dto in RoomList)
             {
-                RoomDataList.Add(new CrystalLodge.Room.Data()
+                RoomDataList.Add(new CrystalLodge.Room.Data
                 {
                     Id = dto.Id,
                     Number = dto.Number,
@@ -305,5 +315,14 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         //    });
         //    return crud.Save();
         //}
+
+        public enum RoomStatus
+        {
+            Unoccupied = 10001,
+            Occupied = 10002,
+            Closed = 10003
+        }
+
     }
+
 }
