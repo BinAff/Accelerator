@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
+using CustomerFacade = AutoTourism.Customer.Facade;
 
-namespace AutoTourism.Lodge.Facade.RoomReservation
+namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 {
-    public class RoomReservationRegisterDto
+    public class Dto
     {
         public Int64 Id { get; set; }
         public DateTime BookingDate { get; set; }
@@ -19,7 +21,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public String ContactNumber { get; set; }
         public String Room { get; set; }
 
-        //public List<AutoTourism.Facade.Configuration.Room.Dto> RoomList { get; set; }
-        //public AutoTourism.Facade.CustomerManagement.Dto Customer { get; set; }
+        public List<LodgeConfigurationFacade.Room.Dto> RoomList { get; set; }
+        public CustomerFacade.Dto Customer { get; set; }
     }
 }
