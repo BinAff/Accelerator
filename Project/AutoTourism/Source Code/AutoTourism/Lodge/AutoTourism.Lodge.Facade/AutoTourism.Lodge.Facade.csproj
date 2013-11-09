@@ -46,13 +46,15 @@
     <Compile Include="CheckIn\ICheckIn.cs" />
     <Compile Include="Dto.cs" />
     <Compile Include="FormDto.cs" />
+    <Compile Include="RoomReservationRegister\Dto.cs" />
+    <Compile Include="RoomReservationRegister\FormDto.cs" />
+    <Compile Include="RoomReservationRegister\IReservationRegister.cs" />
+    <Compile Include="RoomReservationRegister\ReservationRegisterServer.cs" />
     <Compile Include="RoomReservation\Dto.cs" />
     <Compile Include="RoomReservation\FormDto.cs" />
     <Compile Include="RoomReservation\IReservation.cs" />
     <Compile Include="RoomReservation\LodgeReservationDto.cs" />
     <Compile Include="RoomReservation\ReservationServer.cs" />
-    <Compile Include="RoomReservation\RoomReservationRegisterDto.cs" />
-    <Compile Include="RoomReservation\RoomReservationRegisterFormDto.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

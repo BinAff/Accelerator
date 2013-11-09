@@ -56,7 +56,9 @@ namespace AutoTourism.Lodge.WinForm
         private void btnPickCustomer_Click(object sender, System.EventArgs e)
         {
             //this.Close();
-            //new CustomerRegister(this.ruleDto).Show(this.Owner);         
+            //new CustomerRegister(this.ruleDto).Show(this.Owner);     
+
+            new RoomReservationRegister(this.ruleDto).ShowDialog();
         }
         
         private void btnAddRoom_Click(object sender, EventArgs e)
