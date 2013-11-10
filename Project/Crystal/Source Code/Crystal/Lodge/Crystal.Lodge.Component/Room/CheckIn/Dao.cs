@@ -23,7 +23,8 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             base.UpdateStoredProcedure = "[Lodge].[CheckInUpdate]";
             base.NumberOfRowsAffectedInUpdate = -1;
             base.DeleteStoredProcedure = "[Lodge].[CheckInDelete]";
-            base.NumberOfRowsAffectedInDelete = -1;            
+            base.NumberOfRowsAffectedInDelete = -1;
+            base.SearchStoredProcedure = "";
         }
 
         protected override void AssignParameter(String procedureName)

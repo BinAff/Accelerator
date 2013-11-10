@@ -1,6 +1,5 @@
 ﻿using System;
 using BinAff.Core;
-using System.Collections.Generic;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
@@ -8,8 +7,5 @@ namespace AutoTourism.Lodge.Facade.CheckIn
     {
         ReturnObject<FormDto> LoadForm();
         ReturnObject<Boolean> Save(Dto dto);
-
-        //ReturnObject<List<CheckInRegisterDto>> Search(Int64 reservationStatusId, DateTime startDate, DateTime endDate);
-        
     }
 }

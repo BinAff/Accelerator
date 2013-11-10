@@ -15,7 +15,7 @@ namespace AutoTourism.Lodge.Facade.CheckInRegister
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public String Room { get; set; }
-        public Decimal Advance { get; set; }
+        public Double Advance { get; set; }
         public Int64 InvoiceId { get; set; }
 
         public LodgeFacade.RoomReservation.Dto Reservation { get; set; }

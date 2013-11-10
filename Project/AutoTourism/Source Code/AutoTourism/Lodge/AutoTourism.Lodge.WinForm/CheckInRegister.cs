@@ -90,35 +90,34 @@ namespace AutoTourism.Lodge.WinForm
 
         }
 
-        //protected override void Clear()
-        //{           
-        //    dgvCheckIn.DataSource = null;
-            
-        //    txtFromDate.Text = String.Empty;
-        //    txtDays.Text = String.Empty;
-        //    txtPersons.Text = String.Empty;
-        //    txtRooms.Text = String.Empty;
-        //    txtAdvance.Text = String.Empty;
-        //    lstRooms.DataSource = null; ;
-            
-        //    txtName.Text = String.Empty;
-        //    lstContact.DataSource = null;
-        //    txtAdds.Text = String.Empty;
-        //    txtEmail.Text = String.Empty; 
-        //}
+        private void Clear()
+        {
+            dgvCheckIn.DataSource = null;
 
-        //private void btnSearch_Click(object sender, System.EventArgs e)
-        //{
-            //ICheckIn checkIn = new CheckInServer();
-            //ReturnObject<List<CheckInRegisterDto>> ret = checkIn.Search(Convert.ToInt64(((Table)cmbReservationStatus.SelectedItem).Id), dtCheckIn.Value, dtBookingTo.Value);
+            txtFromDate.Text = String.Empty;
+            txtDays.Text = String.Empty;
+            txtPersons.Text = String.Empty;
+            txtRooms.Text = String.Empty;
+            txtAdvance.Text = String.Empty;
+            lstRooms.DataSource = null; ;
 
-            ////dgvCheckIn.DataSource = null;
-            //Clear();
+            txtName.Text = String.Empty;
+            lstContact.DataSource = null;
+            txtAdds.Text = String.Empty;
+            txtEmail.Text = String.Empty; 
+        }
+        
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            LodgeFacade.CheckInRegister.ICheckInRegister checkInRegister = new LodgeFacade.CheckInRegister.CheckInRegisterServer();
+            ReturnObject<List<LodgeFacade.CheckInRegister.Dto>> ret = checkInRegister.Search(Convert.ToInt64(((Table)cmbReservationStatus.SelectedItem).Id), dtCheckIn.Value, dtBookingTo.Value);
+                     
+            Clear();
 
-            //if (ret.Value != null && ret.Value.Count > 0)
-            //    PopulateCheckInRegisterData(ret.Value);
-
-        //}
+            if (ret.Value != null && ret.Value.Count > 0)
+                PopulateCheckInRegisterData(ret.Value);
+        }
+      
 
         //private void checkOutToolStripMenuItem_Click(object sender, System.EventArgs e)
         //{
@@ -294,6 +293,8 @@ namespace AutoTourism.Lodge.WinForm
             Cancel = 10003,
             CheckIn = 10004
         }
+
+        
         
     }
 

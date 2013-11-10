@@ -45,14 +45,6 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         {
             return this.SaveCheckIn(dto);
         }
-
-        
-
-        //ReturnObject<List<CheckInRegisterDto>> ICheckIn.Search(Int64 reservationStatusId, DateTime startDate, DateTime endDate)
-        //{
-        //    //return this.GetCheckInSearchRecords(reservationStatusId, startDate, endDate);
-        //    return new ReturnObject<List<CheckInRegisterDto>>();
-        //}
         
         private ReturnObject<Boolean> SaveCheckIn(Dto dto)
         {
@@ -208,29 +200,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         
 
-        //private AutoTourism.Facade.LodgeManagement.Reservation.Dto GetReservationDto(Crystal.Lodge.Reservation.Data data)
-        //{
-        //    ICrud crud = new Crystal.Lodge.Reservation.Server(data);
-        //    ReturnObject<BinAff.Core.Data> retData = crud.Read();
-
-        //    AutoTourism.Facade.LodgeManagement.Reservation.Dto dto = new Reservation.Dto() {
-        //        Id = data.Id,
-        //        BookingDate = ((Crystal.Lodge.Reservation.Data)data).BookingDate,
-        //        BookingFrom = ((Crystal.Lodge.Reservation.Data)data).BookingFrom,
-        //        NoOfDays = ((Crystal.Lodge.Reservation.Data)data).NoOfDays,
-        //        NoOfPersons = ((Crystal.Lodge.Reservation.Data)data).NoOfPersons,
-        //        NoOfRooms = ((Crystal.Lodge.Reservation.Data)data).NoOfRooms,
-        //        Advance = ((Crystal.Lodge.Reservation.Data)data).Advance,
-        //        BookingStatusId = ((Crystal.Lodge.Reservation.Data)data).BookingStatusId,
-        //        RoomList = GetRoomDtoList(((Crystal.Lodge.Reservation.Data)data).RoomList),
-
-        //        //call the customer component read method
-        //        Customer = ((Crystal.Lodge.Reservation.Data)data).Customer == null ? null : ReadCustomer(((Crystal.Lodge.Reservation.Data)data).Customer.Id),
-                    
-        //    };
-
-        //    return dto;
-        //}
+        
 
         //private List<AutoTourism.Facade.Configuration.Room.Dto> GetRoomDtoList(List<Crystal.Lodge.Configuration.Room.Data> RoomDataList)
         //{
@@ -315,17 +285,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    return ContactNumberDtoList;
         //}
         
-        //private String GetRooms(List<Facade.Configuration.Room.Dto> roomList)
-        //{
-        //    if (roomList == null || roomList.Count == 0)
-        //        return String.Empty;
-
-        //    StringBuilder strbRoom = new StringBuilder();
-        //    foreach (Facade.Configuration.Room.Dto room in roomList)
-        //        strbRoom.Append(", " + room.Number.ToString());
-
-        //    return strbRoom.ToString().Substring(1);
-        //}
+      
 
     }
 }
