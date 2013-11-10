@@ -63,12 +63,12 @@ namespace AutoTourism.Lodge.WinForm
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            //    IReservation reservation = new ReservationServer();
-            //    ReturnObject<List<RoomReservationRegisterDto>> ret = reservation.Search(((Table)cmbReservationStatus.SelectedItem).Id, dtBookingFrom.Value, dtBookingTo.Value);
+            LodgeFacade.RoomReservationRegister.IReservationRegister reservationRegister = new LodgeFacade.RoomReservationRegister.ReservationRegisterServer();
+            ReturnObject<List<LodgeFacade.RoomReservationRegister.Dto>> ret = reservationRegister.Search(((Table)cmbReservationStatus.SelectedItem).Id, dtBookingFrom.Value, dtBookingTo.Value);
 
-            //    dgvReservation.DataSource = null;
-            //    if (ret.Value != null && ret.Value.Count > 0)
-            //        PopulateReservationData(ret.Value);
+            dgvReservation.DataSource = null;
+            if (ret.Value != null && ret.Value.Count > 0)
+                PopulateReservationData(ret.Value);
         }
         
         private void dgvReservation_CellMouseDown(object sender, System.Windows.Forms.DataGridViewCellMouseEventArgs e)

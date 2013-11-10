@@ -28,6 +28,11 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
             return ret;
         }
 
+        ReturnObject<List<Dto>> IReservationRegister.Search(Int64 bookingStatusId, DateTime startDate, DateTime endDate)
+        {
+            return this.GetBookingSearchRecords(bookingStatusId, startDate, endDate);
+        }
+
         private ReturnObject<List<Dto>> GetBookingSearchRecords(Int64 bookingStatusId, DateTime startDate, DateTime endDate)
         {
             List<Dto> bookingList = new List<Dto>();           
@@ -35,7 +40,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
             CrystalAction.IAction action = new CrystalLodge.Room.Reservation.Server(null);            
             ReturnObject<List<CrystalAction.Data>> reservationDataList = action.Search(new CrystalAction.Status.Data { Id = bookingStatusId }, startDate, endDate);
             
-            foreach (BinAff.Core.Data data in reservationDataList.Value)
+            foreach (Data data in reservationDataList.Value)
             {
                 Dto regDto = new Dto
                 {

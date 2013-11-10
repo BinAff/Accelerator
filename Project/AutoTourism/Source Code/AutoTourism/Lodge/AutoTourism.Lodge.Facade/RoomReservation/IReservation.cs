@@ -10,7 +10,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         ReturnObject<Boolean> Save(Dto dto);
         //ReturnObject<List<Dto>> GetBooking(Int64 customerId);
         
-        //ReturnObject<List<RoomReservationRegisterDto>> Search(Int64 statusId, DateTime startDate, DateTime endDate);
+       
         //ReturnObject<RoomReservationRegisterFormDto> LoadRegisterForm(Int64 statusId, DateTime startDate, DateTime endDate);
 
         //ReturnObject<Boolean> ChangeReservationStatus(Dto dto);
