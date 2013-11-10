@@ -15,7 +15,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
         public Int32 NoOfDays { get; set; }
         public Int32 NoOfPersons { get; set; }
         public Int32 NoOfRooms { get; set; }
-        public Decimal Advance { get; set; }
+        public Double Advance { get; set; }
         public Int64 BookingStatusId { get; set; }
         public String Name { get; set; }
         public String ContactNumber { get; set; }
