@@ -137,33 +137,30 @@ namespace AutoTourism.Lodge.WinForm
 
         private void cMenuItemCheckIn_Click(object sender, EventArgs e)
         {
-            //if (dgvReservation.DataSource != null && dgvReservation.SelectedRows.Count > 0)
-            //{
-            //    RoomReservationRegisterDto dto = ((List<RoomReservationRegisterDto>)dgvReservation.DataSource)[dgvReservation.SelectedRows[0].Index];
+            if (dgvReservation.DataSource != null && dgvReservation.SelectedRows.Count > 0)
+            {
+                LodgeFacade.RoomReservationRegister.Dto dto = ((List<LodgeFacade.RoomReservationRegister.Dto>)dgvReservation.DataSource)[dgvReservation.SelectedRows[0].Index];
 
-            //    AutoTourism.Facade.LodgeManagement.CheckIn.Dto checkInDto = dto == null ? null : new Facade.LodgeManagement.CheckIn.Dto()
-            //    {
-            //        Reservation = new Dto
-            //        {
-            //            Id = dto.Id,
-            //            BookingDate = dto.BookingDate,
-            //            BookingFrom = dto.BookingFrom,
-            //            NoOfDays = dto.NoOfDays,
-            //            NoOfPersons = dto.NoOfPersons,
-            //            NoOfRooms = dto.NoOfRooms,
-            //            Advance = dto.Advance,
-            //            BookingStatusId = dto.BookingStatusId,
+                LodgeFacade.CheckIn.Dto checkInDto = dto == null ? null : new LodgeFacade.CheckIn.Dto()
+                {
+                    Reservation = new LodgeFacade.RoomReservation.Dto
+                    {
+                        Id = dto.Id,
+                        BookingDate = dto.BookingDate,
+                        BookingFrom = dto.BookingFrom,
+                        NoOfDays = dto.NoOfDays,
+                        NoOfPersons = dto.NoOfPersons,
+                        NoOfRooms = dto.NoOfRooms,
+                        Advance = dto.Advance,
+                        BookingStatusId = dto.BookingStatusId,
 
-            //            RoomList = dto.RoomList,
-            //            Customer = dto.Customer,
-            //        }
-            //    };
+                        RoomList = dto.RoomList,
+                        Customer = dto.Customer,
+                    }
+                };
 
-            //    new CheckInForm(checkInDto, this.ruleDto)
-            //    {
-            //        MdiParent = this.MdiParent
-            //    }.Show();
-            //}
+                new CheckInForm(checkInDto, this.ruleDto).ShowDialog();
+            }
         }
 
         private void cMenuItemCancel_Click(object sender, EventArgs e)

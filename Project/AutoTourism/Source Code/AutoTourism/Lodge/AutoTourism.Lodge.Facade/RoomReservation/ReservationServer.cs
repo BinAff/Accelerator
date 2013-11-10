@@ -35,26 +35,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         //{
         //    return this.GetCustomerBooking(customerId);
         //}
-
-        //ReturnObject<List<RoomReservationRegisterDto>> IReservation.Search(Int64 bookingStatusId, DateTime startDate, DateTime endDate)
-        //{
-        //    return this.GetBookingSearchRecords(bookingStatusId, startDate, endDate);
-        //}
-
-        //ReturnObject<RoomReservationRegisterFormDto> IReservation.LoadRegisterForm(Int64 bookingStatusId, DateTime startDate, DateTime endDate)
-        //{
-        //    BinAff.Core.ReturnObject<RoomReservationRegisterFormDto> ret = new BinAff.Core.ReturnObject<RoomReservationRegisterFormDto>()
-        //    {
-        //        Value = new RoomReservationRegisterFormDto()
-        //        {
-        //            RoomReservationDtoList = this.GetBookingSearchRecords(bookingStatusId,startDate,endDate).Value,
-        //            StatusList = this.GetLodgeReservationStatus().Value,
-        //        }
-        //    };
-
-        //    return ret;
-        //}
-
+       
         //ReturnObject<Boolean> IReservation.ChangeReservationStatus(Dto dto)
         //{
         //    return this.UpdateReservationStatus(dto);
@@ -86,22 +67,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 {
                 },
             });
-            return crud.Save();
-            //ICrud crud = new Server(new Crystal.Lodge.Reservation.Data
-            //{
-            //    Id = dto.Id,
-            //    BookingFrom = dto.BookingFrom,
-            //    NoOfDays = dto.NoOfDays,
-            //    NoOfPersons = dto.NoOfPersons,
-            //    NoOfRooms = dto.NoOfRooms,
-            //    Advance = dto.Advance,
-            //    Customer = dto.Customer == null ? null : new Crystal.CustomerManagement.Data()
-            //    {
-            //        Id = dto.Customer.Id,
-            //    },
-            //    RoomList = dto.RoomList == null ? null : GetRoomDataList(dto.RoomList),
-            //});
-            //return crud.Save();
+            return crud.Save();            
         }
 
         private List<Data> GetRoomDataList(List<LodgeConfigurationFacade.Room.Dto> RoomList)
@@ -154,71 +120,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             };
 
         }
-
-        //private List<AutoTourism.Facade.Configuration.Room.Dto> GetRoomDtoList(List<Crystal.Lodge.Configuration.Room.Data> RoomDataList)
-        //{
-        //    List<AutoTourism.Facade.Configuration.Room.Dto> retVal = null;
-        //    if (RoomDataList != null)
-        //    {
-        //        retVal = new List<Configuration.Room.Dto>();
-        //        foreach (Crystal.Lodge.Configuration.Room.Data data in RoomDataList)
-        //        {
-        //            retVal.Add(new Configuration.Room.Dto()
-        //            {
-        //                Id = data.Id,
-        //                Number = data.Number,
-        //                Name = data.Name,
-        //                Description = data.Description,
-        //                Building = new Configuration.Building.Dto()
-        //                {
-        //                    Id = data.Building.Id,
-        //                },
-        //                IsDormitory = data.IsDormitory,
-        //                StatusId = data.StatusId,
-        //            });
-        //        }
-        //    }
-        //    return retVal;
-        //}
-
-        //private ReturnObject<List<RoomReservationRegisterDto>> GetBookingSearchRecords(Int64 bookingStatusId, DateTime startDate, DateTime endDate)
-        //{
-        //    List<RoomReservationRegisterDto> bookingList = new List<RoomReservationRegisterDto>();
-        //    Crystal.Lodge.Reservation.IReservation reservation = new Server(null);
-
-        //    ReturnObject<List<BinAff.Core.Data>> reservationDataList = reservation.GetBookingSearch(bookingStatusId, startDate, endDate);
-
-        //    foreach (BinAff.Core.Data data in reservationDataList.Value)
-        //    {
-        //        RoomReservationRegisterDto regDto = new RoomReservationRegisterDto()
-        //        {
-        //            Id = data.Id,
-        //            BookingDate = ((Crystal.Lodge.Reservation.Data)data).BookingDate,
-        //            BookingFrom = ((Crystal.Lodge.Reservation.Data)data).BookingFrom,
-        //            NoOfDays = ((Crystal.Lodge.Reservation.Data)data).NoOfDays,
-        //            NoOfPersons = ((Crystal.Lodge.Reservation.Data)data).NoOfPersons,
-        //            NoOfRooms = ((Crystal.Lodge.Reservation.Data)data).NoOfRooms,
-        //            Advance = ((Crystal.Lodge.Reservation.Data)data).Advance,
-        //            BookingStatusId = ((Crystal.Lodge.Reservation.Data)data).BookingStatusId,
-        //            RoomList = GetRoomDtoList(((Crystal.Lodge.Reservation.Data)data).RoomList),
-
-        //            //call the customer component read method
-        //            Customer = ((Crystal.Lodge.Reservation.Data)data).Customer == null ? null : ReadCustomer(((Crystal.Lodge.Reservation.Data)data).Customer.Id),
-                                        
-        //        };
-        //        regDto.BookingTo = regDto.BookingFrom.AddDays(regDto.NoOfDays);
-        //        regDto.Name = regDto.Customer == null ? String.Empty : regDto.Customer.FirstName + " " + regDto.Customer.MiddleName + " " + regDto.Customer.LastName;
-        //        regDto.ContactNumber = regDto.Customer == null ? String.Empty : regDto.Customer.ContactNumberList[0].Name;
-        //        regDto.Room = GetRooms(regDto.RoomList);
-        //        bookingList.Add(regDto);
-        //    }
-
-        //    return new ReturnObject<List<RoomReservationRegisterDto>>()
-        //    {
-        //        Value = bookingList,
-        //    };
-        //}
-
+               
         //private AutoTourism.Facade.CustomerManagement.Dto ReadCustomer(Int64 customerId)
         //{               
 
@@ -272,39 +174,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         //    return ContactNumberDtoList;
         //}
 
-        //private String GetRooms(List<Facade.Configuration.Room.Dto> roomList)
-        //    {
-        //        if (roomList == null || roomList.Count == 0)
-        //            return String.Empty;
-
-        //        StringBuilder strbRoom = new StringBuilder();
-        //        foreach (Facade.Configuration.Room.Dto room in roomList)
-        //            strbRoom.Append(", " + room.Number.ToString());
-
-        //        return strbRoom.ToString().Substring(1);
-        //    }
-
-        //private ReturnObject<List<Table>> GetLodgeReservationStatus()
-        //{
-            
-        //    List<Table> reservationStatusList = new List<Table>();
-        //    Crystal.Lodge.Reservation.IReservation reservation = new Server(null);
-
-        //    ReturnObject<List<BinAff.Core.Table>> StatusList = reservation.GetAllReservationStatus();
-
-        //    foreach (BinAff.Core.Table data in StatusList.Value)
-        //    {
-        //        reservationStatusList.Add(new Table() { 
-        //            Id = data.Id,
-        //            Name = data.Name,
-        //        });                
-        //    }
-
-        //    return new ReturnObject<List<Table>>()
-        //    {
-        //        Value = reservationStatusList,
-        //    };
-        //}
 
         //private ReturnObject<Boolean> UpdateReservationStatus(Dto dto)
         //{
