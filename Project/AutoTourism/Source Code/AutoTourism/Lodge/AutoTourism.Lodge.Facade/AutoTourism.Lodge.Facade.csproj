@@ -36,14 +36,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BookingDetails\Dto.cs" />
-    <Compile Include="BookingDetails\FormDto.cs" />
+    <Compile Include="BookingDetails\Dto.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BookingDetails\FormDto.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CheckInRegister\CheckInRegisterServer.cs" />
     <Compile Include="CheckInRegister\Dto.cs" />
     <Compile Include="CheckInRegister\FormDto.cs" />
     <Compile Include="CheckInRegister\ICheckInRegister.cs" />
-    <Compile Include="CheckIn\CheckInRegisterDto.cs" />
-    <Compile Include="CheckIn\CheckInRegisterFormDto.cs" />
     <Compile Include="CheckIn\CheckInServer.cs" />
     <Compile Include="CheckIn\Dto.cs" />
     <Compile Include="CheckIn\FormDto.cs" />
@@ -57,7 +59,6 @@
     <Compile Include="RoomReservation\Dto.cs" />
     <Compile Include="RoomReservation\FormDto.cs" />
     <Compile Include="RoomReservation\IReservation.cs" />
-    <Compile Include="RoomReservation\LodgeReservationDto.cs" />
     <Compile Include="RoomReservation\ReservationServer.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

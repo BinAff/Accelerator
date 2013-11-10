@@ -5,10 +5,8 @@ using System.Windows.Forms;
 using BinAff.Core;
 using BinAff.Utility;
 
-//using AutoTourism.Facade.LodgeManagement.CheckIn;
-
-//using AutoTourism.Presentation.Library;
-//using AutoTourism.Presentation.CustomerManagement.Lodge;
+using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using LodgeFacade = AutoTourism.Lodge.Facade;
 
 namespace AutoTourism.Lodge.WinForm
 {
@@ -16,16 +14,16 @@ namespace AutoTourism.Lodge.WinForm
     public partial class CheckInRegister : Form
     {
 
-        //private AutoTourism.Facade.Rule.Dto ruleDto;
+        private RuleFacade.Dto ruleDto;
 
-        //public CheckInRegister(AutoTourism.Facade.Rule.Dto ruleDto)
-        //{
-        //    InitializeComponent();            
-        //    base.IsOkButton = false;
-       
-        //    this.ruleDto = ruleDto;
-        //    LoadForm();
-        //}
+        public CheckInRegister(RuleFacade.Dto ruleDto)
+        {
+            InitializeComponent();
+            //base.IsOkButton = false;
+
+            this.ruleDto = ruleDto;
+            LoadForm();
+        }
 
         //public static CheckInRegister Create(System.Windows.Forms.Form mdiParent)
         //{
@@ -40,56 +38,57 @@ namespace AutoTourism.Lodge.WinForm
         //    return checkInRegister;
         //}
 
-        //protected override void LoadForm()
-        //{
-           
-        //    dtCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-        //    dtBookingTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-        //    if (this.ruleDto.ConfigurationRule.DateFormat == String.Empty)
-        //    {
-        //        dtCheckIn.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
-        //        dtBookingTo.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
-        //    }
-        //    else
-        //    {
-        //        dtCheckIn.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
-        //        dtBookingTo.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
-        //    }
+        private void LoadForm()
+        {
+
+            dtCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            dtBookingTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            if (this.ruleDto == null || this.ruleDto.ConfigurationRule == null || this.ruleDto.ConfigurationRule.DateFormat == String.Empty)            
+            {
+                dtCheckIn.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+                dtBookingTo.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+            }
+            else
+            {
+                dtCheckIn.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
+                dtBookingTo.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
+            }
 
 
-        //    List<Table> ReservationStatusList = new List<Table>();
+            List<Table> ReservationStatusList = new List<Table>();
 
-        //    ReservationStatusList.Add(new Table()
-        //    {
-        //        Id = 0,
-        //        Name = "All",
-        //    });
-        //    ReservationStatusList.Add(new Table() {
-        //        Id = Convert.ToInt64(LodgeReservationStatus.CheckIn),
-        //        Name = LodgeReservationStatus.CheckIn.ToString(),
-        //    });
-        //    ReservationStatusList.Add(new Table()
-        //    {
-        //        Id = Convert.ToInt64(LodgeReservationStatus.Closed),
-        //        Name = LodgeReservationStatus.Closed.ToString(),
-        //    });
-        //    cmbReservationStatus.DataSource = ReservationStatusList;
-        //    cmbReservationStatus.DisplayMember = "Name";
-        //    cmbReservationStatus.ValueMember = "Id";
-            
-        //    //dgvCheckIn
-        //    dgvCheckIn.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-        //    for (int i = 0; i < dgvCheckIn.Columns.Count; i++) dgvCheckIn.Columns[i].ReadOnly = true;
-        //    dgvCheckIn.MultiSelect = false;
+            ReservationStatusList.Add(new Table()
+            {
+                Id = 0,
+                Name = "All",
+            });
+            ReservationStatusList.Add(new Table()
+            {
+                Id = Convert.ToInt64(LodgeReservationStatus.CheckIn),
+                Name = LodgeReservationStatus.CheckIn.ToString(),
+            });
+            ReservationStatusList.Add(new Table()
+            {
+                Id = Convert.ToInt64(LodgeReservationStatus.Closed),
+                Name = LodgeReservationStatus.Closed.ToString(),
+            });
+            cmbReservationStatus.DataSource = ReservationStatusList;
+            cmbReservationStatus.DisplayMember = "Name";
+            cmbReservationStatus.ValueMember = "Id";
 
-        //    ICheckIn checkIn = new CheckInServer();
-        //    ReturnObject<CheckInRegisterFormDto> ret = checkIn.LoadCheckInRegisterForm(Convert.ToInt64(LodgeReservationStatus.CheckIn), dtCheckIn.Value, dtBookingTo.Value);
+            //dgvCheckIn
+            dgvCheckIn.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            for (int i = 0; i < dgvCheckIn.Columns.Count; i++) dgvCheckIn.Columns[i].ReadOnly = true;
+            dgvCheckIn.MultiSelect = false;
+
+            LodgeFacade.CheckInRegister.ICheckInRegister checkInRegister = new LodgeFacade.CheckInRegister.CheckInRegisterServer();
+            ReturnObject<LodgeFacade.CheckInRegister.FormDto> ret = checkInRegister.LoadCheckInRegisterForm(Convert.ToInt64(LodgeReservationStatus.CheckIn), dtCheckIn.Value, dtBookingTo.Value);
 
 
-        //    if (ret.Value.CheckInRegisterDtoList != null && ret.Value.CheckInRegisterDtoList.Count > 0)
-        //        PopulateCheckInRegisterData(ret.Value.CheckInRegisterDtoList);
-           
-        //}
+            if (ret.Value.CheckInRegisterDtoList != null && ret.Value.CheckInRegisterDtoList.Count > 0)
+                PopulateCheckInRegisterData(ret.Value.CheckInRegisterDtoList);
+
+        }
 
         //protected override void Clear()
         //{           
@@ -165,54 +164,54 @@ namespace AutoTourism.Lodge.WinForm
         //    if (dgvCheckIn.DataSource != null)
         //        this.OpenForm(((List<CheckInRegisterDto>)dgvCheckIn.DataSource)[e.RowIndex]);
         //}
-        
-        //private void PopulateCheckInRegisterData(List<CheckInRegisterDto> checkInRegisterList)
-        //{
-        //    if (checkInRegisterList != null && checkInRegisterList.Count > 0)
-        //    {
-        //        dgvCheckIn.Columns[0].DataPropertyName = "CheckInDate";
-        //        dgvCheckIn.Columns[1].DataPropertyName = "Name";
-        //        dgvCheckIn.Columns[2].DataPropertyName = "ContactNumber";
-        //        dgvCheckIn.Columns[3].DataPropertyName = "StartDate";
-        //        dgvCheckIn.Columns[4].DataPropertyName = "EndDate";
-        //        dgvCheckIn.Columns[5].DataPropertyName = "Room";
-        //        dgvCheckIn.Columns[6].DataPropertyName = "Advance";
-                
-        //        dgvCheckIn.AutoGenerateColumns = false;
-        //        dgvCheckIn.DataSource = checkInRegisterList;
 
-        //        PopulateCheckInDetails(checkInRegisterList[0]);
-        //    }
-        //}
+        private void PopulateCheckInRegisterData(List<LodgeFacade.CheckInRegister.Dto> checkInRegisterList)
+        {
+            if (checkInRegisterList != null && checkInRegisterList.Count > 0)
+            {
+                dgvCheckIn.Columns[0].DataPropertyName = "CheckInDate";
+                dgvCheckIn.Columns[1].DataPropertyName = "Name";
+                dgvCheckIn.Columns[2].DataPropertyName = "ContactNumber";
+                dgvCheckIn.Columns[3].DataPropertyName = "StartDate";
+                dgvCheckIn.Columns[4].DataPropertyName = "EndDate";
+                dgvCheckIn.Columns[5].DataPropertyName = "Room";
+                dgvCheckIn.Columns[6].DataPropertyName = "Advance";
 
-        //private void PopulateCheckInDetails(CheckInRegisterDto dto)
-        //{
-        //    //populate reservation data
-        //    txtFromDate.Text = dto.StartDate.ToString();//
-        //    txtDays.Text = dto.Reservation.NoOfDays == 0 ? String.Empty : dto.Reservation.NoOfDays.ToString();
-        //    txtPersons.Text = dto.Reservation.NoOfPersons == 0 ? String.Empty : dto.Reservation.NoOfPersons.ToString();
-        //    txtRooms.Text = dto.Reservation.NoOfRooms == 0 ? String.Empty : dto.Reservation.NoOfRooms.ToString();
-        //    txtAdvance.Text = dto.Advance == 0 ? String.Empty : Converter.ConvertToIndianCurrency(dto.Advance);
-        //    lstRooms.DataSource = dto.Reservation.RoomList;
-        //    lstRooms.DisplayMember = "Number";
-        //    lstRooms.ValueMember = "Id";
-        //    lstRooms.SelectedIndex = -1;
+                dgvCheckIn.AutoGenerateColumns = false;
+                dgvCheckIn.DataSource = checkInRegisterList;
 
-        //    if (dto.Reservation.Customer != null)
-        //    {
-        //        //populate customer data
-        //        txtName.Text = (dto.Reservation.Customer.Initial == null ? String.Empty : dto.Reservation.Customer.Initial.Name) + " "
-        //            + dto.Reservation.Customer.FirstName + " "
-        //            + dto.Reservation.Customer.MiddleName + " "
-        //            + dto.Reservation.Customer.LastName;
-        //        lstContact.DataSource = dto.Reservation.Customer.ContactNumberList;
-        //        lstContact.DisplayMember = "Name";
-        //        lstContact.ValueMember = "Id";
-        //        lstContact.SelectedIndex = -1;
-        //        txtAdds.Text = dto.Reservation.Customer.Address;
-        //        txtEmail.Text = dto.Reservation.Customer.Email;
-        //    }
-        //}
+                PopulateCheckInDetails(checkInRegisterList[0]);
+            }
+        }
+
+        private void PopulateCheckInDetails(LodgeFacade.CheckInRegister.Dto dto)
+        {
+            //populate reservation data
+            txtFromDate.Text = dto.StartDate.ToString();//
+            txtDays.Text = dto.Reservation.NoOfDays == 0 ? String.Empty : dto.Reservation.NoOfDays.ToString();
+            txtPersons.Text = dto.Reservation.NoOfPersons == 0 ? String.Empty : dto.Reservation.NoOfPersons.ToString();
+            txtRooms.Text = dto.Reservation.NoOfRooms == 0 ? String.Empty : dto.Reservation.NoOfRooms.ToString();
+            txtAdvance.Text = dto.Advance == 0 ? String.Empty : Converter.ConvertToIndianCurrency(dto.Advance);
+            lstRooms.DataSource = dto.Reservation.RoomList;
+            lstRooms.DisplayMember = "Number";
+            lstRooms.ValueMember = "Id";
+            lstRooms.SelectedIndex = -1;
+
+            if (dto.Reservation.Customer != null)
+            {
+                //populate customer data
+                txtName.Text = (dto.Reservation.Customer.Initial == null ? String.Empty : dto.Reservation.Customer.Initial.Name) + " "
+                    + dto.Reservation.Customer.FirstName + " "
+                    + dto.Reservation.Customer.MiddleName + " "
+                    + dto.Reservation.Customer.LastName;
+                lstContact.DataSource = dto.Reservation.Customer.ContactNumberList;
+                lstContact.DisplayMember = "Name";
+                lstContact.ValueMember = "Id";
+                lstContact.SelectedIndex = -1;
+                txtAdds.Text = dto.Reservation.Customer.Address;
+                txtEmail.Text = dto.Reservation.Customer.Email;
+            }
+        }
         
         //private void OpenForm(CheckInRegisterDto dto)
         //{
