@@ -58,7 +58,8 @@ namespace AutoTourism.Lodge.WinForm
             //this.Close();
             //new CustomerRegister(this.ruleDto).Show(this.Owner);     
 
-            new RoomReservationRegister(this.ruleDto).ShowDialog();
+            //new RoomReservationRegister(this.ruleDto).ShowDialog();
+            new CheckInForm(new LodgeFacade.CheckIn.Dto(), this.ruleDto).ShowDialog();
         }
         
         private void btnAddRoom_Click(object sender, EventArgs e)

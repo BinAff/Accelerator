@@ -55,6 +55,8 @@
             this.lblName = new System.Windows.Forms.Label();
             this.btnPickReservation = new System.Windows.Forms.Button();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnOk = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -86,14 +88,13 @@
             // 
             // btnRemoveRoom
             // 
-            this.btnRemoveRoom.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemoveRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRemoveRoom.Location = new System.Drawing.Point(88, 47);
             this.btnRemoveRoom.Name = "btnRemoveRoom";
             this.btnRemoveRoom.Size = new System.Drawing.Size(32, 22);
             this.btnRemoveRoom.TabIndex = 93;
             this.btnRemoveRoom.Text = "◄";
             this.btnRemoveRoom.UseVisualStyleBackColor = true;
-            //this.btnRemoveRoom.Click += new System.EventHandler(this.btnRemoveRoom_Click);
             // 
             // cmbCheckInRoom
             // 
@@ -107,14 +108,13 @@
             // 
             // btnAddRoom
             // 
-            this.btnAddRoom.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddRoom.Location = new System.Drawing.Point(88, 19);
             this.btnAddRoom.Name = "btnAddRoom";
             this.btnAddRoom.Size = new System.Drawing.Size(32, 22);
             this.btnAddRoom.TabIndex = 92;
             this.btnAddRoom.Text = "►";
             this.btnAddRoom.UseVisualStyleBackColor = true;
-            //this.btnAddRoom.Click += new System.EventHandler(this.btnAddRoom_Click);
             // 
             // txtAdvance
             // 
@@ -308,17 +308,38 @@
             this.btnPickReservation.TabIndex = 97;
             this.btnPickReservation.Text = "Pick Reservation";
             this.btnPickReservation.UseVisualStyleBackColor = true;
-            //this.btnPickReservation.Click += new System.EventHandler(this.btnPickReservation_Click);
+            this.btnPickReservation.Click += new System.EventHandler(this.btnPickReservation_Click_1);
             // 
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(514, 43);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 108;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            // 
+            // btnOk
+            // 
+            this.btnOk.Location = new System.Drawing.Point(514, 79);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.TabIndex = 109;
+            this.btnOk.Text = "Ok";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
             // CheckInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 326);
+            this.ClientSize = new System.Drawing.Size(601, 326);
+            this.Controls.Add(this.btnOk);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnPickReservation);
             this.Controls.Add(this.txtRooms);
             this.Controls.Add(this.groupBox1);
@@ -334,19 +355,6 @@
             this.Controls.Add(this.txtPersons);
             this.Name = "CheckInForm";
             this.Text = "Check In Form";
-            this.Controls.SetChildIndex(this.txtPersons, 0);
-            this.Controls.SetChildIndex(this.label4, 0);
-            this.Controls.SetChildIndex(this.label3, 0);
-            this.Controls.SetChildIndex(this.label6, 0);
-            this.Controls.SetChildIndex(this.txtAdvance, 0);
-            this.Controls.SetChildIndex(this.groupBox2, 0);
-            this.Controls.SetChildIndex(this.txtDays, 0);
-            this.Controls.SetChildIndex(this.label2, 0);
-            this.Controls.SetChildIndex(this.dtCheckIn, 0);
-            this.Controls.SetChildIndex(this.label1, 0);
-            this.Controls.SetChildIndex(this.groupBox1, 0);
-            this.Controls.SetChildIndex(this.txtRooms, 0);
-            this.Controls.SetChildIndex(this.btnPickReservation, 0);
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -384,5 +392,7 @@
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Button btnPickReservation;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }

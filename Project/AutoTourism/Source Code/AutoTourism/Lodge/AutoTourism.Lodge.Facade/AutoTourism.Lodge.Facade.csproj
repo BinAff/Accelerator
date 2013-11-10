@@ -38,6 +38,10 @@
   <ItemGroup>
     <Compile Include="BookingDetails\Dto.cs" />
     <Compile Include="BookingDetails\FormDto.cs" />
+    <Compile Include="CheckInRegister\CheckInRegisterServer.cs" />
+    <Compile Include="CheckInRegister\Dto.cs" />
+    <Compile Include="CheckInRegister\FormDto.cs" />
+    <Compile Include="CheckInRegister\ICheckInRegister.cs" />
     <Compile Include="CheckIn\CheckInRegisterDto.cs" />
     <Compile Include="CheckIn\CheckInRegisterFormDto.cs" />
     <Compile Include="CheckIn\CheckInServer.cs" />
