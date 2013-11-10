@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
+using System;
+
+using BinAff.Core;
 
 namespace AutoTourism.Lodge.Facade.CheckInRegister
 {
-    interface ICheckInRegister
+    public interface ICheckInRegister
     {
+        ReturnObject<FormDto> LoadCheckInRegisterForm(Int64 reservationStatusId, DateTime startDate, DateTime endDate);
     }
 }

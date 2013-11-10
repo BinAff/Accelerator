@@ -5,7 +5,8 @@ using System.Text;
 
 namespace AutoTourism.Lodge.Facade.CheckInRegister
 {
-    class FormDto
+    public class FormDto
     {
+        public List<Dto> CheckInRegisterDtoList { get; set; }
     }
 }

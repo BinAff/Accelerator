@@ -9,7 +9,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         ReturnObject<FormDto> LoadForm();
         ReturnObject<Boolean> Save(Dto dto);
 
-        ReturnObject<List<CheckInRegisterDto>> Search(Int64 reservationStatusId, DateTime startDate, DateTime endDate);
-        ReturnObject<CheckInRegisterFormDto> LoadCheckInRegisterForm(Int64 reservationStatusId, DateTime startDate, DateTime endDate);
+        //ReturnObject<List<CheckInRegisterDto>> Search(Int64 reservationStatusId, DateTime startDate, DateTime endDate);
+        
     }
 }
