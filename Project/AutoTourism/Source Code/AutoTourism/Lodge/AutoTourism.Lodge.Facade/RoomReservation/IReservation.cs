@@ -13,6 +13,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
        
         //ReturnObject<RoomReservationRegisterFormDto> LoadRegisterForm(Int64 statusId, DateTime startDate, DateTime endDate);
 
-        //ReturnObject<Boolean> ChangeReservationStatus(Dto dto);
+        ReturnObject<Boolean> ChangeReservationStatus(Dto dto);
     }
 }
