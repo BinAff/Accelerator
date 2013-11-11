@@ -34,7 +34,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 Value = new FormDto()
                 {
-                    //roomList = this.ReadAllRoom().Value,
+                    roomList = this.ReadAllRoom().Value,
                 }
             };
 
@@ -138,7 +138,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    foreach (LodgeConfigurationFacade.Room.Dto dto in RoomList)
         //    {
         //        RoomDataList.Add(new CrystalLodge.Room.Data()
-        //        {                    
+        //        {
         //            Id = dto.Id,
         //            Number = dto.Number,
         //        });
@@ -146,57 +146,10 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    return RoomDataList;
         //}
 
-        //private ReturnObject<List<AutoTourism.Facade.Configuration.Room.Dto>> ReadAllRoom()
-        //{
-        //    ICrud crud = new Crystal.Lodge.Configuration.Room.Server(null);
-        //    ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
-
-        //    if (lstData.HasError())
-        //    {
-        //        return new ReturnObject<List<AutoTourism.Facade.Configuration.Room.Dto>>
-        //        {
-        //            MessageList = lstData.MessageList
-        //        };
-        //    }
-
-        //    ReturnObject<List<AutoTourism.Facade.Configuration.Room.Dto>> ret = new ReturnObject<List<AutoTourism.Facade.Configuration.Room.Dto>>
-        //    {
-        //        Value = new List<AutoTourism.Facade.Configuration.Room.Dto>(),
-        //    };
-
-        //    //Populate data in dto from business entity
-        //    foreach (BinAff.Core.Data data in lstData.Value)
-        //    {
-        //        if (((Crystal.Lodge.Configuration.Room.Data)data).StatusId != Convert.ToInt64(RoomStatus.Closed))
-        //        {
-        //            ret.Value.Add(new AutoTourism.Facade.Configuration.Room.Dto
-        //            {
-        //                Id = data.Id,
-        //                Number = ((Crystal.Lodge.Configuration.Room.Data)data).Number,
-        //                Name = ((Crystal.Lodge.Configuration.Room.Data)data).Name,
-        //                Description = ((Crystal.Lodge.Configuration.Room.Data)data).Description,
-        //                Building = new AutoTourism.Facade.Configuration.Building.Dto()
-        //                {
-        //                    Id = ((Crystal.Lodge.Configuration.Room.Data)data).Building.Id,
-        //                },
-        //                Floor = ((Crystal.Lodge.Configuration.Room.Data)data).Floor,
-        //                Category = new AutoTourism.Facade.Configuration.RoomCategory.Dto()
-        //                {
-        //                    Id = ((Crystal.Lodge.Configuration.Room.Data)data).Category.Id,
-        //                },
-        //                Type = new AutoTourism.Facade.Configuration.RoomType.Dto()
-        //                {
-        //                    Id = ((Crystal.Lodge.Configuration.Room.Data)data).Type.Id,
-        //                },
-        //                IsAirconditioned = ((Crystal.Lodge.Configuration.Room.Data)data).IsAirConditioned,
-        //                IsDormitory = ((Crystal.Lodge.Configuration.Room.Data)data).IsDormitory,
-        //                StatusId = ((Crystal.Lodge.Configuration.Room.Data)data).StatusId,
-        //            });
-        //        }
-        //    }
-
-        //    return ret;
-        //}
+        private ReturnObject<List<LodgeConfigurationFacade.Room.Dto>> ReadAllRoom()
+        {
+            return new LodgeConfigurationFacade.Room.Server(null).ReadAllRoom();
+        }
 
         
 

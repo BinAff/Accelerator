@@ -35,11 +35,11 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         //{
         //    return this.GetCustomerBooking(customerId);
         //}
-       
-        //ReturnObject<Boolean> IReservation.ChangeReservationStatus(Dto dto)
-        //{
-        //    return this.UpdateReservationStatus(dto);
-        //}
+
+        ReturnObject<Boolean> IReservation.ChangeReservationStatus(Dto dto)
+        {
+            return this.UpdateReservationStatus(dto);
+        }
         #endregion
 
         private ReturnObject<List<LodgeConfigurationFacade.Room.Dto>> ReadAllRoom()
@@ -175,15 +175,18 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         //}
 
 
-        //private ReturnObject<Boolean> UpdateReservationStatus(Dto dto)
-        //{
-        //    ICrud crud = new Server(new Crystal.Lodge.Reservation.Data
-        //    {
-        //        Id = dto.Id,
-        //        BookingStatusId = dto.BookingStatusId,
-        //    });
-        //    return crud.Save();
-        //}
+        private ReturnObject<Boolean> UpdateReservationStatus(Dto dto)
+        {
+            ICrud crud = new CrystalLodge.Room.Reservation.Server(new CrystalLodge.Room.Reservation.Data
+            {
+                Id = dto.Id,
+                Status = new Crystal.Customer.Component.Action.Status.Data { 
+                    Id = dto.BookingStatusId
+                }
+                //BookingStatusId = dto.BookingStatusId,
+            });
+            return crud.Save();
+        }
 
         public enum RoomStatus
         {

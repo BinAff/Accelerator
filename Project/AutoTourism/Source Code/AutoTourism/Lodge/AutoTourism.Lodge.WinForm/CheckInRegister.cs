@@ -117,27 +117,28 @@ namespace AutoTourism.Lodge.WinForm
             if (ret.Value != null && ret.Value.Count > 0)
                 PopulateCheckInRegisterData(ret.Value);
         }
-      
 
-        //private void checkOutToolStripMenuItem_Click(object sender, System.EventArgs e)
-        //{
-        //    AutoTourism.Facade.LodgeManagement.Reservation.IReservation reservation = new AutoTourism.Facade.LodgeManagement.Reservation.ReservationServer();
-        //    ReturnObject<Boolean> retVal = new ReturnObject<bool>();
-                
-        //    if (dgvCheckIn.DataSource != null && dgvCheckIn.SelectedRows.Count > 0)
-        //    {
-        //         CheckInRegisterDto dto = ((List<CheckInRegisterDto>) dgvCheckIn.DataSource)[dgvCheckIn.SelectedRows[0].Index];
-                
-        //         AutoTourism.Facade.LodgeManagement.Reservation.Dto reservationDto = new Facade.LodgeManagement.Reservation.Dto(){
-        //            Id = dto.Reservation.Id,
-        //            BookingStatusId = Convert.ToInt64(LodgeReservationStatus.Closed),
-        //         };
 
-        //         retVal = reservation.ChangeReservationStatus(reservationDto);
+        private void checkOutToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer();           
+            ReturnObject<Boolean> retVal = new ReturnObject<bool>();
 
-        //         base.ShowMessage(retVal); //Show message  
-        //    }
-        //}
+            if (dgvCheckIn.DataSource != null && dgvCheckIn.SelectedRows.Count > 0)
+            {
+                LodgeFacade.CheckInRegister.Dto dto = ((List<LodgeFacade.CheckInRegister.Dto>)dgvCheckIn.DataSource)[dgvCheckIn.SelectedRows[0].Index];
+
+                LodgeFacade.RoomReservation.Dto reservationDto = new LodgeFacade.RoomReservation.Dto()
+                {
+                    Id = dto.Reservation.Id,
+                    BookingStatusId = Convert.ToInt64(LodgeReservationStatus.Closed),
+                };
+
+                retVal = reservation.ChangeReservationStatus(reservationDto);
+
+                //base.ShowMessage(retVal); //Show message  
+            }
+        }
 
         //private void viewToolStripMenuItem_Click(object sender, System.EventArgs e)
         //{
@@ -151,12 +152,12 @@ namespace AutoTourism.Lodge.WinForm
         //         this.OpenInvoice(((List<CheckInRegisterDto>)dgvCheckIn.DataSource)[dgvCheckIn.SelectedRows[0].Index]);
         //}
 
-        //private void dgvCheckIn_CellMouseDown(object sender, System.Windows.Forms.DataGridViewCellMouseEventArgs e)
-        //{
-        //    dgvCheckIn.Rows[e.RowIndex].Selected = true;
-        //    if (dgvCheckIn.DataSource != null)
-        //        PopulateCheckInDetails(((List<CheckInRegisterDto>)dgvCheckIn.DataSource)[e.RowIndex]);
-        //}
+        private void dgvCheckIn_CellMouseDown(object sender, System.Windows.Forms.DataGridViewCellMouseEventArgs e)
+        {
+            dgvCheckIn.Rows[e.RowIndex].Selected = true;
+            if (dgvCheckIn.DataSource != null)
+                PopulateCheckInDetails(((List<LodgeFacade.CheckInRegister.Dto>)dgvCheckIn.DataSource)[e.RowIndex]);
+        }
         
         //private void dgvReservation_CellDoubleClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
         //{

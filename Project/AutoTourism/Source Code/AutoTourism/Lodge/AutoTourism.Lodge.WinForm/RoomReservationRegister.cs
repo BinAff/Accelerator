@@ -73,9 +73,9 @@ namespace AutoTourism.Lodge.WinForm
         
         private void dgvReservation_CellMouseDown(object sender, System.Windows.Forms.DataGridViewCellMouseEventArgs e)
         {
-            //dgvReservation.Rows[e.RowIndex].Selected = true;
-            //if (dgvReservation.DataSource != null)
-            //    PopulateReservationDetails(((List<RoomReservationRegisterDto>)dgvReservation.DataSource)[e.RowIndex]);
+            dgvReservation.Rows[e.RowIndex].Selected = true;
+            if (dgvReservation.DataSource != null)
+                PopulateReservationDetails(((List<LodgeFacade.RoomReservationRegister.Dto>)dgvReservation.DataSource)[e.RowIndex]);
         }
 
         private void dgvReservation_CellDoubleClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
