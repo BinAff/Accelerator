@@ -1,12 +1,9 @@
-﻿
-
-CREATE TABLE [dbo].[RuleUser](
-	[DefaultPassword] [varchar](50) NULL
+﻿CREATE TABLE Guardian.UserRule(
+	DefaultPassword Varchar(50) NULL
 ) ON [PRIMARY]
+GO
 
-/***************************/
-
-CREATE PROCEDURE [dbo].[RuleUserRead] 
+CREATE PROCEDURE Guardian.[UserRuleRead] 
 (  
    @Id Numeric(10,0)  
 )  
@@ -14,33 +11,33 @@ AS
 BEGIN  
    
 	Select 
-	DefaultPassword	
-	From RuleUser
+		DefaultPassword	
+	From UserRule
  
 END
+GO
 
-/***************************/
-
-CREATE PROCEDURE [dbo].[RuleUserInsert]
+CREATE PROCEDURE Guardian.[UserRuleInsert]
 (  
 	@DefaultUserPwd Varchar(50),	
 	@Id  Numeric(10,0) OUTPUT
 )
 AS
-BEGIN	
+BEGIN
 	Declare @Cnt Int
-	Select @Cnt = COUNT(*) From RuleUser
+	Select @Cnt = COUNT(*) From UserRule
 	
 	if(@Cnt > 0)
 	Begin	
-		update RuleUser
+		update UserRule
 		set [DefaultPassword] = @DefaultUserPwd	
 	End
 	Else
 	Begin
-		INSERT INTO RuleUser([DefaultPassword])
+		INSERT INTO UserRule([DefaultPassword])
 		VALUES(@DefaultUserPwd)
     End
     
 	SET @Id = 1
 END
+GO

@@ -15,10 +15,10 @@ namespace Crystal.Guardian.Rule
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "RuleUserInsert";
+            base.CreateStoredProcedure = "Guardian.UserRuleInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "RuleUserRead";            
-            base.UpdateStoredProcedure = "RuleUserUpdate";
+            base.ReadStoredProcedure = "Guardian.UserRuleRead";
+            base.UpdateStoredProcedure = "Guardian.UserRuleUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
         }
 
