@@ -1,7 +1,7 @@
-﻿IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserResetPassword]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[UserResetPassword]
+﻿IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.AccountResetPassword') AND type in (N'P', N'PC'))
+DROP PROCEDURE Gaurdian.AccountResetPassword
 GO
-CREATE PROCEDURE [dbo].[UserResetPassword]
+CREATE PROCEDURE Gaurdian.AccountResetPassword
 (
 	@Id Numeric(10,0),
 	@Password Varchar(50)
@@ -9,24 +9,18 @@ CREATE PROCEDURE [dbo].[UserResetPassword]
 AS
 BEGIN
 	
-	UPDATE [user]
+	UPDATE Gaurdian.Account
 	SET	
 		[Password] = @Password	
 	WHERE Id = @Id
    
 END
-
-/****** Object:  StoredProcedure [dbo].[UserInsert]    Script Date: 09/06/2012 21:05:46 ******/
-SET ANSI_NULLS ON
 GO
 
-SET QUOTED_IDENTIFIER ON
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.AccountInsert') AND type in (N'P', N'PC'))
+DROP PROCEDURE Gaurdian.AccountInsert
 GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserInsert]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[UserInsert]
-GO
-CREATE PROCEDURE [dbo].[UserInsert]
+CREATE PROCEDURE Gaurdian.AccountInsert
 (  
    @LoginId Varchar(15),   
    @Password Varchar(127),
@@ -34,114 +28,56 @@ CREATE PROCEDURE [dbo].[UserInsert]
    @Id  Numeric(10,0) OUTPUT
 )
 AS
-BEGIN
-	
-   INSERT INTO [User](LoginId, Password)
-   VALUES (@LoginId, @Password)
-   
-   SET @Id = @@IDENTITY
-   
+BEGIN	
+   INSERT INTO Gaurdian.Account(LoginId, [Password])
+   VALUES (@LoginId, @Password)   
+   SET @Id = @@IDENTITY   
    --INSERT INTO User_Role (UserId, RoleId)
    --VALUES(@Id, @RoleId)
+END
+GO
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.AccountDelete') AND type in (N'P', N'PC'))
+DROP PROCEDURE Gaurdian.AccountDelete
+GO
+CREATE PROCEDURE Gaurdian.AccountDelete
+(
+   @Id Numeric(10,0)
+)
+AS
+BEGIN
+   DELETE FROM Gaurdian.Account
+   WHERE Id = @Id
 END
 
+--StoredProcedure Gaurdian.ProfileContactNumberRead
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.ProfileContactNumberRead') AND type in (N'P', N'PC'))
+DROP PROCEDURE Gaurdian.ProfileContactNumberRead
 GO
 
-/****** Object:  StoredProcedure [dbo].[UserRoleInsert]    Script Date: 09/06/2012 21:07:41 ******/
-SET ANSI_NULLS ON
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.AccountReadAll') AND type in (N'P', N'PC'))
+DROP PROCEDURE Gaurdian.AccountReadAll
 GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserRoleInsert]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[UserRoleInsert]
-GO
-CREATE PROCEDURE [dbo].[UserRoleInsert]
-(  
-   @UserId Numeric(10,0),
-   @RoleId Numeric(10,0),
-   @Id  Numeric(10,0) OUTPUT
-)
+CREATE PROCEDURE Gaurdian.AccountReadAll
 AS
 BEGIN	
-   
-   INSERT INTO User_Role (UserId, RoleId)
-   VALUES(@UserId, @RoleId)
-   
-   SET @Id = @@IDENTITY
-
-END
-
-GO
-
-/****** Object:  StoredProcedure [dbo].[UserRoleDelete]    Script Date: 09/08/2012 13:16:04 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserRoleDelete]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[UserRoleDelete]
-GO
-CREATE PROCEDURE [dbo].[UserRoleDelete]
-(
-	@UserId Numeric(10,0)
-)
-AS
-BEGIN
-	
-	DELETE 		
-	FROM User_Role
-	WHERE UserId = @UserId   
-   
-END
-
-GO
-
-/****** Object:  StoredProcedure [dbo].[UserReadAll]    Script Date: 09/08/2012 13:18:52 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserReadAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[UserReadAll]
-GO
-CREATE PROCEDURE [dbo].[UserReadAll]
-AS
-BEGIN
-	
-   SELECT 
+	SELECT 
 		Id,
 		LoginId,
 		[Password]
-   FROM [User]
-   Where LoginId != 'support'
-   
-   SELECT 
-	UserId, 
-	RoleId
-   FROm User_Role 
-   
+	FROM Gaurdian.Account
+	WHERE LoginId != 'support'   
+	SELECT 
+		UserId, 
+		RoleId
+	FROM Gaurdian.UserRole   
 END
-
 GO
 
-/****** Object:  StoredProcedure [dbo].[UserUpdate]    Script Date: 09/09/2012 19:59:45 ******/
-SET ANSI_NULLS ON
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.AccountUpdate') AND type in (N'P', N'PC'))
+DROP PROCEDURE Gaurdian.AccountUpdate
 GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[UserUpdate]
-GO
-CREATE PROCEDURE [dbo].[UserUpdate]
+CREATE PROCEDURE Gaurdian.AccountUpdate
 (
    @Id Numeric(10,0),
    @LoginId Varchar(15),
@@ -149,141 +85,116 @@ CREATE PROCEDURE [dbo].[UserUpdate]
    --@RoleId Numeric(10,0)
 )
 AS
-BEGIN
-	
-	UPDATE [User]
+BEGIN	
+	UPDATE Gaurdian.Account
 	SET	
 		LoginId = @LoginId,
-		Password = @Password	
+		[Password] = @Password	
 	WHERE Id = @Id
-
 	--UPDATE User_Role
 	--SET
 	--	RoleId	= @RoleId
-	--WHERE UserId = @Id
-   
+	--WHERE UserId = @Id   
 END
-
 GO
 
-/****** Object:  Table [dbo].[ProfileContactNumber]    Script Date: 09/10/2012 23:30:42 ******/
-SET ANSI_NULLS ON
+--StoredProcedure Gaurdian.UserRoleInsert
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.UserRoleInsert') AND type in (N'P', N'PC'))
+DROP PROCEDURE Gaurdian.UserRoleInsert
 GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-SET ANSI_PADDING ON
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProfileContactNumber]') AND type in (N'U'))
-DROP TABLE [dbo].[ProfileContactNumber]
-GO
-CREATE TABLE [dbo].[ProfileContactNumber](
-	[UserId] [numeric](10, 0) NOT NULL,
-	[ContactNumber] [varchar](50) NOT NULL
-) ON [PRIMARY]
-ALTER TABLE [dbo].[ProfileContactNumber]  WITH CHECK ADD  CONSTRAINT [ProfileContactNumber_FK_UserId] FOREIGN KEY([UserId])
-REFERENCES [dbo].[User] ([Id])
-ALTER TABLE [dbo].[ProfileContactNumber] CHECK CONSTRAINT [ProfileContactNumber_FK_UserId]
-GO
-
-/****** Object:  StoredProcedure [dbo].[UserContactNumberInsert]    Script Date: 09/10/2012 23:39:50 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserContactNumberInsert]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[UserContactNumberInsert]
-GO
-Create PROCEDURE [dbo].[UserContactNumberInsert]
+CREATE PROCEDURE Gaurdian.UserRoleInsert
 (  
    @UserId Numeric(10,0),
-   @ContactNumber varchar(50),
+   @RoleId Numeric(10,0),
    @Id  Numeric(10,0) OUTPUT
 )
 AS
-BEGIN	
-   
-   INSERT INTO ProfileContactNumber(UserId, ContactNumber)
-   VALUES(@UserId, @ContactNumber)
-   
+BEGIN
+   INSERT INTO Gaurdian.UserRole (UserId, RoleId)
+   VALUES(@UserId, @RoleId)   
    SET @Id = @@IDENTITY
-
 END
-
 GO
 
-/****** Object:  StoredProcedure [dbo].[UserContactNumberDelete]    Script Date: 09/10/2012 23:40:32 ******/
-SET ANSI_NULLS ON
+--StoredProcedure Gaurdian.UserRoleDelete
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.UserRoleDelete') AND type in (N'P', N'PC'))
+DROP PROCEDURE Gaurdian.UserRoleDelete
 GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserContactNumberDelete]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[UserContactNumberDelete]
-GO
-CREATE PROCEDURE [dbo].[UserContactNumberDelete]
+CREATE PROCEDURE Gaurdian.UserRoleDelete
 (
 	@UserId Numeric(10,0)
 )
 AS
-BEGIN
-	
+BEGIN	
+	DELETE 		
+	FROM Gaurdian.UserRole
+	WHERE UserId = @UserId
+END
+GO
+
+--ProfileContactNumber
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.ProfileContactNumber') AND type in (N'U'))
+DROP TABLE Gaurdian.ProfileContactNumber
+GO
+CREATE TABLE Gaurdian.ProfileContactNumber(
+	UserId Numeric(10, 0) NOT NULL,
+	ContactNumber Varchar(50) NOT NULL
+) ON [PRIMARY]
+ALTER TABLE Gaurdian.ProfileContactNumber  WITH CHECK ADD  CONSTRAINT ProfileContactNumber_FK_UserId FOREIGN KEY(UserId)
+REFERENCES Gaurdian.Account (Id)
+ALTER TABLE Gaurdian.ProfileContactNumber CHECK CONSTRAINT ProfileContactNumber_FK_UserId
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.ProfileContactNumberInsert') AND type in (N'P', N'PC'))
+DROP PROCEDURE Gaurdian.ProfileContactNumberInsert
+GO
+Create PROCEDURE Gaurdian.ProfileContactNumberInsert
+(  
+   @UserId Numeric(10,0),
+   @ContactNumber Varchar(50),
+   @Id  Numeric(10,0) OUTPUT
+)
+AS
+BEGIN   
+   INSERT INTO Gaurdian.ProfileContactNumber(UserId, ContactNumber)
+   VALUES(@UserId, @ContactNumber)   
+   SET @Id = @@IDENTITY
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.ProfileContactNumberDelete') AND type in (N'P', N'PC'))
+DROP PROCEDURE Gaurdian.ProfileContactNumberDelete
+GO
+CREATE PROCEDURE Gaurdian.ProfileContactNumberDelete
+(
+	@UserId Numeric(10,0)
+)
+AS
+BEGIN	
 	DELETE 		
 	FROM ProfileContactNumber
 	WHERE UserId = @UserId   
-   
 END
 
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserDelete]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[UserDelete]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.ProfileContactNumberRead') AND type in (N'P', N'PC'))
+DROP PROCEDURE Gaurdian.ProfileContactNumberRead
 GO
-CREATE PROCEDURE [dbo].[UserDelete]
-(
-   @Id Numeric(10,0)
-)
-AS
-BEGIN
-
-   DELETE FROM [User]
-   WHERE Id = @Id
-   
-END
-
-/****** Object:  StoredProcedure [dbo].[ProfileContactNumberRead]    Script Date: 09/11/2012 00:37:15 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProfileContactNumberRead]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[ProfileContactNumberRead]
-GO
-CREATE PROCEDURE [dbo].[ProfileContactNumberRead] 
+CREATE PROCEDURE Gaurdian.ProfileContactNumberRead 
 (
 	@ParentId Numeric(10,0)
 )
 AS
 BEGIN
-	
 	SELECT 
 		0 As Id,
 		UserId,		
 		ContactNumber
-	FROM ProfileContactNumber
-	WHERE UserId = @ParentId
-   
+	FROM Gaurdian.ProfileContactNumber
+	WHERE UserId = @ParentId   
 END
-
 GO
-
 
 --BEGIN TRANSACTION
 
