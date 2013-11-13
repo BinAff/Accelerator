@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 
-using GaurdianAcc = Crystal.Guardian.Component.Account;
+using GuardianAcc = Crystal.Guardian.Component.Account;
 
 namespace Crystal.Navigator.Component.Artifact
 {
@@ -36,12 +36,12 @@ namespace Crystal.Navigator.Component.Artifact
 
         protected override void CreateChildren()
         {
-            base.AddChild(new GaurdianAcc.Server(((Data)Data).CreatedBy)
+            base.AddChild(new GuardianAcc.Server(((Data)Data).CreatedBy)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
             });
-            base.AddChild(new GaurdianAcc.Server(((Data)Data).ModifiedBy)
+            base.AddChild(new GuardianAcc.Server(((Data)Data).ModifiedBy)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,

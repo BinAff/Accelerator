@@ -16,13 +16,13 @@ namespace Crystal.Guardian.Component.SecurityQuestion
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "[Gaurdian].SecurityQuestionInsert";
+            base.CreateStoredProcedure = "Guardian.SecurityQuestionInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Gaurdian].SecurityQuestionRead";
-            base.ReadAllStoredProcedure = "[Gaurdian].SecurityQuestionReadAll";
-            base.UpdateStoredProcedure = "[Gaurdian].SecurityQuestionUpdate";
+            base.ReadStoredProcedure = "Guardian.SecurityQuestionRead";
+            base.ReadAllStoredProcedure = "Guardian.SecurityQuestionReadAll";
+            base.UpdateStoredProcedure = "Guardian.SecurityQuestionUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "[Gaurdian].SecurityQuestionDelete";
+            base.DeleteStoredProcedure = "Guardian.SecurityQuestionDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -68,7 +68,7 @@ namespace Crystal.Guardian.Component.SecurityQuestion
         {
             Data data = (Data)this.Data;
             this.CreateConnection();
-            this.CreateCommand("[Gaurdian].SecurityQuestionReadDuplicate");
+            this.CreateCommand("Guardian.SecurityQuestionReadDuplicate");
             this.AddInParameter("@Name", DbType.String, data.Question);
 
             DataSet ds = this.ExecuteDataSet();

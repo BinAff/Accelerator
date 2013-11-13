@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using System.Collections.Generic;
 
-using GaurdianAcc = Crystal.Guardian.Component.Account;
+using GuardianAcc = Crystal.Guardian.Component.Account;
 
 namespace Crystal.Navigator.Component.Artifact
 {
@@ -55,13 +55,13 @@ namespace Crystal.Navigator.Component.Artifact
             //dt.Path = Convert.IsDBNull(dr["Path"]) ? String.Empty : Convert.ToString(dr["Path"]);
             dt.Style = Convert.IsDBNull(dr["Style"]) ? Artifact.Type.Directory : (Artifact.Type)(Convert.ToInt32(dr["Style"]));
             dt.Version = Convert.IsDBNull(dr["Version"]) ? 0 : Convert.ToInt32(dr["Version"]);
-            dt.CreatedBy = new GaurdianAcc.Data
+            dt.CreatedBy = new GuardianAcc.Data
             {
                 Id = Convert.IsDBNull(dr["CreatedByUserId"]) ? 0 : Convert.ToInt64(dr["CreatedByUserId"])
             };
             if (!Convert.IsDBNull(dr["ModifiedByUserId"]) && Convert.ToInt64(dr["ModifiedByUserId"]) > 0)
             {
-                dt.ModifiedBy = new GaurdianAcc.Data
+                dt.ModifiedBy = new GuardianAcc.Data
                 {
                     Id = Convert.IsDBNull(dr["ModifiedByUserId"]) ? 0 : Convert.ToInt64(dr["ModifiedByUserId"])
                 };

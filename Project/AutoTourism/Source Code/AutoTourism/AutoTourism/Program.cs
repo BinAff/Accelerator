@@ -12,13 +12,20 @@ namespace AutoTourism
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Type type = Type.GetType(
-                ConfigurationManager.AppSettings["StartUpAssembly"] + "." + 
-                ConfigurationManager.AppSettings["StartUpClass"] + ", " +
-                ConfigurationManager.AppSettings["StartUpAssembly"], true);
-            Application.Run((Form)Activator.CreateInstance(type));
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Type type = Type.GetType(
+                    ConfigurationManager.AppSettings["StartUpAssembly"] + "." +
+                    ConfigurationManager.AppSettings["StartUpClass"] + ", " +
+                    ConfigurationManager.AppSettings["StartUpAssembly"], true);
+                Application.Run((Form)Activator.CreateInstance(type));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

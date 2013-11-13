@@ -23,12 +23,12 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Navigato
 	) ON [PRIMARY]
 GO
 ALTER TABLE [Navigator].[Artifact]  WITH CHECK ADD  CONSTRAINT [FK_Artifact_Account] FOREIGN KEY([CreatedByUserId])
-REFERENCES [Gaurdian].[Account] ([Id])
+REFERENCES Guardian.[Account] ([Id])
 GO
 ALTER TABLE [Navigator].[Artifact] CHECK CONSTRAINT [FK_Artifact_Account]
 GO
 ALTER TABLE [Navigator].[Artifact]  WITH CHECK ADD  CONSTRAINT [FK_Artifact_Account1] FOREIGN KEY([ModifiedByUserId])
-REFERENCES [Gaurdian].[Account] ([Id])
+REFERENCES Guardian.[Account] ([Id])
 GO
 ALTER TABLE [Navigator].[Artifact] CHECK CONSTRAINT [FK_Artifact_Account1]
 GO
