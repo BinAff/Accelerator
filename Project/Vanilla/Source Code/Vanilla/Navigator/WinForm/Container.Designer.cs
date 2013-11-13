@@ -51,6 +51,9 @@
             this.btnEnter = new System.Windows.Forms.Button();
             this.pnlAddress = new System.Windows.Forms.Panel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.cmsExplorer = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.folderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).BeginInit();
             this.pnlMain.Panel1.SuspendLayout();
             this.pnlMain.Panel2.SuspendLayout();
@@ -59,6 +62,7 @@
             this.pnlCategory.SuspendLayout();
             this.tbcCategory.SuspendLayout();
             this.pnlAddress.SuspendLayout();
+            this.cmsExplorer.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlMain
@@ -183,6 +187,9 @@
             this.trvArtifact.Name = "trvArtifact";
             this.trvArtifact.Size = new System.Drawing.Size(175, 315);
             this.trvArtifact.TabIndex = 6;
+            this.trvArtifact.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvArtifact_AfterLabelEdit);
+            this.trvArtifact.KeyUp += new System.Windows.Forms.KeyEventHandler(this.trvArtifact_KeyUp);
+            this.trvArtifact.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvArtifact_MouseDown);
             // 
             // pnlModule
             // 
@@ -278,7 +285,7 @@
             // btnUp
             // 
             this.btnUp.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnUp.Font = new System.Drawing.Font("Wingdings 3", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
             this.btnUp.Location = new System.Drawing.Point(0, 0);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(23, 23);
@@ -289,7 +296,7 @@
             // btnBack
             // 
             this.btnBack.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnBack.Font = new System.Drawing.Font("Wingdings 3", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
             this.btnBack.Location = new System.Drawing.Point(23, 0);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(23, 23);
@@ -300,7 +307,7 @@
             // btnEnter
             // 
             this.btnEnter.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnEnter.Font = new System.Drawing.Font("Wingdings 3", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnEnter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
             this.btnEnter.Location = new System.Drawing.Point(568, 0);
             this.btnEnter.Name = "btnEnter";
             this.btnEnter.Size = new System.Drawing.Size(23, 23);
@@ -319,6 +326,28 @@
             this.pnlAddress.Name = "pnlAddress";
             this.pnlAddress.Size = new System.Drawing.Size(591, 23);
             this.pnlAddress.TabIndex = 5;
+            // 
+            // cmsExplorer
+            // 
+            this.cmsExplorer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem});
+            this.cmsExplorer.Name = "cmsExplorer";
+            this.cmsExplorer.Size = new System.Drawing.Size(99, 26);
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.folderToolStripMenuItem});
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Text = "New";
+            // 
+            // folderToolStripMenuItem
+            // 
+            this.folderToolStripMenuItem.Name = "folderToolStripMenuItem";
+            this.folderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.folderToolStripMenuItem.Text = "Folder";
+            this.folderToolStripMenuItem.Click += new System.EventHandler(this.folderToolStripMenuItem_Click);
             // 
             // Container
             // 
@@ -340,6 +369,7 @@
             this.tbcCategory.ResumeLayout(false);
             this.pnlAddress.ResumeLayout(false);
             this.pnlAddress.PerformLayout();
+            this.cmsExplorer.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -368,6 +398,9 @@
         private System.Windows.Forms.TabPage tbpForm;
         private System.Windows.Forms.TabPage tbpCatalogue;
         private System.Windows.Forms.TabPage tbpReport;
+        private System.Windows.Forms.ContextMenuStrip cmsExplorer;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem folderToolStripMenuItem;
 
     }
 }
