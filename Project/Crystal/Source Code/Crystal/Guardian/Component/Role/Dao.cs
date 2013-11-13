@@ -16,13 +16,13 @@ namespace Crystal.Guardian.Component.Role
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "RoleInsert";
+            base.CreateStoredProcedure = "Guardian.RoleInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "RoleRead";
-            base.ReadAllStoredProcedure = "RoleReadAll";
-            base.UpdateStoredProcedure = "RoleUpdate";
+            base.ReadStoredProcedure = "Guardian.RoleRead";
+            base.ReadAllStoredProcedure = "Guardian.RoleReadAll";
+            base.UpdateStoredProcedure = "Guardian.RoleUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "RoleDelete";
+            base.DeleteStoredProcedure = "Guardian.RoleDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 

@@ -23,7 +23,7 @@ namespace Vanilla.Guardian.Facade.Account
             ((FormDto)base.FormDto).RoleList = this.GetRoleList();
             ((FormDto)base.FormDto).Rule = this.GetRule();
         }
-
+        
         /// <summary>
         /// Get role list from server
         /// </summary>

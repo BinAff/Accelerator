@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using GaurdianAcc = Crystal.Guardian.Component.Account;
+using GuardianAcc = Crystal.Guardian.Component.Account;
 
 namespace Crystal.Navigator.Component.Artifact
 {
@@ -32,12 +32,12 @@ namespace Crystal.Navigator.Component.Artifact
         /// <summary>
         /// Created by user
         /// </summary>
-        public GaurdianAcc.Data CreatedBy { get; set; }
+        public GuardianAcc.Data CreatedBy { get; set; }
 
         /// <summary>
         /// Modified by User
         /// </summary>
-        public GaurdianAcc.Data ModifiedBy { get; set; }
+        public GuardianAcc.Data ModifiedBy { get; set; }
 
         /// <summary>
         /// Time when artifact created

@@ -16,13 +16,13 @@ namespace Crystal.Guardian.Component.Account
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "UserInsert";
+            base.CreateStoredProcedure = "Guardian.AccountInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "UserRead";
-            base.ReadAllStoredProcedure = "UserReadAll";
-            base.UpdateStoredProcedure = "UserUpdate";
+            base.ReadStoredProcedure = "Guardian.AccountRead";
+            base.ReadAllStoredProcedure = "Guardian.AccountReadAll";
+            base.UpdateStoredProcedure = "Guardian.AccountUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "UserDelete";
+            base.DeleteStoredProcedure = "Guardian.AccountDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 

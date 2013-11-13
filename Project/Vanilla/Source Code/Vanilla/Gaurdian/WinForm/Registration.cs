@@ -57,6 +57,7 @@ namespace Vanilla.Guardian.WinForm
         {
             this.formDto = new Facade.Account.FormDto();
             BinAff.Facade.Library.Server facade = new Facade.Account.Server(formDto);
+            facade.LoadForm();
 
             this.txtPassword.Text = this.formDto.Rule.DefaultPassword;
 

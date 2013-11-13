@@ -1,7 +1,7 @@
-﻿IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.AccountResetPassword') AND type in (N'P', N'PC'))
-DROP PROCEDURE Gaurdian.AccountResetPassword
+﻿IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.AccountResetPassword') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.AccountResetPassword
 GO
-CREATE PROCEDURE Gaurdian.AccountResetPassword
+CREATE PROCEDURE Guardian.AccountResetPassword
 (
 	@Id Numeric(10,0),
 	@Password Varchar(50)
@@ -9,7 +9,7 @@ CREATE PROCEDURE Gaurdian.AccountResetPassword
 AS
 BEGIN
 	
-	UPDATE Gaurdian.Account
+	UPDATE Guardian.Account
 	SET	
 		[Password] = @Password	
 	WHERE Id = @Id
@@ -17,10 +17,10 @@ BEGIN
 END
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.AccountInsert') AND type in (N'P', N'PC'))
-DROP PROCEDURE Gaurdian.AccountInsert
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.AccountInsert') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.AccountInsert
 GO
-CREATE PROCEDURE Gaurdian.AccountInsert
+CREATE PROCEDURE Guardian.AccountInsert
 (  
    @LoginId Varchar(15),   
    @Password Varchar(127),
@@ -29,7 +29,7 @@ CREATE PROCEDURE Gaurdian.AccountInsert
 )
 AS
 BEGIN	
-   INSERT INTO Gaurdian.Account(LoginId, [Password])
+   INSERT INTO Guardian.Account(LoginId, [Password])
    VALUES (@LoginId, @Password)   
    SET @Id = @@IDENTITY   
    --INSERT INTO User_Role (UserId, RoleId)
@@ -37,47 +37,64 @@ BEGIN
 END
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.AccountDelete') AND type in (N'P', N'PC'))
-DROP PROCEDURE Gaurdian.AccountDelete
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.AccountDelete') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.AccountDelete
 GO
-CREATE PROCEDURE Gaurdian.AccountDelete
+CREATE PROCEDURE Guardian.AccountDelete
 (
    @Id Numeric(10,0)
 )
 AS
 BEGIN
-   DELETE FROM Gaurdian.Account
+   DELETE FROM Guardian.Account
    WHERE Id = @Id
 END
-
---StoredProcedure Gaurdian.ProfileContactNumberRead
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.ProfileContactNumberRead') AND type in (N'P', N'PC'))
-DROP PROCEDURE Gaurdian.ProfileContactNumberRead
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.AccountReadAll') AND type in (N'P', N'PC'))
-DROP PROCEDURE Gaurdian.AccountReadAll
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.AccountRead') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.AccountRead
 GO
-CREATE PROCEDURE Gaurdian.AccountReadAll
+CREATE PROCEDURE Guardian.AccountRead
+(
+   @Id Numeric(10,0)
+)
+AS
+BEGIN	
+	SELECT 
+		Id,
+		LoginId,
+		[Password],
+		(SELECT RoleId 
+			FROM Guardian.UserRole 
+			WHERE UserId = @Id) AS RoleId
+	FROM Guardian.Account
+	WHERE LoginId != @Id  
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.AccountReadAll') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.AccountReadAll
+GO
+CREATE PROCEDURE Guardian.AccountReadAll
 AS
 BEGIN	
 	SELECT 
 		Id,
 		LoginId,
 		[Password]
-	FROM Gaurdian.Account
+	FROM Guardian.Account
 	WHERE LoginId != 'support'   
 	SELECT 
 		UserId, 
 		RoleId
-	FROM Gaurdian.UserRole   
+	FROM Guardian.UserRole   
 END
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.AccountUpdate') AND type in (N'P', N'PC'))
-DROP PROCEDURE Gaurdian.AccountUpdate
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.AccountUpdate') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.AccountUpdate
 GO
-CREATE PROCEDURE Gaurdian.AccountUpdate
+CREATE PROCEDURE Guardian.AccountUpdate
 (
    @Id Numeric(10,0),
    @LoginId Varchar(15),
@@ -86,7 +103,7 @@ CREATE PROCEDURE Gaurdian.AccountUpdate
 )
 AS
 BEGIN	
-	UPDATE Gaurdian.Account
+	UPDATE Guardian.Account
 	SET	
 		LoginId = @LoginId,
 		[Password] = @Password	
@@ -98,11 +115,11 @@ BEGIN
 END
 GO
 
---StoredProcedure Gaurdian.UserRoleInsert
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.UserRoleInsert') AND type in (N'P', N'PC'))
-DROP PROCEDURE Gaurdian.UserRoleInsert
+--UserRoleInsert
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.UserRoleInsert') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.UserRoleInsert
 GO
-CREATE PROCEDURE Gaurdian.UserRoleInsert
+CREATE PROCEDURE Guardian.UserRoleInsert
 (  
    @UserId Numeric(10,0),
    @RoleId Numeric(10,0),
@@ -110,45 +127,91 @@ CREATE PROCEDURE Gaurdian.UserRoleInsert
 )
 AS
 BEGIN
-   INSERT INTO Gaurdian.UserRole (UserId, RoleId)
+   INSERT INTO Guardian.UserRole (UserId, RoleId)
    VALUES(@UserId, @RoleId)   
    SET @Id = @@IDENTITY
 END
 GO
 
---StoredProcedure Gaurdian.UserRoleDelete
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.UserRoleDelete') AND type in (N'P', N'PC'))
-DROP PROCEDURE Gaurdian.UserRoleDelete
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.UserRoleRead') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.UserRoleRead
 GO
-CREATE PROCEDURE Gaurdian.UserRoleDelete
+CREATE PROCEDURE Guardian.UserRoleRead
+(
+	@UserId Numeric(10,0)
+)
+AS
+BEGIN	
+	SELECT UserId, RoleId		
+	FROM Guardian.UserRole
+	WHERE UserId = @UserId
+END
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.UserRoleReadAll') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.UserRoleReadAll
+GO
+CREATE PROCEDURE Guardian.UserRoleReadAll
+(
+	@UserId Numeric(10,0)
+)
+AS
+BEGIN	
+	SELECT UserId, RoleId		
+	FROM Guardian.UserRole
+END
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.UserRoleUpdate') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.UserRoleUpdate
+GO
+CREATE PROCEDURE Guardian.UserRoleUpdate
+(  
+   @UserId Numeric(10,0),
+   @RoleId Numeric(10,0)
+)
+AS
+BEGIN
+	UPDATE Guardian.UserRole
+	SET RoleId = @RoleId  
+	WHERE UserId = @UserId
+END
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.UserRoleDelete') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.UserRoleDelete
+GO
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.UserRoleDelete') AND type in (N'U'))
+DROP TABLE Guardian.UserRoleDelete
+GO
+CREATE PROCEDURE Guardian.UserRoleDelete
 (
 	@UserId Numeric(10,0)
 )
 AS
 BEGIN	
 	DELETE 		
-	FROM Gaurdian.UserRole
+	FROM Guardian.UserRole
 	WHERE UserId = @UserId
 END
 GO
 
 --ProfileContactNumber
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.ProfileContactNumber') AND type in (N'U'))
-DROP TABLE Gaurdian.ProfileContactNumber
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.ProfileContactNumber') AND type in (N'U'))
+DROP TABLE Guardian.ProfileContactNumber
 GO
-CREATE TABLE Gaurdian.ProfileContactNumber(
+CREATE TABLE Guardian.ProfileContactNumber(
 	UserId Numeric(10, 0) NOT NULL,
 	ContactNumber Varchar(50) NOT NULL
 ) ON [PRIMARY]
-ALTER TABLE Gaurdian.ProfileContactNumber  WITH CHECK ADD  CONSTRAINT ProfileContactNumber_FK_UserId FOREIGN KEY(UserId)
-REFERENCES Gaurdian.Account (Id)
-ALTER TABLE Gaurdian.ProfileContactNumber CHECK CONSTRAINT ProfileContactNumber_FK_UserId
+ALTER TABLE Guardian.ProfileContactNumber  WITH CHECK ADD  CONSTRAINT ProfileContactNumber_FK_UserId FOREIGN KEY(UserId)
+REFERENCES Guardian.Account (Id)
+ALTER TABLE Guardian.ProfileContactNumber CHECK CONSTRAINT ProfileContactNumber_FK_UserId
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.ProfileContactNumberInsert') AND type in (N'P', N'PC'))
-DROP PROCEDURE Gaurdian.ProfileContactNumberInsert
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.ProfileContactNumberInsert') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.ProfileContactNumberInsert
 GO
-Create PROCEDURE Gaurdian.ProfileContactNumberInsert
+Create PROCEDURE Guardian.ProfileContactNumberInsert
 (  
    @UserId Numeric(10,0),
    @ContactNumber Varchar(50),
@@ -156,16 +219,16 @@ Create PROCEDURE Gaurdian.ProfileContactNumberInsert
 )
 AS
 BEGIN   
-   INSERT INTO Gaurdian.ProfileContactNumber(UserId, ContactNumber)
+   INSERT INTO Guardian.ProfileContactNumber(UserId, ContactNumber)
    VALUES(@UserId, @ContactNumber)   
    SET @Id = @@IDENTITY
 END
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.ProfileContactNumberDelete') AND type in (N'P', N'PC'))
-DROP PROCEDURE Gaurdian.ProfileContactNumberDelete
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.ProfileContactNumberDelete') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.ProfileContactNumberDelete
 GO
-CREATE PROCEDURE Gaurdian.ProfileContactNumberDelete
+CREATE PROCEDURE Guardian.ProfileContactNumberDelete
 (
 	@UserId Numeric(10,0)
 )
@@ -178,10 +241,10 @@ END
 
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Gaurdian.ProfileContactNumberRead') AND type in (N'P', N'PC'))
-DROP PROCEDURE Gaurdian.ProfileContactNumberRead
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.ProfileContactNumberRead') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.ProfileContactNumberRead
 GO
-CREATE PROCEDURE Gaurdian.ProfileContactNumberRead 
+CREATE PROCEDURE Guardian.ProfileContactNumberRead 
 (
 	@ParentId Numeric(10,0)
 )
@@ -191,7 +254,7 @@ BEGIN
 		0 As Id,
 		UserId,		
 		ContactNumber
-	FROM Gaurdian.ProfileContactNumber
+	FROM Guardian.ProfileContactNumber
 	WHERE UserId = @ParentId   
 END
 GO
