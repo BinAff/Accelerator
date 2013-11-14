@@ -43,7 +43,7 @@
             this.tbpForm = new System.Windows.Forms.TabPage();
             this.tbpCatalogue = new System.Windows.Forms.TabPage();
             this.tbpReport = new System.Windows.Forms.TabPage();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.lstViewContainer = new System.Windows.Forms.ListView();
             this.lblAudit = new System.Windows.Forms.Label();
             this.txtAddress = new System.Windows.Forms.TextBox();
             this.btnUp = new System.Windows.Forms.Button();
@@ -82,7 +82,7 @@
             // 
             // pnlMain.Panel2
             // 
-            this.pnlMain.Panel2.Controls.Add(this.listView1);
+            this.pnlMain.Panel2.Controls.Add(this.lstViewContainer);
             this.pnlMain.Panel2.Controls.Add(this.lblAudit);
             this.pnlMain.Size = new System.Drawing.Size(591, 371);
             this.pnlMain.SplitterDistance = 179;
@@ -253,14 +253,17 @@
             this.tbpReport.UseVisualStyleBackColor = true;
             this.tbpReport.Enter += new System.EventHandler(this.tbpReport_Enter);
             // 
-            // listView1
+            // lstViewContainer
             // 
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(404, 344);
-            this.listView1.TabIndex = 1;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.lstViewContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstViewContainer.Location = new System.Drawing.Point(0, 0);
+            this.lstViewContainer.Name = "lstViewContainer";
+            this.lstViewContainer.Size = new System.Drawing.Size(404, 344);
+            this.lstViewContainer.TabIndex = 1;
+            this.lstViewContainer.UseCompatibleStateImageBehavior = false;
+            this.lstViewContainer.View = System.Windows.Forms.View.Details;
+            this.lstViewContainer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lstViewContainer_AfterLabelEdit);
+            this.lstViewContainer.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstViewContainer_KeyUp);
             // 
             // lblAudit
             // 
@@ -339,13 +342,13 @@
             this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.folderToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // folderToolStripMenuItem
             // 
             this.folderToolStripMenuItem.Name = "folderToolStripMenuItem";
-            this.folderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.folderToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.folderToolStripMenuItem.Text = "Folder";
             this.folderToolStripMenuItem.Click += new System.EventHandler(this.folderToolStripMenuItem_Click);
             // 
@@ -383,7 +386,7 @@
         private System.Windows.Forms.Button btnEnter;
         private System.Windows.Forms.Panel pnlAddress;
         private System.Windows.Forms.Label lblAudit;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView lstViewContainer;
         private System.Windows.Forms.Panel pnlCategory;
         private System.Windows.Forms.Panel pnlModule;
         private System.Windows.Forms.TreeView trvArtifact;

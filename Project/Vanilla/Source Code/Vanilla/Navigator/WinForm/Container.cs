@@ -21,8 +21,12 @@ namespace Vanilla.Navigator.WinForm
             facade = new Server(this.formDto = new FormDto());
             facade.LoadForm();
             this.LoadModules();
-        }
 
+            lstViewContainer.View = View.Details;
+            lstViewContainer.Dock = DockStyle.Fill;
+            tbcCategory.SelectedIndexChanged += tbcCategory_SelectedIndexChanged;
+        }
+        
         private void tbpForm_Enter(object sender, EventArgs e)
         {
             this.txtAddress.Text = @"Form::";
@@ -72,18 +76,38 @@ namespace Vanilla.Navigator.WinForm
                 // Select the clicked node
                 trvArtifact.SelectedNode = trvArtifact.GetNodeAt(e.X, e.Y);
 
+                ToolStripMenuItem menuItem = cmsExplorer.Items[0] as ToolStripMenuItem;
                 if (trvArtifact.SelectedNode != null)
+                {                   
+                    if (menuItem.DropDownItems.Count > 1)                   
+                        menuItem.DropDownItems[1].Text = tbcCategory.SelectedTab.Text;                   
+                    else
+                    {
+                        ToolStripMenuItem newItem = new ToolStripMenuItem
+                        {
+                            Text = tbcCategory.SelectedTab.Text
+                        };
+                        newItem.Click += newItem_Click;
+                        menuItem.DropDownItems.Insert(menuItem.DropDownItems.Count, newItem);
+                    }
+
                     cmsExplorer.Show(trvArtifact, e.Location);
+                }
                 else
+                {
+                    if (menuItem.DropDownItems.Count > 1)
+                        menuItem.DropDownItems.RemoveAt(1);
+
                     cmsExplorer.Show(Cursor.Position);
+                }
             }  
         }
-
+        
         private void folderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             trvArtifact.LabelEdit = true;
             TreeNode node = new TreeNode();
-            node.Text = "aaaa";
+            node.Text = "New folder";
 
             if (trvArtifact.SelectedNode != null)
             {
@@ -95,6 +119,23 @@ namespace Vanilla.Navigator.WinForm
 
             trvArtifact.SelectedNode = null;
             node.BeginEdit();
+        }
+
+        void newItem_Click(object sender, EventArgs e)
+        {
+            if (lstViewContainer.Columns.Count == 0)
+            {
+                lstViewContainer.Columns.Add("Name", 300);
+                lstViewContainer.Columns.Add("Type", 200);
+            }
+
+            ListViewItem item = new ListViewItem {
+                Text = "New " + sender.ToString()
+            };
+            item.SubItems.Add(sender.ToString());
+
+            lstViewContainer.Items.Add(item);
+
         }
 
         private void trvArtifact_KeyUp(object sender, KeyEventArgs e)
@@ -113,6 +154,38 @@ namespace Vanilla.Navigator.WinForm
             if (e.Label == null || e.Label.Trim().Length == 0)
                 e.CancelEdit = true; // Can not be empty text
 
+        }
+
+        void tbcCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            trvArtifact.Nodes.Clear();
+            lstViewContainer.Clear();
+
+            TabPage current = (sender as TabControl).SelectedTab;
+
+            //Bind Tree
+
+        }
+
+        private void lstViewContainer_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F2)
+            {
+                lstViewContainer.LabelEdit = true;
+                foreach (ListViewItem item in lstViewContainer.SelectedItems)                
+                    item.BeginEdit();                
+            }
+        }
+
+        private void lstViewContainer_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            foreach (ListViewItem item in lstViewContainer.SelectedItems)
+                item.Selected = false;
+
+            lstViewContainer.LabelEdit = true;
+            if (e.Label == null || e.Label.Trim().Length == 0)
+                e.CancelEdit = true;
+        
         }
 
     }
