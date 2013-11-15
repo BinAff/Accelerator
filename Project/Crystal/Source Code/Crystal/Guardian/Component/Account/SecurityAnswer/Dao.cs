@@ -16,13 +16,13 @@ namespace Crystal.Guardian.Component.Account.SecurityAnswer
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "SecurityAnswerInsert";
+            base.CreateStoredProcedure = "Guardian.SecurityAnswerInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "SecurityAnswerRead";
-            base.ReadForParentStoredProcedure = "SecurityAnswerReadForParent";
-            base.UpdateStoredProcedure = "SecurityAnswerUpdate";
+            base.ReadStoredProcedure = "Guardian.SecurityAnswerRead";
+            base.ReadForParentStoredProcedure = "Guardian.SecurityAnswerReadForParent";
+            base.UpdateStoredProcedure = "Guardian.SecurityAnswerUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "SecurityAnswerDelete";
+            base.DeleteStoredProcedure = "Guardian.SecurityAnswerDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -116,7 +116,7 @@ namespace Crystal.Guardian.Component.Account.SecurityAnswer
         {
             List<Data> dataList = new List<Data>();
             this.CreateConnection();
-            this.CreateCommand("SecurityAnswerIsSecurityQuestionDeletable");
+            this.CreateCommand("Guardian.SecurityAnswerIsSecurityQuestionDeletable");
             this.AddInParameter("@SecurityQuestionId", DbType.Int64, securityQuestion.Id);
             DataSet ds = this.ExecuteDataSet();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)

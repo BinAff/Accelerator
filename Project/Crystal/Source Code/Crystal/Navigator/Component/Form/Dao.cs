@@ -13,8 +13,6 @@ namespace Crystal.Navigator.Component.Form
             
         }
 
-        protected override abstract void Compose();
-
         protected override sealed void AssignParameter(string procedureName)
         {
             base.AssignParameter(procedureName);
@@ -26,15 +24,7 @@ namespace Crystal.Navigator.Component.Form
 
         protected override sealed BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
-            base.CreateDataObject(dr, data);
-            Data dt = data as Data;
-            Int64 moduleDataId = Convert.IsDBNull(dr["ModuleId"]) ? 0 : Convert.ToInt64(dr["ModuleId"]);
-            if (moduleDataId != 0)
-            {
-                dt.ModuleData = this.InstantiateModuleDataObject();
-                dt.ModuleData.Id = moduleDataId;
-            }
-            return data;
+            return base.CreateDataObject(dr, data);
         }
 
         protected abstract BinAff.Core.Data InstantiateModuleDataObject();

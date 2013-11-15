@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 
+using AutotourismCustomerForm = Autotourism.Component.Customer.Navigator.Form;
+
 namespace Vanilla.Navigator.Facade.Module
 {
 
@@ -16,7 +18,8 @@ namespace Vanilla.Navigator.Facade.Module
 
         public override void LoadForm()
         {
-            ReturnObject<List<Data>> returnObject = (new Crystal.Navigator.Component.Artifact.Server(new Crystal.Navigator.Component.Artifact.Data()) as ICrud).ReadAll();
+            ReturnObject<List<Data>> returnObject = (new AutotourismCustomerForm.Server(new AutotourismCustomerForm.Data()) as ICrud).ReadAll();
+            //ReturnObject<List<Data>> returnObject = (new Crystal.Navigator.Component.Artifact.Server(new Crystal.Navigator.Component.Artifact.Data()) as ICrud).ReadAll();
             if (returnObject.HasError())
             {
                 this.DisplayMessageList = returnObject.GetMessage(Message.Type.Error);

@@ -16,13 +16,13 @@ namespace Crystal.Guardian.Component.Account.Profile.ContactNumber
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "ProfileContactNumberInsert";
+            base.CreateStoredProcedure = "Guardian.ProfileContactNumberInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "ProfileContactNumberRead";
-            base.ReadForParentStoredProcedure = "ProfileContactNumberRead";
-            base.UpdateStoredProcedure = "ProfileContactNumberUpdate";
+            base.ReadStoredProcedure = "Guardian.ProfileContactNumberRead";
+            base.ReadForParentStoredProcedure = "Guardian.ProfileContactNumberRead";
+            base.UpdateStoredProcedure = "Guardian.ProfileContactNumberUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "ProfileContactNumberDelete";
+            base.DeleteStoredProcedure = "Guardian.ProfileContactNumberDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 

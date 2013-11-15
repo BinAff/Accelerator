@@ -1,7 +1,7 @@
-﻿IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Profile]') AND type in (N'U'))
-DROP TABLE [dbo].[Profile]
+﻿IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.[Profile]') AND type in (N'U'))
+DROP TABLE Guardian.[Profile]
 GO
-CREATE TABLE [dbo].[Profile]
+CREATE TABLE Guardian.[Profile]
 (
 	UserId numeric(10, 0) NOT NULL, 
 	Initial numeric(10, 0) NOT NULL, 
@@ -11,20 +11,32 @@ CREATE TABLE [dbo].[Profile]
 	Dob datetime NOT NULL, 
 	PRIMARY KEY (UserId)
 );
-ALTER TABLE [dbo].[Profile] ADD CONSTRAINT FKProfile713980 FOREIGN KEY (Initial) REFERENCES Initial (Id);
-ALTER TABLE [dbo].[Profile] ADD CONSTRAINT FKProfile288245 FOREIGN KEY (UserId) REFERENCES [User] (Id);
+ALTER TABLE Guardian.[Profile] ADD CONSTRAINT FKProfile713980 FOREIGN KEY (Initial) REFERENCES Initial (Id);
+ALTER TABLE Guardian.[Profile] ADD CONSTRAINT FKProfile288245 FOREIGN KEY (UserId) REFERENCES [User] (Id);
 
-/****** Object:  StoredProcedure [dbo].[ProfileUpdate]    Script Date: 09/09/2012 19:22:31 ******/
-SET ANSI_NULLS ON
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.ProfileRead') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.ProfileRead
+GO
+CREATE PROCEDURE Guardian.ProfileRead
+(
+	@Id Numeric(10,0)
+)
+AS
+BEGIN
+	
+	SELECT UserId, Initial, FirstName, MiddleName, LastName, Dob
+	FROM Guardian.[Profile]
+	WHERE UserId = @Id
+   
+END
 GO
 
-SET QUOTED_IDENTIFIER ON
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.[ProfileUpdate]') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.[ProfileUpdate]
 GO
-
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProfileUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[ProfileUpdate]
-GO
-CREATE PROCEDURE [dbo].[ProfileUpdate]
+CREATE PROCEDURE Guardian.[ProfileUpdate]
 (
 	@UserId Numeric(10,0),	
 	@Initial Numeric(10,0),
@@ -41,7 +53,7 @@ BEGIN
 	Select @Cnt = COUNT(*) From [Profile] Where UserId = @UserId
 	If @Cnt > 0
 	Begin	
-		UPDATE Profile
+		UPDATE Guardian.[Profile]
 		SET	
 			Initial = @Initial,
 			FirstName = @FirstName,
@@ -60,17 +72,17 @@ END
 
 GO
 
-/****** Object:  StoredProcedure [dbo].[ProfileDelete]    Script Date: 09/12/2012 00:01:55 ******/
+/****** Object:  StoredProcedure Guardian.[ProfileDelete]    Script Date: 09/12/2012 00:01:55 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProfileDelete]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[ProfileDelete]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.[ProfileDelete]') AND type in (N'P', N'PC'))
+DROP PROCEDURE Guardian.[ProfileDelete]
 GO
-CREATE PROCEDURE [dbo].[ProfileDelete]
+CREATE PROCEDURE Guardian.[ProfileDelete]
 (
 	@Id Numeric(10,0)
 )
@@ -78,9 +90,12 @@ AS
 BEGIN
 	
 	DELETE 
-	FROM Profile
+	FROM Guardian.[Profile]
 	WHERE UserId = @Id
    
 END
 
 GO
+
+
+Guardian.ProfileRead 1
