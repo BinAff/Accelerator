@@ -16,22 +16,13 @@ namespace Crystal.Customer.Component.Action.Status
 
         protected override void Compose()
         {
-            //base.CreateStoredProcedure = "[Reservation].[StatusInsert]";
-            //base.NumberOfRowsAffectedInCreate = 1;
-            //base.ReadStoredProcedure = "[Reservation].[StatusRead]";
-            //base.ReadAllStoredProcedure = "[Reservation].[StatusReadAll]";
-            //base.UpdateStoredProcedure = "[Reservation].[StatusUpdate]";
-            //base.NumberOfRowsAffectedInUpdate = -1;
-            //base.DeleteStoredProcedure = "[Reservation].[StatusDelete]";
-            //base.NumberOfRowsAffectedInDelete = -1;
-
-            base.CreateStoredProcedure = "[Customer].[ActionStatusInsert]";
+            base.CreateStoredProcedure = "Customer.ActionStatusInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Customer].[ActionStatusRead]";
-            base.ReadAllStoredProcedure = "[Customer].[ActionStatusReadAll]";
-            base.UpdateStoredProcedure = "[Customer].[ActionStatusUpdate]";
+            base.ReadStoredProcedure = "Customer.ActionStatusRead";
+            base.ReadAllStoredProcedure = "Customer.ActionStatusReadAll";
+            base.UpdateStoredProcedure = "Customer.ActionStatusUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "[Customer].[ActionStatusDelete]";
+            base.DeleteStoredProcedure = "Customer.ActionStatusDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
