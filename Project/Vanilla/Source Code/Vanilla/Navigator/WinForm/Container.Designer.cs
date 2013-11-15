@@ -37,7 +37,6 @@
             this.btnEmail = new System.Windows.Forms.Button();
             this.btnCalender = new System.Windows.Forms.Button();
             this.trvArtifact = new System.Windows.Forms.TreeView();
-            this.pnlModule = new System.Windows.Forms.Panel();
             this.pnlCategory = new System.Windows.Forms.Panel();
             this.tbcCategory = new System.Windows.Forms.TabControl();
             this.tbpForm = new System.Windows.Forms.TabPage();
@@ -77,7 +76,6 @@
             // 
             this.pnlMain.Panel1.Controls.Add(this.panel1);
             this.pnlMain.Panel1.Controls.Add(this.trvArtifact);
-            this.pnlMain.Panel1.Controls.Add(this.pnlModule);
             this.pnlMain.Panel1.Controls.Add(this.pnlCategory);
             // 
             // pnlMain.Panel2
@@ -183,21 +181,13 @@
             // trvArtifact
             // 
             this.trvArtifact.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trvArtifact.Location = new System.Drawing.Point(0, 52);
+            this.trvArtifact.Location = new System.Drawing.Point(0, 26);
             this.trvArtifact.Name = "trvArtifact";
-            this.trvArtifact.Size = new System.Drawing.Size(175, 315);
+            this.trvArtifact.Size = new System.Drawing.Size(175, 341);
             this.trvArtifact.TabIndex = 6;
             this.trvArtifact.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvArtifact_AfterLabelEdit);
             this.trvArtifact.KeyUp += new System.Windows.Forms.KeyEventHandler(this.trvArtifact_KeyUp);
             this.trvArtifact.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvArtifact_MouseDown);
-            // 
-            // pnlModule
-            // 
-            this.pnlModule.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlModule.Location = new System.Drawing.Point(0, 26);
-            this.pnlModule.Name = "pnlModule";
-            this.pnlModule.Size = new System.Drawing.Size(175, 26);
-            this.pnlModule.TabIndex = 7;
             // 
             // pnlCategory
             // 
@@ -219,6 +209,7 @@
             this.tbcCategory.SelectedIndex = 0;
             this.tbcCategory.Size = new System.Drawing.Size(175, 26);
             this.tbcCategory.TabIndex = 2;
+            this.tbcCategory.Deselected += new System.Windows.Forms.TabControlEventHandler(this.tbcCategory_Deselected);
             // 
             // tbpForm
             // 
@@ -229,7 +220,6 @@
             this.tbpForm.TabIndex = 0;
             this.tbpForm.Text = "Form";
             this.tbpForm.UseVisualStyleBackColor = true;
-            this.tbpForm.Enter += new System.EventHandler(this.tbpForm_Enter);
             // 
             // tbpCatalogue
             // 
@@ -240,7 +230,6 @@
             this.tbpCatalogue.TabIndex = 1;
             this.tbpCatalogue.Text = "Catalogue";
             this.tbpCatalogue.UseVisualStyleBackColor = true;
-            this.tbpCatalogue.Enter += new System.EventHandler(this.tbpCatalogue_Enter);
             // 
             // tbpReport
             // 
@@ -251,7 +240,6 @@
             this.tbpReport.TabIndex = 2;
             this.tbpReport.Text = "Report";
             this.tbpReport.UseVisualStyleBackColor = true;
-            this.tbpReport.Enter += new System.EventHandler(this.tbpReport_Enter);
             // 
             // lstViewContainer
             // 
@@ -388,7 +376,6 @@
         private System.Windows.Forms.Label lblAudit;
         private System.Windows.Forms.ListView lstViewContainer;
         private System.Windows.Forms.Panel pnlCategory;
-        private System.Windows.Forms.Panel pnlModule;
         private System.Windows.Forms.TreeView trvArtifact;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnConfiguration;
