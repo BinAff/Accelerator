@@ -14,13 +14,13 @@ namespace Crystal.Customer.Component
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "CustomerInsert";
+            base.CreateStoredProcedure = "Customer.CustomerInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "CustomerRead";
-            base.ReadAllStoredProcedure = "CustomerReadAll";
-            base.UpdateStoredProcedure = "CustomerUpdate";
+            base.ReadStoredProcedure = "Customer.CustomerRead";
+            base.ReadAllStoredProcedure = "Customer.CustomerReadAll";
+            base.UpdateStoredProcedure = "Customer.CustomerUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "CustomerDelete";
+            base.DeleteStoredProcedure = "Customer.CustomerDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -87,7 +87,7 @@ namespace Crystal.Customer.Component
         protected override Boolean ReadAfter()
         {
             Data data = this.Data as Data;
-            this.CreateCommand("CustomerContactNumberRead");
+            this.CreateCommand("Customer.CustomerContactNumberRead");
             this.AddInParameter("@Id", DbType.Int64, this.Data.Id);
             DataSet dsContactNumber = this.ExecuteDataSet();
             data.ContactNumberList = CreateContactNumberDataObject(dsContactNumber);
@@ -135,7 +135,7 @@ namespace Crystal.Customer.Component
             {
                 if (isCreatedSuccessfully)
                 {
-                    base.CreateCommand("CustomerContactNumberInsert");
+                    base.CreateCommand("Customer.CustomerContactNumberInsert");
                     base.AddInParameter("@CustomerId", DbType.Int64, CustomerId);
                     base.AddInParameter("@ContactNumber", DbType.String, contactData.ContactNumber);
                     base.AddOutParameter("@Id", DbType.Int64, contactData.Id);
@@ -152,7 +152,7 @@ namespace Crystal.Customer.Component
         private Boolean DeleteCustomerContactNumber(Int64 CustomerId)
         {
             Boolean isDeletedSuccessfully = true;
-            this.CreateCommand("CustomerContactNumberDelete");
+            this.CreateCommand("Customer.CustomerContactNumberDelete");
             this.AddInParameter("@Id", DbType.Int64, CustomerId);
 
             Int32 ret = this.ExecuteNonQuery();
@@ -200,7 +200,7 @@ namespace Crystal.Customer.Component
             }
 
             this.CreateConnection();
-            this.CreateCommand("CustomerReadDuplicate");
+            this.CreateCommand("Customer.CustomerReadDuplicate");
             this.AddInParameter("@Email", DbType.String, data.Email);
             this.AddInParameter("@IdentityProofId", DbType.Int64, data.IdentityProofType == null ? 0 : data.IdentityProofType.Id);
             this.AddInParameter("@IdentityProofName", DbType.String, data.IdentityProof);
@@ -221,7 +221,7 @@ namespace Crystal.Customer.Component
         {
             this.CreateConnection();
 
-            this.CreateCommand("CustomerCheck");
+            this.CreateCommand("Customer.CustomerCheck");
             this.AddInParameter("@Email", DbType.String, ((Data)this.Data).Email);
             this.AddInParameter("@IdentityProofId", DbType.Int64, ((Data)this.Data).IdentityProofType == null ? 0 : ((Data)this.Data).IdentityProofType.Id);
             this.AddInParameter("@IdentityProofName", DbType.String, ((Data)this.Data).IdentityProof);
@@ -250,7 +250,7 @@ namespace Crystal.Customer.Component
         public List<Data> IsInitialDeletable(Configuration.Component.Initial.Data initial)
         {          
             this.CreateConnection();
-            this.CreateCommand("[Customer].[IsInitialDeletable]");
+            this.CreateCommand("Customer.IsInitialDeletable");
             this.AddInParameter("@InitialId", DbType.Int64, initial.Id);
             DataSet ds = this.ExecuteDataSet();
 
@@ -263,7 +263,7 @@ namespace Crystal.Customer.Component
         internal List<Data> IsIdentityProofTypeDeletable(Configuration.Component.IdentityProofType.Data identityProofType)
         {          
             this.CreateConnection();
-            this.CreateCommand("[Customer].[IsIdentityProofIdDeletable]");
+            this.CreateCommand("Customer.IsIdentityProofIdDeletable");
             this.AddInParameter("@IdentityProofId", DbType.Int64, identityProofType.Id);
             DataSet ds = this.ExecuteDataSet();
             List<Data> dataList = GetDataList(ds);           
@@ -275,7 +275,7 @@ namespace Crystal.Customer.Component
         internal List<Data> IsStateDeletable(Configuration.Component.State.Data state)
         {          
             this.CreateConnection();
-            this.CreateCommand("[Customer].[IsStateIdDeletable]");
+            this.CreateCommand("Customer.IsStateIdDeletable");
             this.AddInParameter("@StateId", DbType.Int64, state.Id);
             DataSet ds = this.ExecuteDataSet();
             List<Data> dataList = GetDataList(ds);
