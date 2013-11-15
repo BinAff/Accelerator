@@ -13,10 +13,10 @@ namespace Crystal.Customer.Rule
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "CustomerRuleInsert";
+            base.CreateStoredProcedure = "Customer.RuleInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "CustomerRuleRead";
-            base.UpdateStoredProcedure = "CustomerRuleUpdate";
+            base.ReadStoredProcedure = "Customer.RuleRead";
+            base.UpdateStoredProcedure = "Customer.RuleUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
         }
 
