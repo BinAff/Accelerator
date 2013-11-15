@@ -1,9 +1,14 @@
-﻿
-/****** Object:  StoredProcedure [dbo].[SecurityAnswerUpdate]    Script Date: 09/09/2012 19:51:42 ******/
-SET ANSI_NULLS ON
+﻿IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'Guardian.SecurityAnswer') AND type in (N'U'))
+DROP TABLE Guardian.SecurityAnswer
 GO
-
-SET QUOTED_IDENTIFIER ON
+CREATE TABLE Guardian.SecurityAnswer
+(
+	Id numeric(10, 0) NOT NULL, 
+	UserId numeric(10, 0) NOT NULL, 
+	QuestionId numeric(10, 0) NOT NULL, 
+	Answer varchar(50) NOT NULL
+	PRIMARY KEY (Id)
+);
 GO
 
 CREATE PROCEDURE [dbo].[SecurityAnswerUpdate]
@@ -16,11 +21,11 @@ CREATE PROCEDURE [dbo].[SecurityAnswerUpdate]
 AS
 BEGIN
 	Declare @cnt Int
-	Select @cnt=COUNT(*) from SecurityAnswer where UserId=@UserId
+	Select @cnt=COUNT(*) from Guardian.SecurityAnswer where UserId = @UserId
 	
 	if @cnt>0
 	Begin	
-		UPDATE SecurityAnswer
+		UPDATE Guardian.SecurityAnswer
 		SET	
 			--UserId = @UserId,
 			QuestionId = @QuestionId,
@@ -29,7 +34,7 @@ BEGIN
    End
    Else
    Begin
-		Insert Into SecurityAnswer(UserId,QuestionId,Answer)
+		Insert Into Guardian.SecurityAnswer(UserId,QuestionId,Answer)
 		values(@UserId,@QuestionId,@Answer)
    End
 END
@@ -51,7 +56,7 @@ AS
 BEGIN
 	
 	DELETE 		
-	FROM SecurityAnswer
+	FROM Guardian.SecurityAnswer
 	WHERE UserId = @Id   
    
 END

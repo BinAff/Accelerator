@@ -22,13 +22,13 @@ namespace Crystal.Guardian.Component.Account.Profile
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "ProfileInsert";
+            base.CreateStoredProcedure = "Guardian.ProfileInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "ProfileRead";
-            base.ReadForParentStoredProcedure = "ProfileRead";
-            base.UpdateStoredProcedure = "ProfileUpdate";
+            base.ReadStoredProcedure = "Guardian.ProfileRead";
+            base.ReadForParentStoredProcedure = "Guardian.ProfileRead";
+            base.UpdateStoredProcedure = "Guardian.ProfileUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "ProfileDelete";
+            base.DeleteStoredProcedure = "Guardian.ProfileDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 

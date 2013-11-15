@@ -12,7 +12,7 @@ namespace Crystal.Guardian.Component.Role
         public Server(Data data)
             : base(data)
         {
-            
+
         }
 
         protected override void Compose()
@@ -29,11 +29,7 @@ namespace Crystal.Guardian.Component.Role
 
         protected override Crud CreateInstance(BinAff.Core.Data data)
         {
-            return new Server(new Data
-            {
-                Id = data.Id,
-                IsDeletable = data.IsDeletable,
-            });
+            return new Server((Data)data);
         }
 
         //protected override ReturnObject<List<BinAff.Core.Data>> ReadAll()
