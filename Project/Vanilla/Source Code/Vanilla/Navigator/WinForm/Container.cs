@@ -5,6 +5,12 @@ using System.Collections;
 
 namespace Vanilla.Navigator.WinForm
 {
+
+    public class DerivedTreeNode : TreeNode
+    {
+        public Vanilla.Navigator.Facade.Artifact.Dto dtoArtifact;
+    }
+
     public partial class Container : Form
     {
 
@@ -31,21 +37,25 @@ namespace Vanilla.Navigator.WinForm
             lstViewContainer.Dock = DockStyle.Fill;
             tbcCategory.SelectedIndexChanged += tbcCategory_SelectedIndexChanged;
             
-        }                      
-        
+        }
+                         
         private void folderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             trvArtifact.LabelEdit = true;
-            TreeNode node = new TreeNode();
-            node.Text = "New folder";
+            DerivedTreeNode node = new DerivedTreeNode
+            {
+                Text = "New folder",
+                dtoArtifact = new Facade.Artifact.Dto { 
+                    FileName = "test object"
+                }
+            };
+          
 
             if (trvArtifact.SelectedNode != null)
             {
                 (trvArtifact.SelectedNode as TreeNode).Nodes.Add(node);
                 node.Parent.ExpandAll();
             }
-            else
-                trvArtifact.Nodes.Add(node);
 
             trvArtifact.SelectedNode = null;
             node.BeginEdit();
@@ -72,11 +82,11 @@ namespace Vanilla.Navigator.WinForm
 
         private void trvArtifact_MouseDown(object sender, MouseEventArgs e)
         {
+            // Select the clicked node
+            trvArtifact.SelectedNode = trvArtifact.GetNodeAt(e.X, e.Y);
+
             if (e.Button == MouseButtons.Right)
             {
-                // Select the clicked node
-                trvArtifact.SelectedNode = trvArtifact.GetNodeAt(e.X, e.Y);
-
                 ToolStripMenuItem menuItem = cmsExplorer.Items[0] as ToolStripMenuItem;
                 if (trvArtifact.SelectedNode != null)
                 {
@@ -86,21 +96,18 @@ namespace Vanilla.Navigator.WinForm
                     {
                         ToolStripMenuItem newItem = new ToolStripMenuItem
                         {
-                            Text = tbcCategory.SelectedTab.Text
+                            Text = tbcCategory.SelectedTab.Text,
                         };
                         newItem.Click += newItem_Click;
                         menuItem.DropDownItems.Insert(menuItem.DropDownItems.Count, newItem);
                     }
 
                     cmsExplorer.Show(trvArtifact, e.Location);
-                }
-                //else
-                //{
-                //    if (menuItem.DropDownItems.Count > 1)
-                //        menuItem.DropDownItems.RemoveAt(1);
-
-                //    cmsExplorer.Show(Cursor.Position);
-                //}
+                }  
+            }
+            else
+            {
+                TreeNodeMouseDown(trvArtifact.SelectedNode);
             }
         }
 
@@ -234,6 +241,14 @@ namespace Vanilla.Navigator.WinForm
         private void trvArtifact_AfterSelect(object sender, TreeViewEventArgs e)
         {
             this.facade.LoadArtifacts(e.Node.Text);
+        }
+
+        private void TreeNodeMouseDown(TreeNode node) 
+        { 
+            DerivedTreeNode treeNode =  node as Vanilla.Navigator.WinForm.DerivedTreeNode;
+            Vanilla.Navigator.Facade.Artifact.Dto dtoArtifact = treeNode.dtoArtifact;
+            string filename = dtoArtifact.FileName;
+            
         }
 
     }
