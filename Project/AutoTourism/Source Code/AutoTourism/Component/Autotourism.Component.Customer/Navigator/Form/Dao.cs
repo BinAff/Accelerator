@@ -39,23 +39,11 @@ namespace Autotourism.Component.Customer.Navigator.Form
             return true;
         }
 
-        protected override BinAff.Core.Data InstantiateModuleDataObject()
-        {
-            //Find CustomerId
-            //Find Customer
-            return this.Data;
-        }
-
-        //internal void ReadModuleForForm()
+        //protected override BinAff.Core.Data InstantiateModuleDataObject()
         //{
-        //    Data data = this.Data as Data;
-        //    base.CreateConnection();
-        //    base.CreateCommand("Customer.ReadFormForArtifact");
-        //    base.AddInParameter("@ArtifactId", DbType.Int64, this.Data.Id);
-
-        //    Int32 i = this.ExecuteNonQuery();
-        //    this.CloseConnection();
-
+        //    //Find CustomerId
+        //    //Find Customer
+        //    return this.Data;
         //}
 
     }

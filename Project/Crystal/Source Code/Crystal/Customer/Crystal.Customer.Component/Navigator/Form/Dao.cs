@@ -12,7 +12,7 @@ namespace Crystal.Customer.Component.Navigator.Form
 
         }
         
-        protected abstract override BinAff.Core.Data InstantiateModuleDataObject();
+        //protected abstract override BinAff.Core.Data InstantiateModuleDataObject();
 
     }
 

@@ -27,7 +27,7 @@ namespace Crystal.Navigator.Component.Form
             return base.CreateDataObject(dr, data);
         }
 
-        protected abstract BinAff.Core.Data InstantiateModuleDataObject();
+        //protected abstract BinAff.Core.Data InstantiateModuleDataObject();
 
     }
 
