@@ -680,6 +680,33 @@ namespace BinAff.Core
             return retList;
         }
 
+        protected virtual ReturnObject<List<Data>> Read(List<Int64> idList)
+        {
+            ReturnObject<List<BinAff.Core.Data>> retList = new ReturnObject<List<BinAff.Core.Data>>()
+            {
+                Value = new List<Data>()
+            };
+
+            foreach (Int64 id in idList)
+            {
+                this.Data = new Core.Data
+                {
+                    Id = id,
+                };
+                ReturnObject<BinAff.Core.Data> ret = (this as ICrud).Read();
+                if (ret.HasError())
+                {
+                    return new ReturnObject<List<Data>>
+                    {
+                        MessageList = ret.MessageList,
+                    };
+                }
+                retList.Value.Add(ret.Value);
+            }
+
+            return retList;
+        }
+
         #region Hook
 
         protected virtual ReturnObject<Boolean> CreateBefore()
