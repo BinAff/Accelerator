@@ -99,6 +99,17 @@ namespace Vanilla.Navigator.Facade.Container
 
         }
 
+        public void LoadArtifacts(string selectedModule)
+        {
+            switch (selectedModule)
+            {
+                case "Customer":
+
+                    break;
+            }
+            Module.Server moduleFacade = new Module.Server(null);
+        }
+
     }
 
 }
