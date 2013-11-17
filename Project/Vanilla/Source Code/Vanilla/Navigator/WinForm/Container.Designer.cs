@@ -186,6 +186,7 @@
             this.trvArtifact.Size = new System.Drawing.Size(175, 341);
             this.trvArtifact.TabIndex = 6;
             this.trvArtifact.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvArtifact_AfterLabelEdit);
+            this.trvArtifact.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvArtifact_AfterSelect);
             this.trvArtifact.KeyUp += new System.Windows.Forms.KeyEventHandler(this.trvArtifact_KeyUp);
             this.trvArtifact.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvArtifact_MouseDown);
             // 
@@ -323,20 +324,20 @@
             this.cmsExplorer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem});
             this.cmsExplorer.Name = "cmsExplorer";
-            this.cmsExplorer.Size = new System.Drawing.Size(99, 26);
+            this.cmsExplorer.Size = new System.Drawing.Size(96, 26);
             // 
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.folderToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // folderToolStripMenuItem
             // 
             this.folderToolStripMenuItem.Name = "folderToolStripMenuItem";
-            this.folderToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.folderToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.folderToolStripMenuItem.Text = "Folder";
             this.folderToolStripMenuItem.Click += new System.EventHandler(this.folderToolStripMenuItem_Click);
             // 

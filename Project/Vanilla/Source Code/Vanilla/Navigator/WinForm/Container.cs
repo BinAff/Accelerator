@@ -231,9 +231,10 @@ namespace Vanilla.Navigator.WinForm
             return toTreeView;
         }
 
-
-
-       
+        private void trvArtifact_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            this.facade.LoadArtifacts(e.Node.Text);
+        }
 
     }
 
