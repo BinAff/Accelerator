@@ -680,19 +680,16 @@ namespace BinAff.Core
             return retList;
         }
 
-        protected virtual ReturnObject<List<Data>> Read(List<Int64> idList)
+        protected virtual ReturnObject<List<Data>> Read(List<Data> dataList)
         {
-            ReturnObject<List<BinAff.Core.Data>> retList = new ReturnObject<List<BinAff.Core.Data>>()
+            ReturnObject<List<Data>> retList = new ReturnObject<List<Data>>()
             {
                 Value = new List<Data>()
             };
 
-            foreach (Int64 id in idList)
+            foreach (Data data in dataList)
             {
-                this.Data = new Core.Data
-                {
-                    Id = id,
-                };
+                this.Data = data;
                 ReturnObject<BinAff.Core.Data> ret = (this as ICrud).Read();
                 if (ret.HasError())
                 {
