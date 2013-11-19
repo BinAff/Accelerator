@@ -65,7 +65,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
             formDto.Dto = this.Convert(data) as Dto;
         }
 
-        protected override BinAff.Facade.Library.Dto Convert(Data data)
+        public override BinAff.Facade.Library.Dto Convert(Data data)
         {
             CrystalComponent.Data value = data as CrystalComponent.Data;
             return new Dto
@@ -75,7 +75,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
             };
         }
 
-        protected override Data Convert(BinAff.Facade.Library.Dto dto)
+        public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Dto value = dto as Dto;
             return new CrystalComponent.Data

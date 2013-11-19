@@ -78,7 +78,7 @@ namespace Vanilla.Guardian.Facade.Account
             };
         }
 
-        protected override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
+        public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
             Crystal.Guardian.Component.Account.Data accountdata = data as Crystal.Guardian.Component.Account.Data;
             Facade.Account.Dto dto = new Dto();
@@ -97,7 +97,7 @@ namespace Vanilla.Guardian.Facade.Account
             return dto;
         }
 
-        protected override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
+        public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
             throw new System.NotImplementedException();
         }

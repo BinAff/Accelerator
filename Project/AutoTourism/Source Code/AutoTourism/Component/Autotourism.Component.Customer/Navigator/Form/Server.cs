@@ -26,6 +26,12 @@ namespace Autotourism.Component.Customer.Navigator.Form
             return new Data();
         }
 
+        //protected override void CreateChildren()
+        //{
+        //    base.CreateChildren();
+        //    thi
+        //}
+
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
             return new Server(data as Data);

@@ -65,12 +65,12 @@ namespace BinAff.Facade.Library
         /// <summary>
         /// Convert business data to DTO
         /// </summary>
-        protected abstract Dto Convert(Core.Data data);
+        public abstract Dto Convert(Core.Data data);
 
         /// <summary>
         /// Convert business data from DTO
         /// </summary>
-        protected abstract Core.Data Convert(Dto dto);
+        public abstract Core.Data Convert(Dto dto);
 
     }
 

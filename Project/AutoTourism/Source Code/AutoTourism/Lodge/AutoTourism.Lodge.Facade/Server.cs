@@ -49,7 +49,7 @@ namespace AutoTourism.Lodge.Facade
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
-        protected override BinAff.Facade.Library.Dto Convert(Data data)
+        public override BinAff.Facade.Library.Dto Convert(Data data)
         {
             LodgeComponent.Data lodge = data as LodgeComponent.Data;
             return new Dto
@@ -74,7 +74,7 @@ namespace AutoTourism.Lodge.Facade
             };
         }
 
-        protected override Data Convert(BinAff.Facade.Library.Dto dto)
+        public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Dto lodge = dto as Dto;
             return new LodgeComponent.Data

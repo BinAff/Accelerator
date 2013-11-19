@@ -8,6 +8,7 @@ namespace Vanilla.Navigator.Facade.Module
     {
 
         public String Name { get; set; }
+        public String Code { get; set; }
 
         public Artifact.Dto Artifact { get; set; }
 
