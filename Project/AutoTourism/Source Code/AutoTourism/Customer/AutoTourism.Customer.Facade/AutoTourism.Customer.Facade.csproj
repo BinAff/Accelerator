@@ -49,6 +49,7 @@
     <Compile Include="Lodge\Room\Dto.cs" />
     <Compile Include="Lodge\Room\Image\Dto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
