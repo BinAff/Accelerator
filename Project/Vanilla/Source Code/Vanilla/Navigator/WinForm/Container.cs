@@ -6,17 +6,16 @@ using System.Collections;
 namespace Vanilla.Navigator.WinForm
 {
 
-    public class DerivedTreeNode : TreeNode
-    {
-        public Vanilla.Navigator.Facade.Artifact.Dto dtoArtifact;
-    }
-
     public partial class Container : Form
     {
 
         private FormDto formDto;
         private Facade.Container.Server facade;
         Hashtable hashTreeView = new Hashtable();
+
+        Boolean isFormLoaded = false;
+        Boolean isCatalogueLoaded = false;
+        Boolean isReportLoaded = false;
 
         public Container()
         {
@@ -33,31 +32,31 @@ namespace Vanilla.Navigator.WinForm
             facade.LoadForm();
 
             this.LoadModules(tbcCategory.TabPages[0].Text);
+
             lstViewContainer.View = View.Details;
             lstViewContainer.Dock = DockStyle.Fill;
-            tbcCategory.SelectedIndexChanged += tbcCategory_SelectedIndexChanged;
             
         }
                          
         private void folderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            trvArtifact.LabelEdit = true;
-            DerivedTreeNode node = new DerivedTreeNode
+            trvForm.LabelEdit = true;
+            TreeNode node = new TreeNode
             {
                 Text = "New folder",
-                dtoArtifact = new Facade.Artifact.Dto { 
+                Tag = new Facade.Artifact.Dto { 
                     FileName = "test object"
                 }
             };
           
 
-            if (trvArtifact.SelectedNode != null)
+            if (trvForm.SelectedNode != null)
             {
-                (trvArtifact.SelectedNode as TreeNode).Nodes.Add(node);
+                (trvForm.SelectedNode as TreeNode).Nodes.Add(node);
                 node.Parent.ExpandAll();
             }
 
-            trvArtifact.SelectedNode = null;
+            trvForm.SelectedNode = null;
             node.BeginEdit();
         }
 
@@ -83,12 +82,13 @@ namespace Vanilla.Navigator.WinForm
         private void trvArtifact_MouseDown(object sender, MouseEventArgs e)
         {
             // Select the clicked node
-            trvArtifact.SelectedNode = trvArtifact.GetNodeAt(e.X, e.Y);
+            TreeView current = sender as TreeView;
+            current.SelectedNode = current.GetNodeAt(e.X, e.Y);
 
             if (e.Button == MouseButtons.Right)
             {
                 ToolStripMenuItem menuItem = cmsExplorer.Items[0] as ToolStripMenuItem;
-                if (trvArtifact.SelectedNode != null)
+                if (current.SelectedNode != null)
                 {
                     if (menuItem.DropDownItems.Count > 1)
                         menuItem.DropDownItems[1].Text = tbcCategory.SelectedTab.Text;
@@ -102,28 +102,30 @@ namespace Vanilla.Navigator.WinForm
                         menuItem.DropDownItems.Insert(menuItem.DropDownItems.Count, newItem);
                     }
 
-                    cmsExplorer.Show(trvArtifact, e.Location);
+                    cmsExplorer.Show(current, e.Location);
                 }  
             }
             else
             {
-                TreeNodeMouseDown(trvArtifact.SelectedNode);
+                TreeNodeMouseDown(current.SelectedNode);
             }
         }
 
         private void trvArtifact_KeyUp(object sender, KeyEventArgs e)
         {
+            TreeView current = sender as TreeView;
             if (e.KeyCode == Keys.F2)
             {
-                trvArtifact.LabelEdit = true;
-                trvArtifact.SelectedNode.BeginEdit();
+                current.LabelEdit = true;
+                current.SelectedNode.BeginEdit();
             }
         }
 
         private void trvArtifact_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
-            trvArtifact.SelectedNode = null;
-            trvArtifact.LabelEdit = true;
+            TreeView current = sender as TreeView;
+            current.SelectedNode = null;
+            current.LabelEdit = true;
             if (e.Label == null || e.Label.Trim().Length == 0)
                 e.CancelEdit = true; // Can not be empty text
 
@@ -152,74 +154,72 @@ namespace Vanilla.Navigator.WinForm
 
         private void tbcCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //trvArtifact.Nodes.Clear();
-            //lstViewContainer.Clear();
+            TabPage currentTab = (sender as TabControl).SelectedTab;
 
-            TabPage current = (sender as TabControl).SelectedTab;
-
-            if (current.Text == "Form")
-            {
-                this.txtAddress.Text = @"Form::";
-                this.facade.GetModules(Facade.Group.Form);
-                //this.LoadModules();
+            if (currentTab.Text == "Form")
+            {   
+                if (!this.isFormLoaded)
+                {
+                    this.txtAddress.Text = @"Form::";
+                    this.facade.GetCurrentModules(Facade.Group.Form);
+                    this.LoadModules(currentTab.Text);
+                    this.isFormLoaded = true;
+                }
             }
-            else if (current.Text == "Catalogue")
-            {
-                this.txtAddress.Text = @"Catalogue::";
-                this.facade.GetModules(Facade.Group.Catalogue);
-                //this.LoadModules();
+            else if (currentTab.Text == "Catalogue")
+            {   
+                if (!this.isCatalogueLoaded)
+                {
+                    this.txtAddress.Text = @"Catalogue::";
+                    this.facade.GetCurrentModules(Facade.Group.Catalogue);
+                    this.LoadModules(currentTab.Text);
+                    this.isCatalogueLoaded = true;
+                }
             }
-            else if (current.Text == "Report")
+            else if (currentTab.Text == "Report")
             {
-                this.txtAddress.Text = @"Report::";
-                this.facade.GetModules(Facade.Group.Report);
+                if (!this.isReportLoaded)
+                {
+                    this.txtAddress.Text = @"Report::";
+                    this.facade.GetCurrentModules(Facade.Group.Report);
+                    this.LoadModules(currentTab.Text);
+                    this.isReportLoaded = true;
+                }
             }
-
-            this.LoadModules(current.Text);    
         }
 
         private void tbcCategory_Deselected(object sender, TabControlEventArgs e)
         {
             String tabName = (sender as TabControl).SelectedTab.Text;           
-            hashTreeView[tabName] = CopyNodes(trvArtifact, new TreeView());
+            hashTreeView[tabName] = CopyNodes(trvForm, new TreeView());
         }
 
         private void LoadModules(String currentTab)
         {
-            //Int16 leftPos = 2;
-            //this.pnlModule.Controls.Clear();
-            //foreach (Facade.Module.Dto module in this.formDto.Dto.Modules)
-            //{
-            //    this.pnlModule.Controls.Add(new Module
-            //    {
-            //        formDto = new Facade.Module.FormDto
-            //        {
-            //            Dto = module,
-            //        },
-            //        Left = leftPos,
-            //    });
-            //    leftPos += 28;
-            //}
-
-            //populate Tree view
-            trvArtifact.Nodes.Clear();
-
-
-            if (hashTreeView.ContainsKey(currentTab) && hashTreeView[currentTab] != null)
+            TreeView current = new TreeView();
+            TreeNode[] tree = new TreeNode[this.formDto.Dto.Modules.Count];
+            Int16 i = 0;
+            foreach (Facade.Module.Dto module in this.formDto.Dto.Modules)
             {
-                TreeView tvHash = hashTreeView[currentTab] as TreeView;
-                CopyNodes(tvHash, trvArtifact);
-            }
-            else
-            {
-                foreach (Facade.Module.Dto module in this.formDto.Dto.Modules)
+                switch (currentTab)
                 {
-                    trvArtifact.Nodes.Add(new TreeNode
-                    {
-                        Text = module.Name
-                    });
+                    case "Form":
+                        current = trvForm;
+                        break;
+                    case "Catalogue":
+                        current = trvCatalogue;
+                        break;
+                    case "Report":
+                        current = trvReport;
+                        break;
+                    default:
+                        current = trvForm;
+                        break;
                 }
+                tree[i++] = this.CreateTreeNodes(module.Artifact);
             }
+            current.Nodes.Clear();
+            current.Nodes.AddRange(tree);
         }
 
         private TreeView CopyNodes(TreeView fromTreeView, TreeView toTreeView)
@@ -240,15 +240,61 @@ namespace Vanilla.Navigator.WinForm
 
         private void trvArtifact_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            this.facade.LoadForm();
             this.facade.LoadArtifacts(e.Node.Text);
         }
 
         private void TreeNodeMouseDown(TreeNode node) 
         { 
-            DerivedTreeNode treeNode =  node as Vanilla.Navigator.WinForm.DerivedTreeNode;
-            Vanilla.Navigator.Facade.Artifact.Dto dtoArtifact = treeNode.dtoArtifact;
-            string filename = dtoArtifact.FileName;
+            //Vanilla.Navigator.Facade.Artifact.Dto dtoArtifact = node.Tag as Vanilla.Navigator.Facade.Artifact.Dto;
+            //String filename = dtoArtifact.FileName;
             
+        }
+
+        public TreeNode[] CreateTreeNodes1(Facade.Artifact.Dto node)
+        {
+            TreeNode[] tree = null;
+            if (node.Children != null && node.Children.Count > 0)
+            {
+                Int32 i = 0;
+                tree = new TreeNode[node.Children.FindAll((p) => (p.Style == Facade.Artifact.Type.Directory)).Count]; //Consider only directory
+                foreach (Facade.Artifact.Dto artf in node.Children)
+                {
+                    if (artf.Style != Facade.Artifact.Type.Directory) break; //If artifact is not style of Directory, no need to create the node
+
+                    tree[i] = (artf.Children != null && artf.Children.Count > 0) ? //If there is more that one child
+                        new TreeNode(artf.FileName, this.CreateTreeNodes1(artf)) : //Add children also
+                        new TreeNode(artf.FileName);
+                    //tree[i].Name
+                    //    = artf.Style == Facade.Artifact.Dto.Type.Directory ?
+                    //        artf.Path : artf.Path + artf.FileName + this.formDto.PathSeperator;
+                    tree[i].Name
+                        = artf.Style == Facade.Artifact.Type.Directory ?
+                            artf.Path : artf.Path + artf.FileName + "/";
+                    tree[i].Text = artf.FileName;
+                    tree[i++].Tag = artf;
+                }
+            }
+            return tree;
+        }
+
+        public TreeNode CreateTreeNodes(Facade.Artifact.Dto node)
+        {
+            TreeNode treeNode = new TreeNode(node.FileName)
+            {
+                Tag = node,
+            };
+            if (node.Children != null && node.Children.Count > 0)
+            {
+                foreach(Facade.Artifact.Dto child in node.Children)
+                {
+                    if (child.Style == Facade.Artifact.Type.Directory)
+                    {
+                        treeNode.Nodes.Add(this.CreateTreeNodes(child));
+                    }
+                }
+            }
+            return treeNode;
         }
 
     }

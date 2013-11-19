@@ -9,11 +9,6 @@ namespace Vanilla.Navigator.Facade.Container
     public class Server : BinAff.Facade.Library.Server
     {
 
-        private Crystal.License.Data data;
-        private List<Module.Dto> formModules;
-        private List<Module.Dto> catalogueModules;
-        private List<Module.Dto> reportModules;
-
         public Server(FormDto formDto)
             :base(formDto)
         {
@@ -22,28 +17,9 @@ namespace Vanilla.Navigator.Facade.Container
 
         public override void LoadForm()
         {
-            (new Crystal.License.Server(data = new Crystal.License.Data()) as Crystal.License.ILicense).Get();
-            this.formModules = this.ConvertToDto(data.FormList);
-            this.reportModules = this.ConvertToDto(data.ReportList);
-            this.catalogueModules = this.ConvertToDto(data.CatalogueList);
+            new Module.Server((this.FormDto as FormDto).ModuleFormDto = new Module.FormDto()).LoadForm();
 
-            this.GetModules(Group.Form);
-        }
-
-        private List<Module.Dto> ConvertToDto(List<Crystal.License.Module.Data> dataList)
-        {
-            List<Module.Dto> ret = new List<Module.Dto>();
-
-            foreach (Crystal.License.Module.Data doc in dataList)
-            {
-                ret.Add(new Module.Dto
-                {
-                    Id = doc.Id,
-                    Name = doc.Name,
-                });
-            }
-
-            return ret;
+            this.GetCurrentModules(Group.Form);
         }
 
         protected override BinAff.Facade.Library.Dto Convert(Data data)
@@ -76,23 +52,25 @@ namespace Vanilla.Navigator.Facade.Container
             return null;
         }
 
-        public void GetModules(Group group)
+        public void GetCurrentModules(Group group)
         {
             Dto dto = new Dto
             {
                 Group = group,
             };
 
+            FormDto formDto = this.FormDto as FormDto;
+
             switch (group)
             {
                 case Group.Form:
-                    dto.Modules = this.formModules;
+                    dto.Modules = formDto.ModuleFormDto.FormModuleList;
                     break;
                 case Group.Report:
-                    dto.Modules = this.reportModules;
+                    dto.Modules = formDto.ModuleFormDto.ReportModuleList;
                     break;
                 case Group.Catalogue:
-                    dto.Modules = this.catalogueModules;
+                    dto.Modules = formDto.ModuleFormDto.CatalogueModuleList;
                     break;
             }
             (this.FormDto as FormDto).Dto = dto;
@@ -108,6 +86,11 @@ namespace Vanilla.Navigator.Facade.Container
                     break;
             }
             Module.Server moduleFacade = new Module.Server(null);
+        }
+
+        public void GetTreeForCurrentModuleList()
+        {
+
         }
 
     }

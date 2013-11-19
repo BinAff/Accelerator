@@ -51,8 +51,11 @@ namespace Crystal.Navigator.Component.Artifact
         ReturnObject<Data> IArtifact.FormTree()
         {
             List<BinAff.Core.Data> dataList = this.ReadAll().Value;
-            this.FormTree(dataList);
+            //ReturnObject<List<BinAff.Core.Data>> ret = this.Read(dataList);
             //TO DO :: Need to add validation later
+            (this.Data as Data).Style = Artifact.Type.Directory;
+            (this.Data as Data).Path = ".";
+            this.FormTree(dataList);
             return new ReturnObject<Data>
             {
                 Value = this.Data as Data
@@ -72,49 +75,52 @@ namespace Crystal.Navigator.Component.Artifact
             String pathSeperator = rule.PathSeperator;
 
             //Create root
-            Data root = this.FindRoot(dataList);
-            this.Data = root;
+            List<BinAff.Core.Data> rootList = this.FindRoot(dataList);
             Data data = this.Data as Data;
-            Int64 currentId = root.Id;
-            data.FileName = ".";
-            data.Style = root.Style;
-            data.Path = root.FileName + moduleSeperator;
-            dataList.Remove(root);
-            //
-
-            List<Data> dumpList = new List<Data>();
-            dumpList.Add(this.Data as Data);
-
-            while (true)
+            data.Children = new List<BinAff.Core.Data>();
+            foreach (Data root in rootList)
             {
-                List<Data> children = this.FindAll(dataList, currentId);
-                Data parent = dumpList.Find((p) => p.Id == currentId);
-                dumpList.Remove(parent);
-                if (children.Count > 0)
+                Int64 currentId = root.Id;
+                root.Path = data.FileName + moduleSeperator;
+                dataList.Remove(root);
+                //
+
+                List<Data> dumpList = new List<Data>();
+                dumpList.Add(root);
+
+                while (true)
                 {
-                    parent.Children = new List<Data>();
-                    foreach (Data node in children)
+                    List<Data> children = this.FindAll(dataList, currentId);
+                    Data parent = dumpList.Find((p) => p.Id == currentId);
+                    dumpList.Remove(parent);
+                    if (children.Count > 0)
                     {
-                        //node.Path = temp.Style == Type.Directory ? parent.Path + node.Name + Rule.Data.PathSeperator : parent.Path;
-                        node.Path = node.Style == Artifact.Type.Directory ? parent.Path + node.FileName + pathSeperator : parent.Path;
-                        parent.Children.Add(node);
-                        dataList.Remove(node);
-                        dumpList.Add(node);
+                        parent.Children = new List<BinAff.Core.Data>();
+                        foreach (Data node in children)
+                        {
+                            //node.Path = temp.Style == Type.Directory ? parent.Path + node.Name + Rule.Data.PathSeperator : parent.Path;
+                            node.Path = node.Style == Artifact.Type.Directory ? parent.Path + node.FileName + pathSeperator : parent.Path;
+                            parent.Children.Add(node);
+                            dataList.Remove(node);
+                            dumpList.Add(node);
+                        }
                     }
+                    if (dumpList.Count == 0) break;
+                    currentId = dumpList[0].Id;
                 }
-                if (dumpList.Count == 0) break;
-                currentId = dumpList[0].Id;
+                data.Children.Add(root);
             }
         }
 
-        private Data FindRoot(List<BinAff.Core.Data> dataList)
+        private List<BinAff.Core.Data> FindRoot(List<BinAff.Core.Data> dataList)
         {
+            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
             foreach (BinAff.Core.Data data in dataList)
             {
                 if ((data as Data).ParentId == 0)
-                    return data as Data;
+                    ret.Add(data);
             }
-            return null;
+            return ret;
         }
 
         private List<Data> FindAll(List<BinAff.Core.Data> dataList, Int64 parentId)
