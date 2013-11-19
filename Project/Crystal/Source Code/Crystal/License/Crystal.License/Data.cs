@@ -10,17 +10,17 @@ namespace Crystal.License
         /// <summary>
         /// List of licensed forms
         /// </summary>
-        public List<Module.Data> FormList { get; internal set; }
+        public List<BinAff.Core.Data> FormList { get; internal set; }
 
         /// <summary>
         /// List of licensed reports
         /// </summary>
-        public List<Module.Data> ReportList { get; internal set; }
+        public List<BinAff.Core.Data> ReportList { get; internal set; }
 
         /// <summary>
         /// List of licensed catalogues
         /// </summary>
-        public List<Module.Data> CatalogueList { get; internal set; }
+        public List<BinAff.Core.Data> CatalogueList { get; internal set; }
 
     }
 

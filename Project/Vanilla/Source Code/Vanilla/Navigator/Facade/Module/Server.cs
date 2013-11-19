@@ -1,6 +1,9 @@
-﻿using BinAff.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+using BinAff.Core;
+
+using CrystalArtifact = Crystal.Navigator.Component.Artifact;
 
 using AutotourismCustomerForm = Autotourism.Component.Customer.Navigator.Form;
 
@@ -10,6 +13,8 @@ namespace Vanilla.Navigator.Facade.Module
     public class Server : BinAff.Facade.Library.Server
     {
 
+        private Group currentGroup;
+
         public Server(FormDto formDto)
             : base(formDto)
         {
@@ -18,49 +23,70 @@ namespace Vanilla.Navigator.Facade.Module
 
         public override void LoadForm()
         {
-            ReturnObject<List<Data>> returnObject = (new AutotourismCustomerForm.Server(new AutotourismCustomerForm.Data()) as ICrud).ReadAll();
-            //ReturnObject<List<Data>> returnObject = (new Crystal.Navigator.Component.Artifact.Server(new Crystal.Navigator.Component.Artifact.Data()) as ICrud).ReadAll();
-            if (returnObject.HasError())
-            {
-                this.DisplayMessageList = returnObject.GetMessage(Message.Type.Error);
-            }
-            else
-            {
-                (this.FormDto as FormDto).Dto.ArtifactList = this.Convert(returnObject.Value);
-            }
-            
+            Crystal.License.Data data = new Crystal.License.Data();
+            (new Crystal.License.Server(data) as Crystal.License.ILicense).Get();
+
+            FormDto formDto = this.FormDto as FormDto;
+
+            this.currentGroup = Group.Form;
+            formDto.FormModuleList = this.Convert(data.FormList);
+            this.currentGroup = Group.Catalogue;
+            formDto.ReportModuleList = this.Convert(data.CatalogueList);
+            this.currentGroup = Group.Report;
+            formDto.CatalogueModuleList = this.Convert(data.ReportList);
         }
 
-        private List<Facade.Artifact.Dto> Convert(List<Data> dataList)
+        private List<Module.Dto> Convert(List<Data> dataList)
         {
-            List<Artifact.Dto> dtoList = new List<Facade.Artifact.Dto>();
-            foreach (Crystal.Navigator.Component.Artifact.Data data in dataList)
+            List<Module.Dto> ret = new List<Module.Dto>();
+            foreach (Crystal.License.Module.Data module in dataList)
             {
-                dtoList.Add(this.Convert(data) as Facade.Artifact.Dto);
+                ret.Add(this.Convert(module) as Dto);
             }
-            return dtoList;
+
+            return ret;
         }
 
         protected override BinAff.Facade.Library.Dto Convert(Data data)
         {
-            Facade.Artifact.Dto artifactDto = new Facade.Artifact.Dto();
-            Crystal.Navigator.Component.Artifact.Data artifactData = data as Crystal.Navigator.Component.Artifact.Data;
-
-            artifactDto.Id = artifactData.Id;
-            artifactDto.FileName = artifactData.FileName;
-
-            return artifactDto;
+            Module.Dto ret = new Module.Dto
+            {
+                Id = data.Id,
+                Name = (data as Crystal.License.Module.Data).Name,
+            };
+            ret.Artifact = this.GetTree(ret, this.currentGroup);//mistake
+            return ret;
         }
 
         protected override Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            Facade.Artifact.Dto artifactDto = dto as Facade.Artifact.Dto;
-            Crystal.Navigator.Component.Artifact.Data artifactData = new Crystal.Navigator.Component.Artifact.Data();
+            return new Crystal.License.Module.Data
+            {
+                Id = dto.Id,
+                Name = (dto as Dto).Name,
+            };
+        }
 
-            artifactData.Id = artifactDto.Id;
-            artifactData.FileName = artifactDto.FileName;
-
-            return artifactData;
+        public Artifact.Dto GetTree(Dto module, Group group)
+        {
+            Artifact.Server artifactServer = new Artifact.Server(null);
+            Data data;
+            CrystalArtifact.IArtifact artf;
+            switch (module.Name + group)
+            {
+                case "CustomerForm":
+                    data = new AutotourismCustomerForm.Data
+                    {
+                        FileName = "Customer"
+                    };
+                    artf = new AutotourismCustomerForm.Server(data as AutotourismCustomerForm.Data);
+                    break;
+                default:
+                    data = new AutotourismCustomerForm.Data();
+                    artf = new AutotourismCustomerForm.Server(data as AutotourismCustomerForm.Data);
+                    break;
+            }
+            return artifactServer.GetTree(artf);
         }
 
     }

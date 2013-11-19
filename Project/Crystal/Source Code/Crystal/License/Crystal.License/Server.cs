@@ -37,9 +37,9 @@ namespace Crystal.License
             if (moduleDataList != null && moduleDataList.Count > 0)
             {
                 Data data = this.Data as Data;
-                data.FormList = new List<Module.Data>();
-                data.CatalogueList = new List<Module.Data>();
-                data.ReportList = new List<Module.Data>();
+                data.FormList = new List<BinAff.Core.Data>();
+                data.CatalogueList = new List<BinAff.Core.Data>();
+                data.ReportList = new List<BinAff.Core.Data>();
                 foreach (Module.Data module in moduleDataList)
                 {
                     if (module.IsForm) data.FormList.Add(module);

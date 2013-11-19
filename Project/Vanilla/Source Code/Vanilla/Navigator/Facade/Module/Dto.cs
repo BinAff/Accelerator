@@ -9,7 +9,7 @@ namespace Vanilla.Navigator.Facade.Module
 
         public String Name { get; set; }
 
-        public List<Artifact.Dto> ArtifactList { get; set; }
+        public Artifact.Dto Artifact { get; set; }
 
     }
 

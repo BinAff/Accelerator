@@ -52,7 +52,7 @@ namespace Crystal.Navigator.Component.Artifact
         /// <summary>
         /// Children of srtifact
         /// </summary>
-        public List<Data> Children { get; set; }
+        public List<BinAff.Core.Data> Children { get; set; }
 
         internal Int64? ParentId { get; set; }
 
