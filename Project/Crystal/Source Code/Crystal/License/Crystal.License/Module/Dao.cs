@@ -27,6 +27,7 @@ namespace Crystal.License.Module
 
         protected override void AssignParameter(String procedureName)
         {
+            base.AddInParameter("@Code", DbType.String, ((Data)this.Data).Code);
             base.AddInParameter("@Name", DbType.String, ((Data)this.Data).Name);
             base.AddInParameter("@Description", DbType.String, ((Data)this.Data).Description);
         }
@@ -36,6 +37,7 @@ namespace Crystal.License.Module
             Data dt = (Data)data;
 
             dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
+            dt.Code = Convert.IsDBNull(dr["Code"]) ? String.Empty : Convert.ToString(dr["Code"]);
             dt.Name = Convert.IsDBNull(dr["Name"]) ? String.Empty : Convert.ToString(dr["Name"]);
             dt.Description = Convert.IsDBNull(dr["Description"]) ? String.Empty : Convert.ToString(dr["Description"]);
             dt.IsForm = Convert.IsDBNull(dr["IsForm"]) ? false : Convert.ToBoolean(dr["IsForm"]);

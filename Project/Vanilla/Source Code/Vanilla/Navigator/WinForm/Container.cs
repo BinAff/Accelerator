@@ -3,6 +3,8 @@ using System.Windows.Forms;
 using Vanilla.Navigator.Facade.Container;
 using System.Collections;
 
+using VanilaArtifact = Vanilla.Navigator.Facade.Artifact;
+
 namespace Vanilla.Navigator.WinForm
 {
 
@@ -24,9 +26,9 @@ namespace Vanilla.Navigator.WinForm
 
         private void Container_Load(object sender, EventArgs e)
         {
-            for (int i = 0; i < tbcCategory.TabPages.Count; i++)
-                hashTreeView.Add(tbcCategory.TabPages[i].Text, null);
-
+            //for (int i = 0; i < tbcCategory.TabPages.Count; i++)
+            //    hashTreeView.Add(tbcCategory.TabPages[i].Text, null);
+            this.InitializeListView();
             this.txtAddress.Text = @"Form::";
             facade = new Server(this.formDto = new FormDto());
             facade.LoadForm();
@@ -35,7 +37,6 @@ namespace Vanilla.Navigator.WinForm
 
             lstViewContainer.View = View.Details;
             lstViewContainer.Dock = DockStyle.Fill;
-            
         }
                          
         private void folderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -62,12 +63,6 @@ namespace Vanilla.Navigator.WinForm
 
         private void newItem_Click(object sender, EventArgs e)
         {
-            if (lstViewContainer.Columns.Count == 0)
-            {
-                lstViewContainer.Columns.Add("Name", 300);
-                lstViewContainer.Columns.Add("Type", 200);
-            }
-
             ListViewItem item = new ListViewItem {
                 Text = "New " + sender.ToString()
             };
@@ -76,7 +71,6 @@ namespace Vanilla.Navigator.WinForm
             item.SubItems.Add(sender.ToString());           
             lstViewContainer.Items.Add(item);
             item.BeginEdit();
-
         }
 
         private void trvArtifact_MouseDown(object sender, MouseEventArgs e)
@@ -101,7 +95,6 @@ namespace Vanilla.Navigator.WinForm
                         newItem.Click += newItem_Click;
                         menuItem.DropDownItems.Insert(menuItem.DropDownItems.Count, newItem);
                     }
-
                     cmsExplorer.Show(current, e.Location);
                 }  
             }
@@ -250,34 +243,7 @@ namespace Vanilla.Navigator.WinForm
             //String filename = dtoArtifact.FileName;
             
         }
-
-        public TreeNode[] CreateTreeNodes1(Facade.Artifact.Dto node)
-        {
-            TreeNode[] tree = null;
-            if (node.Children != null && node.Children.Count > 0)
-            {
-                Int32 i = 0;
-                tree = new TreeNode[node.Children.FindAll((p) => (p.Style == Facade.Artifact.Type.Directory)).Count]; //Consider only directory
-                foreach (Facade.Artifact.Dto artf in node.Children)
-                {
-                    if (artf.Style != Facade.Artifact.Type.Directory) break; //If artifact is not style of Directory, no need to create the node
-
-                    tree[i] = (artf.Children != null && artf.Children.Count > 0) ? //If there is more that one child
-                        new TreeNode(artf.FileName, this.CreateTreeNodes1(artf)) : //Add children also
-                        new TreeNode(artf.FileName);
-                    //tree[i].Name
-                    //    = artf.Style == Facade.Artifact.Dto.Type.Directory ?
-                    //        artf.Path : artf.Path + artf.FileName + this.formDto.PathSeperator;
-                    tree[i].Name
-                        = artf.Style == Facade.Artifact.Type.Directory ?
-                            artf.Path : artf.Path + artf.FileName + "/";
-                    tree[i].Text = artf.FileName;
-                    tree[i++].Tag = artf;
-                }
-            }
-            return tree;
-        }
-
+        
         public TreeNode CreateTreeNodes(Facade.Artifact.Dto node)
         {
             TreeNode treeNode = new TreeNode(node.FileName)
@@ -295,6 +261,41 @@ namespace Vanilla.Navigator.WinForm
                 }
             }
             return treeNode;
+        }
+
+        private void InitializeListView()
+        {
+            this.lstViewContainer.Columns.Add("Name", 300);
+            this.lstViewContainer.Columns.Add("Type", 200);
+            this.lstViewContainer.Columns.Add("Created By", 200);
+            this.lstViewContainer.Columns.Add("Created At", 200);
+            this.lstViewContainer.Columns.Add("Modified By", 200);
+            this.lstViewContainer.Columns.Add("Modified At", 200);
+        }
+
+        private void trvArtifact_Click(object sender, EventArgs e)
+        {
+            VanilaArtifact.Dto selectedNode = (sender as TreeView).SelectedNode.Tag as VanilaArtifact.Dto;
+            this.lstViewContainer.Items.Clear();
+            foreach (VanilaArtifact.Dto artifact in selectedNode.Children)
+            {
+                if (artifact.Style == VanilaArtifact.Type.Document)
+                {
+                    this.lstViewContainer.Items.Add(new ListViewItem
+                    {
+                        Text = artifact.FileName,
+                        Tag = artifact,
+                    });
+                }
+            }
+        }
+
+        private void lstViewContainer_DoubleClick(object sender, EventArgs e)
+        {
+            //Currently hard coding. Need to change
+            AutoTourism.Customer.Facade.Dto dto = ((sender as ListView).SelectedItems[0].Tag as Vanilla.Navigator.Facade.Form.Dto).Module as AutoTourism.Customer.Facade.Dto;
+            Form form = new AutoTourism.Customer.WinForm.CustomerForm(dto);
+            form.ShowDialog(this);
         }
 
     }

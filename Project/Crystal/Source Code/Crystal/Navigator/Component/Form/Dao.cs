@@ -1,5 +1,6 @@
-using System.Data;
 using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Crystal.Navigator.Component.Form
 {
@@ -27,7 +28,27 @@ namespace Crystal.Navigator.Component.Form
             return base.CreateDataObject(dr, data);
         }
 
-        //protected abstract BinAff.Core.Data InstantiateModuleDataObject();
+        protected internal override List<BinAff.Core.Data> ReadArtifactListForMudule()
+        {
+            this.CreateCommand("Navigator.FormModuleLinkReadForModule");
+            this.AddInParameter("@ModuleId", DbType.Int64, (this.Data as Data).ModuleData.Id);
+
+            DataSet ds = this.ExecuteDataSet();
+            List<BinAff.Core.Data> artifactList = new List<BinAff.Core.Data>();
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow row in ds.Tables[0].Rows)
+                {
+                    if (!Convert.IsDBNull(row["ArtifactId"]))
+                    {
+                        artifactList.Add(this.CreateDataObject(Convert.ToInt64(row["ArtifactId"])));
+                    }
+                }
+            }
+            return artifactList;
+        }
+
+        protected abstract BinAff.Core.Data CreateDataObject(Int64 id);
 
     }
 

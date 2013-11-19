@@ -31,7 +31,7 @@ namespace Autotourism.Component.Customer.Navigator.Form
             Int64 custId = Convert.IsDBNull(ds.Tables[0].Rows[0]["CustomerId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["CustomerId"]);
             if (custId > 0)
             {
-                (this.Data as Data).ModuleData = new Crystal.Customer.Component.Data
+                (this.Data as Data).ModuleData = new Autotourism.Component.Customer.Data
                 {
                     Id = custId
                 };
@@ -39,12 +39,13 @@ namespace Autotourism.Component.Customer.Navigator.Form
             return true;
         }
 
-        //protected override BinAff.Core.Data InstantiateModuleDataObject()
-        //{
-        //    //Find CustomerId
-        //    //Find Customer
-        //    return this.Data;
-        //}
+        protected override BinAff.Core.Data CreateDataObject(Int64 id)
+        {
+            return new Data
+            {
+                Id = id,
+            };
+        }
 
     }
 

@@ -122,6 +122,7 @@
             this.trvForm.TabIndex = 6;
             this.trvForm.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvArtifact_AfterLabelEdit);
             this.trvForm.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvArtifact_AfterSelect);
+            this.trvForm.Click += new System.EventHandler(this.trvArtifact_Click);
             this.trvForm.KeyUp += new System.Windows.Forms.KeyEventHandler(this.trvArtifact_KeyUp);
             this.trvForm.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvArtifact_MouseDown);
             // 
@@ -273,6 +274,7 @@
             this.lstViewContainer.UseCompatibleStateImageBehavior = false;
             this.lstViewContainer.View = System.Windows.Forms.View.Details;
             this.lstViewContainer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lstViewContainer_AfterLabelEdit);
+            this.lstViewContainer.DoubleClick += new System.EventHandler(this.lstViewContainer_DoubleClick);
             this.lstViewContainer.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstViewContainer_KeyUp);
             // 
             // lblAudit

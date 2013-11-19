@@ -175,6 +175,25 @@ namespace Vanilla.Navigator.Facade.Artifact
             }
         }
 
+        BinAff.Core.Data module;
+        /// <summary>
+        /// Attached module data
+        /// </summary>
+        BinAff.Core.Data Module
+        {
+            get
+            {
+                return this.module;
+            }
+            set
+            {
+                if (value != null && this.module != value)
+                {
+                    this.module = value;
+                }
+            }
+        }
+
     }
 
 }

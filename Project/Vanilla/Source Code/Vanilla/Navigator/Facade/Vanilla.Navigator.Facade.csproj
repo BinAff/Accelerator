@@ -42,6 +42,9 @@
     <Compile Include="Container\Dto.cs" />
     <Compile Include="Container\FormDto.cs" />
     <Compile Include="Container\Server.cs" />
+    <Compile Include="Form\Dto.cs" />
+    <Compile Include="Form\FormDto.cs" />
+    <Compile Include="Form\Server.cs" />
     <Compile Include="Module\Dto.cs" />
     <Compile Include="Module\FormDto.cs" />
     <Compile Include="Group.cs" />
@@ -52,6 +55,10 @@
     <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Component\Autotourism.Component.Customer\Autotourism.Component.Customer.csproj">
       <Project>{9e9f89c1-91be-4595-8d69-3e56afc1bc4c}</Project>
       <Name>Autotourism.Component.Customer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">
+      <Project>{2099fb59-6194-4bc7-8ab2-6cabe513082a}</Project>
+      <Name>AutoTourism.Customer.Facade</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
       <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>

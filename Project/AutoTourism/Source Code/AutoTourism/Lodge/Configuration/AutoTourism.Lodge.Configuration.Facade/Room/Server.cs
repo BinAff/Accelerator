@@ -52,7 +52,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
-        protected override BinAff.Facade.Library.Dto Convert(Data data)
+        public override BinAff.Facade.Library.Dto Convert(Data data)
         {
             ComponentRoom.Data room = data as ComponentRoom.Data;
             return new Dto
@@ -85,7 +85,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             };
         }
 
-        protected override Data Convert(BinAff.Facade.Library.Dto dto)
+        public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Dto room = dto as Dto;
             return new ComponentRoom.Data

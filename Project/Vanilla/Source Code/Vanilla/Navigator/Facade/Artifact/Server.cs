@@ -48,7 +48,7 @@ namespace Vanilla.Navigator.Facade.Artifact
             return dtoList;
         }
 
-        protected override BinAff.Facade.Library.Dto Convert(Data data)
+        public override BinAff.Facade.Library.Dto Convert(Data data)
         {
             Crystal.Navigator.Component.Artifact.Data artifactData = data as Crystal.Navigator.Component.Artifact.Data;
 
@@ -74,7 +74,7 @@ namespace Vanilla.Navigator.Facade.Artifact
             };
         }
 
-        protected override Data Convert(BinAff.Facade.Library.Dto dto)
+        public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Facade.Artifact.Dto artifactDto = dto as Facade.Artifact.Dto;
             return new Crystal.Navigator.Component.Artifact.Data
@@ -96,10 +96,10 @@ namespace Vanilla.Navigator.Facade.Artifact
             };
         }
 
-        public Artifact.Dto GetTree(CrystalArtifact.IArtifact artfact)
+        public Artifact.Dto GetTree(CrystalArtifact.IArtifact artifact)
         {
-            artfact.FormTree();
-            return this.ConvertTree((artfact as CrystalArtifact.Server).Data as CrystalArtifact.Data);
+            artifact.FormTree();
+            return this.ConvertTree((artifact as CrystalArtifact.Server).Data as CrystalArtifact.Data);
         }
 
         private Dto ConvertTree(CrystalArtifact.Data data)

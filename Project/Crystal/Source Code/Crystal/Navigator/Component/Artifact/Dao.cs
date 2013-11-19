@@ -7,7 +7,7 @@ using GuardianAcc = Crystal.Guardian.Component.Account;
 namespace Crystal.Navigator.Component.Artifact
 {
 
-    public class Dao : BinAff.Core.Dao
+    public abstract class Dao : BinAff.Core.Dao
     {
 
         public Dao(Data data) 
@@ -72,6 +72,8 @@ namespace Crystal.Navigator.Component.Artifact
 
             return dt;
         }
+
+        protected internal abstract List<BinAff.Core.Data> ReadArtifactListForMudule();
        
     }
 

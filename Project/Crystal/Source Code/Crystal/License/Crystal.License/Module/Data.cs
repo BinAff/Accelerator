@@ -9,6 +9,11 @@ namespace Crystal.License.Module
         /// <summary>
         /// Module name
         /// </summary>
+        public String Code { get; set; }
+
+        /// <summary>
+        /// Module name
+        /// </summary>
         public String Name { get; set; }
 
         /// <summary>

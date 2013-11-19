@@ -22,7 +22,7 @@ namespace Vanilla.Navigator.Facade.Container
             this.GetCurrentModules(Group.Form);
         }
 
-        protected override BinAff.Facade.Library.Dto Convert(Data data)
+        public override BinAff.Facade.Library.Dto Convert(Data data)
         {
             //Dto dto = (this.FormDto as FormDto).Dto;
             //dto.Group = Module.Group.Form;
@@ -38,7 +38,7 @@ namespace Vanilla.Navigator.Facade.Container
             return null;
         }
 
-        protected override Data Convert(BinAff.Facade.Library.Dto dto)
+        public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
             
             //foreach (Role.Dto dto in ((FormDto)this.FormDto).Dto.RoleList)

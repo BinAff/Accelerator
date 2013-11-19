@@ -689,8 +689,9 @@ namespace BinAff.Core
 
             foreach (Data data in dataList)
             {
-                this.Data = data;
-                ReturnObject<BinAff.Core.Data> ret = (this as ICrud).Read();
+                ICrud crud = this.CreateInstance(data);
+                this.dataAccess.Data = data;
+                ReturnObject<BinAff.Core.Data> ret = crud.Read();
                 if (ret.HasError())
                 {
                     return new ReturnObject<List<Data>>
