@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomerServer.cs" />
     <Compile Include="Dto.cs" />
     <Compile Include="FormDto.cs" />
     <Compile Include="ICustomer.cs" />

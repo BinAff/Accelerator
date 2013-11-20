@@ -25,18 +25,28 @@ namespace AutoTourism.Customer.WinForm
 
         private void LoadForm()
         {
-            CustomerFacade.ICustomer customer = new CustomerFacade.CustomerServer();
-            ReturnObject<CustomerFacade.FormDto> ret = customer.LoadCustomerRegisterForm();
+            //CustomerFacade.ICustomer customer = new CustomerFacade.CustomerServer();
+            //ReturnObject<CustomerFacade.FormDto> ret = customer.LoadCustomerRegisterForm();
 
-            if (ret.Value.CustomerList != null && ret.Value.CustomerList.Count > 0)
+            //if (ret.Value.DtoList != null && ret.Value.DtoList.Count > 0)
+            //{
+            //    //Populate Initial List
+            //    this.cboCustomer.DataSource = ret.Value.DtoList;
+            //    this.cboCustomer.DisplayMember = "FirstName";
+            //    this.cboCustomer.ValueMember = "Id";
+            //    this.cboCustomer.SelectedIndex = -1;
+            //}
+            CustomerFacade.FormDto formDto = new CustomerFacade.FormDto();
+            BinAff.Facade.Library.Server facade = new CustomerFacade.Server(formDto);
+            facade.LoadForm();
+            if (formDto.DtoList != null && formDto.DtoList.Count > 0)
             {
                 //Populate Initial List
-                this.cboCustomer.DataSource = ret.Value.CustomerList;
+                this.cboCustomer.DataSource = formDto.DtoList;
                 this.cboCustomer.DisplayMember = "FirstName";
                 this.cboCustomer.ValueMember = "Id";
                 this.cboCustomer.SelectedIndex = -1;
             }
-
         }
         
         private void cboCustomer_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)

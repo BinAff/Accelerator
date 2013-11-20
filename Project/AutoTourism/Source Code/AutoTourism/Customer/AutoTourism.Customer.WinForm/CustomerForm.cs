@@ -254,31 +254,60 @@ namespace AutoTourism.Customer.WinForm
         
         private void LoadForm()
         {
-            CustomerFacade.ICustomer customer = new CustomerFacade.CustomerServer();            
-            ReturnObject<CustomerFacade.FormDto> ret = customer.LoadForm();
+            //CustomerFacade.ICustomer customer = new CustomerFacade.CustomerServer();
+            //ReturnObject<CustomerFacade.FormDto> ret = customer.LoadForm();
 
-            if (ret.Value.InitialList != null && ret.Value.InitialList.Count > 0)
+            //if (ret.Value.InitialList != null && ret.Value.InitialList.Count > 0)
+            //{
+            //    //Populate Initial List
+            //    this.cboInitial.DataSource = ret.Value.InitialList;
+            //    this.cboInitial.DisplayMember = "Name";
+            //    this.cboInitial.ValueMember = "Id";
+            //    this.cboInitial.SelectedIndex = -1;
+            //}
+
+            //if (ret.Value.StateList != null && ret.Value.StateList.Count > 0)
+            //{
+            //    //Populate State List
+            //    this.cboState.DataSource = ret.Value.StateList;
+            //    this.cboState.DisplayMember = "Name";
+            //    this.cboState.ValueMember = "Id";
+            //    this.cboState.SelectedIndex = -1;
+            //}
+
+            CustomerFacade.FormDto formDto = new CustomerFacade.FormDto();
+            BinAff.Facade.Library.Server facade = new CustomerFacade.Server(formDto);
+            facade.LoadForm();
+            if (formDto.IdentityProofTypeList != null && formDto.IdentityProofTypeList.Count > 0)
+            {
+                //Populate IdentityProof List
+                this.cboProofType.DataSource = formDto.IdentityProofTypeList;
+                this.cboProofType.DisplayMember = "Name";
+                this.cboProofType.ValueMember = "Id";
+                this.cboProofType.SelectedIndex = -1;
+            }
+            if (formDto.InitialList != null && formDto.InitialList.Count > 0)
             {
                 //Populate Initial List
-                this.cboInitial.DataSource = ret.Value.InitialList;
+                this.cboInitial.DataSource = formDto.InitialList;
                 this.cboInitial.DisplayMember = "Name";
                 this.cboInitial.ValueMember = "Id";
                 this.cboInitial.SelectedIndex = -1;
             }
 
-            if (ret.Value.StateList != null && ret.Value.StateList.Count > 0)
+            if (formDto.StateList != null && formDto.StateList.Count > 0)
             {
                 //Populate State List
-                this.cboState.DataSource = ret.Value.StateList;
+                this.cboState.DataSource = formDto.StateList;
                 this.cboState.DisplayMember = "Name";
                 this.cboState.ValueMember = "Id";
                 this.cboState.SelectedIndex = -1;
             }
 
-            if (ret.Value.IdentityProofTypeList != null && ret.Value.IdentityProofTypeList.Count > 0)
+            if (formDto.IdentityProofTypeList != null && formDto.IdentityProofTypeList.Count > 0)
             {
                 //Populate IdentityProof List
-                this.cboProofType.DataSource = ret.Value.IdentityProofTypeList;
+                this.cboProofType.DataSource = formDto.IdentityProofTypeList;
                 this.cboProofType.DisplayMember = "Name";
                 this.cboProofType.ValueMember = "Id";
                 this.cboProofType.SelectedIndex = -1;
@@ -399,11 +428,11 @@ namespace AutoTourism.Customer.WinForm
         {
             Boolean retVal = false;
 
-            if (ValidateCustomer())
+            if (this.ValidateCustomer())
             {
                 CustomerFacade.FormDto formDto = new CustomerFacade.FormDto()
                 {
-                    dto = new CustomerFacade.Dto()
+                    Dto = new CustomerFacade.Dto
                     {
                         Id = this.customerDto == null ? 0 : this.customerDto.Id,
                         Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
@@ -430,17 +459,20 @@ namespace AutoTourism.Customer.WinForm
                     },
                 };
 
-                CustomerFacade.ICustomer customer = new CustomerFacade.CustomerServer();
-                ReturnObject<Boolean> ret = customer.Save(formDto.dto);
-                retVal = ret.Value;               
-
+                BinAff.Facade.Library.Server facade = new CustomerFacade.Server(formDto);
+                if (formDto.Dto.Id == 0)
+                {
+                    facade.Add();
+                }
+                else
+                {
+                    facade.Change();
+                }
                 new PresentationLibrary.MessageBox
                 {
-                    DialogueType = PresentationLibrary.MessageBox.Type.Information,
+                    DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
                     Heading = "Splash",
-                }.Show(ret.MessageList);
-
-
+                }.Show(facade.DisplayMessageList);
             }
             return retVal;
         }
