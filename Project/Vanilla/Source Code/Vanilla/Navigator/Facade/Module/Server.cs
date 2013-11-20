@@ -72,18 +72,6 @@ namespace Vanilla.Navigator.Facade.Module
         public Artifact.Dto GetTree(Dto module, Group group)
         {
             Artifact.Server artifactServer = new Artifact.Server(null);
-            switch (group)
-            {
-                case Group.Form:
-                    artifactServer = new Form.Server(null);
-                    break;
-                case Group.Catalogue:
-                    artifactServer = new Form.Server(null);//Need to change
-                    break;
-                case Group.Report:
-                    artifactServer = new Form.Server(null);//Need to change
-                    break;
-            }
 
             Data data;
             CrystalArtifact.IArtifact artf;
@@ -96,7 +84,7 @@ namespace Vanilla.Navigator.Facade.Module
                         ModuleData = this.Convert(module),
                     };
                     artf = new AutotourismCustomerForm.Server(data as AutotourismCustomerForm.Data);
-                    (artifactServer as Form.Server).ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
+                    artifactServer.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
                     break;
                 case "CUST-Report"://Need to change
                     data = new AutotourismCustomerForm.Data
@@ -105,7 +93,7 @@ namespace Vanilla.Navigator.Facade.Module
                         ModuleData = this.Convert(module),
                     };
                     artf = new AutotourismCustomerForm.Server(data as AutotourismCustomerForm.Data);
-                    (artifactServer as Form.Server).ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
+                    artifactServer.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
                     break;
                 case "LRSV-Form"://Need to change
                     data = new AutotourismCustomerForm.Data
@@ -114,7 +102,7 @@ namespace Vanilla.Navigator.Facade.Module
                         ModuleData = this.Convert(module),
                     };
                     artf = new AutotourismCustomerForm.Server(data as AutotourismCustomerForm.Data);
-                    (artifactServer as Form.Server).ModuleFacade = new AutoTourism.Customer.Facade.Server(null);//Need to change
+                    artifactServer.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);//Need to change
                     break;
                 case "ROOM-Form"://Need to change
                     data = new AutotourismCustomerForm.Data
@@ -123,7 +111,7 @@ namespace Vanilla.Navigator.Facade.Module
                         ModuleData = this.Convert(module),
                     };
                     artf = new AutotourismCustomerForm.Server(data as AutotourismCustomerForm.Data);
-                    (artifactServer as Form.Server).ModuleFacade = new AutoTourism.Customer.Facade.Server(null);//Need to change
+                    artifactServer.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);//Need to change
                     break;
                 default://Need to change
                     data = new AutotourismCustomerForm.Data
@@ -132,7 +120,7 @@ namespace Vanilla.Navigator.Facade.Module
                         ModuleData = this.Convert(module),
                     };
                     artf = new AutotourismCustomerForm.Server(data as AutotourismCustomerForm.Data);
-                    (artifactServer as Form.Server).ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
+                    artifactServer.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
                     break;
             }
             return artifactServer.GetTree(artf);

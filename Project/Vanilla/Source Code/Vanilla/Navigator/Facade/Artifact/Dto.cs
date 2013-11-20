@@ -174,12 +174,12 @@ namespace Vanilla.Navigator.Facade.Artifact
                 }
             }
         }
-
-        BinAff.Core.Data module;
+        
+        private BinAff.Facade.Library.Dto module;
         /// <summary>
         /// Attached module data
         /// </summary>
-        BinAff.Core.Data Module
+        public BinAff.Facade.Library.Dto Module
         {
             get
             {

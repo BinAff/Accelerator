@@ -42,9 +42,6 @@
     <Compile Include="Container\Dto.cs" />
     <Compile Include="Container\FormDto.cs" />
     <Compile Include="Container\Server.cs" />
-    <Compile Include="Form\Dto.cs" />
-    <Compile Include="Form\FormDto.cs" />
-    <Compile Include="Form\Server.cs" />
     <Compile Include="Module\Dto.cs" />
     <Compile Include="Module\FormDto.cs" />
     <Compile Include="Group.cs" />
