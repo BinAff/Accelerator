@@ -56,6 +56,9 @@ namespace Crystal.Navigator.Component.Artifact
 
         internal Int64? ParentId { get; set; }
 
+        public BinAff.Core.Data ModuleData { get; set; }
+
+        public Category Category { get; set; }
 
     }
 

@@ -38,7 +38,13 @@ namespace Crystal.Navigator.Component.Artifact
                 Type = ChildType.Independent,
                 IsReadOnly = true,
             });
+            BinAff.Core.Crud module = this.CreateModuleServerInstance((this.Data as Data).ModuleData);
+            module.Type = ChildType.Independent;
+            module.IsReadOnly = true;
+            base.AddChild(module);
         }
+
+        protected abstract BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData);
 
         ReturnObject<Data> IArtifact.FormTree()
         {

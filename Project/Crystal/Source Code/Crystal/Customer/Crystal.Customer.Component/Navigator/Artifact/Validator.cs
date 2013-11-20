@@ -2,12 +2,12 @@
 
 using BinAff.Core;
 
-using CrystalNavigatorForm = Crystal.Navigator.Component.Form;
+using CrystalNavigator = Crystal.Navigator.Component;
 
-namespace Crystal.Customer.Component.Navigator.Form
+namespace Crystal.Customer.Component.Navigator.Artifact
 {
 
-    public class Validator : CrystalNavigatorForm.Validator
+    public class Validator : CrystalNavigator.Artifact.Validator
     {
 
         public Validator(Data data)
