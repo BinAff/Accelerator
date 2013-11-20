@@ -15,9 +15,9 @@ namespace Vanilla.Navigator.WinForm
         private Facade.Container.Server facade;
         Hashtable hashTreeView = new Hashtable();
 
-        Boolean isFormLoaded = false;
-        Boolean isCatalogueLoaded = false;
-        Boolean isReportLoaded = false;
+        //Boolean isFormLoaded = false;
+        //Boolean isCatalogueLoaded = false;
+        //Boolean isReportLoaded = false;
 
         public Container()
         {
@@ -26,8 +26,9 @@ namespace Vanilla.Navigator.WinForm
 
         private void Container_Load(object sender, EventArgs e)
         {
-            //for (int i = 0; i < tbcCategory.TabPages.Count; i++)
-            //    hashTreeView.Add(tbcCategory.TabPages[i].Text, null);
+            for (int i = 0; i < tbcCategory.TabPages.Count; i++)
+                hashTreeView.Add(tbcCategory.TabPages[i].Text, null);
+
             this.InitializeListView();
             this.txtAddress.Text = @"Form::";
             facade = new Server(this.formDto = new FormDto());
@@ -64,8 +65,19 @@ namespace Vanilla.Navigator.WinForm
         private void newItem_Click(object sender, EventArgs e)
         {
             ListViewItem item = new ListViewItem {
-                Text = "New " + sender.ToString()
+                Text = "New " + sender.ToString()                
             };
+
+            Facade.Artifact.Dto dtoArtifact;
+            if (tbcCategory.SelectedTab.Text == "Form")
+            {
+                dtoArtifact = trvForm.SelectedNode.Tag as Facade.Artifact.Dto;
+                item.Tag = new Facade.Artifact.Dto {
+                    Id = dtoArtifact.Id, //storing the parentId for the current item
+                    Style = VanilaArtifact.Type.Document
+                };
+            }
+            
 
             lstViewContainer.LabelEdit = true;
             item.SubItems.Add(sender.ToString());           
@@ -121,7 +133,10 @@ namespace Vanilla.Navigator.WinForm
             current.LabelEdit = true;
             if (e.Label == null || e.Label.Trim().Length == 0)
                 e.CancelEdit = true; // Can not be empty text
+            else
+            {
 
+            }
         }
         
         private void lstViewContainer_KeyUp(object sender, KeyEventArgs e)
@@ -136,13 +151,15 @@ namespace Vanilla.Navigator.WinForm
 
         private void lstViewContainer_AfterLabelEdit(object sender, LabelEditEventArgs e)
         {
-            foreach (ListViewItem item in lstViewContainer.SelectedItems)
-                item.Selected = false;
-
-            lstViewContainer.LabelEdit = true;
-            if (e.Label == null || e.Label.Trim().Length == 0)
+            if (e.Label != null && e.Label.Trim().Length == 0)
                 e.CancelEdit = true;
-        
+
+            ListViewItem selectedItem = (sender as ListView).FocusedItem;           
+            Facade.Artifact.Dto dtoArtifact = selectedItem.Tag as Vanilla.Navigator.Facade.Artifact.Dto;
+            dtoArtifact.FileName = (e.Label == null || e.Label.Trim().Length == 0) ? selectedItem.Text.Trim() : e.Label.Trim();
+            dtoArtifact.CreatedAt = DateTime.Now;
+            dtoArtifact.Version = 1;
+           
         }
 
         private void tbcCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -150,41 +167,89 @@ namespace Vanilla.Navigator.WinForm
             TabPage currentTab = (sender as TabControl).SelectedTab;
 
             if (currentTab.Text == "Form")
-            {   
-                if (!this.isFormLoaded)
+            {
+                if (hashTreeView[currentTab.Text] == null)
                 {
                     this.txtAddress.Text = @"Form::";
                     this.facade.GetCurrentModules(Facade.Category.Form);
                     this.LoadModules(currentTab.Text);
-                    this.isFormLoaded = true;
+                    //this.isCatalogueLoaded = true;
                 }
+                else
+                {
+                    CopyNodes(hashTreeView[currentTab.Text] as TreeView, trvForm);
+                }
+
+                //if (!this.isFormLoaded)
+                //{
+                //    this.txtAddress.Text = @"Form::";
+                //    this.facade.GetCurrentModules(Facade.Category.Form);
+                //    this.LoadModules(currentTab.Text);
+                //    this.isFormLoaded = true;
+                //}
             }
             else if (currentTab.Text == "Catalogue")
-            {   
-                if (!this.isCatalogueLoaded)
+            {
+                if (hashTreeView[currentTab.Text] == null)
                 {
                     this.txtAddress.Text = @"Catalogue::";
                     this.facade.GetCurrentModules(Facade.Category.Catalogue);
                     this.LoadModules(currentTab.Text);
-                    this.isCatalogueLoaded = true;
+                    //this.isCatalogueLoaded = true;
                 }
+                else 
+                {
+                    CopyNodes(hashTreeView[currentTab.Text] as TreeView, trvCatalogue);
+                }
+                //if (!this.isCatalogueLoaded)
+                //{
+                //    this.txtAddress.Text = @"Catalogue::";
+                //    this.facade.GetCurrentModules(Facade.Category.Catalogue);
+                //    this.LoadModules(currentTab.Text);
+                //    this.isCatalogueLoaded = true;
+                //}
             }
             else if (currentTab.Text == "Report")
             {
-                if (!this.isReportLoaded)
+                if (hashTreeView[currentTab.Text] == null)
                 {
                     this.txtAddress.Text = @"Report::";
                     this.facade.GetCurrentModules(Facade.Category.Report);
                     this.LoadModules(currentTab.Text);
-                    this.isReportLoaded = true;
+                    //this.isCatalogueLoaded = true;
                 }
+                else
+                {
+                    CopyNodes(hashTreeView[currentTab.Text] as TreeView, trvReport);
+                }
+                //if (!this.isReportLoaded)
+                //{
+                //    this.txtAddress.Text = @"Report::";
+                //    this.facade.GetCurrentModules(Facade.Category.Report);
+                //    this.LoadModules(currentTab.Text);
+                //    this.isReportLoaded = true;
+                //}
             }
         }
 
         private void tbcCategory_Deselected(object sender, TabControlEventArgs e)
         {
             String tabName = (sender as TabControl).SelectedTab.Text;           
-            hashTreeView[tabName] = CopyNodes(trvForm, new TreeView());
+            //hashTreeView[tabName] = CopyNodes(trvForm, new TreeView());
+            switch (tabName)
+            {
+                case "Form":
+                    hashTreeView[tabName] = CopyNodes(trvForm, new TreeView());
+                    break;
+                case "Catalogue":
+                    hashTreeView[tabName] = CopyNodes(trvCatalogue, new TreeView());
+                    break;
+                case "Report":
+                    hashTreeView[tabName] = CopyNodes(trvReport, new TreeView());
+                    break;
+                default:                  
+                    break;
+            }
         }
 
         private void LoadModules(String currentTab)
