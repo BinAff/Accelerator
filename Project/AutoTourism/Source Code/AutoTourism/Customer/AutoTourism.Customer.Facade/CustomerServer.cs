@@ -39,7 +39,7 @@ namespace AutoTourism.Customer.Facade
             {
                 Value = new FormDto()
                 {
-                    CustomerList = this.ReadAllCustomer().Value,
+                    DtoList = this.ReadAllCustomer().Value,
                 }
             };
 
@@ -101,8 +101,6 @@ namespace AutoTourism.Customer.Facade
                         Name = ((CustomerComponent.Data)data).IdentityProofType.Name,
                     },
                     IdentityProofName = ((Crystal.Customer.Component.Data)data).IdentityProof,
-
-                    reservationList = this.ReadReservationData(((CustomerComponent.Data)data).CharacteristicList)
                 });
             }
 
