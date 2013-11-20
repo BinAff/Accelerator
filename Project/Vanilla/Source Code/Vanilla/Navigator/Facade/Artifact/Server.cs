@@ -12,6 +12,8 @@ namespace Vanilla.Navigator.Facade.Artifact
     public class Server : BinAff.Facade.Library.Server
     {
 
+        public BinAff.Facade.Library.Server ModuleFacade { get; set; }
+
         public Server(FormDto formDto)
             : base(formDto)
         {
@@ -52,7 +54,7 @@ namespace Vanilla.Navigator.Facade.Artifact
         {
             Crystal.Navigator.Component.Artifact.Data artifactData = data as Crystal.Navigator.Component.Artifact.Data;
 
-            return new Facade.Artifact.Dto
+            Facade.Artifact.Dto artifact = new Facade.Artifact.Dto
             {
                 Id = artifactData.Id,
                 FileName = artifactData.FileName,
@@ -72,6 +74,14 @@ namespace Vanilla.Navigator.Facade.Artifact
                 },
                 ModifiedAt = artifactData.ModifiedAt
             };
+
+            if ((data as Crystal.Navigator.Component.Form.Data).ModuleData != null)
+            {
+                artifact.Module = this.ModuleFacade.Convert((data as Crystal.Navigator.Component.Form.Data).ModuleData);
+            }
+
+            return artifact;
+
         }
 
         public override Data Convert(BinAff.Facade.Library.Dto dto)
