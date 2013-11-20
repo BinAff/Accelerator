@@ -155,21 +155,21 @@ namespace AutoTourism
             };
 
 
-            if (customerDto != null && customerDto.reservationList != null && customerDto.reservationList.Count > 0)
-            {
-                foreach (CustomerFacade.Lodge.Reservation.Dto reservationDto in customerDto.reservationList)
-                {
-                    bookingDetailsFormDto.bookingDetailList.Add(new LodgeFacade.BookingDetails.Dto
-                    {
-                        Id = reservationDto.Id,
-                        BookingDate = DateTime.Today.ToShortDateString(),
-                        StartDate = reservationDto.BookingFrom.ToShortDateString(),
-                        EndDate = reservationDto.BookingFrom.AddDays(reservationDto.NoOfDays).ToShortDateString(),
-                        Rooms = GetRooms(reservationDto.RoomList),
-                        Advance = reservationDto.Advance,
-                    });
-                }
-            }
+            //if (customerDto != null && customerDto.reservationList != null && customerDto.reservationList.Count > 0)
+            //{
+            //    foreach (CustomerFacade.Lodge.Reservation.Dto reservationDto in customerDto.reservationList)
+            //    {
+            //        bookingDetailsFormDto.bookingDetailList.Add(new LodgeFacade.BookingDetails.Dto
+            //        {
+            //            Id = reservationDto.Id,
+            //            BookingDate = DateTime.Today.ToShortDateString(),
+            //            StartDate = reservationDto.BookingFrom.ToShortDateString(),
+            //            EndDate = reservationDto.BookingFrom.AddDays(reservationDto.NoOfDays).ToShortDateString(),
+            //            Rooms = GetRooms(reservationDto.RoomList),
+            //            Advance = reservationDto.Advance,
+            //        });
+            //    }
+            //}
 
             if (dgvBooking != null)
                 dgvBooking.DataSource = bookingDetailsFormDto.bookingDetailList;

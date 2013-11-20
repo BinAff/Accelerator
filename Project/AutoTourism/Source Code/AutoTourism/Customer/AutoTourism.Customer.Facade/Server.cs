@@ -6,6 +6,7 @@ using System.Text;
 using AutotourismComponent = Autotourism.Component.Customer;
 using CustomerComponent = Crystal.Customer.Component;
 using LodgeComponent = Crystal.Lodge.Component;
+using ConfigurationComponent = Crystal.Configuration.Component;
 
 namespace AutoTourism.Customer.Facade
 {
@@ -21,7 +22,11 @@ namespace AutoTourism.Customer.Facade
 
         public override void LoadForm()
         {
-            throw new NotImplementedException();
+            FormDto formDto = this.FormDto as FormDto;
+            formDto.InitialList = this.ReadAllInitial();
+            formDto.StateList = this.ReadAllState().Value;
+            formDto.IdentityProofTypeList = this.ReadAllIdentityProof().Value;
+            formDto.DtoList = this.ReadAllCustomer().Value;
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
@@ -46,7 +51,7 @@ namespace AutoTourism.Customer.Facade
                 },
                 City = customer.City,
                 Pin = customer.Pin,
-                ContactNumberList = customer.ContactNumberList == null ? null : this.GetContactNumberList(customer.ContactNumberList),
+                ContactNumberList = customer.ContactNumberList == null ? null : this.ConvertContactNumberList(customer.ContactNumberList),
                 Email = customer.Email,
                 IdentityProofType = customer.IdentityProofType == null ? null : new Table()
                 {
@@ -54,62 +59,154 @@ namespace AutoTourism.Customer.Facade
                     Name = customer.IdentityProofType.Name,
                 },
                 IdentityProofName = ((Crystal.Customer.Component.Data)data).IdentityProof,
-
-                reservationList = this.ReadReservationData(customer.CharacteristicList)
             };
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            throw new NotImplementedException();
+            Dto customer = dto as Dto;
+            return new AutotourismComponent.Data
+            {
+                Id = dto.Id,
+                Initial = customer.Initial == null ? null : new ConfigurationComponent.Initial.Data()
+                {
+                    Id = customer.Initial.Id,
+                },
+                FirstName = customer.FirstName,
+                MiddleName = customer.MiddleName,
+                LastName = customer.LastName,
+                Address = customer.Address,
+                State = customer.State == null ? null : new ConfigurationComponent.State.Data()
+                {
+                    Id = customer.State.Id,
+                },
+                City = customer.City,
+                Pin = customer.Pin,
+                ContactNumberList = customer.ContactNumberList == null ? null : this.ConvertContactNumberList(customer.ContactNumberList),
+                Email = customer.Email,
+                IdentityProofType = customer.IdentityProofType == null ? null : new ConfigurationComponent.IdentityProofType.Data()
+                {
+                    Id = customer.IdentityProofType.Id,
+                },
+                IdentityProof = customer.IdentityProofName
+            };
         }
 
-        private List<Table> GetContactNumberList(List<CustomerComponent.ContactNumber.Data> ContactNumberDataList)
+        public override void Add()
         {
-            List<Table> ContactNumberDtoList = new List<Table>();
-            foreach (CustomerComponent.ContactNumber.Data data in ContactNumberDataList)
+            this.Save();
+        }
+
+        public override void Change()
+        {
+            this.Save();
+        }
+
+        private void Save()
+        {
+            ICrud crud = new AutotourismComponent.Server(this.Convert((this.FormDto as FormDto).Dto) as AutotourismComponent.Data);
+            ReturnObject<Boolean> ret = crud.Save();
+
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+        }
+
+        private List<Table> ReadAllInitial()
+        {
+            //Building.FormDto buildingFormDto = new FacadeBuilding.FormDto();
+            //Building.Server buildFacade = new FacadeBuilding.Server(buildingFormDto);
+            //buildFacade.LoadForm();
+            //this.DisplayMessageList.AddRange(buildFacade.DisplayMessageList);
+
+            ICrud crud = new ConfigurationComponent.Initial.Server(null);
+            ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
+
+            List<Table> ret = new List<Table>();
+
+            //Populate data in dto from business entity
+            foreach (ConfigurationComponent.Initial.Data data in dataList.Value)
             {
-                ContactNumberDtoList.Add(new Table
+                ret.Add(new Table
+                {
+                    Id = data.Id,
+                    Name = data.Name
+                });
+            }
+
+            return ret;
+        }
+
+        private ReturnObject<List<Table>> ReadAllState()
+        {
+            ICrud crud = new ConfigurationComponent.State.Server(null);
+            ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
+
+            ReturnObject<List<Table>> ret = new ReturnObject<List<Table>>
+            {
+                Value = new List<Table>()
+            };
+
+            //Populate data in dto from business entity
+            foreach (ConfigurationComponent.State.Data data in dataList.Value)
+            {
+                ret.Value.Add(new Table
+                {
+                    Id = data.Id,
+                    Name = data.Name
+                });
+            }
+
+            return ret;
+        }
+
+        private ReturnObject<List<Table>> ReadAllIdentityProof()
+        {
+            ICrud crud = new ConfigurationComponent.IdentityProofType.Server(null);
+            ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
+
+            ReturnObject<List<Table>> ret = new ReturnObject<List<Table>>
+            {
+                Value = new List<Table>()
+            };
+
+            //Populate data in dto from business entity
+            foreach (ConfigurationComponent.IdentityProofType.Data data in dataList.Value)
+            {
+                ret.Value.Add(new Table
+                {
+                    Id = data.Id,
+                    Name = data.Name
+                });
+            }
+
+            return ret;
+        }
+
+        private List<CustomerComponent.ContactNumber.Data> ConvertContactNumberList(List<Table> dtoList)
+        {
+            List<CustomerComponent.ContactNumber.Data> dataList = new List<CustomerComponent.ContactNumber.Data>();
+            foreach (Table dto in dtoList)
+            {
+                dataList.Add(new CustomerComponent.ContactNumber.Data
+                {
+                    Id = dto.Id,
+                    ContactNumber = dto.Name,
+                });
+            }
+            return dataList;
+        }
+
+        private List<Table> ConvertContactNumberList(List<CustomerComponent.ContactNumber.Data> dataList)
+        {
+            List<Table> dtoList = new List<Table>();
+            foreach (CustomerComponent.ContactNumber.Data data in dataList)
+            {
+                dtoList.Add(new Table
                 {
                     Id = data.Id,
                     Name = data.ContactNumber,
                 });
             }
-            return ContactNumberDtoList;
-        }
-
-        private List<Lodge.Reservation.Dto> ReadReservationData(List<CustomerComponent.Characteristic.Data> characteristicList)
-        {
-            List<Lodge.Reservation.Dto> reservationList = new List<Lodge.Reservation.Dto>();
-            foreach (CustomerComponent.Characteristic.Data characteristicData in characteristicList)
-            {
-                if (characteristicData.GetType().FullName == "Crystal.Lodge.Component.Room.Reserver.Data")
-                {
-                    if (characteristicData.AllList != null)
-                    {
-                        foreach (LodgeComponent.Room.Reservation.Data reservationData in characteristicData.AllList)
-                        {
-                            reservationList.Add(new Lodge.Reservation.Dto
-                            {
-                                Id = reservationData.Id,
-                                BookingDate = reservationData.ActivityDate,
-                                BookingFrom = reservationData.Date,
-                                NoOfDays = reservationData.NoOfDays,
-                                NoOfPersons = reservationData.NoOfPersons,
-                                NoOfRooms = reservationData.NoOfRooms,
-                                Advance = reservationData.Advance,
-                                BookingStatus = new Table
-                                {
-                                    Id = reservationData.Status.Id,
-                                    Name = reservationData.Status.Name
-                                },
-                                RoomList = reservationData.ProductList == null ? null : GetRoomDtoList(reservationData.ProductList),
-                            });
-                        }
-                    }
-                }
-            }
-            return reservationList;
+            return dtoList;
         }
 
         private List<Lodge.Room.Dto> GetRoomDtoList(List<BinAff.Core.Data> roomDataList)
@@ -163,6 +260,60 @@ namespace AutoTourism.Customer.Facade
                 }
             }
             return retVal;
+        }
+
+        private ReturnObject<List<Dto>> ReadAllCustomer()
+        {
+            ReturnObject<List<Dto>> retObj = new ReturnObject<List<Dto>>();
+
+            ICrud crud = new AutotourismComponent.Server(null);
+            ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
+
+            if (lstData.HasError())
+                return new ReturnObject<List<Dto>>
+                {
+                    MessageList = lstData.MessageList
+                };
+
+            ReturnObject<List<Dto>> ret = new ReturnObject<List<Dto>>()
+            {
+                Value = new List<Dto>(),
+            };
+
+            //Populate data in dto from business entity
+            foreach (BinAff.Core.Data data in lstData.Value)
+            {
+                ret.Value.Add(new Dto
+                {
+                    Id = data.Id,
+                    Initial = ((CustomerComponent.Data)data).Initial == null ? null : new Table
+                    {
+                        Id = ((CustomerComponent.Data)data).Initial.Id,
+                        Name = ((CustomerComponent.Data)data).Initial.Name,
+                    },
+                    FirstName = ((CustomerComponent.Data)data).FirstName,
+                    MiddleName = ((CustomerComponent.Data)data).MiddleName,
+                    LastName = ((CustomerComponent.Data)data).LastName,
+                    Address = ((CustomerComponent.Data)data).Address,
+                    State = ((CustomerComponent.Data)data).State == null ? null : new Table()
+                    {
+                        Id = ((CustomerComponent.Data)data).State.Id,
+                        Name = ((CustomerComponent.Data)data).State.Name,
+                    },
+                    City = ((CustomerComponent.Data)data).City,
+                    Pin = ((CustomerComponent.Data)data).Pin,
+                    ContactNumberList = ((CustomerComponent.Data)data).ContactNumberList == null ? null : ConvertContactNumberList(((CustomerComponent.Data)data).ContactNumberList),
+                    Email = ((CustomerComponent.Data)data).Email,
+                    IdentityProofType = ((CustomerComponent.Data)data).IdentityProofType == null ? null : new Table()
+                    {
+                        Id = ((CustomerComponent.Data)data).IdentityProofType.Id,
+                        Name = ((CustomerComponent.Data)data).IdentityProofType.Name,
+                    },
+                    IdentityProofName = ((Crystal.Customer.Component.Data)data).IdentityProof,
+                });
+            }
+
+            return ret;
         }
 
     }

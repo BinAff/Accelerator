@@ -22,8 +22,6 @@ namespace AutoTourism.Customer.Facade
         public String IdentityProofName { get; set; }
            
         public List<Table> ContactNumberList { get; set; }
-
-        public List<Lodge.Reservation.Dto> reservationList { get; set; }
         
     }
 
