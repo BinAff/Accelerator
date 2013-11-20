@@ -41,7 +41,7 @@
             // 
             // trvOption
             // 
-            this.trvOption.Location = new System.Drawing.Point(12, 42);
+            this.trvOption.Location = new System.Drawing.Point(10, 10);
             this.trvOption.Name = "trvOption";
             treeNode1.Name = "Building Type";
             treeNode1.Text = "Building Type";
@@ -60,7 +60,7 @@
             // lslList
             // 
             this.lslList.FormattingEnabled = true;
-            this.lslList.Location = new System.Drawing.Point(166, 68);
+            this.lslList.Location = new System.Drawing.Point(164, 36);
             this.lslList.Name = "lslList";
             this.lslList.Size = new System.Drawing.Size(286, 147);
             this.lslList.TabIndex = 135;
@@ -68,7 +68,7 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(166, 42);
+            this.txtName.Location = new System.Drawing.Point(164, 10);
             this.txtName.MaxLength = 50;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(286, 20);
@@ -76,7 +76,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(13, 236);
+            this.btnRefresh.Location = new System.Drawing.Point(10, 199);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 136;
@@ -86,7 +86,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(94, 236);
+            this.btnAdd.Location = new System.Drawing.Point(91, 199);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 137;
@@ -96,7 +96,7 @@
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(176, 236);
+            this.btnChange.Location = new System.Drawing.Point(173, 199);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 23);
             this.btnChange.TabIndex = 138;
@@ -108,7 +108,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(508, 280);
+            this.ClientSize = new System.Drawing.Size(463, 231);
             this.Controls.Add(this.btnChange);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnRefresh);

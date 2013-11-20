@@ -151,7 +151,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(13, 288);
+            this.btnAdd.Location = new System.Drawing.Point(11, 259);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 100;
@@ -161,7 +161,7 @@
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(94, 287);
+            this.btnChange.Location = new System.Drawing.Point(92, 258);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 23);
             this.btnChange.TabIndex = 101;
@@ -171,7 +171,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(176, 287);
+            this.btnDelete.Location = new System.Drawing.Point(174, 258);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 102;
@@ -181,7 +181,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(261, 287);
+            this.btnRefresh.Location = new System.Drawing.Point(259, 258);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 103;
@@ -191,7 +191,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(346, 287);
+            this.btnClose.Location = new System.Drawing.Point(344, 258);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 104;
@@ -201,7 +201,7 @@
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(428, 287);
+            this.btnOpen.Location = new System.Drawing.Point(426, 258);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(75, 23);
             this.btnOpen.TabIndex = 105;
@@ -230,7 +230,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(522, 322);
+            this.ClientSize = new System.Drawing.Size(516, 293);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnOpen);

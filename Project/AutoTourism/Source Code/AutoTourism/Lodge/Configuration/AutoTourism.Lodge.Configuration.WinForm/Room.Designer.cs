@@ -67,7 +67,7 @@
             // 
             this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboType.FormattingEnabled = true;
-            this.cboType.Location = new System.Drawing.Point(261, 231);
+            this.cboType.Location = new System.Drawing.Point(262, 201);
             this.cboType.Name = "cboType";
             this.cboType.Size = new System.Drawing.Size(193, 21);
             this.cboType.TabIndex = 7;
@@ -75,7 +75,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(198, 234);
+            this.label6.Location = new System.Drawing.Point(199, 204);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(31, 13);
             this.label6.TabIndex = 69;
@@ -85,7 +85,7 @@
             // 
             this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCategory.FormattingEnabled = true;
-            this.cboCategory.Location = new System.Drawing.Point(261, 204);
+            this.cboCategory.Location = new System.Drawing.Point(262, 174);
             this.cboCategory.Name = "cboCategory";
             this.cboCategory.Size = new System.Drawing.Size(193, 21);
             this.cboCategory.TabIndex = 6;
@@ -93,7 +93,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(198, 207);
+            this.label4.Location = new System.Drawing.Point(199, 177);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(49, 13);
             this.label4.TabIndex = 67;
@@ -103,7 +103,7 @@
             // 
             this.cboFloor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboFloor.FormattingEnabled = true;
-            this.cboFloor.Location = new System.Drawing.Point(261, 177);
+            this.cboFloor.Location = new System.Drawing.Point(262, 147);
             this.cboFloor.Name = "cboFloor";
             this.cboFloor.Size = new System.Drawing.Size(37, 21);
             this.cboFloor.TabIndex = 5;
@@ -111,7 +111,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(198, 180);
+            this.label3.Location = new System.Drawing.Point(199, 150);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(30, 13);
             this.label3.TabIndex = 65;
@@ -121,7 +121,7 @@
             // 
             this.cboBuilding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboBuilding.FormattingEnabled = true;
-            this.cboBuilding.Location = new System.Drawing.Point(261, 150);
+            this.cboBuilding.Location = new System.Drawing.Point(262, 120);
             this.cboBuilding.Name = "cboBuilding";
             this.cboBuilding.Size = new System.Drawing.Size(193, 21);
             this.cboBuilding.TabIndex = 4;
@@ -130,7 +130,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(198, 153);
+            this.label1.Location = new System.Drawing.Point(199, 123);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 63;
@@ -139,7 +139,7 @@
             // chkIsAC
             // 
             this.chkIsAC.AutoSize = true;
-            this.chkIsAC.Location = new System.Drawing.Point(201, 258);
+            this.chkIsAC.Location = new System.Drawing.Point(202, 228);
             this.chkIsAC.Name = "chkIsAC";
             this.chkIsAC.Size = new System.Drawing.Size(97, 17);
             this.chkIsAC.TabIndex = 8;
@@ -148,7 +148,7 @@
             // 
             // txtNumber
             // 
-            this.txtNumber.Location = new System.Drawing.Point(261, 42);
+            this.txtNumber.Location = new System.Drawing.Point(262, 12);
             this.txtNumber.MaxLength = 50;
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(193, 20);
@@ -157,7 +157,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(198, 46);
+            this.label8.Location = new System.Drawing.Point(199, 16);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(44, 13);
             this.label8.TabIndex = 59;
@@ -165,7 +165,7 @@
             // 
             // txtDesc
             // 
-            this.txtDesc.Location = new System.Drawing.Point(261, 94);
+            this.txtDesc.Location = new System.Drawing.Point(262, 64);
             this.txtDesc.MaxLength = 255;
             this.txtDesc.Multiline = true;
             this.txtDesc.Name = "txtDesc";
@@ -175,7 +175,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(198, 98);
+            this.label7.Location = new System.Drawing.Point(199, 68);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(60, 13);
             this.label7.TabIndex = 57;
@@ -183,7 +183,7 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(261, 68);
+            this.txtName.Location = new System.Drawing.Point(262, 38);
             this.txtName.MaxLength = 50;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(193, 20);
@@ -192,7 +192,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(198, 72);
+            this.label2.Location = new System.Drawing.Point(199, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 55;
@@ -202,7 +202,7 @@
             // 
             this.cboRoomList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboRoomList.FormattingEnabled = true;
-            this.cboRoomList.Location = new System.Drawing.Point(8, 41);
+            this.cboRoomList.Location = new System.Drawing.Point(9, 11);
             this.cboRoomList.Name = "cboRoomList";
             this.cboRoomList.Size = new System.Drawing.Size(184, 234);
             this.cboRoomList.Sorted = true;
@@ -211,7 +211,7 @@
             // 
             // picPhoto
             // 
-            this.picPhoto.Location = new System.Drawing.Point(659, 41);
+            this.picPhoto.Location = new System.Drawing.Point(660, 11);
             this.picPhoto.Name = "picPhoto";
             this.picPhoto.Size = new System.Drawing.Size(134, 125);
             this.picPhoto.TabIndex = 75;
@@ -225,7 +225,7 @@
             // 
             // btnDeleteImage
             // 
-            this.btnDeleteImage.Location = new System.Drawing.Point(464, 253);
+            this.btnDeleteImage.Location = new System.Drawing.Point(465, 223);
             this.btnDeleteImage.Name = "btnDeleteImage";
             this.btnDeleteImage.Size = new System.Drawing.Size(81, 22);
             this.btnDeleteImage.TabIndex = 77;
@@ -235,7 +235,7 @@
             // 
             // btnAddImage
             // 
-            this.btnAddImage.Location = new System.Drawing.Point(551, 253);
+            this.btnAddImage.Location = new System.Drawing.Point(552, 223);
             this.btnAddImage.Name = "btnAddImage";
             this.btnAddImage.Size = new System.Drawing.Size(81, 22);
             this.btnAddImage.TabIndex = 78;
@@ -246,7 +246,7 @@
             // lstImage
             // 
             this.lstImage.FormattingEnabled = true;
-            this.lstImage.Location = new System.Drawing.Point(464, 42);
+            this.lstImage.Location = new System.Drawing.Point(465, 12);
             this.lstImage.Name = "lstImage";
             this.lstImage.Size = new System.Drawing.Size(168, 199);
             this.lstImage.TabIndex = 79;
@@ -258,7 +258,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(15, 361);
+            this.btnRefresh.Location = new System.Drawing.Point(12, 301);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 80;
@@ -268,7 +268,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(109, 361);
+            this.btnAdd.Location = new System.Drawing.Point(105, 301);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 81;
@@ -278,7 +278,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(203, 361);
+            this.btnDelete.Location = new System.Drawing.Point(198, 301);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 82;
@@ -288,7 +288,7 @@
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(296, 361);
+            this.btnChange.Location = new System.Drawing.Point(291, 301);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 23);
             this.btnChange.TabIndex = 83;
@@ -298,7 +298,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(389, 361);
+            this.btnClose.Location = new System.Drawing.Point(384, 301);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 84;
@@ -308,7 +308,7 @@
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(483, 361);
+            this.btnOpen.Location = new System.Drawing.Point(477, 301);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(75, 23);
             this.btnOpen.TabIndex = 85;
@@ -319,7 +319,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(201, 297);
+            this.label5.Location = new System.Drawing.Point(202, 267);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(68, 13);
             this.label5.TabIndex = 86;
@@ -328,7 +328,7 @@
             // lblRoomStatus
             // 
             this.lblRoomStatus.AutoSize = true;
-            this.lblRoomStatus.Location = new System.Drawing.Point(293, 297);
+            this.lblRoomStatus.Location = new System.Drawing.Point(294, 267);
             this.lblRoomStatus.Name = "lblRoomStatus";
             this.lblRoomStatus.Size = new System.Drawing.Size(0, 13);
             this.lblRoomStatus.TabIndex = 87;
@@ -337,7 +337,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(860, 439);
+            this.ClientSize = new System.Drawing.Size(803, 336);
             this.Controls.Add(this.lblRoomStatus);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnOpen);
@@ -366,6 +366,7 @@
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cboRoomList);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Room";
             this.Text = "Room Configuration";
             this.Load += new System.EventHandler(this.Room_Load);
