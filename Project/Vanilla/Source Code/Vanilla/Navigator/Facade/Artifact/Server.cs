@@ -75,9 +75,9 @@ namespace Vanilla.Navigator.Facade.Artifact
                 ModifiedAt = artifactData.ModifiedAt
             };
 
-            if ((data as Crystal.Navigator.Component.Form.Data).ModuleData != null)
+            if ((data as CrystalArtifact.Data).ModuleData != null)
             {
-                artifact.Module = this.ModuleFacade.Convert((data as Crystal.Navigator.Component.Form.Data).ModuleData);
+                artifact.Module = this.ModuleFacade.Convert((data as CrystalArtifact.Data).ModuleData);
             }
 
             return artifact;

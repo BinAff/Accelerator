@@ -1,11 +1,11 @@
 ﻿using System;
 
-using CrystalForm = Crystal.Customer.Component.Navigator.Form;
+using CrystalArtifact = Crystal.Customer.Component.Navigator.Artifact;
 
-namespace Autotourism.Component.Customer.Navigator.Form
+namespace Autotourism.Component.Customer.Navigator.Artifact
 {
 
-    public class Server : CrystalForm.Server
+    public class Server : CrystalArtifact.Server
     {
 
         public Server(Data data)

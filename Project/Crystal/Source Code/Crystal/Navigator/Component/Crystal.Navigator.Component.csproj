@@ -38,16 +38,13 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Artifact\Category.cs" />
     <Compile Include="Artifact\Dao.cs" />
     <Compile Include="Artifact\Data.cs" />
     <Compile Include="Artifact\IArtifact.cs" />
     <Compile Include="Artifact\Server.cs" />
     <Compile Include="Artifact\Type.cs" />
     <Compile Include="Artifact\Validator.cs" />
-    <Compile Include="Form\Dao.cs" />
-    <Compile Include="Form\Data.cs" />
-    <Compile Include="Form\Server.cs" />
-    <Compile Include="Form\Validator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

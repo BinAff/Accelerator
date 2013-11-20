@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Data;
+using CrystalArtifact = Crystal.Customer.Component.Navigator.Artifact;
 
-using CrystalForm = Crystal.Customer.Component.Navigator.Form;
-
-namespace Autotourism.Component.Customer.Navigator.Form
+namespace Autotourism.Component.Customer.Navigator.Artifact
 {
 
-    public class Dao : CrystalForm.Dao
+    public class Dao : CrystalArtifact.Dao
     {
 
         public Dao(Data data)
@@ -25,6 +24,8 @@ namespace Autotourism.Component.Customer.Navigator.Form
             base.CreateConnection();
             base.CreateCommand("Customer.ReadFormForArtifact");
             base.AddInParameter("@ArtifactId", DbType.Int64, this.Data.Id);
+            base.AddInParameter("@Category", DbType.Int64, (this.Data as Data).Category);
+
             DataSet ds = this.ExecuteDataSet();
             this.CloseConnection();
 
@@ -39,11 +40,12 @@ namespace Autotourism.Component.Customer.Navigator.Form
             return true;
         }
 
-        protected override BinAff.Core.Data CreateDataObject(Int64 id)
+        protected override BinAff.Core.Data CreateDataObject(Int64 id, Crystal.Navigator.Component.Artifact.Category category)
         {
             return new Data
             {
                 Id = id,
+                Category = category,
             };
         }
 

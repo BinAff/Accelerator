@@ -89,10 +89,10 @@
     <Compile Include="Dao.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="ICustomer.cs" />
-    <Compile Include="Navigator\Form\Dao.cs" />
-    <Compile Include="Navigator\Form\Data.cs" />
-    <Compile Include="Navigator\Form\Server.cs" />
-    <Compile Include="Navigator\Form\Validator.cs" />
+    <Compile Include="Navigator\Artifact\Dao.cs" />
+    <Compile Include="Navigator\Artifact\Data.cs" />
+    <Compile Include="Navigator\Artifact\Server.cs" />
+    <Compile Include="Navigator\Artifact\Validator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Validator.cs" />

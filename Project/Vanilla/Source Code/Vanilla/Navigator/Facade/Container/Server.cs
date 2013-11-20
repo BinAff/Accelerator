@@ -19,7 +19,7 @@ namespace Vanilla.Navigator.Facade.Container
         {
             new Module.Server((this.FormDto as FormDto).ModuleFormDto = new Module.FormDto()).LoadForm();
 
-            this.GetCurrentModules(Group.Form);
+            this.GetCurrentModules(Category.Form);
         }
 
         public override BinAff.Facade.Library.Dto Convert(Data data)
@@ -52,24 +52,24 @@ namespace Vanilla.Navigator.Facade.Container
             return null;
         }
 
-        public void GetCurrentModules(Group group)
+        public void GetCurrentModules(Category category)
         {
             Dto dto = new Dto
             {
-                Group = group,
+                Category = category,
             };
 
             FormDto formDto = this.FormDto as FormDto;
 
-            switch (group)
+            switch (category)
             {
-                case Group.Form:
+                case Category.Form:
                     dto.Modules = formDto.ModuleFormDto.FormModuleList;
                     break;
-                case Group.Report:
+                case Category.Report:
                     dto.Modules = formDto.ModuleFormDto.ReportModuleList;
                     break;
-                case Group.Catalogue:
+                case Category.Catalogue:
                     dto.Modules = formDto.ModuleFormDto.CatalogueModuleList;
                     break;
             }

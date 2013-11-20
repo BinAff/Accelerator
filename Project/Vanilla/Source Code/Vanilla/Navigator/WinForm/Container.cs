@@ -154,7 +154,7 @@ namespace Vanilla.Navigator.WinForm
                 if (!this.isFormLoaded)
                 {
                     this.txtAddress.Text = @"Form::";
-                    this.facade.GetCurrentModules(Facade.Group.Form);
+                    this.facade.GetCurrentModules(Facade.Category.Form);
                     this.LoadModules(currentTab.Text);
                     this.isFormLoaded = true;
                 }
@@ -164,7 +164,7 @@ namespace Vanilla.Navigator.WinForm
                 if (!this.isCatalogueLoaded)
                 {
                     this.txtAddress.Text = @"Catalogue::";
-                    this.facade.GetCurrentModules(Facade.Group.Catalogue);
+                    this.facade.GetCurrentModules(Facade.Category.Catalogue);
                     this.LoadModules(currentTab.Text);
                     this.isCatalogueLoaded = true;
                 }
@@ -174,7 +174,7 @@ namespace Vanilla.Navigator.WinForm
                 if (!this.isReportLoaded)
                 {
                     this.txtAddress.Text = @"Report::";
-                    this.facade.GetCurrentModules(Facade.Group.Report);
+                    this.facade.GetCurrentModules(Facade.Category.Report);
                     this.LoadModules(currentTab.Text);
                     this.isReportLoaded = true;
                 }
@@ -293,7 +293,7 @@ namespace Vanilla.Navigator.WinForm
         private void lstViewContainer_DoubleClick(object sender, EventArgs e)
         {
             //Currently hard coding. Need to change
-            AutoTourism.Customer.Facade.Dto dto = ((sender as ListView).SelectedItems[0].Tag as Vanilla.Navigator.Facade.Form.Dto).Module as AutoTourism.Customer.Facade.Dto;
+            AutoTourism.Customer.Facade.Dto dto = ((sender as ListView).SelectedItems[0].Tag as Vanilla.Navigator.Facade.Artifact.Dto).Module as AutoTourism.Customer.Facade.Dto;
             Form form = new AutoTourism.Customer.WinForm.CustomerForm(dto);
             form.ShowDialog(this);
         }

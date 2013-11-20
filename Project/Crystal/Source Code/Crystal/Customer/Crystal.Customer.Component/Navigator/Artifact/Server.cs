@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using CrystalNavigator = Crystal.Navigator.Component;
+﻿using CrystalNavigator = Crystal.Navigator.Component;
 
-namespace Crystal.Customer.Component.Navigator.Form
+namespace Crystal.Customer.Component.Navigator.Artifact
 {
 
-    public abstract class Server : CrystalNavigator.Form.Server
+    public abstract class Server : CrystalNavigator.Artifact.Server
     {
 
         public Server(Data data)

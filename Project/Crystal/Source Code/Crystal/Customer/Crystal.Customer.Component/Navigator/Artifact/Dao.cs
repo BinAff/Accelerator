@@ -1,9 +1,9 @@
-﻿using CrystalNavigatorForm = Crystal.Navigator.Component.Form;
+﻿using CrystalNavigator = Crystal.Navigator.Component;
 
-namespace Crystal.Customer.Component.Navigator.Form
+namespace Crystal.Customer.Component.Navigator.Artifact
 {
 
-    public abstract class Dao : CrystalNavigatorForm.Dao
+    public abstract class Dao : CrystalNavigator.Artifact.Dao
     {
 
         public Dao(Data data)
