@@ -33,11 +33,13 @@ namespace Crystal.Navigator.Component.Artifact
             Data data = this.Data as Data;
             base.AssignParameter(procedureName);
             base.AddInParameter("@FileName", DbType.String, data.FileName);
+            base.AddInParameter("@Path", DbType.String, data.Path);
+            
             base.AddInParameter("@ParentId", DbType.Int64, data.ParentId);
             if (data.Id == 0) //Insert, so only created information
             {
                 base.AddInParameter("@CreatedByUserId", DbType.Int64, data.CreatedBy.Id);
-                base.AddInParameter("@CreatedAt", DbType.DateTime, data.CreatedAt);
+                //base.AddInParameter("@CreatedAt", DbType.DateTime, data.CreatedAt);
             }
             else //Update, so modification information
             {
@@ -95,6 +97,30 @@ namespace Crystal.Navigator.Component.Artifact
         }
 
         protected abstract BinAff.Core.Data CreateDataObject(Int64 id, Category category);
+
+        protected override bool CreateAfter()
+        {
+            bool status = true;
+
+            Data artifactData = Data as Data;            
+            base.CreateCommand("[Navigator].[ArtifactModuleLinkInsertForModule]");
+            base.AddInParameter("@ArtifactId", DbType.Int64, Data.Id);
+            base.AddInParameter("@ModuleId", DbType.String, artifactData.ModuleData.Id);
+            base.AddInParameter("@Category", DbType.Int64, artifactData.Category);            
+            Int32 ret = base.ExecuteNonQuery();
+
+            if (ret == -2146232060) status = false;//Foreign key violation
+           
+            if(status)
+                status = this.CreateAfterModuleArtifactLink();
+
+            return status;
+        }
+
+        protected virtual bool CreateAfterModuleArtifactLink()
+        {
+            return true;
+        }
        
     }
 

@@ -5,6 +5,8 @@ using System.Text;
 
 using BinAff.Core;
 using CrystalArtifact = Crystal.Navigator.Component.Artifact;
+using CustomerArtifact = Autotourism.Component.Customer.Navigator.Artifact;
+
 
 namespace Vanilla.Navigator.Facade.Artifact
 {
@@ -132,6 +134,30 @@ namespace Vanilla.Navigator.Facade.Artifact
                 }
             }
             return tree;
+        }
+
+        public ReturnObject<Boolean> Save()
+        {
+            Dto dto = (this.FormDto as FormDto).artifactDto;
+
+            CustomerArtifact.Data data = new CustomerArtifact.Data
+            {
+                FileName = dto.fileName,
+                Style = dto.style == Type.Directory ? CrystalArtifact.Type.Directory : CrystalArtifact.Type.Document,
+                ParentId = dto.Parent.Id,
+                CreatedBy = new Crystal.Guardian.Component.Account.Data
+                {
+                    Id = dto.CreatedBy.Id
+                },
+                CreatedAt = dto.CreatedAt,
+                ModuleData = new Data {
+                    Id = dto.Module.Id                    
+                },
+                Category =  Crystal.Navigator.Component.Artifact.Category.Form,
+                Path = dto.Path
+            };
+            ICrud crud = new CustomerArtifact.Server(data);
+            return crud.Save();
         }
 
     }
