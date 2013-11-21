@@ -35,16 +35,17 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Artifact\Category.cs" />
     <Compile Include="Artifact\Dto.cs" />
     <Compile Include="Artifact\FormDto.cs" />
     <Compile Include="Artifact\Server.cs" />
     <Compile Include="Artifact\Type.cs" />
-    <Compile Include="Category.cs" />
     <Compile Include="Container\Dto.cs" />
     <Compile Include="Container\FormDto.cs" />
     <Compile Include="Container\Server.cs" />
     <Compile Include="Module\Dto.cs" />
     <Compile Include="Module\FormDto.cs" />
+    <Compile Include="Module\Helper.cs" />
     <Compile Include="Module\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

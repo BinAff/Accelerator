@@ -4,6 +4,7 @@ using Vanilla.Navigator.Facade.Container;
 using System.Collections;
 
 using VanilaArtifact = Vanilla.Navigator.Facade.Artifact;
+using VanilaModule = Vanilla.Navigator.Facade.Module;
 
 namespace Vanilla.Navigator.WinForm
 {
@@ -159,7 +160,6 @@ namespace Vanilla.Navigator.WinForm
             dtoArtifact.FileName = (e.Label == null || e.Label.Trim().Length == 0) ? selectedItem.Text.Trim() : e.Label.Trim();
             dtoArtifact.CreatedAt = DateTime.Now;
             dtoArtifact.Version = 1;
-           
         }
 
         private void tbcCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -171,7 +171,7 @@ namespace Vanilla.Navigator.WinForm
                 if (hashTreeView[currentTab.Text] == null)
                 {
                     this.txtAddress.Text = @"Form::";
-                    this.facade.GetCurrentModules(Facade.Category.Form);
+                    this.facade.GetCurrentModules(Facade.Artifact.Category.Form);
                     this.LoadModules(currentTab.Text);
                     //this.isCatalogueLoaded = true;
                 }
@@ -193,7 +193,7 @@ namespace Vanilla.Navigator.WinForm
                 if (hashTreeView[currentTab.Text] == null)
                 {
                     this.txtAddress.Text = @"Catalogue::";
-                    this.facade.GetCurrentModules(Facade.Category.Catalogue);
+                    this.facade.GetCurrentModules(Facade.Artifact.Category.Catalogue);
                     this.LoadModules(currentTab.Text);
                     //this.isCatalogueLoaded = true;
                 }
@@ -214,7 +214,7 @@ namespace Vanilla.Navigator.WinForm
                 if (hashTreeView[currentTab.Text] == null)
                 {
                     this.txtAddress.Text = @"Report::";
-                    this.facade.GetCurrentModules(Facade.Category.Report);
+                    this.facade.GetCurrentModules(Facade.Artifact.Category.Report);
                     this.LoadModules(currentTab.Text);
                     //this.isCatalogueLoaded = true;
                 }
@@ -341,27 +341,69 @@ namespace Vanilla.Navigator.WinForm
 
         private void trvArtifact_Click(object sender, EventArgs e)
         {
-            VanilaArtifact.Dto selectedNode = (sender as TreeView).SelectedNode.Tag as VanilaArtifact.Dto;
+            VanilaArtifact.Dto selectedNode = (sender as TreeView).SelectedNode.Tag.GetType().ToString() == "Vanilla.Navigator.Facade.Module.Dto"?
+                ((sender as TreeView).SelectedNode.Tag as VanilaModule.Dto).Artifact :
+                (sender as TreeView).SelectedNode.Tag as VanilaArtifact.Dto;
+            this.SelectNode(selectedNode);
+            this.txtAddress.Text = this.tbcCategory.TabPages[0].Text + ":\\\\" + selectedNode.Path + selectedNode.fileName + "\\";
+        }
+
+        private void SelectNode(VanilaArtifact.Dto selectedNode)
+        {
             this.lstViewContainer.Items.Clear();
-            foreach (VanilaArtifact.Dto artifact in selectedNode.Children)
+            if (selectedNode.Children != null && selectedNode.Children.Count > 0)
             {
-                if (artifact.Style == VanilaArtifact.Type.Document)
+                foreach (VanilaArtifact.Dto artifact in selectedNode.Children)
                 {
-                    this.lstViewContainer.Items.Add(new ListViewItem
+                    ListViewItem current = new ListViewItem
                     {
                         Text = artifact.FileName,
                         Tag = artifact,
-                    });
+                    };
+                    current.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
+                        {   
+                            new ListViewItem.ListViewSubItem(current, "Type")
+                            {
+                                Text = artifact.Style.ToString(),
+                            },
+                            new ListViewItem.ListViewSubItem(current, "Created By")
+                            {
+                                Text = (artifact.CreatedBy as BinAff.Core.Table).Name,
+                            },
+                            new ListViewItem.ListViewSubItem(current, "Created At")
+                            {
+                                Text = artifact.CreatedAt.ToString(),
+                            },
+                            new ListViewItem.ListViewSubItem(current, "Modified By")
+                            {
+                                Text = artifact.ModifiedBy == null ? String.Empty : (artifact.ModifiedBy as BinAff.Core.Table).Name,
+                            },
+                            new ListViewItem.ListViewSubItem(current, "Modified At")
+                            {
+                                Text = artifact.ModifiedAt == DateTime.MinValue? String.Empty : artifact.ModifiedAt.ToString(),
+                            },
+                        }
+                    );
+                    this.lstViewContainer.Items.Add(current);
                 }
             }
         }
 
         private void lstViewContainer_DoubleClick(object sender, EventArgs e)
         {
-            //Currently hard coding. Need to change
-            AutoTourism.Customer.Facade.Dto dto = ((sender as ListView).SelectedItems[0].Tag as Vanilla.Navigator.Facade.Artifact.Dto).Module as AutoTourism.Customer.Facade.Dto;
-            Form form = new AutoTourism.Customer.WinForm.CustomerForm(dto);
-            form.ShowDialog(this);
+            Vanilla.Navigator.Facade.Artifact.Dto currentArtifact = ((sender as ListView).SelectedItems[0].Tag as Vanilla.Navigator.Facade.Artifact.Dto);
+            if (currentArtifact.Style == VanilaArtifact.Type.Directory)
+            {
+                this.SelectNode(currentArtifact);
+            }
+            else
+            {
+                //Currently hard coding. Need to change
+                Type type = Type.GetType("AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm", true);
+                Form form = (Form)Activator.CreateInstance(type, currentArtifact.Module);
+
+                form.ShowDialog(this);
+            }
         }
 
     }

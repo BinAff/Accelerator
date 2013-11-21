@@ -64,6 +64,22 @@ namespace Vanilla.Navigator.Facade.Artifact
             }
         }
 
+        private Category category;
+        public Category Category
+        {
+            get
+            {
+                return this.category;
+            }
+            set
+            {
+                if (this.category != value)
+                {
+                    this.category = value;
+                }
+            }
+        }
+
         public Int32 version;
         /// <summary>
         /// Version number
@@ -190,6 +206,22 @@ namespace Vanilla.Navigator.Facade.Artifact
                 if (value != null && this.module != value)
                 {
                     this.module = value;
+                }
+            }
+        }
+
+        private Dto parent;
+        public Dto Parent
+        {
+            get
+            {
+                return this.parent;
+            }
+            set
+            {
+                if (value != null && this.parent != value)
+                {
+                    this.parent = value;
                 }
             }
         }

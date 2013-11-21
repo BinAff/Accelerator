@@ -1,7 +1,4 @@
 ﻿using BinAff.Core;
-using System;
-using System.Collections.Generic;
-using Vanilla.Navigator.Facade;
 
 namespace Vanilla.Navigator.Facade.Container
 {
@@ -19,7 +16,7 @@ namespace Vanilla.Navigator.Facade.Container
         {
             new Module.Server((this.FormDto as FormDto).ModuleFormDto = new Module.FormDto()).LoadForm();
 
-            this.GetCurrentModules(Category.Form);
+            this.GetCurrentModules(Artifact.Category.Form);
         }
 
         public override BinAff.Facade.Library.Dto Convert(Data data)
@@ -52,7 +49,7 @@ namespace Vanilla.Navigator.Facade.Container
             return null;
         }
 
-        public void GetCurrentModules(Category category)
+        public void GetCurrentModules(Artifact.Category category)
         {
             Dto dto = new Dto
             {
@@ -63,13 +60,13 @@ namespace Vanilla.Navigator.Facade.Container
 
             switch (category)
             {
-                case Category.Form:
+                case Artifact.Category.Form:
                     dto.Modules = formDto.ModuleFormDto.FormModuleList;
                     break;
-                case Category.Report:
+                case Artifact.Category.Report:
                     dto.Modules = formDto.ModuleFormDto.ReportModuleList;
                     break;
-                case Category.Catalogue:
+                case Artifact.Category.Catalogue:
                     dto.Modules = formDto.ModuleFormDto.CatalogueModuleList;
                     break;
             }

@@ -13,7 +13,7 @@ namespace Vanilla.Navigator.Facade.Module
     public class Server : BinAff.Facade.Library.Server
     {
 
-        private Category currentGroup;
+        private Artifact.Category currentGroup;
 
         public Server(FormDto formDto)
             : base(formDto)
@@ -28,11 +28,11 @@ namespace Vanilla.Navigator.Facade.Module
 
             FormDto formDto = this.FormDto as FormDto;
 
-            this.currentGroup = Category.Form;
+            this.currentGroup = Artifact.Category.Form;
             formDto.FormModuleList = this.Convert(data.FormList);
-            this.currentGroup = Category.Catalogue;
+            this.currentGroup = Artifact.Category.Catalogue;
             formDto.CatalogueModuleList = this.Convert(data.CatalogueList);
-            this.currentGroup = Category.Report;
+            this.currentGroup = Artifact.Category.Report;
             formDto.ReportModuleList = this.Convert(data.ReportList);
         }
 
@@ -69,67 +69,81 @@ namespace Vanilla.Navigator.Facade.Module
             };
         }
 
-        public Artifact.Dto GetTree(Dto module, Category category)
+        private Helper GetObjects(Dto module)
         {
-            Artifact.Server artifactServer = new Artifact.Server(null);
-
-            CrystalArtifact.Data data;
-            CrystalArtifact.IArtifact artf;
+            Helper helper = new Helper();
             switch (module.Code)
             {
                 case "CUST":
-                    data = new AutotourismCustomerArtifact.Data
-                    {
-                        FileName = "Customer",
-                        ModuleData = this.Convert(module),
-                    };
-                    artf = new AutotourismCustomerArtifact.Server(data as AutotourismCustomerArtifact.Data);
-                    artifactServer.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
+                    helper.FormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
+
+                    Type type = Type.GetType("Autotourism.Component.Customer.Navigator.Artifact.Data, Autotourism.Component.Customer", true);
+                    CrystalArtifact.Data data = Activator.CreateInstance(type) as CrystalArtifact.Data;
+                    type.GetProperty("FileName").SetValue(data, "Customer", null);
+                    type.GetProperty("ModuleData").SetValue(data, this.Convert(module), null);
+
+                    type = Type.GetType("Autotourism.Component.Customer.Navigator.Artifact.Server, Autotourism.Component.Customer", true);
+                    helper.Artifact = Activator.CreateInstance(type, data) as CrystalArtifact.IArtifact;
+
+                    //Some problem, objects are not getting instantiated -- Arpan
+                    //type = Type.GetType("AutoTourism.Customer.Facade.FormDto, AutoTourism.Customer.Facade", true);
+                    //BinAff.Facade.Library.FormDto formDto = Activator.CreateInstance(type) as BinAff.Facade.Library.FormDto;
+                    //type = Type.GetType("AutoTourism.Customer.Facade.Server, AutoTourism.Customer.Facade", true);
+                    //helper.ModuleFacade = Activator.CreateInstance(type, formDto) as Module.Server;
+                    helper.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
                     break;
+
                 case "LRSV"://Need to change
-                    data = new AutotourismCustomerArtifact.Data
+                    helper.FormType = "AutoTourism.Lodge.WinForm.Lodge, AutoTourism.Lodge.WinForm";
+                    helper.Artifact = new AutotourismCustomerArtifact.Server(new AutotourismCustomerArtifact.Data
                     {
                         FileName = "Lodge Reservation",
                         ModuleData = this.Convert(module),
-                    };
-                    artf = new AutotourismCustomerArtifact.Server(data as AutotourismCustomerArtifact.Data);
-                    artifactServer.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);//Need to change
+                    } as AutotourismCustomerArtifact.Data);
+                    helper.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
                     break;
-                case "ROOM"://Need to change
-                    data = new AutotourismCustomerArtifact.Data
-                    {
-                        FileName = "Room",
-                        ModuleData = this.Convert(module),
-                    };
-                    artf = new AutotourismCustomerArtifact.Server(data as AutotourismCustomerArtifact.Data);
-                    artifactServer.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);//Need to change
-                    break;
-                default://Need to change
-                    data = new AutotourismCustomerArtifact.Data
+
+                default:
+                    helper.FormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
+                    helper.Artifact = new AutotourismCustomerArtifact.Server(new AutotourismCustomerArtifact.Data
                     {
                         FileName = "Customer",
                         ModuleData = this.Convert(module),
-                    };
-                    artf = new AutotourismCustomerArtifact.Server(data as AutotourismCustomerArtifact.Data);
-                    artifactServer.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
+                    } as AutotourismCustomerArtifact.Data);
+                    helper.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
                     break;
             }
-            switch(category)
+            return helper;
+        }
+
+        public Artifact.Dto GetTree(Dto module, Artifact.Category category)
+        {
+            Artifact.Server artifactServer = new Artifact.Server(null);
+            Helper helper = this.GetObjects(module);
+            artifactServer.ModuleFacade = helper.ModuleFacade;
+            ((helper.Artifact as CrystalArtifact.Server).Data as CrystalArtifact.Data).Category = this.Convert(category);
+            return artifactServer.GetTree(helper.Artifact);
+        }
+
+        private CrystalArtifact.Category Convert(Artifact.Category category)
+        {
+            CrystalArtifact.Category ret;
+            switch (category)
             {
-                case Category.Form:
-                    data.Category = CrystalArtifact.Category.Form;
+                case Artifact.Category.Form:
+                    ret = CrystalArtifact.Category.Form;
                     break;
-                case Category.Catalogue:
-                    data.Category = CrystalArtifact.Category.Catelogue;
+                case Artifact.Category.Catalogue:
+                    ret = CrystalArtifact.Category.Catelogue;
                     break;
-                case Category.Report:
-                    data.Category = CrystalArtifact.Category.Report;
+                case Artifact.Category.Report:
+                    ret = CrystalArtifact.Category.Report;
                     break;
                 default:
-                    data.Category = CrystalArtifact.Category.Form;
+                    ret = CrystalArtifact.Category.Form;
                     break;
             }
-            return artifactServer.GetTree(artf);
+            return ret;
         }
 
     }
