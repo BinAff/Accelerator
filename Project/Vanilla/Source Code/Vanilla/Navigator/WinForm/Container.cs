@@ -274,7 +274,8 @@ namespace Vanilla.Navigator.WinForm
                         current = trvForm;
                         break;
                 }
-                tree[i++] = this.CreateTreeNodes(module.Artifact);
+                tree[i] = this.CreateTreeNodes(module.Artifact);
+                tree[i++].Tag = module;
             }
             current.Nodes.Clear();
             current.Nodes.AddRange(tree);
