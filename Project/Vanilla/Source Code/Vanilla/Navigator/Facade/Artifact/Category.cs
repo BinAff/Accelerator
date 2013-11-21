@@ -1,4 +1,4 @@
-﻿namespace Vanilla.Navigator.Facade
+﻿namespace Vanilla.Navigator.Facade.Artifact
 {
 
     public enum Category

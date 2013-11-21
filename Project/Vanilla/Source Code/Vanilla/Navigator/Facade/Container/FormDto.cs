@@ -7,7 +7,10 @@ namespace Vanilla.Navigator.Facade.Container
     {
 
         public Module.FormDto ModuleFormDto { get; set; }
-        public Dto Dto { get; set; }        
+
+        public Dto Dto { get; set; }
+
+        public Module.Dto CurrentModuleDef { get; set; }
 
     }
 
