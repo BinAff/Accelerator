@@ -54,7 +54,7 @@ namespace Crystal.Navigator.Component.Artifact
         /// </summary>
         public List<BinAff.Core.Data> Children { get; set; }
 
-        internal Int64? ParentId { get; set; }
+        public Int64? ParentId { get; set; }
 
         public BinAff.Core.Data ModuleData { get; set; }
 

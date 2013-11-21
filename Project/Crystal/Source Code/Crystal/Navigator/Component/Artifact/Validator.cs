@@ -26,8 +26,8 @@ namespace Crystal.Navigator.Component.Artifact
             {
                 if (data.CreatedBy == null)
                     retMsg.Add(new Message("Creator of File/Directory cannot be empty.", Message.Type.Error));
-                if (data.CreatedAt == System.DateTime.MinValue)
-                    retMsg.Add(new Message("Creation time of File/Directory cannot be empty.", Message.Type.Error));
+                //if (data.CreatedAt == System.DateTime.MinValue)
+                //    retMsg.Add(new Message("Creation time of File/Directory cannot be empty.", Message.Type.Error));
             }
             else //Data is getting modified
             {
@@ -36,7 +36,10 @@ namespace Crystal.Navigator.Component.Artifact
                 if (data.ModifiedAt == null)
                     retMsg.Add(new Message("Modification time of File/Directory cannot be empty.", Message.Type.Error));
             }
-            if (ValidationRule.IsNullOrEmpty(data.Style) || data.Style == 0)
+            //if (ValidationRule.IsNullOrEmpty(data.Style) || data.Style == 0)
+            //    retMsg.Add(new Message("Style cannot be empty.", Message.Type.Error));
+
+            if (ValidationRule.IsNullOrEmpty(data.Style))
                 retMsg.Add(new Message("Style cannot be empty.", Message.Type.Error));
 
             return retMsg;
