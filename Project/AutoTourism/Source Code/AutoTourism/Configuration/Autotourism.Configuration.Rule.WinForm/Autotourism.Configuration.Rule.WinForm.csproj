@@ -79,6 +79,20 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
+      <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
+      <Name>BinAff.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Utility\BinAff.Utility.csproj">
+      <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
+      <Name>BinAff.Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Autotourism.Configuration.Rule.Facade\Autotourism.Configuration.Rule.Facade.csproj">
+      <Project>{c8cf309d-21f1-43f7-bb6b-cf78e2b14245}</Project>
+      <Name>Autotourism.Configuration.Rule.Facade</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

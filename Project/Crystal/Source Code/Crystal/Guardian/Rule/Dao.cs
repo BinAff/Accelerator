@@ -18,7 +18,7 @@ namespace Crystal.Guardian.Rule
             base.CreateStoredProcedure = "Guardian.UserRuleInsert";
             base.NumberOfRowsAffectedInCreate = 1;
             base.ReadStoredProcedure = "Guardian.UserRuleRead";
-            base.UpdateStoredProcedure = "Guardian.UserRuleUpdate";
+            base.UpdateStoredProcedure = "Guardian.UserRuleInsert";
             base.NumberOfRowsAffectedInUpdate = -1;
         }
 

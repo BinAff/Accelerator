@@ -118,6 +118,10 @@
       <Project>{c8cf309d-21f1-43f7-bb6b-cf78e2b14245}</Project>
       <Name>Autotourism.Configuration.Rule.Facade</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Configuration\Autotourism.Configuration.Rule.WinForm\Autotourism.Configuration.Rule.WinForm.csproj">
+      <Project>{cedce9b6-ef42-4abc-8961-0d97c888e0c1}</Project>
+      <Name>Autotourism.Configuration.Rule.WinForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Customer\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">
       <Project>{2099fb59-6194-4bc7-8ab2-6cabe513082a}</Project>
       <Name>AutoTourism.Customer.Facade</Name>

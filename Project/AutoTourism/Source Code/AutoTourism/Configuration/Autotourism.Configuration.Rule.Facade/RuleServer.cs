@@ -1,11 +1,13 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Transactions;
 
 using BinAff.Core;
+
+using CrystalCustomerRule = Crystal.Customer.Rule;
+using CrystalConfigurationRule = Crystal.Configuration.Rule;
+using CrystalGuardianRule = Crystal.Guardian.Rule;
+
 
 namespace Autotourism.Configuration.Rule.Facade
 {
@@ -37,54 +39,49 @@ namespace Autotourism.Configuration.Rule.Facade
 
         private ReturnObject<CustomerRuleDto> ReadCustomerRule()
         {
-            //ICrud customerCrud = new Crystal.CustomerManagement.Rule.Server(new Crystal.CustomerManagement.Rule.Data() { Id = 1 });
-            //ReturnObject<BinAff.Core.Data> CustomerData = customerCrud.Read();
+            ICrud customerCrud = new CrystalCustomerRule.Server(new CrystalCustomerRule.Data() { Id =1 });           
+            ReturnObject<BinAff.Core.Data> CustomerData = customerCrud.Read();
 
-            //if (CustomerData.HasError())
-            //{
-            //    return new ReturnObject<AutoTourism.Facade.CustomerManagement.Rule.Dto>
-            //    {
-            //        Value = null,
-            //    };
-            //}
+            if (CustomerData.HasError())
+            {
+                return new ReturnObject<CustomerRuleDto>
+                {
+                    Value = null,
+                };
+            }
 
-            //return new ReturnObject<CustomerManagement.Rule.Dto>()
-            //{
-            //    Value = new CustomerManagement.Rule.Dto()
-            //    {
-            //        IsAlternateContactNumber = ((Crystal.CustomerManagement.Rule.Data)CustomerData.Value).IsAlternateContactNumber,
-            //        IsEmail = ((Crystal.CustomerManagement.Rule.Data)CustomerData.Value).IsEmail,
-            //        IsIdentityProof = ((Crystal.CustomerManagement.Rule.Data)CustomerData.Value).IsIdentityProof,
-            //        IsPinNumber = ((Crystal.CustomerManagement.Rule.Data)CustomerData.Value).IsPinNumber,
-            //    }
-            //};
-
-            return new ReturnObject<CustomerRuleDto>();
+            return new ReturnObject<CustomerRuleDto>()
+            {
+                Value = new CustomerRuleDto()
+                {
+                    IsAlternateContactNumber = ((CrystalCustomerRule.Data)CustomerData.Value).IsAlternateContactNumber,
+                    IsEmail = ((CrystalCustomerRule.Data)CustomerData.Value).IsEmail,
+                    IsIdentityProof = ((CrystalCustomerRule.Data)CustomerData.Value).IsIdentityProof,
+                    IsPinNumber = ((CrystalCustomerRule.Data)CustomerData.Value).IsPinNumber,
+                }
+            };
         }
 
         private ReturnObject<UserRuleDto> ReadUserRule()
         {
-            //ICrud userCrud = new Crystal.UserManagement.Rule.Server(new Crystal.UserManagement.Rule.Data() { Id = 1 });
-            //ReturnObject<BinAff.Core.Data> UserData = userCrud.Read();
+            ICrud userCrud = new CrystalGuardianRule.Server(new CrystalGuardianRule.Data { Id = 1 });           
+            ReturnObject<BinAff.Core.Data> UserData = userCrud.Read();
 
-            //if (UserData.HasError())
-            //{
-            //    return new ReturnObject<AutoTourism.Facade.UserManagement.Rule.Dto>
-            //    {
-            //        Value = null,
-            //    };
-            //}
+            if (UserData.HasError())
+            {
+                return new ReturnObject<UserRuleDto>
+                {
+                    Value = null,
+                };
+            }
 
-            //return new ReturnObject<UserManagement.Rule.Dto>()
-            //{
-            //    Value = new UserManagement.Rule.Dto()
-            //    {
-            //        DefaultUserPassword = ((Crystal.UserManagement.Rule.Data)UserData.Value).DefaultUserPassword,
-
-            //    }
-            //};
-
-            return new ReturnObject<UserRuleDto>();
+            return new ReturnObject<UserRuleDto>()
+            {
+                Value = new UserRuleDto()
+                {
+                    DefaultUserPassword = ((CrystalGuardianRule.Data)UserData.Value).DefaultUserPassword,
+                }
+            };
         }
 
         private ReturnObject<TaxRuleDto> ReadTaxRule()
@@ -115,51 +112,50 @@ namespace Autotourism.Configuration.Rule.Facade
 
         private ReturnObject<ConfigurationRuleDto> ReadConfigurationRule()
         {
-            //ICrud congurationfiRuleCrud = new Crystal.Configuration.Rule.Server(new Crystal.Configuration.Rule.Data() { Id = 1 });
-            //ReturnObject<BinAff.Core.Data> RuleData = congurationfiRuleCrud.Read();
+            ICrud congurationfiRuleCrud = new CrystalConfigurationRule.Server(new CrystalConfigurationRule.Data { Id = 1 });            
+            ReturnObject<BinAff.Core.Data> RuleData = congurationfiRuleCrud.Read();
 
-            //if (RuleData.HasError())
-            //{
-            //    return new ReturnObject<AutoTourism.Facade.Configuration.Rule.Dto>
-            //    {
-            //        Value = null,
-            //    };
-            //}
+            if (RuleData.HasError())
+            {
+                return new ReturnObject<ConfigurationRuleDto>
+                {
+                    Value = null,
+                };
+            }
 
-            //return new ReturnObject<AutoTourism.Facade.Configuration.Rule.Dto>()
-            //{
-            //    Value = new AutoTourism.Facade.Configuration.Rule.Dto()
-            //    {
-            //        DateFormat = ((Crystal.Configuration.Rule.Data)RuleData.Value).DateFormat
-            //    }
-            //};
-
-            return new ReturnObject<ConfigurationRuleDto>();
+            return new ReturnObject<ConfigurationRuleDto>()
+            {
+                Value = new ConfigurationRuleDto()
+                {
+                    DateFormat = ((Crystal.Configuration.Rule.Data)RuleData.Value).DateFormat
+                }
+            };
+          
         }
 
         private ReturnObject<Boolean> Save(Dto dto)
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
-            //using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
-            //{
-            //    //save customer rule
-            //    ICrud Crud = new Crystal.CustomerManagement.Rule.Server(new Crystal.CustomerManagement.Rule.Data()
-            //    {
-            //        IsPinNumber = dto.CustomerRule.IsPinNumber,
-            //        IsAlternateContactNumber = dto.CustomerRule.IsAlternateContactNumber,
-            //        IsEmail = dto.CustomerRule.IsEmail,
-            //        IsIdentityProof = dto.CustomerRule.IsIdentityProof
-            //    });
-            //    ret = Crud.Save();
-            //    if (!ret.Value || ret.HasError()) return ret;
+            using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
+            {
+                //save customer rule
+                ICrud Crud = new CrystalCustomerRule.Server(new CrystalCustomerRule.Data()
+                {
+                    IsPinNumber = dto.CustomerRule.IsPinNumber,
+                    IsAlternateContactNumber = dto.CustomerRule.IsAlternateContactNumber,
+                    IsEmail = dto.CustomerRule.IsEmail,
+                    IsIdentityProof = dto.CustomerRule.IsIdentityProof
+                });
+                ret = Crud.Save();
+                if (!ret.Value || ret.HasError()) return ret;
 
-            //    //save user rule
-            //    Crud = new Crystal.UserManagement.Rule.Server(new Crystal.UserManagement.Rule.Data()
-            //    {
-            //        DefaultUserPassword = dto.UserRule.DefaultUserPassword,
-            //    });
-            //    ret = Crud.Save();
-            //    if (!ret.Value || ret.HasError()) return ret;
+                //save user rule
+                Crud = new CrystalGuardianRule.Server(new CrystalGuardianRule.Data()
+                {
+                    DefaultUserPassword = dto.UserRule.DefaultUserPassword,
+                });
+                ret = Crud.Save();
+                if (!ret.Value || ret.HasError()) return ret;
 
             //    //save tax rule
             //    Crud = new Crystal.Invoice.Rule.Server(new Crystal.Invoice.Rule.Data()
@@ -170,15 +166,15 @@ namespace Autotourism.Configuration.Rule.Facade
             //    ret = Crud.Save();
             //    if (!ret.Value || ret.HasError()) return ret;
 
-            //    Crud = new Crystal.Configuration.Rule.Server(new Crystal.Configuration.Rule.Data()
-            //    {
-            //        DateFormat = dto.ConfigurationRule.DateFormat
-            //    });
-            //    ret = Crud.Save();
-            //    if (!ret.Value || ret.HasError()) return ret;
+                Crud = new CrystalConfigurationRule.Server(new CrystalConfigurationRule.Data()
+                {
+                    DateFormat = dto.ConfigurationRule.DateFormat
+                });
+                ret = Crud.Save();
+                if (!ret.Value || ret.HasError()) return ret;
 
-            //    T.Complete();
-            //}
+                T.Complete();
+            }
 
             return ret;
         }
