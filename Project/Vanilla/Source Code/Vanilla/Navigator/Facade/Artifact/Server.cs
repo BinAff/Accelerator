@@ -120,6 +120,7 @@ namespace Vanilla.Navigator.Facade.Artifact
             {
                 FileName = String.IsNullOrEmpty(data.FileName)? "." : data.FileName,
                 Children = new List<Dto>(),
+                Path = data.Path,
             };
             if (data.Children != null && data.Children.Count > 0)
             {

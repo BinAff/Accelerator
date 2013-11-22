@@ -52,7 +52,6 @@ namespace Crystal.Navigator.Component.Artifact
             ReturnObject<List<BinAff.Core.Data>> ret = this.Read(this.ReadArtifactListForMudule());
             //TO DO :: Need to add validation later
             (this.Data as Data).Style = Artifact.Type.Directory;
-            (this.Data as Data).Path = ".";
             this.FormTree(ret.Value);
             return new ReturnObject<Data>
             {
@@ -75,11 +74,12 @@ namespace Crystal.Navigator.Component.Artifact
             //Create root
             List<BinAff.Core.Data> rootList = this.FindRoot(artifactList);
             Data data = this.Data as Data;
+            data.Path = data.Path + moduleSeperator + pathSeperator + pathSeperator + data.FileName + pathSeperator;
             data.Children = new List<BinAff.Core.Data>();
             foreach (Data root in rootList)
             {
                 Int64 currentId = root.Id;
-                root.Path = data.FileName + pathSeperator;
+                root.Path = data.Path + root.FileName + pathSeperator;
                 artifactList.Remove(root);
                 //
 
@@ -96,8 +96,7 @@ namespace Crystal.Navigator.Component.Artifact
                         parent.Children = new List<BinAff.Core.Data>();
                         foreach (Data node in children)
                         {
-                            //node.Path = temp.Style == Type.Directory ? parent.Path + node.Name + Rule.Data.PathSeperator : parent.Path;
-                            node.Path = node.Style == Artifact.Type.Directory ? parent.Path + parent.FileName + pathSeperator : parent.Path;
+                            node.Path += parent.Path + node.FileName + pathSeperator;
                             parent.Children.Add(node);
                             artifactList.Remove(node);
                             dumpList.Add(node);

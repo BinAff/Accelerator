@@ -393,7 +393,7 @@ namespace Vanilla.Navigator.WinForm
                 ((sender as TreeView).SelectedNode.Tag as VanilaModule.Dto).Artifact :
                 (sender as TreeView).SelectedNode.Tag as VanilaArtifact.Dto;
             this.SelectNode(selectedNode);
-            this.txtAddress.Text = this.tbcCategory.TabPages[0].Text + ":\\\\" + selectedNode.Path + selectedNode.fileName + "\\";
+            this.txtAddress.Text = selectedNode.Path;
         }
 
         private void SelectNode(VanilaArtifact.Dto selectedNode)
@@ -443,6 +443,7 @@ namespace Vanilla.Navigator.WinForm
             if (currentArtifact.Style == VanilaArtifact.Type.Directory)
             {
                 this.SelectNode(currentArtifact);
+                this.txtAddress.Text = currentArtifact.Path;
             }
             else
             {

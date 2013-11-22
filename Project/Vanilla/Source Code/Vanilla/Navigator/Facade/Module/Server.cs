@@ -122,6 +122,7 @@ namespace Vanilla.Navigator.Facade.Module
             Helper helper = this.GetObjects(module);
             artifactServer.ModuleFacade = helper.ModuleFacade;
             ((helper.Artifact as CrystalArtifact.Server).Data as CrystalArtifact.Data).Category = this.Convert(category);
+            ((helper.Artifact as CrystalArtifact.Server).Data as CrystalArtifact.Data).Path = category.ToString();
             return artifactServer.GetTree(helper.Artifact);
         }
 
