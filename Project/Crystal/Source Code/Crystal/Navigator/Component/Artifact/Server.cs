@@ -79,7 +79,7 @@ namespace Crystal.Navigator.Component.Artifact
             foreach (Data root in rootList)
             {
                 Int64 currentId = root.Id;
-                root.Path = data.FileName + moduleSeperator;
+                root.Path = data.FileName + pathSeperator;
                 artifactList.Remove(root);
                 //
 
@@ -97,7 +97,7 @@ namespace Crystal.Navigator.Component.Artifact
                         foreach (Data node in children)
                         {
                             //node.Path = temp.Style == Type.Directory ? parent.Path + node.Name + Rule.Data.PathSeperator : parent.Path;
-                            node.Path = node.Style == Artifact.Type.Directory ? parent.Path + node.FileName + pathSeperator : parent.Path;
+                            node.Path = node.Style == Artifact.Type.Directory ? parent.Path + parent.FileName + pathSeperator : parent.Path;
                             parent.Children.Add(node);
                             artifactList.Remove(node);
                             dumpList.Add(node);
