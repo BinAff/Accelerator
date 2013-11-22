@@ -8,6 +8,7 @@ using BinAff.Utility;
 
 using CustomerFacade = AutoTourism.Customer.Facade;
 using PresentationLibrary = BinAff.Presentation.Library;
+using ConfigurationRuleFacade = Autotourism.Configuration.Rule.Facade;
 
 
 namespace AutoTourism.Customer.WinForm
@@ -19,7 +20,7 @@ namespace AutoTourism.Customer.WinForm
         private System.Drawing.Color MandatoryColor = System.Drawing.Color.FromArgb(255, 255, 240, 240);
 
         private CustomerFacade.Dto customerDto;
-        //private AutoTourism.Facade.CustomerManagement.Rule.Dto customerRule;
+        private ConfigurationRuleFacade.CustomerRuleDto customerRule;
 
         #region Rule property
 
@@ -88,6 +89,16 @@ namespace AutoTourism.Customer.WinForm
         public CustomerForm()
         {
             InitializeComponent();
+
+            this.customerRule = new ConfigurationRuleFacade.CustomerRuleDto
+            {
+                IsAlternateContactNumber = false,
+                IsEmail = false,
+                IsIdentityProof = false,
+                IsPinNumber = false
+            };
+
+            SetMandatoryRule();
         }
 
         //public CustomerForm(Dto dto, AutoTourism.Facade.CustomerManagement.Rule.Dto customerRuleDto)
@@ -103,16 +114,18 @@ namespace AutoTourism.Customer.WinForm
         {
             InitializeComponent();
             this.customerDto = data;
+                       
+            SetMandatoryRule();
         }
 
         #endregion
 
         private void SetMandatoryRule()
         {
-            //this.IsPinNumberMandatory = this.customerRule.IsPinNumber;
-            //this.IsEmailMandatory = this.customerRule.IsEmail;
-            //this.IsIdentityMandatory = this.customerRule.IsIdentityProof;
-            //this.IsAlternateContactNoMandatory = this.customerRule.IsAlternateContactNumber;
+            this.IsPinNumberMandatory = this.customerRule.IsPinNumber;
+            this.IsEmailMandatory = this.customerRule.IsEmail;
+            this.IsIdentityMandatory = this.customerRule.IsIdentityProof;
+            this.IsAlternateContactNoMandatory = this.customerRule.IsAlternateContactNumber;          
         }
 
         private void CustomerForm_Load(object sender, System.EventArgs e)
@@ -254,27 +267,6 @@ namespace AutoTourism.Customer.WinForm
         
         private void LoadForm()
         {
-            //CustomerFacade.ICustomer customer = new CustomerFacade.CustomerServer();
-            //ReturnObject<CustomerFacade.FormDto> ret = customer.LoadForm();
-
-            //if (ret.Value.InitialList != null && ret.Value.InitialList.Count > 0)
-            //{
-            //    //Populate Initial List
-            //    this.cboInitial.DataSource = ret.Value.InitialList;
-            //    this.cboInitial.DisplayMember = "Name";
-            //    this.cboInitial.ValueMember = "Id";
-            //    this.cboInitial.SelectedIndex = -1;
-            //}
-
-            //if (ret.Value.StateList != null && ret.Value.StateList.Count > 0)
-            //{
-            //    //Populate State List
-            //    this.cboState.DataSource = ret.Value.StateList;
-            //    this.cboState.DisplayMember = "Name";
-            //    this.cboState.ValueMember = "Id";
-            //    this.cboState.SelectedIndex = -1;
-            //}
-
             CustomerFacade.FormDto formDto = new CustomerFacade.FormDto();
             BinAff.Facade.Library.Server facade = new CustomerFacade.Server(formDto);
             facade.LoadForm();

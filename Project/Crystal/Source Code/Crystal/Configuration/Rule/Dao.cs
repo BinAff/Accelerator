@@ -13,9 +13,10 @@ namespace Crystal.Configuration.Rule
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "RuleConfigurationInsert";
+            base.CreateStoredProcedure = "Configuration.RuleInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "RuleConfigurationRead";
+            base.ReadStoredProcedure = "Configuration.RuleRead";
+            //base.ReadStoredProcedure = "RuleConfigurationRead";
             base.UpdateStoredProcedure = "RuleConfigurationUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
         }
