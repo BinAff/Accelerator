@@ -68,11 +68,11 @@ namespace Crystal.Customer.Component
             //        }
             //    }
             //}
-            ReturnObject<Boolean> ret = new ReturnObject<Boolean>
+
+            return new ReturnObject<Boolean>
             {
                 MessageList = GenerateMessageForDependency(),
             };
-            return ret;
         }
 
         protected virtual List<Message> GenerateMessageForDependency()
