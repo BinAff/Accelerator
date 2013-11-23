@@ -49,15 +49,27 @@ namespace Crystal.Customer.Component
         protected override ReturnObject<Boolean> DeleteBefore()
         {
             //If there is any characteristics attached with customer, it cannot be deleted
-            if ((this.Data as Data).CharacteristicList != null && (this.Data as Data).CharacteristicList.Count == 0)
-                return new ReturnObject<Boolean> { Value = true, };
-            return new ReturnObject<Boolean>
+            //if ((this.Data as Data).CharacteristicList != null && (this.Data as Data).CharacteristicList.Count == 0)
+            //    return new ReturnObject<Boolean> { Value = true, };
+
+            if ((this.Data as Data).CharacteristicList != null && (this.Data as Data).CharacteristicList.Count > 0)
             {
-                MessageList = new List<Message>
+                foreach (Characteristic.Data data in (this.Data as Data).CharacteristicList)
                 {
-                    new Message("Customer has some transactions. Cannot be deleted.", Message.Type.Error),
-                },
-            };
+                    if (data.AllList != null && data.AllList.Count > 0)
+                    {
+                        return new ReturnObject<Boolean>
+                        {
+                            MessageList = new List<Message>
+                            {
+                                new Message("Customer has some transactions. Cannot be deleted.", Message.Type.Error),
+                            },
+                        };
+                    }
+                }
+            }
+
+            return new ReturnObject<Boolean> { Value = true, };
         }
         
         protected override ReturnObject<Boolean> IsSubjectDeletable(BinAff.Core.Data subject)
