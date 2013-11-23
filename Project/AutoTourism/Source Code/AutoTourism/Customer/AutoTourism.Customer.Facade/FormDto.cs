@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using BinAff.Core;
+using RuleFacade = Autotourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Customer.Facade
 {
@@ -9,6 +10,7 @@ namespace AutoTourism.Customer.Facade
     {
 
         public Dto Dto { get; set;}
+        public RuleFacade.CustomerRuleDto customerRuleDto { get; set; }
         public List<Dto> DtoList { get; set; }
 
         public List<Table> InitialList { get; set; }

@@ -37,7 +37,7 @@ namespace Autotourism.Configuration.Rule.Facade
             return this.Save(dto);
         }
 
-        private ReturnObject<CustomerRuleDto> ReadCustomerRule()
+        public ReturnObject<CustomerRuleDto> ReadCustomerRule()
         {
             ICrud customerCrud = new CrystalCustomerRule.Server(new CrystalCustomerRule.Data() { Id =1 });           
             ReturnObject<BinAff.Core.Data> CustomerData = customerCrud.Read();
@@ -62,7 +62,7 @@ namespace Autotourism.Configuration.Rule.Facade
             };
         }
 
-        private ReturnObject<UserRuleDto> ReadUserRule()
+        public ReturnObject<UserRuleDto> ReadUserRule()
         {
             ICrud userCrud = new CrystalGuardianRule.Server(new CrystalGuardianRule.Data { Id = 1 });           
             ReturnObject<BinAff.Core.Data> UserData = userCrud.Read();
@@ -84,7 +84,7 @@ namespace Autotourism.Configuration.Rule.Facade
             };
         }
 
-        private ReturnObject<TaxRuleDto> ReadTaxRule()
+        public ReturnObject<TaxRuleDto> ReadTaxRule()
         {
             //ICrud taxRuleCrud = new Crystal.Invoice.Rule.Server(new Crystal.Invoice.Rule.Data() { Id = 1 });
             //ReturnObject<BinAff.Core.Data> RuleData = taxRuleCrud.Read();

@@ -89,33 +89,12 @@ namespace AutoTourism.Customer.WinForm
         public CustomerForm()
         {
             InitializeComponent();
-
-            this.customerRule = new ConfigurationRuleFacade.CustomerRuleDto
-            {
-                IsAlternateContactNumber = false,
-                IsEmail = false,
-                IsIdentityProof = false,
-                IsPinNumber = false
-            };
-
-            SetMandatoryRule();
         }
-
-        //public CustomerForm(Dto dto, AutoTourism.Facade.CustomerManagement.Rule.Dto customerRuleDto)
-        //{
-        //    InitializeComponent();
-        //    this.customerDto = dto;
-        //    this.customerRule = customerRuleDto;
-
-        //    SetMandatoryRule();
-        //}
-
+      
         public CustomerForm(CustomerFacade.Dto data)
         {
             InitializeComponent();
-            this.customerDto = data;
-                       
-            SetMandatoryRule();
+            this.customerDto = data;   
         }
 
         #endregion
@@ -270,6 +249,10 @@ namespace AutoTourism.Customer.WinForm
             CustomerFacade.FormDto formDto = new CustomerFacade.FormDto();
             BinAff.Facade.Library.Server facade = new CustomerFacade.Server(formDto);
             facade.LoadForm();
+
+            this.customerRule = formDto.customerRuleDto;
+            SetMandatoryRule();
+
             if (formDto.IdentityProofTypeList != null && formDto.IdentityProofTypeList.Count > 0)
             {
                 //Populate IdentityProof List
