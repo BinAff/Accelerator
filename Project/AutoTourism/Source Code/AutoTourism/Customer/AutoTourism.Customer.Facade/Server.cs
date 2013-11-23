@@ -1,12 +1,12 @@
 ﻿using BinAff.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using AutotourismComponent = Autotourism.Component.Customer;
 using CustomerComponent = Crystal.Customer.Component;
 using LodgeComponent = Crystal.Lodge.Component;
 using ConfigurationComponent = Crystal.Configuration.Component;
+using RuleFacade = Autotourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Customer.Facade
 {
@@ -27,6 +27,7 @@ namespace AutoTourism.Customer.Facade
             formDto.StateList = this.ReadAllState().Value;
             formDto.IdentityProofTypeList = this.ReadAllIdentityProof().Value;
             formDto.DtoList = this.ReadAllCustomer().Value;
+            formDto.customerRuleDto = this.ReadCustomerRule().Value;
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
@@ -314,6 +315,11 @@ namespace AutoTourism.Customer.Facade
             }
 
             return ret;
+        }
+
+        private ReturnObject<RuleFacade.CustomerRuleDto> ReadCustomerRule()
+        {
+            return new RuleFacade.RuleServer().ReadCustomerRule();            
         }
 
     }
