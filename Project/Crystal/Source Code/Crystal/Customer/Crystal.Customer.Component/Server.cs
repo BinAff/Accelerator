@@ -49,27 +49,35 @@ namespace Crystal.Customer.Component
         protected override ReturnObject<Boolean> DeleteBefore()
         {
             //If there is any characteristics attached with customer, it cannot be deleted
-            //if ((this.Data as Data).CharacteristicList != null && (this.Data as Data).CharacteristicList.Count == 0)
-            //    return new ReturnObject<Boolean> { Value = true, };
+            if ((this.Data as Data).CharacteristicList != null && (this.Data as Data).CharacteristicList.Count == 0)
+                return new ReturnObject<Boolean> { Value = true, };
 
-            if ((this.Data as Data).CharacteristicList != null && (this.Data as Data).CharacteristicList.Count > 0)
+            //if ((this.Data as Data).CharacteristicList != null && (this.Data as Data).CharacteristicList.Count > 0)
+            //{
+            //    foreach (Characteristic.Data data in (this.Data as Data).CharacteristicList)
+            //    {
+            //        if (data.AllList != null && data.AllList.Count > 0)
+            //        {
+            //            return new ReturnObject<Boolean>
+            //            {
+            //                MessageList = new List<Message>
+            //                {
+            //                    new Message("Customer has some transactions. Cannot be deleted.", Message.Type.Error),
+            //                },
+            //            };
+            //        }
+            //    }
+            //}
+            ReturnObject<Boolean> ret = new ReturnObject<Boolean>
             {
-                foreach (Characteristic.Data data in (this.Data as Data).CharacteristicList)
-                {
-                    if (data.AllList != null && data.AllList.Count > 0)
-                    {
-                        return new ReturnObject<Boolean>
-                        {
-                            MessageList = new List<Message>
-                            {
-                                new Message("Customer has some transactions. Cannot be deleted.", Message.Type.Error),
-                            },
-                        };
-                    }
-                }
-            }
+                MessageList = GenerateMessageForDependency(),
+            };
+            return ret;
+        }
 
-            return new ReturnObject<Boolean> { Value = true, };
+        protected virtual List<Message> GenerateMessageForDependency()
+        {
+            throw new NotImplementedException();
         }
         
         protected override ReturnObject<Boolean> IsSubjectDeletable(BinAff.Core.Data subject)
