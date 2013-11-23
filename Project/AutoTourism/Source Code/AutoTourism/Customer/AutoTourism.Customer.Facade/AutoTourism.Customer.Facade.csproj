@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="Dto.cs" />
     <Compile Include="FormDto.cs" />
-    <Compile Include="ICustomer.cs" />
     <Compile Include="Lodge\Building\Dto.cs" />
     <Compile Include="Lodge\Reservation\Dto.cs" />
     <Compile Include="Lodge\Room\Dto.cs" />
