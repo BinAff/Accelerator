@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Container));
             this.pnlMain = new System.Windows.Forms.SplitContainer();
             this.tbcCategory = new System.Windows.Forms.TabControl();
             this.tbpForm = new System.Windows.Forms.TabPage();
@@ -54,6 +55,8 @@
             this.cmsExplorer = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imglIcons = new System.Windows.Forms.ImageList(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).BeginInit();
             this.pnlMain.Panel1.SuspendLayout();
             this.pnlMain.Panel2.SuspendLayout();
@@ -116,9 +119,13 @@
             // trvForm
             // 
             this.trvForm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trvForm.ImageKey = "Directory.png";
+            this.trvForm.ImageList = this.imglIcons;
             this.trvForm.Location = new System.Drawing.Point(3, 3);
             this.trvForm.Name = "trvForm";
+            this.trvForm.SelectedImageKey = "DirectoryOpen.png";
             this.trvForm.Size = new System.Drawing.Size(161, 312);
+            this.trvForm.StateImageList = this.imglIcons;
             this.trvForm.TabIndex = 6;
             this.trvForm.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvArtifact_AfterLabelEdit);
             this.trvForm.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvArtifact_AfterSelect);
@@ -267,9 +274,13 @@
             // lstViewContainer
             // 
             this.lstViewContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstViewContainer.FullRowSelect = true;
+            this.lstViewContainer.LargeImageList = this.imglIcons;
             this.lstViewContainer.Location = new System.Drawing.Point(0, 0);
             this.lstViewContainer.Name = "lstViewContainer";
             this.lstViewContainer.Size = new System.Drawing.Size(404, 344);
+            this.lstViewContainer.SmallImageList = this.imglIcons;
+            this.lstViewContainer.StateImageList = this.imglIcons;
             this.lstViewContainer.TabIndex = 1;
             this.lstViewContainer.UseCompatibleStateImageBehavior = false;
             this.lstViewContainer.View = System.Windows.Forms.View.Details;
@@ -345,9 +356,10 @@
             // cmsExplorer
             // 
             this.cmsExplorer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem});
+            this.newToolStripMenuItem,
+            this.deleteToolStripMenuItem});
             this.cmsExplorer.Name = "cmsExplorer";
-            this.cmsExplorer.Size = new System.Drawing.Size(96, 26);
+            this.cmsExplorer.Size = new System.Drawing.Size(106, 48);
             // 
             // newToolStripMenuItem
             // 
@@ -363,6 +375,20 @@
             this.folderToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.folderToolStripMenuItem.Text = "Folder";
             this.folderToolStripMenuItem.Click += new System.EventHandler(this.folderToolStripMenuItem_Click);
+            // 
+            // imglIcons
+            // 
+            this.imglIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imglIcons.ImageStream")));
+            this.imglIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.imglIcons.Images.SetKeyName(0, "Directory.png");
+            this.imglIcons.Images.SetKeyName(1, "DirectoryOpen.png");
+            this.imglIcons.Images.SetKeyName(2, "Document.png");
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
             // 
             // Container
             // 
@@ -418,6 +444,8 @@
         private System.Windows.Forms.ToolStripMenuItem folderToolStripMenuItem;
         private System.Windows.Forms.TreeView trvCatalogue;
         private System.Windows.Forms.TreeView trvReport;
+        private System.Windows.Forms.ImageList imglIcons;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
 
     }
 }

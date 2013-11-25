@@ -427,11 +427,12 @@ namespace Vanilla.Navigator.WinForm
         private void InitializeListView()
         {
             this.lstViewContainer.Columns.Add("Name", 300);
-            this.lstViewContainer.Columns.Add("Type", 200);
+            this.lstViewContainer.Columns.Add("Type", 70);
+            this.lstViewContainer.Columns.Add("Version", 50);
             this.lstViewContainer.Columns.Add("Created By", 200);
-            this.lstViewContainer.Columns.Add("Created At", 200);
+            this.lstViewContainer.Columns.Add("Created At", 115);
             this.lstViewContainer.Columns.Add("Modified By", 200);
-            this.lstViewContainer.Columns.Add("Modified At", 200);
+            this.lstViewContainer.Columns.Add("Modified At", 115);
         }
 
         private void SelectNode(VanilaArtifact.Dto selectedNode)
@@ -445,34 +446,43 @@ namespace Vanilla.Navigator.WinForm
                     {
                         Text = artifact.FileName,
                         Tag = artifact,
+                        ImageIndex = artifact.Style == VanilaArtifact.Type.Directory ? 0 : 2,
                     };
-                    current.SubItems.AddRange(new ListViewItem.ListViewSubItem[]
-                        {   
-                            new ListViewItem.ListViewSubItem(current, "Type")
-                            {
-                                Text = artifact.Style.ToString(),
-                            },
-                            new ListViewItem.ListViewSubItem(current, "Created By")
-                            {
-                                Text = (artifact.CreatedBy as BinAff.Core.Table).Name,
-                            },
-                            new ListViewItem.ListViewSubItem(current, "Created At")
-                            {
-                                Text = artifact.CreatedAt.ToString(),
-                            },
-                            new ListViewItem.ListViewSubItem(current, "Modified By")
-                            {
-                                Text = artifact.ModifiedBy == null ? String.Empty : (artifact.ModifiedBy as BinAff.Core.Table).Name,
-                            },
-                            new ListViewItem.ListViewSubItem(current, "Modified At")
-                            {
-                                Text = artifact.ModifiedAt == DateTime.MinValue? String.Empty : artifact.ModifiedAt.ToString(),
-                            },
-                        }
-                    );
+                    current.SubItems.AddRange(this.AddListViewSubItems(current,artifact));
                     this.lstViewContainer.Items.Add(current);
                 }
             }
+        }
+
+        private ListViewItem.ListViewSubItem[] AddListViewSubItems(ListViewItem node, VanilaArtifact.Dto artifact)
+        {
+            return new ListViewItem.ListViewSubItem[]
+            {   
+                new ListViewItem.ListViewSubItem(node, "Type")
+                {
+                    Text = artifact.Style.ToString(),
+                },
+                new ListViewItem.ListViewSubItem(node, "Version")
+                {
+                    Text = artifact.Version.ToString(),
+                },
+                new ListViewItem.ListViewSubItem(node, "Created By")
+                {
+                    Text = (artifact.CreatedBy as BinAff.Core.Table).Name,
+                },
+                new ListViewItem.ListViewSubItem(node, "Created At")
+                {
+                    Text = artifact.CreatedAt.ToString(),
+                },
+                new ListViewItem.ListViewSubItem(node, "Modified By")
+                {
+                    Text = artifact.ModifiedBy == null ? String.Empty : (artifact.ModifiedBy as BinAff.Core.Table).Name,
+                },
+                new ListViewItem.ListViewSubItem(node, "Modified At")
+                {
+                    Text = artifact.ModifiedAt == DateTime.MinValue? String.Empty : artifact.ModifiedAt.ToString(),
+                },
+            };
         }
 
         private void lstViewContainer_DoubleClick(object sender, EventArgs e)
@@ -482,7 +492,6 @@ namespace Vanilla.Navigator.WinForm
             {
                 this.SelectNode(currentArtifact);
                 this.txtAddress.Text = currentArtifact.Path;
-
             }
             else
             {
