@@ -20,11 +20,7 @@ namespace Vanilla.Navigator.WinForm
         private VanilaContainer.Server facade;
         Hashtable hashTreeView = new Hashtable();
         VanilaModule.Dto moduleDto;
-
-        //Boolean isFormLoaded = false;
-        //Boolean isCatalogueLoaded = false;
-        //Boolean isReportLoaded = false;
-
+       
         public Container()
         {
             InitializeComponent();
@@ -158,12 +154,13 @@ namespace Vanilla.Navigator.WinForm
             if (e.Button == MouseButtons.Right)
             {
                 ToolStripMenuItem menuItem = cmsExplorer.Items[0] as ToolStripMenuItem;
-                if (current.SelectedNode != null)
+                if (current.SelectedNode != null) //check whether right click is done on tree node
                 {
                     if (menuItem.DropDownItems.Count > 1)
                         menuItem.DropDownItems[1].Text = tbcCategory.SelectedTab.Text;
                     else
                     {
+                        //add new item in context menu [Form, catalog, report]
                         ToolStripMenuItem newItem = new ToolStripMenuItem
                         {
                             Text = tbcCategory.SelectedTab.Text,
@@ -179,6 +176,38 @@ namespace Vanilla.Navigator.WinForm
                 TreeNodeMouseDown(current.SelectedNode);
             }
         }
+        
+        private void lstViewContainer_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                TreeView current = new TreeView();
+                ToolStripMenuItem newItem;
+                ListViewItem selectedItem = lstViewContainer.GetItemAt(e.X, e.Y);
+
+                //clear all contextStripMenu items
+                cmsExplorer.Items.Clear();  
+
+                if (selectedItem == null) //not right clicked on any item
+                {
+                    newItem = new ToolStripMenuItem { Text = "New" };
+                    newItem.DropDownItems.Insert(0, new ToolStripMenuItem { Text = "Folder" });
+                    newItem.DropDownItems[0].Click += ListViewFolder_Click;
+                    newItem.DropDownItems.Insert(1, new ToolStripMenuItem { Text = tbcCategory.SelectedTab.Text });
+                    newItem.DropDownItems[1].Click += ListViewDocument_Click;
+                  
+                }
+                else //right click on list item
+                {
+                    newItem = new ToolStripMenuItem { Text = "Delete" };
+                    newItem.Click += ListViewDelete_Click;
+                }
+
+                cmsExplorer.Items.Insert(0, newItem);   
+                cmsExplorer.Show(Cursor.Position);
+            }
+        }
+                      
 
         private void trvArtifact_KeyUp(object sender, KeyEventArgs e)
         {
@@ -523,6 +552,38 @@ namespace Vanilla.Navigator.WinForm
             this.txtAddress.Text = selectedNode.Path;
             moduleDto = this.FindRootNode((sender as TreeView).SelectedNode).Tag as VanilaModule.Dto;
         }
+              
+        private void lstViewContainer_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
+        {
+            //foreach (ListViewItem lstItem in (sender as ListView).Items)
+            //{
+            //    lstItem.BackColor = System.Drawing.Color.FromArgb(255, 255, 255, 255);
+            //}
+
+            //e.Item.BackColor = System.Drawing.Color.LightBlue;
+        }
+
+        #region ListView Context menu events
+        private void ListViewFolder_Click(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void ListViewDocument_Click(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void ListViewDelete_Click(object sender, EventArgs e)
+        {
+            ListViewItem selectedItem = lstViewContainer.SelectedItems[0];
+            if (selectedItem != null)
+            {
+                Facade.Artifact.Dto artifactDto = selectedItem.Tag as Facade.Artifact.Dto;
+                
+            }
+        }
+        #endregion
 
     }
 
