@@ -34,6 +34,7 @@
             this.tbcCategory = new System.Windows.Forms.TabControl();
             this.tbpForm = new System.Windows.Forms.TabPage();
             this.trvForm = new System.Windows.Forms.TreeView();
+            this.imglIcons = new System.Windows.Forms.ImageList(this.components);
             this.tbpCatalogue = new System.Windows.Forms.TabPage();
             this.trvCatalogue = new System.Windows.Forms.TreeView();
             this.tbpReport = new System.Windows.Forms.TabPage();
@@ -55,7 +56,6 @@
             this.cmsExplorer = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.imglIcons = new System.Windows.Forms.ImageList(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).BeginInit();
             this.pnlMain.Panel1.SuspendLayout();
@@ -132,6 +132,14 @@
             this.trvForm.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvForm_NodeMouseClick);
             this.trvForm.KeyUp += new System.Windows.Forms.KeyEventHandler(this.trvArtifact_KeyUp);
             this.trvForm.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvArtifact_MouseDown);
+            // 
+            // imglIcons
+            // 
+            this.imglIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imglIcons.ImageStream")));
+            this.imglIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.imglIcons.Images.SetKeyName(0, "Directory.png");
+            this.imglIcons.Images.SetKeyName(1, "DirectoryOpen.png");
+            this.imglIcons.Images.SetKeyName(2, "Document.png");
             // 
             // tbpCatalogue
             // 
@@ -285,8 +293,10 @@
             this.lstViewContainer.UseCompatibleStateImageBehavior = false;
             this.lstViewContainer.View = System.Windows.Forms.View.Details;
             this.lstViewContainer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lstViewContainer_AfterLabelEdit);
+            this.lstViewContainer.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.lstViewContainer_ItemMouseHover);
             this.lstViewContainer.DoubleClick += new System.EventHandler(this.lstViewContainer_DoubleClick);
             this.lstViewContainer.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstViewContainer_KeyUp);
+            this.lstViewContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstViewContainer_MouseDown);            
             // 
             // lblAudit
             // 
@@ -359,35 +369,27 @@
             this.newToolStripMenuItem,
             this.deleteToolStripMenuItem});
             this.cmsExplorer.Name = "cmsExplorer";
-            this.cmsExplorer.Size = new System.Drawing.Size(106, 48);
+            this.cmsExplorer.Size = new System.Drawing.Size(108, 48);
             // 
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.folderToolStripMenuItem});
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.newToolStripMenuItem.Text = "New";
             // 
             // folderToolStripMenuItem
             // 
             this.folderToolStripMenuItem.Name = "folderToolStripMenuItem";
-            this.folderToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.folderToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.folderToolStripMenuItem.Text = "Folder";
             this.folderToolStripMenuItem.Click += new System.EventHandler(this.folderToolStripMenuItem_Click);
-            // 
-            // imglIcons
-            // 
-            this.imglIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imglIcons.ImageStream")));
-            this.imglIcons.TransparentColor = System.Drawing.Color.Transparent;
-            this.imglIcons.Images.SetKeyName(0, "Directory.png");
-            this.imglIcons.Images.SetKeyName(1, "DirectoryOpen.png");
-            this.imglIcons.Images.SetKeyName(2, "Document.png");
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             // 
             // Container
