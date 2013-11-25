@@ -100,6 +100,11 @@ namespace Vanilla.Navigator.Facade.Container
 
         }
 
+        public ReturnObject<bool> Delete()
+        {
+            return new ReturnObject<bool>();
+        }
+
     }
 
 }
