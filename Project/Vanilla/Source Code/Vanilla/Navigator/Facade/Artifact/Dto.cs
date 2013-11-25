@@ -210,8 +210,8 @@ namespace Vanilla.Navigator.Facade.Artifact
             }
         }
 
-        private Dto parent;
-        public Dto Parent
+        private BinAff.Facade.Library.Dto parent;
+        public BinAff.Facade.Library.Dto Parent
         {
             get
             {

@@ -3,8 +3,8 @@
 
     public enum Type
     {
-        Document,
-        Directory
+        Document = 2,
+        Directory = 1
     }
 
 }

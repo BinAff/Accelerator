@@ -60,6 +60,10 @@
       <Project>{1C4FAAB4-7CE4-4A10-9600-855A984B0805}</Project>
       <Name>Crystal.Guardian.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\License\Crystal.License\Crystal.License.csproj">
+      <Project>{05dedcc9-9d79-4f0e-a869-8c6f880a13b8}</Project>
+      <Name>Crystal.License</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Rule\Crystal.Navigator.Rule.csproj">
       <Project>{A42C45CD-FFBB-425E-A5D8-540B365D97BB}</Project>
       <Name>Crystal.Navigator.Rule</Name>

@@ -49,14 +49,17 @@ namespace Vanilla.Navigator.Facade.Module
 
         public override BinAff.Facade.Library.Dto Convert(Data data)
         {
-            Module.Dto ret = new Module.Dto
+            Dto dto = new Module.Dto
             {
                 Id = data.Id,
                 Code = (data as Crystal.License.Module.Data).Code,
                 Name = (data as Crystal.License.Module.Data).Name,
             };
-            ret.Artifact = this.GetTree(ret, this.currentGroup);//mistake
-            return ret;
+
+            dto.Artifact = this.GetTree(dto, this.currentGroup);//mistake
+            dto.ComponentFormType = new Helper(dto).ModuleFormType;
+
+            return dto;
         }
 
         public override Data Convert(BinAff.Facade.Library.Dto dto)
@@ -69,61 +72,37 @@ namespace Vanilla.Navigator.Facade.Module
             };
         }
 
-        private Helper GetObjects(Dto module)
-        {
-            Helper helper = new Helper();
-            switch (module.Code)
-            {
-                case "CUST":
-                    helper.FormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
-
-                    Type type = Type.GetType("Autotourism.Component.Customer.Navigator.Artifact.Data, Autotourism.Component.Customer", true);
-                    CrystalArtifact.Data data = Activator.CreateInstance(type) as CrystalArtifact.Data;
-                    type.GetProperty("FileName").SetValue(data, "Customer", null);
-                    type.GetProperty("ModuleData").SetValue(data, this.Convert(module), null);
-
-                    type = Type.GetType("Autotourism.Component.Customer.Navigator.Artifact.Server, Autotourism.Component.Customer", true);
-                    helper.Artifact = Activator.CreateInstance(type, data) as CrystalArtifact.IArtifact;
-
-                    //Some problem, objects are not getting instantiated -- Arpan
-                    //type = Type.GetType("AutoTourism.Customer.Facade.FormDto, AutoTourism.Customer.Facade", true);
-                    //BinAff.Facade.Library.FormDto formDto = Activator.CreateInstance(type) as BinAff.Facade.Library.FormDto;
-                    //type = Type.GetType("AutoTourism.Customer.Facade.Server, AutoTourism.Customer.Facade", true);
-                    //helper.ModuleFacade = Activator.CreateInstance(type, formDto) as Module.Server;
-                    helper.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
-                    break;
-
-                case "LRSV"://Need to change
-                    helper.FormType = "AutoTourism.Lodge.WinForm.Lodge, AutoTourism.Lodge.WinForm";
-                    helper.Artifact = new AutotourismCustomerArtifact.Server(new AutotourismCustomerArtifact.Data
-                    {
-                        FileName = "Lodge Reservation",
-                        ModuleData = this.Convert(module),
-                    } as AutotourismCustomerArtifact.Data);
-                    helper.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
-                    break;
-
-                default:
-                    helper.FormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
-                    helper.Artifact = new AutotourismCustomerArtifact.Server(new AutotourismCustomerArtifact.Data
-                    {
-                        FileName = "Customer",
-                        ModuleData = this.Convert(module),
-                    } as AutotourismCustomerArtifact.Data);
-                    helper.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
-                    break;
-            }
-            return helper;
-        }
-
         public Artifact.Dto GetTree(Dto module, Artifact.Category category)
         {
             Artifact.Server artifactServer = new Artifact.Server(null);
-            Helper helper = this.GetObjects(module);
+            Helper helper = new Helper(module);
             artifactServer.ModuleFacade = helper.ModuleFacade;
-            ((helper.Artifact as CrystalArtifact.Server).Data as CrystalArtifact.Data).Category = this.Convert(category);
-            ((helper.Artifact as CrystalArtifact.Server).Data as CrystalArtifact.Data).Path = category.ToString();
+            CrystalArtifact.Data artifactData = (helper.Artifact as CrystalArtifact.Server).Data as CrystalArtifact.Data;
+            artifactData.Category = this.Convert(category);
+            artifactData.Path = category.ToString();
+            artifactData.ModuleDefinition = this.Convert(module) as Crystal.License.Module.Data;
             return artifactServer.GetTree(helper.Artifact);
+        }
+
+        public void Add()
+        {
+            Dto moduleDefDto = (this.FormDto as FormDto).Dto;
+            Artifact.Server artifactServer = new Artifact.Server(new Artifact.FormDto
+            {
+                Dto = moduleDefDto.Artifact
+            });
+
+            Helper helper = new Helper((this.FormDto as FormDto).Dto);
+            helper.ArtifactData = artifactServer.Convert(moduleDefDto.Artifact, helper.ArtifactData as CrystalArtifact.Data);
+            helper.ModuleData.Id = moduleDefDto.Artifact.Module.Id;
+            (helper.ArtifactData as CrystalArtifact.Data).ModuleDefinition = this.Convert((this.FormDto as FormDto).Dto) as Crystal.License.Module.Data;
+
+            artifactServer.ModuleArtifactComponent = helper.ArtifactComponent;
+            artifactServer.ModuleFacade = helper.ModuleFacade;
+            artifactServer.Add();
+
+            this.DisplayMessageList = artifactServer.DisplayMessageList;
+            this.IsError = artifactServer.IsError;
         }
 
         private CrystalArtifact.Category Convert(Artifact.Category category)
@@ -145,6 +124,12 @@ namespace Vanilla.Navigator.Facade.Module
                     break;
             }
             return ret;
+        }
+
+        public BinAff.Facade.Library.Dto InstantiateDto(Module.Dto dto)
+        {
+            Type typeDto = Type.GetType(new Helper(dto).ModuleFormDtoType, true);
+            return Activator.CreateInstance(typeDto) as BinAff.Facade.Library.Dto;
         }
 
     }

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Vanilla.Navigator.Facade.Artifact
+﻿namespace Vanilla.Navigator.Facade.Artifact
 {
+
     public class FormDto : BinAff.Facade.Library.FormDto
     {
-        public Dto artifactDto { get; set; }
+
+        public Dto Dto { get; set; }
+
     }
+
 }

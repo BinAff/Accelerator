@@ -58,6 +58,8 @@ namespace Crystal.Navigator.Component.Artifact
 
         public BinAff.Core.Data ModuleData { get; set; }
 
+        public Crystal.License.Module.Data ModuleDefinition { get; set; }
+
         public Category Category { get; set; }
 
     }

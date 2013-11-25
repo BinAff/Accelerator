@@ -1,5 +1,7 @@
 ﻿using BinAff.Core;
 
+using VanilaModule = Vanilla.Navigator.Facade.Module;
+
 namespace Vanilla.Navigator.Facade.Container
 {
 
@@ -14,7 +16,7 @@ namespace Vanilla.Navigator.Facade.Container
 
         public override void LoadForm()
         {
-            new Module.Server((this.FormDto as FormDto).ModuleFormDto = new Module.FormDto()).LoadForm();
+            new Module.Server((this.FormDto as FormDto).ModuleFormDto).LoadForm();
 
             this.GetCurrentModules(Artifact.Category.Form);
         }
@@ -47,6 +49,14 @@ namespace Vanilla.Navigator.Facade.Container
             //    });
             //}
             return null;
+        }
+
+        public override void Add()
+        {
+            VanilaModule.Server moduleFacade = new VanilaModule.Server((this.FormDto as FormDto).ModuleFormDto);
+            moduleFacade.Add();
+            this.DisplayMessageList = moduleFacade.DisplayMessageList;
+            this.IsError = moduleFacade.IsError;
         }
 
         public void GetCurrentModules(Artifact.Category category)
