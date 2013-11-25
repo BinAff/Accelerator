@@ -34,8 +34,14 @@ namespace Crystal.Navigator.Component.Artifact
             base.AssignParameter(procedureName);
             base.AddInParameter("@FileName", DbType.String, data.FileName);
             base.AddInParameter("@Path", DbType.String, data.Path);
-            
-            base.AddInParameter("@ParentId", DbType.Int64, data.ParentId);
+            if (data.ParentId == null)
+            {
+                base.AddInParameter("@ParentId", DbType.Int64, DBNull.Value);
+            }
+            else
+            {
+                base.AddInParameter("@ParentId", DbType.Int64, data.ParentId);
+            }
             if (data.Id == 0) //Insert, so only created information
             {
                 base.AddInParameter("@CreatedByUserId", DbType.Int64, data.CreatedBy.Id);
