@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
-using Vanilla.Navigator.Facade.Container;
 using System.Collections;
 
 using BinAff.Core;
+using PresentationLibrary = BinAff.Presentation.Library;
 
 using VanilaArtifact = Vanilla.Navigator.Facade.Artifact;
 using VanilaModule = Vanilla.Navigator.Facade.Module;
+using VanilaContainer = Vanilla.Navigator.Facade.Container;
 
 
 namespace Vanilla.Navigator.WinForm
@@ -15,9 +16,10 @@ namespace Vanilla.Navigator.WinForm
     public partial class Container : Form
     {
 
-        private FormDto formDto;
-        private Facade.Container.Server facade;
+        private VanilaContainer.FormDto formDto;
+        private VanilaContainer.Server facade;
         Hashtable hashTreeView = new Hashtable();
+        VanilaModule.Dto moduleDto;
 
         //Boolean isFormLoaded = false;
         //Boolean isCatalogueLoaded = false;
@@ -34,9 +36,15 @@ namespace Vanilla.Navigator.WinForm
                 hashTreeView.Add(tbcCategory.TabPages[i].Text, null);
 
             this.InitializeListView();
-            this.txtAddress.Text = @"Form::";
-            facade = new Server(this.formDto = new FormDto());
-            facade.LoadForm();
+            this.txtAddress.Text = @"Form:\\";
+            this.facade = new VanilaContainer.Server(this.formDto = new VanilaContainer.FormDto
+            {
+                ModuleFormDto = new VanilaModule.FormDto
+                {
+                    Dto = new VanilaModule.Dto()
+                }
+            });
+            this.facade.LoadForm();
 
             this.LoadModules(tbcCategory.TabPages[0].Text);
 
@@ -72,66 +80,73 @@ namespace Vanilla.Navigator.WinForm
             {
                 TreeNode selectedNode = (trvForm.SelectedNode as TreeNode);
                 TreeNode rootNode = FindRootNode(selectedNode);
-                //Facade.Module.Dto moduleDto = rootNode.Tag as Facade.Module.Dto;
-                //BinAff.Facade.Library.Dto dto = rootNode.Tag as BinAff.Facade.Library.Dto;
 
-                Type type = Type.GetType("AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm", true);
-
-                Type typeDto = Type.GetType("AutoTourism.Customer.Facade.Dto, AutoTourism.Customer.Facade", true);
-                BinAff.Facade.Library.Dto dto = Activator.CreateInstance(typeDto) as BinAff.Facade.Library.Dto;
-                              
-                Form form = (Form)Activator.CreateInstance(type, dto);
+                //Show Dialogue to capture module data
+                BinAff.Facade.Library.Dto moduleFormDto = new Facade.Module.Server(null).InstantiateDto(rootNode.Tag as Facade.Module.Dto);
+                Type type = Type.GetType((rootNode.Tag as Facade.Module.Dto).ComponentFormType, true);
+                Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
                 form.ShowDialog(this);
-               
-                if (dto.Id > 0)
+
+                //Hard coding
+                moduleFormDto.Id = 7;
+                
+                //if (moduleFormDto.Id > 0)
+                //{
+                //    Vanilla.Navigator.Facade.Module.Dto moduleDto = rootNode.Tag as Vanilla.Navigator.Facade.Module.Dto;
+                //    moduleDto.Artifact = new VanilaArtifact.Dto { Id = moduleFormDto.Id };
+
+                //    Facade.Artifact.Dto artifact = new VanilaArtifact.Dto
+                //    {
+                //        FileName = "New Form 1", // need to remove hard coding
+                //        Style = VanilaArtifact.Type.Document,
+                //        Parent = selectedNode.Tag as Facade.Artifact.Dto,
+                //        CreatedBy = new BinAff.Core.Table
+                //        {
+                //            Id = 1 //need to remove hard coding
+                //        },
+                //        CreatedAt = DateTime.Now,
+                //        Module = moduleDto,                       
+                //        Path = String.Empty
+                //    };
+
+                //    if (tbcCategory.SelectedTab.Text == "Form")
+                //        artifact.Category = VanilaArtifact.Category.Form;
+
+                //    VanilaArtifact.Server server = new VanilaArtifact.Server(new VanilaArtifact.FormDto { artifactDto = artifact });
+                //    ReturnObject<Boolean> retVal = server.Save();
+                //}
+                if (moduleFormDto.Id > 0)
                 {
-
-                    Vanilla.Navigator.Facade.Module.Dto moduleDto = rootNode.Tag as Vanilla.Navigator.Facade.Module.Dto;
-                    moduleDto.Artifact = new VanilaArtifact.Dto { Id = dto.Id };
-
-                    Facade.Artifact.Dto artifact = new VanilaArtifact.Dto
+                    Facade.Artifact.Dto dtoArtifact = new Facade.Artifact.Dto
                     {
-                        FileName = "NewCustomerFrom", // need to remove hard coding
+                        Module = moduleFormDto,
                         Style = VanilaArtifact.Type.Document,
-                        Parent = selectedNode.Tag as Facade.Artifact.Dto,
-                        CreatedBy = new BinAff.Core.Table
-                        {
-                            Id = 1 //need to remove hard coding
-                        },
-                        CreatedAt = DateTime.Now,
-                        Module = moduleDto,                       
-                        Path = String.Empty
+                        Parent = selectedNode.Tag as BinAff.Facade.Library.Dto,
+                    };
+                    ListViewItem item = new ListViewItem
+                    {
+                        Text = "New " + sender.ToString() + "1",
+                        Tag = dtoArtifact,
                     };
 
-                    if (tbcCategory.SelectedTab.Text == "Form")
-                        artifact.Category = VanilaArtifact.Category.Form;
+                    Facade.Artifact.Dto dto = (selectedNode.Parent == null)? (selectedNode.Tag as Facade.Module.Dto).Artifact : selectedNode.Tag as Facade.Artifact.Dto;
+                    dto.Children.Add(dtoArtifact);
+                    //if (tbcCategory.SelectedTab.Text == "Form")
+                    //{
+                    //    dtoArtifact = trvForm.SelectedNode.Tag as Facade.Artifact.Dto;
 
-                    VanilaArtifact.Server server = new VanilaArtifact.Server(new VanilaArtifact.FormDto { artifactDto = artifact });
-                    ReturnObject<Boolean> retVal = server.Save();
+                    //    item.Tag = new Facade.Artifact.Dto
+                    //    {
+                    //        Id = dtoArtifact.Id, //storing the parentId for the current item
+                    //        Style = VanilaArtifact.Type.Document
+                    //    };
+                    //}
+                    lstViewContainer.LabelEdit = true;
+                    item.SubItems.Add(sender.ToString());
+                    lstViewContainer.Items.Add(item);
+                    item.BeginEdit();
                 }
             }
-
-            
-
-            //ListViewItem item = new ListViewItem {
-            //    Text = "New " + sender.ToString()                
-            //};
-
-            //Facade.Artifact.Dto dtoArtifact;
-            //if (tbcCategory.SelectedTab.Text == "Form")
-            //{
-            //    dtoArtifact = trvForm.SelectedNode.Tag as Facade.Artifact.Dto;
-            //    item.Tag = new Facade.Artifact.Dto {
-            //        Id = dtoArtifact.Id, //storing the parentId for the current item
-            //        Style = VanilaArtifact.Type.Document
-            //    };
-            //}
-            
-
-            //lstViewContainer.LabelEdit = true;
-            //item.SubItems.Add(sender.ToString());           
-            //lstViewContainer.Items.Add(item);
-            //item.BeginEdit();
         }
 
         private void trvArtifact_MouseDown(object sender, MouseEventArgs e)
@@ -204,10 +219,42 @@ namespace Vanilla.Navigator.WinForm
                 e.CancelEdit = true;
 
             ListViewItem selectedItem = (sender as ListView).FocusedItem;           
-            Facade.Artifact.Dto dtoArtifact = selectedItem.Tag as Vanilla.Navigator.Facade.Artifact.Dto;
-            dtoArtifact.FileName = (e.Label == null || e.Label.Trim().Length == 0) ? selectedItem.Text.Trim() : e.Label.Trim();
-            dtoArtifact.CreatedAt = DateTime.Now;
-            dtoArtifact.Version = 1;
+            //Facade.Artifact.Dto dtoArtifact = selectedItem.Tag as Vanilla.Navigator.Facade.Artifact.Dto;
+            //dtoArtifact.FileName = (e.Label == null || e.Label.Trim().Length == 0) ? selectedItem.Text.Trim() : e.Label.Trim();
+            //dtoArtifact.CreatedAt = DateTime.Now;
+            //dtoArtifact.Version = 1;
+
+
+
+
+            this.moduleDto.Artifact = selectedItem.Tag as Facade.Artifact.Dto;
+            this.moduleDto.Artifact.FileName = (e.Label == null || e.Label.Trim().Length == 0) ? selectedItem.Text.Trim() : e.Label.Trim();
+            this.moduleDto.Artifact.Style = VanilaArtifact.Type.Document;//Hard code
+            this.moduleDto.Artifact.CreatedBy = new BinAff.Core.Table
+            {
+                Id = 1 //need to remove hard coding
+            };
+            this.moduleDto.Artifact.Path = String.Empty;
+            this.moduleDto.Artifact.CreatedAt = DateTime.Now;
+            this.moduleDto.Artifact.Parent = (selectedItem.Tag as Facade.Artifact.Dto).Parent;
+
+            if (tbcCategory.SelectedTab.Text == "Form")
+                this.moduleDto.Artifact.Category = VanilaArtifact.Category.Form;
+
+            this.formDto = new VanilaContainer.FormDto
+            {
+                ModuleFormDto = new VanilaModule.FormDto
+                {
+                    Dto = this.moduleDto,
+                },
+            };
+            this.facade = new VanilaContainer.Server(this.formDto);
+            this.facade.Add();
+            new PresentationLibrary.MessageBox
+            {
+                DialogueType = this.facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
+                Heading = "Splash",
+            }.Show(this.facade.DisplayMessageList);
         }
 
         private void tbcCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -387,15 +434,6 @@ namespace Vanilla.Navigator.WinForm
             this.lstViewContainer.Columns.Add("Modified At", 200);
         }
 
-        private void trvArtifact_Click(object sender, EventArgs e)
-        {
-            VanilaArtifact.Dto selectedNode = (sender as TreeView).SelectedNode.Tag.GetType().ToString() == "Vanilla.Navigator.Facade.Module.Dto"?
-                ((sender as TreeView).SelectedNode.Tag as VanilaModule.Dto).Artifact :
-                (sender as TreeView).SelectedNode.Tag as VanilaArtifact.Dto;
-            this.SelectNode(selectedNode);
-            this.txtAddress.Text = selectedNode.Path;
-        }
-
         private void SelectNode(VanilaArtifact.Dto selectedNode)
         {
             this.lstViewContainer.Items.Clear();
@@ -444,10 +482,13 @@ namespace Vanilla.Navigator.WinForm
             {
                 this.SelectNode(currentArtifact);
                 this.txtAddress.Text = currentArtifact.Path;
+
             }
             else
             {
                 //Currently hard coding. Need to change
+                //TreeNode rootNode = FindRootNode(selectedNode);
+                //Type type = Type.GetType((rootNode.Tag as Facade.Module.Dto).FormType, true);
                 Type type = Type.GetType("AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm", true);
                 Form form = (Form)Activator.CreateInstance(type, currentArtifact.Module);
 
@@ -462,6 +503,16 @@ namespace Vanilla.Navigator.WinForm
                 treeNode = treeNode.Parent;
             }
             return treeNode;
+        }
+
+        private void trvForm_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            VanilaArtifact.Dto selectedNode = (sender as TreeView).SelectedNode.Tag.GetType().ToString() == "Vanilla.Navigator.Facade.Module.Dto" ?
+                ((sender as TreeView).SelectedNode.Tag as VanilaModule.Dto).Artifact :
+                (sender as TreeView).SelectedNode.Tag as VanilaArtifact.Dto;
+            this.SelectNode(selectedNode);
+            this.txtAddress.Text = selectedNode.Path;
+            moduleDto = this.FindRootNode((sender as TreeView).SelectedNode).Tag as VanilaModule.Dto;
         }
 
     }

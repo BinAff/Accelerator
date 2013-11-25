@@ -15,6 +15,7 @@ namespace Vanilla.Navigator.Facade.Artifact
     {
 
         public BinAff.Facade.Library.Server ModuleFacade { get; set; }
+        internal BinAff.Core.ICrud ModuleArtifactComponent { get; set; }
 
         public Server(FormDto formDto)
             : base(formDto)
@@ -108,6 +109,28 @@ namespace Vanilla.Navigator.Facade.Artifact
             };
         }
 
+        public Data Convert(BinAff.Facade.Library.Dto dto, Crystal.Navigator.Component.Artifact.Data data)
+        {
+            Facade.Artifact.Dto artifactDto = dto as Facade.Artifact.Dto;
+            data.Id = artifactDto.Id;
+            data.FileName = artifactDto.FileName;
+            data.Path = artifactDto.Path;
+            data.Style = (artifactDto.Style == Type.Directory) ? CrystalArtifact.Type.Directory : CrystalArtifact.Type.Document;
+            data.CreatedBy = new Crystal.Guardian.Component.Account.Data
+            {
+                Id = artifactDto.CreatedBy.Id,
+            };
+            data.CreatedAt = artifactDto.CreatedAt;
+            data.ModifiedBy = artifactDto.ModifiedBy == null ? null : new Crystal.Guardian.Component.Account.Data
+            {
+                Id = artifactDto.ModifiedBy.Id,
+            };
+            data.ModifiedAt = artifactDto.ModifiedAt;
+            data.ParentId = artifactDto.Parent.Id;
+            data.Category = (CrystalArtifact.Category)((Int32)artifactDto.Category);
+            return data;
+        }
+
         public Artifact.Dto GetTree(CrystalArtifact.IArtifact artifact)
         {
             artifact.FormTree();
@@ -127,9 +150,10 @@ namespace Vanilla.Navigator.Facade.Artifact
                 foreach (CrystalArtifact.Data artf in data.Children)
                 {
                     Dto child = this.Convert(artf) as Dto;
+                    child.Parent = tree;
                     if (artf.Children != null && artf.Children.Count > 0)
                     {
-                        child.Children = ConvertTree(artf).Children;
+                        child.Children = this.ConvertTree(artf).Children;
                     }                    
                     tree.Children.Add(child);
                 }
@@ -137,28 +161,16 @@ namespace Vanilla.Navigator.Facade.Artifact
             return tree;
         }
 
-        public ReturnObject<Boolean> Save()
+        public override void Add()
         {
-            Dto dto = (this.FormDto as FormDto).artifactDto;
+            this.Save();
+        }
 
-            CustomerArtifact.Data data = new CustomerArtifact.Data
-            {
-                FileName = dto.fileName,
-                Style = dto.style == Type.Directory ? CrystalArtifact.Type.Directory : CrystalArtifact.Type.Document,
-                ParentId = dto.Parent.Id,
-                CreatedBy = new Crystal.Guardian.Component.Account.Data
-                {
-                    Id = dto.CreatedBy.Id
-                },
-                CreatedAt = dto.CreatedAt,
-                ModuleData = new Data {
-                    Id = dto.Module.Id                    
-                },
-                Category =  Crystal.Navigator.Component.Artifact.Category.Form,
-                Path = dto.Path
-            };
-            ICrud crud = new CustomerArtifact.Server(data);
-            return crud.Save();
+        private void Save()
+        {
+            FormDto formDto = this.FormDto as FormDto;
+            ReturnObject<Boolean> ret = this.ModuleArtifactComponent.Save();
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
     }

@@ -39,14 +39,12 @@ namespace Crystal.Navigator.Component.Artifact
             if (data.Id == 0) //Insert, so only created information
             {
                 base.AddInParameter("@CreatedByUserId", DbType.Int64, data.CreatedBy.Id);
-                //base.AddInParameter("@CreatedAt", DbType.DateTime, data.CreatedAt);
             }
             else //Update, so modification information
             {
                 base.AddInParameter("@ModifiedByUserId", DbType.Int64, data.ModifiedBy.Id);
-                base.AddInParameter("@ModifiedAt", DbType.DateTime, data.ModifiedAt);
             }
-            base.AddInParameter("@Style", DbType.Int64, data.Style);
+            base.AddInParameter("@Style", DbType.Int64, (Int32)data.Style);
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
@@ -78,7 +76,7 @@ namespace Crystal.Navigator.Component.Artifact
         internal List<BinAff.Core.Data> ReadArtifactListForMudule()
         {
             this.CreateCommand("Navigator.ArtifactModuleLinkReadForModule");
-            this.AddInParameter("@ModuleId", DbType.Int64, (this.Data as Data).ModuleData.Id);
+            this.AddInParameter("@ModuleId", DbType.Int64, (this.Data as Data).ModuleDefinition.Id);
             this.AddInParameter("@Category", DbType.Int64, (this.Data as Data).Category);
 
             DataSet ds = this.ExecuteDataSet();
@@ -105,7 +103,7 @@ namespace Crystal.Navigator.Component.Artifact
             Data artifactData = Data as Data;            
             base.CreateCommand("[Navigator].[ArtifactModuleLinkInsertForModule]");
             base.AddInParameter("@ArtifactId", DbType.Int64, Data.Id);
-            base.AddInParameter("@ModuleId", DbType.String, artifactData.ModuleData.Id);
+            base.AddInParameter("@ModuleId", DbType.String, artifactData.ModuleDefinition.Id);
             base.AddInParameter("@Category", DbType.Int64, artifactData.Category);            
             Int32 ret = base.ExecuteNonQuery();
 

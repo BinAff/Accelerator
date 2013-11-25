@@ -51,11 +51,11 @@ namespace Autotourism.Component.Customer.Navigator.Artifact
 
         protected override bool CreateAfterModuleArtifactLink()
         {
-            bool status = false;
+            bool status = true;
 
             Data artifactData = Data as Data;
             base.CreateCommand("[Customer].[InsertFormForArtifact]");
-            base.AddInParameter("@CustomerId", DbType.Int64, Data.Id);
+            base.AddInParameter("@CustomerId", DbType.Int64, artifactData.ModuleData.Id);
             base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
             base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
             Int32 ret = base.ExecuteNonQuery();

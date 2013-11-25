@@ -48,10 +48,11 @@ namespace Crystal.Navigator.Component.Artifact
 
         ReturnObject<Data> IArtifact.FormTree()
         {
-            //List<BinAff.Core.Data> dataList = this.ReadAll().Value;
             ReturnObject<List<BinAff.Core.Data>> ret = this.Read(this.ReadArtifactListForMudule());
             //TO DO :: Need to add validation later
-            (this.Data as Data).Style = Artifact.Type.Directory;
+            Data data = this.Data as Data;
+            data.Style = Artifact.Type.Directory;
+            data.FileName = data.ModuleDefinition.Name;
             this.FormTree(ret.Value);
             return new ReturnObject<Data>
             {
