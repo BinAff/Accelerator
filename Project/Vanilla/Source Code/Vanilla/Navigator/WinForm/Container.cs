@@ -121,7 +121,7 @@ namespace Vanilla.Navigator.WinForm
                     {
                         Module = moduleFormDto,
                         Style = VanilaArtifact.Type.Document,
-                        Parent = selectedNode.Tag as BinAff.Facade.Library.Dto,
+                        Parent = selectedNode.Parent == null ? null : selectedNode.Tag as BinAff.Facade.Library.Dto,
                     };
                     ListViewItem item = new ListViewItem
                     {
@@ -488,7 +488,7 @@ namespace Vanilla.Navigator.WinForm
             {
                 //Currently hard coding. Need to change
                 //TreeNode rootNode = FindRootNode(selectedNode);
-                //Type type = Type.GetType((rootNode.Tag as Facade.Module.Dto).FormType, true);
+                //Type type = Type.GetType((rootNode.Tag as Facade.Module.Dto).ComponentFormType, true);
                 Type type = Type.GetType("AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm", true);
                 Form form = (Form)Activator.CreateInstance(type, currentArtifact.Module);
 

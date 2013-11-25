@@ -126,7 +126,7 @@ namespace Vanilla.Navigator.Facade.Artifact
                 Id = artifactDto.ModifiedBy.Id,
             };
             data.ModifiedAt = artifactDto.ModifiedAt;
-            data.ParentId = artifactDto.Parent.Id;
+            data.ParentId = artifactDto.Parent == null ? null : (long?)artifactDto.Parent.Id;
             data.Category = (CrystalArtifact.Category)((Int32)artifactDto.Category);
             return data;
         }
