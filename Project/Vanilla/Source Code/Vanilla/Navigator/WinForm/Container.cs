@@ -46,8 +46,20 @@ namespace Vanilla.Navigator.WinForm
 
             lstViewContainer.View = View.Details;
             lstViewContainer.Dock = DockStyle.Fill;
+
+            this.Customize();
         }
-                         
+
+        private void Customize()
+        {
+            this.mnuLogin.Visible = true;
+            this.mnuLogOut.Visible = false;
+            this.pnlAddress.Visible = false;
+            this.pnlMain.Visible = false;
+            this.mnuEdit.Visible = false;
+            this.mnuView.Visible = false;
+        }
+        
         private void folderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             trvForm.LabelEdit = true;
@@ -206,8 +218,7 @@ namespace Vanilla.Navigator.WinForm
                 cmsExplorer.Items.Insert(0, newItem);   
                 cmsExplorer.Show(Cursor.Position);
             }
-        }
-                      
+        }                      
 
         private void trvArtifact_KeyUp(object sender, KeyEventArgs e)
         {
@@ -584,6 +595,31 @@ namespace Vanilla.Navigator.WinForm
             }
         }
         #endregion
+
+        private void mnuLogin_Click(object sender, EventArgs e)
+        {
+            Vanilla.Guardian.WinForm.Login loginForm = new Guardian.WinForm.Login();
+            loginForm.ShowDialog();
+            if (loginForm.IsAuthenticated)
+            {
+                this.Toggle();
+            }
+        }
+
+        private void mnuLogOut_Click(object sender, EventArgs e)
+        {
+            this.Customize();
+        }
+
+        private void Toggle()
+        {
+            this.mnuLogin.Visible = false;
+            this.mnuLogOut.Visible = true;
+            this.pnlAddress.Visible = true;
+            this.pnlMain.Visible = true;
+            this.mnuEdit.Visible = true;
+            this.mnuView.Visible = true;
+        }
 
     }
 

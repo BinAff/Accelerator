@@ -164,7 +164,7 @@ namespace Crystal.Guardian.Component.Account
         {
             String pswd = ((Data)this.Data).Password;
             ((Dao)this.DataAccess).GetUserByLoginId();
-            if (pswd != ((Data)this.Data).Password)
+            if (this.Data.Id == 0 || pswd != ((Data)this.Data).Password)
             {
                 return new BinAff.Core.ReturnObject<BinAff.Core.Data>
                 {

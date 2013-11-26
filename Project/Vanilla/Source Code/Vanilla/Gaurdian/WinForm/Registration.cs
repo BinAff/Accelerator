@@ -8,7 +8,7 @@ using BinAff.Utility;
 namespace Vanilla.Guardian.WinForm
 {
 
-    public partial class Registration : Dialog
+    public partial class Registration : System.Windows.Forms.Form
     {
 
         Facade.Account.FormDto formDto;
@@ -18,58 +18,58 @@ namespace Vanilla.Guardian.WinForm
             InitializeComponent();
         }
 
-        protected override void SubmitData()
-        {
-            if (this.ValidateUser())
-            {
-                Facade.Account.Dto accountDto = new Facade.Account.Dto()
-                {
-                    LoginId = txtUserName.Text,
-                    Password = txtPassword.Text,
-                    RoleList = new List<Facade.Role.Dto>()
-                };
+        //protected override void SubmitData()
+        //{
+        //    if (this.ValidateUser())
+        //    {
+        //        Facade.Account.Dto accountDto = new Facade.Account.Dto()
+        //        {
+        //            LoginId = txtUserName.Text,
+        //            Password = txtPassword.Text,
+        //            RoleList = new List<Facade.Role.Dto>()
+        //        };
 
-                for (Int32 i = 0; i < this.chkLstRole.CheckedItems.Count; i++)
-                {
-                    foreach (Facade.Role.Dto dto in this.formDto.RoleList)
-                    {
-                        if (dto.Name == this.chkLstRole.CheckedItems[i].ToString())
-                        {
-                            accountDto.RoleList.Add(dto);
-                            break;
-                        }
-                    }
-                }
+        //        for (Int32 i = 0; i < this.chkLstRole.CheckedItems.Count; i++)
+        //        {
+        //            foreach (Facade.Role.Dto dto in this.formDto.RoleList)
+        //            {
+        //                if (dto.Name == this.chkLstRole.CheckedItems[i].ToString())
+        //                {
+        //                    accountDto.RoleList.Add(dto);
+        //                    break;
+        //                }
+        //            }
+        //        }
 
-                Facade.Account.Server accountFacade = new Facade.Account.Server(new Facade.Account.FormDto
-                {
-                    Dto = accountDto,
-                });
-                accountFacade.Add();
-                //Show message
-                //new BinAff.Presentation.Library.MessageBox(retVal.MessageList).ShowDialog();
-                //base.ShowMessage(retVal); 
-                //this.Close();
-            }
-        }
+        //        Facade.Account.Server accountFacade = new Facade.Account.Server(new Facade.Account.FormDto
+        //        {
+        //            Dto = accountDto,
+        //        });
+        //        accountFacade.Add();
+        //        //Show message
+        //        //new BinAff.Presentation.Library.MessageBox(retVal.MessageList).ShowDialog();
+        //        //base.ShowMessage(retVal); 
+        //        //this.Close();
+        //    }
+        //}
 
-        protected override void LoadData()
-        {
-            this.formDto = new Facade.Account.FormDto();
-            BinAff.Facade.Library.Server facade = new Facade.Account.Server(formDto);
-            facade.LoadForm();
+        //protected override void LoadData()
+        //{
+        //    this.formDto = new Facade.Account.FormDto();
+        //    BinAff.Facade.Library.Server facade = new Facade.Account.Server(formDto);
+        //    facade.LoadForm();
 
-            this.txtPassword.Text = this.formDto.Rule.DefaultPassword;
+        //    this.txtPassword.Text = this.formDto.Rule.DefaultPassword;
 
-            this.BindRoleList(); //Populate Role list
-        }
+        //    this.BindRoleList(); //Populate Role list
+        //}
 
-        protected override void ClearData()
-        {
-            errorProvider.Clear();
-            this.txtUserName.Text = String.Empty;
-            this.BindRoleList(); //Populate Role list
-        }
+        //protected override void ClearData()
+        //{
+        //    errorProvider.Clear();
+        //    this.txtUserName.Text = String.Empty;
+        //    this.BindRoleList(); //Populate Role list
+        //}
 
         private void BindRoleList()
         {

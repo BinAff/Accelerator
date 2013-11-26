@@ -105,6 +105,15 @@ namespace Vanilla.Navigator.Facade.Container
             return new ReturnObject<bool>();
         }
 
+        #region "Menu Handle"
+
+        public void Login()
+        {
+
+        }
+
+        #endregion
+
     }
 
 }
