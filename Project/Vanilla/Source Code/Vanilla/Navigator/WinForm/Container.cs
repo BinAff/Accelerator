@@ -60,27 +60,7 @@ namespace Vanilla.Navigator.WinForm
             this.mnuView.Visible = false;
         }
         
-        private void folderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            trvForm.LabelEdit = true;
-            TreeNode node = new TreeNode
-            {
-                Text = "New folder",
-                Tag = new Facade.Artifact.Dto { 
-                    FileName = "test object"
-                }
-            };
-          
-
-            if (trvForm.SelectedNode != null)
-            {
-                (trvForm.SelectedNode as TreeNode).Nodes.Add(node);
-                node.Parent.ExpandAll();
-            }
-
-            trvForm.SelectedNode = null;
-            node.BeginEdit();
-        }
+       
 
         private void newItem_Click(object sender, EventArgs e)
         {
@@ -157,37 +137,7 @@ namespace Vanilla.Navigator.WinForm
             }
         }
 
-        private void trvArtifact_MouseDown(object sender, MouseEventArgs e)
-        {
-            // Select the clicked node
-            TreeView current = sender as TreeView;
-            current.SelectedNode = current.GetNodeAt(e.X, e.Y);
-
-            if (e.Button == MouseButtons.Right)
-            {
-                ToolStripMenuItem menuItem = cmsExplorer.Items[0] as ToolStripMenuItem;
-                if (current.SelectedNode != null) //check whether right click is done on tree node
-                {
-                    if (menuItem.DropDownItems.Count > 1)
-                        menuItem.DropDownItems[1].Text = tbcCategory.SelectedTab.Text;
-                    else
-                    {
-                        //add new item in context menu [Form, catalog, report]
-                        ToolStripMenuItem newItem = new ToolStripMenuItem
-                        {
-                            Text = tbcCategory.SelectedTab.Text,
-                        };
-                        newItem.Click += newItem_Click;
-                        menuItem.DropDownItems.Insert(menuItem.DropDownItems.Count, newItem);
-                    }
-                    cmsExplorer.Show(current, e.Location);
-                }  
-            }
-            else
-            {
-                TreeNodeMouseDown(current.SelectedNode);
-            }
-        }
+        
         
         private void lstViewContainer_MouseDown(object sender, MouseEventArgs e)
         {
@@ -620,6 +570,64 @@ namespace Vanilla.Navigator.WinForm
             this.mnuEdit.Visible = true;
             this.mnuView.Visible = true;
         }
+
+        #region Tree related Events and methods
+
+        private void trvArtifact_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Select the clicked node
+            TreeView current = sender as TreeView;
+            current.SelectedNode = current.GetNodeAt(e.X, e.Y);
+
+            if (e.Button == MouseButtons.Right)
+            {
+                ToolStripMenuItem menuItem = cmsExplorer.Items[0] as ToolStripMenuItem;
+                if (current.SelectedNode != null) //check whether right click is done on tree node
+                {
+                    if (menuItem.DropDownItems.Count > 1)
+                        menuItem.DropDownItems[1].Text = tbcCategory.SelectedTab.Text;
+                    else
+                    {
+                        //add new item in context menu [Form, catalog, report]
+                        ToolStripMenuItem newItem = new ToolStripMenuItem
+                        {
+                            Text = tbcCategory.SelectedTab.Text,
+                        };
+                        newItem.Click += newItem_Click;
+                        menuItem.DropDownItems.Insert(menuItem.DropDownItems.Count, newItem);
+                    }
+                    cmsExplorer.Show(current, e.Location);
+                }
+            }
+            else
+            {
+                TreeNodeMouseDown(current.SelectedNode);
+            }
+        }
+
+        #endregion
+
+        #region ContextMenu Events and methods
+        private void folderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            trvForm.LabelEdit = true;
+            TreeNode node = new TreeNode { Text = "New folder" };
+            
+            if (trvForm.SelectedNode != null)
+            {
+                (trvForm.SelectedNode as TreeNode).Nodes.Add(node);
+                node.Parent.ExpandAll();
+
+                trvForm.SelectedNode = null;
+                node.BeginEdit();
+
+                //Add 
+            }
+
+            
+        }
+
+        #endregion
 
     }
 
