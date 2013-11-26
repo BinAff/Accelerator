@@ -443,11 +443,16 @@ namespace AutoTourism.Customer.WinForm
                 {
                     facade.Change();
                 }
-                new PresentationLibrary.MessageBox
+             
+
+                if (facade.IsError)
                 {
-                    DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
-                    Heading = "Splash",
-                }.Show(facade.DisplayMessageList);
+                    new PresentationLibrary.MessageBox
+                    {
+                        DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
+                        Heading = "Splash",
+                    }.Show(facade.DisplayMessageList);
+                }
             }
             return retVal;
         }
