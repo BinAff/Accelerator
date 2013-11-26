@@ -94,7 +94,11 @@ namespace Vanilla.Navigator.Facade.Module
 
             Helper helper = new Helper((this.FormDto as FormDto).Dto);
             helper.ArtifactData = artifactServer.Convert(moduleDefDto.Artifact, helper.ArtifactData as CrystalArtifact.Data);
-            helper.ModuleData.Id = moduleDefDto.Artifact.Module.Id;
+
+            //moduleDefDto.Artifact.Module == null when folder gets added 
+            //If Document is added in Customer Node : [helper.ModuleData.Id will carry the customer id for inserting into Customer.CustomerArtifact table]
+            helper.ModuleData.Id = moduleDefDto.Artifact.Module == null ? 0 : moduleDefDto.Artifact.Module.Id; 
+
             (helper.ArtifactData as CrystalArtifact.Data).ModuleDefinition = this.Convert((this.FormDto as FormDto).Dto) as Crystal.License.Module.Data;
 
             artifactServer.ModuleArtifactComponent = helper.ArtifactComponent;
