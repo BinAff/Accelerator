@@ -150,11 +150,6 @@ namespace Vanilla.Guardian.Facade.Account
         public void Login()
         {
             Dto dto = ((FormDto)this.FormDto).Dto;
-            //Crystal.Guardian.Component.Account.Data data = new Crystal.Guardian.Component.Account.Data
-            //{
-            //    LoginId = dto.LoginId,
-            //    Password = dto.Password,
-            //};
             Crystal.Guardian.Component.Account.Data data = this.Convert(dto) as Crystal.Guardian.Component.Account.Data;
             ReturnObject<BinAff.Core.Data> ret = (new Crystal.Guardian.Component.Account.Server(data) as Crystal.Guardian.Component.Account.IUser).Login();
             if (ret.HasError())
