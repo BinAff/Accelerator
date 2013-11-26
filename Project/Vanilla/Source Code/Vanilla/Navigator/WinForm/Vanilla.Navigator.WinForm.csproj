@@ -90,6 +90,14 @@
       <Project>{A42C45CD-FFBB-425E-A5D8-540B365D97BB}</Project>
       <Name>Crystal.Navigator.Rule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
+      <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
+      <Name>Vanilla.Guardian.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gaurdian\WinForm\Vanilla.Guardian.WinForm.csproj">
+      <Project>{94765995-6577-4720-8f86-7cc1adbd1d5b}</Project>
+      <Name>Vanilla.Guardian.WinForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Facade\Vanilla.Navigator.Facade.csproj">
       <Project>{5fd93a71-d5b7-43ff-8996-29232b518b3a}</Project>
       <Name>Vanilla.Navigator.Facade</Name>

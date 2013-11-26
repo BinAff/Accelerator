@@ -82,24 +82,44 @@ namespace Vanilla.Guardian.Facade.Account
         {
             Crystal.Guardian.Component.Account.Data accountdata = data as Crystal.Guardian.Component.Account.Data;
             Facade.Account.Dto dto = new Dto();
-            accountdata.Id = dto.Id;
-            accountdata.LoginId = dto.LoginId;
-            accountdata.Password = dto.Password;
-            accountdata.RoleList = new List<BinAff.Core.Data>();
-            foreach (Role.Dto role in dto.RoleList)
+            dto.Id = accountdata.Id;
+            dto.LoginId = accountdata.LoginId;
+            dto.Password = accountdata.Password;
+            if (accountdata.RoleList != null && accountdata.RoleList.Count > 0)
             {
-                accountdata.RoleList.Add(new Crystal.Guardian.Component.Role.Data
+                dto.RoleList = new List<Role.Dto>();
+                foreach (Crystal.Guardian.Component.Role.Data role in accountdata.RoleList)
                 {
-                    Id = role.Id,
-                    Name = role.Name,
-                });
+                    dto.RoleList.Add(new Role.Dto
+                    {
+                        Id = role.Id,
+                        Name = role.Name
+                    });
+                }
             }
             return dto;
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            throw new System.NotImplementedException();
+            Crystal.Guardian.Component.Account.Data accountdata = new Crystal.Guardian.Component.Account.Data();
+            Account.Dto account = dto as Account.Dto;
+            accountdata.Id = account.Id;
+            accountdata.LoginId = account.LoginId;
+            accountdata.Password = account.Password;
+            if (account.RoleList != null && account.RoleList.Count > 0)
+            {
+                accountdata.RoleList = new List<BinAff.Core.Data>();
+                foreach (Role.Dto role in account.RoleList)
+                {
+                    accountdata.RoleList.Add(new Crystal.Guardian.Component.Role.Data
+                    {
+                        Id = role.Id,
+                        Name = role.Name,
+                    });
+                }
+            }
+            return accountdata;
         }
 
         public override void Add()
@@ -125,6 +145,27 @@ namespace Vanilla.Guardian.Facade.Account
             ReturnObject<Boolean> ret = (new Crystal.Guardian.Component.Account.Server(data) as ICrud).Save();
             
             this.DisplayMessageList = ret.GetMessage(ret.HasError() ? Message.Type.Error : Message.Type.Information);
+        }
+
+        public void Login()
+        {
+            Dto dto = ((FormDto)this.FormDto).Dto;
+            //Crystal.Guardian.Component.Account.Data data = new Crystal.Guardian.Component.Account.Data
+            //{
+            //    LoginId = dto.LoginId,
+            //    Password = dto.Password,
+            //};
+            Crystal.Guardian.Component.Account.Data data = this.Convert(dto) as Crystal.Guardian.Component.Account.Data;
+            ReturnObject<BinAff.Core.Data> ret = (new Crystal.Guardian.Component.Account.Server(data) as Crystal.Guardian.Component.Account.IUser).Login();
+            if (ret.HasError())
+            {
+                this.IsError = true;
+                this.DisplayMessageList = ret.GetMessage(Message.Type.Error);
+            }
+            else
+            {
+                (this.FormDto as FormDto).Dto = this.Convert(ret.Value) as Account.Dto;
+            }
         }
 
     }

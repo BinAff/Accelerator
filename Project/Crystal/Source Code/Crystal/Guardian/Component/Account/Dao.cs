@@ -186,26 +186,17 @@ namespace Crystal.Guardian.Component.Account
 
         public Data GetUserByLoginId()
         {
-            Data data = new Data();
-            try
+            this.CreateConnection();
+            this.CreateCommand("Guardian.SearchUserByLoginId");
+            this.AddInParameter("@LoginId", DbType.String, ((Data)this.Data).LoginId);
+            DataSet ds = this.ExecuteDataSet();
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                this.CreateConnection();
-                this.CreateCommand("SearchUserByLoginId");
-                this.AddInParameter("@LoginId", DbType.String, ((Data)this.Data).LoginId);
-                DataSet ds = this.ExecuteDataSet();
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
-                    data = (Data)this.CreateDataObject(ds, this.Data);
-                }
-                this.CloseConnection();
-                data = (Data)this.Data;
+                this.CreateDataObject(ds, this.Data);
             }
-            catch (Exception ex)
-            {
-                BinAff.Utility.Logger.Log(ex.Message, ex.StackTrace, "Crystal User management");
-            }
+            this.CloseConnection();
 
-            return data;
+            return this.Data as Data;
         }
 
         ///// <summary>
