@@ -19,6 +19,22 @@ namespace Vanilla.Guardian.WinForm
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            errorProvider.Clear();
+
+            if (String.IsNullOrEmpty(this.txtUserId.Text.Trim()))
+            {
+                errorProvider.SetError(this.txtUserId, "User id cannot be empty");
+                this.txtUserId.Focus();
+                return;
+            }
+
+            if (String.IsNullOrEmpty(this.txtPassword.Text.Trim()))
+            {
+                errorProvider.SetError(this.txtPassword, "Password cannot be empty");
+                this.txtPassword.Focus();
+                return;
+            }
+
             Facade.Login.FormDto formDto = new Facade.Login.FormDto
             {
                 Dto = new Facade.Account.Dto
@@ -31,11 +47,7 @@ namespace Vanilla.Guardian.WinForm
             facade.Login();
             if (facade.IsError)
             {
-                new PresentationLibrary.MessageBox
-                {
-                    DialogueType = PresentationLibrary.MessageBox.Type.Error,
-                    Heading = "Splash",
-                }.Show(facade.DisplayMessageList);
+                this.lblMessage.Text = facade.DisplayMessageList[0];
             }
             else
             {
@@ -45,6 +57,11 @@ namespace Vanilla.Guardian.WinForm
                 this.Close();
             }
             
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
     }
