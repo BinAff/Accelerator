@@ -697,12 +697,14 @@ namespace Vanilla.Navigator.WinForm
 
         private void mnuRegister_Click(object sender, EventArgs e)
         {
-
+            Guardian.WinForm.Registration registration = new Guardian.WinForm.Registration();
+            registration.ShowDialog();
         }
 
         private void mnuRegisterProfile_Click(object sender, EventArgs e)
         {
-
+            Guardian.WinForm.Info info = new Guardian.WinForm.Info();
+            info.ShowDialog();
         }
 
         private void mnuExit_Click(object sender, EventArgs e)
