@@ -131,8 +131,7 @@ namespace Crystal.Navigator.Component.Artifact
         protected virtual bool CreateAfterModuleArtifactLink()
         {
             return true;
-        }
-       
+        }       
     }
 
 }
