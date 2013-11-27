@@ -67,15 +67,15 @@
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLogin = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuLogOut = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.newToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFileSeperator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuNew = new System.Windows.Forms.ToolStripMenuItem();
             this.folderToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.formToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.folderToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.formToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFileSeperator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,6 +99,9 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTool = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuUserManagement = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRegister = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRegisterProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
@@ -132,8 +135,8 @@
             // 
             // pnlMain.Panel2
             // 
-            this.pnlMain.Panel2.Controls.Add(this.lstViewContainer);
             this.pnlMain.Panel2.Controls.Add(this.lblAudit);
+            this.pnlMain.Panel2.Controls.Add(this.lstViewContainer);
             this.pnlMain.Size = new System.Drawing.Size(591, 347);
             this.pnlMain.SplitterDistance = 179;
             this.pnlMain.TabIndex = 0;
@@ -350,7 +353,7 @@
             this.lstViewContainer.LargeImageList = this.imglIcons;
             this.lstViewContainer.Location = new System.Drawing.Point(0, 0);
             this.lstViewContainer.Name = "lstViewContainer";
-            this.lstViewContainer.Size = new System.Drawing.Size(404, 320);
+            this.lstViewContainer.Size = new System.Drawing.Size(404, 343);
             this.lstViewContainer.SmallImageList = this.imglIcons;
             this.lstViewContainer.StateImageList = this.imglIcons;
             this.lstViewContainer.TabIndex = 1;
@@ -509,11 +512,11 @@
             this.mnuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuLogin,
             this.mnuLogOut,
-            this.toolStripSeparator6,
-            this.newToolStripMenuItem1,
-            this.openToolStripMenuItem,
-            this.toolStripSeparator7,
-            this.exitToolStripMenuItem});
+            this.mnuFileSeperator1,
+            this.mnuNew,
+            this.mnuOpen,
+            this.mnuFileSeperator2,
+            this.mnuExit});
             this.mnuFile.Name = "mnuFile";
             this.mnuFile.Size = new System.Drawing.Size(35, 20);
             this.mnuFile.Text = "File";
@@ -532,19 +535,19 @@
             this.mnuLogOut.Text = "Log Out";
             this.mnuLogOut.Click += new System.EventHandler(this.mnuLogOut_Click);
             // 
-            // toolStripSeparator6
+            // mnuFileSeperator1
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(109, 6);
+            this.mnuFileSeperator1.Name = "mnuFileSeperator1";
+            this.mnuFileSeperator1.Size = new System.Drawing.Size(109, 6);
             // 
-            // newToolStripMenuItem1
+            // mnuNew
             // 
-            this.newToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuNew.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.folderToolStripMenuItem1,
             this.formToolStripMenuItem});
-            this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
-            this.newToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
-            this.newToolStripMenuItem1.Text = "New";
+            this.mnuNew.Name = "mnuNew";
+            this.mnuNew.Size = new System.Drawing.Size(112, 22);
+            this.mnuNew.Text = "New";
             // 
             // folderToolStripMenuItem1
             // 
@@ -558,14 +561,14 @@
             this.formToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.formToolStripMenuItem.Text = "Form";
             // 
-            // openToolStripMenuItem
+            // mnuOpen
             // 
-            this.openToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuOpen.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.folderToolStripMenuItem2,
             this.formToolStripMenuItem1});
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.openToolStripMenuItem.Text = "Open";
+            this.mnuOpen.Name = "mnuOpen";
+            this.mnuOpen.Size = new System.Drawing.Size(112, 22);
+            this.mnuOpen.Text = "Open";
             // 
             // folderToolStripMenuItem2
             // 
@@ -579,16 +582,17 @@
             this.formToolStripMenuItem1.Size = new System.Drawing.Size(104, 22);
             this.formToolStripMenuItem1.Text = "Form";
             // 
-            // toolStripSeparator7
+            // mnuFileSeperator2
             // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(109, 6);
+            this.mnuFileSeperator2.Name = "mnuFileSeperator2";
+            this.mnuFileSeperator2.Size = new System.Drawing.Size(109, 6);
             // 
-            // exitToolStripMenuItem
+            // mnuExit
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
+            this.mnuExit.Name = "mnuExit";
+            this.mnuExit.Size = new System.Drawing.Size(112, 22);
+            this.mnuExit.Text = "Exit";
+            this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
             // mnuEdit
             // 
@@ -747,9 +751,34 @@
             // 
             // mnuTool
             // 
+            this.mnuTool.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuUserManagement});
             this.mnuTool.Name = "mnuTool";
             this.mnuTool.Size = new System.Drawing.Size(44, 20);
             this.mnuTool.Text = "Tools";
+            // 
+            // mnuUserManagement
+            // 
+            this.mnuUserManagement.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuRegister,
+            this.mnuRegisterProfile});
+            this.mnuUserManagement.Name = "mnuUserManagement";
+            this.mnuUserManagement.Size = new System.Drawing.Size(161, 22);
+            this.mnuUserManagement.Text = "User Management";
+            // 
+            // mnuRegister
+            // 
+            this.mnuRegister.Name = "mnuRegister";
+            this.mnuRegister.Size = new System.Drawing.Size(144, 22);
+            this.mnuRegister.Text = "Register";
+            this.mnuRegister.Click += new System.EventHandler(this.mnuRegister_Click);
+            // 
+            // mnuRegisterProfile
+            // 
+            this.mnuRegisterProfile.Name = "mnuRegisterProfile";
+            this.mnuRegisterProfile.Size = new System.Drawing.Size(144, 22);
+            this.mnuRegisterProfile.Text = "Change Profile";
+            this.mnuRegisterProfile.Click += new System.EventHandler(this.mnuRegisterProfile_Click);
             // 
             // mnuHelp
             // 
@@ -843,15 +872,15 @@
         private System.Windows.Forms.MenuStrip mnuMain;
         private System.Windows.Forms.ToolStripMenuItem mnuFile;
         private System.Windows.Forms.ToolStripMenuItem mnuLogOut;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator mnuFileSeperator1;
+        private System.Windows.Forms.ToolStripMenuItem mnuNew;
         private System.Windows.Forms.ToolStripMenuItem folderToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem formToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuOpen;
         private System.Windows.Forms.ToolStripMenuItem folderToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem formToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator mnuFileSeperator2;
+        private System.Windows.Forms.ToolStripMenuItem mnuExit;
         private System.Windows.Forms.ToolStripMenuItem mnuEdit;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
@@ -886,6 +915,9 @@
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem mnuLogin;
+        private System.Windows.Forms.ToolStripMenuItem mnuUserManagement;
+        private System.Windows.Forms.ToolStripMenuItem mnuRegister;
+        private System.Windows.Forms.ToolStripMenuItem mnuRegisterProfile;
 
     }
 }
