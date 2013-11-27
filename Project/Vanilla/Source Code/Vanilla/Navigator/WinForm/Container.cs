@@ -45,7 +45,7 @@ namespace Vanilla.Navigator.WinForm
             this.facade.LoadForm();
 
             this.LoadModules(tbcCategory.TabPages[0].Text);
-
+            
             this.DisableControl();
             this.ShowLoginForm();
             this.Resize += Container_Resize;

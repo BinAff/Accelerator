@@ -135,8 +135,8 @@
             // 
             // pnlMain.Panel2
             // 
-            this.pnlMain.Panel2.Controls.Add(this.lblAudit);
             this.pnlMain.Panel2.Controls.Add(this.lstViewContainer);
+            this.pnlMain.Panel2.Controls.Add(this.lblAudit);
             this.pnlMain.Size = new System.Drawing.Size(591, 347);
             this.pnlMain.SplitterDistance = 179;
             this.pnlMain.TabIndex = 0;
@@ -353,7 +353,7 @@
             this.lstViewContainer.LargeImageList = this.imglIcons;
             this.lstViewContainer.Location = new System.Drawing.Point(0, 0);
             this.lstViewContainer.Name = "lstViewContainer";
-            this.lstViewContainer.Size = new System.Drawing.Size(404, 343);
+            this.lstViewContainer.Size = new System.Drawing.Size(404, 320);
             this.lstViewContainer.SmallImageList = this.imglIcons;
             this.lstViewContainer.StateImageList = this.imglIcons;
             this.lstViewContainer.TabIndex = 1;
