@@ -49,13 +49,20 @@ namespace Autotourism.Component.Customer.Navigator.Artifact
             };
         }
 
-        protected override bool CreateAfterModuleArtifactLink()
+        protected override Boolean CreateAfterModuleArtifactLink()
         {
-            bool status = true;
+            Boolean status = true;
 
             Data artifactData = Data as Data;
             base.CreateCommand("[Customer].[InsertFormForArtifact]");
-            base.AddInParameter("@CustomerId", DbType.Int64, artifactData.ModuleData.Id);
+            if (artifactData.ModuleData.Id == 0)
+            {
+                base.AddInParameter("@CustomerId", DbType.Int64, DBNull.Value);
+            }
+            else
+            {
+                base.AddInParameter("@CustomerId", DbType.Int64, artifactData.ModuleData.Id);
+            }
             base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
             base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
             Int32 ret = base.ExecuteNonQuery();

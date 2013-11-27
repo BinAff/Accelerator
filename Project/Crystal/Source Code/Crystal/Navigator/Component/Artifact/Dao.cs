@@ -33,7 +33,14 @@ namespace Crystal.Navigator.Component.Artifact
             Data data = this.Data as Data;
             base.AssignParameter(procedureName);
             base.AddInParameter("@FileName", DbType.String, data.FileName);
-            base.AddInParameter("@Path", DbType.String, data.Path);
+            if (data.Path == null)
+            {
+                base.AddInParameter("@Path", DbType.String, DBNull.Value);
+            }
+            else
+            {
+                base.AddInParameter("@Path", DbType.String, data.Path);
+            }
             if (data.ParentId == null)
             {
                 base.AddInParameter("@ParentId", DbType.Int64, DBNull.Value);

@@ -61,8 +61,6 @@ namespace Vanilla.Navigator.Facade.Module
             }
             set
             {
-                Type type = Type.GetType(this.ArtifactDataType + ", " + this.ArtifacComponentAssembly, true);
-                this.artfactData = Activator.CreateInstance(type) as CrystalArtifact.Data;
                 this.artfactData = value;
             }
         }

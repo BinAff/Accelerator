@@ -40,6 +40,7 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.tapLogin = new System.Windows.Forms.TabPage();
+            this.btnOk = new System.Windows.Forms.Button();
             this.tbcUser.SuspendLayout();
             this.tapProfile.SuspendLayout();
             this.SuspendLayout();
@@ -52,11 +53,12 @@
             this.tbcUser.Location = new System.Drawing.Point(0, 0);
             this.tbcUser.Name = "tbcUser";
             this.tbcUser.SelectedIndex = 0;
-            this.tbcUser.Size = new System.Drawing.Size(627, 243);
+            this.tbcUser.Size = new System.Drawing.Size(344, 253);
             this.tbcUser.TabIndex = 50;
             // 
             // tapProfile
             // 
+            this.tapProfile.Controls.Add(this.btnOk);
             this.tapProfile.Controls.Add(this.btnResetPassword);
             this.tapProfile.Controls.Add(this.label1);
             this.tapProfile.Controls.Add(this.chkLstRole);
@@ -69,18 +71,18 @@
             this.tapProfile.Location = new System.Drawing.Point(4, 22);
             this.tapProfile.Name = "tapProfile";
             this.tapProfile.Padding = new System.Windows.Forms.Padding(3);
-            this.tapProfile.Size = new System.Drawing.Size(619, 217);
+            this.tapProfile.Size = new System.Drawing.Size(336, 227);
             this.tapProfile.TabIndex = 0;
             this.tapProfile.Text = "Profile";
             this.tapProfile.UseVisualStyleBackColor = true;
             // 
             // btnResetPassword
             // 
-            this.btnResetPassword.Location = new System.Drawing.Point(107, 174);
+            this.btnResetPassword.Location = new System.Drawing.Point(246, 188);
             this.btnResetPassword.Name = "btnResetPassword";
-            this.btnResetPassword.Size = new System.Drawing.Size(126, 25);
+            this.btnResetPassword.Size = new System.Drawing.Size(75, 25);
             this.btnResetPassword.TabIndex = 48;
-            this.btnResetPassword.Text = "Reset Password";
+            this.btnResetPassword.Text = "Reset";
             this.btnResetPassword.UseVisualStyleBackColor = true;
             // 
             // label1
@@ -159,19 +161,29 @@
             this.tapLogin.Location = new System.Drawing.Point(4, 22);
             this.tapLogin.Name = "tapLogin";
             this.tapLogin.Padding = new System.Windows.Forms.Padding(3);
-            this.tapLogin.Size = new System.Drawing.Size(396, 234);
+            this.tapLogin.Size = new System.Drawing.Size(619, 217);
             this.tapLogin.TabIndex = 1;
             this.tapLogin.Text = "Login History";
             this.tapLogin.UseVisualStyleBackColor = true;
+            // 
+            // btnOk
+            // 
+            this.btnOk.Location = new System.Drawing.Point(165, 190);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.TabIndex = 123;
+            this.btnOk.Text = "Ok";
+            this.btnOk.UseVisualStyleBackColor = true;
             // 
             // Info
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(627, 243);
+            this.ClientSize = new System.Drawing.Size(344, 253);
             this.Controls.Add(this.tbcUser);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Info";
+            this.ShowInTaskbar = false;
             this.Text = "Info";
             this.tbcUser.ResumeLayout(false);
             this.tapProfile.ResumeLayout(false);
@@ -194,5 +206,6 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.TabPage tapLogin;
+        private System.Windows.Forms.Button btnOk;
     }
 }

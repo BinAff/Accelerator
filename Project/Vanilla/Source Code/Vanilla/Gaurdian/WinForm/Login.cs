@@ -54,6 +54,7 @@ namespace Vanilla.Guardian.WinForm
                 this.IsAuthenticated = true;
                 this.CurrentUser = formDto.Dto;
                 //Add user to global variable
+                //Add Login info to log
                 this.Close();
             }
             
