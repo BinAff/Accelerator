@@ -13,6 +13,7 @@ namespace Vanilla.Navigator.Facade.Module
         public List<Module.Dto> CatalogueModuleList { get; set; }
         public List<Module.Dto> ReportModuleList { get; set; }
         public Dto Dto { get; set; }
+        public Artifact.FormDto CurrentArtifact { get; set; }
 
     }
 

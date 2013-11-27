@@ -355,6 +355,7 @@
             this.lstViewContainer.Name = "lstViewContainer";
             this.lstViewContainer.Size = new System.Drawing.Size(404, 320);
             this.lstViewContainer.SmallImageList = this.imglIcons;
+            this.lstViewContainer.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lstViewContainer.StateImageList = this.imglIcons;
             this.lstViewContainer.TabIndex = 1;
             this.lstViewContainer.UseCompatibleStateImageBehavior = false;
