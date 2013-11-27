@@ -21,6 +21,7 @@ namespace Vanilla.Navigator.WinForm
         private VanilaContainer.Server facade;
         Hashtable hashTreeView = new Hashtable();
         VanilaModule.Dto moduleDto;
+        Vanilla.Guardian.WinForm.Login loginForm;
        
         public Container()
         {
@@ -33,7 +34,7 @@ namespace Vanilla.Navigator.WinForm
                 hashTreeView.Add(tbcCategory.TabPages[i].Text, null);
 
             this.InitializeListView();
-            this.txtAddress.Text = @"Form:\\";
+            this.txtAddress.Text = @"Form:\\"; //Module Seperator is hard coding. Need to change
             this.facade = new VanilaContainer.Server(this.formDto = new VanilaContainer.FormDto
             {
                 ModuleFormDto = new VanilaModule.FormDto
@@ -45,21 +46,132 @@ namespace Vanilla.Navigator.WinForm
 
             this.LoadModules(tbcCategory.TabPages[0].Text);
 
-            lstViewContainer.View = View.Details;
-            lstViewContainer.Dock = DockStyle.Fill;
-
-            this.Customize();
+            this.DisableControl();
+            this.ShowLoginForm();
+            this.Resize += Container_Resize;
         }
 
-        private void Customize()
+        private void Container_Resize(object sender, EventArgs e)
         {
-            this.mnuLogin.Visible = true;
-            this.mnuLogOut.Visible = false;
-            this.pnlAddress.Visible = false;
-            this.pnlMain.Visible = false;
-            this.mnuEdit.Visible = false;
-            this.mnuView.Visible = false;
-        }       
+            this.PositionLoginForm();
+        }
+
+        #region Login Form
+
+        private void ShowLoginForm()
+        {
+            if (loginForm == null) this.loginForm = new Guardian.WinForm.Login();
+            this.loginForm.Show();
+            this.PositionLoginForm();
+            this.loginForm.FormClosed += loginForm_FormClosed;
+        }
+
+        private void PositionLoginForm()
+        {
+            this.loginForm.Top = this.Height / 2 - this.loginForm.Height / 2 + this.Top + 20;
+            this.loginForm.Left = this.Width / 2 - this.loginForm.Width / 2 + this.Left;
+            this.loginForm.TopMost = true;
+        }
+
+        void loginForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if ((sender as Vanilla.Guardian.WinForm.Login).IsAuthenticated)
+            {
+                this.EnableControls();
+            }
+        }
+
+        #endregion
+
+        private void tbcCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TabPage currentTab = (sender as TabControl).SelectedTab;
+
+            if (currentTab.Text == "Form")
+            {
+                if (hashTreeView[currentTab.Text] == null)
+                {
+                    this.txtAddress.Text = @"Form::";
+                    this.facade.GetCurrentModules(Facade.Artifact.Category.Form);
+                    this.LoadModules(currentTab.Text);
+                    //this.isCatalogueLoaded = true;
+                }
+                else
+                {
+                    CopyNodes(hashTreeView[currentTab.Text] as TreeView, trvForm);
+                }
+
+                //if (!this.isFormLoaded)
+                //{
+                //    this.txtAddress.Text = @"Form::";
+                //    this.facade.GetCurrentModules(Facade.Category.Form);
+                //    this.LoadModules(currentTab.Text);
+                //    this.isFormLoaded = true;
+                //}
+            }
+            else if (currentTab.Text == "Catalogue")
+            {
+                if (hashTreeView[currentTab.Text] == null)
+                {
+                    this.txtAddress.Text = @"Catalogue::";
+                    this.facade.GetCurrentModules(Facade.Artifact.Category.Catalogue);
+                    this.LoadModules(currentTab.Text);
+                    //this.isCatalogueLoaded = true;
+                }
+                else
+                {
+                    CopyNodes(hashTreeView[currentTab.Text] as TreeView, trvCatalogue);
+                }
+                //if (!this.isCatalogueLoaded)
+                //{
+                //    this.txtAddress.Text = @"Catalogue::";
+                //    this.facade.GetCurrentModules(Facade.Category.Catalogue);
+                //    this.LoadModules(currentTab.Text);
+                //    this.isCatalogueLoaded = true;
+                //}
+            }
+            else if (currentTab.Text == "Report")
+            {
+                if (hashTreeView[currentTab.Text] == null)
+                {
+                    this.txtAddress.Text = @"Report::";
+                    this.facade.GetCurrentModules(Facade.Artifact.Category.Report);
+                    this.LoadModules(currentTab.Text);
+                    //this.isCatalogueLoaded = true;
+                }
+                else
+                {
+                    CopyNodes(hashTreeView[currentTab.Text] as TreeView, trvReport);
+                }
+                //if (!this.isReportLoaded)
+                //{
+                //    this.txtAddress.Text = @"Report::";
+                //    this.facade.GetCurrentModules(Facade.Category.Report);
+                //    this.LoadModules(currentTab.Text);
+                //    this.isReportLoaded = true;
+                //}
+            }
+        }
+
+        private void tbcCategory_Deselected(object sender, TabControlEventArgs e)
+        {
+            String tabName = (sender as TabControl).SelectedTab.Text;
+            //hashTreeView[tabName] = CopyNodes(trvForm, new TreeView());
+            switch (tabName)
+            {
+                case "Form":
+                    hashTreeView[tabName] = CopyNodes(trvForm, new TreeView());
+                    break;
+                case "Catalogue":
+                    hashTreeView[tabName] = CopyNodes(trvCatalogue, new TreeView());
+                    break;
+                case "Report":
+                    hashTreeView[tabName] = CopyNodes(trvReport, new TreeView());
+                    break;
+                default:
+                    break;
+            }
+        }
         
         private void lstViewContainer_MouseDown(object sender, MouseEventArgs e)
         {
@@ -154,96 +266,6 @@ namespace Vanilla.Navigator.WinForm
                 DialogueType = this.facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
                 Heading = "Splash",
             }.Show(this.facade.DisplayMessageList);
-        }
-
-        private void tbcCategory_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            TabPage currentTab = (sender as TabControl).SelectedTab;
-
-            if (currentTab.Text == "Form")
-            {
-                if (hashTreeView[currentTab.Text] == null)
-                {
-                    this.txtAddress.Text = @"Form::";
-                    this.facade.GetCurrentModules(Facade.Artifact.Category.Form);
-                    this.LoadModules(currentTab.Text);
-                    //this.isCatalogueLoaded = true;
-                }
-                else
-                {
-                    CopyNodes(hashTreeView[currentTab.Text] as TreeView, trvForm);
-                }
-
-                //if (!this.isFormLoaded)
-                //{
-                //    this.txtAddress.Text = @"Form::";
-                //    this.facade.GetCurrentModules(Facade.Category.Form);
-                //    this.LoadModules(currentTab.Text);
-                //    this.isFormLoaded = true;
-                //}
-            }
-            else if (currentTab.Text == "Catalogue")
-            {
-                if (hashTreeView[currentTab.Text] == null)
-                {
-                    this.txtAddress.Text = @"Catalogue::";
-                    this.facade.GetCurrentModules(Facade.Artifact.Category.Catalogue);
-                    this.LoadModules(currentTab.Text);
-                    //this.isCatalogueLoaded = true;
-                }
-                else 
-                {
-                    CopyNodes(hashTreeView[currentTab.Text] as TreeView, trvCatalogue);
-                }
-                //if (!this.isCatalogueLoaded)
-                //{
-                //    this.txtAddress.Text = @"Catalogue::";
-                //    this.facade.GetCurrentModules(Facade.Category.Catalogue);
-                //    this.LoadModules(currentTab.Text);
-                //    this.isCatalogueLoaded = true;
-                //}
-            }
-            else if (currentTab.Text == "Report")
-            {
-                if (hashTreeView[currentTab.Text] == null)
-                {
-                    this.txtAddress.Text = @"Report::";
-                    this.facade.GetCurrentModules(Facade.Artifact.Category.Report);
-                    this.LoadModules(currentTab.Text);
-                    //this.isCatalogueLoaded = true;
-                }
-                else
-                {
-                    CopyNodes(hashTreeView[currentTab.Text] as TreeView, trvReport);
-                }
-                //if (!this.isReportLoaded)
-                //{
-                //    this.txtAddress.Text = @"Report::";
-                //    this.facade.GetCurrentModules(Facade.Category.Report);
-                //    this.LoadModules(currentTab.Text);
-                //    this.isReportLoaded = true;
-                //}
-            }
-        }
-
-        private void tbcCategory_Deselected(object sender, TabControlEventArgs e)
-        {
-            String tabName = (sender as TabControl).SelectedTab.Text;           
-            //hashTreeView[tabName] = CopyNodes(trvForm, new TreeView());
-            switch (tabName)
-            {
-                case "Form":
-                    hashTreeView[tabName] = CopyNodes(trvForm, new TreeView());
-                    break;
-                case "Catalogue":
-                    hashTreeView[tabName] = CopyNodes(trvCatalogue, new TreeView());
-                    break;
-                case "Report":
-                    hashTreeView[tabName] = CopyNodes(trvReport, new TreeView());
-                    break;
-                default:                  
-                    break;
-            }
         }
 
         private void LoadModules(String currentTab)
@@ -448,31 +470,6 @@ namespace Vanilla.Navigator.WinForm
             }
         }
         #endregion
-
-        private void mnuLogin_Click(object sender, EventArgs e)
-        {
-            Vanilla.Guardian.WinForm.Login loginForm = new Guardian.WinForm.Login();
-            loginForm.ShowDialog();
-            if (loginForm.IsAuthenticated)
-            {
-                this.Toggle();
-            }
-        }
-
-        private void mnuLogOut_Click(object sender, EventArgs e)
-        {
-            this.Customize();
-        }
-
-        private void Toggle()
-        {
-            this.mnuLogin.Visible = false;
-            this.mnuLogOut.Visible = true;
-            this.pnlAddress.Visible = true;
-            this.pnlMain.Visible = true;
-            this.mnuEdit.Visible = true;
-            this.mnuView.Visible = true;
-        }
 
         #region Tree related Events and methods
 
@@ -685,6 +682,65 @@ namespace Vanilla.Navigator.WinForm
         }
 
         #endregion
+
+        #region Menu Management
+
+        private void mnuLogin_Click(object sender, EventArgs e)
+        {
+            this.ShowLoginForm();
+        }
+
+        private void mnuLogOut_Click(object sender, EventArgs e)
+        {
+            this.DisableControl();
+        }
+
+        private void mnuRegister_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuRegisterProfile_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        #endregion
+
+        private void EnableControls()
+        {
+            this.pnlAddress.Visible = true;
+            this.pnlMain.Visible = true;
+
+            this.mnuLogin.Visible = false;
+            this.mnuLogOut.Visible = true;
+            this.mnuNew.Visible = true;
+            this.mnuOpen.Visible = true;
+            this.mnuFileSeperator2.Visible = true;
+            this.mnuEdit.Visible = true;
+            this.mnuView.Visible = true;
+            this.mnuUserManagement.Visible = true;
+        }
+
+        private void DisableControl()
+        {
+            this.pnlAddress.Visible = false;
+            this.pnlMain.Visible = false;
+
+            this.mnuLogin.Visible = true;
+            this.mnuLogOut.Visible = false;
+            this.mnuNew.Visible = false;
+            this.mnuOpen.Visible = false;
+            this.mnuFileSeperator2.Visible = false;
+            this.mnuEdit.Visible = false;
+            this.mnuView.Visible = false;
+            this.mnuUserManagement.Visible = false;
+        }
 
     }
 
