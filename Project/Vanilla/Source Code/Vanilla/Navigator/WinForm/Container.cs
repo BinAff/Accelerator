@@ -647,6 +647,22 @@ namespace Vanilla.Navigator.WinForm
             }
         }
 
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (trvForm.SelectedNode != null)
+            {
+                Facade.Artifact.Dto artifact = (trvForm.SelectedNode as TreeNode).Tag as Facade.Artifact.Dto;
+
+                this.formDto.ModuleFormDto.CurrentArtifact = new VanilaArtifact.FormDto
+                {
+                    Dto = artifact,
+                };
+
+                this.facade = new VanilaContainer.Server(this.formDto);
+                this.facade.Delete();
+            }
+        }
+
         #endregion
 
         #region Menu Management
@@ -709,6 +725,8 @@ namespace Vanilla.Navigator.WinForm
             this.mnuView.Visible = false;
             this.mnuUserManagement.Visible = false;
         }
+
+        
 
     }
 

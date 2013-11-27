@@ -98,6 +98,7 @@ namespace Vanilla.Navigator.Facade.Module
 
             (helper.ArtifactData as CrystalArtifact.Data).ModuleDefinition = this.Convert((this.FormDto as FormDto).Dto) as Crystal.License.Module.Data;
 
+            //(this.FormDto as FormDto).Dto.
             artifactServer.ModuleArtifactComponent = helper.ArtifactComponent;
             artifactServer.ModuleFacade = helper.ModuleFacade;
             artifactServer.Add();
@@ -112,7 +113,7 @@ namespace Vanilla.Navigator.Facade.Module
             //helper.ArtifactData = artifactServer.Convert(moduleDefDto.Artifact, helper.ArtifactData as CrystalArtifact.Data);
 
             ////moduleDefDto.Artifact.Module == null when folder gets added 
-            ////If Document is added in Customer Node : [helper.ModuleData.Id will carry the customer id for inserting into Customer.CustomerArtifact table]
+            ////I      f Document is added in Customer Node : [helper.ModuleData.Id will carry the customer id for inserting into Customer.CustomerArtifact table]
             //helper.ModuleData.Id = moduleDefDto.Artifact.Module == null ? 0 : moduleDefDto.Artifact.Module.Id; 
 
             //(helper.ArtifactData as CrystalArtifact.Data).ModuleDefinition = this.Convert((this.FormDto as FormDto).Dto) as Crystal.License.Module.Data;
@@ -123,6 +124,28 @@ namespace Vanilla.Navigator.Facade.Module
 
             //this.DisplayMessageList = artifactServer.DisplayMessageList;
             //this.IsError = artifactServer.IsError;
+        }
+
+        public void Delete()
+        {          
+            Facade.Artifact.Dto currentArtifact = (this.FormDto as FormDto).CurrentArtifact.Dto;
+            Artifact.Server artifactServer = new Artifact.Server((this.FormDto as FormDto).CurrentArtifact);
+
+            Helper helper = new Helper((this.FormDto as FormDto).Dto);
+            helper.ArtifactData = artifactServer.Convert(currentArtifact, helper.ArtifactData as CrystalArtifact.Data);
+
+            //moduleDefDto.Artifact.Module == null when folder gets added 
+            //If Document is added in Customer Node : [helper.ModuleData.Id will carry the customer id for inserting into Customer.CustomerArtifact table]
+            helper.ModuleData.Id = currentArtifact.Module == null ? 0 : currentArtifact.Module.Id;
+
+            (helper.ArtifactData as CrystalArtifact.Data).ModuleDefinition = this.Convert((this.FormDto as FormDto).Dto) as Crystal.License.Module.Data;
+
+            artifactServer.ModuleArtifactComponent = helper.ArtifactComponent;
+            artifactServer.ModuleFacade = helper.ModuleFacade;
+            artifactServer.Delete();
+
+            this.DisplayMessageList = artifactServer.DisplayMessageList;
+            this.IsError = artifactServer.IsError;
         }
 
         private CrystalArtifact.Category Convert(Artifact.Category category)

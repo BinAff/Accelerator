@@ -100,10 +100,13 @@ namespace Vanilla.Navigator.Facade.Container
 
         }
 
-        public ReturnObject<bool> Delete()
+        public override void Delete()
         {
-            return new ReturnObject<bool>();
-        }
+            VanilaModule.Server moduleFacade = new VanilaModule.Server((this.FormDto as FormDto).ModuleFormDto);
+            moduleFacade.Delete();
+            this.DisplayMessageList = moduleFacade.DisplayMessageList;
+            this.IsError = moduleFacade.IsError;
+        }       
 
         #region "Menu Handle"
 

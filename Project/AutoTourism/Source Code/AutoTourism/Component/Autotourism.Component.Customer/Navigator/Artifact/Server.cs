@@ -1,5 +1,5 @@
-﻿using System;
-
+﻿using BinAff.Core;
+using System;
 using CrystalArtifact = Crystal.Customer.Component.Navigator.Artifact;
 
 namespace Autotourism.Component.Customer.Navigator.Artifact
@@ -42,6 +42,22 @@ namespace Autotourism.Component.Customer.Navigator.Artifact
             //Find out customer data from customer form
             return new Autotourism.Component.Customer.Server(moduleData as Autotourism.Component.Customer.Data);
         }
+
+        protected override ReturnObject<bool> DeleteBefore()
+        { 
+            //Boolean retVal = new Dao((Data)this.Data).Delete();
+
+            //if (retVal)
+            //{
+            //    ICrud crud = new Autotourism.Component.Customer.Server(new Autotourism.Component.Customer.Data() { Id = 5 });
+            //    return crud.Delete();
+            //}
+
+            return new ReturnObject<bool> { 
+                Value = true
+            };
+        }
+        
     }
 
 }

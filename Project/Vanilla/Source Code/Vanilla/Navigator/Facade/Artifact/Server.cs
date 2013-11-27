@@ -173,6 +173,13 @@ namespace Vanilla.Navigator.Facade.Artifact
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
+        public override void Delete()
+        {
+            FormDto formDto = this.FormDto as FormDto;
+            ReturnObject<Boolean> ret = this.ModuleArtifactComponent.Delete();
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+        }
+
     }
 
 }

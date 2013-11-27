@@ -69,6 +69,11 @@ namespace Autotourism.Component.Customer.Navigator.Artifact
             if (ret == -2146232060) status = false;//Foreign key violation
 
             return status;
+        }              
+
+        protected override bool DeleteAfter()
+        {
+            return base.DeleteAfter();
         }
 
     }
