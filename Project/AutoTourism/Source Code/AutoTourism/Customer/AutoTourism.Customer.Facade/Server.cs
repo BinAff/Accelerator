@@ -108,6 +108,7 @@ namespace AutoTourism.Customer.Facade
             ICrud crud = new AutotourismComponent.Server(this.Convert((this.FormDto as FormDto).Dto) as AutotourismComponent.Data);
             ReturnObject<Boolean> ret = crud.Save();
 
+            (this.FormDto as FormDto).Dto.Id = (crud as Crud).Data.Id;
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 

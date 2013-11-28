@@ -91,10 +91,10 @@ namespace AutoTourism.Customer.WinForm
             InitializeComponent();
         }
       
-        public CustomerForm(CustomerFacade.Dto data)
+        public CustomerForm(CustomerFacade.Dto dto)
         {
             InitializeComponent();
-            this.customerDto = data;   
+            this.customerDto = dto;   
         }
 
         #endregion
@@ -112,7 +112,7 @@ namespace AutoTourism.Customer.WinForm
             this.LoadForm();
 
             if (this.customerDto != null)
-                LoadCustomerData();
+                this.LoadCustomerData();
         }
 
         private void btnAddContact_Click(object sender, System.EventArgs e)
@@ -401,37 +401,36 @@ namespace AutoTourism.Customer.WinForm
 
         private Boolean SaveCustomerData()
         {
-            Boolean retVal = false;
+            Boolean retVal = true;
 
             if (this.ValidateCustomer())
             {
+                if (this.customerDto == null) this.customerDto = new CustomerFacade.Dto();
+                this.customerDto.Id = this.customerDto == null ? 0 : this.customerDto.Id;
+                this.customerDto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
+                {
+                    Id = ((Table)cboInitial.SelectedItem).Id,
+                };
+                this.customerDto.FirstName = txtFName.Text.Trim();
+                this.customerDto.MiddleName = txtMName.Text.Trim();
+                this.customerDto.LastName = txtLName.Text.Trim();
+                this.customerDto.Address = txtAdds.Text.Trim();
+                this.customerDto.State = cboState.SelectedIndex == -1 ? null : new Table()
+                {
+                    Id = ((Table)cboState.SelectedItem).Id,
+                };
+                this.customerDto.City = txtCity.Text.Trim();
+                this.customerDto.Pin = txtPin.Text == String.Empty ? 0 : Convert.ToInt32(txtPin.Text);
+                this.customerDto.ContactNumberList = GetContactNumberDtoList();
+                this.customerDto.Email = txtEmail.Text.Trim();
+                this.customerDto.IdentityProofType = cboProofType.SelectedIndex == -1 ? null : new Table()
+                {
+                    Id = ((Table)cboProofType.SelectedItem).Id,
+                };
+                this.customerDto.IdentityProofName = txtIdentityProofName.Text.Trim();
                 CustomerFacade.FormDto formDto = new CustomerFacade.FormDto()
                 {
-                    Dto = new CustomerFacade.Dto
-                    {
-                        Id = this.customerDto == null ? 0 : this.customerDto.Id,
-                        Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
-                        {
-                            Id = ((Table)cboInitial.SelectedItem).Id,
-                        },
-                        FirstName = txtFName.Text.Trim(),
-                        MiddleName = txtMName.Text.Trim(),
-                        LastName = txtLName.Text.Trim(),
-                        Address = txtAdds.Text.Trim(),
-                        State = cboState.SelectedIndex == -1 ? null : new Table()
-                        {
-                            Id = ((Table)cboState.SelectedItem).Id,
-                        },
-                        City = txtCity.Text.Trim(),
-                        Pin = txtPin.Text == String.Empty ? 0 : Convert.ToInt32(txtPin.Text),
-                        ContactNumberList = GetContactNumberDtoList(),
-                        Email = txtEmail.Text.Trim(),
-                        IdentityProofType = cboProofType.SelectedIndex == -1 ? null : new Table()
-                        {
-                            Id = ((Table)cboProofType.SelectedItem).Id,
-                        },
-                        IdentityProofName = txtIdentityProofName.Text.Trim(),
-                    },
+                    Dto = this.customerDto,
                 };
 
                 BinAff.Facade.Library.Server facade = new CustomerFacade.Server(formDto);
@@ -443,10 +442,9 @@ namespace AutoTourism.Customer.WinForm
                 {
                     facade.Change();
                 }
-             
-
                 if (facade.IsError)
                 {
+                    retVal = false;
                     new PresentationLibrary.MessageBox
                     {
                         DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
@@ -573,7 +571,7 @@ namespace AutoTourism.Customer.WinForm
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (SaveCustomerData()) this.Close();
+            if (this.SaveCustomerData()) this.Close();
         }
 
     }
