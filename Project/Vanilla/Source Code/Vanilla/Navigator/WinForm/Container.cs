@@ -59,7 +59,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowLoginForm()
         {
-            if (loginForm == null) this.loginForm = new Guardian.WinForm.Login();
+            this.loginForm = new Guardian.WinForm.Login();
             this.loginForm.Show();
             this.PositionLoginForm();
             this.loginForm.FormClosed += loginForm_FormClosed;
@@ -675,6 +675,7 @@ namespace Vanilla.Navigator.WinForm
         private void mnuLogOut_Click(object sender, EventArgs e)
         {
             this.DisableControl();
+            this.ShowLoginForm();
         }
 
         private void mnuRegister_Click(object sender, EventArgs e)
