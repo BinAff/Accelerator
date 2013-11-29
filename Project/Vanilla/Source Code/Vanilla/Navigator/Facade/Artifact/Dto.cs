@@ -7,7 +7,7 @@ namespace Vanilla.Navigator.Facade.Artifact
     public class Dto : BinAff.Facade.Library.Dto
     {
 
-        public String fileName;
+        private String fileName;
         /// <summary>
         /// File name associaated with Artifact
         /// </summary>
@@ -26,7 +26,7 @@ namespace Vanilla.Navigator.Facade.Artifact
             }
         }
 
-        public String path;
+        private String path;
         /// <summary>
         /// Virtual path of Artifact
         /// </summary>
@@ -45,7 +45,7 @@ namespace Vanilla.Navigator.Facade.Artifact
             }
         }
 
-        public Type style;
+        private Type style;
         /// <summary>
         /// Type of Arctifact
         /// </summary>
@@ -80,7 +80,7 @@ namespace Vanilla.Navigator.Facade.Artifact
             }
         }
 
-        public Int32 version;
+        private Int32 version;
         /// <summary>
         /// Version number
         /// </summary>
@@ -99,7 +99,7 @@ namespace Vanilla.Navigator.Facade.Artifact
             }
         }
 
-        public BinAff.Core.Table createdBy;
+        private BinAff.Core.Table createdBy;
         /// <summary>
         /// Created by user
         /// </summary>
@@ -118,7 +118,7 @@ namespace Vanilla.Navigator.Facade.Artifact
             }
         }
 
-        public BinAff.Core.Table modifiedBy;
+        private BinAff.Core.Table modifiedBy;
         /// <summary>
         /// Modified by User
         /// </summary>
@@ -137,7 +137,7 @@ namespace Vanilla.Navigator.Facade.Artifact
             }
         }
 
-        public DateTime createdAt;
+        private DateTime createdAt;
         /// <summary>
         /// Time when artifact created
         /// </summary>
@@ -156,7 +156,7 @@ namespace Vanilla.Navigator.Facade.Artifact
             }
         }
 
-        public DateTime? modifiedAt;
+        private DateTime? modifiedAt;
         /// <summary>
         /// Time when artifact last modified
         /// </summary>
@@ -175,7 +175,7 @@ namespace Vanilla.Navigator.Facade.Artifact
             }
         }
 
-        public List<Dto> children;
+        private List<Dto> children;
         public List<Dto> Children
         {
             get
