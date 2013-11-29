@@ -13,7 +13,7 @@ namespace Vanilla.Navigator.Facade.Module
     public class Server : BinAff.Facade.Library.Server
     {
 
-        private Artifact.Category currentGroup;
+        private Artifact.Category currentCategory;
 
         public Server(FormDto formDto)
             : base(formDto)
@@ -28,11 +28,11 @@ namespace Vanilla.Navigator.Facade.Module
 
             FormDto formDto = this.FormDto as FormDto;
 
-            this.currentGroup = Artifact.Category.Form;
+            this.currentCategory = Artifact.Category.Form;
             formDto.FormModuleList = this.Convert(data.FormList);
-            this.currentGroup = Artifact.Category.Catalogue;
+            this.currentCategory = Artifact.Category.Catalogue;
             formDto.CatalogueModuleList = this.Convert(data.CatalogueList);
-            this.currentGroup = Artifact.Category.Report;
+            this.currentCategory = Artifact.Category.Report;
             formDto.ReportModuleList = this.Convert(data.ReportList);
         }
 
@@ -56,7 +56,7 @@ namespace Vanilla.Navigator.Facade.Module
                 Name = (data as Crystal.License.Module.Data).Name,
             };
 
-            dto.Artifact = this.GetTree(dto, this.currentGroup);//mistake
+            dto.Artifact = this.GetTree(dto, this.currentCategory);//mistake
             dto.ComponentFormType = new Helper(dto).ModuleFormType;
 
             return dto;
@@ -78,15 +78,22 @@ namespace Vanilla.Navigator.Facade.Module
             Helper helper = new Helper(module);
             artifactServer.ModuleFacade = helper.ModuleFacade;
             CrystalArtifact.Data artifactData = (helper.Artifact as CrystalArtifact.Server).Data as CrystalArtifact.Data;
-            artifactData.Category = this.Convert(category);
+            artifactData.Category = (CrystalArtifact.Category)category;
             artifactData.Path = category.ToString();
             artifactData.ModuleDefinition = this.Convert(module) as Crystal.License.Module.Data;
-            return artifactServer.GetTree(helper.Artifact);
+            Artifact.Dto tree = artifactServer.GetTree(helper.Artifact);
+            //Assign parent of root lavel artifacts, which are directly under module, to module
+            foreach (Artifact.Dto child in tree.Children)
+            {
+                child.Parent = module;
+            }
+            return tree;
         }
 
         public void Add()
         {
             Facade.Artifact.Dto currentArtifact = (this.FormDto as FormDto).CurrentArtifact.Dto;
+
             Artifact.Server artifactServer = new Artifact.Server((this.FormDto as FormDto).CurrentArtifact);
 
             Helper helper = new Helper((this.FormDto as FormDto).Dto);
@@ -98,32 +105,12 @@ namespace Vanilla.Navigator.Facade.Module
 
             (helper.ArtifactData as CrystalArtifact.Data).ModuleDefinition = this.Convert((this.FormDto as FormDto).Dto) as Crystal.License.Module.Data;
 
-            //(this.FormDto as FormDto).Dto.
             artifactServer.ModuleArtifactComponent = helper.ArtifactComponent;
             artifactServer.ModuleFacade = helper.ModuleFacade;
             artifactServer.Add();
 
             this.DisplayMessageList = artifactServer.DisplayMessageList;
             this.IsError = artifactServer.IsError;
-            //Dto moduleDefDto = (this.FormDto as FormDto).Dto;
-            //Facade.Artifact.Dto correntArtifact = (this.FormDto as FormDto).CurrentArtifact.Dto;
-            //Artifact.Server artifactServer = new Artifact.Server((this.FormDto as FormDto).CurrentArtifact);
-
-            //Helper helper = new Helper((this.FormDto as FormDto).Dto);
-            //helper.ArtifactData = artifactServer.Convert(moduleDefDto.Artifact, helper.ArtifactData as CrystalArtifact.Data);
-
-            ////moduleDefDto.Artifact.Module == null when folder gets added 
-            ////I      f Document is added in Customer Node : [helper.ModuleData.Id will carry the customer id for inserting into Customer.CustomerArtifact table]
-            //helper.ModuleData.Id = moduleDefDto.Artifact.Module == null ? 0 : moduleDefDto.Artifact.Module.Id; 
-
-            //(helper.ArtifactData as CrystalArtifact.Data).ModuleDefinition = this.Convert((this.FormDto as FormDto).Dto) as Crystal.License.Module.Data;
-
-            //artifactServer.ModuleArtifactComponent = helper.ArtifactComponent;
-            //artifactServer.ModuleFacade = helper.ModuleFacade;
-            //artifactServer.Add();
-
-            //this.DisplayMessageList = artifactServer.DisplayMessageList;
-            //this.IsError = artifactServer.IsError;
         }
 
         public void Delete()

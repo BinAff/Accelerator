@@ -170,6 +170,7 @@ namespace Vanilla.Navigator.Facade.Artifact
         {
             FormDto formDto = this.FormDto as FormDto;
             ReturnObject<Boolean> ret = this.ModuleArtifactComponent.Save();
+            formDto.Dto.Id = (this.ModuleArtifactComponent as Crud).Data.Id;
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 

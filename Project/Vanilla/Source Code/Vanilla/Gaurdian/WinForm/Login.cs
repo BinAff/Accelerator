@@ -19,22 +19,35 @@ namespace Vanilla.Guardian.WinForm
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            if (this.Validate())
+            {
+                this.TryLogin();
+            }
+        }
+
+        private Boolean Validate()
+        {
             errorProvider.Clear();
 
             if (String.IsNullOrEmpty(this.txtUserId.Text.Trim()))
             {
                 errorProvider.SetError(this.txtUserId, "User id cannot be empty");
                 this.txtUserId.Focus();
-                return;
+                return false;
             }
 
             if (String.IsNullOrEmpty(this.txtPassword.Text.Trim()))
             {
                 errorProvider.SetError(this.txtPassword, "Password cannot be empty");
                 this.txtPassword.Focus();
-                return;
+                return false;
             }
 
+            return true;
+        }
+
+        private void TryLogin()
+        {
             Facade.Login.FormDto formDto = new Facade.Login.FormDto
             {
                 Dto = new Facade.Account.Dto
@@ -49,7 +62,7 @@ namespace Vanilla.Guardian.WinForm
             {
                 this.lblMessage.Text = facade.DisplayMessageList[0];
             }
-            else
+            else //Login Success
             {
                 this.IsAuthenticated = true;
                 this.CurrentUser = formDto.Dto;
@@ -57,12 +70,19 @@ namespace Vanilla.Guardian.WinForm
                 //Add Login info to log
                 this.Close();
             }
-            
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void textBoxes_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (this.Validate())
+            {
+                this.TryLogin();
+            }
         }
 
     }

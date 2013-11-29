@@ -109,6 +109,7 @@
             this.txtPassword.Size = new System.Drawing.Size(187, 20);
             this.txtPassword.TabIndex = 3;
             this.txtPassword.Text = "BinAff@1";
+            this.txtPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxes_KeyDown);
             // 
             // txtUserId
             // 
@@ -117,6 +118,7 @@
             this.txtUserId.Size = new System.Drawing.Size(187, 20);
             this.txtUserId.TabIndex = 2;
             this.txtUserId.Text = "ArpanKar";
+            this.txtUserId.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxes_KeyDown);
             // 
             // lblPassword
             // 
