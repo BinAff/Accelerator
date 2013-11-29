@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 using PresentationLib = BinAff.Presentation.Library;
+using System.Drawing;
 
 namespace Vanilla.Navigator.WinForm
 {
@@ -16,10 +17,19 @@ namespace Vanilla.Navigator.WinForm
         private Facade.Container.Server facade;
         Hashtable hashTreeView = new Hashtable();
         Vanilla.Guardian.WinForm.Login loginForm;
-       
+        Boolean isLoggedIn;
+        String selectedNodePath;
+
         public Container()
         {
             InitializeComponent();
+        }
+
+        public Container(String selectedNodePath)
+            : this()
+        {
+            this.isLoggedIn = true;
+            this.selectedNodePath = selectedNodePath;
         }
 
         private void Container_Load(object sender, EventArgs e)
@@ -31,8 +41,47 @@ namespace Vanilla.Navigator.WinForm
             this.txtAddress.Text = @"Form:\\"; //Module Seperator is hard coding. Need to change
             
             this.DisableControl();
-            this.ShowLoginForm();
+            if (this.isLoggedIn)
+            {
+                this.LoadForm();
+                this.SelectNode(this.selectedNodePath);
+            }
+            else
+            {
+                this.ShowLoginForm();
+            }
             this.Resize += Container_Resize;
+        }
+
+        private void SelectNode(String selectedNodePath)
+        {
+            selectedNodePath = selectedNodePath.Substring(selectedNodePath.IndexOf(":\\\\") + 3);
+            TreeNode currentNode = this.FindTreeNodeFromPath(selectedNodePath, this.trvForm.Nodes);
+            this.trvForm.SelectedNode = currentNode;
+            currentNode.Expand();
+            this.trvForm_NodeMouseClick(this.trvForm, new TreeNodeMouseClickEventArgs(currentNode, MouseButtons.Left, 1, 0, 0));
+        }
+
+        private TreeNode FindTreeNodeFromPath(String path, TreeNodeCollection treeNodes)
+        {
+            String text = path.Substring(0, path.IndexOfAny(new Char[] { '\\' }));
+            path = path.Substring(path.IndexOfAny(new Char[] { '\\' }) + 1);
+            foreach (TreeNode node in treeNodes)
+            {
+                if (node.Text == text)
+                {
+                    if (String.IsNullOrEmpty(path))
+                    {
+                        return node;
+                    }
+                    else if (node.Nodes.Count > 0)
+                    {
+                        return this.FindTreeNodeFromPath(path, node.Nodes);
+                    }
+                }
+                
+            }
+            return null;
         }
 
         private void InitializeListView()
@@ -111,27 +160,35 @@ namespace Vanilla.Navigator.WinForm
 
         private void PositionLoginForm()
         {
-            this.loginForm.Top = this.Height / 2 - this.loginForm.Height / 2 + this.Top + 20;
-            this.loginForm.Left = this.Width / 2 - this.loginForm.Width / 2 + this.Left;
-            
-            this.loginForm.TopMost = true;
+            if (this.loginForm != null)
+            {
+                this.loginForm.Top = this.Height / 2 - this.loginForm.Height / 2 + this.Top + 20;
+                this.loginForm.Left = this.Width / 2 - this.loginForm.Width / 2 + this.Left;
+
+                this.loginForm.TopMost = true;
+            }
         }
 
-        void loginForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void loginForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             if ((sender as Vanilla.Guardian.WinForm.Login).IsAuthenticated)
             {
-                this.facade = new Facade.Container.Server(this.formDto = new Facade.Container.FormDto
-                {
-                    ModuleFormDto = new Facade.Module.FormDto
-                    {
-                        Dto = new Facade.Module.Dto()
-                    },
-                });
-                this.facade.LoadForm();
-                this.LoadModules(tbcCategory.TabPages[0].Text);
-                this.EnableControls();
+                this.LoadForm();
             }
+        }
+
+        private void LoadForm()
+        {
+            this.facade = new Facade.Container.Server(this.formDto = new Facade.Container.FormDto
+            {
+                ModuleFormDto = new Facade.Module.FormDto
+                {
+                    Dto = new Facade.Module.Dto()
+                },
+            });
+            this.facade.LoadForm();
+            this.LoadModules(tbcCategory.TabPages[0].Text);
+            this.EnableControls();
         }
 
         #endregion
@@ -619,6 +676,25 @@ namespace Vanilla.Navigator.WinForm
         {
             this.DisableControl();
             this.ShowLoginForm();
+        }
+
+        private void mnuNewWindow_Click(object sender, EventArgs e)
+        {
+            TreeNode selectedNode = this.trvForm.SelectedNode;
+
+            Facade.Artifact.Dto currentDto;
+            if (selectedNode.Tag.GetType().ToString() == "Vanilla.Navigator.Facade.Module.Dto")
+            {
+                currentDto = (selectedNode.Tag as Facade.Module.Dto).Artifact;
+            }
+            else
+            {
+                currentDto = selectedNode.Tag as Facade.Artifact.Dto;
+            }
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate()
+            {
+                Application.Run(new Container(currentDto.Path));
+            })).Start();
         }
 
         private void mnuRegister_Click(object sender, EventArgs e)
