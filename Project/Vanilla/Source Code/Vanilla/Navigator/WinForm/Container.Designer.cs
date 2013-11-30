@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Container));
-            this.pnlMain = new System.Windows.Forms.SplitContainer();
+            this.pnlArtifact = new System.Windows.Forms.SplitContainer();
             this.tbcCategory = new System.Windows.Forms.TabControl();
             this.tbpForm = new System.Windows.Forms.TabPage();
             this.trvForm = new System.Windows.Forms.TreeView();
@@ -39,7 +39,7 @@
             this.trvCatalogue = new System.Windows.Forms.TreeView();
             this.tbpReport = new System.Windows.Forms.TabPage();
             this.trvReport = new System.Windows.Forms.TreeView();
-            this.lstViewContainer = new System.Windows.Forms.ListView();
+            this.lsvContainer = new System.Windows.Forms.ListView();
             this.lblAudit = new System.Windows.Forms.Label();
             this.txtAddress = new System.Windows.Forms.TextBox();
             this.btnUp = new System.Windows.Forms.Button();
@@ -109,10 +109,12 @@
             this.btnCalender = new System.Windows.Forms.Button();
             this.btnArtifact = new System.Windows.Forms.Button();
             this.btnHideShow = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).BeginInit();
-            this.pnlMain.Panel1.SuspendLayout();
-            this.pnlMain.Panel2.SuspendLayout();
-            this.pnlMain.SuspendLayout();
+            this.pnlConfiguration = new System.Windows.Forms.SplitContainer();
+            this.lsvConfiguration = new System.Windows.Forms.ListView();
+            ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
+            this.pnlArtifact.Panel1.SuspendLayout();
+            this.pnlArtifact.Panel2.SuspendLayout();
+            this.pnlArtifact.SuspendLayout();
             this.tbcCategory.SuspendLayout();
             this.tbpForm.SuspendLayout();
             this.tbpCatalogue.SuspendLayout();
@@ -121,27 +123,30 @@
             this.cmsExplorer.SuspendLayout();
             this.mnuMain.SuspendLayout();
             this.pnlTool.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pnlConfiguration)).BeginInit();
+            this.pnlConfiguration.Panel2.SuspendLayout();
+            this.pnlConfiguration.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pnlMain
+            // pnlArtifact
             // 
-            this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnlMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.pnlMain.Location = new System.Drawing.Point(0, 55);
-            this.pnlMain.Name = "pnlMain";
+            this.pnlArtifact.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlArtifact.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.pnlArtifact.Location = new System.Drawing.Point(0, 55);
+            this.pnlArtifact.Name = "pnlArtifact";
             // 
-            // pnlMain.Panel1
+            // pnlArtifact.Panel1
             // 
-            this.pnlMain.Panel1.Controls.Add(this.tbcCategory);
+            this.pnlArtifact.Panel1.Controls.Add(this.tbcCategory);
             // 
-            // pnlMain.Panel2
+            // pnlArtifact.Panel2
             // 
-            this.pnlMain.Panel2.Controls.Add(this.lstViewContainer);
-            this.pnlMain.Panel2.Controls.Add(this.lblAudit);
-            this.pnlMain.Size = new System.Drawing.Size(591, 278);
-            this.pnlMain.SplitterDistance = 217;
-            this.pnlMain.TabIndex = 0;
-            this.pnlMain.Visible = false;
+            this.pnlArtifact.Panel2.Controls.Add(this.lsvContainer);
+            this.pnlArtifact.Panel2.Controls.Add(this.lblAudit);
+            this.pnlArtifact.Size = new System.Drawing.Size(404, 94);
+            this.pnlArtifact.SplitterDistance = 217;
+            this.pnlArtifact.TabIndex = 0;
+            this.pnlArtifact.Visible = false;
             // 
             // tbcCategory
             // 
@@ -152,7 +157,7 @@
             this.tbcCategory.Location = new System.Drawing.Point(0, 0);
             this.tbcCategory.Name = "tbcCategory";
             this.tbcCategory.SelectedIndex = 0;
-            this.tbcCategory.Size = new System.Drawing.Size(213, 274);
+            this.tbcCategory.Size = new System.Drawing.Size(213, 90);
             this.tbcCategory.TabIndex = 2;
             this.tbcCategory.SelectedIndexChanged += new System.EventHandler(this.tbcCategory_SelectedIndexChanged);
             this.tbcCategory.Deselected += new System.Windows.Forms.TabControlEventHandler(this.tbcCategory_Deselected);
@@ -163,7 +168,7 @@
             this.tbpForm.Location = new System.Drawing.Point(4, 22);
             this.tbpForm.Name = "tbpForm";
             this.tbpForm.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpForm.Size = new System.Drawing.Size(205, 248);
+            this.tbpForm.Size = new System.Drawing.Size(205, 64);
             this.tbpForm.TabIndex = 0;
             this.tbpForm.Text = "Form";
             this.tbpForm.UseVisualStyleBackColor = true;
@@ -177,7 +182,7 @@
             this.trvForm.Name = "trvForm";
             this.trvForm.SelectedImageKey = "DirectoryOpen.gif";
             this.trvForm.ShowRootLines = false;
-            this.trvForm.Size = new System.Drawing.Size(199, 242);
+            this.trvForm.Size = new System.Drawing.Size(199, 58);
             this.trvForm.StateImageList = this.imglIcons;
             this.trvForm.TabIndex = 6;
             this.trvForm.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvArtifact_AfterLabelEdit);
@@ -243,34 +248,34 @@
             this.trvReport.KeyUp += new System.Windows.Forms.KeyEventHandler(this.trvArtifact_KeyUp);
             this.trvReport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvArtifact_MouseDown);
             // 
-            // lstViewContainer
+            // lsvContainer
             // 
-            this.lstViewContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstViewContainer.FullRowSelect = true;
-            this.lstViewContainer.LargeImageList = this.imglIcons;
-            this.lstViewContainer.Location = new System.Drawing.Point(0, 0);
-            this.lstViewContainer.Name = "lstViewContainer";
-            this.lstViewContainer.Size = new System.Drawing.Size(366, 251);
-            this.lstViewContainer.SmallImageList = this.imglIcons;
-            this.lstViewContainer.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lstViewContainer.StateImageList = this.imglIcons;
-            this.lstViewContainer.TabIndex = 1;
-            this.lstViewContainer.UseCompatibleStateImageBehavior = false;
-            this.lstViewContainer.View = System.Windows.Forms.View.Details;
-            this.lstViewContainer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lstViewContainer_AfterLabelEdit);
-            this.lstViewContainer.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.lstViewContainer_ItemMouseHover);
-            this.lstViewContainer.DoubleClick += new System.EventHandler(this.lstViewContainer_DoubleClick);
-            this.lstViewContainer.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstViewContainer_KeyUp);
-            this.lstViewContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstViewContainer_MouseDown);
+            this.lsvContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lsvContainer.FullRowSelect = true;
+            this.lsvContainer.LargeImageList = this.imglIcons;
+            this.lsvContainer.Location = new System.Drawing.Point(0, 0);
+            this.lsvContainer.Name = "lsvContainer";
+            this.lsvContainer.Size = new System.Drawing.Size(179, 67);
+            this.lsvContainer.SmallImageList = this.imglIcons;
+            this.lsvContainer.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.lsvContainer.StateImageList = this.imglIcons;
+            this.lsvContainer.TabIndex = 1;
+            this.lsvContainer.UseCompatibleStateImageBehavior = false;
+            this.lsvContainer.View = System.Windows.Forms.View.Details;
+            this.lsvContainer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lstViewContainer_AfterLabelEdit);
+            this.lsvContainer.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.lstViewContainer_ItemMouseHover);
+            this.lsvContainer.DoubleClick += new System.EventHandler(this.lstViewContainer_DoubleClick);
+            this.lsvContainer.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstViewContainer_KeyUp);
+            this.lsvContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstViewContainer_MouseDown);
             // 
             // lblAudit
             // 
             this.lblAudit.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblAudit.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblAudit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.lblAudit.Location = new System.Drawing.Point(0, 251);
+            this.lblAudit.Location = new System.Drawing.Point(0, 67);
             this.lblAudit.Name = "lblAudit";
-            this.lblAudit.Size = new System.Drawing.Size(366, 23);
+            this.lblAudit.Size = new System.Drawing.Size(179, 23);
             this.lblAudit.TabIndex = 0;
             this.lblAudit.Text = "label1";
             this.lblAudit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -717,9 +722,9 @@
             // 
             // pnlLoginFormContainer
             // 
-            this.pnlLoginFormContainer.Location = new System.Drawing.Point(2, 337);
+            this.pnlLoginFormContainer.Location = new System.Drawing.Point(498, 82);
             this.pnlLoginFormContainer.Name = "pnlLoginFormContainer";
-            this.pnlLoginFormContainer.Size = new System.Drawing.Size(87, 30);
+            this.pnlLoginFormContainer.Size = new System.Drawing.Size(35, 32);
             this.pnlLoginFormContainer.TabIndex = 7;
             // 
             // pnlTool
@@ -751,6 +756,7 @@
             this.btnConfiguration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnConfiguration, "Configuration");
             this.btnConfiguration.UseVisualStyleBackColor = true;
+            this.btnConfiguration.Click += new System.EventHandler(this.btnConfiguration_Click);
             // 
             // btnNote
             // 
@@ -827,6 +833,7 @@
             this.btnArtifact.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnArtifact, "Form, Catalogue, Reports");
             this.btnArtifact.UseVisualStyleBackColor = true;
+            this.btnArtifact.Click += new System.EventHandler(this.btnArtifact_Click);
             // 
             // btnHideShow
             // 
@@ -841,8 +848,32 @@
             this.btnHideShow.TabIndex = 7;
             this.btnHideShow.Text = "7";
             this.btnHideShow.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.btnHideShow, "Hide");
             this.btnHideShow.UseVisualStyleBackColor = true;
             this.btnHideShow.Click += new System.EventHandler(this.btnHideShow_Click);
+            // 
+            // pnlConfiguration
+            // 
+            this.pnlConfiguration.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlConfiguration.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.pnlConfiguration.Location = new System.Drawing.Point(2, 149);
+            this.pnlConfiguration.Name = "pnlConfiguration";
+            // 
+            // pnlConfiguration.Panel2
+            // 
+            this.pnlConfiguration.Panel2.Controls.Add(this.lsvConfiguration);
+            this.pnlConfiguration.Size = new System.Drawing.Size(400, 110);
+            this.pnlConfiguration.SplitterDistance = 215;
+            this.pnlConfiguration.TabIndex = 10;
+            // 
+            // lsvConfiguration
+            // 
+            this.lsvConfiguration.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lsvConfiguration.Location = new System.Drawing.Point(0, 0);
+            this.lsvConfiguration.Name = "lsvConfiguration";
+            this.lsvConfiguration.Size = new System.Drawing.Size(177, 106);
+            this.lsvConfiguration.TabIndex = 0;
+            this.lsvConfiguration.UseCompatibleStateImageBehavior = false;
             // 
             // Container
             // 
@@ -851,18 +882,19 @@
             this.ClientSize = new System.Drawing.Size(591, 394);
             this.Controls.Add(this.pnlTool);
             this.Controls.Add(this.pnlLoginFormContainer);
-            this.Controls.Add(this.pnlMain);
+            this.Controls.Add(this.pnlArtifact);
             this.Controls.Add(this.pnlAddress);
             this.Controls.Add(this.mnuMain);
+            this.Controls.Add(this.pnlConfiguration);
             this.MainMenuStrip = this.mnuMain;
             this.Name = "Container";
             this.Text = "Navigator";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Container_Load);
-            this.pnlMain.Panel1.ResumeLayout(false);
-            this.pnlMain.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).EndInit();
-            this.pnlMain.ResumeLayout(false);
+            this.pnlArtifact.Panel1.ResumeLayout(false);
+            this.pnlArtifact.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).EndInit();
+            this.pnlArtifact.ResumeLayout(false);
             this.tbcCategory.ResumeLayout(false);
             this.tbpForm.ResumeLayout(false);
             this.tbpCatalogue.ResumeLayout(false);
@@ -874,6 +906,9 @@
             this.mnuMain.PerformLayout();
             this.pnlTool.ResumeLayout(false);
             this.pnlTool.PerformLayout();
+            this.pnlConfiguration.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pnlConfiguration)).EndInit();
+            this.pnlConfiguration.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -881,14 +916,14 @@
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer pnlMain;
+        private System.Windows.Forms.SplitContainer pnlArtifact;
         private System.Windows.Forms.TextBox txtAddress;
         private System.Windows.Forms.Button btnUp;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button btnEnter;
         private System.Windows.Forms.Panel pnlAddress;
         private System.Windows.Forms.Label lblAudit;
-        private System.Windows.Forms.ListView lstViewContainer;
+        private System.Windows.Forms.ListView lsvContainer;
         private System.Windows.Forms.TreeView trvForm;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.TabControl tbcCategory;
@@ -960,6 +995,8 @@
         private System.Windows.Forms.Button btnCalender;
         private System.Windows.Forms.Button btnArtifact;
         private System.Windows.Forms.Button btnHideShow;
+        private System.Windows.Forms.SplitContainer pnlConfiguration;
+        private System.Windows.Forms.ListView lsvConfiguration;
 
     }
 }
