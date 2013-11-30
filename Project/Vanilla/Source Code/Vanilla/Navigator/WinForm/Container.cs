@@ -39,7 +39,8 @@ namespace Vanilla.Navigator.WinForm
 
             this.InitializeListView();
             this.txtAddress.Text = @"Form:\\"; //Module Seperator is hard coding. Need to change
-            this.pnlMain.Dock = DockStyle.Fill;
+            this.pnlArtifact.Dock = DockStyle.Fill;
+            this.pnlConfiguration.Dock = DockStyle.Fill;
 
             this.HideControl();
             if (this.isLoggedIn)
@@ -87,13 +88,13 @@ namespace Vanilla.Navigator.WinForm
 
         private void InitializeListView()
         {
-            this.lstViewContainer.Columns.Add("Name", 300);
-            this.lstViewContainer.Columns.Add("Type", 70);
-            this.lstViewContainer.Columns.Add("Version", 50);
-            this.lstViewContainer.Columns.Add("Created By", 200);
-            this.lstViewContainer.Columns.Add("Created At", 115);
-            this.lstViewContainer.Columns.Add("Modified By", 200);
-            this.lstViewContainer.Columns.Add("Modified At", 115);
+            this.lsvContainer.Columns.Add("Name", 300);
+            this.lsvContainer.Columns.Add("Type", 70);
+            this.lsvContainer.Columns.Add("Version", 50);
+            this.lsvContainer.Columns.Add("Created By", 200);
+            this.lsvContainer.Columns.Add("Created At", 115);
+            this.lsvContainer.Columns.Add("Modified By", 200);
+            this.lsvContainer.Columns.Add("Modified At", 115);
         }
 
         private void LoadModules(String currentTab)
@@ -331,7 +332,7 @@ namespace Vanilla.Navigator.WinForm
             if (this.facade.IsError)
             {
                 dialogueType = PresentationLib.MessageBox.Type.Error;
-                this.lstViewContainer.Items.Remove(selectedItem);
+                this.lsvContainer.Items.Remove(selectedItem);
             }
             else
             {
@@ -350,7 +351,7 @@ namespace Vanilla.Navigator.WinForm
             {
                 TreeView current = new TreeView();
                 ToolStripMenuItem newItem;
-                ListViewItem selectedItem = lstViewContainer.GetItemAt(e.X, e.Y);
+                ListViewItem selectedItem = lsvContainer.GetItemAt(e.X, e.Y);
 
                 //clear all contextStripMenu items
                 cmsExplorer.Items.Clear();
@@ -379,8 +380,8 @@ namespace Vanilla.Navigator.WinForm
         {
             if (e.KeyCode == Keys.F2)
             {
-                lstViewContainer.LabelEdit = true;
-                foreach (ListViewItem item in lstViewContainer.SelectedItems)
+                lsvContainer.LabelEdit = true;
+                foreach (ListViewItem item in lsvContainer.SelectedItems)
                     item.BeginEdit();
             }
         }
@@ -427,7 +428,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void ListViewDelete_Click(object sender, EventArgs e)
         {
-            ListViewItem selectedItem = lstViewContainer.SelectedItems[0];
+            ListViewItem selectedItem = lsvContainer.SelectedItems[0];
             if (selectedItem != null)
             {
                 Facade.Artifact.Dto artifactDto = selectedItem.Tag as Facade.Artifact.Dto;
@@ -468,7 +469,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void SelectNode(Facade.Artifact.Dto selectedNode)
         {
-            this.lstViewContainer.Items.Clear();
+            this.lsvContainer.Items.Clear();
             if (selectedNode.Children != null && selectedNode.Children.Count > 0)
             {
                 foreach (Facade.Artifact.Dto artifact in selectedNode.Children)
@@ -480,7 +481,7 @@ namespace Vanilla.Navigator.WinForm
                         ImageIndex = artifact.Style == Facade.Artifact.Type.Directory ? 0 : 2,
                     };
                     current.SubItems.AddRange(this.AddListViewSubItems(current, artifact));
-                    this.lstViewContainer.Items.Add(current);
+                    this.lsvContainer.Items.Add(current);
                 }
             }
         }
@@ -535,15 +536,15 @@ namespace Vanilla.Navigator.WinForm
             this.facade = new Facade.Container.Server(this.formDto);
             this.facade.Add();
 
-            if (!this.facade.IsError && this.lstViewContainer.Items.Count > 0)
+            if (!this.facade.IsError && this.lsvContainer.Items.Count > 0)
             {
-                for (int i = 0; i < this.lstViewContainer.Items.Count; i++)
+                for (int i = 0; i < this.lsvContainer.Items.Count; i++)
                 {
-                    if (this.lstViewContainer.Items[i].Text == e.Node.Text)
+                    if (this.lsvContainer.Items[i].Text == e.Node.Text)
                     {
-                        this.lstViewContainer.Items[i].Text = this.formDto.ModuleFormDto.CurrentArtifact.Dto.FileName;
-                        this.lstViewContainer.Items[i].SubItems.AddRange(this.AddListViewSubItems(this.lstViewContainer.Items[i], this.formDto.ModuleFormDto.CurrentArtifact.Dto));
-                        this.lstViewContainer.Items[i].Tag = this.formDto.ModuleFormDto.CurrentArtifact.Dto;
+                        this.lsvContainer.Items[i].Text = this.formDto.ModuleFormDto.CurrentArtifact.Dto.FileName;
+                        this.lsvContainer.Items[i].SubItems.AddRange(this.AddListViewSubItems(this.lsvContainer.Items[i], this.formDto.ModuleFormDto.CurrentArtifact.Dto));
+                        this.lsvContainer.Items[i].Tag = this.formDto.ModuleFormDto.CurrentArtifact.Dto;
                         break;
                     }
                 }
@@ -619,7 +620,7 @@ namespace Vanilla.Navigator.WinForm
 
                 ListViewItem newListItem = this.CreateNewListViewItem("New Directory", 0);
                 newListItem.Tag = this.formDto.ModuleFormDto.CurrentArtifact.Dto;
-                this.lstViewContainer.Items.Add(newListItem);
+                this.lsvContainer.Items.Add(newListItem);
             }
         }
 
@@ -649,8 +650,8 @@ namespace Vanilla.Navigator.WinForm
                     };
                     this.AttachParent(this.trvForm.SelectedNode.Tag as BinAff.Facade.Library.Dto, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
 
-                    this.lstViewContainer.LabelEdit = true;
-                    this.lstViewContainer.Items.Add(newNode);
+                    this.lsvContainer.LabelEdit = true;
+                    this.lsvContainer.Items.Add(newNode);
                     newNode.BeginEdit();
                 }
             }
@@ -725,9 +726,9 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowControls()
         {
-            this.pnlAddress.Visible = true;
-            this.pnlMain.Visible = true;
-            this.pnlTool.Visible = true;
+            this.pnlAddress.Show();
+            this.pnlArtifact.Show();
+            this.pnlTool.Show();
 
             this.mnuLogin.Visible = false;
             this.mnuLogOut.Visible = true;
@@ -741,9 +742,10 @@ namespace Vanilla.Navigator.WinForm
 
         private void HideControl()
         {
-            this.pnlAddress.Visible = false;
-            this.pnlMain.Visible = false;
-            this.pnlTool.Visible = false;
+            this.pnlAddress.Hide();
+            this.pnlArtifact.Hide();
+            this.pnlTool.Hide();
+            this.pnlConfiguration.Hide();
 
             this.mnuLogin.Visible = true;
             this.mnuLogOut.Visible = false;
@@ -842,6 +844,18 @@ namespace Vanilla.Navigator.WinForm
                 this.btnHideShow.Text = "8";
                 this.toolTip.SetToolTip(this.btnHideShow, "Show");
             }
+        }
+
+        private void btnArtifact_Click(object sender, EventArgs e)
+        {
+            this.pnlArtifact.Show();
+            this.pnlConfiguration.Hide();
+        }
+
+        private void btnConfiguration_Click(object sender, EventArgs e)
+        {
+            this.pnlArtifact.Hide();
+            this.pnlConfiguration.Show();
         }
 
     }
