@@ -145,28 +145,33 @@ namespace Vanilla.Navigator.WinForm
 
         private void Container_Resize(object sender, EventArgs e)
         {
-            this.PositionLoginForm();
+            this.SetControlInMiddleOfForm(this.pnlLoginFormContainer);
         }
 
         #region Login Form
 
         private void ShowLoginForm()
         {
-            this.loginForm = new Guardian.WinForm.Login();
+            this.loginForm = new Guardian.WinForm.Login
+            {
+                TopLevel = false,
+                Dock = DockStyle.Fill,
+                FormBorderStyle = FormBorderStyle.None,
+            };
+            this.pnlLoginFormContainer.Show();
+            this.pnlLoginFormContainer.Height = this.loginForm.Height;
+            this.pnlLoginFormContainer.Width = this.loginForm.Width;
+            this.SetControlInMiddleOfForm(this.pnlLoginFormContainer);
+            this.pnlLoginFormContainer.Controls.Add(this.loginForm);
+
             this.loginForm.Show();
-            this.PositionLoginForm();
             this.loginForm.FormClosed += loginForm_FormClosed;
         }
 
-        private void PositionLoginForm()
+        private void SetControlInMiddleOfForm(Control control)
         {
-            if (this.loginForm != null)
-            {
-                this.loginForm.Top = this.Height / 2 - this.loginForm.Height / 2 + this.Top + 20;
-                this.loginForm.Left = this.Width / 2 - this.loginForm.Width / 2 + this.Left;
-
-                this.loginForm.TopMost = true;
-            }
+            control.Top = this.Height / 2 - control.Height / 2;
+            control.Left = this.Width / 2 - control.Width / 2;
         }
 
         private void loginForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -174,6 +179,7 @@ namespace Vanilla.Navigator.WinForm
             if ((sender as Vanilla.Guardian.WinForm.Login).IsAuthenticated)
             {
                 this.LoadForm();
+                this.pnlLoginFormContainer.Hide();
             }
         }
 
