@@ -57,6 +57,7 @@
             this.cmsExplorer = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuNewWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.cutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,7 +107,7 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuNewWindow = new System.Windows.Forms.ToolStripMenuItem();
+            this.pnlLoginFormContainer = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).BeginInit();
             this.pnlMain.Panel1.SuspendLayout();
             this.pnlMain.Panel2.SuspendLayout();
@@ -171,11 +172,12 @@
             // trvForm
             // 
             this.trvForm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trvForm.ImageKey = "Directory.png";
+            this.trvForm.ImageKey = "Directory.gif";
             this.trvForm.ImageList = this.imglIcons;
             this.trvForm.Location = new System.Drawing.Point(3, 3);
             this.trvForm.Name = "trvForm";
-            this.trvForm.SelectedImageKey = "DirectoryOpen.png";
+            this.trvForm.SelectedImageKey = "DirectoryOpen.gif";
+            this.trvForm.ShowRootLines = false;
             this.trvForm.Size = new System.Drawing.Size(161, 288);
             this.trvForm.StateImageList = this.imglIcons;
             this.trvForm.TabIndex = 6;
@@ -189,9 +191,12 @@
             // 
             this.imglIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imglIcons.ImageStream")));
             this.imglIcons.TransparentColor = System.Drawing.Color.Transparent;
-            this.imglIcons.Images.SetKeyName(0, "Directory.png");
-            this.imglIcons.Images.SetKeyName(1, "DirectoryOpen.png");
-            this.imglIcons.Images.SetKeyName(2, "Document.png");
+            this.imglIcons.Images.SetKeyName(0, "Directory.gif");
+            this.imglIcons.Images.SetKeyName(1, "DirectoryOpen.gif");
+            this.imglIcons.Images.SetKeyName(2, "Document.gif");
+            this.imglIcons.Images.SetKeyName(3, "Directory.png");
+            this.imglIcons.Images.SetKeyName(4, "DirectoryOpen.png");
+            this.imglIcons.Images.SetKeyName(5, "Document.png");
             // 
             // tbpCatalogue
             // 
@@ -445,7 +450,7 @@
             this.toolStripSeparator10,
             this.deleteToolStripMenuItem});
             this.cmsExplorer.Name = "cmsExplorer";
-            this.cmsExplorer.Size = new System.Drawing.Size(186, 170);
+            this.cmsExplorer.Size = new System.Drawing.Size(186, 148);
             // 
             // newToolStripMenuItem
             // 
@@ -458,9 +463,16 @@
             // folderToolStripMenuItem
             // 
             this.folderToolStripMenuItem.Name = "folderToolStripMenuItem";
-            this.folderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.folderToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.folderToolStripMenuItem.Text = "Folder";
             this.folderToolStripMenuItem.Click += new System.EventHandler(this.addDirectory_Click);
+            // 
+            // mnuNewWindow
+            // 
+            this.mnuNewWindow.Name = "mnuNewWindow";
+            this.mnuNewWindow.Size = new System.Drawing.Size(185, 22);
+            this.mnuNewWindow.Text = "Open in a New Window";
+            this.mnuNewWindow.Click += new System.EventHandler(this.mnuNewWindow_Click);
             // 
             // toolStripSeparator9
             // 
@@ -812,18 +824,19 @@
             this.helpToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
             this.helpToolStripMenuItem1.Text = "Help";
             // 
-            // mnuNewWindow
+            // pnlLoginFormContainer
             // 
-            this.mnuNewWindow.Name = "mnuNewWindow";
-            this.mnuNewWindow.Size = new System.Drawing.Size(185, 22);
-            this.mnuNewWindow.Text = "Open in a New Window";
-            this.mnuNewWindow.Click += new System.EventHandler(this.mnuNewWindow_Click);
+            this.pnlLoginFormContainer.Location = new System.Drawing.Point(9, 352);
+            this.pnlLoginFormContainer.Name = "pnlLoginFormContainer";
+            this.pnlLoginFormContainer.Size = new System.Drawing.Size(87, 30);
+            this.pnlLoginFormContainer.TabIndex = 7;
             // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(591, 394);
+            this.Controls.Add(this.pnlLoginFormContainer);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.pnlAddress);
             this.Controls.Add(this.mnuMain);
@@ -930,6 +943,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuRegister;
         private System.Windows.Forms.ToolStripMenuItem mnuRegisterProfile;
         private System.Windows.Forms.ToolStripMenuItem mnuNewWindow;
+        private System.Windows.Forms.Panel pnlLoginFormContainer;
 
     }
 }
