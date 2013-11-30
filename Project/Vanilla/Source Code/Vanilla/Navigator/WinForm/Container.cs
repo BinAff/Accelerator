@@ -39,8 +39,9 @@ namespace Vanilla.Navigator.WinForm
 
             this.InitializeListView();
             this.txtAddress.Text = @"Form:\\"; //Module Seperator is hard coding. Need to change
-            
-            this.DisableControl();
+            this.pnlMain.Dock = DockStyle.Fill;
+
+            this.HideControl();
             if (this.isLoggedIn)
             {
                 this.LoadForm();
@@ -194,7 +195,7 @@ namespace Vanilla.Navigator.WinForm
             });
             this.facade.LoadForm();
             this.LoadModules(tbcCategory.TabPages[0].Text);
-            this.EnableControls();
+            this.ShowControls();
         }
 
         #endregion
@@ -680,7 +681,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void mnuLogOut_Click(object sender, EventArgs e)
         {
-            this.DisableControl();
+            this.HideControl();
             this.ShowLoginForm();
         }
 
@@ -722,10 +723,11 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion
 
-        private void EnableControls()
+        private void ShowControls()
         {
             this.pnlAddress.Visible = true;
             this.pnlMain.Visible = true;
+            this.pnlTool.Visible = true;
 
             this.mnuLogin.Visible = false;
             this.mnuLogOut.Visible = true;
@@ -737,10 +739,11 @@ namespace Vanilla.Navigator.WinForm
             this.mnuUserManagement.Visible = true;
         }
 
-        private void DisableControl()
+        private void HideControl()
         {
             this.pnlAddress.Visible = false;
             this.pnlMain.Visible = false;
+            this.pnlTool.Visible = false;
 
             this.mnuLogin.Visible = true;
             this.mnuLogOut.Visible = false;
@@ -811,6 +814,34 @@ namespace Vanilla.Navigator.WinForm
                 Text = name,
                 ImageIndex = imageIndex,
             };
+        }
+
+        private void btnHideShow_Click(object sender, EventArgs e)
+        {
+            if (this.btnArtifact.Width == 0)
+            {
+                this.btnArtifact.Width = this.btnHideShow.Width;
+                this.btnCalender.Width = this.btnHideShow.Width;
+                this.btnEmail.Width = this.btnHideShow.Width;
+                this.btnSms.Width = this.btnHideShow.Width;
+                this.btnNote.Width = this.btnHideShow.Width;
+                this.btnConfiguration.Width = this.btnHideShow.Width;
+                this.pnlTool.Width = this.btnHideShow.Width * 7;
+                this.btnHideShow.Text = "7";
+                this.toolTip.SetToolTip(this.btnHideShow, "Hide");
+            }
+            else
+            {
+                this.btnArtifact.Width = 0;
+                this.btnCalender.Width = 0;
+                this.btnEmail.Width = 0;
+                this.btnSms.Width = 0;
+                this.btnNote.Width = 0;
+                this.btnConfiguration.Width = 0;
+                this.pnlTool.Width = this.btnHideShow.Width;
+                this.btnHideShow.Text = "8";
+                this.toolTip.SetToolTip(this.btnHideShow, "Show");
+            }
         }
 
     }
