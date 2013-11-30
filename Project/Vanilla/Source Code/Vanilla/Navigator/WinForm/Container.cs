@@ -39,8 +39,7 @@ namespace Vanilla.Navigator.WinForm
 
             this.InitializeListView();
             this.txtAddress.Text = @"Form:\\"; //Module Seperator is hard coding. Need to change
-            this.pnlArtifact.Dock = DockStyle.Fill;
-            this.pnlConfiguration.Dock = DockStyle.Fill;
+            this.DockContainers();
 
             this.HideControl();
             if (this.isLoggedIn)
@@ -53,6 +52,12 @@ namespace Vanilla.Navigator.WinForm
                 this.ShowLoginForm();
             }
             this.Resize += Container_Resize;
+        }
+
+        private void DockContainers()
+        {
+            this.pnlArtifact.Dock = DockStyle.Fill;
+            this.pnlConfiguration.Dock = DockStyle.Fill;
         }
 
         private void SelectNode(String selectedNodePath)
@@ -106,17 +111,13 @@ namespace Vanilla.Navigator.WinForm
             {
                 switch (currentTab)
                 {
-                    case "Form":
-                        current = trvForm;
+                    case "Form": current = trvForm;
                         break;
-                    case "Catalogue":
-                        current = trvCatalogue;
+                    case "Catalogue": current = trvCatalogue;
                         break;
-                    case "Report":
-                        current = trvReport;
+                    case "Report": current = trvReport;
                         break;
-                    default:
-                        current = trvForm;
+                    default: current = trvForm;
                         break;
                 }
                 tree[i] = this.CreateTreeNodes(module.Artifact);
@@ -608,7 +609,7 @@ namespace Vanilla.Navigator.WinForm
             {
                 Dto = newNode.Tag as Facade.Artifact.Dto,
             };
-            this.AttachParent(this.trvForm.SelectedNode.Tag as BinAff.Facade.Library.Dto, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
+            this.AttachNodes(this.trvForm.SelectedNode.Tag as BinAff.Facade.Library.Dto, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
 
             if (this.trvForm.SelectedNode != null)
             {
@@ -648,7 +649,7 @@ namespace Vanilla.Navigator.WinForm
                     {
                         Dto = newNode.Tag as Facade.Artifact.Dto,
                     };
-                    this.AttachParent(this.trvForm.SelectedNode.Tag as BinAff.Facade.Library.Dto, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
+                    this.AttachNodes(this.trvForm.SelectedNode.Tag as BinAff.Facade.Library.Dto, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
 
                     this.lsvContainer.LabelEdit = true;
                     this.lsvContainer.Items.Add(newNode);
@@ -792,7 +793,7 @@ namespace Vanilla.Navigator.WinForm
         /// Attach parent to new node  and instantiate path with parent path
         /// </summary>
         /// <param name="parent"></param>
-        private void AttachParent(BinAff.Facade.Library.Dto parent, Facade.Artifact.Dto child)
+        private void AttachNodes(BinAff.Facade.Library.Dto parent, Facade.Artifact.Dto child)
         {
             Facade.Artifact.Dto parentDto;
             if (parent.GetType().ToString() == "Vanilla.Navigator.Facade.Module.Dto") //Adding to module
@@ -817,6 +818,8 @@ namespace Vanilla.Navigator.WinForm
                 ImageIndex = imageIndex,
             };
         }
+
+        #region Tool Box
 
         private void btnHideShow_Click(object sender, EventArgs e)
         {
@@ -857,6 +860,8 @@ namespace Vanilla.Navigator.WinForm
             this.pnlArtifact.Hide();
             this.pnlConfiguration.Show();
         }
+
+        #endregion
 
     }
 
