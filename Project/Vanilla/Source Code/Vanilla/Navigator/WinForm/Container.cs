@@ -660,8 +660,14 @@ namespace Vanilla.Navigator.WinForm
 
         private void deleteArtifact_Click(object sender, EventArgs e)
         {
-            if (trvForm.SelectedNode != null)
+            if (trvForm.SelectedNode != null )
             {
+                //donot delete the root node
+                if (trvForm.SelectedNode.Parent == null)
+                {
+                    return;
+                }
+
                 this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
                 {
                     Dto = (trvForm.SelectedNode as TreeNode).Tag as Facade.Artifact.Dto,
@@ -672,8 +678,18 @@ namespace Vanilla.Navigator.WinForm
 
                 if (!this.facade.IsError)
                 {
+                    Boolean isFirstLevelNode = false;
+                    Facade.Artifact.Dto parentNode;
+
                     //Removing node from Parent Tag
-                    Facade.Artifact.Dto parentNode = trvForm.SelectedNode.Parent.Tag as Facade.Artifact.Dto;
+                    if (trvForm.SelectedNode.Parent.Parent == null) //First level nodes [nodes whose parent id is null]      
+                    {
+                        isFirstLevelNode = true;
+                        parentNode = (trvForm.SelectedNode.Parent.Tag as Facade.Module.Dto).Artifact;
+                    }
+                    else                    
+                        parentNode = trvForm.SelectedNode.Parent.Tag as Facade.Artifact.Dto;
+
                     foreach (Facade.Artifact.Dto child in parentNode.Children)
                     {
                         if (child.Id == (trvForm.SelectedNode.Tag as Facade.Artifact.Dto).Id)
@@ -687,10 +703,20 @@ namespace Vanilla.Navigator.WinForm
                     trvForm.SelectedNode.Remove();
                     trvForm.SelectedNode = node;
 
-                    //populating list view for the selected node
-                    this.SelectNode(node.Tag as Facade.Artifact.Dto); 
+                  
+ 
                     //populating the path
-                    this.txtAddress.Text = (node.Tag as Facade.Artifact.Dto).Path;
+                    if (isFirstLevelNode)
+                    {
+                        //populating list view for the selected node
+                        this.SelectNode((node.Tag as Facade.Module.Dto).Artifact);
+                        this.txtAddress.Text = (node.Tag as Facade.Module.Dto).Artifact.Path;
+                    }
+                    else
+                    {
+                        this.SelectNode(node.Tag as Facade.Artifact.Dto);
+                        this.txtAddress.Text = (node.Tag as Facade.Artifact.Dto).Path;
+                    }
 
                     this.formDto.ModuleFormDto.Dto = this.FindRootNode(node).Tag as Facade.Module.Dto;
                 }
