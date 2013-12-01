@@ -47,6 +47,13 @@
             this.btnEnter = new System.Windows.Forms.Button();
             this.pnlAddress = new System.Windows.Forms.Panel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnConfiguration = new System.Windows.Forms.Button();
+            this.btnNote = new System.Windows.Forms.Button();
+            this.btnSms = new System.Windows.Forms.Button();
+            this.btnEmail = new System.Windows.Forms.Button();
+            this.btnCalender = new System.Windows.Forms.Button();
+            this.btnArtifact = new System.Windows.Forms.Button();
+            this.btnHideShow = new System.Windows.Forms.Button();
             this.cmsExplorer = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -102,13 +109,6 @@
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlLoginFormContainer = new System.Windows.Forms.Panel();
             this.pnlTool = new System.Windows.Forms.Panel();
-            this.btnConfiguration = new System.Windows.Forms.Button();
-            this.btnNote = new System.Windows.Forms.Button();
-            this.btnSms = new System.Windows.Forms.Button();
-            this.btnEmail = new System.Windows.Forms.Button();
-            this.btnCalender = new System.Windows.Forms.Button();
-            this.btnArtifact = new System.Windows.Forms.Button();
-            this.btnHideShow = new System.Windows.Forms.Button();
             this.pnlConfiguration = new System.Windows.Forms.SplitContainer();
             this.lsvConfiguration = new System.Windows.Forms.ListView();
             this.imgConfiguration = new System.Windows.Forms.ImageList(this.components);
@@ -209,7 +209,7 @@
             this.tbpCatalogue.Location = new System.Drawing.Point(4, 22);
             this.tbpCatalogue.Name = "tbpCatalogue";
             this.tbpCatalogue.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpCatalogue.Size = new System.Drawing.Size(167, 294);
+            this.tbpCatalogue.Size = new System.Drawing.Size(209, 37);
             this.tbpCatalogue.TabIndex = 1;
             this.tbpCatalogue.Text = "Catalogue";
             this.tbpCatalogue.UseVisualStyleBackColor = true;
@@ -219,7 +219,7 @@
             this.trvCatalogue.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trvCatalogue.Location = new System.Drawing.Point(3, 3);
             this.trvCatalogue.Name = "trvCatalogue";
-            this.trvCatalogue.Size = new System.Drawing.Size(161, 288);
+            this.trvCatalogue.Size = new System.Drawing.Size(203, 31);
             this.trvCatalogue.TabIndex = 0;
             this.trvCatalogue.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvArtifact_AfterLabelEdit);
             this.trvCatalogue.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvArtifact_AfterSelect);
@@ -232,7 +232,7 @@
             this.tbpReport.Location = new System.Drawing.Point(4, 22);
             this.tbpReport.Name = "tbpReport";
             this.tbpReport.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpReport.Size = new System.Drawing.Size(167, 294);
+            this.tbpReport.Size = new System.Drawing.Size(209, 37);
             this.tbpReport.TabIndex = 2;
             this.tbpReport.Text = "Report";
             this.tbpReport.UseVisualStyleBackColor = true;
@@ -242,7 +242,7 @@
             this.trvReport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trvReport.Location = new System.Drawing.Point(3, 3);
             this.trvReport.Name = "trvReport";
-            this.trvReport.Size = new System.Drawing.Size(161, 288);
+            this.trvReport.Size = new System.Drawing.Size(203, 31);
             this.trvReport.TabIndex = 0;
             this.trvReport.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvArtifact_AfterLabelEdit);
             this.trvReport.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvArtifact_AfterSelect);
@@ -335,6 +335,116 @@
             this.pnlAddress.Size = new System.Drawing.Size(591, 23);
             this.pnlAddress.TabIndex = 5;
             this.pnlAddress.Visible = false;
+            // 
+            // btnConfiguration
+            // 
+            this.btnConfiguration.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConfiguration.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnConfiguration.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnConfiguration.Font = new System.Drawing.Font("Webdings", 10F);
+            this.btnConfiguration.Location = new System.Drawing.Point(185, 0);
+            this.btnConfiguration.Name = "btnConfiguration";
+            this.btnConfiguration.Size = new System.Drawing.Size(37, 37);
+            this.btnConfiguration.TabIndex = 1;
+            this.btnConfiguration.Text = "@";
+            this.btnConfiguration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.btnConfiguration, "Configuration");
+            this.btnConfiguration.UseVisualStyleBackColor = true;
+            this.btnConfiguration.Click += new System.EventHandler(this.btnConfiguration_Click);
+            // 
+            // btnNote
+            // 
+            this.btnNote.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNote.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnNote.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnNote.Font = new System.Drawing.Font("Webdings", 10F);
+            this.btnNote.Location = new System.Drawing.Point(148, 0);
+            this.btnNote.Name = "btnNote";
+            this.btnNote.Size = new System.Drawing.Size(37, 37);
+            this.btnNote.TabIndex = 2;
+            this.btnNote.Text = "ë";
+            this.btnNote.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.btnNote, "Note");
+            this.btnNote.UseVisualStyleBackColor = true;
+            // 
+            // btnSms
+            // 
+            this.btnSms.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSms.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnSms.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnSms.Font = new System.Drawing.Font("Webdings", 10F);
+            this.btnSms.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSms.Location = new System.Drawing.Point(111, 0);
+            this.btnSms.Name = "btnSms";
+            this.btnSms.Size = new System.Drawing.Size(37, 37);
+            this.btnSms.TabIndex = 3;
+            this.btnSms.Text = "À";
+            this.btnSms.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.btnSms, "SMS");
+            this.btnSms.UseVisualStyleBackColor = true;
+            // 
+            // btnEmail
+            // 
+            this.btnEmail.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEmail.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnEmail.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnEmail.Font = new System.Drawing.Font("Webdings", 10F);
+            this.btnEmail.Location = new System.Drawing.Point(74, 0);
+            this.btnEmail.Name = "btnEmail";
+            this.btnEmail.Size = new System.Drawing.Size(37, 37);
+            this.btnEmail.TabIndex = 4;
+            this.btnEmail.Text = "t";
+            this.btnEmail.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.btnEmail, "Email");
+            this.btnEmail.UseVisualStyleBackColor = true;
+            // 
+            // btnCalender
+            // 
+            this.btnCalender.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCalender.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnCalender.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnCalender.Font = new System.Drawing.Font("Webdings", 10F);
+            this.btnCalender.Location = new System.Drawing.Point(37, 0);
+            this.btnCalender.Name = "btnCalender";
+            this.btnCalender.Size = new System.Drawing.Size(37, 37);
+            this.btnCalender.TabIndex = 5;
+            this.btnCalender.Text = "<";
+            this.btnCalender.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.btnCalender, "Calender");
+            this.btnCalender.UseVisualStyleBackColor = true;
+            // 
+            // btnArtifact
+            // 
+            this.btnArtifact.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnArtifact.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnArtifact.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnArtifact.Font = new System.Drawing.Font("Webdings", 10F);
+            this.btnArtifact.Location = new System.Drawing.Point(0, 0);
+            this.btnArtifact.Name = "btnArtifact";
+            this.btnArtifact.Size = new System.Drawing.Size(37, 37);
+            this.btnArtifact.TabIndex = 6;
+            this.btnArtifact.Text = "1";
+            this.btnArtifact.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.btnArtifact, "Form, Catalogue, Reports");
+            this.btnArtifact.UseVisualStyleBackColor = true;
+            this.btnArtifact.Click += new System.EventHandler(this.btnArtifact_Click);
+            // 
+            // btnHideShow
+            // 
+            this.btnHideShow.AutoSize = true;
+            this.btnHideShow.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnHideShow.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnHideShow.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnHideShow.Font = new System.Drawing.Font("Webdings", 10F);
+            this.btnHideShow.Location = new System.Drawing.Point(222, 0);
+            this.btnHideShow.Name = "btnHideShow";
+            this.btnHideShow.Size = new System.Drawing.Size(37, 37);
+            this.btnHideShow.TabIndex = 7;
+            this.btnHideShow.Text = "7";
+            this.btnHideShow.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.btnHideShow, "Hide");
+            this.btnHideShow.UseVisualStyleBackColor = true;
+            this.btnHideShow.Click += new System.EventHandler(this.btnHideShow_Click);
             // 
             // cmsExplorer
             // 
@@ -438,21 +548,21 @@
             // mnuLogin
             // 
             this.mnuLogin.Name = "mnuLogin";
-            this.mnuLogin.Size = new System.Drawing.Size(152, 22);
+            this.mnuLogin.Size = new System.Drawing.Size(112, 22);
             this.mnuLogin.Text = "Login";
             this.mnuLogin.Click += new System.EventHandler(this.mnuLogin_Click);
             // 
             // mnuLogOut
             // 
             this.mnuLogOut.Name = "mnuLogOut";
-            this.mnuLogOut.Size = new System.Drawing.Size(152, 22);
+            this.mnuLogOut.Size = new System.Drawing.Size(112, 22);
             this.mnuLogOut.Text = "Log Out";
             this.mnuLogOut.Click += new System.EventHandler(this.mnuLogOut_Click);
             // 
             // mnuFileSeperator1
             // 
             this.mnuFileSeperator1.Name = "mnuFileSeperator1";
-            this.mnuFileSeperator1.Size = new System.Drawing.Size(149, 6);
+            this.mnuFileSeperator1.Size = new System.Drawing.Size(109, 6);
             // 
             // mnuNew
             // 
@@ -460,7 +570,7 @@
             this.folderToolStripMenuItem1,
             this.formToolStripMenuItem});
             this.mnuNew.Name = "mnuNew";
-            this.mnuNew.Size = new System.Drawing.Size(152, 22);
+            this.mnuNew.Size = new System.Drawing.Size(112, 22);
             this.mnuNew.Text = "New";
             // 
             // folderToolStripMenuItem1
@@ -481,7 +591,7 @@
             this.folderToolStripMenuItem2,
             this.formToolStripMenuItem1});
             this.mnuOpen.Name = "mnuOpen";
-            this.mnuOpen.Size = new System.Drawing.Size(152, 22);
+            this.mnuOpen.Size = new System.Drawing.Size(112, 22);
             this.mnuOpen.Text = "Open";
             // 
             // folderToolStripMenuItem2
@@ -499,12 +609,12 @@
             // mnuFileSeperator2
             // 
             this.mnuFileSeperator2.Name = "mnuFileSeperator2";
-            this.mnuFileSeperator2.Size = new System.Drawing.Size(149, 6);
+            this.mnuFileSeperator2.Size = new System.Drawing.Size(109, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(152, 22);
+            this.mnuExit.Size = new System.Drawing.Size(112, 22);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
@@ -744,116 +854,6 @@
             this.pnlTool.Size = new System.Drawing.Size(260, 37);
             this.pnlTool.TabIndex = 8;
             // 
-            // btnConfiguration
-            // 
-            this.btnConfiguration.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnConfiguration.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnConfiguration.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnConfiguration.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnConfiguration.Location = new System.Drawing.Point(185, 0);
-            this.btnConfiguration.Name = "btnConfiguration";
-            this.btnConfiguration.Size = new System.Drawing.Size(37, 37);
-            this.btnConfiguration.TabIndex = 1;
-            this.btnConfiguration.Text = "@";
-            this.btnConfiguration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.btnConfiguration, "Configuration");
-            this.btnConfiguration.UseVisualStyleBackColor = true;
-            this.btnConfiguration.Click += new System.EventHandler(this.btnConfiguration_Click);
-            // 
-            // btnNote
-            // 
-            this.btnNote.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnNote.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnNote.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnNote.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnNote.Location = new System.Drawing.Point(148, 0);
-            this.btnNote.Name = "btnNote";
-            this.btnNote.Size = new System.Drawing.Size(37, 37);
-            this.btnNote.TabIndex = 2;
-            this.btnNote.Text = "ë";
-            this.btnNote.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.btnNote, "Note");
-            this.btnNote.UseVisualStyleBackColor = true;
-            // 
-            // btnSms
-            // 
-            this.btnSms.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSms.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnSms.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnSms.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnSms.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSms.Location = new System.Drawing.Point(111, 0);
-            this.btnSms.Name = "btnSms";
-            this.btnSms.Size = new System.Drawing.Size(37, 37);
-            this.btnSms.TabIndex = 3;
-            this.btnSms.Text = "À";
-            this.btnSms.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.btnSms, "SMS");
-            this.btnSms.UseVisualStyleBackColor = true;
-            // 
-            // btnEmail
-            // 
-            this.btnEmail.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEmail.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnEmail.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnEmail.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnEmail.Location = new System.Drawing.Point(74, 0);
-            this.btnEmail.Name = "btnEmail";
-            this.btnEmail.Size = new System.Drawing.Size(37, 37);
-            this.btnEmail.TabIndex = 4;
-            this.btnEmail.Text = "t";
-            this.btnEmail.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.btnEmail, "Email");
-            this.btnEmail.UseVisualStyleBackColor = true;
-            // 
-            // btnCalender
-            // 
-            this.btnCalender.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCalender.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnCalender.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnCalender.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnCalender.Location = new System.Drawing.Point(37, 0);
-            this.btnCalender.Name = "btnCalender";
-            this.btnCalender.Size = new System.Drawing.Size(37, 37);
-            this.btnCalender.TabIndex = 5;
-            this.btnCalender.Text = "<";
-            this.btnCalender.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.btnCalender, "Calender");
-            this.btnCalender.UseVisualStyleBackColor = true;
-            // 
-            // btnArtifact
-            // 
-            this.btnArtifact.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnArtifact.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnArtifact.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnArtifact.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnArtifact.Location = new System.Drawing.Point(0, 0);
-            this.btnArtifact.Name = "btnArtifact";
-            this.btnArtifact.Size = new System.Drawing.Size(37, 37);
-            this.btnArtifact.TabIndex = 6;
-            this.btnArtifact.Text = "1";
-            this.btnArtifact.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.btnArtifact, "Form, Catalogue, Reports");
-            this.btnArtifact.UseVisualStyleBackColor = true;
-            this.btnArtifact.Click += new System.EventHandler(this.btnArtifact_Click);
-            // 
-            // btnHideShow
-            // 
-            this.btnHideShow.AutoSize = true;
-            this.btnHideShow.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnHideShow.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnHideShow.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnHideShow.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnHideShow.Location = new System.Drawing.Point(222, 0);
-            this.btnHideShow.Name = "btnHideShow";
-            this.btnHideShow.Size = new System.Drawing.Size(37, 37);
-            this.btnHideShow.TabIndex = 7;
-            this.btnHideShow.Text = "7";
-            this.btnHideShow.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.btnHideShow, "Hide");
-            this.btnHideShow.UseVisualStyleBackColor = true;
-            this.btnHideShow.Click += new System.EventHandler(this.btnHideShow_Click);
-            // 
             // pnlConfiguration
             // 
             this.pnlConfiguration.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
@@ -888,10 +888,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(591, 394);
             this.Controls.Add(this.pnlTool);
+            this.Controls.Add(this.pnlConfiguration);
             this.Controls.Add(this.pnlArtifact);
             this.Controls.Add(this.pnlLoginFormContainer);
             this.Controls.Add(this.pnlAddress);
-            this.Controls.Add(this.pnlConfiguration);
             this.Controls.Add(this.mnuMain);
             this.MainMenuStrip = this.mnuMain;
             this.Name = "Container";
