@@ -46,11 +46,12 @@ namespace Crystal.Customer.Component
             });
         }
 
-        protected override ReturnObject<Boolean> DeleteBefore()
-        {
+        //will implement the below method during checkin or reservation module integration
+        //protected override ReturnObject<Boolean> DeleteBefore()
+        //{
             //If there is any characteristics attached with customer, it cannot be deleted
-            if ((this.Data as Data).CharacteristicList != null && (this.Data as Data).CharacteristicList.Count == 0)
-                return new ReturnObject<Boolean> { Value = true, };
+            //if ((this.Data as Data).CharacteristicList != null && (this.Data as Data).CharacteristicList.Count == 0)
+            //    return new ReturnObject<Boolean> { Value = true, };
 
             //if ((this.Data as Data).CharacteristicList != null && (this.Data as Data).CharacteristicList.Count > 0)
             //{
@@ -69,11 +70,11 @@ namespace Crystal.Customer.Component
             //    }
             //}
 
-            return new ReturnObject<Boolean>
-            {
-                MessageList = GenerateMessageForDependency(),
-            };
-        }
+            //return new ReturnObject<Boolean>
+            //{
+            //    MessageList = GenerateMessageForDependency(),
+            //};
+        //}
 
         protected virtual List<Message> GenerateMessageForDependency()
         {
