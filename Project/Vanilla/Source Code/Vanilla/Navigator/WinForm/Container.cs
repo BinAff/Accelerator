@@ -669,6 +669,31 @@ namespace Vanilla.Navigator.WinForm
 
                 this.facade = new Facade.Container.Server(this.formDto);
                 this.facade.Delete();
+
+                if (!this.facade.IsError)
+                {
+                    //Removing node from Parent Tag
+                    Facade.Artifact.Dto parentNode = trvForm.SelectedNode.Parent.Tag as Facade.Artifact.Dto;
+                    foreach (Facade.Artifact.Dto child in parentNode.Children)
+                    {
+                        if (child.Id == (trvForm.SelectedNode.Tag as Facade.Artifact.Dto).Id)
+                        {
+                            parentNode.Children.Remove(child);
+                            break;
+                        }
+                    }
+
+                    TreeNode node = trvForm.SelectedNode.Parent;
+                    trvForm.SelectedNode.Remove();
+                    trvForm.SelectedNode = node;
+
+                    //populating list view for the selected node
+                    this.SelectNode(node.Tag as Facade.Artifact.Dto); 
+                    //populating the path
+                    this.txtAddress.Text = (node.Tag as Facade.Artifact.Dto).Path;
+
+                    this.formDto.ModuleFormDto.Dto = this.FindRootNode(node).Tag as Facade.Module.Dto;
+                }
             }
         }
 

@@ -17,6 +17,7 @@ namespace Autotourism.Component.Customer.Navigator.Artifact
         protected override void Compose()
         {
             base.Compose();
+            base.DeleteArtifactLinkSPName = "[Customer].[DeleteFormForArtifact]";    
         }
 
         protected override bool ReadBefore()
@@ -74,6 +75,11 @@ namespace Autotourism.Component.Customer.Navigator.Artifact
         protected override bool DeleteAfter()
         {
             return base.DeleteAfter();
+        }
+
+        protected override bool DeleteBefore()
+        {
+            return base.DeleteArtifactLink();
         }
 
     }

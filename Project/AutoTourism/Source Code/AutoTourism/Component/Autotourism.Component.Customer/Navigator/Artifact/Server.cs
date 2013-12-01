@@ -25,13 +25,7 @@ namespace Autotourism.Component.Customer.Navigator.Artifact
         {
             return new Data();
         }
-
-        //protected override void CreateChildren()
-        //{
-        //    base.CreateChildren();
-        //    thi
-        //}
-
+        
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
             return new Server(data as Data);
@@ -41,21 +35,17 @@ namespace Autotourism.Component.Customer.Navigator.Artifact
         {
             //Find out customer data from customer form
             return new Autotourism.Component.Customer.Server(moduleData as Autotourism.Component.Customer.Data);
-        }
+        }               
 
-        protected override ReturnObject<bool> DeleteBefore()
-        { 
-            //Boolean retVal = new Dao((Data)this.Data).Delete();
+        protected override ReturnObject<bool> DeleteAfter()
+        {
+            if ((this.Data as Data).ModuleData != null && (this.Data as Data).ModuleData.Id > 0)
+            {
+                ICrud crud = new Autotourism.Component.Customer.Server(new Autotourism.Component.Customer.Data() { Id = (this.Data as Data).ModuleData.Id });
+                return crud.Delete();
+            }
 
-            //if (retVal)
-            //{
-            //    ICrud crud = new Autotourism.Component.Customer.Server(new Autotourism.Component.Customer.Data() { Id = 5 });
-            //    return crud.Delete();
-            //}
-
-            return new ReturnObject<bool> { 
-                Value = true
-            };
+            return base.DeleteAfter();
         }
         
     }
