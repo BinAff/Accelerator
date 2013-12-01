@@ -16,6 +16,7 @@ namespace Vanilla.Navigator.Facade.Artifact
 
         public BinAff.Facade.Library.Server ModuleFacade { get; set; }
         internal BinAff.Core.ICrud ModuleArtifactComponent { get; set; }
+        internal String ModuleComponentDataType { get; set; }
 
         public Server(FormDto formDto)
             : base(formDto)
@@ -75,7 +76,8 @@ namespace Vanilla.Navigator.Facade.Artifact
                     Id = artifactData.ModifiedBy.Id,
                     Name = artifactData.ModifiedBy.Profile.Name
                 },
-                ModifiedAt = artifactData.ModifiedAt
+                ModifiedAt = artifactData.ModifiedAt,
+                Category = (Category)artifactData.Category
             };
 
             if ((data as CrystalArtifact.Data).ModuleData != null)
@@ -90,23 +92,27 @@ namespace Vanilla.Navigator.Facade.Artifact
         public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Facade.Artifact.Dto artifactDto = dto as Facade.Artifact.Dto;
-            return new Crystal.Navigator.Component.Artifact.Data
+
+            System.Type dataType = System.Type.GetType(this.ModuleComponentDataType);
+            CrystalArtifact.Data tree = Activator.CreateInstance(dataType) as CrystalArtifact.Data;
+            dataType.GetProperty("Id").SetValue(tree, artifactDto.Id, null);
+            dataType.GetProperty("FileName").SetValue(tree, artifactDto.FileName, null);
+            dataType.GetProperty("Path").SetValue(tree, artifactDto.Path, null);
+            dataType.GetProperty("Category").SetValue(tree, (CrystalArtifact.Category)artifactDto.Category, null);
+            dataType.GetProperty("Style").SetValue(tree, (artifactDto.Style == Type.Directory) ? CrystalArtifact.Type.Directory : CrystalArtifact.Type.Document, null);
+            dataType.GetProperty("CreatedBy").SetValue(tree, new Crystal.Guardian.Component.Account.Data
             {
-                Id = artifactDto.Id,
-                FileName = artifactDto.FileName,
-                Path = artifactDto.Path,
-                Style = (artifactDto.Style == Type.Directory) ? CrystalArtifact.Type.Directory : CrystalArtifact.Type.Document,
-                CreatedBy = new Crystal.Guardian.Component.Account.Data
-                {
-                    Id = artifactDto.CreatedBy.Id,
-                },
-                CreatedAt = artifactDto.CreatedAt,
-                ModifiedBy = artifactDto.ModifiedBy == null ? null : new Crystal.Guardian.Component.Account.Data
-                {
-                    Id = artifactDto.ModifiedBy.Id,
-                },
-                ModifiedAt = artifactDto.ModifiedAt
-            };
+                Id = artifactDto.CreatedBy.Id,
+            }, null);
+            dataType.GetProperty("CreatedAt").SetValue(tree, artifactDto.CreatedAt, null);
+
+            dataType.GetProperty("ModifiedBy").SetValue(tree, artifactDto.ModifiedBy == null ? null : new Crystal.Guardian.Component.Account.Data
+            {
+                Id = artifactDto.ModifiedBy.Id,
+            }, null);
+            dataType.GetProperty("ModifiedAt").SetValue(tree, artifactDto.ModifiedAt, null);
+
+            return tree;
         }
 
         public Data Convert(BinAff.Facade.Library.Dto dto, Crystal.Navigator.Component.Artifact.Data data)
@@ -144,6 +150,7 @@ namespace Vanilla.Navigator.Facade.Artifact
                 FileName = String.IsNullOrEmpty(data.FileName)? "." : data.FileName,
                 Children = new List<Dto>(),
                 Path = data.Path,
+                Category = (Category)data.Category,
             };
             if (data.Children != null && data.Children.Count > 0)
             {
@@ -161,6 +168,35 @@ namespace Vanilla.Navigator.Facade.Artifact
             return tree;
         }
 
+        public CrystalArtifact.Data ConvertTree(Dto dto)
+        {
+            System.Type dataType = System.Type.GetType(this.ModuleComponentDataType);
+            CrystalArtifact.Data tree = Activator.CreateInstance(dataType) as CrystalArtifact.Data;
+            dataType.GetProperty("Id").SetValue(tree, dto.Id, null);
+            dataType.GetProperty("FileName").SetValue(tree, dto.FileName, null);
+            dataType.GetProperty("Children").SetValue(tree, new List<Data>(), null);
+            dataType.GetProperty("Path").SetValue(tree, dto.Path, null);
+            dataType.GetProperty("Category").SetValue(tree, (CrystalArtifact.Category)dto.Category, null);
+            tree.IsDeletable = dto.Action == BinAff.Facade.Library.Dto.ActionType.Delete;
+           
+            if (dto.Children != null && dto.Children.Count > 0)
+            {
+                foreach (Dto artf in dto.Children)
+                {
+                    CrystalArtifact.Data child = this.Convert(artf) as CrystalArtifact.Data;
+                    child.ParentId = tree.Id;
+                    child.IsDeletable = tree.IsDeletable;
+                    if (artf.Children != null && artf.Children.Count > 0)
+                    {
+                        child.Children = this.ConvertTree(artf).Children;
+                    }
+                    tree.Children.Add(child);
+                }
+            }
+
+            return tree;
+        }
+
         public override void Add()
         {
             this.Save();
@@ -175,8 +211,7 @@ namespace Vanilla.Navigator.Facade.Artifact
         }
 
         public override void Delete()
-        {
-            FormDto formDto = this.FormDto as FormDto;
+        {            
             ReturnObject<Boolean> ret = this.ModuleArtifactComponent.Delete();
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }

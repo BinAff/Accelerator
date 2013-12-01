@@ -39,12 +39,18 @@ namespace Crystal.Navigator.Component.Artifact
                 IsReadOnly = true,
             });
 
-            base.AddChildren(this.CreateInstance(null), ((Data)Data).Children);
-
             BinAff.Core.Crud module = this.CreateModuleServerInstance((this.Data as Data).ModuleData);
             module.Type = ChildType.Independent;
             module.IsReadOnly = true;
             base.AddChild(module);
+        }
+
+        protected override ReturnObject<bool> DeleteBefore()
+        {
+            Crud child = this.CreateInstance(null);
+            child.Type = ChildType.Dependent;
+            base.AddChildren(child, ((Data)Data).Children);
+            return base.DeleteBefore();
         }
 
         protected abstract BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData);

@@ -12,7 +12,6 @@ namespace Vanilla.Navigator.Facade.Module
 
     public class Server : BinAff.Facade.Library.Server
     {
-
         private Artifact.Category currentCategory;
 
         public Server(FormDto formDto)
@@ -53,12 +52,12 @@ namespace Vanilla.Navigator.Facade.Module
             {
                 Id = data.Id,
                 Code = (data as Crystal.License.Module.Data).Code,
-                Name = (data as Crystal.License.Module.Data).Name,
+                Name = (data as Crystal.License.Module.Data).Name,                
             };
 
             dto.Artifact = this.GetTree(dto, this.currentCategory);//mistake
             dto.ComponentFormType = new Helper(dto).ModuleFormType;
-
+             
             return dto;
         }
 
@@ -114,12 +113,14 @@ namespace Vanilla.Navigator.Facade.Module
         }
 
         public void Delete()
-        {          
+        {    
             Facade.Artifact.Dto currentArtifact = (this.FormDto as FormDto).CurrentArtifact.Dto;
             Artifact.Server artifactServer = new Artifact.Server((this.FormDto as FormDto).CurrentArtifact);
 
             Helper helper = new Helper((this.FormDto as FormDto).Dto);
-            helper.ArtifactData = artifactServer.Convert(currentArtifact, helper.ArtifactData as CrystalArtifact.Data);
+            artifactServer.ModuleComponentDataType = helper.ArtifactDataType + ", " + helper.ArtifacComponentAssembly;
+            currentArtifact.Action = BinAff.Facade.Library.Dto.ActionType.Delete; //will push to form
+            helper.ArtifactData = artifactServer.ConvertTree(currentArtifact);
 
             //moduleDefDto.Artifact.Module == null when folder gets added 
             //If Document is added in Customer Node : [helper.ModuleData.Id will carry the customer id for inserting into Customer.CustomerArtifact table]
@@ -131,8 +132,6 @@ namespace Vanilla.Navigator.Facade.Module
             artifactServer.ModuleFacade = helper.ModuleFacade;
             artifactServer.Delete();
 
-            this.DisplayMessageList = artifactServer.DisplayMessageList;
-            this.IsError = artifactServer.IsError;
         }
 
         private CrystalArtifact.Category Convert(Artifact.Category category)
