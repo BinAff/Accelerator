@@ -884,6 +884,21 @@ namespace Vanilla.Navigator.WinForm
         {
             this.pnlArtifact.Hide();
             this.pnlConfiguration.Show();
+            this.PopulateModuleForConfiguration();
+        }
+
+        private void PopulateModuleForConfiguration()
+        {
+            this.pnlConfiguration.Panel1.Controls.Add(new Button
+            {
+                Name = "btnGeneral",
+                Text = "General",
+                Visible = true,
+                Height = 30,
+                Width = this.pnlConfiguration.Panel1.Width,
+                Top = 0,
+                Left = 0,
+            });
         }
 
         #endregion
