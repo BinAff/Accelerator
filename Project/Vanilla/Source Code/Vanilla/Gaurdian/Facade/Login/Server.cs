@@ -24,7 +24,7 @@ namespace Vanilla.Guardian.Facade.Login
         {
             Account.Server accountServer = new Account.Server(new Account.FormDto
             {
-                Dto = (this.FormDto as FormDto).Dto,
+                Dto = (this.FormDto as FormDto).AccountFormDto.Dto,
             });
             return accountServer.Convert(data);
         }
@@ -33,17 +33,14 @@ namespace Vanilla.Guardian.Facade.Login
         {
             Account.Server accountServer = new Account.Server(new Account.FormDto
             {
-                Dto = (this.FormDto as FormDto).Dto,
+                Dto = (this.FormDto as FormDto).AccountFormDto.Dto,
             });
             return accountServer.Convert(dto);
         }
 
         public void Login()
         {
-            Account.Server accountServer = new Account.Server(new Account.FormDto
-            {
-                Dto = (this.FormDto as FormDto).Dto,
-            });
+            Account.Server accountServer = new Account.Server((this.FormDto as FormDto).AccountFormDto);
             accountServer.Login();
             this.IsError = accountServer.IsError;
             this.DisplayMessageList = accountServer.DisplayMessageList;

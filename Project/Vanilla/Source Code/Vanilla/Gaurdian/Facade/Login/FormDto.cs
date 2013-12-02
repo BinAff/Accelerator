@@ -4,7 +4,7 @@
     public class FormDto : BinAff.Facade.Library.FormDto
     {
 
-        public Account.Dto Dto { get; set; }
+        public Account.FormDto AccountFormDto { get; set; }
 
     }
 

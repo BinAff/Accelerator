@@ -1,6 +1,6 @@
-﻿using System;
+﻿using BinAff.Facade.Cache;
+using System;
 using System.Windows.Forms;
-
 using PresentationLibrary = BinAff.Presentation.Library;
 
 namespace Vanilla.Guardian.WinForm
@@ -50,10 +50,13 @@ namespace Vanilla.Guardian.WinForm
         {
             Facade.Login.FormDto formDto = new Facade.Login.FormDto
             {
-                Dto = new Facade.Account.Dto
+                AccountFormDto = new Facade.Account.FormDto
                 {
-                    LoginId = this.txtUserId.Text,
-                    Password = this.txtPassword.Text,
+                    Dto = new Facade.Account.Dto
+                    {
+                        LoginId = this.txtUserId.Text,
+                        Password = this.txtPassword.Text,
+                    }
                 }
             };
             Facade.Login.Server facade = new Facade.Login.Server(formDto);
@@ -65,8 +68,9 @@ namespace Vanilla.Guardian.WinForm
             else //Login Success
             {
                 this.IsAuthenticated = true;
-                this.CurrentUser = formDto.Dto;
+                this.CurrentUser = formDto.AccountFormDto.Dto;
                 //Add user to global variable
+                Server.Current.Cache["User"] = this.CurrentUser;
                 //Add Login info to log
                 this.Close();
             }

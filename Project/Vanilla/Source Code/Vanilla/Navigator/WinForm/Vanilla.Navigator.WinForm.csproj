@@ -70,6 +70,10 @@
       <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
       <Name>BinAff.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\BinAff.Facade.Cache\BinAff.Facade.Cache.csproj">
+      <Project>{266b4deb-d9c2-4607-a5d5-60f5124e89ae}</Project>
+      <Name>BinAff.Facade.Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
       <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
       <Name>BinAff.Facade.Library</Name>
@@ -89,6 +93,10 @@
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Navigator\Rule\Crystal.Navigator.Rule.csproj">
       <Project>{A42C45CD-FFBB-425E-A5D8-540B365D97BB}</Project>
       <Name>Crystal.Navigator.Rule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Configuration\Vanilla.Configuration.WinForm\Vanilla.Configuration.WinForm.csproj">
+      <Project>{7d4930bb-2807-4f89-8318-a42941ae70d3}</Project>
+      <Name>Vanilla.Configuration.WinForm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
       <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
