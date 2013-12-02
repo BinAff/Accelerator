@@ -59,6 +59,14 @@ namespace Vanilla.Navigator.Facade.Container
             this.IsError = moduleFacade.IsError;
         }
 
+        public override void Change()
+        {
+            VanilaModule.Server moduleFacade = new VanilaModule.Server((this.FormDto as FormDto).ModuleFormDto);
+            moduleFacade.Change();
+            this.DisplayMessageList = moduleFacade.DisplayMessageList;
+            this.IsError = moduleFacade.IsError;
+        }
+
         public void GetCurrentModules(Artifact.Category category)
         {
             Dto dto = new Dto
