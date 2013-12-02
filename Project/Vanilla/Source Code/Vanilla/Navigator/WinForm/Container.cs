@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using BinAff.Core;
 using PresentationLib = BinAff.Presentation.Library;
 using System.Drawing;
+using Vanilla.Tool.WinfForm;
 
 namespace Vanilla.Navigator.WinForm
 {
@@ -913,6 +914,13 @@ namespace Vanilla.Navigator.WinForm
             this.PopulateModuleForConfiguration();
         }
 
+        private void btnNote_Click(object sender, EventArgs e)
+        {
+            this.pnlArtifact.Hide();
+            this.pnlConfiguration.Hide();
+            StickyNote.Create(this).Show();
+        }
+
         private void PopulateModuleForConfiguration()
         {
             this.pnlConfiguration.Panel1.Controls.Add(new Button
@@ -928,6 +936,7 @@ namespace Vanilla.Navigator.WinForm
         }
 
         #endregion
+
 
     }
 

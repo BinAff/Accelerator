@@ -98,6 +98,10 @@
       <Project>{94765995-6577-4720-8f86-7cc1adbd1d5b}</Project>
       <Name>Vanilla.Guardian.WinForm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Tool\Vanilla.Tool.WinForm\Vanilla.Tool.WinForm.csproj">
+      <Project>{1292d85c-1a35-4978-9f23-2e502f1cb45f}</Project>
+      <Name>Vanilla.Tool.WinForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Facade\Vanilla.Navigator.Facade.csproj">
       <Project>{5fd93a71-d5b7-43ff-8996-29232b518b3a}</Project>
       <Name>Vanilla.Navigator.Facade</Name>
