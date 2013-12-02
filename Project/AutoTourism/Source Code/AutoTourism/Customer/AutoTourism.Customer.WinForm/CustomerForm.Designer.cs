@@ -68,7 +68,7 @@
             this.bttnRemove.Location = new System.Drawing.Point(290, 131);
             this.bttnRemove.Name = "bttnRemove";
             this.bttnRemove.Size = new System.Drawing.Size(32, 22);
-            this.bttnRemove.TabIndex = 15;
+            this.bttnRemove.TabIndex = 13;
             this.bttnRemove.Text = "X";
             this.bttnRemove.UseVisualStyleBackColor = true;
             this.bttnRemove.Click += new System.EventHandler(this.bttnRemove_Click);
@@ -79,7 +79,7 @@
             this.txtMobile.MaxLength = 12;
             this.txtMobile.Name = "txtMobile";
             this.txtMobile.Size = new System.Drawing.Size(131, 20);
-            this.txtMobile.TabIndex = 16;
+            this.txtMobile.TabIndex = 10;
             // 
             // txtMobilePrefix
             // 
@@ -97,7 +97,7 @@
             this.btnAddContact.Location = new System.Drawing.Point(290, 110);
             this.btnAddContact.Name = "btnAddContact";
             this.btnAddContact.Size = new System.Drawing.Size(32, 22);
-            this.btnAddContact.TabIndex = 10;
+            this.btnAddContact.TabIndex = 11;
             this.btnAddContact.Text = " ►";
             this.btnAddContact.UseVisualStyleBackColor = true;
             this.btnAddContact.Click += new System.EventHandler(this.btnAddContact_Click);
@@ -127,7 +127,7 @@
             this.lstContact.Location = new System.Drawing.Point(340, 110);
             this.lstContact.Name = "lstContact";
             this.lstContact.Size = new System.Drawing.Size(168, 43);
-            this.lstContact.TabIndex = 14;
+            this.lstContact.TabIndex = 12;
             // 
             // txtLandLine
             // 
@@ -152,7 +152,7 @@
             this.cboProofType.Location = new System.Drawing.Point(102, 184);
             this.cboProofType.Name = "cboProofType";
             this.cboProofType.Size = new System.Drawing.Size(168, 21);
-            this.cboProofType.TabIndex = 12;
+            this.cboProofType.TabIndex = 15;
             // 
             // txtIdentityProofName
             // 
@@ -160,7 +160,7 @@
             this.txtIdentityProofName.MaxLength = 20;
             this.txtIdentityProofName.Name = "txtIdentityProofName";
             this.txtIdentityProofName.Size = new System.Drawing.Size(218, 20);
-            this.txtIdentityProofName.TabIndex = 13;
+            this.txtIdentityProofName.TabIndex = 16;
             // 
             // label8
             // 
@@ -177,7 +177,7 @@
             this.txtEmail.MaxLength = 50;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(168, 20);
-            this.txtEmail.TabIndex = 11;
+            this.txtEmail.TabIndex = 14;
             // 
             // label7
             // 

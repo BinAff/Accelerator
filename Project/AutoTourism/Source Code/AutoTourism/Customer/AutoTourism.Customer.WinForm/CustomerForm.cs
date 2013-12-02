@@ -19,7 +19,7 @@ namespace AutoTourism.Customer.WinForm
 
         private System.Drawing.Color MandatoryColor = System.Drawing.Color.FromArgb(255, 255, 240, 240);
 
-        private CustomerFacade.Dto customerDto;
+        private CustomerFacade.Dto dto;
         private ConfigurationRuleFacade.CustomerRuleDto customerRule;
 
         #region Rule property
@@ -94,7 +94,7 @@ namespace AutoTourism.Customer.WinForm
         public CustomerForm(CustomerFacade.Dto dto)
         {
             InitializeComponent();
-            this.customerDto = dto;   
+            this.dto = dto;   
         }
 
         #endregion
@@ -111,7 +111,7 @@ namespace AutoTourism.Customer.WinForm
         {
             this.LoadForm();
 
-            if (this.customerDto != null)
+            if (this.dto != null)
                 this.LoadCustomerData();
         }
 
@@ -291,11 +291,11 @@ namespace AutoTourism.Customer.WinForm
         
         private void LoadCustomerData()
         {
-            if (this.customerDto.Initial != null && this.customerDto.Initial.Id > 0)
+            if (this.dto.Initial != null && this.dto.Initial.Id > 0)
             {
                 for (int i = 0; i < cboInitial.Items.Count; i++)
                 {
-                    if (this.customerDto.Initial.Id == ((Table)cboInitial.Items[i]).Id)
+                    if (this.dto.Initial.Id == ((Table)cboInitial.Items[i]).Id)
                     {
                         cboInitial.SelectedIndex = i;
                         break;
@@ -303,16 +303,16 @@ namespace AutoTourism.Customer.WinForm
                 }
             }
 
-            txtFName.Text = this.customerDto.FirstName;
-            txtMName.Text = this.customerDto.MiddleName;
-            txtLName.Text = this.customerDto.LastName;
-            txtAdds.Text = this.customerDto.Address;
+            txtFName.Text = this.dto.FirstName;
+            txtMName.Text = this.dto.MiddleName;
+            txtLName.Text = this.dto.LastName;
+            txtAdds.Text = this.dto.Address;
 
-            if (this.customerDto.State != null && this.customerDto.State.Id > 0)
+            if (this.dto.State != null && this.dto.State.Id > 0)
             {
                 for (int i = 0; i < cboState.Items.Count; i++)
                 {
-                    if (this.customerDto.State.Id == ((Table)cboState.Items[i]).Id)
+                    if (this.dto.State.Id == ((Table)cboState.Items[i]).Id)
                     {
                         cboState.SelectedIndex = i;
                         break;
@@ -320,23 +320,23 @@ namespace AutoTourism.Customer.WinForm
                 }
             }
 
-            txtCity.Text = this.customerDto.City;
-            txtPin.Text = this.customerDto.Pin == 0 ? String.Empty : this.customerDto.Pin.ToString();
+            txtCity.Text = this.dto.City;
+            txtPin.Text = this.dto.Pin == 0 ? String.Empty : this.dto.Pin.ToString();
 
-            if (this.customerDto.ContactNumberList != null && this.customerDto.ContactNumberList.Count > 0)
+            if (this.dto.ContactNumberList != null && this.dto.ContactNumberList.Count > 0)
             {
-                this.lstContact.DataSource = this.customerDto.ContactNumberList;
+                this.lstContact.DataSource = this.dto.ContactNumberList;
                 this.lstContact.DisplayMember = "Name";
                 this.lstContact.ValueMember = "Id";
                 this.lstContact.SelectedIndex = -1;
             }
-            txtEmail.Text = this.customerDto.Email;
+            txtEmail.Text = this.dto.Email;
 
-            if (this.customerDto.IdentityProofType != null && this.customerDto.IdentityProofType.Id > 0)
+            if (this.dto.IdentityProofType != null && this.dto.IdentityProofType.Id > 0)
             {
                 for (int i = 0; i < cboProofType.Items.Count; i++)
                 {
-                    if (this.customerDto.IdentityProofType.Id == ((Table)cboProofType.Items[i]).Id)
+                    if (this.dto.IdentityProofType.Id == ((Table)cboProofType.Items[i]).Id)
                     {
                         cboProofType.SelectedIndex = i;
                         break;
@@ -344,7 +344,7 @@ namespace AutoTourism.Customer.WinForm
                 }
             }
 
-            txtIdentityProofName.Text = this.customerDto.IdentityProofName;
+            txtIdentityProofName.Text = this.dto.IdentityProofName;
         }
 
         private ReturnObject<List<Table>> GetContactNumberList(String val, List<Table> ContactNumberList)
@@ -405,32 +405,32 @@ namespace AutoTourism.Customer.WinForm
 
             if (this.ValidateCustomer())
             {
-                if (this.customerDto == null) this.customerDto = new CustomerFacade.Dto();
-                this.customerDto.Id = this.customerDto == null ? 0 : this.customerDto.Id;
-                this.customerDto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
+                if (this.dto == null) this.dto = new CustomerFacade.Dto();
+                this.dto.Id = this.dto == null ? 0 : this.dto.Id;
+                this.dto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
                 {
                     Id = ((Table)cboInitial.SelectedItem).Id,
                 };
-                this.customerDto.FirstName = txtFName.Text.Trim();
-                this.customerDto.MiddleName = txtMName.Text.Trim();
-                this.customerDto.LastName = txtLName.Text.Trim();
-                this.customerDto.Address = txtAdds.Text.Trim();
-                this.customerDto.State = cboState.SelectedIndex == -1 ? null : new Table()
+                this.dto.FirstName = txtFName.Text.Trim();
+                this.dto.MiddleName = txtMName.Text.Trim();
+                this.dto.LastName = txtLName.Text.Trim();
+                this.dto.Address = txtAdds.Text.Trim();
+                this.dto.State = cboState.SelectedIndex == -1 ? null : new Table()
                 {
                     Id = ((Table)cboState.SelectedItem).Id,
                 };
-                this.customerDto.City = txtCity.Text.Trim();
-                this.customerDto.Pin = txtPin.Text == String.Empty ? 0 : Convert.ToInt32(txtPin.Text);
-                this.customerDto.ContactNumberList = GetContactNumberDtoList();
-                this.customerDto.Email = txtEmail.Text.Trim();
-                this.customerDto.IdentityProofType = cboProofType.SelectedIndex == -1 ? null : new Table()
+                this.dto.City = txtCity.Text.Trim();
+                this.dto.Pin = txtPin.Text == String.Empty ? 0 : Convert.ToInt32(txtPin.Text);
+                this.dto.ContactNumberList = GetContactNumberDtoList();
+                this.dto.Email = txtEmail.Text.Trim();
+                this.dto.IdentityProofType = cboProofType.SelectedIndex == -1 ? null : new Table()
                 {
                     Id = ((Table)cboProofType.SelectedItem).Id,
                 };
-                this.customerDto.IdentityProofName = txtIdentityProofName.Text.Trim();
+                this.dto.IdentityProofName = txtIdentityProofName.Text.Trim();
                 CustomerFacade.FormDto formDto = new CustomerFacade.FormDto()
                 {
-                    Dto = this.customerDto,
+                    Dto = this.dto,
                 };
 
                 BinAff.Facade.Library.Server facade = new CustomerFacade.Server(formDto);
