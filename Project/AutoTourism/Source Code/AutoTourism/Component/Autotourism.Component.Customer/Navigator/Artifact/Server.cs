@@ -23,7 +23,10 @@ namespace Autotourism.Component.Customer.Navigator.Artifact
 
         protected override BinAff.Core.Data CreateDataObject()
         {
-            return new Data();
+            return new Data
+            {
+                Category = (this.Data as Data).Category
+            };
         }
         
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)

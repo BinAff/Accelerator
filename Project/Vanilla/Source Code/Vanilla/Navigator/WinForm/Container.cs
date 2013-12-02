@@ -531,27 +531,52 @@ namespace Vanilla.Navigator.WinForm
         private void trvArtifact_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
             (sender as TreeView).LabelEdit = false;
+
+            
             if (e.Label != null && e.Label.Trim().Length == 0)
+            {
                 e.CancelEdit = true; // Can not be empty text
+                return;
+            }
+                //no text inserted during edit
+            else if ((e.Node.Tag as Facade.Artifact.Dto).Id > 0 && e.Label == null)
+            {
+                e.CancelEdit = true; // Can not be empty text
+                return;
+            }
+                //same text inserted during edit
+            else if ((e.Node.Tag as Facade.Artifact.Dto).Id > 0 && e.Label.Trim() == e.Node.Text.Trim())
+            {
+                e.CancelEdit = true; // Can not be empty text
+                return;
+            }
 
             String artifactFileName = (e.Label == null || e.Label.Trim().Length == 0) ? e.Node.Text : e.Label.Trim();
-            this.PopulateNewArtifact(artifactFileName, Facade.Artifact.Type.Directory, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
-   
-            this.facade = new Facade.Container.Server(this.formDto);
-            this.facade.Add();
 
-            if (!this.facade.IsError && this.lsvContainer.Items.Count > 0)
+            if (this.formDto.ModuleFormDto.CurrentArtifact == null)
             {
-                for (int i = 0; i < this.lsvContainer.Items.Count; i++)
+                this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
                 {
-                    if (this.lsvContainer.Items[i].Text == e.Node.Text)
-                    {
-                        this.lsvContainer.Items[i].Text = this.formDto.ModuleFormDto.CurrentArtifact.Dto.FileName;
-                        this.lsvContainer.Items[i].SubItems.AddRange(this.AddListViewSubItems(this.lsvContainer.Items[i], this.formDto.ModuleFormDto.CurrentArtifact.Dto));
-                        this.lsvContainer.Items[i].Tag = this.formDto.ModuleFormDto.CurrentArtifact.Dto;
-                        break;
-                    }
-                }
+                    Dto = e.Node.Tag as Facade.Artifact.Dto,
+                };
+            }
+            this.PopulateNewArtifact(artifactFileName, Facade.Artifact.Type.Directory, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
+            this.facade = new Facade.Container.Server(this.formDto);
+
+            //update
+            if ((e.Node.Tag as BinAff.Facade.Library.Dto).Id > 0)
+            {
+                this.formDto.ModuleFormDto.CurrentArtifact.Dto.Version = this.formDto.ModuleFormDto.CurrentArtifact.Dto.Version + 1;
+                this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedAt = DateTime.Now;
+                this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedBy = new Table { Id = 1, Name = "Biraj Dhekial" };
+
+                this.facade.Change();
+            }
+            else    // new insert   
+            {
+                this.facade.Add();
+                if (!this.facade.IsError)
+                    this.SelectNode(e.Node.Parent.Tag as Facade.Artifact.Dto);
             }
         }
 
@@ -816,31 +841,37 @@ namespace Vanilla.Navigator.WinForm
         private void PopulateNewArtifact(String fileName, Facade.Artifact.Type type, Facade.Artifact.Dto currentArtifact)
         {
             currentArtifact.FileName = fileName;
-            currentArtifact.Style = type;
-            currentArtifact.Version = 1;
-            currentArtifact.CreatedBy = new BinAff.Core.Table
+
+            //below properties are required only during insert
+            if (currentArtifact.Id == 0) 
             {
-                Id = (Server.Current.Cache["User"] as BinAff.Facade.Library.Dto).Id,
-            };
-            currentArtifact.CreatedAt = DateTime.Now;
-            switch (this.tbcCategory.SelectedTab.Text)
-            {
-                case "Form":
-                    currentArtifact.Category = Facade.Artifact.Category.Form;
-                    break;
-                case "Catalogue":
-                    currentArtifact.Category = Facade.Artifact.Category.Catalogue;
-                    break;
-                case "Report":
-                    currentArtifact.Category = Facade.Artifact.Category.Report;
-                    break;
-                default:
-                    currentArtifact.Category = Facade.Artifact.Category.Form;
-                    break;
-            }
-            if (type == Facade.Artifact.Type.Directory)
-            {
-                currentArtifact.Path += currentArtifact.FileName + "\\";
+                currentArtifact.Style = type;
+                currentArtifact.Version = 1;
+                currentArtifact.CreatedBy = new BinAff.Core.Table
+                {
+                    Id = (Server.Current.Cache["User"] as BinAff.Facade.Library.Dto).Id,
+                    Name = "Biraj k"
+                };
+                currentArtifact.CreatedAt = DateTime.Now;
+                switch (this.tbcCategory.SelectedTab.Text)
+                {
+                    case "Form":
+                        currentArtifact.Category = Facade.Artifact.Category.Form;
+                        break;
+                    case "Catalogue":
+                        currentArtifact.Category = Facade.Artifact.Category.Catalogue;
+                        break;
+                    case "Report":
+                        currentArtifact.Category = Facade.Artifact.Category.Report;
+                        break;
+                    default:
+                        currentArtifact.Category = Facade.Artifact.Category.Form;
+                        break;
+                }
+                if (type == Facade.Artifact.Type.Directory)
+                {
+                    currentArtifact.Path += currentArtifact.FileName + "\\";
+                }
             }
         }
 

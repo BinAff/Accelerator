@@ -52,12 +52,13 @@ namespace Crystal.Navigator.Component.Artifact
             if (data.Id == 0) //Insert, so only created information
             {
                 base.AddInParameter("@CreatedByUserId", DbType.Int64, data.CreatedBy.Id);
+                base.AddInParameter("@Style", DbType.Int64, (Int32)data.Style);
             }
             else //Update, so modification information
             {
                 base.AddInParameter("@ModifiedByUserId", DbType.Int64, data.ModifiedBy.Id);
             }
-            base.AddInParameter("@Style", DbType.Int64, (Int32)data.Style);
+            
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
@@ -112,18 +113,22 @@ namespace Crystal.Navigator.Component.Artifact
         protected override bool CreateAfter()
         {
             bool status = true;
+            Data artifactData = Data as Data;
 
-            Data artifactData = Data as Data;            
-            base.CreateCommand("[Navigator].[ArtifactModuleLinkInsertForModule]");
-            base.AddInParameter("@ArtifactId", DbType.Int64, Data.Id);
-            base.AddInParameter("@ModuleId", DbType.String, artifactData.ModuleDefinition.Id);
-            base.AddInParameter("@Category", DbType.Int64, artifactData.Category);            
-            Int32 ret = base.ExecuteNonQuery();
+            //avoiding insert during update
+            if (artifactData.ModifiedBy == null)
+            {
+                base.CreateCommand("[Navigator].[ArtifactModuleLinkInsertForModule]");
+                base.AddInParameter("@ArtifactId", DbType.Int64, Data.Id);
+                base.AddInParameter("@ModuleId", DbType.String, artifactData.ModuleDefinition.Id);
+                base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
+                Int32 ret = base.ExecuteNonQuery();
 
-            if (ret == -2146232060) status = false;//Foreign key violation
-           
-            if(status)
-                status = this.CreateAfterModuleArtifactLink();
+                if (ret == -2146232060) status = false;//Foreign key violation
+
+                if (status)
+                    status = this.CreateAfterModuleArtifactLink();
+            }
 
             return status;
         }

@@ -6,6 +6,7 @@ using System.Text;
 using BinAff.Core;
 using CrystalArtifact = Crystal.Navigator.Component.Artifact;
 using CustomerArtifact = Autotourism.Component.Customer.Navigator.Artifact;
+using GuardianAcc = Crystal.Guardian.Component.Account;
 
 
 namespace Vanilla.Navigator.Facade.Artifact
@@ -65,7 +66,7 @@ namespace Vanilla.Navigator.Facade.Artifact
                 Path = artifactData.Path,
                 Style = (artifactData.Style == CrystalArtifact.Type.Directory) ? Type.Directory : Type.Document,
                 Version = artifactData.Version,
-                CreatedBy = new Table
+                CreatedBy = artifactData.CreatedBy == null ? null : new Table
                 {
                     Id = artifactData.CreatedBy.Id,
                     Name = artifactData.CreatedBy.Profile.Name
@@ -147,7 +148,8 @@ namespace Vanilla.Navigator.Facade.Artifact
         {
             Dto tree = new Dto
             {
-                FileName = String.IsNullOrEmpty(data.FileName)? "." : data.FileName,
+                Id = data.Id,
+                FileName = String.IsNullOrEmpty(data.FileName) ? "." : data.FileName,
                 Children = new List<Dto>(),
                 Path = data.Path,
                 Category = (Category)data.Category,
@@ -161,7 +163,7 @@ namespace Vanilla.Navigator.Facade.Artifact
                     if (artf.Children != null && artf.Children.Count > 0)
                     {
                         child.Children = this.ConvertTree(artf).Children;
-                    }                    
+                    }
                     tree.Children.Add(child);
                 }
             }
@@ -177,8 +179,22 @@ namespace Vanilla.Navigator.Facade.Artifact
             dataType.GetProperty("Children").SetValue(tree, new List<Data>(), null);
             dataType.GetProperty("Path").SetValue(tree, dto.Path, null);
             dataType.GetProperty("Category").SetValue(tree, (CrystalArtifact.Category)dto.Category, null);
+            dataType.GetProperty("ParentId").SetValue(tree, dto.Parent == null ? 0 : dto.Parent.Id, null);
+            dataType.GetProperty("CreatedBy").SetValue(tree, new GuardianAcc.Data { Id = dto.CreatedBy.Id }, null);
+            dataType.GetProperty("CreatedAt").SetValue(tree, dto.CreatedAt, null);
+            
+
+            if (dto.ModifiedBy != null)
+            {
+                dataType.GetProperty("ModifiedBy").SetValue(tree, new GuardianAcc.Data { Id = dto.ModifiedBy.Id }, null);
+                dataType.GetProperty("ModifiedAt").SetValue(tree, dto.ModifiedAt, null);
+            }
+
+            dataType.GetProperty("Style").SetValue(tree, dto.Style == Type.Directory ? CrystalArtifact.Type.Directory : CrystalArtifact.Type.Document, null);
+
+
             tree.IsDeletable = dto.Action == BinAff.Facade.Library.Dto.ActionType.Delete;
-           
+
             if (dto.Children != null && dto.Children.Count > 0)
             {
                 foreach (Dto artf in dto.Children)
@@ -198,6 +214,11 @@ namespace Vanilla.Navigator.Facade.Artifact
         }
 
         public override void Add()
+        {
+            this.Save();
+        }
+
+        public override void Change()
         {
             this.Save();
         }
