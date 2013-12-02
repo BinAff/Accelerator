@@ -112,6 +112,7 @@
             this.pnlConfiguration = new System.Windows.Forms.SplitContainer();
             this.lsvConfiguration = new System.Windows.Forms.ListView();
             this.imgConfiguration = new System.Windows.Forms.ImageList(this.components);
+            this.pnlNote = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
             this.pnlArtifact.Panel2.SuspendLayout();
@@ -876,6 +877,7 @@
             this.lsvConfiguration.Size = new System.Drawing.Size(183, 40);
             this.lsvConfiguration.TabIndex = 0;
             this.lsvConfiguration.UseCompatibleStateImageBehavior = false;
+            this.lsvConfiguration.DoubleClick += new System.EventHandler(this.lsvConfiguration_DoubleClick);
             // 
             // imgConfiguration
             // 
@@ -883,12 +885,20 @@
             this.imgConfiguration.ImageSize = new System.Drawing.Size(16, 16);
             this.imgConfiguration.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // pnlNote
+            // 
+            this.pnlNote.Location = new System.Drawing.Point(0, 165);
+            this.pnlNote.Name = "pnlNote";
+            this.pnlNote.Size = new System.Drawing.Size(46, 36);
+            this.pnlNote.TabIndex = 11;
+            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(591, 394);
             this.Controls.Add(this.pnlTool);
+            this.Controls.Add(this.pnlNote);
             this.Controls.Add(this.pnlConfiguration);
             this.Controls.Add(this.pnlArtifact);
             this.Controls.Add(this.pnlLoginFormContainer);
@@ -1006,6 +1016,7 @@
         private System.Windows.Forms.SplitContainer pnlConfiguration;
         private System.Windows.Forms.ListView lsvConfiguration;
         private System.Windows.Forms.ImageList imgConfiguration;
+        private System.Windows.Forms.Panel pnlNote;
 
     }
 }

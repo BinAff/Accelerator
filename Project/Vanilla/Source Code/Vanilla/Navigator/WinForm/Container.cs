@@ -7,6 +7,7 @@ using BinAff.Core;
 using PresentationLib = BinAff.Presentation.Library;
 using System.Drawing;
 using Vanilla.Tool.WinfForm;
+using BinAff.Facade.Cache;
 
 namespace Vanilla.Navigator.WinForm
 {
@@ -58,6 +59,7 @@ namespace Vanilla.Navigator.WinForm
         private void DockContainers()
         {
             this.pnlArtifact.Dock = DockStyle.Fill;
+            this.pnlNote.Dock = DockStyle.Fill;
             this.pnlConfiguration.Dock = DockStyle.Fill;
         }
 
@@ -796,8 +798,9 @@ namespace Vanilla.Navigator.WinForm
         private void HideControl()
         {
             this.pnlAddress.Hide();
-            this.pnlArtifact.Hide();
             this.pnlTool.Hide();
+            this.pnlArtifact.Hide();
+            this.pnlNote.Hide();
             this.pnlConfiguration.Hide();
 
             this.mnuLogin.Visible = true;
@@ -817,7 +820,7 @@ namespace Vanilla.Navigator.WinForm
             currentArtifact.Version = 1;
             currentArtifact.CreatedBy = new BinAff.Core.Table
             {
-                Id = 1 //need to remove hard coding
+                Id = (Server.Current.Cache["User"] as BinAff.Facade.Library.Dto).Id,
             };
             currentArtifact.CreatedAt = DateTime.Now;
             switch (this.tbcCategory.SelectedTab.Text)
@@ -905,12 +908,14 @@ namespace Vanilla.Navigator.WinForm
         {
             this.pnlArtifact.Show();
             this.pnlConfiguration.Hide();
+            this.pnlNote.Hide();
         }
 
         private void btnConfiguration_Click(object sender, EventArgs e)
         {
             this.pnlArtifact.Hide();
             this.pnlConfiguration.Show();
+            this.pnlNote.Hide();
             this.PopulateModuleForConfiguration();
         }
 
@@ -918,25 +923,68 @@ namespace Vanilla.Navigator.WinForm
         {
             this.pnlArtifact.Hide();
             this.pnlConfiguration.Hide();
-            StickyNote.Create(this).Show();
+            this.pnlNote.Show();
+            if (this.pnlNote.Controls.Count == 0)
+            {
+                StickyNote stickyNote = StickyNote.Create(this);
+                stickyNote.TopLevel = false;
+                this.pnlNote.Controls.Add(stickyNote);
+                stickyNote.Show();
+            }
         }
 
         private void PopulateModuleForConfiguration()
         {
-            this.pnlConfiguration.Panel1.Controls.Add(new Button
+            Button btnGeneral = new Button
             {
-                Name = "btnGeneral",
                 Text = "General",
                 Visible = true,
                 Height = 30,
                 Width = this.pnlConfiguration.Panel1.Width,
-                Top = 0,
-                Left = 0,
+                Dock = DockStyle.Top,
+            };
+            this.pnlConfiguration.Panel1.Controls.Add(btnGeneral);
+            btnGeneral.Click += btnGeneral_Click;
+            Button btnLodge = new Button
+            {
+                Text = "Lodge",
+                Visible = true,
+                Height = 30,
+                Width = this.pnlConfiguration.Panel1.Width,
+                Dock = DockStyle.Top,
+            };
+            this.pnlConfiguration.Panel1.Controls.Add(btnLodge);
+            btnLodge.Click += btnLodge_Click;
+            
+        }
+
+        void btnGeneral_Click(object sender, EventArgs e)
+        {
+            this.lsvConfiguration.Items.Clear();
+            this.lsvConfiguration.Items.Add(new ListViewItem("Customer"));
+            this.lsvConfiguration.Items.Add(new ListViewItem("User"));
+            this.lsvConfiguration.Items.Add(new ListViewItem("Config Manager")
+            {
+                Tag = new Configuration.WinForm.ConfigManager
+                {
+                    TopLevel = true,
+                }
             });
         }
 
-        #endregion
+        private void lsvConfiguration_DoubleClick(object sender, EventArgs e)
+        {
+            ((sender as ListView).FocusedItem.Tag as Form).ShowDialog();
+        }
 
+        void btnLodge_Click(object sender, EventArgs e)
+        {
+            this.lsvConfiguration.Items.Clear();
+            this.lsvConfiguration.Items.Add(new ListViewItem("Lodge"));
+            this.lsvConfiguration.Items.Add(new ListViewItem("Room"));
+        }
+
+        #endregion
 
     }
 

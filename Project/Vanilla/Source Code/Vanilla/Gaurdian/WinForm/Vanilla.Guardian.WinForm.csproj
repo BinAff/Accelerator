@@ -83,6 +83,10 @@
       <Project>{D25DF173-3451-49AA-9570-269B2880C393}</Project>
       <Name>BinAff.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\BinAff.Facade.Cache\BinAff.Facade.Cache.csproj">
+      <Project>{266b4deb-d9c2-4607-a5d5-60f5124e89ae}</Project>
+      <Name>BinAff.Facade.Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
       <Project>{F6AB9943-F271-4293-B13E-DC58DEF3F59D}</Project>
       <Name>BinAff.Facade.Library</Name>

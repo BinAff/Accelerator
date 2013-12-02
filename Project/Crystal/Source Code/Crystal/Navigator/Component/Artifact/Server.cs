@@ -90,6 +90,7 @@ namespace Crystal.Navigator.Component.Artifact
             {
                 Int64 currentId = root.Id;
                 root.Path = data.Path + root.FileName + pathSeperator;
+                root.ParentId = this.Data.Id;
                 artifactList.Remove(root);
                 //
 
