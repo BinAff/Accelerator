@@ -21,6 +21,8 @@ namespace Vanilla.Navigator.WinForm
         Vanilla.Guardian.WinForm.Login loginForm;
         Boolean isLoggedIn;
         String selectedNodePath;
+        TreeNode editNode;
+        Boolean isCut = false;
 
         public Container()
         {
@@ -530,55 +532,6 @@ namespace Vanilla.Navigator.WinForm
 
         private void trvArtifact_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
-            //(sender as TreeView).LabelEdit = false;
-
-            
-            //if (e.Label != null && e.Label.Trim().Length == 0)
-            //{
-            //    e.CancelEdit = true; // Can not be empty text
-            //    return;
-            //}
-            //    //no text inserted during edit
-            //else if ((e.Node.Tag as Facade.Artifact.Dto).Id > 0 && e.Label == null)
-            //{
-            //    e.CancelEdit = true; // Can not be empty text
-            //    return;
-            //}
-            //    //same text inserted during edit
-            //else if ((e.Node.Tag as Facade.Artifact.Dto).Id > 0 && e.Label.Trim() == e.Node.Text.Trim())
-            //{
-            //    e.CancelEdit = true; // Can not be empty text
-            //    return;
-            //}
-
-            //String artifactFileName = (e.Label == null || e.Label.Trim().Length == 0) ? e.Node.Text : e.Label.Trim();
-
-            //if (this.formDto.ModuleFormDto.CurrentArtifact == null)
-            //{
-            //    this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
-            //    {
-            //        Dto = e.Node.Tag as Facade.Artifact.Dto,
-            //    };
-            //}
-            //this.PopulateNewArtifact(artifactFileName, Facade.Artifact.Type.Directory, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
-            //this.facade = new Facade.Container.Server(this.formDto);
-
-            ////update
-            //if ((e.Node.Tag as BinAff.Facade.Library.Dto).Id > 0)
-            //{
-            //    this.formDto.ModuleFormDto.CurrentArtifact.Dto.Version = this.formDto.ModuleFormDto.CurrentArtifact.Dto.Version + 1;
-            //    this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedAt = DateTime.Now;
-            //    this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedBy = new Table { Id = 1, Name = "Biraj Dhekial" };
-
-            //    this.facade.Change();
-            //}
-            //else    // new insert   
-            //{
-            //    this.facade.Add();
-            //    if (!this.facade.IsError)
-            //        this.SelectNode(e.Node.Parent.Tag as Facade.Artifact.Dto);
-            //}
-
             (sender as TreeView).LabelEdit = false;
 
             if (e.Label != null && e.Label.Trim().Length == 0)
@@ -786,7 +739,6 @@ namespace Vanilla.Navigator.WinForm
                     TreeNode node = trvForm.SelectedNode.Parent;
                     trvForm.SelectedNode.Remove();
                     trvForm.SelectedNode = node;
-
                   
  
                     //populating the path
@@ -805,6 +757,94 @@ namespace Vanilla.Navigator.WinForm
                     this.formDto.ModuleFormDto.Dto = this.FindRootNode(node).Tag as Facade.Module.Dto;
                 }
             }
+        }
+        
+        private void cutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            editNode = null;
+
+            if (trvForm.SelectedNode != null && trvForm.SelectedNode.Parent != null)
+            {
+                editNode = trvForm.SelectedNode;
+                isCut = true;
+            }            
+        }
+
+        private void copyToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            editNode = null;
+
+            if (trvForm.SelectedNode != null && trvForm.SelectedNode.Parent != null)
+            {
+                editNode = trvForm.SelectedNode;
+                isCut = false;
+            }
+        }
+
+        private void pasteToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (trvForm.SelectedNode != null && editNode != null)
+            {
+                Int64 parentId = 0;
+                Int64 newParentId = 0;
+
+                //parent id is null for first level nodes
+                if (editNode.Parent.Parent != null)
+                    parentId = (editNode.Parent.Tag as Facade.Artifact.Dto).Id;
+
+                if (trvForm.SelectedNode.Parent != null)
+                    newParentId = (trvForm.SelectedNode.Tag as Facade.Artifact.Dto).Id;
+
+                if (parentId != newParentId)
+                {
+                    Facade.Artifact.Dto artifactDto = editNode.Tag as Facade.Artifact.Dto;
+                    artifactDto.Parent = new BinAff.Facade.Library.Dto { Id = newParentId };
+                    artifactDto.Version = artifactDto.Version + 1;
+                    artifactDto.ModifiedAt = DateTime.Now;
+                    artifactDto.ModifiedBy = new Table { Id = 1, Name = "Biraj Dhekial" };
+
+                    //when root node is selected
+                    if (newParentId == 0)
+                        artifactDto.Path = (trvForm.SelectedNode.Tag as Facade.Module.Dto).Artifact.Path + artifactDto.FileName + "\\";
+                    else
+                        artifactDto.Path = (trvForm.SelectedNode.Tag as Facade.Artifact.Dto).Path + artifactDto.FileName + "\\";
+
+                    this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
+                    {
+                        Dto = artifactDto,
+                    };
+
+                    this.facade = new Facade.Container.Server(this.formDto);
+                    this.facade.Paste(isCut);
+
+                    if (!this.facade.IsError)
+                    {
+                        if (isCut)
+                        {
+                            TreeNode selectNode = editNode.Parent;
+                            RemoveChildDtoFromParentDto(editNode.Parent, editNode);
+                            //remove node from tree
+                            this.trvForm.Nodes.Remove(editNode);
+
+                            //add node to the selected node
+                            (this.trvForm.SelectedNode as TreeNode).Nodes.Add(editNode);
+                            AddChildDtoFromParentDto(this.trvForm.SelectedNode, editNode);
+
+                            //root node
+                            trvForm.SelectedNode = selectNode;
+
+                            //Adding items to listView for the selected node
+                            if (selectNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                                this.SelectNode((selectNode.Tag as Facade.Module.Dto).Artifact);
+                            else
+                                this.SelectNode(selectNode.Tag as Facade.Artifact.Dto);
+                        }
+                    }
+                    
+                    
+                }
+            }
+            editNode = null;
         }
 
         #endregion
@@ -1023,6 +1063,43 @@ namespace Vanilla.Navigator.WinForm
         }
 
         #endregion
+
+        private void RemoveChildDtoFromParentDto(TreeNode parentNode, TreeNode childNode)
+        {
+            Facade.Artifact.Dto parentArtifactDto;
+
+            //Removing node from Parent Tag
+            if (parentNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                parentArtifactDto = (parentNode.Tag as Facade.Module.Dto).Artifact;
+            else
+                parentArtifactDto = parentNode.Tag as Facade.Artifact.Dto;
+          
+            foreach (Facade.Artifact.Dto child in parentArtifactDto.Children)
+            {
+                if (child.Id == (childNode.Tag as Facade.Artifact.Dto).Id)
+                {
+                    parentArtifactDto.Children.Remove(child);
+                    break;
+                }
+            }
+        }
+
+        private void AddChildDtoFromParentDto(TreeNode parentNode, TreeNode childNode)
+        {
+            Facade.Artifact.Dto parentArtifactDto;
+
+            //Removing node from Parent Tag
+            if(parentNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                parentArtifactDto = (parentNode.Tag as Facade.Module.Dto).Artifact;
+            else
+                parentArtifactDto = parentNode.Tag as Facade.Artifact.Dto;
+
+            if (parentArtifactDto.Children == null)
+                parentArtifactDto.Children = new List<Facade.Artifact.Dto>();
+
+            parentArtifactDto.Children.Add(childNode.Tag as Facade.Artifact.Dto);           
+
+        }
 
     }
 
