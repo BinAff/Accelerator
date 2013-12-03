@@ -55,7 +55,7 @@
             // 
             this.cboBuildingList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboBuildingList.FormattingEnabled = true;
-            this.cboBuildingList.Location = new System.Drawing.Point(12, 12);
+            this.cboBuildingList.Location = new System.Drawing.Point(12, 14);
             this.cboBuildingList.Name = "cboBuildingList";
             this.cboBuildingList.Size = new System.Drawing.Size(174, 241);
             this.cboBuildingList.TabIndex = 1;
@@ -63,7 +63,7 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(265, 12);
+            this.txtName.Location = new System.Drawing.Point(265, 14);
             this.txtName.MaxLength = 50;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(164, 20);
@@ -72,7 +72,7 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(197, 16);
+            this.lblName.Location = new System.Drawing.Point(197, 18);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 2;
@@ -80,7 +80,7 @@
             // 
             // txtFloor
             // 
-            this.txtFloor.Location = new System.Drawing.Point(265, 38);
+            this.txtFloor.Location = new System.Drawing.Point(265, 40);
             this.txtFloor.MaxLength = 3;
             this.txtFloor.Name = "txtFloor";
             this.txtFloor.Size = new System.Drawing.Size(40, 20);
@@ -89,7 +89,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(197, 42);
+            this.label1.Location = new System.Drawing.Point(197, 44);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 4;
@@ -100,7 +100,7 @@
             this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboType.FormattingEnabled = true;
             this.cboType.ItemHeight = 13;
-            this.cboType.Location = new System.Drawing.Point(265, 126);
+            this.cboType.Location = new System.Drawing.Point(265, 128);
             this.cboType.Name = "cboType";
             this.cboType.Size = new System.Drawing.Size(164, 21);
             this.cboType.TabIndex = 72;
@@ -108,7 +108,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(197, 132);
+            this.label6.Location = new System.Drawing.Point(197, 134);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(31, 13);
             this.label6.TabIndex = 71;
@@ -117,7 +117,7 @@
             // bttnAddContact
             // 
             this.bttnAddContact.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bttnAddContact.Location = new System.Drawing.Point(322, 37);
+            this.bttnAddContact.Location = new System.Drawing.Point(322, 39);
             this.bttnAddContact.Name = "bttnAddContact";
             this.bttnAddContact.Size = new System.Drawing.Size(32, 22);
             this.bttnAddContact.TabIndex = 12;
@@ -128,7 +128,7 @@
             // btnRemove
             // 
             this.btnRemove.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemove.Location = new System.Drawing.Point(322, 65);
+            this.btnRemove.Location = new System.Drawing.Point(322, 67);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(32, 22);
             this.btnRemove.TabIndex = 14;
@@ -139,7 +139,7 @@
             // lstFloorList
             // 
             this.lstFloorList.FormattingEnabled = true;
-            this.lstFloorList.Location = new System.Drawing.Point(360, 38);
+            this.lstFloorList.Location = new System.Drawing.Point(360, 40);
             this.lstFloorList.Name = "lstFloorList";
             this.lstFloorList.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.lstFloorList.Size = new System.Drawing.Size(69, 82);
@@ -151,7 +151,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(11, 259);
+            this.btnAdd.Location = new System.Drawing.Point(445, 14);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 100;
@@ -161,7 +161,7 @@
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(92, 258);
+            this.btnChange.Location = new System.Drawing.Point(445, 44);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 23);
             this.btnChange.TabIndex = 101;
@@ -171,7 +171,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(174, 258);
+            this.btnDelete.Location = new System.Drawing.Point(445, 73);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 102;
@@ -181,7 +181,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(259, 258);
+            this.btnRefresh.Location = new System.Drawing.Point(445, 102);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 103;
@@ -191,7 +191,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(344, 258);
+            this.btnClose.Location = new System.Drawing.Point(445, 131);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 104;
@@ -201,7 +201,7 @@
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(426, 258);
+            this.btnOpen.Location = new System.Drawing.Point(445, 160);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(75, 23);
             this.btnOpen.TabIndex = 105;
@@ -212,7 +212,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(198, 175);
+            this.label2.Location = new System.Drawing.Point(198, 177);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 13);
             this.label2.TabIndex = 140;
@@ -221,7 +221,7 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(262, 175);
+            this.lblStatus.Location = new System.Drawing.Point(262, 177);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(0, 13);
             this.lblStatus.TabIndex = 141;
@@ -230,7 +230,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(516, 293);
+            this.ClientSize = new System.Drawing.Size(534, 259);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnOpen);
@@ -249,7 +249,11 @@
             this.Controls.Add(this.txtFloor);
             this.Controls.Add(this.cboType);
             this.Controls.Add(this.label6);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Building";
+            this.ShowInTaskbar = false;
             this.Text = "Building Configuration";
             this.Load += new System.EventHandler(this.Building_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
