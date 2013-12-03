@@ -24,7 +24,7 @@ namespace Crystal.Guardian.Rule
 
         protected override void AssignParameter(String procedureName)
         {
-            base.AddInParameter("@DefaultUserPwd", DbType.String, ((Data)this.Data).DefaultUserPassword);            
+            base.AddInParameter("@DefaultUserPwd", DbType.String, ((Data)this.Data).DefaultPassword);            
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
@@ -34,7 +34,7 @@ namespace Crystal.Guardian.Rule
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 row = ds.Tables[0].Rows[0];
-                dt.DefaultUserPassword = Convert.IsDBNull(row["DefaultPassword"]) ? String.Empty : Convert.ToString(row["DefaultPassword"]);              
+                dt.DefaultPassword = Convert.IsDBNull(row["DefaultPassword"]) ? String.Empty : Convert.ToString(row["DefaultPassword"]);              
             }
             return dt;
         }

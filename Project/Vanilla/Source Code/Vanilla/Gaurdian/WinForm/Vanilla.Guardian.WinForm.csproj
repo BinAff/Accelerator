@@ -63,6 +63,12 @@
     <Compile Include="Register.designer.cs">
       <DependentUpon>Register.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserRule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserRule.Designer.cs">
+      <DependentUpon>UserRule.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Info.resx">
@@ -76,6 +82,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Register.resx">
       <DependentUpon>Register.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserRule.resx">
+      <DependentUpon>UserRule.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

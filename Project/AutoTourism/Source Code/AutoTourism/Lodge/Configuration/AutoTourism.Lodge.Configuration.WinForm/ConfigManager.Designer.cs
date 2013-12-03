@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Building Type");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Room Category");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Room Type");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Building Type");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Room Category");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Room Type");
             this.trvOption = new System.Windows.Forms.TreeView();
             this.lslList = new System.Windows.Forms.ListBox();
             this.txtName = new System.Windows.Forms.TextBox();
@@ -43,16 +43,16 @@
             // 
             this.trvOption.Location = new System.Drawing.Point(10, 11);
             this.trvOption.Name = "trvOption";
-            treeNode4.Name = "Building Type";
-            treeNode4.Text = "Building Type";
-            treeNode5.Name = "Room Category";
-            treeNode5.Text = "Room Category";
-            treeNode6.Name = "Room Type";
-            treeNode6.Text = "Room Type";
+            treeNode1.Name = "Building Type";
+            treeNode1.Text = "Building Type";
+            treeNode2.Name = "Room Category";
+            treeNode2.Text = "Room Category";
+            treeNode3.Name = "Room Type";
+            treeNode3.Text = "Room Type";
             this.trvOption.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode5,
-            treeNode6});
+            treeNode1,
+            treeNode2,
+            treeNode3});
             this.trvOption.Size = new System.Drawing.Size(148, 173);
             this.trvOption.TabIndex = 133;
             this.trvOption.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvOption_AfterSelect);
@@ -82,7 +82,7 @@
             this.btnRefresh.TabIndex = 136;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click_1);
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnAdd
             // 
@@ -120,6 +120,7 @@
             this.MinimizeBox = false;
             this.Name = "ConfigManager";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Configuration Manager";
             this.ResumeLayout(false);
             this.PerformLayout();

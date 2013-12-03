@@ -482,6 +482,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Lodge";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Lodge Configuration";
             this.Load += new System.EventHandler(this.Lodge_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();

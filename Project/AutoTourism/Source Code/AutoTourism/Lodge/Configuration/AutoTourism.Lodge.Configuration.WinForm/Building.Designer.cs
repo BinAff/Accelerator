@@ -254,6 +254,7 @@
             this.MinimizeBox = false;
             this.Name = "Building";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Building Configuration";
             this.Load += new System.EventHandler(this.Building_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();

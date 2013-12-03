@@ -44,6 +44,8 @@
     <Compile Include="Register\Dto.cs" />
     <Compile Include="Role\Dto.cs" />
     <Compile Include="Rule\Dto.cs" />
+    <Compile Include="Rule\FormDto.cs" />
+    <Compile Include="Rule\Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">

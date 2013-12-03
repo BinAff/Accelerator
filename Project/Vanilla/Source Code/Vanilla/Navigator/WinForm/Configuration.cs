@@ -20,29 +20,26 @@ namespace Vanilla.Navigator.WinForm
 
         internal void PopulateModuleForConfiguration()
         {
-            //This should be dynamic
-            Button btnLodge = new Button
+            if (this.pnlMain.Panel1.Controls.Count == 0)
             {
-                Text = "Lodge",
-                Visible = true,
-                Height = 30,
-                Width = this.pnlMain.Panel1.Width,
-                Dock = DockStyle.Top,
-            };
-            this.pnlMain.Panel1.Controls.Add(btnLodge);
-            btnLodge.Click += btnLodge_Click;
-            //
+                //This should be dynamic
+                Button btnLodge = new Button
+                {
+                    Text = "Lodge",
+                    Dock = DockStyle.Top,
+                };
+                this.pnlMain.Panel1.Controls.Add(btnLodge);
+                btnLodge.Click += btnLodge_Click;
+                //
 
-            Button btnGeneral = new Button
-            {
-                Text = "General",
-                Visible = true,
-                Height = 30,
-                Width = this.pnlMain.Panel1.Width,
-                Dock = DockStyle.Top,
-            };
-            this.pnlMain.Panel1.Controls.Add(btnGeneral);
-            btnGeneral.Click += btnGeneral_Click;
+                Button btnGeneral = new Button
+                {
+                    Text = "General",
+                    Dock = DockStyle.Top,
+                };
+                this.pnlMain.Panel1.Controls.Add(btnGeneral);
+                btnGeneral.Click += btnGeneral_Click;
+            }
         }
 
         void btnGeneral_Click(object sender, EventArgs e)
@@ -50,15 +47,15 @@ namespace Vanilla.Navigator.WinForm
             this.lsvConfiguration.Items.Clear();
             this.lsvConfiguration.Items.Add(new ListViewItem("Customer")
             {
-                Tag = this.InstantiateObject("AutoTourism.Customer.WinForm.CustomerRule", "AutoTourism.Customer.WinForm")
+                Tag = this.InstantiateObject("AutoTourism.Customer.WinForm.CustomerRule", "AutoTourism.Customer.WinForm"),
             });
-            this.lsvConfiguration.Items.Add(new ListViewItem("User"));
+            this.lsvConfiguration.Items.Add(new ListViewItem("User")
+            {
+                Tag = this.InstantiateObject("Vanilla.Guardian.WinForm.UserRule", "Vanilla.Guardian.WinForm"),
+            });
             this.lsvConfiguration.Items.Add(new ListViewItem("Config Manager")
             {
-                Tag = new Vanilla.Configuration.WinForm.ConfigManager
-                {
-                    TopLevel = true,
-                }
+                Tag = this.InstantiateObject("Vanilla.Configuration.WinForm.ConfigManager", "Vanilla.Configuration.WinForm"),
             });
         }
 
@@ -66,7 +63,7 @@ namespace Vanilla.Navigator.WinForm
         {
             if ((sender as ListView).FocusedItem.Tag != null)
             {
-                ((sender as ListView).FocusedItem.Tag as Form).ShowDialog();
+                ((sender as ListView).FocusedItem.Tag as Form).ShowDialog(this);
             }
         }
 
