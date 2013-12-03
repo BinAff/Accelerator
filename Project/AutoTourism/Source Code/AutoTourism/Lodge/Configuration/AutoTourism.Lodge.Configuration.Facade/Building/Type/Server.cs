@@ -25,6 +25,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
             
             //Populate data in dto from business entity
             FormDto formDto = this.FormDto as FormDto;
+            formDto.DtoList = new List<Dto>();
             foreach (CrystalComponent.Data data in dataList.Value)
             {
                 formDto.DtoList.Add(this.Convert(data) as Dto);
@@ -34,6 +35,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
         public override void Add()
         {
             this.Save();
+            if (!this.IsError) (this.FormDto as FormDto).DtoList.Add((this.FormDto as FormDto).Dto);
         }
 
         public override void Change()
@@ -90,6 +92,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
             Dto dto = (this.FormDto as FormDto).Dto;
             ICrud crud = new CrystalComponent.Server(this.Convert(dto) as CrystalComponent.Data);
             ReturnObject<Boolean> ret = crud.Save();
+            (this.FormDto as FormDto).Dto.Id = (crud as Crud).Data.Id;
 
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }

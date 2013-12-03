@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Vanilla.Navigator.WinForm
@@ -75,7 +69,12 @@ namespace Vanilla.Navigator.WinForm
             this.lsvConfiguration.Items.Add(new ListViewItem("Lodge")
             {
                 Tag = this.InstantiateObject("AutoTourism.Lodge.WinForm.Lodge", "AutoTourism.Lodge.WinForm"),
-            }); 
+            });
+
+            this.lsvConfiguration.Items.Add(new ListViewItem("Building Type")
+            {
+                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.BuildingType", "AutoTourism.Lodge.Configuration.WinForm"),
+            });
             
             this.lsvConfiguration.Items.Add(new ListViewItem("General Configuration")
             {
