@@ -48,7 +48,10 @@ namespace Vanilla.Navigator.WinForm
         void btnGeneral_Click(object sender, EventArgs e)
         {
             this.lsvConfiguration.Items.Clear();
-            this.lsvConfiguration.Items.Add(new ListViewItem("Customer"));
+            this.lsvConfiguration.Items.Add(new ListViewItem("Customer")
+            {
+                Tag = this.InstantiateObject("AutoTourism.Customer.WinForm.CustomerRule", "AutoTourism.Customer.WinForm")
+            });
             this.lsvConfiguration.Items.Add(new ListViewItem("User"));
             this.lsvConfiguration.Items.Add(new ListViewItem("Config Manager")
             {
@@ -74,22 +77,22 @@ namespace Vanilla.Navigator.WinForm
             //Currently Hard coding
             this.lsvConfiguration.Items.Add(new ListViewItem("Lodge")
             {
-                Tag = this.InstantiateObject("AutoTourism.Lodge.WinForm.Lodge", "AutoTourism.Lodge.WinForm")
+                Tag = this.InstantiateObject("AutoTourism.Lodge.WinForm.Lodge", "AutoTourism.Lodge.WinForm"),
             }); 
             
             this.lsvConfiguration.Items.Add(new ListViewItem("General Configuration")
             {
-                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.ConfigManager", "AutoTourism.Lodge.Configuration.WinForm")
+                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.ConfigManager", "AutoTourism.Lodge.Configuration.WinForm"),
             });
 
             this.lsvConfiguration.Items.Add(new ListViewItem("Building")
             {
-                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.Building", "AutoTourism.Lodge.Configuration.WinForm")
+                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.Building", "AutoTourism.Lodge.Configuration.WinForm"),
             });
 
             this.lsvConfiguration.Items.Add(new ListViewItem("Room")
             {
-                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.Room", "AutoTourism.Lodge.Configuration.WinForm")
+                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.Room", "AutoTourism.Lodge.Configuration.WinForm"),
             });
         }
 

@@ -880,8 +880,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(591, 394);
-            this.Controls.Add(this.ucConfiguration);
             this.Controls.Add(this.pnlTool);
+            this.Controls.Add(this.ucConfiguration);
             this.Controls.Add(this.pnlNote);
             this.Controls.Add(this.pnlArtifact);
             this.Controls.Add(this.pnlLoginFormContainer);
