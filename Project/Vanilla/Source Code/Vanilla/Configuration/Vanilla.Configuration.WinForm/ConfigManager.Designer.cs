@@ -44,7 +44,7 @@
             // 
             // trvOption
             // 
-            this.trvOption.Location = new System.Drawing.Point(12, 42);
+            this.trvOption.Location = new System.Drawing.Point(12, 16);
             this.trvOption.Name = "trvOption";
             treeNode1.Name = "State";
             treeNode1.Text = "State";
@@ -69,7 +69,7 @@
             // lslList
             // 
             this.lslList.FormattingEnabled = true;
-            this.lslList.Location = new System.Drawing.Point(166, 68);
+            this.lslList.Location = new System.Drawing.Point(166, 42);
             this.lslList.Name = "lslList";
             this.lslList.Size = new System.Drawing.Size(286, 147);
             this.lslList.TabIndex = 135;
@@ -77,7 +77,7 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(166, 42);
+            this.txtName.Location = new System.Drawing.Point(166, 16);
             this.txtName.MaxLength = 50;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(286, 20);
@@ -86,7 +86,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(62, 237);
+            this.btnRefresh.Location = new System.Drawing.Point(463, 103);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 136;
@@ -96,7 +96,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(153, 237);
+            this.btnAdd.Location = new System.Drawing.Point(463, 16);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 137;
@@ -106,7 +106,7 @@
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(246, 237);
+            this.btnChange.Location = new System.Drawing.Point(463, 45);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 23);
             this.btnChange.TabIndex = 138;
@@ -116,7 +116,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(338, 237);
+            this.btnDelete.Location = new System.Drawing.Point(463, 74);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 139;
@@ -128,7 +128,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(481, 278);
+            this.ClientSize = new System.Drawing.Size(553, 200);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnChange);
             this.Controls.Add(this.btnAdd);
@@ -136,9 +136,13 @@
             this.Controls.Add(this.lslList);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.trvOption);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ConfigManager";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Configuration Manager";
-            //this.Load += new System.EventHandler(this.ConfigManager_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

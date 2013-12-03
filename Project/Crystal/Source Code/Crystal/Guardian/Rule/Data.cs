@@ -9,7 +9,7 @@ namespace Crystal.Guardian.Rule
         /// <summary>
         /// Default password for user account
         /// </summary>
-        public String DefaultUserPassword { get; set; }
+        public String DefaultPassword { get; set; }
 
     }
 

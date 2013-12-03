@@ -74,7 +74,7 @@ namespace Vanilla.Guardian.Facade.Account
 
             return new Rule.Dto
             {
-                DefaultPassword = data.DefaultUserPassword
+                DefaultPassword = data.DefaultPassword
             };
         }
 

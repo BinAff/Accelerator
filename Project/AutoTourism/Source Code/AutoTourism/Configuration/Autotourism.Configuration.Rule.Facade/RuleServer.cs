@@ -79,7 +79,7 @@ namespace Autotourism.Configuration.Rule.Facade
             {
                 Value = new UserRuleDto()
                 {
-                    DefaultUserPassword = ((CrystalGuardianRule.Data)UserData.Value).DefaultUserPassword,
+                    DefaultUserPassword = ((CrystalGuardianRule.Data)UserData.Value).DefaultPassword,
                 }
             };
         }
@@ -152,7 +152,7 @@ namespace Autotourism.Configuration.Rule.Facade
                 //save user rule
                 Crud = new CrystalGuardianRule.Server(new CrystalGuardianRule.Data()
                 {
-                    DefaultUserPassword = dto.UserRule.DefaultUserPassword,
+                    DefaultPassword = dto.UserRule.DefaultUserPassword,
                 });
                 ret = Crud.Save();
                 if (!ret.Value || ret.HasError()) return ret;

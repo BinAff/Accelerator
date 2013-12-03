@@ -371,6 +371,7 @@
             this.MinimizeBox = false;
             this.Name = "Room";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Room Configuration";
             this.Load += new System.EventHandler(this.Room_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picPhoto)).EndInit();

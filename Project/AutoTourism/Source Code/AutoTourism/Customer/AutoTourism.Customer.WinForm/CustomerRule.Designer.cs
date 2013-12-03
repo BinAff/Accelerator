@@ -111,6 +111,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "CustomerRule";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Customer Rules";
             this.Load += new System.EventHandler(this.CustomerRule_Load);
             this.groupBox1.ResumeLayout(false);

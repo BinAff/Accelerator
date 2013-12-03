@@ -21,7 +21,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             buildingTypeFormDto = new BuildingTypeFacade.FormDto();
         }
 
-        private void btnRefresh_Click_1(object sender, EventArgs e)
+        private void btnRefresh_Click(object sender, EventArgs e)
         {
             this.Clear();
             this.LoadForm();
