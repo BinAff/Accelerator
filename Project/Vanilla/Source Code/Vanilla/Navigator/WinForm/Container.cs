@@ -60,7 +60,7 @@ namespace Vanilla.Navigator.WinForm
         {
             this.pnlArtifact.Dock = DockStyle.Fill;
             this.pnlNote.Dock = DockStyle.Fill;
-            this.pnlConfiguration.Dock = DockStyle.Fill;
+            this.ucConfiguration.Dock = DockStyle.Fill;
         }
 
         private void SelectNode(String selectedNodePath)
@@ -826,7 +826,7 @@ namespace Vanilla.Navigator.WinForm
             this.pnlTool.Hide();
             this.pnlArtifact.Hide();
             this.pnlNote.Hide();
-            this.pnlConfiguration.Hide();
+            this.ucConfiguration.Hide();
 
             this.mnuLogin.Visible = true;
             this.mnuLogOut.Visible = false;
@@ -938,22 +938,24 @@ namespace Vanilla.Navigator.WinForm
         private void btnArtifact_Click(object sender, EventArgs e)
         {
             this.pnlArtifact.Show();
-            this.pnlConfiguration.Hide();
+            this.ucConfiguration.Hide();
             this.pnlNote.Hide();
         }
 
         private void btnConfiguration_Click(object sender, EventArgs e)
         {
             this.pnlArtifact.Hide();
-            this.pnlConfiguration.Show();
+            //this.pnlConfiguration.Show();
             this.pnlNote.Hide();
-            this.PopulateModuleForConfiguration();
+            //this.PopulateModuleForConfiguration();
+            this.ucConfiguration.Show();
+            this.ucConfiguration.PopulateModuleForConfiguration();
         }
 
         private void btnNote_Click(object sender, EventArgs e)
         {
             this.pnlArtifact.Hide();
-            this.pnlConfiguration.Hide();
+            this.ucConfiguration.Hide();
             this.pnlNote.Show();
             if (this.pnlNote.Controls.Count == 0)
             {
@@ -962,57 +964,6 @@ namespace Vanilla.Navigator.WinForm
                 this.pnlNote.Controls.Add(stickyNote);
                 stickyNote.Show();
             }
-        }
-
-        private void PopulateModuleForConfiguration()
-        {
-            Button btnGeneral = new Button
-            {
-                Text = "General",
-                Visible = true,
-                Height = 30,
-                Width = this.pnlConfiguration.Panel1.Width,
-                Dock = DockStyle.Top,
-            };
-            this.pnlConfiguration.Panel1.Controls.Add(btnGeneral);
-            btnGeneral.Click += btnGeneral_Click;
-            Button btnLodge = new Button
-            {
-                Text = "Lodge",
-                Visible = true,
-                Height = 30,
-                Width = this.pnlConfiguration.Panel1.Width,
-                Dock = DockStyle.Top,
-            };
-            this.pnlConfiguration.Panel1.Controls.Add(btnLodge);
-            btnLodge.Click += btnLodge_Click;
-            
-        }
-
-        void btnGeneral_Click(object sender, EventArgs e)
-        {
-            this.lsvConfiguration.Items.Clear();
-            this.lsvConfiguration.Items.Add(new ListViewItem("Customer"));
-            this.lsvConfiguration.Items.Add(new ListViewItem("User"));
-            this.lsvConfiguration.Items.Add(new ListViewItem("Config Manager")
-            {
-                Tag = new Configuration.WinForm.ConfigManager
-                {
-                    TopLevel = true,
-                }
-            });
-        }
-
-        private void lsvConfiguration_DoubleClick(object sender, EventArgs e)
-        {
-            ((sender as ListView).FocusedItem.Tag as Form).ShowDialog();
-        }
-
-        void btnLodge_Click(object sender, EventArgs e)
-        {
-            this.lsvConfiguration.Items.Clear();
-            this.lsvConfiguration.Items.Add(new ListViewItem("Lodge"));
-            this.lsvConfiguration.Items.Add(new ListViewItem("Room"));
         }
 
         #endregion

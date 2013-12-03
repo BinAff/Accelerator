@@ -109,10 +109,9 @@
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlLoginFormContainer = new System.Windows.Forms.Panel();
             this.pnlTool = new System.Windows.Forms.Panel();
-            this.pnlConfiguration = new System.Windows.Forms.SplitContainer();
-            this.lsvConfiguration = new System.Windows.Forms.ListView();
             this.imgConfiguration = new System.Windows.Forms.ImageList(this.components);
             this.pnlNote = new System.Windows.Forms.Panel();
+            this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
             this.pnlArtifact.Panel2.SuspendLayout();
@@ -125,9 +124,6 @@
             this.cmsExplorer.SuspendLayout();
             this.mnuMain.SuspendLayout();
             this.pnlTool.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pnlConfiguration)).BeginInit();
-            this.pnlConfiguration.Panel2.SuspendLayout();
-            this.pnlConfiguration.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlArtifact
@@ -373,6 +369,7 @@
             // 
             this.btnSms.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSms.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnSms.Enabled = false;
             this.btnSms.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSms.Font = new System.Drawing.Font("Webdings", 10F);
             this.btnSms.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -389,6 +386,7 @@
             // 
             this.btnEmail.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEmail.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnEmail.Enabled = false;
             this.btnEmail.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnEmail.Font = new System.Drawing.Font("Webdings", 10F);
             this.btnEmail.Location = new System.Drawing.Point(74, 0);
@@ -856,29 +854,6 @@
             this.pnlTool.Size = new System.Drawing.Size(260, 37);
             this.pnlTool.TabIndex = 8;
             // 
-            // pnlConfiguration
-            // 
-            this.pnlConfiguration.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.pnlConfiguration.Location = new System.Drawing.Point(2, 119);
-            this.pnlConfiguration.Name = "pnlConfiguration";
-            // 
-            // pnlConfiguration.Panel2
-            // 
-            this.pnlConfiguration.Panel2.Controls.Add(this.lsvConfiguration);
-            this.pnlConfiguration.Size = new System.Drawing.Size(402, 40);
-            this.pnlConfiguration.SplitterDistance = 215;
-            this.pnlConfiguration.TabIndex = 10;
-            // 
-            // lsvConfiguration
-            // 
-            this.lsvConfiguration.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lsvConfiguration.Location = new System.Drawing.Point(0, 0);
-            this.lsvConfiguration.Name = "lsvConfiguration";
-            this.lsvConfiguration.Size = new System.Drawing.Size(183, 40);
-            this.lsvConfiguration.TabIndex = 0;
-            this.lsvConfiguration.UseCompatibleStateImageBehavior = false;
-            this.lsvConfiguration.DoubleClick += new System.EventHandler(this.lsvConfiguration_DoubleClick);
-            // 
             // imgConfiguration
             // 
             this.imgConfiguration.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
@@ -892,14 +867,22 @@
             this.pnlNote.Size = new System.Drawing.Size(46, 36);
             this.pnlNote.TabIndex = 11;
             // 
+            // ucConfiguration
+            // 
+            this.ucConfiguration.Location = new System.Drawing.Point(0, 121);
+            this.ucConfiguration.Name = "ucConfiguration";
+            this.ucConfiguration.Size = new System.Drawing.Size(404, 36);
+            this.ucConfiguration.TabIndex = 12;
+            this.ucConfiguration.Visible = false;
+            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(591, 394);
+            this.Controls.Add(this.ucConfiguration);
             this.Controls.Add(this.pnlTool);
             this.Controls.Add(this.pnlNote);
-            this.Controls.Add(this.pnlConfiguration);
             this.Controls.Add(this.pnlArtifact);
             this.Controls.Add(this.pnlLoginFormContainer);
             this.Controls.Add(this.pnlAddress);
@@ -924,9 +907,6 @@
             this.mnuMain.PerformLayout();
             this.pnlTool.ResumeLayout(false);
             this.pnlTool.PerformLayout();
-            this.pnlConfiguration.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pnlConfiguration)).EndInit();
-            this.pnlConfiguration.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1013,10 +993,9 @@
         private System.Windows.Forms.Button btnCalender;
         private System.Windows.Forms.Button btnArtifact;
         private System.Windows.Forms.Button btnHideShow;
-        private System.Windows.Forms.SplitContainer pnlConfiguration;
-        private System.Windows.Forms.ListView lsvConfiguration;
         private System.Windows.Forms.ImageList imgConfiguration;
         private System.Windows.Forms.Panel pnlNote;
+        private Configuration ucConfiguration;
 
     }
 }

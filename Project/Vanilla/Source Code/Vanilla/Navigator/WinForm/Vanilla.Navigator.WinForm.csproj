@@ -56,6 +56,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Configuration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration.Designer.cs">
+      <DependentUpon>Configuration.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">
@@ -122,6 +128,9 @@
     <EmbeddedResource Include="Pics.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Pics.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration.resx">
+      <DependentUpon>Configuration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
