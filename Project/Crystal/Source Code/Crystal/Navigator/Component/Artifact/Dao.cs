@@ -41,7 +41,7 @@ namespace Crystal.Navigator.Component.Artifact
             {
                 base.AddInParameter("@Path", DbType.String, data.Path);
             }
-            if (data.ParentId == null)
+            if (data.ParentId == null || data.ParentId == 0)
             {
                 base.AddInParameter("@ParentId", DbType.Int64, DBNull.Value);
             }
