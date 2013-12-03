@@ -530,21 +530,69 @@ namespace Vanilla.Navigator.WinForm
 
         private void trvArtifact_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
-            (sender as TreeView).LabelEdit = false;
+            //(sender as TreeView).LabelEdit = false;
 
             
+            //if (e.Label != null && e.Label.Trim().Length == 0)
+            //{
+            //    e.CancelEdit = true; // Can not be empty text
+            //    return;
+            //}
+            //    //no text inserted during edit
+            //else if ((e.Node.Tag as Facade.Artifact.Dto).Id > 0 && e.Label == null)
+            //{
+            //    e.CancelEdit = true; // Can not be empty text
+            //    return;
+            //}
+            //    //same text inserted during edit
+            //else if ((e.Node.Tag as Facade.Artifact.Dto).Id > 0 && e.Label.Trim() == e.Node.Text.Trim())
+            //{
+            //    e.CancelEdit = true; // Can not be empty text
+            //    return;
+            //}
+
+            //String artifactFileName = (e.Label == null || e.Label.Trim().Length == 0) ? e.Node.Text : e.Label.Trim();
+
+            //if (this.formDto.ModuleFormDto.CurrentArtifact == null)
+            //{
+            //    this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
+            //    {
+            //        Dto = e.Node.Tag as Facade.Artifact.Dto,
+            //    };
+            //}
+            //this.PopulateNewArtifact(artifactFileName, Facade.Artifact.Type.Directory, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
+            //this.facade = new Facade.Container.Server(this.formDto);
+
+            ////update
+            //if ((e.Node.Tag as BinAff.Facade.Library.Dto).Id > 0)
+            //{
+            //    this.formDto.ModuleFormDto.CurrentArtifact.Dto.Version = this.formDto.ModuleFormDto.CurrentArtifact.Dto.Version + 1;
+            //    this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedAt = DateTime.Now;
+            //    this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedBy = new Table { Id = 1, Name = "Biraj Dhekial" };
+
+            //    this.facade.Change();
+            //}
+            //else    // new insert   
+            //{
+            //    this.facade.Add();
+            //    if (!this.facade.IsError)
+            //        this.SelectNode(e.Node.Parent.Tag as Facade.Artifact.Dto);
+            //}
+
+            (sender as TreeView).LabelEdit = false;
+
             if (e.Label != null && e.Label.Trim().Length == 0)
             {
                 e.CancelEdit = true; // Can not be empty text
                 return;
             }
-                //no text inserted during edit
+            //no text inserted during edit
             else if ((e.Node.Tag as Facade.Artifact.Dto).Id > 0 && e.Label == null)
             {
                 e.CancelEdit = true; // Can not be empty text
                 return;
             }
-                //same text inserted during edit
+            //same text inserted during edit
             else if ((e.Node.Tag as Facade.Artifact.Dto).Id > 0 && e.Label.Trim() == e.Node.Text.Trim())
             {
                 e.CancelEdit = true; // Can not be empty text
@@ -576,7 +624,15 @@ namespace Vanilla.Navigator.WinForm
             {
                 this.facade.Add();
                 if (!this.facade.IsError)
-                    this.SelectNode(e.Node.Parent.Tag as Facade.Artifact.Dto);
+                {
+                    //root node
+                    if (e.Node.Parent.Parent == null)
+                    {
+                        this.SelectNode((e.Node.Parent.Tag as Facade.Module.Dto).Artifact);
+                    }
+                    else
+                        this.SelectNode(e.Node.Parent.Tag as Facade.Artifact.Dto);
+                }
             }
         }
 
