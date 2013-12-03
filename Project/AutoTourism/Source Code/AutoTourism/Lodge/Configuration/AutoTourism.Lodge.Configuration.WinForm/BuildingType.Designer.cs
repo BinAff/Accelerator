@@ -1,6 +1,6 @@
 ﻿namespace AutoTourism.Lodge.Configuration.WinForm
 {
-    partial class Base
+    partial class BuildingType
     {
         /// <summary>
         /// Required designer variable.
