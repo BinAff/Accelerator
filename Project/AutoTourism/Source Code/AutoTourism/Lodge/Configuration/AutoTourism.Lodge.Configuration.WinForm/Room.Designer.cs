@@ -211,7 +211,7 @@
             // 
             // picPhoto
             // 
-            this.picPhoto.Location = new System.Drawing.Point(660, 11);
+            this.picPhoto.Location = new System.Drawing.Point(465, 155);
             this.picPhoto.Name = "picPhoto";
             this.picPhoto.Size = new System.Drawing.Size(134, 125);
             this.picPhoto.TabIndex = 75;
@@ -225,7 +225,7 @@
             // 
             // btnDeleteImage
             // 
-            this.btnDeleteImage.Location = new System.Drawing.Point(465, 223);
+            this.btnDeleteImage.Location = new System.Drawing.Point(465, 126);
             this.btnDeleteImage.Name = "btnDeleteImage";
             this.btnDeleteImage.Size = new System.Drawing.Size(81, 22);
             this.btnDeleteImage.TabIndex = 77;
@@ -235,7 +235,7 @@
             // 
             // btnAddImage
             // 
-            this.btnAddImage.Location = new System.Drawing.Point(552, 223);
+            this.btnAddImage.Location = new System.Drawing.Point(552, 126);
             this.btnAddImage.Name = "btnAddImage";
             this.btnAddImage.Size = new System.Drawing.Size(81, 22);
             this.btnAddImage.TabIndex = 78;
@@ -248,7 +248,7 @@
             this.lstImage.FormattingEnabled = true;
             this.lstImage.Location = new System.Drawing.Point(465, 12);
             this.lstImage.Name = "lstImage";
-            this.lstImage.Size = new System.Drawing.Size(168, 199);
+            this.lstImage.Size = new System.Drawing.Size(168, 95);
             this.lstImage.TabIndex = 79;
             this.lstImage.SelectedIndexChanged += new System.EventHandler(this.lstImage_SelectedIndexChanged);
             // 
@@ -258,7 +258,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(12, 301);
+            this.btnRefresh.Location = new System.Drawing.Point(648, 98);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 80;
@@ -268,7 +268,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(105, 301);
+            this.btnAdd.Location = new System.Drawing.Point(648, 11);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 81;
@@ -278,7 +278,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(198, 301);
+            this.btnDelete.Location = new System.Drawing.Point(648, 69);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 82;
@@ -288,7 +288,7 @@
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(291, 301);
+            this.btnChange.Location = new System.Drawing.Point(648, 40);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 23);
             this.btnChange.TabIndex = 83;
@@ -298,7 +298,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(384, 301);
+            this.btnClose.Location = new System.Drawing.Point(648, 158);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 84;
@@ -308,7 +308,7 @@
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(477, 301);
+            this.btnOpen.Location = new System.Drawing.Point(648, 128);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(75, 23);
             this.btnOpen.TabIndex = 85;
@@ -337,7 +337,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(803, 336);
+            this.ClientSize = new System.Drawing.Size(732, 293);
             this.Controls.Add(this.lblRoomStatus);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnOpen);
@@ -366,8 +366,11 @@
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cboRoomList);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Room";
+            this.ShowInTaskbar = false;
             this.Text = "Room Configuration";
             this.Load += new System.EventHandler(this.Room_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picPhoto)).EndInit();
