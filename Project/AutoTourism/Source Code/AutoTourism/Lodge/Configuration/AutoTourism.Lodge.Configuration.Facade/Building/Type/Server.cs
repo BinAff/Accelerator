@@ -15,7 +15,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
         public Server(FormDto formDto)
             : base(formDto)
         {
-            this.FormDto = formDto;
+            
         }
 
         public override void LoadForm()
@@ -41,6 +41,11 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
         public override void Change()
         {
             this.Save();
+            if (!this.IsError)
+            {
+                FormDto formDto = this.FormDto as FormDto;
+                formDto.DtoList.FindLast((p) => { return p.Id == formDto.Dto.Id; }).Name = formDto.Dto.Name;
+            }
         }
 
         public override void Delete()
