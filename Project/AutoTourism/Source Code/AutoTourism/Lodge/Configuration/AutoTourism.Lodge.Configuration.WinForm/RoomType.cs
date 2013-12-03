@@ -1,26 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace AutoTourism.Lodge.Configuration.WinForm
 {
 
-    public partial class BuildingType : Form
+    public partial class RoomType : Form
     {
 
-        Facade.Building.Type.FormDto formDto;
+        Facade.Room.Type.FormDto formDto;
 
-        public BuildingType()
+        public RoomType()
         {
             InitializeComponent();
         }
 
-        private void BuildingType_Load(object sender, EventArgs e)
+        private void RoomType_Load(object sender, EventArgs e)
         {
-            this.formDto = new Facade.Building.Type.FormDto
+            this.formDto = new Facade.Room.Type.FormDto
             {
-                Dto = new Facade.Building.Type.Dto(),
-                DtoList = new List<Facade.Building.Type.Dto>(),
+                Dto = new Facade.Room.Type.Dto(),
+                DtoList = new List<Facade.Room.Type.Dto>(),
             };
             this.LoadForm();
             this.Clear();
@@ -29,7 +34,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         private void btnAdd_Click(object sender, EventArgs e)
         {
             this.formDto.Dto.Name = this.txtName.Text.Trim();
-            BinAff.Facade.Library.Server facade = new Facade.Building.Type.Server(this.formDto);
+            BinAff.Facade.Library.Server facade = new Facade.Room.Type.Server(this.formDto);
             facade.Add();
             this.RebindListBox();
             this.Clear();
@@ -45,7 +50,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         {
             this.formDto.Dto.Id = (Int64)this.lslList.SelectedValue;
             this.formDto.Dto.Name = this.txtName.Text.Trim();
-            BinAff.Facade.Library.Server facade = new Facade.Building.Type.Server(this.formDto);
+            BinAff.Facade.Library.Server facade = new Facade.Room.Type.Server(this.formDto);
             facade.Change();
             this.RebindListBox();
             this.Clear();
@@ -60,7 +65,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         private void btnDelete_Click(object sender, EventArgs e)
         {
             this.formDto.Dto.Id = (Int64)this.lslList.SelectedValue;
-            BinAff.Facade.Library.Server facade = new Facade.Building.Type.Server(this.formDto);
+            BinAff.Facade.Library.Server facade = new Facade.Room.Type.Server(this.formDto);
             facade.Delete();
             this.RebindListBox();
             this.Clear();
@@ -80,12 +85,12 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
         private void lslList_Click(object sender, EventArgs e)
         {
-            this.txtName.Text = ((Facade.Building.Type.Dto)this.lslList.SelectedItem).Name;
+            this.txtName.Text = ((Facade.Room.Type.Dto)this.lslList.SelectedItem).Name;
         }
 
         private void LoadForm()
         {
-            BinAff.Facade.Library.Server facade = new Facade.Building.Type.Server(this.formDto);
+            BinAff.Facade.Library.Server facade = new Facade.Room.Type.Server(this.formDto);
             facade.LoadForm();
             this.RebindListBox();
             if (facade.IsError)
