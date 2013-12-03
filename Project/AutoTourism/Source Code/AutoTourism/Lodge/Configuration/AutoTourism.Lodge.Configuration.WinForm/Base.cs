@@ -5,13 +5,12 @@ using System.Windows.Forms;
 namespace AutoTourism.Lodge.Configuration.WinForm
 {
 
-    public partial class BuildingType : Form
+    public partial class Base : Form
     {
 
         Facade.Building.Type.FormDto formDto;
-        BindingSource bs;
 
-        public BuildingType()
+        public Base()
         {
             InitializeComponent();
         }
