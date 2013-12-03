@@ -46,7 +46,7 @@
             this.btnOk.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnOk.BackColor = System.Drawing.Color.White;
             this.btnOk.Image = global::BinAff.Presentation.Library.Properties.Resources.OK;
-            this.btnOk.Location = new System.Drawing.Point(218, 25);
+            this.btnOk.Location = new System.Drawing.Point(313, 10);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(26, 26);
             this.btnOk.TabIndex = 2;
@@ -57,9 +57,9 @@
             // 
             this.pnlRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(251, 0);
+            this.pnlRight.Location = new System.Drawing.Point(350, 0);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(2, 163);
+            this.pnlRight.Size = new System.Drawing.Size(2, 176);
             this.pnlRight.TabIndex = 137;
             // 
             // pnlLeft
@@ -68,22 +68,22 @@
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlLeft.Location = new System.Drawing.Point(0, 0);
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(2, 163);
+            this.pnlLeft.Size = new System.Drawing.Size(2, 176);
             this.pnlLeft.TabIndex = 136;
             // 
             // txtMessage
             // 
             this.txtMessage.BackColor = System.Drawing.Color.Lavender;
-            this.txtMessage.Location = new System.Drawing.Point(8, 57);
+            this.txtMessage.Location = new System.Drawing.Point(12, 65);
             this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(238, 98);
+            this.txtMessage.Size = new System.Drawing.Size(327, 98);
             this.txtMessage.TabIndex = 139;
             // 
             // picIcon
             // 
             this.picIcon.BackColor = System.Drawing.Color.Transparent;
-            this.picIcon.Location = new System.Drawing.Point(8, 7);
+            this.picIcon.Location = new System.Drawing.Point(12, 10);
             this.picIcon.Name = "picIcon";
             this.picIcon.Padding = new System.Windows.Forms.Padding(2);
             this.picIcon.Size = new System.Drawing.Size(49, 44);
@@ -96,13 +96,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(253, 163);
+            this.ClientSize = new System.Drawing.Size(352, 176);
             this.Controls.Add(this.picIcon);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.pnlLeft);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
