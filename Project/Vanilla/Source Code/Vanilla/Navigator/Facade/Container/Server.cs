@@ -67,6 +67,44 @@ namespace Vanilla.Navigator.Facade.Container
             this.IsError = moduleFacade.IsError;
         }
 
+        public void Paste(bool isCut)
+        {
+            Facade.Artifact.Dto artifactDto = (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto;
+
+            if (isCut)
+            {
+                this.Change();
+
+                if (!this.IsError)
+                {
+                    if (artifactDto.Children != null && artifactDto.Children.Count > 0)
+                        PasteCutChild(artifactDto);
+                }
+            }
+
+        }
+
+        private void PasteCutChild(Facade.Artifact.Dto artifactDto)
+        {
+            foreach (Facade.Artifact.Dto artf in artifactDto.Children)
+            {
+                artf.Version = artf.Version + 1;
+                artf.ModifiedAt = artifactDto.ModifiedAt;
+                artf.ModifiedBy = artifactDto.ModifiedBy;
+                artf.Path = artifactDto.Path + artf.FileName + "\\";
+
+                (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact = new Artifact.FormDto { Dto = artf };
+                this.Change();
+
+                if (!this.IsError)
+                {
+                    if (artf.Children != null && artf.Children.Count > 0)
+                        PasteCutChild(artf);
+                }
+
+            }
+        }
+
         public void GetCurrentModules(Artifact.Category category)
         {
             Dto dto = new Dto
