@@ -48,11 +48,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room\Category\Dto.cs" />
     <Compile Include="Room\Category\FormDto.cs" />
-    <Compile Include="Room\Category\IRoomCategory.cs" />
     <Compile Include="Room\Category\Server.cs" />
     <Compile Include="Room\Type\Dto.cs" />
     <Compile Include="Room\Type\FormDto.cs" />
-    <Compile Include="Room\Type\IRoomType.cs" />
     <Compile Include="Room\Type\Server.cs" />
     <Compile Include="Room\Dto.cs" />
     <Compile Include="Room\FormDto.cs" />

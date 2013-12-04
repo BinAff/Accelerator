@@ -80,6 +80,11 @@ namespace Vanilla.Navigator.WinForm
             {
                 Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.RoomType", "AutoTourism.Lodge.Configuration.WinForm"),
             });
+
+            this.lsvConfiguration.Items.Add(new ListViewItem("Room Category")
+            {
+                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.RoomCategory", "AutoTourism.Lodge.Configuration.WinForm"),
+            });
             
             this.lsvConfiguration.Items.Add(new ListViewItem("General Configuration")
             {

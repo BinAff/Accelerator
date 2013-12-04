@@ -69,6 +69,12 @@
     <Compile Include="Room.Designer.cs">
       <DependentUpon>Room.cs</DependentUpon>
     </Compile>
+    <Compile Include="RoomCategory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RoomCategory.Designer.cs">
+      <DependentUpon>RoomCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="RoomType.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Room.resx">
       <DependentUpon>Room.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RoomCategory.resx">
+      <DependentUpon>RoomCategory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RoomType.resx">
       <DependentUpon>RoomType.cs</DependentUpon>

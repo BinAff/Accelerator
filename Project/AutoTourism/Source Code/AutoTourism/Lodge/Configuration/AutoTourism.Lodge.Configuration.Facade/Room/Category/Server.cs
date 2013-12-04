@@ -4,89 +4,103 @@ using System.Collections.Generic;
 using BinAff.Core;
 using BinAff.Core.Observer;
 
-using CrystalRoomCategory = Crystal.Lodge.Component.Room.Category;
+using CrysComp = Crystal.Lodge.Component.Room.Category;
 
 namespace AutoTourism.Lodge.Configuration.Facade.Room.Category
 {
 
-    public class Server : IRoomCategory
+    public class Server : BinAff.Facade.Library.Server
     {
 
-        #region IRoomCategory
-
-        BinAff.Core.ReturnObject<FormDto> IRoomCategory.LoadForm()
+        public Server(FormDto formDto)
+            : base(formDto)
         {
-            ReturnObject<List<BinAff.Core.Data>> dataList = (new CrystalRoomCategory.Server(null) as ICrud).ReadAll();
-            ReturnObject<FormDto> ret = new ReturnObject<FormDto>
-            {
-                Value = new FormDto
-                {
-                    RoomCategoryList = new List<Dto>()
-                }
-            };
+
+        }
+
+        public override void LoadForm()
+        {
+            ReturnObject<List<BinAff.Core.Data>> dataList = (new CrysComp.Server(null) as ICrud).ReadAll();
+            this.DisplayMessageList = dataList.GetMessage((this.IsError = dataList.HasError()) ? Message.Type.Error : Message.Type.Information);
 
             //Populate data in dto from business entity
-            foreach (CrystalRoomCategory.Data data in dataList.Value)
+            FormDto formDto = this.FormDto as FormDto;
+            formDto.DtoList = new List<Dto>();
+            foreach (CrysComp.Data data in dataList.Value)
             {
-                ret.Value.RoomCategoryList.Add(new Dto
-                {
-                    Id = data.Id,
-                    Name = data.Name
-                });
+                formDto.DtoList.Add(this.Convert(data) as Dto);
             }
-
-            return ret;
         }
 
-        BinAff.Core.ReturnObject<Boolean> IRoomCategory.Add(Dto dto)
+        public override void Add()
         {
-            BinAff.Core.ICrud crud = new CrystalRoomCategory.Server(new CrystalRoomCategory.Data
-            {
-                Name = dto.Name
-            });
-            return crud.Save();
+            this.Save();
+            if (!this.IsError) (this.FormDto as FormDto).DtoList.Add((this.FormDto as FormDto).Dto);
         }
 
-        BinAff.Core.ReturnObject<Boolean> IRoomCategory.Delete(Dto dto)
+        public override void Change()
         {
-            CrystalRoomCategory.Server crud = new CrystalRoomCategory.Server(new CrystalRoomCategory.Data
+            this.Save();
+            if (!this.IsError)
             {
-                Id = dto.Id
+                FormDto formDto = this.FormDto as FormDto;
+                formDto.DtoList.FindLast((p) => { return p.Id == formDto.Dto.Id; }).Name = formDto.Dto.Name;
+            }
+        }
+
+        public override void Delete()
+        {
+            CrysComp.Server crud = new CrysComp.Server(new CrysComp.Data
+            {
+                Id = (this.FormDto as FormDto).Dto.Id
             });
             (new Crystal.Lodge.Observer.RoomCategory() as IRegistrar).Register(crud); //Register Observers
 
-            return (crud as ICrud).Delete();
-
+            ReturnObject<bool> ret = (crud as ICrud).Delete();
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
-        BinAff.Core.ReturnObject<Dto> IRoomCategory.Read(Dto dto)
+        public override void Read()
         {
-            ICrud crud = new CrystalRoomCategory.Server(new CrystalRoomCategory.Data
+            FormDto formDto = this.FormDto as FormDto;
+            CrysComp.Data data = new CrysComp.Data
             {
-                Id = dto.Id
-            });
-            ReturnObject<BinAff.Core.Data> data = crud.Read();
-            return new ReturnObject<Dto>
+                Id = formDto.Dto.Id
+            };
+            ReturnObject<BinAff.Core.Data> ret = (new CrysComp.Server(data) as ICrud).Read();
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+            formDto.Dto = this.Convert(data) as Dto;
+        }
+
+        public override BinAff.Facade.Library.Dto Convert(Data data)
+        {
+            CrysComp.Data value = data as CrysComp.Data;
+            return new Dto
             {
-                Value = new Dto
-                {
-                    Id = data.Value.Id,
-                    Name = ((CrystalRoomCategory.Data)data.Value).Name
-                }
+                Id = value.Id,
+                Name = value.Name
             };
         }
 
-        BinAff.Core.ReturnObject<Boolean> IRoomCategory.Change(Dto dto)
+        public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            BinAff.Core.ICrud crud = new CrystalRoomCategory.Server(new CrystalRoomCategory.Data
+            Dto value = dto as Dto;
+            return new CrysComp.Data
             {
-                Id = dto.Id,
-                Name = dto.Name
-            });
-            return crud.Save();
+                Id = value.Id,
+                Name = value.Name
+            };
         }
 
-        #endregion
+        private void Save()
+        {
+            Dto dto = (this.FormDto as FormDto).Dto;
+            ICrud crud = new CrysComp.Server(this.Convert(dto) as CrysComp.Data);
+            ReturnObject<Boolean> ret = crud.Save();
+            (this.FormDto as FormDto).Dto.Id = (crud as Crud).Data.Id;
+
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+        }
 
     }
 

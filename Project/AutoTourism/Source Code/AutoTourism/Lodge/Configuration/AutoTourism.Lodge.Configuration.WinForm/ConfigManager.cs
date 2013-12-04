@@ -49,13 +49,13 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 //        MessageBox.Show(this, "Data saved successfully", "Splash", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //    }
                 //    break;
-                case "Room Category":
-                    RoomFacade.Category.IRoomCategory roomCategory = new RoomFacade.Category.Server();
-                    ret = roomCategory.Add(new RoomFacade.Category.Dto
-                    {
-                        Name = this.txtName.Text.Trim()
-                    });
-                    break;
+                //case "Room Category":
+                //    RoomFacade.Category.IRoomCategory roomCategory = new RoomFacade.Category.Server();
+                //    ret = roomCategory.Add(new RoomFacade.Category.Dto
+                //    {
+                //        Name = this.txtName.Text.Trim()
+                //    });
+                //    break;
                 //case "Room Type":
                 //    RoomFacade.Type.IRoomType roomType = new RoomFacade.Type.Server();
                 //    ret = roomType.Add(new RoomFacade.Type.Dto
@@ -109,16 +109,16 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 //        MessageBox.Show(this, "Data changed successfully", "Splash", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //    }
                 //    break;
-                case "Room Category":
-                    {
-                        RoomFacade.Category.IRoomCategory roomCategory = new RoomFacade.Category.Server();
-                        ret = roomCategory.Change(new RoomFacade.Category.Dto
-                        {
-                            Id = ((RoomFacade.Category.Dto)this.lslList.SelectedItem).Id,
-                            Name = this.txtName.Text.Trim()
-                        });
-                    }
-                    break;
+                //case "Room Category":
+                //    {
+                //        RoomFacade.Category.IRoomCategory roomCategory = new RoomFacade.Category.Server();
+                //        ret = roomCategory.Change(new RoomFacade.Category.Dto
+                //        {
+                //            Id = ((RoomFacade.Category.Dto)this.lslList.SelectedItem).Id,
+                //            Name = this.txtName.Text.Trim()
+                //        });
+                //    }
+                //    break;
                 //case "Room Type":
                 //    {
                 //        RoomFacade.Type.IRoomType roomType = new RoomFacade.Type.Server();
@@ -315,14 +315,14 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                     //        this.lslList.DisplayMember = "Name";
                     //    }
                     //    break;
-                    case "Room Category":
-                        {
-                            RoomFacade.Category.IRoomCategory roomCategory = new RoomFacade.Category.Server();
-                            ReturnObject<RoomFacade.Category.FormDto> ret = roomCategory.LoadForm();
-                            this.lslList.DataSource = ret.Value.RoomCategoryList;
-                            this.lslList.DisplayMember = "Name";
-                        }
-                        break;
+                    //case "Room Category":
+                    //    {
+                    //        RoomFacade.Category.IRoomCategory roomCategory = new RoomFacade.Category.Server();
+                    //        ReturnObject<RoomFacade.Category.FormDto> ret = roomCategory.LoadForm();
+                    //        this.lslList.DataSource = ret.Value.RoomCategoryList;
+                    //        this.lslList.DisplayMember = "Name";
+                    //    }
+                    //    break;
                     //case "Room Type":
                     //    {
                     //        RoomFacade.Type.IRoomType roomType = new RoomFacade.Type.Server();

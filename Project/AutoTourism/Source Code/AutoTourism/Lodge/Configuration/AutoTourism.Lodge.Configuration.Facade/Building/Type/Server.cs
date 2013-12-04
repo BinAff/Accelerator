@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using BinAff.Core;
 using BinAff.Core.Observer;
 
-using CrystalComponent = Crystal.Lodge.Component.Building.Type;
+using CrysComp = Crystal.Lodge.Component.Building.Type;
 
 namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
 {
@@ -20,13 +20,13 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
 
         public override void LoadForm()
         {
-            ReturnObject<List<BinAff.Core.Data>> dataList = (new CrystalComponent.Server(null) as ICrud).ReadAll();
+            ReturnObject<List<BinAff.Core.Data>> dataList = (new CrysComp.Server(null) as ICrud).ReadAll();
             this.DisplayMessageList = dataList.GetMessage((this.IsError = dataList.HasError()) ? Message.Type.Error : Message.Type.Information);
             
             //Populate data in dto from business entity
             FormDto formDto = this.FormDto as FormDto;
             formDto.DtoList = new List<Dto>();
-            foreach (CrystalComponent.Data data in dataList.Value)
+            foreach (CrysComp.Data data in dataList.Value)
             {
                 formDto.DtoList.Add(this.Convert(data) as Dto);
             }
@@ -50,11 +50,11 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
 
         public override void Delete()
         {
-            CrystalComponent.Server crud = new CrystalComponent.Server(new CrystalComponent.Data
+            CrysComp.Server crud = new CrysComp.Server(new CrysComp.Data
             {
                 Id = (this.FormDto as FormDto).Dto.Id
             });
-            (new Crystal.Lodge.Observer.RoomCategory() as IRegistrar).Register(crud); //Register Observers
+            (new Crystal.Lodge.Observer.BuildingType() as IRegistrar).Register(crud); //Register Observers
 
             ReturnObject<bool> ret = (crud as ICrud).Delete();
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
@@ -63,18 +63,18 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
         public override void Read()
         {
             FormDto formDto = this.FormDto as FormDto;
-            CrystalComponent.Data data = new CrystalComponent.Data
+            CrysComp.Data data = new CrysComp.Data
             {
                 Id = formDto.Dto.Id
             };
-            ReturnObject<BinAff.Core.Data> ret = (new CrystalComponent.Server(data) as ICrud).Read();
+            ReturnObject<BinAff.Core.Data> ret = (new CrysComp.Server(data) as ICrud).Read();
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
             formDto.Dto = this.Convert(data) as Dto;
         }
 
         public override BinAff.Facade.Library.Dto Convert(Data data)
         {
-            CrystalComponent.Data value = data as CrystalComponent.Data;
+            CrysComp.Data value = data as CrysComp.Data;
             return new Dto
             {
                 Id = value.Id,
@@ -85,7 +85,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
         public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Dto value = dto as Dto;
-            return new CrystalComponent.Data
+            return new CrysComp.Data
             {
                 Id = value.Id,
                 Name = value.Name
@@ -95,7 +95,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building.Type
         private void Save()
         {
             Dto dto = (this.FormDto as FormDto).Dto;
-            ICrud crud = new CrystalComponent.Server(this.Convert(dto) as CrystalComponent.Data);
+            ICrud crud = new CrysComp.Server(this.Convert(dto) as CrysComp.Data);
             ReturnObject<Boolean> ret = crud.Save();
             (this.FormDto as FormDto).Dto.Id = (crud as Crud).Data.Id;
 

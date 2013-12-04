@@ -1,6 +1,6 @@
 ﻿namespace AutoTourism.Lodge.Configuration.WinForm
 {
-    partial class RoomType
+    partial class RoomCategory
     {
         /// <summary>
         /// Required designer variable.
@@ -38,7 +38,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(614, 71);
+            this.btnDelete.Location = new System.Drawing.Point(615, 72);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 150;
@@ -48,7 +48,7 @@
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(614, 42);
+            this.btnChange.Location = new System.Drawing.Point(615, 43);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 23);
             this.btnChange.TabIndex = 149;
@@ -58,7 +58,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(614, 13);
+            this.btnAdd.Location = new System.Drawing.Point(615, 14);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 148;
@@ -68,7 +68,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(614, 102);
+            this.btnRefresh.Location = new System.Drawing.Point(615, 103);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 147;
@@ -79,7 +79,7 @@
             // lslList
             // 
             this.lslList.FormattingEnabled = true;
-            this.lslList.Location = new System.Drawing.Point(12, 13);
+            this.lslList.Location = new System.Drawing.Point(13, 14);
             this.lslList.Name = "lslList";
             this.lslList.Size = new System.Drawing.Size(286, 147);
             this.lslList.TabIndex = 146;
@@ -87,17 +87,17 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(313, 13);
+            this.txtName.Location = new System.Drawing.Point(314, 14);
             this.txtName.MaxLength = 50;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(286, 20);
             this.txtName.TabIndex = 145;
             // 
-            // RoomType
+            // RoomCategory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(700, 173);
+            this.ClientSize = new System.Drawing.Size(702, 173);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnChange);
             this.Controls.Add(this.btnAdd);
@@ -107,11 +107,11 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "RoomType";
+            this.Name = "RoomCategory";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Room Type";
-            this.Load += new System.EventHandler(this.RoomType_Load);
+            this.Text = "Room Category";
+            this.Load += new System.EventHandler(this.RoomCategory_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
