@@ -19,13 +19,13 @@ namespace Vanilla.Guardian.WinForm
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            if (this.Validate())
+            if (this.ValidateCredential())
             {
                 this.TryLogin();
             }
         }
 
-        private Boolean Validate()
+        private Boolean ValidateCredential()
         {
             errorProvider.Clear();
 
@@ -83,7 +83,7 @@ namespace Vanilla.Guardian.WinForm
 
         private void textBoxes_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter && this.Validate())
+            if (e.KeyCode == Keys.Enter && this.ValidateCredential())
             {
                 this.TryLogin();
             }
