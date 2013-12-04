@@ -1,7 +1,7 @@
-﻿using BinAff.Facade.Cache;
-using System;
+﻿using System;
 using System.Windows.Forms;
-using PresentationLibrary = BinAff.Presentation.Library;
+
+using BinAff.Facade.Cache;
 
 namespace Vanilla.Guardian.WinForm
 {
@@ -69,8 +69,8 @@ namespace Vanilla.Guardian.WinForm
             {
                 this.IsAuthenticated = true;
                 this.CurrentUser = formDto.AccountFormDto.Dto;
-                //Add user to global variable
-                Server.Current.Cache["User"] = this.CurrentUser;
+
+                Server.Current.Cache["User"] = this.CurrentUser; //Add user to global variable
                 //Add Login info to log
                 this.Close();
             }
@@ -83,7 +83,7 @@ namespace Vanilla.Guardian.WinForm
 
         private void textBoxes_KeyDown(object sender, KeyEventArgs e)
         {
-            if (this.Validate())
+            if (e.KeyCode == Keys.Enter && this.Validate())
             {
                 this.TryLogin();
             }
