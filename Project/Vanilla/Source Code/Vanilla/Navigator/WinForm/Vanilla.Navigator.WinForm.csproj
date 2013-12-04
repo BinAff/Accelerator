@@ -33,7 +33,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -99,10 +98,6 @@
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Navigator\Rule\Crystal.Navigator.Rule.csproj">
       <Project>{A42C45CD-FFBB-425E-A5D8-540B365D97BB}</Project>
       <Name>Crystal.Navigator.Rule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Configuration\Vanilla.Configuration.WinForm\Vanilla.Configuration.WinForm.csproj">
-      <Project>{7d4930bb-2807-4f89-8318-a42941ae70d3}</Project>
-      <Name>Vanilla.Configuration.WinForm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
       <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
