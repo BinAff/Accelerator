@@ -569,7 +569,11 @@ namespace Vanilla.Navigator.WinForm
             {
                 this.formDto.ModuleFormDto.CurrentArtifact.Dto.Version = this.formDto.ModuleFormDto.CurrentArtifact.Dto.Version + 1;
                 this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedAt = DateTime.Now;
-                this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedBy = new Table { Id = 1, Name = "Biraj Dhekial" };
+                this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedBy = new Table
+                {
+                    Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                    Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Name
+                };
 
                 this.facade.Change();
             }
@@ -801,7 +805,11 @@ namespace Vanilla.Navigator.WinForm
                     artifactDto.Parent = new BinAff.Facade.Library.Dto { Id = newParentId };
                     artifactDto.Version = artifactDto.Version + 1;
                     artifactDto.ModifiedAt = DateTime.Now;
-                    artifactDto.ModifiedBy = new Table { Id = 1, Name = "Biraj Dhekial" };
+                    artifactDto.ModifiedBy = new Table
+                    {
+                        Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                        Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Name
+                    };
 
                     //when root node is selected
                     if (newParentId == 0)
@@ -851,6 +859,8 @@ namespace Vanilla.Navigator.WinForm
 
         #region Menu Management
 
+        #region File
+
         private void mnuLogin_Click(object sender, EventArgs e)
         {
             this.ShowLoginForm();
@@ -881,6 +891,70 @@ namespace Vanilla.Navigator.WinForm
             })).Start();
         }
 
+        private void mnuExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        #endregion
+
+        #region Edit
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in this.lsvContainer.Items)
+            {
+                item.Selected = true;
+            }
+            this.lsvContainer.Focus();
+        }
+
+        private void invertSelectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in this.lsvContainer.Items)
+            {
+                item.Selected = !item.Selected;
+            }
+        }
+
+        #endregion
+
+        #region View
+
+        private void mnuRegister_Click(object sender, EventArgs e)
+        {
+            this.ShowRegister();
+        }
+
+        private void mnuConfiguration_Click(object sender, EventArgs e)
+        {
+            this.ShowConfiguration();
+        }
+
+        private void mnuStickyNote_Click(object sender, EventArgs e)
+        {
+            this.ShowNote();
+        }
+
+        private void mnuCalender_Click(object sender, EventArgs e)
+        {
+            this.ShowCalender();
+        }
+
+        private void mnuEmail_Click(object sender, EventArgs e)
+        {
+            this.ShowEmail();
+        }
+
+        private void mnuSMS_Click(object sender, EventArgs e)
+        {
+            this.ShowSms();
+        }
+
+        #endregion
+
+        #region Tool
+
         private void mnuRegisterUser_Click(object sender, EventArgs e)
         {
             Guardian.WinForm.Registration registration = new Guardian.WinForm.Registration();
@@ -891,43 +965,6 @@ namespace Vanilla.Navigator.WinForm
         {
             Guardian.WinForm.Info info = new Guardian.WinForm.Info();
             info.ShowDialog();
-        }
-
-        private void mnuExit_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        #region View
-
-        private void mnuRegister_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mnuConfiguration_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mnuCalender_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mnuStickyNote_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mnuEmail_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mnuSMS_Click(object sender, EventArgs e)
-        {
-
         }
 
         #endregion
@@ -977,10 +1014,10 @@ namespace Vanilla.Navigator.WinForm
             {
                 currentArtifact.Style = type;
                 currentArtifact.Version = 1;
-                currentArtifact.CreatedBy = new BinAff.Core.Table
+                currentArtifact.CreatedBy = new Table
                 {
-                    Id = (Server.Current.Cache["User"] as BinAff.Facade.Library.Dto).Id,
-                    Name = "Biraj k"
+                    Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                    Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Name
                 };
                 currentArtifact.CreatedAt = DateTime.Now;
                 switch (this.tbcCategory.SelectedTab.Text)
@@ -1067,22 +1104,54 @@ namespace Vanilla.Navigator.WinForm
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
+            this.ShowRegister();
+        }
+
+        private void btnConfiguration_Click(object sender, EventArgs e)
+        {
+            this.ShowConfiguration();
+        }
+
+        private void btnNote_Click(object sender, EventArgs e)
+        {
+            this.ShowNote();
+        }
+
+        private void btnCalender_Click(object sender, EventArgs e)
+        {
+            this.ShowCalender();
+        }
+
+        private void btnEmail_Click(object sender, EventArgs e)
+        {
+            this.ShowEmail();
+        }
+
+        private void btnSms_Click(object sender, EventArgs e)
+        {
+            this.ShowSms();
+        }
+
+        #endregion
+
+        #region Containers Hide/Show
+
+        private void ShowRegister()
+        {
             this.pnlArtifact.Show();
             this.ucConfiguration.Hide();
             this.pnlNote.Hide();
         }
 
-        private void btnConfiguration_Click(object sender, EventArgs e)
+        private void ShowConfiguration()
         {
             this.pnlArtifact.Hide();
-            //this.pnlConfiguration.Show();
             this.pnlNote.Hide();
-            //this.PopulateModuleForConfiguration();
             this.ucConfiguration.Show();
             this.ucConfiguration.PopulateModuleForConfiguration();
         }
 
-        private void btnNote_Click(object sender, EventArgs e)
+        private void ShowNote()
         {
             this.pnlArtifact.Hide();
             this.ucConfiguration.Hide();
@@ -1094,6 +1163,21 @@ namespace Vanilla.Navigator.WinForm
                 this.pnlNote.Controls.Add(stickyNote);
                 stickyNote.Show();
             }
+        }
+
+        private void ShowCalender()
+        {
+
+        }
+
+        private void ShowEmail()
+        {
+
+        }
+
+        private void ShowSms()
+        {
+
         }
 
         #endregion
@@ -1134,7 +1218,7 @@ namespace Vanilla.Navigator.WinForm
             parentArtifactDto.Children.Add(childNode.Tag as Facade.Artifact.Dto);           
 
         }
-        
+
     }
 
 }

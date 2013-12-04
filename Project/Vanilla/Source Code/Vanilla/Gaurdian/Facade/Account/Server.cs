@@ -85,6 +85,27 @@ namespace Vanilla.Guardian.Facade.Account
             dto.Id = accountdata.Id;
             dto.LoginId = accountdata.LoginId;
             dto.Password = accountdata.Password;
+            dto.FirstName = accountdata.Profile.FirstName;
+            dto.MiddleName = accountdata.Profile.MiddleName;
+            dto.LastName = accountdata.Profile.LastName;
+            dto.DateOfBirth = accountdata.Profile.DateOfBirth;
+            dto.Initial = new Table
+            {
+                Id = accountdata.Profile.Initial.Id,
+                Name = accountdata.Profile.Initial.Name,
+            };
+            if (accountdata.Profile.ContactNumberList != null && accountdata.Profile.ContactNumberList.Count > 0)
+            {
+                dto.ContactNumberList = new List<Table>();
+                foreach (Crystal.Guardian.Component.Account.Profile.ContactNumber.Data d in accountdata.Profile.ContactNumberList)
+                {
+                    dto.ContactNumberList.Add(new Table
+                    {
+                        Id = d.Id,
+                        Name = d.ContactNumber,
+                    });
+                }
+            }
             if (accountdata.RoleList != null && accountdata.RoleList.Count > 0)
             {
                 dto.RoleList = new List<Role.Dto>();
@@ -107,6 +128,31 @@ namespace Vanilla.Guardian.Facade.Account
             accountdata.Id = account.Id;
             accountdata.LoginId = account.LoginId;
             accountdata.Password = account.Password;
+            //accountdata.Profile = new Crystal.Guardian.Component.Account.Profile.Data
+            //{
+            //    Initial = new Crystal.Configuration.Component.Initial.Data
+            //    {
+            //        Id = account.Initial.Id,
+            //        Name = account.Initial.Name,
+            //    },
+            //    FirstName = account.FirstName,
+            //    MiddleName = account.MiddleName,
+            //    LastName = account.LastName,
+            //    DateOfBirth = account.DateOfBirth,
+            //};
+
+            //if (account.ContactNumberList != null && account.ContactNumberList.Count > 0)
+            //{
+            //    accountdata.Profile.ContactNumberList = new List<Data>();
+            //    foreach (Table d in account.ContactNumberList)
+            //    {
+            //        accountdata.Profile.ContactNumberList.Add(new Crystal.Guardian.Component.Account.Profile.ContactNumber.Data
+            //        {
+            //            Id = d.Id,
+            //            ContactNumber = d.Name,
+            //        });
+            //    }
+            //}
             if (account.RoleList != null && account.RoleList.Count > 0)
             {
                 accountdata.RoleList = new List<BinAff.Core.Data>();

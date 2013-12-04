@@ -40,6 +40,7 @@
             this.tbpReport = new System.Windows.Forms.TabPage();
             this.trvReport = new System.Windows.Forms.TreeView();
             this.lsvContainer = new System.Windows.Forms.ListView();
+            this.imgLargeIcon = new System.Windows.Forms.ImageList(this.components);
             this.lblAudit = new System.Windows.Forms.Label();
             this.txtAddress = new System.Windows.Forms.TextBox();
             this.btnUp = new System.Windows.Forms.Button();
@@ -118,7 +119,6 @@
             this.imgConfiguration = new System.Windows.Forms.ImageList(this.components);
             this.pnlNote = new System.Windows.Forms.Panel();
             this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
-            this.imgLargeIcon = new System.Windows.Forms.ImageList(this.components);
             this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
@@ -268,11 +268,23 @@
             this.lsvContainer.StateImageList = this.imglIcons;
             this.lsvContainer.TabIndex = 1;
             this.lsvContainer.UseCompatibleStateImageBehavior = false;
+            this.lsvContainer.View = System.Windows.Forms.View.Details;
             this.lsvContainer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lstViewContainer_AfterLabelEdit);
             this.lsvContainer.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.lstViewContainer_ItemMouseHover);
             this.lsvContainer.DoubleClick += new System.EventHandler(this.lstViewContainer_DoubleClick);
             this.lsvContainer.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lstViewContainer_KeyUp);
             this.lsvContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstViewContainer_MouseDown);
+            // 
+            // imgLargeIcon
+            // 
+            this.imgLargeIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgLargeIcon.ImageStream")));
+            this.imgLargeIcon.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgLargeIcon.Images.SetKeyName(0, "Directory.gif");
+            this.imgLargeIcon.Images.SetKeyName(1, "DirectoryOpen.gif");
+            this.imgLargeIcon.Images.SetKeyName(2, "Document.gif");
+            this.imgLargeIcon.Images.SetKeyName(3, "Directory.png");
+            this.imgLargeIcon.Images.SetKeyName(4, "DirectoryOpen.png");
+            this.imgLargeIcon.Images.SetKeyName(5, "Document.png");
             // 
             // lblAudit
             // 
@@ -388,6 +400,7 @@
             this.btnSms.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnSms, "SMS");
             this.btnSms.UseVisualStyleBackColor = true;
+            this.btnSms.Click += new System.EventHandler(this.btnSms_Click);
             // 
             // btnEmail
             // 
@@ -404,6 +417,7 @@
             this.btnEmail.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnEmail, "Email");
             this.btnEmail.UseVisualStyleBackColor = true;
+            this.btnEmail.Click += new System.EventHandler(this.btnEmail_Click);
             // 
             // btnCalender
             // 
@@ -419,6 +433,7 @@
             this.btnCalender.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.toolTip.SetToolTip(this.btnCalender, "Calender");
             this.btnCalender.UseVisualStyleBackColor = true;
+            this.btnCalender.Click += new System.EventHandler(this.btnCalender_Click);
             // 
             // btnRegister
             // 
@@ -695,12 +710,14 @@
             this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
             this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.selectAllToolStripMenuItem.Text = "Select All";
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
             // invertSelectionToolStripMenuItem
             // 
             this.invertSelectionToolStripMenuItem.Name = "invertSelectionToolStripMenuItem";
             this.invertSelectionToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.invertSelectionToolStripMenuItem.Text = "Invert Selection";
+            this.invertSelectionToolStripMenuItem.Click += new System.EventHandler(this.invertSelectionToolStripMenuItem_Click);
             // 
             // mnuView
             // 
@@ -937,17 +954,6 @@
             this.imgSmallIcon.Images.SetKeyName(3, "Directory.png");
             this.imgSmallIcon.Images.SetKeyName(4, "DirectoryOpen.png");
             this.imgSmallIcon.Images.SetKeyName(5, "Document.png");
-            // 
-            // imgLargeIcon
-            // 
-            this.imgLargeIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgLargeIcon.ImageStream")));
-            this.imgLargeIcon.TransparentColor = System.Drawing.Color.Transparent;
-            this.imgLargeIcon.Images.SetKeyName(0, "Directory.gif");
-            this.imgLargeIcon.Images.SetKeyName(1, "DirectoryOpen.gif");
-            this.imgLargeIcon.Images.SetKeyName(2, "Document.gif");
-            this.imgLargeIcon.Images.SetKeyName(3, "Directory.png");
-            this.imgLargeIcon.Images.SetKeyName(4, "DirectoryOpen.png");
-            this.imgLargeIcon.Images.SetKeyName(5, "Document.png");
             // 
             // ucConfiguration
             // 
