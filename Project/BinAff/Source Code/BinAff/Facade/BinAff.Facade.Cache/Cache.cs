@@ -22,7 +22,14 @@ namespace BinAff.Facade.Cache
             }
             set
             {
-                Add(key, value);
+                if (cache.ContainsKey(key))
+                {
+                    cache[key] = value;
+                }
+                else
+                {
+                    Add(key, value);
+                }
             }
         }
 
