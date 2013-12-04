@@ -881,7 +881,7 @@ namespace Vanilla.Navigator.WinForm
             })).Start();
         }
 
-        private void mnuRegister_Click(object sender, EventArgs e)
+        private void mnuRegisterUser_Click(object sender, EventArgs e)
         {
             Guardian.WinForm.Registration registration = new Guardian.WinForm.Registration();
             registration.ShowDialog();
@@ -897,6 +897,40 @@ namespace Vanilla.Navigator.WinForm
         {
             this.Close();
         }
+
+        #region View
+
+        private void mnuRegister_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuConfiguration_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuCalender_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuStickyNote_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuEmail_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuSMS_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
 
         #endregion
 
@@ -1005,9 +1039,9 @@ namespace Vanilla.Navigator.WinForm
 
         private void btnHideShow_Click(object sender, EventArgs e)
         {
-            if (this.btnArtifact.Width == 0)
+            if (this.btnRegister.Width == 0)
             {
-                this.btnArtifact.Width = this.btnHideShow.Width;
+                this.btnRegister.Width = this.btnHideShow.Width;
                 this.btnCalender.Width = this.btnHideShow.Width;
                 this.btnEmail.Width = this.btnHideShow.Width;
                 this.btnSms.Width = this.btnHideShow.Width;
@@ -1019,7 +1053,7 @@ namespace Vanilla.Navigator.WinForm
             }
             else
             {
-                this.btnArtifact.Width = 0;
+                this.btnRegister.Width = 0;
                 this.btnCalender.Width = 0;
                 this.btnEmail.Width = 0;
                 this.btnSms.Width = 0;
@@ -1031,7 +1065,7 @@ namespace Vanilla.Navigator.WinForm
             }
         }
 
-        private void btnArtifact_Click(object sender, EventArgs e)
+        private void btnRegister_Click(object sender, EventArgs e)
         {
             this.pnlArtifact.Show();
             this.ucConfiguration.Hide();
@@ -1100,7 +1134,7 @@ namespace Vanilla.Navigator.WinForm
             parentArtifactDto.Children.Add(childNode.Tag as Facade.Artifact.Dto);           
 
         }
-
+        
     }
 
 }
