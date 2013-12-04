@@ -801,15 +801,21 @@ namespace Vanilla.Navigator.WinForm
 
                 if (parentId != newParentId)
                 {
-                    Facade.Artifact.Dto artifactDto = editNode.Tag as Facade.Artifact.Dto;
+                    Facade.Artifact.Dto artifactDto = new Facade.Container.Server(null).GetArtifactDtoByValue(editNode.Tag as Facade.Artifact.Dto);
                     artifactDto.Parent = new BinAff.Facade.Library.Dto { Id = newParentId };
-                    artifactDto.Version = artifactDto.Version + 1;
-                    artifactDto.ModifiedAt = DateTime.Now;
-                    artifactDto.ModifiedBy = new Table
+
+                    if (isCut)
                     {
-                        Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                        Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Name
-                    };
+                        artifactDto.Version = artifactDto.Version + 1;
+                        artifactDto.ModifiedAt = DateTime.Now;
+                        artifactDto.ModifiedBy = new Table { Id = 1, Name = "Biraj Dhekial" };
+                    }
+                    else
+                    {
+                        artifactDto.Id = 0;
+                        artifactDto.ModifiedAt = null;
+                        artifactDto.ModifiedBy = null;
+                    }
 
                     //when root node is selected
                     if (newParentId == 0)
@@ -830,13 +836,13 @@ namespace Vanilla.Navigator.WinForm
                         if (isCut)
                         {
                             TreeNode selectNode = editNode.Parent;
-                            RemoveChildDtoFromParentDto(editNode.Parent, editNode);
+                            this.RemoveChildDtoFromParentDto(editNode.Parent, editNode);
                             //remove node from tree
                             this.trvForm.Nodes.Remove(editNode);
 
                             //add node to the selected node
                             (this.trvForm.SelectedNode as TreeNode).Nodes.Add(editNode);
-                            AddChildDtoFromParentDto(this.trvForm.SelectedNode, editNode);
+                            this.AddChildDtoToParentDto(this.trvForm.SelectedNode, editNode);
 
                             //root node
                             trvForm.SelectedNode = selectNode;
@@ -847,9 +853,29 @@ namespace Vanilla.Navigator.WinForm
                             else
                                 this.SelectNode(selectNode.Tag as Facade.Artifact.Dto);
                         }
+                        else
+                        {
+                            TreeNode selectedNode = this.trvForm.SelectedNode as TreeNode;
+                            TreeNode node = editNode.Clone() as TreeNode;
+                            node.Tag = this.formDto.ModuleFormDto.CurrentArtifact.Dto;
+                            AttachTagToChildNodes(node);
+
+                            this.AddChildDtoToParentDto(selectedNode, node);
+                            selectedNode.Nodes.Add(node);
+
+                            //FindRootNode
+                            TreeNode root = FindRootNode(selectedNode);
+                            trvForm.SelectedNode = root;
+
+                            //Adding items to listView for the selected node
+                            if (root.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                                this.SelectNode((root.Tag as Facade.Module.Dto).Artifact);
+                            else
+                                this.SelectNode(root.Tag as Facade.Artifact.Dto);
+                        }
                     }
-                    
-                    
+
+
                 }
             }
             editNode = null;
@@ -1202,7 +1228,7 @@ namespace Vanilla.Navigator.WinForm
             }
         }
 
-        private void AddChildDtoFromParentDto(TreeNode parentNode, TreeNode childNode)
+        private void AddChildDtoToParentDto(TreeNode parentNode, TreeNode childNode)
         {
             Facade.Artifact.Dto parentArtifactDto;
 
@@ -1217,6 +1243,17 @@ namespace Vanilla.Navigator.WinForm
 
             parentArtifactDto.Children.Add(childNode.Tag as Facade.Artifact.Dto);           
 
+        }
+
+        private void AttachTagToChildNodes(TreeNode node)
+        {
+            Facade.Artifact.Dto artifactDto = node.Tag as Facade.Artifact.Dto;
+            for (int i = 0; i < node.Nodes.Count; i++)
+            {
+                node.Nodes[i].Tag = artifactDto.Children[i] as Facade.Artifact.Dto;
+                if (node.Nodes[i].Nodes != null && node.Nodes[i].Nodes.Count > 0)
+                    AttachTagToChildNodes(node.Nodes[i]);
+            }
         }
 
     }
