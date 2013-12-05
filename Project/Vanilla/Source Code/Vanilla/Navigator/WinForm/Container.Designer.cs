@@ -47,6 +47,8 @@
             this.btnBack = new System.Windows.Forms.Button();
             this.btnEnter = new System.Windows.Forms.Button();
             this.pnlAddress = new System.Windows.Forms.Panel();
+            this.lblSearch = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnConfiguration = new System.Windows.Forms.Button();
             this.btnNote = new System.Windows.Forms.Button();
@@ -111,7 +113,8 @@
             this.mnuTool = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUserManagement = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRegisterUser = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuRegisterProfile = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuChangeAccount = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuChangeOwnProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
@@ -305,7 +308,7 @@
             this.txtAddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtAddress.Location = new System.Drawing.Point(46, 0);
             this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(522, 20);
+            this.txtAddress.Size = new System.Drawing.Size(545, 20);
             this.txtAddress.TabIndex = 1;
             // 
             // btnUp
@@ -334,7 +337,7 @@
             // 
             this.btnEnter.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnEnter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnEnter.Location = new System.Drawing.Point(568, 0);
+            this.btnEnter.Location = new System.Drawing.Point(363, 0);
             this.btnEnter.Name = "btnEnter";
             this.btnEnter.Size = new System.Drawing.Size(23, 23);
             this.btnEnter.TabIndex = 4;
@@ -343,8 +346,10 @@
             // 
             // pnlAddress
             // 
-            this.pnlAddress.Controls.Add(this.txtAddress);
             this.pnlAddress.Controls.Add(this.btnEnter);
+            this.pnlAddress.Controls.Add(this.lblSearch);
+            this.pnlAddress.Controls.Add(this.txtSearch);
+            this.pnlAddress.Controls.Add(this.txtAddress);
             this.pnlAddress.Controls.Add(this.btnBack);
             this.pnlAddress.Controls.Add(this.btnUp);
             this.pnlAddress.Dock = System.Windows.Forms.DockStyle.Top;
@@ -353,6 +358,25 @@
             this.pnlAddress.Size = new System.Drawing.Size(591, 23);
             this.pnlAddress.TabIndex = 5;
             this.pnlAddress.Visible = false;
+            // 
+            // lblSearch
+            // 
+            this.lblSearch.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblSearch.Location = new System.Drawing.Point(386, 0);
+            this.lblSearch.Name = "lblSearch";
+            this.lblSearch.Size = new System.Drawing.Size(41, 23);
+            this.lblSearch.TabIndex = 6;
+            this.lblSearch.Text = "Search";
+            this.lblSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Dock = System.Windows.Forms.DockStyle.Right;
+            this.txtSearch.Location = new System.Drawing.Point(427, 0);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(164, 20);
+            this.txtSearch.TabIndex = 5;
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
             // btnConfiguration
             // 
@@ -886,7 +910,8 @@
             // 
             this.mnuUserManagement.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuRegisterUser,
-            this.mnuRegisterProfile});
+            this.mnuChangeAccount,
+            this.mnuChangeOwnProfile});
             this.mnuUserManagement.Name = "mnuUserManagement";
             this.mnuUserManagement.Size = new System.Drawing.Size(161, 22);
             this.mnuUserManagement.Text = "User Management";
@@ -894,16 +919,23 @@
             // mnuRegisterUser
             // 
             this.mnuRegisterUser.Name = "mnuRegisterUser";
-            this.mnuRegisterUser.Size = new System.Drawing.Size(144, 22);
+            this.mnuRegisterUser.Size = new System.Drawing.Size(161, 22);
             this.mnuRegisterUser.Text = "Register";
             this.mnuRegisterUser.Click += new System.EventHandler(this.mnuRegisterUser_Click);
             // 
-            // mnuRegisterProfile
+            // mnuChangeAccount
             // 
-            this.mnuRegisterProfile.Name = "mnuRegisterProfile";
-            this.mnuRegisterProfile.Size = new System.Drawing.Size(144, 22);
-            this.mnuRegisterProfile.Text = "Change Profile";
-            this.mnuRegisterProfile.Click += new System.EventHandler(this.mnuRegisterProfile_Click);
+            this.mnuChangeAccount.Name = "mnuChangeAccount";
+            this.mnuChangeAccount.Size = new System.Drawing.Size(161, 22);
+            this.mnuChangeAccount.Text = "Change Account";
+            this.mnuChangeAccount.Click += new System.EventHandler(this.mnuChangeAccount_Click);
+            // 
+            // mnuChangeOwnProfile
+            // 
+            this.mnuChangeOwnProfile.Name = "mnuChangeOwnProfile";
+            this.mnuChangeOwnProfile.Size = new System.Drawing.Size(161, 22);
+            this.mnuChangeOwnProfile.Text = "Change My Profile";
+            this.mnuChangeOwnProfile.Click += new System.EventHandler(this.mnuChangeOwnProfile_Click);
             // 
             // mnuHelp
             // 
@@ -1094,7 +1126,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuLogin;
         private System.Windows.Forms.ToolStripMenuItem mnuUserManagement;
         private System.Windows.Forms.ToolStripMenuItem mnuRegisterUser;
-        private System.Windows.Forms.ToolStripMenuItem mnuRegisterProfile;
+        private System.Windows.Forms.ToolStripMenuItem mnuChangeOwnProfile;
         private System.Windows.Forms.ToolStripMenuItem mnuNewWindow;
         private System.Windows.Forms.Panel pnlLoginFormContainer;
         private System.Windows.Forms.Panel pnlTool;
@@ -1118,6 +1150,9 @@
         private System.Windows.Forms.ImageList imgLargeIcon;
         private System.Windows.Forms.ToolStripMenuItem mnuDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem mnuChangeAccount;
+        private System.Windows.Forms.Label lblSearch;
+        private System.Windows.Forms.TextBox txtSearch;
 
     }
 }

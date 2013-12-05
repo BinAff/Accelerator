@@ -9,17 +9,11 @@ using System.Windows.Forms;
 
 namespace Vanilla.Guardian.WinForm
 {
-
-    public partial class Info : Form
+    public partial class Profile : Form
     {
-
-        public Info()
+        public Profile()
         {
             InitializeComponent();
         }
-
-
-
     }
-
 }

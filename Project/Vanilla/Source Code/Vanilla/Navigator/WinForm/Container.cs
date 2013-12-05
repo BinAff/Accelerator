@@ -1007,14 +1007,20 @@ namespace Vanilla.Navigator.WinForm
 
         private void mnuRegisterUser_Click(object sender, EventArgs e)
         {
-            Guardian.WinForm.Registration registration = new Guardian.WinForm.Registration();
-            registration.ShowDialog();
+            Guardian.WinForm.Registration form = new Guardian.WinForm.Registration();
+            form.ShowDialog();
         }
 
-        private void mnuRegisterProfile_Click(object sender, EventArgs e)
+        private void mnuChangeOwnProfile_Click(object sender, EventArgs e)
         {
-            Guardian.WinForm.Info info = new Guardian.WinForm.Info();
-            info.ShowDialog();
+            Guardian.WinForm.Profile form = new Guardian.WinForm.Profile();
+            form.ShowDialog();
+        }
+
+        private void mnuChangeAccount_Click(object sender, EventArgs e)
+        {
+            Guardian.WinForm.Info form = new Guardian.WinForm.Info();
+            form.ShowDialog();
         }
 
         #endregion
@@ -1277,6 +1283,14 @@ namespace Vanilla.Navigator.WinForm
                 node.Nodes[i].Tag = artifactDto.Children[i] as Facade.Artifact.Dto;
                 if (node.Nodes[i].Nodes != null && node.Nodes[i].Nodes.Count > 0)
                     AttachTagToChildNodes(node.Nodes[i]);
+            }
+        }
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+
             }
         }
 

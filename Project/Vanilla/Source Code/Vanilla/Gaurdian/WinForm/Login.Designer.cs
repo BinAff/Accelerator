@@ -134,9 +134,9 @@
             this.lblUserId.AutoSize = true;
             this.lblUserId.Location = new System.Drawing.Point(5, 56);
             this.lblUserId.Name = "lblUserId";
-            this.lblUserId.Size = new System.Drawing.Size(41, 13);
+            this.lblUserId.Size = new System.Drawing.Size(45, 13);
             this.lblUserId.TabIndex = 0;
-            this.lblUserId.Text = "User Id";
+            this.lblUserId.Text = "Login Id";
             // 
             // Login
             // 

@@ -226,19 +226,15 @@ namespace Crystal.Guardian.Component.Account
         /// Since Role is independent children of User, it will be handled here
         /// </remarks>
         /// <returns></returns>
-        public override Boolean Create()
+        protected override Boolean CreateAfter()
         {
-            Boolean retVal = base.Create();
-
-            if (retVal)
+            Boolean retVal = false;
+            base.CreateConnection();
+            if ((this.Data as Data).RoleList != null && (this.Data as Data).RoleList.Count > 0)
             {
-                base.CreateConnection();
-
-                if (((Data)this.Data).RoleList != null)
-                    retVal = this.CreateUserRoles(((Data)this.Data).RoleList, this.Data.Id);
-
-                base.CloseConnection();
+                retVal = this.CreateUserRoles(((Data)this.Data).RoleList, this.Data.Id);
             }
+            base.CloseConnection();
             return retVal;
         }
 
@@ -249,20 +245,15 @@ namespace Crystal.Guardian.Component.Account
         /// Since Role is independent children of User, it will be handled here
         /// </remarks>
         /// <returns></returns>
-        public override Boolean Update()
+        protected override Boolean UpdateAfter()
         {
-            Boolean retVal = base.Update();
-            if (retVal)
+            Boolean retVal = false;
+            base.CreateConnection();
+            if (((Data)this.Data).RoleList != null)
             {
-                base.CreateConnection();
-
-                if (((Data)this.Data).RoleList != null)
-                {
-                    retVal = this.UpdateUserRoles(((Data)this.Data).RoleList, this.Data.Id);
-                }
-
-                base.CloseConnection();
+                retVal = this.UpdateUserRoles(((Data)this.Data).RoleList, this.Data.Id);
             }
+            base.CloseConnection();
             return retVal;
         }
 
@@ -273,26 +264,21 @@ namespace Crystal.Guardian.Component.Account
         /// Since Role is independent children of User, it will be handled here
         /// </remarks>
         /// <returns></returns>
-        public override Boolean Delete()
+        protected override Boolean DeleteBefore()
         {
-            Boolean isDeletedSuccessfully = this.DeleteUserRoles(this.Data.Id);
-
-            if (isDeletedSuccessfully)
-                isDeletedSuccessfully = base.Delete();
-
-            return isDeletedSuccessfully;
+            return this.DeleteUserRoles(this.Data.Id);
         }
 
         private Boolean CreateUserRoles(List<BinAff.Core.Data> roleList,Int64 userId)
         {
             Boolean isCreatedSuccessfully = true;
-            Int64 userRoleId = 0;
+            Int64 userRoleId;
             foreach (BinAff.Core.Data roleData in roleList)
             {
                 if (isCreatedSuccessfully)
                 {
                     userRoleId = 0;
-                    base.CreateCommand("UserRoleInsert");
+                    base.CreateCommand("Guardian.UserRoleInsert");
                     base.AddInParameter("@UserId", DbType.Int64, userId);
                     base.AddInParameter("@RoleId", DbType.Int64, roleData.Id);
                     base.AddOutParameter("@Id", DbType.Int64, userRoleId);
@@ -301,21 +287,19 @@ namespace Crystal.Guardian.Component.Account
                 }
             }
 
-            return isCreatedSuccessfully;
-        
+            return isCreatedSuccessfully;        
         }
 
         private Boolean UpdateUserRoles(List<BinAff.Core.Data> roleList, Int64 userId)
         {
             Boolean retVal = this.DeleteUserRoles(userId);
-
             if (retVal)
             {
                 base.CreateConnection();
-
                 if (((Data)this.Data).RoleList != null)
+                {
                     retVal = this.CreateUserRoles(roleList, userId);
-
+                }
                 base.CloseConnection();
             }
             return retVal;
@@ -333,7 +317,6 @@ namespace Crystal.Guardian.Component.Account
             base.CloseConnection();
 
             return isDeletedSuccessfully;
-
         }
 
         private Boolean DeleteUserContactNumber(Int64 userId)
@@ -346,7 +329,6 @@ namespace Crystal.Guardian.Component.Account
             if (ret == -2146232060) isDeletedSuccessfully = false; //Foreign key violation   
             base.CloseConnection();
             return isDeletedSuccessfully;
-
         }
 
         private Boolean CreateUserContactNumber(List<Profile.ContactNumber.Data> contactNumberList, Int64 userId)
@@ -371,7 +353,6 @@ namespace Crystal.Guardian.Component.Account
 
             base.CloseConnection();
             return isCreatedSuccessfully;
-
         }
 
     }
