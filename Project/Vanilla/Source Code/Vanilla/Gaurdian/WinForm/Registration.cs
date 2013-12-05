@@ -11,65 +11,44 @@ namespace Vanilla.Guardian.WinForm
     public partial class Registration : System.Windows.Forms.Form
     {
 
-        Facade.Account.FormDto formDto;
+        Facade.Register.FormDto formDto;
 
         public Registration()
         {
             InitializeComponent();
+            this.formDto = new Facade.Register.FormDto
+            {
+                Dto = new Facade.Register.Dto(),
+                RoleList = new List<Facade.Role.Dto>(),
+                Rule = new Facade.Rule.Dto(),
+            };
+        }
+        
+        private void Registration_Load(object sender, EventArgs e)
+        {
+            this.LoadData();
         }
 
-        //protected override void SubmitData()
-        //{
-        //    if (this.ValidateUser())
-        //    {
-        //        Facade.Account.Dto accountDto = new Facade.Account.Dto()
-        //        {
-        //            LoginId = txtUserName.Text,
-        //            Password = txtPassword.Text,
-        //            RoleList = new List<Facade.Role.Dto>()
-        //        };
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            this.SubmitData();
+        }
 
-        //        for (Int32 i = 0; i < this.chkLstRole.CheckedItems.Count; i++)
-        //        {
-        //            foreach (Facade.Role.Dto dto in this.formDto.RoleList)
-        //            {
-        //                if (dto.Name == this.chkLstRole.CheckedItems[i].ToString())
-        //                {
-        //                    accountDto.RoleList.Add(dto);
-        //                    break;
-        //                }
-        //            }
-        //        }
+        protected void LoadData()
+        {
+            BinAff.Facade.Library.Server facade = new Facade.Register.Server(this.formDto);
+            facade.LoadForm();
 
-        //        Facade.Account.Server accountFacade = new Facade.Account.Server(new Facade.Account.FormDto
-        //        {
-        //            Dto = accountDto,
-        //        });
-        //        accountFacade.Add();
-        //        //Show message
-        //        //new BinAff.Presentation.Library.MessageBox(retVal.MessageList).ShowDialog();
-        //        //base.ShowMessage(retVal); 
-        //        //this.Close();
-        //    }
-        //}
+            this.txtPassword.Text = this.formDto.Rule.DefaultPassword;
+            this.BindRoleList();
+        }
 
-        //protected override void LoadData()
-        //{
-        //    this.formDto = new Facade.Account.FormDto();
-        //    BinAff.Facade.Library.Server facade = new Facade.Account.Server(formDto);
-        //    facade.LoadForm();
-
-        //    this.txtPassword.Text = this.formDto.Rule.DefaultPassword;
-
-        //    this.BindRoleList(); //Populate Role list
-        //}
-
-        //protected override void ClearData()
-        //{
-        //    errorProvider.Clear();
-        //    this.txtUserName.Text = String.Empty;
-        //    this.BindRoleList(); //Populate Role list
-        //}
+        protected void Clear()
+        {
+            errorProvider.Clear();
+            this.txtUserName.Text = String.Empty;
+            this.BindRoleList(); //Populate Role list
+        }
 
         private void BindRoleList()
         {
@@ -79,8 +58,41 @@ namespace Vanilla.Guardian.WinForm
                 foreach (Facade.Role.Dto dto in this.formDto.RoleList)
                 {
                     if (dto.Name != "SuperAdmin")
+                    {
                         this.chkLstRole.Items.Add(dto.Name, false);
+                    }
                 }
+            }
+        }
+
+        protected void SubmitData()
+        {
+            if (this.ValidateUser())
+            {
+                this.formDto.Dto.LoginId = txtUserName.Text.Trim();
+                this.formDto.Dto.Password = txtPassword.Text;
+                this.formDto.Dto.RoleList = new List<Facade.Role.Dto>();                
+
+                for (Int32 i = 0; i < this.chkLstRole.CheckedItems.Count; i++)
+                {
+                    foreach (Facade.Role.Dto dto in this.formDto.RoleList)
+                    {
+                        if (dto.Name == this.chkLstRole.CheckedItems[i].ToString())
+                        {
+                            this.formDto.Dto.RoleList.Add(dto);
+                            break;
+                        }
+                    }
+                }
+
+                Facade.Register.Server facade = new Facade.Register.Server(this.formDto);
+                facade.Add();
+                new MessageBox
+                {
+                    DialogueType = facade.IsError ? MessageBox.Type.Error : MessageBox.Type.Information,
+                    Heading = "Splash",
+                }.Show(facade.DisplayMessageList);
+                if(!facade.IsError) this.Close();
             }
         }
 

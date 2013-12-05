@@ -88,9 +88,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(10, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 13);
+            this.label1.Size = new System.Drawing.Size(45, 13);
             this.label1.TabIndex = 118;
-            this.label1.Text = "User Name";
+            this.label1.Text = "Login Id";
             // 
             // errorProvider
             // 
@@ -98,18 +98,19 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(160, 135);
+            this.btnOk.Location = new System.Drawing.Point(160, 139);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 123;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // Registration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(262, 169);
+            this.ClientSize = new System.Drawing.Size(247, 171);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.chkLstRole);
             this.Controls.Add(this.label3);
@@ -117,10 +118,14 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtUserName);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Registration";
             this.ShowInTaskbar = false;
-            this.Text = "Registration";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "User Registration";
+            this.Load += new System.EventHandler(this.Registration_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
