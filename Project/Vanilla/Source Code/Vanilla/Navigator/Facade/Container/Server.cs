@@ -71,37 +71,31 @@ namespace Vanilla.Navigator.Facade.Container
         }
 
         public void Paste(bool isCut)
-        {            
+        {
             Facade.Artifact.Dto originalArtifactDto = this.GetArtifactDtoByValue((this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto);
-            originalArtifactDto.Children = new System.Collections.Generic.List<Artifact.Dto>();          
+            originalArtifactDto.Children = new System.Collections.Generic.List<Artifact.Dto>();
 
             Facade.Artifact.Dto artifactDto = (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto;
 
             if (isCut)
             {
                 this.Change();
-
-                if (!this.IsError)
-                {
-                    if (artifactDto.Children != null && artifactDto.Children.Count > 0)
-                        PasteCutChild(artifactDto);
-                }
+                if (!this.IsError && artifactDto.Children != null && artifactDto.Children.Count > 0)
+                    this.PasteCutChild(artifactDto, originalArtifactDto);
             }
             else
             {
                 this.Add();
-                if (!this.IsError)
-                {
-                    if (artifactDto.Children != null && artifactDto.Children.Count > 0)
-                        PasteCopyChild(artifactDto, originalArtifactDto);
-                }
-
-                (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto = originalArtifactDto;
+                originalArtifactDto.Id = artifactDto.Id;
+                if (!this.IsError && artifactDto.Children != null && artifactDto.Children.Count > 0)
+                    this.PasteCopyChild(artifactDto, originalArtifactDto);
             }
+
+            (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto = originalArtifactDto;
 
         }
 
-        private void PasteCutChild(Facade.Artifact.Dto artifactDto)
+        private void PasteCutChild(Facade.Artifact.Dto artifactDto, Facade.Artifact.Dto actualArtifactDto)
         {
             foreach (Facade.Artifact.Dto artf in artifactDto.Children)
             {
@@ -110,13 +104,17 @@ namespace Vanilla.Navigator.Facade.Container
                 artf.ModifiedBy = artifactDto.ModifiedBy;
                 artf.Path = artifactDto.Path + artf.FileName + "\\";
 
+                Facade.Artifact.Dto childArtifactDto = this.GetArtifactDtoByValue(artf);
+                childArtifactDto.Children = new List<Artifact.Dto>();
+                actualArtifactDto.Children.Add(childArtifactDto);
+
                 (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact = new Artifact.FormDto { Dto = artf };
                 this.Change();
 
                 if (!this.IsError)
                 {
                     if (artf.Children != null && artf.Children.Count > 0)
-                        PasteCutChild(artf);
+                        PasteCutChild(artf, childArtifactDto);
                 }
 
             }
@@ -130,26 +128,29 @@ namespace Vanilla.Navigator.Facade.Container
 
                 if (artf.Style == Artifact.Type.Directory)
                 {
-                    artf.Id = 0;
-                    artf.Version = 1;
-                    artf.Path = artifactDto.Path + artf.FileName + "\\";
-                    artf.Parent = new BinAff.Facade.Library.Dto { Id = artifactDto.Id };
-                    artf.CreatedAt = DateTime.Now;
-                    artf.CreatedBy = new Table { Id = 1, Name = "Biraj K" }; //Read from Cahce
-                    artf.ModifiedBy = null;
-                  
-                    (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto = artf;
-                    this.Add();                  
+                    Facade.Artifact.Dto childArtifactDto = this.GetArtifactDtoByValueForCopy(artf);
+                    childArtifactDto.CreatedAt = artifactDto.CreatedAt;
+                    childArtifactDto.CreatedBy = artifactDto.CreatedBy;
+                    childArtifactDto.Parent = new BinAff.Facade.Library.Dto { Id = artifactDto.Id };
+                    childArtifactDto.Path = artifactDto.Path + childArtifactDto.FileName + "\\";
 
-                    Facade.Artifact.Dto childArtifactDto = this.GetArtifactDtoByValue(artf);
                     childArtifactDto.Children = new List<Artifact.Dto>();
                     actualArtifactDto.Children.Add(childArtifactDto);
 
+                    (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto = childArtifactDto;
+                    this.Add();
+
+                    artf.Id = childArtifactDto.Id;
+                    artf.CreatedAt = childArtifactDto.CreatedAt;
+                    artf.CreatedBy = childArtifactDto.CreatedBy;
+                    artf.Path = childArtifactDto.Path;
+
+                    actualArtifactDto.Id = childArtifactDto.Id;
 
                     if (!this.IsError)
                     {
                         if (artf.Children != null && artf.Children.Count > 0)
-                            PasteCopyChild(artf, childArtifactDto);
+                            this.PasteCopyChild(artf, childArtifactDto);
                     }
                 }
             }
@@ -208,6 +209,7 @@ namespace Vanilla.Navigator.Facade.Container
         {
             return new Artifact.Dto
             {
+                Id = data.Id,
                 FileName = data.FileName,
                 Path = data.Path,
                 Style = data.Style,
@@ -231,6 +233,23 @@ namespace Vanilla.Navigator.Facade.Container
             };
         }
 
+        public Facade.Artifact.Dto GetArtifactDtoByValueForCopy(Facade.Artifact.Dto data)
+        {
+            return new Artifact.Dto
+            {
+                FileName = data.FileName,
+                Style = data.Style,
+                Category = data.Category,
+                Version = 1,
+                Children = data.Children == null ? null : this.GetChildren(data.Children),
+                Module = data.Module == null ? null : new BinAff.Facade.Library.Dto
+                {
+                    Id = data.Module.Id,
+                    Action = data.Module.Action
+                }
+            };
+        }
+        
         private List<Facade.Artifact.Dto> GetChildren(List<Facade.Artifact.Dto> children)
         {
             List<Facade.Artifact.Dto> childrenList = new List<Artifact.Dto>();

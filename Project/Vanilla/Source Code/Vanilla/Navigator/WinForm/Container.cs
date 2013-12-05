@@ -772,115 +772,102 @@ namespace Vanilla.Navigator.WinForm
         private void mnuPaste_Click(object sender, EventArgs e)
         {
             if (this.trvForm.SelectedNode != null && this.editNode != null)
-            {
-                Int64 parentId = 0;
-                Int64 newParentId = 0;
+            {                
+                Int64 newParentId = 0;                
 
-                //parent id is null for first level nodes
-                if (this.editNode.Parent.Parent != null)
+                foreach (TreeNode node in this.trvForm.SelectedNode.Nodes)
                 {
-                    parentId = (this.editNode.Parent.Tag as Facade.Artifact.Dto).Id;
+                    if (node.Text.Trim() == this.editNode.Text.Trim())
+                    {
+                        new PresentationLib.MessageBox
+                        {
+                            DialogueType = PresentationLib.MessageBox.Type.Error,
+                            Heading = "Splash"
+                        }.Show("Duplicate node exists. Cannot do the paste operation.");
+                        return;
+                    }
+                }              
+
+
+                if (this.trvForm.SelectedNode.Parent != null)               
+                    newParentId = (this.trvForm.SelectedNode.Tag as Facade.Artifact.Dto).Id;               
+                            
+                Facade.Artifact.Dto artifactDto;
+
+                Table currentLoggedInUser = new Table
+                {
+                    Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                    Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Name
+                };
+
+                BinAff.Facade.Library.Dto parent = new BinAff.Facade.Library.Dto { Id = newParentId };
+
+                String path = String.Empty;
+                if (this.trvForm.SelectedNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                    path = (this.trvForm.SelectedNode.Tag as Facade.Module.Dto).Artifact.Path;
+                else
+                    path = (this.trvForm.SelectedNode.Tag as Facade.Artifact.Dto).Path;
+
+                if (this.isCutAction)
+                {
+                    artifactDto = new Facade.Container.Server(null).GetArtifactDtoByValue(editNode.Tag as Facade.Artifact.Dto);
+                    artifactDto.Version = artifactDto.Version + 1;
+                    artifactDto.ModifiedAt = DateTime.Now;
+                    artifactDto.ModifiedBy = currentLoggedInUser;
+                }
+                else
+                {
+                    artifactDto = new Facade.Container.Server(null).GetArtifactDtoByValueForCopy(editNode.Tag as Facade.Artifact.Dto);
+                    artifactDto.CreatedAt = DateTime.Now;
+                    artifactDto.CreatedBy = currentLoggedInUser;
                 }
 
-                if (this.trvForm.SelectedNode.Parent != null)
-                {
-                    newParentId = (this.trvForm.SelectedNode.Tag as Facade.Artifact.Dto).Id;
-                }
+                artifactDto.Parent = parent;
+                artifactDto.Path = path + artifactDto.FileName + "\\";
 
-                if (parentId != newParentId)
+                this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
                 {
-                    Facade.Artifact.Dto artifactDto = new Facade.Container.Server(null).GetArtifactDtoByValue(editNode.Tag as Facade.Artifact.Dto);
-                    artifactDto.Parent = new BinAff.Facade.Library.Dto { Id = newParentId };
+                    Dto = artifactDto,
+                };
+
+                this.facade = new Facade.Container.Server(this.formDto);
+                this.facade.Paste(this.isCutAction);
+
+                if (!this.facade.IsError)
+                {
+                    TreeNode selectNode; //this node will be the focussed node
+                    TreeNode actorNode;
 
                     if (this.isCutAction)
                     {
-                        artifactDto.Version = artifactDto.Version + 1;
-                        artifactDto.ModifiedAt = DateTime.Now;
-                        artifactDto.ModifiedBy = new Table
-                        {
-                            Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                            Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Name
-                        };
+                        actorNode = this.editNode;
+                        selectNode = actorNode.Parent;
+
+                        //remove child dto from tag
+                        this.RemoveChildDtoFromParentDto(actorNode.Parent, actorNode);
+
+                        //remove node from tree
+                        this.trvForm.Nodes.Remove(actorNode);
                     }
                     else
                     {
-                        artifactDto.Id = 0;
-                        artifactDto.ModifiedAt = null;
-                        artifactDto.ModifiedBy = null;
+                        actorNode = this.editNode.Clone() as TreeNode;
+                        selectNode = this.FindRootNode(this.trvForm.SelectedNode as TreeNode);
                     }
 
-                    //when root node is selected
-                    if (newParentId == 0)
-                    {
-                        artifactDto.Path = (this.trvForm.SelectedNode.Tag as Facade.Module.Dto).Artifact.Path + artifactDto.FileName + "\\";
-                    }
+                    (this.trvForm.SelectedNode as TreeNode).Nodes.Add(actorNode);
+                    actorNode.Tag = this.formDto.ModuleFormDto.CurrentArtifact.Dto;
+                    this.AddChildDtoToParentDto(this.trvForm.SelectedNode, actorNode);
+                    this.AttachTagToChildNodes(actorNode);
+
+                    this.trvForm.SelectedNode = selectNode;
+
+                    //Adding items to listView for the selected node
+                    if (selectNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                        this.SelectNode((selectNode.Tag as Facade.Module.Dto).Artifact);
                     else
-                    {
-                        artifactDto.Path = (this.trvForm.SelectedNode.Tag as Facade.Artifact.Dto).Path + artifactDto.FileName + "\\";
-                    }
-
-                    this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
-                    {
-                        Dto = artifactDto,
-                    };
-
-                    this.facade = new Facade.Container.Server(this.formDto);
-                    this.facade.Paste(this.isCutAction);
-
-                    if (!this.facade.IsError)
-                    {
-                        if (this.isCutAction)
-                        {
-                            TreeNode selectNode = this.editNode.Parent;
-                            this.RemoveChildDtoFromParentDto(this.editNode.Parent, this.editNode);
-                            //remove node from tree
-                            this.trvForm.Nodes.Remove(this.editNode);
-
-                            //add node to the selected node
-                            (this.trvForm.SelectedNode as TreeNode).Nodes.Add(this.editNode);
-                            this.AddChildDtoToParentDto(this.trvForm.SelectedNode, this.editNode);
-
-                            //root node
-                            this.trvForm.SelectedNode = selectNode;
-
-                            //Adding items to listView for the selected node
-                            if (selectNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
-                            {
-                                this.SelectNode((selectNode.Tag as Facade.Module.Dto).Artifact);
-                            }
-                            else
-                            {
-                                this.SelectNode(selectNode.Tag as Facade.Artifact.Dto);
-                            }
-                        }
-                        else
-                        {
-                            TreeNode selectedNode = this.trvForm.SelectedNode as TreeNode;
-                            TreeNode node = this.editNode.Clone() as TreeNode;
-                            node.Tag = this.formDto.ModuleFormDto.CurrentArtifact.Dto;
-                            this.AttachTagToChildNodes(node);
-
-                            this.AddChildDtoToParentDto(selectedNode, node);
-                            selectedNode.Nodes.Add(node);
-
-                            //FindRootNode
-                            TreeNode root = this.FindRootNode(selectedNode);
-                            this.trvForm.SelectedNode = root;
-
-                            //Adding items to listView for the selected node
-                            if (root.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
-                            {
-                                this.SelectNode((root.Tag as Facade.Module.Dto).Artifact);
-                            }
-                            else
-                            {
-                                this.SelectNode(root.Tag as Facade.Artifact.Dto);
-                            }
-                        }
-                    }
-
-
-                }
+                        this.SelectNode(selectNode.Tag as Facade.Artifact.Dto);
+                }               
             }
             this.editNode = null;
         }
