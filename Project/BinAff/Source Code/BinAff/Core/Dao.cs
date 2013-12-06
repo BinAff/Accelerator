@@ -31,6 +31,8 @@ namespace BinAff.Core
 
         private DbCommand command;
 
+        private DbConnection conn;
+
         #endregion
 
         protected Dao(Data data)
@@ -89,8 +91,6 @@ namespace BinAff.Core
         #endregion
 
         #region Ado.Net
-
-        private DbConnection conn;
 
         /// <summary>
         /// Create new record in database
@@ -163,17 +163,14 @@ namespace BinAff.Core
             //Hard coded, problem to read from resource
             //connStr = "Data Source=ba_server_blr\\SQLEXPRESS;Initial Catalog=Crud;User Id=sa;Password=infotech@1;"; //Untrusted connection
             //connStr = "Data Source=ba_server_blr\\SQLEXPRESS;Initial Catalog=Crud;Integrated Security=True;"; //Trusted connection
-            
-            //connStr = "Data Source=RW012799\\SQLEXPRESS;Initial Catalog=Development;Integrated Security=True;"; //Arpan Office            
-            //connStr = "Data Source=ba_server_blr\\sqlexpress;Initial Catalog=Splash;Integrated Security=True;"; //Arpan
-            //connStr = "Data Source=biraj-netbook\\sqlexpress;Initial Catalog=DevelopmentRND;Integrated Security=True;"; //Biraj
 
-            //connStr = "Data Source=.\\SQLEXPRESS;Initial Catalog=AutoTourism;User Id=sa;Password=infotech@1;"; //Untrusted connection
+            connStr = "Data Source=.\\SQLEXPRESS;Initial Catalog=AutoTourism;User Id=sa;Password=infotech@1;"; //Untrusted connection
 
-            connStr = "Data Source=(local);Initial Catalog=AutoTourism;User Id=sa;Password=BinAff@1;"; //Biraj Desktop
+            //connStr = "Data Source=(local);Initial Catalog=AutoTourism;User Id=sa;Password=BinAff@1;"; //Biraj Desktop
 
             this.conn = new SqlConnection(connStr);
             if (this.conn.State != ConnectionState.Open) this.conn.Open();
+
             return this.conn;
         }
 
@@ -591,8 +588,8 @@ namespace BinAff.Core
             {
                 this.conn.Close();
             }
-            this.command = null;
-            this.conn = null;
+            this.command.Dispose();
+            this.conn.Dispose();
         }
 
         #endregion

@@ -17,12 +17,12 @@ namespace Vanilla.Navigator.WinForm
 
         private Facade.Container.FormDto formDto;
         private Facade.Container.Server facade;
-        Hashtable hashTreeView;
-        Vanilla.Guardian.WinForm.Login loginForm;
-        Boolean isLoggedIn;
-        String selectedNodePath;
-        TreeNode editNode;
-        Boolean isCutAction;
+        private Hashtable hashTreeView;
+        private Vanilla.Guardian.WinForm.Login loginForm;
+        private Boolean isLoggedIn;
+        private String selectedNodePath;
+        private TreeNode editNode;
+        private Boolean isCutAction;
 
         public Container()
         {
@@ -41,16 +41,15 @@ namespace Vanilla.Navigator.WinForm
         {
             for (int i = 0; i < tbcCategory.TabPages.Count; i++)
                 hashTreeView.Add(tbcCategory.TabPages[i].Text, null);
-
+                
             this.InitializeListView();
-            this.txtAddress.Text = @"Form:\\"; //Module Seperator is hard coding. Need to change
             this.DockContainers();
-
             this.HideControl();
             if (this.isLoggedIn)
             {
                 this.LoadForm();
                 this.SelectNode(this.selectedNodePath);
+                this.txtAddress.Text = "Form" + this.formDto.Rule.ModuleSeperator;
             }
             else
             {
@@ -68,7 +67,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void SelectNode(String selectedNodePath)
         {
-            selectedNodePath = selectedNodePath.Substring(selectedNodePath.IndexOf(":\\\\") + 3);
+            selectedNodePath = selectedNodePath.Substring(selectedNodePath.IndexOf(this.formDto.Rule.ModuleSeperator) + 3);
             TreeNode currentNode = this.FindTreeNodeFromPath(selectedNodePath, this.trvForm.Nodes);
             this.trvForm.SelectedNode = currentNode;
             currentNode.Expand();
@@ -77,8 +76,8 @@ namespace Vanilla.Navigator.WinForm
 
         private TreeNode FindTreeNodeFromPath(String path, TreeNodeCollection treeNodes)
         {
-            String text = path.Substring(0, path.IndexOfAny(new Char[] { '\\' }));
-            path = path.Substring(path.IndexOfAny(new Char[] { '\\' }) + 1);
+            String text = path.Substring(0, path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()));
+            path = path.Substring(path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()) + 1);
             foreach (TreeNode node in treeNodes)
             {
                 if (node.Text == text)
@@ -189,6 +188,7 @@ namespace Vanilla.Navigator.WinForm
             {
                 this.LoadForm();
                 this.pnlLoginFormContainer.Hide();
+                this.txtAddress.Text = "Form" + this.formDto.Rule.ModuleSeperator;
             }
         }
 
@@ -738,6 +738,11 @@ namespace Vanilla.Navigator.WinForm
             })).Start();
         }
 
+        private void mnuClear_Click(object sender, EventArgs e)
+        {
+            //Clear recent file list
+        }
+
         private void mnuExit_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -823,7 +828,7 @@ namespace Vanilla.Navigator.WinForm
                 }
 
                 artifactDto.Parent = parent;
-                artifactDto.Path = path + artifactDto.FileName + "\\";
+                artifactDto.Path = path + artifactDto.FileName + this.formDto.Rule.PathSeperator;
 
                 this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
                 {
@@ -1012,6 +1017,20 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion
 
+        #region Help
+
+        private void mnuAbout_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuViewHelp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
+
         #endregion
 
         private void ShowControls()
@@ -1080,7 +1099,7 @@ namespace Vanilla.Navigator.WinForm
                 }
                 if (type == Facade.Artifact.Type.Directory)
                 {
-                    currentArtifact.Path += currentArtifact.FileName + "\\";
+                    currentArtifact.Path += currentArtifact.FileName + this.formDto.Rule.PathSeperator;
                 }
             }
         }
@@ -1225,6 +1244,36 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion
 
+        #region Address Bar
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+
+            }
+        }
+
+        private void txtSearch_Enter(object sender, EventArgs e)
+        {
+            if (String.Compare(this.txtSearch.Text, "Search...") == 0)
+            {
+                this.txtSearch.Text = String.Empty;
+                this.txtSearch.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtSearch_Leave(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(this.txtSearch.Text))
+            {
+                this.txtSearch.Text = "Search...";
+                this.txtSearch.ForeColor = Color.Gray;
+            }
+        }
+
+        #endregion
+
         private void RemoveChildDtoFromParentDto(TreeNode parentNode, TreeNode childNode)
         {
             Facade.Artifact.Dto parentArtifactDto;
@@ -1270,14 +1319,6 @@ namespace Vanilla.Navigator.WinForm
                 node.Nodes[i].Tag = artifactDto.Children[i] as Facade.Artifact.Dto;
                 if (node.Nodes[i].Nodes != null && node.Nodes[i].Nodes.Count > 0)
                     AttachTagToChildNodes(node.Nodes[i]);
-            }
-        }
-
-        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-
             }
         }
 
