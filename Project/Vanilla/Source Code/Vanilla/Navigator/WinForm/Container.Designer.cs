@@ -47,7 +47,6 @@
             this.btnBack = new System.Windows.Forms.Button();
             this.btnEnter = new System.Windows.Forms.Button();
             this.pnlAddress = new System.Windows.Forms.Panel();
-            this.lblSearch = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnConfiguration = new System.Windows.Forms.Button();
@@ -79,6 +78,8 @@
             this.folderToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.formToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileSeperator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuRecentFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,15 +117,17 @@
             this.mnuChangeAccount = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuChangeOwnProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuViewHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlLoginFormContainer = new System.Windows.Forms.Panel();
             this.pnlTool = new System.Windows.Forms.Panel();
             this.imgConfiguration = new System.Windows.Forms.ImageList(this.components);
             this.pnlNote = new System.Windows.Forms.Panel();
             this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
             this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuClear = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
             this.pnlArtifact.Panel2.SuspendLayout();
@@ -306,9 +309,9 @@
             // txtAddress
             // 
             this.txtAddress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtAddress.Location = new System.Drawing.Point(46, 0);
+            this.txtAddress.Location = new System.Drawing.Point(40, 0);
             this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(545, 20);
+            this.txtAddress.Size = new System.Drawing.Size(600, 20);
             this.txtAddress.TabIndex = 1;
             // 
             // btnUp
@@ -317,7 +320,7 @@
             this.btnUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
             this.btnUp.Location = new System.Drawing.Point(0, 0);
             this.btnUp.Name = "btnUp";
-            this.btnUp.Size = new System.Drawing.Size(23, 23);
+            this.btnUp.Size = new System.Drawing.Size(20, 20);
             this.btnUp.TabIndex = 2;
             this.btnUp.Text = "Ç";
             this.btnUp.UseVisualStyleBackColor = true;
@@ -326,9 +329,9 @@
             // 
             this.btnBack.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnBack.Location = new System.Drawing.Point(23, 0);
+            this.btnBack.Location = new System.Drawing.Point(20, 0);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(23, 23);
+            this.btnBack.Size = new System.Drawing.Size(20, 20);
             this.btnBack.TabIndex = 3;
             this.btnBack.Text = "Å";
             this.btnBack.UseVisualStyleBackColor = true;
@@ -337,46 +340,39 @@
             // 
             this.btnEnter.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnEnter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnEnter.Location = new System.Drawing.Point(363, 0);
+            this.btnEnter.Location = new System.Drawing.Point(640, 0);
             this.btnEnter.Name = "btnEnter";
-            this.btnEnter.Size = new System.Drawing.Size(23, 23);
+            this.btnEnter.Size = new System.Drawing.Size(23, 20);
             this.btnEnter.TabIndex = 4;
             this.btnEnter.Text = "Æ";
             this.btnEnter.UseVisualStyleBackColor = true;
             // 
             // pnlAddress
             // 
-            this.pnlAddress.Controls.Add(this.btnEnter);
-            this.pnlAddress.Controls.Add(this.lblSearch);
-            this.pnlAddress.Controls.Add(this.txtSearch);
             this.pnlAddress.Controls.Add(this.txtAddress);
+            this.pnlAddress.Controls.Add(this.btnEnter);
             this.pnlAddress.Controls.Add(this.btnBack);
             this.pnlAddress.Controls.Add(this.btnUp);
+            this.pnlAddress.Controls.Add(this.txtSearch);
             this.pnlAddress.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlAddress.Location = new System.Drawing.Point(0, 24);
             this.pnlAddress.Name = "pnlAddress";
-            this.pnlAddress.Size = new System.Drawing.Size(591, 23);
+            this.pnlAddress.Size = new System.Drawing.Size(827, 20);
             this.pnlAddress.TabIndex = 5;
             this.pnlAddress.Visible = false;
-            // 
-            // lblSearch
-            // 
-            this.lblSearch.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblSearch.Location = new System.Drawing.Point(386, 0);
-            this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(41, 23);
-            this.lblSearch.TabIndex = 6;
-            this.lblSearch.Text = "Search";
-            this.lblSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtSearch
             // 
             this.txtSearch.Dock = System.Windows.Forms.DockStyle.Right;
-            this.txtSearch.Location = new System.Drawing.Point(427, 0);
+            this.txtSearch.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.txtSearch.Location = new System.Drawing.Point(663, 0);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(164, 20);
             this.txtSearch.TabIndex = 5;
+            this.txtSearch.Text = "Search...";
+            this.txtSearch.Enter += new System.EventHandler(this.txtSearch_Enter);
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
             // btnConfiguration
             // 
@@ -582,7 +578,7 @@
             this.mnuHelp});
             this.mnuMain.Location = new System.Drawing.Point(0, 0);
             this.mnuMain.Name = "mnuMain";
-            this.mnuMain.Size = new System.Drawing.Size(591, 24);
+            this.mnuMain.Size = new System.Drawing.Size(827, 24);
             this.mnuMain.TabIndex = 6;
             this.mnuMain.Text = "menuStrip1";
             // 
@@ -595,6 +591,8 @@
             this.mnuNew,
             this.mnuOpen,
             this.mnuFileSeperator2,
+            this.mnuRecentFile,
+            this.toolStripSeparator6,
             this.mnuExit});
             this.mnuFile.Name = "mnuFile";
             this.mnuFile.Size = new System.Drawing.Size(35, 20);
@@ -603,21 +601,21 @@
             // mnuLogin
             // 
             this.mnuLogin.Name = "mnuLogin";
-            this.mnuLogin.Size = new System.Drawing.Size(112, 22);
+            this.mnuLogin.Size = new System.Drawing.Size(152, 22);
             this.mnuLogin.Text = "Login";
             this.mnuLogin.Click += new System.EventHandler(this.mnuLogin_Click);
             // 
             // mnuLogOut
             // 
             this.mnuLogOut.Name = "mnuLogOut";
-            this.mnuLogOut.Size = new System.Drawing.Size(112, 22);
+            this.mnuLogOut.Size = new System.Drawing.Size(152, 22);
             this.mnuLogOut.Text = "Log Out";
             this.mnuLogOut.Click += new System.EventHandler(this.mnuLogOut_Click);
             // 
             // mnuFileSeperator1
             // 
             this.mnuFileSeperator1.Name = "mnuFileSeperator1";
-            this.mnuFileSeperator1.Size = new System.Drawing.Size(109, 6);
+            this.mnuFileSeperator1.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuNew
             // 
@@ -625,7 +623,7 @@
             this.folderToolStripMenuItem1,
             this.formToolStripMenuItem});
             this.mnuNew.Name = "mnuNew";
-            this.mnuNew.Size = new System.Drawing.Size(112, 22);
+            this.mnuNew.Size = new System.Drawing.Size(152, 22);
             this.mnuNew.Text = "New";
             // 
             // folderToolStripMenuItem1
@@ -646,7 +644,7 @@
             this.folderToolStripMenuItem2,
             this.formToolStripMenuItem1});
             this.mnuOpen.Name = "mnuOpen";
-            this.mnuOpen.Size = new System.Drawing.Size(112, 22);
+            this.mnuOpen.Size = new System.Drawing.Size(152, 22);
             this.mnuOpen.Text = "Open";
             // 
             // folderToolStripMenuItem2
@@ -664,12 +662,26 @@
             // mnuFileSeperator2
             // 
             this.mnuFileSeperator2.Name = "mnuFileSeperator2";
-            this.mnuFileSeperator2.Size = new System.Drawing.Size(109, 6);
+            this.mnuFileSeperator2.Size = new System.Drawing.Size(149, 6);
+            // 
+            // mnuRecentFile
+            // 
+            this.mnuRecentFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripSeparator7,
+            this.mnuClear});
+            this.mnuRecentFile.Name = "mnuRecentFile";
+            this.mnuRecentFile.Size = new System.Drawing.Size(152, 22);
+            this.mnuRecentFile.Text = "Recent File";
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(112, 22);
+            this.mnuExit.Size = new System.Drawing.Size(152, 22);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
@@ -940,30 +952,32 @@
             // mnuHelp
             // 
             this.mnuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem,
+            this.mnuAbout,
             this.toolStripSeparator8,
-            this.helpToolStripMenuItem1});
+            this.mnuViewHelp});
             this.mnuHelp.Name = "mnuHelp";
             this.mnuHelp.Size = new System.Drawing.Size(40, 20);
             this.mnuHelp.Text = "Help";
             // 
-            // aboutToolStripMenuItem
+            // mnuAbout
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.aboutToolStripMenuItem.Text = "About";
+            this.mnuAbout.Name = "mnuAbout";
+            this.mnuAbout.Size = new System.Drawing.Size(139, 22);
+            this.mnuAbout.Text = "About";
+            this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(111, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(136, 6);
             // 
-            // helpToolStripMenuItem1
+            // mnuViewHelp
             // 
-            this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
-            this.helpToolStripMenuItem1.Text = "Help";
+            this.mnuViewHelp.Name = "mnuViewHelp";
+            this.mnuViewHelp.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.mnuViewHelp.Size = new System.Drawing.Size(139, 22);
+            this.mnuViewHelp.Text = "View Help";
+            this.mnuViewHelp.Click += new System.EventHandler(this.mnuViewHelp_Click);
             // 
             // pnlLoginFormContainer
             // 
@@ -1019,11 +1033,23 @@
             this.ucConfiguration.TabIndex = 12;
             this.ucConfiguration.Visible = false;
             // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
+            // 
+            // mnuClear
+            // 
+            this.mnuClear.Name = "mnuClear";
+            this.mnuClear.Size = new System.Drawing.Size(152, 22);
+            this.mnuClear.Text = "Clear";
+            this.mnuClear.Click += new System.EventHandler(this.mnuClear_Click);
+            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(591, 394);
+            this.ClientSize = new System.Drawing.Size(827, 394);
             this.Controls.Add(this.pnlTool);
             this.Controls.Add(this.ucConfiguration);
             this.Controls.Add(this.pnlNote);
@@ -1115,9 +1141,9 @@
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mnuTool;
         private System.Windows.Forms.ToolStripMenuItem mnuHelp;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuAbout;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem mnuViewHelp;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem cmnuCut;
         private System.Windows.Forms.ToolStripMenuItem cmnuCopy;
@@ -1151,8 +1177,11 @@
         private System.Windows.Forms.ToolStripMenuItem mnuDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem mnuChangeAccount;
-        private System.Windows.Forms.Label lblSearch;
         private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.ToolStripMenuItem mnuRecentFile;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem mnuClear;
 
     }
 }

@@ -19,6 +19,8 @@ namespace Vanilla.Navigator.Facade.Container
 
         public override void LoadForm()
         {
+            this.LoadRule();
+
             new Module.Server((this.FormDto as FormDto).ModuleFormDto).LoadForm();
 
             this.GetCurrentModules(Artifact.Category.Form);
@@ -70,7 +72,7 @@ namespace Vanilla.Navigator.Facade.Container
             this.IsError = moduleFacade.IsError;
         }
 
-        public void Paste(bool isCut)
+        public void Paste(Boolean isCut)
         {
             Facade.Artifact.Dto originalArtifactDto = this.GetArtifactDtoByValue((this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto);
             originalArtifactDto.Children = new System.Collections.Generic.List<Artifact.Dto>();
@@ -154,6 +156,16 @@ namespace Vanilla.Navigator.Facade.Container
                     }
                 }
             }
+        }
+
+        private void LoadRule()
+        {
+            Crystal.Navigator.Rule.Data data = new Crystal.Navigator.Rule.Data();
+            ICrud comp = new Crystal.Navigator.Rule.Server(data);
+            ReturnObject<Data> ret = comp.Read();
+            if ((this.FormDto as FormDto).Rule == null) (this.FormDto as FormDto).Rule = new Rule.Dto();
+            (this.FormDto as FormDto).Rule.ModuleSeperator = data.ModuleSeperator;
+            (this.FormDto as FormDto).Rule.PathSeperator = data.PathSeperator;
         }
 
         public void GetCurrentModules(Artifact.Category category)
