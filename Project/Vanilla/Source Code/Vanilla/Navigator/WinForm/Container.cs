@@ -573,7 +573,7 @@ namespace Vanilla.Navigator.WinForm
                 this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedBy = new Table
                 {
                     Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                    Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Name
+                    Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
                 };
 
                 this.facade.Change();
@@ -802,7 +802,7 @@ namespace Vanilla.Navigator.WinForm
                 Table currentLoggedInUser = new Table
                 {
                     Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                    Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Name
+                    Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
                 };
 
                 BinAff.Facade.Library.Dto parent = new BinAff.Facade.Library.Dto { Id = newParentId };
@@ -1044,6 +1044,8 @@ namespace Vanilla.Navigator.WinForm
             this.mnuNew.Visible = true;
             this.mnuOpen.Visible = true;
             this.mnuFileSeperator2.Visible = true;
+            this.mnuRecentFile.Visible = true;
+            this.mnuFileSeperator3.Visible = true;
             this.mnuEdit.Visible = true;
             this.mnuView.Visible = true;
             this.mnuUserManagement.Visible = true;
@@ -1062,6 +1064,8 @@ namespace Vanilla.Navigator.WinForm
             this.mnuNew.Visible = false;
             this.mnuOpen.Visible = false;
             this.mnuFileSeperator2.Visible = false;
+            this.mnuRecentFile.Visible = false;
+            this.mnuFileSeperator3.Visible = false;
             this.mnuEdit.Visible = false;
             this.mnuView.Visible = false;
             this.mnuUserManagement.Visible = false;
@@ -1079,7 +1083,7 @@ namespace Vanilla.Navigator.WinForm
                 currentArtifact.CreatedBy = new Table
                 {
                     Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                    Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Name
+                    Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
                 };
                 currentArtifact.CreatedAt = DateTime.Now;
                 switch (this.tbcCategory.SelectedTab.Text)

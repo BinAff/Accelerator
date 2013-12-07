@@ -79,7 +79,9 @@
             this.formToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileSeperator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuRecentFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuClear = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFileSeperator3 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -126,8 +128,6 @@
             this.pnlNote = new System.Windows.Forms.Panel();
             this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
             this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuClear = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
             this.pnlArtifact.Panel2.SuspendLayout();
@@ -592,7 +592,7 @@
             this.mnuOpen,
             this.mnuFileSeperator2,
             this.mnuRecentFile,
-            this.toolStripSeparator6,
+            this.mnuFileSeperator3,
             this.mnuExit});
             this.mnuFile.Name = "mnuFile";
             this.mnuFile.Size = new System.Drawing.Size(35, 20);
@@ -673,10 +673,22 @@
             this.mnuRecentFile.Size = new System.Drawing.Size(152, 22);
             this.mnuRecentFile.Text = "Recent File";
             // 
-            // toolStripSeparator6
+            // toolStripSeparator7
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
+            // 
+            // mnuClear
+            // 
+            this.mnuClear.Name = "mnuClear";
+            this.mnuClear.Size = new System.Drawing.Size(152, 22);
+            this.mnuClear.Text = "Clear";
+            this.mnuClear.Click += new System.EventHandler(this.mnuClear_Click);
+            // 
+            // mnuFileSeperator3
+            // 
+            this.mnuFileSeperator3.Name = "mnuFileSeperator3";
+            this.mnuFileSeperator3.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuExit
             // 
@@ -1033,18 +1045,6 @@
             this.ucConfiguration.TabIndex = 12;
             this.ucConfiguration.Visible = false;
             // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
-            // 
-            // mnuClear
-            // 
-            this.mnuClear.Name = "mnuClear";
-            this.mnuClear.Size = new System.Drawing.Size(152, 22);
-            this.mnuClear.Text = "Clear";
-            this.mnuClear.Click += new System.EventHandler(this.mnuClear_Click);
-            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1179,7 +1179,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuChangeAccount;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.ToolStripMenuItem mnuRecentFile;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripSeparator mnuFileSeperator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem mnuClear;
 

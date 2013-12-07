@@ -6,7 +6,7 @@ namespace Vanilla.Guardian.Facade.Profile
 
     public class Dto : BinAff.Facade.Library.Dto
     {
-
+        
         public BinAff.Core.Table Initial { get; set; }
 
         public String Name
