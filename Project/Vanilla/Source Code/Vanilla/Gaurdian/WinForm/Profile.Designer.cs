@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Security = new System.Windows.Forms.GroupBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -39,7 +40,7 @@
             this.txtAnswer = new System.Windows.Forms.TextBox();
             this.bttnRemove = new System.Windows.Forms.Button();
             this.txtMobile = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtMobilePrefix = new System.Windows.Forms.TextBox();
             this.btnAddContact = new System.Windows.Forms.Button();
             this.txtStd = new System.Windows.Forms.TextBox();
             this.txtIsd = new System.Windows.Forms.TextBox();
@@ -54,7 +55,9 @@
             this.cboInitial = new System.Windows.Forms.ComboBox();
             this.lblName = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.Security.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // Security
@@ -156,6 +159,7 @@
             this.bttnRemove.TabIndex = 159;
             this.bttnRemove.Text = "x";
             this.bttnRemove.UseVisualStyleBackColor = true;
+            this.bttnRemove.Click += new System.EventHandler(this.bttnRemove_Click);
             // 
             // txtMobile
             // 
@@ -164,14 +168,14 @@
             this.txtMobile.Size = new System.Drawing.Size(134, 20);
             this.txtMobile.TabIndex = 158;
             // 
-            // textBox2
+            // txtMobilePrefix
             // 
-            this.textBox2.Enabled = false;
-            this.textBox2.Location = new System.Drawing.Point(106, 87);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(23, 20);
-            this.textBox2.TabIndex = 157;
-            this.textBox2.Text = "+91";
+            this.txtMobilePrefix.Enabled = false;
+            this.txtMobilePrefix.Location = new System.Drawing.Point(106, 87);
+            this.txtMobilePrefix.Name = "txtMobilePrefix";
+            this.txtMobilePrefix.Size = new System.Drawing.Size(23, 20);
+            this.txtMobilePrefix.TabIndex = 157;
+            this.txtMobilePrefix.Text = "+91";
             // 
             // btnAddContact
             // 
@@ -181,6 +185,7 @@
             this.btnAddContact.TabIndex = 156;
             this.btnAddContact.Text = "►";
             this.btnAddContact.UseVisualStyleBackColor = true;
+            this.btnAddContact.Click += new System.EventHandler(this.btnAddContact_Click);
             // 
             // txtStd
             // 
@@ -292,6 +297,11 @@
             this.btnOk.TabIndex = 161;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
             // 
             // Profile
             // 
@@ -302,7 +312,7 @@
             this.Controls.Add(this.Security);
             this.Controls.Add(this.bttnRemove);
             this.Controls.Add(this.txtMobile);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.txtMobilePrefix);
             this.Controls.Add(this.btnAddContact);
             this.Controls.Add(this.txtStd);
             this.Controls.Add(this.txtIsd);
@@ -322,9 +332,11 @@
             this.Name = "Profile";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Profile";
+            this.Text = "My Profile";
+            this.Load += new System.EventHandler(this.Profile_Load);
             this.Security.ResumeLayout(false);
             this.Security.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -343,7 +355,7 @@
         private System.Windows.Forms.TextBox txtAnswer;
         private System.Windows.Forms.Button bttnRemove;
         private System.Windows.Forms.TextBox txtMobile;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtMobilePrefix;
         private System.Windows.Forms.Button btnAddContact;
         private System.Windows.Forms.TextBox txtStd;
         private System.Windows.Forms.TextBox txtIsd;
@@ -358,5 +370,6 @@
         private System.Windows.Forms.ComboBox cboInitial;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

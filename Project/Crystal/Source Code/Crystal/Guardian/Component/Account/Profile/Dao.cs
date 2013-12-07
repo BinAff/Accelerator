@@ -51,8 +51,11 @@ namespace Crystal.Guardian.Component.Account.Profile
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 row = ds.Tables[0].Rows[0];
-                
-                dt.Id = this.ParentData.Id;
+
+                if (this.ParentData != null)
+                {
+                    dt.Id = this.ParentData.Id;
+                }                
                 dt.UserId = dt.Id;
 
                 if (!Convert.IsDBNull(row["Initial"]))
