@@ -522,7 +522,7 @@
             this.cmnuSeparator3,
             this.cmnuDelete});
             this.cmsExplorer.Name = "cmsExplorer";
-            this.cmsExplorer.Size = new System.Drawing.Size(200, 242);
+            this.cmsExplorer.Size = new System.Drawing.Size(200, 220);
             // 
             // cmnuView
             // 
@@ -576,49 +576,49 @@
             // cmnuSortCreatedAt
             // 
             this.cmnuSortCreatedAt.Name = "cmnuSortCreatedAt";
-            this.cmnuSortCreatedAt.Size = new System.Drawing.Size(152, 22);
+            this.cmnuSortCreatedAt.Size = new System.Drawing.Size(138, 22);
             this.cmnuSortCreatedAt.Text = "Created At";
             this.cmnuSortCreatedAt.Click += new System.EventHandler(this.cmnuSortCreatedAt_Click);
             // 
             // cmnuSortCreatedBy
             // 
             this.cmnuSortCreatedBy.Name = "cmnuSortCreatedBy";
-            this.cmnuSortCreatedBy.Size = new System.Drawing.Size(152, 22);
+            this.cmnuSortCreatedBy.Size = new System.Drawing.Size(138, 22);
             this.cmnuSortCreatedBy.Text = "Created By";
             this.cmnuSortCreatedBy.Click += new System.EventHandler(this.cmnuSortCreatedBy_Click);
             // 
             // cmnuSortModifiedAt
             // 
             this.cmnuSortModifiedAt.Name = "cmnuSortModifiedAt";
-            this.cmnuSortModifiedAt.Size = new System.Drawing.Size(152, 22);
+            this.cmnuSortModifiedAt.Size = new System.Drawing.Size(138, 22);
             this.cmnuSortModifiedAt.Text = "Modified At";
             this.cmnuSortModifiedAt.Click += new System.EventHandler(this.cmnuSortModifiedAt_Click);
             // 
             // cmnuSortModifiedBy
             // 
             this.cmnuSortModifiedBy.Name = "cmnuSortModifiedBy";
-            this.cmnuSortModifiedBy.Size = new System.Drawing.Size(152, 22);
+            this.cmnuSortModifiedBy.Size = new System.Drawing.Size(138, 22);
             this.cmnuSortModifiedBy.Text = "Modified By";
             this.cmnuSortModifiedBy.Click += new System.EventHandler(this.cmnuSortModifiedBy_Click);
             // 
             // cmnuSortName
             // 
             this.cmnuSortName.Name = "cmnuSortName";
-            this.cmnuSortName.Size = new System.Drawing.Size(152, 22);
+            this.cmnuSortName.Size = new System.Drawing.Size(138, 22);
             this.cmnuSortName.Text = "Name";
             this.cmnuSortName.Click += new System.EventHandler(this.cmnuSortName_Click);
             // 
             // cmnuSortType
             // 
             this.cmnuSortType.Name = "cmnuSortType";
-            this.cmnuSortType.Size = new System.Drawing.Size(152, 22);
+            this.cmnuSortType.Size = new System.Drawing.Size(138, 22);
             this.cmnuSortType.Text = "Type";
             this.cmnuSortType.Click += new System.EventHandler(this.cmnuSortType_Click);
             // 
             // cmnuSortVersion
             // 
             this.cmnuSortVersion.Name = "cmnuSortVersion";
-            this.cmnuSortVersion.Size = new System.Drawing.Size(152, 22);
+            this.cmnuSortVersion.Size = new System.Drawing.Size(138, 22);
             this.cmnuSortVersion.Text = "Version";
             this.cmnuSortVersion.Click += new System.EventHandler(this.cmnuSortVersion_Click);
             // 

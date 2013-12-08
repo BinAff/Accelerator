@@ -44,7 +44,8 @@ namespace Vanilla.Navigator.WinForm
         {
             for (int i = 0; i < tbcCategory.TabPages.Count; i++)
                 hashTreeView.Add(tbcCategory.TabPages[i].Text, null);
-                
+
+            this.cmsExplorer.ImageList = this.imgSmallIcon;
             this.InitializeListView();
             this.DockContainers();
             this.HideControl();
@@ -1444,10 +1445,25 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowHideContextMenuItems(Boolean isListView, TreeNode treeNode, ListViewItem listViewItem) 
         {
+            
             if (isListView && listViewItem == null)
             {
-                for (int i = 0; i < cmsExplorer.Items.Count; i++)              
+                for (int i = 0; i < cmsExplorer.Items.Count; i++)
+                {
                     cmsExplorer.Items[i].Visible = IsListViewWithNoItem(cmsExplorer.Items[i].Name);
+
+                    //if (cmsExplorer.Items[i].Name == "cmnuSort")
+                    //{
+                    //    cmsExplorer.Items[i].DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+
+                    //    for (int j = 0; j < (cmsExplorer.Items[i] as ToolStripMenuItem).DropDownItems.Count; j++)
+                    //    {
+
+                    //        (cmsExplorer.Items[i] as ToolStripMenuItem).DropDownItems[0].DisplayStyle = ToolStripItemDisplayStyle.Image;
+                    //        (cmsExplorer.Items[i] as ToolStripMenuItem).DropDownItems[0].ImageKey = "Directory.gif";
+                    //    }
+                    //}
+                }
             }
         }
 
