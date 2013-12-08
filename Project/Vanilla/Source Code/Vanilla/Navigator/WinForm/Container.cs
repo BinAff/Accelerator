@@ -23,6 +23,8 @@ namespace Vanilla.Navigator.WinForm
         private String selectedNodePath;
         private TreeNode editNode;
         private Boolean isCutAction;
+
+        private String sortColumn;
         private ListViewColumnSorter lvwColumnSorter;
 
         public Container()
@@ -109,6 +111,8 @@ namespace Vanilla.Navigator.WinForm
 
             lvwColumnSorter = new ListViewColumnSorter();
             this.lsvContainer.ListViewItemSorter = lvwColumnSorter;
+
+            this.sortColumn = "Name"; //this name will come from rule
         }
 
         private void LoadModules(String currentTab)
@@ -360,29 +364,30 @@ namespace Vanilla.Navigator.WinForm
         {
             if (e.Button == MouseButtons.Right)
             {
-                TreeView current = new TreeView();
-                ToolStripMenuItem newItem;
+                //TreeView current = new TreeView();
+                //ToolStripMenuItem newItem;
                 ListViewItem selectedItem = lsvContainer.GetItemAt(e.X, e.Y);
 
                 //clear all contextStripMenu items
-                cmsExplorer.Items.Clear();
+                //cmsExplorer.Items.Clear();
 
                 if (selectedItem == null) //not right clicked on any item
                 {
-                    newItem = new ToolStripMenuItem { Text = "New" };
-                    newItem.DropDownItems.Insert(0, new ToolStripMenuItem { Text = "Folder" });
-                    newItem.DropDownItems[0].Click += ListViewFolder_Click;
-                    newItem.DropDownItems.Insert(1, new ToolStripMenuItem { Text = tbcCategory.SelectedTab.Text });
-                    newItem.DropDownItems[1].Click += ListViewDocument_Click;
+                    ShowHideContextMenuItems(true, null, selectedItem);
+                    //newItem = new ToolStripMenuItem { Text = "New" };
+                    //newItem.DropDownItems.Insert(0, new ToolStripMenuItem { Text = "Folder" });
+                    //newItem.DropDownItems[0].Click += ListViewFolder_Click;
+                    //newItem.DropDownItems.Insert(1, new ToolStripMenuItem { Text = tbcCategory.SelectedTab.Text });
+                    //newItem.DropDownItems[1].Click += ListViewDocument_Click;
 
                 }
                 else //right click on list item
                 {
-                    newItem = new ToolStripMenuItem { Text = "Delete" };
-                    newItem.Click += ListViewDelete_Click;
+                    //newItem = new ToolStripMenuItem { Text = "Delete" };
+                    //newItem.Click += ListViewDelete_Click;
                 }
 
-                cmsExplorer.Items.Insert(0, newItem);
+                //cmsExplorer.Items.Insert(0, newItem);
                 cmsExplorer.Show(Cursor.Position);
             }
         }
@@ -494,6 +499,12 @@ namespace Vanilla.Navigator.WinForm
                     current.SubItems.AddRange(this.AddListViewSubItems(current, artifact));
                     this.lsvContainer.Items.Add(current);
                 }
+
+                //sort list view
+                this.sortColumn = "Name"; //this name will come from rule
+                this.lvwColumnSorter.Order = SortOrder.Ascending;
+                this.SortListView(sortColumn);
+                
             }
         }
 
@@ -1035,6 +1046,57 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion
 
+        #region Sort
+        private void cmnuSortCreatedAt_Click(object sender, EventArgs e)
+        {         
+            this.sortColumn = "Created At"; 
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(sortColumn);
+        }
+
+        private void cmnuSortCreatedBy_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Created By";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(sortColumn);
+        }
+
+        private void cmnuSortModifiedAt_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Modified At";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(sortColumn);
+        }
+
+        private void cmnuSortModifiedBy_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Modified By";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(sortColumn);
+        }
+
+        private void cmnuSortName_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Name";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(sortColumn);
+        }
+
+        private void cmnuSortType_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Type";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(sortColumn);
+        }
+
+        private void cmnuSortVersion_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Version";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(sortColumn);
+        }
+        #endregion
+
         #endregion
 
         private void ShowControls()
@@ -1332,61 +1394,78 @@ namespace Vanilla.Navigator.WinForm
 
         private void lsvContainer_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            //clear sort character from column caption
-            for (int i = 0; i < lsvContainer.Columns.Count; i++)
-                lsvContainer.Columns[i].Text = lsvContainer.Columns[i].Text.Replace("v", "").Replace("^", "").Trim();
+            this.ResetListViewColumnHeader();     
+                        
+            this.sortColumn = this.lsvContainer.Columns[e.Column].Text;
 
-            this.SortListView(e.Column);
+            //Determine if clicked column is already the column that is being sorted.   
+            if (e.Column == lvwColumnSorter.SortColumn)
+            {
+                if (lvwColumnSorter.Order == SortOrder.Ascending)
+                    lvwColumnSorter.Order = SortOrder.Descending;
+                else
+                    lvwColumnSorter.Order = SortOrder.Ascending;
+            }
+
+            this.SortListView(this.sortColumn);
             
         }
 
         private void SortListView(String columnHeaderCaption)
-        {  
+        {
+            this.ResetListViewColumnHeader();
             for (int i = 0; i < lsvContainer.Columns.Count; i++)
             {
                 if (lsvContainer.Columns[i].Text == columnHeaderCaption)
-                {
-                    this.SortListView(i);
+                {                   
+                    lvwColumnSorter.SortColumn = i;
+
+                    // Reverse the current sort direction for this column.
+                    if (lvwColumnSorter.Order == SortOrder.Ascending)
+                        lsvContainer.Columns[lvwColumnSorter.SortColumn].Text += "     ^";
+                    else
+                        lsvContainer.Columns[lvwColumnSorter.SortColumn].Text += "     v";
+
+                    // Perform the sort with these new sort options.
+                    this.lsvContainer.Sort();
+
                     break;
                 }
             }
             
-        }
+        }       
 
-        private void SortListView(Int32 columnIndex)
+        private void ResetListViewColumnHeader()
         {
             //clear sort character from column caption
             for (int i = 0; i < lsvContainer.Columns.Count; i++)
                 lsvContainer.Columns[i].Text = lsvContainer.Columns[i].Text.Replace("v", "").Replace("^", "").Trim();
-            
-
-            //Determine if clicked column is already the column that is being sorted.
-            if (columnIndex == lvwColumnSorter.SortColumn)
-            {
-                // Reverse the current sort direction for this column.
-                if (lvwColumnSorter.Order == SortOrder.Ascending)
-                {
-                    lvwColumnSorter.Order = SortOrder.Descending;
-                    lsvContainer.Columns[lvwColumnSorter.SortColumn].Text += "     ^";
-                }
-                else
-                {
-                    lvwColumnSorter.Order = SortOrder.Ascending;
-                    lsvContainer.Columns[lvwColumnSorter.SortColumn].Text += "     v";
-                }
-            }
-            else
-            {
-                // Set the column number that is to be sorted; default to ascending.
-                lvwColumnSorter.SortColumn = columnIndex;
-                lvwColumnSorter.Order = SortOrder.Ascending;
-                lsvContainer.Columns[lvwColumnSorter.SortColumn].Text += "     v";
-            }
-
-            // Perform the sort with these new sort options.
-            this.lsvContainer.Sort();
         }
 
+        private void ShowHideContextMenuItems(Boolean isListView, TreeNode treeNode, ListViewItem listViewItem) 
+        {
+            if (isListView && listViewItem == null)
+            {
+                for (int i = 0; i < cmsExplorer.Items.Count; i++)              
+                    cmsExplorer.Items[i].Visible = IsListViewWithNoItem(cmsExplorer.Items[i].Name);
+            }
+        }
+
+        private Boolean IsListViewWithNoItem(String listViewItemName)
+        {
+            if (listViewItemName == "cmnuView")
+                return true;
+            else if (listViewItemName == "cmnuSort")
+                return true;
+            else if (listViewItemName == "cmnuRefresh")
+                return true;
+            else if (listViewItemName == "cmnuSeparator1")
+                return true;
+            else if (listViewItemName == "newToolStripMenuItem")
+                return true;
+
+            return false;
+        }
     }
    
     /// <summary>
