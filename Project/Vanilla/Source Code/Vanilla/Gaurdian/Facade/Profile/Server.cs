@@ -22,16 +22,23 @@ namespace Vanilla.Guardian.Facade.Profile
         {
             this.LoadInitialList();
             //Reading profile data from cache
+            CrysProfile.Data profile; ;
+            ReturnObject<BinAff.Core.Data> ret = (new CrysProfile.Server(profile = this.Convert(((FormDto)this.FormDto).Dto) as CrysProfile.Data) as ICrud).Read();
+
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+            if (!this.IsError) (this.FormDto as FormDto).Dto = (new Account.Server(null)).Convert(ret.Value) as Account.Dto;
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
             CrysProfile.Data profileData = data as CrysProfile.Data;
-            Dto profileDto = new Dto();
-            profileDto.FirstName = profileData.FirstName;
-            profileDto.MiddleName = profileData.MiddleName;
-            profileDto.LastName = profileData.LastName;
-            profileDto.DateOfBirth = profileData.DateOfBirth;
+            Dto profileDto = new Dto
+            {
+                FirstName = profileData.FirstName,
+                MiddleName = profileData.MiddleName,
+                LastName = profileData.LastName,
+                DateOfBirth = profileData.DateOfBirth,
+            };
             if (profileData.Initial != null)
             {
                 profileDto.Initial = new Table
@@ -43,12 +50,12 @@ namespace Vanilla.Guardian.Facade.Profile
             if (profileData.ContactNumberList != null && profileData.ContactNumberList.Count > 0)
             {
                 profileDto.ContactNumberList = new List<Table>();
-                foreach (CrysProfile.ContactNumber.Data d in profileData.ContactNumberList)
+                foreach (CrysProfile.ContactNumber.Data contactNumber in profileData.ContactNumberList)
                 {
                     profileDto.ContactNumberList.Add(new Table
                     {
-                        Id = d.Id,
-                        Name = d.ContactNumber,
+                        Id = contactNumber.Id,
+                        Name = contactNumber.ContactNumber,
                     });
                 }
             }
@@ -99,7 +106,7 @@ namespace Vanilla.Guardian.Facade.Profile
 
         public override void Change()
         {
-            base.Change();
+            
         }
 
         private void LoadInitialList()
