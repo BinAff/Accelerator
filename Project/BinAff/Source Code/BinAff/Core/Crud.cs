@@ -143,7 +143,7 @@ namespace BinAff.Core
             child.DataAccess.ParentData = this.Data;
             child.Validator.ParentData = this.Data;
 
-            if (child.Data == null)
+            if (child.Data == null || child.Data.Id == 0)
             {
                 //if (this.actionType == Action.Delete)
                 //{
@@ -194,7 +194,8 @@ namespace BinAff.Core
             }
             return null;
         }
-
+        
+        /// <summary>
         /// Add children component to parent component
         /// </summary>
         /// <param name="schema">Child component</param>
