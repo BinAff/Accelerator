@@ -11,7 +11,22 @@ CREATE TABLE Guardian.SecurityAnswer
 );
 GO
 
-CREATE PROCEDURE [dbo].[SecurityAnswerUpdate]
+CREATE PROCEDURE Guardian.SecurityAnswerRead
+(
+	@Id Numeric(10,0)
+)
+AS
+BEGIN
+	
+	SELECT Id, UserId, QuestionId, Answer 		
+	FROM Guardian.SecurityAnswer
+	WHERE UserId = @Id   
+   
+END
+
+GO
+
+CREATE PROCEDURE Guardian.SecurityAnswerUpdate
 (
 	@UserId Numeric(10,0),
 	@QuestionId Numeric(10,0),
@@ -48,7 +63,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[SecurityAnswerDelete]
+CREATE PROCEDURE Guardian.SecurityAnswerDelete
 (
 	@Id Numeric(10,0)
 )
