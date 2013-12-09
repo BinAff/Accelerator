@@ -36,7 +36,6 @@ namespace Crystal.Guardian.Component.Account.Profile
         {
             base.AssignParameter(procedureName);
 
-            base.AddInParameter("@UserId", DbType.Int64, ((Data)this.Data).UserId);
             base.AddInParameter("@Initial", DbType.Int64, ((Data)this.Data).Initial.Id);
             base.AddInParameter("@FirstName", DbType.String, ((Data)this.Data).FirstName);
             base.AddInParameter("@MiddleName", DbType.String, ((Data)this.Data).MiddleName);

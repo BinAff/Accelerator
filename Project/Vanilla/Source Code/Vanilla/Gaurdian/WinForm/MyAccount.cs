@@ -1,38 +1,43 @@
-﻿using BinAff.Core;
-using BinAff.Facade.Cache;
+﻿using BinAff.Facade.Cache;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
+using BinAff.Core;
+using PresentationLib = BinAff.Presentation.Library;
+
 namespace Vanilla.Guardian.WinForm
 {
-    public partial class Profile : Form
+
+    public partial class MyAccount : Form
     {
 
-        Facade.Profile.FormDto formDto;
+        Facade.MyAccount.FormDto formDto;
 
-        public Profile()
+        public MyAccount()
         {
             InitializeComponent();
-            this.formDto = new Facade.Profile.FormDto
+            this.formDto = new Facade.MyAccount.FormDto
             {
-                Dto = new Facade.Account.Dto
+                Dto = new Facade.MyAccount.Dto
                 {
+                    Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
                     Profile = new Facade.Profile.Dto
                     {
                         Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                        Initial = new Table(),
+                        ContactNumberList = new List<Table>(),
+                    },
+                    SecurityAnswer = new Facade.SecurityAnswer.Dto
+                    {
+                        SecurityQuestion = new Table(),
                     },
                 }
             };
         }
 
-        private void Profile_Load(object sender, EventArgs e)
+        private void MyAccount_Load(object sender, EventArgs e)
         {
             this.LoadForm();
         }
@@ -172,17 +177,74 @@ namespace Vanilla.Guardian.WinForm
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            if (String.Compare(this.txtPassword.Text.Trim(), this.txtRePassword.Text.Trim()) > 0)
+            {
+                this.errorProvider.SetError(this.txtPassword, "Password doesn't match.");
+                this.txtPassword.Focus();
+                return;
+            }
+            BinAff.Facade.Library.Server facade = new Facade.MyAccount.Server(this.formDto);
+            this.formDto.Dto.Profile.Initial.Id = (this.cboInitial.SelectedItem as Table).Id;
+            this.formDto.Dto.Profile.FirstName = this.txtFName.Text.Trim();
+            this.formDto.Dto.Profile.MiddleName = this.txtMName.Text.Trim();
+            this.formDto.Dto.Profile.LastName = this.txtLName.Text.Trim();
+            this.formDto.Dto.Profile.DateOfBirth = this.dtpDob.Value;
+            this.formDto.Dto.Profile.ContactNumberList = this.lstContact.DataSource as List<Table>;
 
+            this.formDto.Dto.Password = this.txtPassword.Text.Trim();
+            
+            this.formDto.Dto.SecurityAnswer.Answer = this.txtAnswer.Text.Trim();
+            this.formDto.Dto.SecurityAnswer.SecurityQuestion.Id = (this.cboSecQ.SelectedItem as Table).Id;
+            facade.Change();
+
+            new PresentationLib.MessageBox
+            {
+                DialogueType = facade.IsError ? PresentationLib.MessageBox.Type.Error : PresentationLib.MessageBox.Type.Information,
+                Heading = "Splash",
+            }.Show(facade.DisplayMessageList);
         }
 
         private void LoadForm()
         {
-            BinAff.Facade.Library.Server facade = new Facade.Profile.Server(formDto);
+            BinAff.Facade.Library.Server facade = new Facade.MyAccount.Server(formDto);
             facade.LoadForm();
 
+            this.InstantiateInitialList();
+            this.InstantiateSecurityQuestionList();
+
+            this.SetInitialFromList();
+            this.txtFName.Text = this.formDto.Dto.Profile.FirstName;
+            this.txtLName.Text = this.formDto.Dto.Profile.LastName;
+            this.txtMName.Text = this.formDto.Dto.Profile.MiddleName;
+            this.dtpDob.Value = this.formDto.Dto.Profile.DateOfBirth == null ? DateTime.Today : (DateTime)this.formDto.Dto.Profile.DateOfBirth;
+
+            this.lstContact.DataSource = this.formDto.Dto.Profile.ContactNumberList;
+            this.lstContact.DisplayMember = "Name";
+            this.lstContact.ValueMember = "Id";
+
+            if (this.formDto.Dto.SecurityAnswer != null)
+            {
+                this.SetSecurityQuestionFromList();
+                this.txtAnswer.Text = this.formDto.Dto.SecurityAnswer.Answer;
+            }
+        }
+
+        private void InstantiateInitialList()
+        {
             this.cboInitial.DataSource = this.formDto.InitialList;
             this.cboInitial.DisplayMember = "Name";
             this.cboInitial.ValueMember = "Id";
+        }
+
+        private void InstantiateSecurityQuestionList()
+        {
+            this.cboSecQ.DataSource = this.formDto.SecurityQuestionList;
+            this.cboSecQ.DisplayMember = "Name";
+            this.cboSecQ.ValueMember = "Id";            
+        }
+
+        private void SetInitialFromList()
+        {
             if (this.formDto.Dto.Profile.Initial != null)
             {
                 for (int i = 0; i < this.cboInitial.Items.Count; i++)
@@ -194,14 +256,21 @@ namespace Vanilla.Guardian.WinForm
                     }
                 }
             }
+        }
 
-            this.txtFName.Text = this.formDto.Dto.Profile.FirstName;
-            this.txtLName.Text = this.formDto.Dto.Profile.LastName;
-            this.txtMName.Text = this.formDto.Dto.Profile.MiddleName;
-
-            this.lstContact.DataSource = this.formDto.Dto.Profile.ContactNumberList;
-            this.lstContact.DisplayMember = "Name";
-            this.lstContact.ValueMember = "Id";
+        private void SetSecurityQuestionFromList()
+        {
+            if (this.formDto.Dto.SecurityAnswer.SecurityQuestion != null)
+            {
+                for (int i = 0; i < this.cboInitial.Items.Count; i++)
+                {
+                    if (this.formDto.Dto.SecurityAnswer.SecurityQuestion.Id == ((BinAff.Core.Table)cboSecQ.Items[i]).Id)
+                    {
+                        this.cboSecQ.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
         }
 
         private ReturnObject<List<Table>> GetContactNumberList(String val, List<Table> contactNumberList)
@@ -247,4 +316,5 @@ namespace Vanilla.Guardian.WinForm
         }
 
     }
+
 }

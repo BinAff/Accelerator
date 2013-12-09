@@ -82,19 +82,19 @@ namespace Vanilla.Guardian.Facade.Account
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
             CrysGuardian.Account.Data accountdata = data as CrysGuardian.Account.Data;
-            Facade.Account.Dto accountDto = new Dto
-            {
-                Id = accountdata.Id,
-                LoginId = accountdata.LoginId,
-                Password = accountdata.Password,
-            };
+            Dto accountDto = (this.FormDto as FormDto).Dto as Dto;
+            accountDto.Id = accountdata.Id;
+            accountDto.LoginId = accountdata.LoginId;
+            accountDto.Password = accountdata.Password;
             if (accountdata.Profile != null)
             {
-                accountDto.Profile = (new Facade.Profile.Server(null)).Convert(accountdata.Profile) as Profile.Dto;
+                accountDto.Profile = (new Facade.Profile.Server(new Profile.FormDto
+                {
+                    Dto = accountDto.Profile
+                })).Convert(accountdata.Profile) as Profile.Dto;
             }
             if (accountdata.RoleList != null && accountdata.RoleList.Count > 0)
             {
-                accountDto.RoleList = new List<Role.Dto>();
                 foreach (CrysGuardian.Role.Data role in accountdata.RoleList)
                 {
                     accountDto.RoleList.Add(new Role.Dto
@@ -102,6 +102,17 @@ namespace Vanilla.Guardian.Facade.Account
                         Id = role.Id,
                         Name = role.Name
                     });
+                }
+            }
+            if (accountdata.SecurityAnswerList != null && accountdata.SecurityAnswerList.Count > 0)
+            {
+                CrysGuardian.Account.SecurityAnswer.Data securityAnswer = accountdata.SecurityAnswerList[0] as CrysGuardian.Account.SecurityAnswer.Data;
+                accountDto.SecurityAnswer.Id = securityAnswer.Id;
+                accountDto.SecurityAnswer.Answer = securityAnswer.Answer;
+                if (securityAnswer.Question != null)
+                {
+                    accountDto.SecurityAnswer.SecurityQuestion.Id = securityAnswer.Question.Id;
+                    accountDto.SecurityAnswer.SecurityQuestion.Name = securityAnswer.Question.Question;
                 }
             }
             return accountDto;
@@ -131,6 +142,26 @@ namespace Vanilla.Guardian.Facade.Account
                         Name = role.Name,
                     });
                 }
+            }
+            if (accountDto.SecurityAnswer != null)
+            {
+                CrysGuardian.Account.SecurityAnswer.Data securityAnswer = new CrysGuardian.Account.SecurityAnswer.Data
+                {
+                    Id = accountDto.SecurityAnswer.Id,                    
+                    Answer = accountDto.SecurityAnswer.Answer,
+                };
+                if (accountDto.SecurityAnswer.SecurityQuestion != null)
+                {
+                    securityAnswer.Question = new CrysGuardian.SecurityQuestion.Data
+                    {
+                        Id = accountDto.SecurityAnswer.SecurityQuestion.Id,
+                        Question = accountDto.SecurityAnswer.SecurityQuestion.Name,
+                    };
+                }
+                accountdata.SecurityAnswerList = new List<Data>
+                {
+                    { securityAnswer },
+                };
             }
             return accountdata;
         }

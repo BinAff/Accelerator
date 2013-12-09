@@ -1021,7 +1021,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void mnuChangeOwnProfile_Click(object sender, EventArgs e)
         {
-            Guardian.WinForm.Profile form = new Guardian.WinForm.Profile();
+            Guardian.WinForm.MyAccount form = new Guardian.WinForm.MyAccount();
             form.ShowDialog();
         }
 

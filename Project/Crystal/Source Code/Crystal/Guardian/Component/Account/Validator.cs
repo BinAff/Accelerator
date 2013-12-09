@@ -22,13 +22,19 @@ namespace Crystal.Guardian.Component.Account
             Data data = (Data)base.Data;
 
             if (ValidationRule.IsNullOrEmpty(data.LoginId))
+            {
                 retMsg.Add(new Message("Login Id cannot be null", Message.Type.Error));
+            }
 
             if (ValidationRule.IsNullOrEmpty(data.Password))
+            {
                 retMsg.Add(new Message("Password cannot be empty.", Message.Type.Error));
+            }
 
-            if (new Dao(data).GetUserByLoginId().Id != 0)
+            if (this.Data.Id != new Dao(data).GetUserByLoginId().Id)
+            {
                 retMsg.Add(new Message("Duplicate login id is not allowed.", Message.Type.Error));
+            }
 
             return retMsg;
         }

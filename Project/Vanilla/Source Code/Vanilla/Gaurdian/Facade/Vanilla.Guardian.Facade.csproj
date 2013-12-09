@@ -40,9 +40,16 @@
     <Compile Include="Login\Dto.cs" />
     <Compile Include="Login\FormDto.cs" />
     <Compile Include="Login\Server.cs" />
+    <Compile Include="MyAccount\Dto.cs" />
+    <Compile Include="MyAccount\FormDto.cs" />
+    <Compile Include="MyAccount\Server.cs" />
     <Compile Include="Profile\Dto.cs" />
-    <Compile Include="Profile\FormDto.cs" />
-    <Compile Include="Profile\Server.cs" />
+    <Compile Include="Profile\FormDto.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Profile\Server.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register\Dto.cs" />
     <Compile Include="Register\FormDto.cs" />
@@ -51,6 +58,7 @@
     <Compile Include="Rule\Dto.cs" />
     <Compile Include="Rule\FormDto.cs" />
     <Compile Include="Rule\Server.cs" />
+    <Compile Include="SecurityAnswer\Dto.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">

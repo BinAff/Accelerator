@@ -1,6 +1,6 @@
 ﻿namespace Vanilla.Guardian.WinForm
 {
-    partial class Profile
+    partial class MyAccount
     {
         /// <summary>
         /// Required designer variable.
@@ -29,20 +29,22 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnOk = new System.Windows.Forms.Button();
+            this.cboSecQ = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtAnswer = new System.Windows.Forms.TextBox();
             this.Security = new System.Windows.Forms.GroupBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtRePassword = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.cboSecQ = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtAnswer = new System.Windows.Forms.TextBox();
+            this.txtStd = new System.Windows.Forms.TextBox();
             this.bttnRemove = new System.Windows.Forms.Button();
             this.txtMobile = new System.Windows.Forms.TextBox();
             this.txtMobilePrefix = new System.Windows.Forms.TextBox();
             this.btnAddContact = new System.Windows.Forms.Button();
-            this.txtStd = new System.Windows.Forms.TextBox();
             this.txtIsd = new System.Windows.Forms.TextBox();
             this.lstContact = new System.Windows.Forms.ListBox();
             this.txtLandLine = new System.Windows.Forms.TextBox();
@@ -54,11 +56,52 @@
             this.txtFName = new System.Windows.Forms.TextBox();
             this.cboInitial = new System.Windows.Forms.ComboBox();
             this.lblName = new System.Windows.Forms.Label();
-            this.btnOk = new System.Windows.Forms.Button();
-            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.Security.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            this.Security.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
+            // 
+            // btnOk
+            // 
+            this.btnOk.Location = new System.Drawing.Point(440, 244);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.TabIndex = 179;
+            this.btnOk.Text = "Ok";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
+            // cboSecQ
+            // 
+            this.cboSecQ.BackColor = System.Drawing.SystemColors.Window;
+            this.cboSecQ.FormattingEnabled = true;
+            this.cboSecQ.Items.AddRange(new object[] {
+            "Mr.",
+            "Mrs.",
+            "Ms."});
+            this.cboSecQ.Location = new System.Drawing.Point(106, 51);
+            this.cboSecQ.Name = "cboSecQ";
+            this.cboSecQ.Size = new System.Drawing.Size(376, 21);
+            this.cboSecQ.TabIndex = 115;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(11, 84);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(42, 13);
+            this.label5.TabIndex = 113;
+            this.label5.Text = "Answer";
+            // 
+            // txtAnswer
+            // 
+            this.txtAnswer.Location = new System.Drawing.Point(106, 84);
+            this.txtAnswer.Name = "txtAnswer";
+            this.txtAnswer.Size = new System.Drawing.Size(376, 20);
+            this.txtAnswer.TabIndex = 114;
             // 
             // Security
             // 
@@ -70,10 +113,10 @@
             this.Security.Controls.Add(this.cboSecQ);
             this.Security.Controls.Add(this.label5);
             this.Security.Controls.Add(this.txtAnswer);
-            this.Security.Location = new System.Drawing.Point(14, 112);
+            this.Security.Location = new System.Drawing.Point(17, 113);
             this.Security.Name = "Security";
             this.Security.Size = new System.Drawing.Size(498, 116);
-            this.Security.TabIndex = 160;
+            this.Security.TabIndex = 178;
             this.Security.TabStop = false;
             this.Security.Text = "Security";
             // 
@@ -122,150 +165,119 @@
             this.label4.TabIndex = 112;
             this.label4.Text = "Security Question";
             // 
-            // cboSecQ
+            // txtStd
             // 
-            this.cboSecQ.BackColor = System.Drawing.SystemColors.Window;
-            this.cboSecQ.FormattingEnabled = true;
-            this.cboSecQ.Items.AddRange(new object[] {
-            "Mr.",
-            "Mrs.",
-            "Ms."});
-            this.cboSecQ.Location = new System.Drawing.Point(106, 51);
-            this.cboSecQ.Name = "cboSecQ";
-            this.cboSecQ.Size = new System.Drawing.Size(376, 21);
-            this.cboSecQ.TabIndex = 115;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 84);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(42, 13);
-            this.label5.TabIndex = 113;
-            this.label5.Text = "Answer";
-            // 
-            // txtAnswer
-            // 
-            this.txtAnswer.Location = new System.Drawing.Point(106, 84);
-            this.txtAnswer.Name = "txtAnswer";
-            this.txtAnswer.Size = new System.Drawing.Size(376, 20);
-            this.txtAnswer.TabIndex = 114;
+            this.txtStd.Enabled = false;
+            this.txtStd.Location = new System.Drawing.Point(138, 65);
+            this.txtStd.Name = "txtStd";
+            this.txtStd.Size = new System.Drawing.Size(47, 20);
+            this.txtStd.TabIndex = 173;
             // 
             // bttnRemove
             // 
-            this.bttnRemove.Location = new System.Drawing.Point(294, 85);
+            this.bttnRemove.Location = new System.Drawing.Point(297, 86);
             this.bttnRemove.Name = "bttnRemove";
             this.bttnRemove.Size = new System.Drawing.Size(32, 22);
-            this.bttnRemove.TabIndex = 159;
+            this.bttnRemove.TabIndex = 177;
             this.bttnRemove.Text = "x";
             this.bttnRemove.UseVisualStyleBackColor = true;
-            this.bttnRemove.Click += new System.EventHandler(this.bttnRemove_Click);
             // 
             // txtMobile
             // 
-            this.txtMobile.Location = new System.Drawing.Point(135, 87);
+            this.txtMobile.Location = new System.Drawing.Point(138, 88);
             this.txtMobile.Name = "txtMobile";
             this.txtMobile.Size = new System.Drawing.Size(134, 20);
-            this.txtMobile.TabIndex = 158;
+            this.txtMobile.TabIndex = 176;
             // 
             // txtMobilePrefix
             // 
             this.txtMobilePrefix.Enabled = false;
-            this.txtMobilePrefix.Location = new System.Drawing.Point(106, 87);
+            this.txtMobilePrefix.Location = new System.Drawing.Point(109, 88);
             this.txtMobilePrefix.Name = "txtMobilePrefix";
             this.txtMobilePrefix.Size = new System.Drawing.Size(23, 20);
-            this.txtMobilePrefix.TabIndex = 157;
+            this.txtMobilePrefix.TabIndex = 175;
             this.txtMobilePrefix.Text = "+91";
             // 
             // btnAddContact
             // 
-            this.btnAddContact.Location = new System.Drawing.Point(294, 64);
+            this.btnAddContact.Location = new System.Drawing.Point(297, 65);
             this.btnAddContact.Name = "btnAddContact";
             this.btnAddContact.Size = new System.Drawing.Size(32, 22);
-            this.btnAddContact.TabIndex = 156;
+            this.btnAddContact.TabIndex = 174;
             this.btnAddContact.Text = "►";
             this.btnAddContact.UseVisualStyleBackColor = true;
-            this.btnAddContact.Click += new System.EventHandler(this.btnAddContact_Click);
-            // 
-            // txtStd
-            // 
-            this.txtStd.Enabled = false;
-            this.txtStd.Location = new System.Drawing.Point(135, 64);
-            this.txtStd.Name = "txtStd";
-            this.txtStd.Size = new System.Drawing.Size(47, 20);
-            this.txtStd.TabIndex = 155;
             // 
             // txtIsd
             // 
             this.txtIsd.Enabled = false;
-            this.txtIsd.Location = new System.Drawing.Point(106, 64);
+            this.txtIsd.Location = new System.Drawing.Point(109, 65);
             this.txtIsd.Name = "txtIsd";
             this.txtIsd.Size = new System.Drawing.Size(23, 20);
-            this.txtIsd.TabIndex = 154;
+            this.txtIsd.TabIndex = 172;
             this.txtIsd.Text = "+91";
             // 
             // lstContact
             // 
             this.lstContact.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lstContact.FormattingEnabled = true;
-            this.lstContact.Location = new System.Drawing.Point(344, 64);
+            this.lstContact.Location = new System.Drawing.Point(347, 65);
             this.lstContact.Name = "lstContact";
             this.lstContact.Size = new System.Drawing.Size(168, 43);
-            this.lstContact.TabIndex = 153;
+            this.lstContact.TabIndex = 171;
             // 
             // txtLandLine
             // 
-            this.txtLandLine.Location = new System.Drawing.Point(188, 64);
+            this.txtLandLine.Location = new System.Drawing.Point(191, 65);
             this.txtLandLine.Name = "txtLandLine";
             this.txtLandLine.Size = new System.Drawing.Size(81, 20);
-            this.txtLandLine.TabIndex = 152;
+            this.txtLandLine.TabIndex = 170;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(11, 67);
+            this.label6.Location = new System.Drawing.Point(14, 68);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(89, 13);
-            this.label6.TabIndex = 151;
+            this.label6.TabIndex = 169;
             this.label6.Text = "Contact Numbers";
             // 
             // dtpDob
             // 
-            this.dtpDob.Location = new System.Drawing.Point(106, 38);
+            this.dtpDob.Location = new System.Drawing.Point(109, 39);
             this.dtpDob.Name = "dtpDob";
             this.dtpDob.Size = new System.Drawing.Size(163, 20);
-            this.dtpDob.TabIndex = 150;
+            this.dtpDob.TabIndex = 168;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 44);
+            this.label3.Location = new System.Drawing.Point(14, 45);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 13);
-            this.label3.TabIndex = 149;
+            this.label3.TabIndex = 167;
             this.label3.Text = "Date of Birth";
             // 
             // txtLName
             // 
-            this.txtLName.Location = new System.Drawing.Point(391, 12);
+            this.txtLName.Location = new System.Drawing.Point(394, 13);
             this.txtLName.Name = "txtLName";
             this.txtLName.Size = new System.Drawing.Size(121, 20);
-            this.txtLName.TabIndex = 148;
+            this.txtLName.TabIndex = 166;
             // 
             // txtMName
             // 
-            this.txtMName.Location = new System.Drawing.Point(272, 12);
+            this.txtMName.Location = new System.Drawing.Point(275, 13);
             this.txtMName.Name = "txtMName";
             this.txtMName.Size = new System.Drawing.Size(113, 20);
-            this.txtMName.TabIndex = 147;
+            this.txtMName.TabIndex = 165;
             // 
             // txtFName
             // 
             this.txtFName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.txtFName.Location = new System.Drawing.Point(160, 12);
+            this.txtFName.Location = new System.Drawing.Point(163, 13);
             this.txtFName.Name = "txtFName";
             this.txtFName.Size = new System.Drawing.Size(106, 20);
-            this.txtFName.TabIndex = 146;
+            this.txtFName.TabIndex = 164;
             // 
             // cboInitial
             // 
@@ -275,46 +287,32 @@
             "Mr.",
             "Mrs.",
             "Ms."});
-            this.cboInitial.Location = new System.Drawing.Point(106, 12);
+            this.cboInitial.Location = new System.Drawing.Point(109, 13);
             this.cboInitial.Name = "cboInitial";
             this.cboInitial.Size = new System.Drawing.Size(48, 21);
-            this.cboInitial.TabIndex = 144;
+            this.cboInitial.TabIndex = 162;
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(11, 15);
+            this.lblName.Location = new System.Drawing.Point(14, 16);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
-            this.lblName.TabIndex = 145;
+            this.lblName.TabIndex = 163;
             this.lblName.Text = "Name";
             // 
-            // btnOk
-            // 
-            this.btnOk.Location = new System.Drawing.Point(437, 243);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 161;
-            this.btnOk.Text = "Ok";
-            this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
-            // errorProvider
-            // 
-            this.errorProvider.ContainerControl = this;
-            // 
-            // Profile
+            // MyAccount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(526, 279);
+            this.ClientSize = new System.Drawing.Size(528, 281);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.Security);
+            this.Controls.Add(this.txtStd);
             this.Controls.Add(this.bttnRemove);
             this.Controls.Add(this.txtMobile);
             this.Controls.Add(this.txtMobilePrefix);
             this.Controls.Add(this.btnAddContact);
-            this.Controls.Add(this.txtStd);
             this.Controls.Add(this.txtIsd);
             this.Controls.Add(this.lstContact);
             this.Controls.Add(this.txtLandLine);
@@ -329,14 +327,14 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Profile";
+            this.Name = "MyAccount";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "My Profile";
-            this.Load += new System.EventHandler(this.Profile_Load);
+            this.Text = "My Account";
+            this.Load += new System.EventHandler(this.MyAccount_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.Security.ResumeLayout(false);
             this.Security.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -344,6 +342,8 @@
 
         #endregion
 
+        private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.GroupBox Security;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Label label2;
@@ -353,11 +353,11 @@
         private System.Windows.Forms.ComboBox cboSecQ;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtAnswer;
+        private System.Windows.Forms.TextBox txtStd;
         private System.Windows.Forms.Button bttnRemove;
         private System.Windows.Forms.TextBox txtMobile;
         private System.Windows.Forms.TextBox txtMobilePrefix;
         private System.Windows.Forms.Button btnAddContact;
-        private System.Windows.Forms.TextBox txtStd;
         private System.Windows.Forms.TextBox txtIsd;
         private System.Windows.Forms.ListBox lstContact;
         private System.Windows.Forms.TextBox txtLandLine;
@@ -369,7 +369,5 @@
         private System.Windows.Forms.TextBox txtFName;
         private System.Windows.Forms.ComboBox cboInitial;
         private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

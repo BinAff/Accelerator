@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+
 using BinAff.Core;
 
-namespace Vanilla.Guardian.Facade.Profile
+namespace Vanilla.Guardian.Facade.MyAccount
 {
+
     public class FormDto : BinAff.Facade.Library.FormDto
     {
 
@@ -10,5 +12,8 @@ namespace Vanilla.Guardian.Facade.Profile
 
         public List<Table> InitialList { get; set; }
 
+        public List<Table> SecurityQuestionList { get; set; }
+
     }
+
 }
