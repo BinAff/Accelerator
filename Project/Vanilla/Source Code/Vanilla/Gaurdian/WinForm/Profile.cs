@@ -22,10 +22,13 @@ namespace Vanilla.Guardian.WinForm
             InitializeComponent();
             this.formDto = new Facade.Profile.FormDto
             {
-                Dto = new Facade.Profile.Dto
+                Dto = new Facade.Account.Dto
                 {
-                    Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                },
+                    Profile = new Facade.Profile.Dto
+                    {
+                        Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                    },
+                }
             };
         }
 
@@ -176,16 +179,15 @@ namespace Vanilla.Guardian.WinForm
         {
             BinAff.Facade.Library.Server facade = new Facade.Profile.Server(formDto);
             facade.LoadForm();
-            this.formDto.Dto = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile;
 
             this.cboInitial.DataSource = this.formDto.InitialList;
             this.cboInitial.DisplayMember = "Name";
             this.cboInitial.ValueMember = "Id";
-            if (this.formDto.Dto.Initial != null)
+            if (this.formDto.Dto.Profile.Initial != null)
             {
                 for (int i = 0; i < this.cboInitial.Items.Count; i++)
                 {
-                    if (this.formDto.Dto.Initial.Id == ((BinAff.Core.Table)cboInitial.Items[i]).Id)
+                    if (this.formDto.Dto.Profile.Initial.Id == ((BinAff.Core.Table)cboInitial.Items[i]).Id)
                     {
                         this.cboInitial.SelectedIndex = i;
                         break;
@@ -193,11 +195,11 @@ namespace Vanilla.Guardian.WinForm
                 }
             }
 
-            this.txtFName.Text = this.formDto.Dto.FirstName;
-            this.txtLName.Text = this.formDto.Dto.LastName;
-            this.txtMName.Text = this.formDto.Dto.MiddleName;
+            this.txtFName.Text = this.formDto.Dto.Profile.FirstName;
+            this.txtLName.Text = this.formDto.Dto.Profile.LastName;
+            this.txtMName.Text = this.formDto.Dto.Profile.MiddleName;
 
-            this.lstContact.DataSource = this.formDto.Dto.ContactNumberList;
+            this.lstContact.DataSource = this.formDto.Dto.Profile.ContactNumberList;
             this.lstContact.DisplayMember = "Name";
             this.lstContact.ValueMember = "Id";
         }
