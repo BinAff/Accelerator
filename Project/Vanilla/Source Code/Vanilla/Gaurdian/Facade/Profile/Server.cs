@@ -26,37 +26,36 @@ namespace Vanilla.Guardian.Facade.Profile
             ReturnObject<BinAff.Core.Data> ret = (new CrysProfile.Server(profile = this.Convert(((FormDto)this.FormDto).Dto) as CrysProfile.Data) as ICrud).Read();
 
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
-            if (!this.IsError) (this.FormDto as FormDto).Dto = (new Account.Server(null)).Convert(ret.Value) as Account.Dto;
+            if (!this.IsError) (this.FormDto as FormDto).Dto = (new Account.Server(null)).Convert(ret.Value) as Dto;
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
             CrysProfile.Data profileData = data as CrysProfile.Data;
-            Dto profileDto = new Dto
+            Dto profileDto = (this.FormDto as FormDto).Dto as Dto;
+            if (profileData != null)
             {
-                FirstName = profileData.FirstName,
-                MiddleName = profileData.MiddleName,
-                LastName = profileData.LastName,
-                DateOfBirth = profileData.DateOfBirth,
-            };
-            if (profileData.Initial != null)
-            {
-                profileDto.Initial = new Table
+                profileDto.Id = profileData.Id;
+                profileDto.FirstName = profileData.FirstName;
+                profileDto.MiddleName = profileData.MiddleName;
+                profileDto.LastName = profileData.LastName;
+                profileDto.DateOfBirth = profileData.DateOfBirth;
+                if (profileData.Initial != null)
                 {
-                    Id = profileData.Initial.Id,
-                    Name = profileData.Initial.Name,
-                };
-            }
-            if (profileData.ContactNumberList != null && profileData.ContactNumberList.Count > 0)
-            {
-                profileDto.ContactNumberList = new List<Table>();
-                foreach (CrysProfile.ContactNumber.Data contactNumber in profileData.ContactNumberList)
+                    profileDto.Initial.Id = profileData.Initial.Id;
+                    profileDto.Initial.Name = profileData.Initial.Name;
+                }
+                if (profileData.ContactNumberList != null && profileData.ContactNumberList.Count > 0)
                 {
-                    profileDto.ContactNumberList.Add(new Table
+                    profileDto.ContactNumberList = new List<Table>();
+                    foreach (CrysProfile.ContactNumber.Data contactNumber in profileData.ContactNumberList)
                     {
-                        Id = contactNumber.Id,
-                        Name = contactNumber.ContactNumber,
-                    });
+                        profileDto.ContactNumberList.Add(new Table
+                        {
+                            Id = contactNumber.Id,
+                            Name = contactNumber.ContactNumber,
+                        });
+                    }
                 }
             }
             return profileDto;
@@ -66,38 +65,37 @@ namespace Vanilla.Guardian.Facade.Profile
         {
             CrysProfile.Data profileData = new CrysProfile.Data();
             Dto profileDto = dto as Dto;
-
-            profileData.Id = profileDto.Id;
-            if (!String.IsNullOrEmpty(profileDto.FirstName) || !String.IsNullOrEmpty(profileDto.MiddleName)
-                || !String.IsNullOrEmpty(profileDto.FirstName) || !String.IsNullOrEmpty(profileDto.MiddleName))
+            if (profileDto != null)
             {
-                profileData = new CrysProfile.Data
+                profileData.Id = profileDto.Id;
+                if (!String.IsNullOrEmpty(profileDto.FirstName) || !String.IsNullOrEmpty(profileDto.MiddleName)
+                    || !String.IsNullOrEmpty(profileDto.FirstName) || !String.IsNullOrEmpty(profileDto.MiddleName))
                 {
-                    FirstName = profileDto.FirstName,
-                    MiddleName = profileDto.MiddleName,
-                    LastName = profileDto.LastName,
-                    DateOfBirth = profileDto.DateOfBirth,
-                };
-                if (profileDto.Initial != null)
-                {
-                    profileData.Initial = new CrysInitial.Data
+                    profileData.FirstName = profileDto.FirstName;
+                    profileData.MiddleName = profileDto.MiddleName;
+                    profileData.LastName = profileDto.LastName;
+                    profileData.DateOfBirth = profileDto.DateOfBirth;
+                    if (profileDto.Initial != null)
                     {
-                        Id = profileDto.Initial.Id,
-                        Name = profileDto.Initial.Name,
-                    };
+                        profileData.Initial = new CrysInitial.Data
+                        {
+                            Id = profileDto.Initial.Id,
+                            Name = profileDto.Initial.Name,
+                        };
+                    }
                 }
-            }
 
-            if (profileDto.ContactNumberList != null && profileDto.ContactNumberList.Count > 0)
-            {
-                profileData.ContactNumberList = new List<Data>();
-                foreach (Table d in profileDto.ContactNumberList)
+                if (profileDto.ContactNumberList != null && profileDto.ContactNumberList.Count > 0)
                 {
-                    profileData.ContactNumberList.Add(new CrysProfile.ContactNumber.Data
+                    profileData.ContactNumberList = new List<Data>();
+                    foreach (Table d in profileDto.ContactNumberList)
                     {
-                        Id = d.Id,
-                        ContactNumber = d.Name,
-                    });
+                        profileData.ContactNumberList.Add(new CrysProfile.ContactNumber.Data
+                        {
+                            Id = d.Id,
+                            ContactNumber = d.Name,
+                        });
+                    }
                 }
             }
 

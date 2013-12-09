@@ -25,6 +25,11 @@ namespace Vanilla.Guardian.Facade.Account
         /// </summary>
         public List<Role.Dto> RoleList { get; set; }
 
+        /// <summary>
+        /// Answer for security question
+        /// </summary>
+        public SecurityAnswer.Dto SecurityAnswer { get; set; }
+
         public BinAff.Facade.Library.Dto Extension { get; set; }
 
     }

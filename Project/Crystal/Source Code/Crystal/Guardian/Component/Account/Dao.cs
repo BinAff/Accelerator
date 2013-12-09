@@ -310,7 +310,7 @@ namespace Crystal.Guardian.Component.Account
             Boolean isDeletedSuccessfully = true;
 
             base.CreateConnection();
-            base.CreateCommand("UserRoleDelete");
+            base.CreateCommand("Guardian.UserRoleDelete");
             base.AddInParameter("@UserId", DbType.Int64, userId);           
             Int32 ret = base.ExecuteNonQuery();
             if (ret == -2146232060) isDeletedSuccessfully = false; //Foreign key violation                  
@@ -319,41 +319,41 @@ namespace Crystal.Guardian.Component.Account
             return isDeletedSuccessfully;
         }
 
-        private Boolean DeleteUserContactNumber(Int64 userId)
-        {
-            Boolean isDeletedSuccessfully = true;
-            base.CreateConnection();
-            base.CreateCommand("UserContactNumberDelete");
-            base.AddInParameter("@UserId", DbType.Int64, userId);
-            Int32 ret = base.ExecuteNonQuery();
-            if (ret == -2146232060) isDeletedSuccessfully = false; //Foreign key violation   
-            base.CloseConnection();
-            return isDeletedSuccessfully;
-        }
+        //private Boolean DeleteUserContactNumber(Int64 userId)
+        //{
+        //    Boolean isDeletedSuccessfully = true;
+        //    base.CreateConnection();
+        //    base.CreateCommand("Guardian.UserContactNumberDelete");
+        //    base.AddInParameter("@UserId", DbType.Int64, userId);
+        //    Int32 ret = base.ExecuteNonQuery();
+        //    if (ret == -2146232060) isDeletedSuccessfully = false; //Foreign key violation   
+        //    base.CloseConnection();
+        //    return isDeletedSuccessfully;
+        //}
 
-        private Boolean CreateUserContactNumber(List<Profile.ContactNumber.Data> contactNumberList, Int64 userId)
-        {
-            Boolean isCreatedSuccessfully = true;
-            Int64 userRoleId = 0;
-            base.CreateConnection();
+        //private Boolean CreateUserContactNumber(List<Profile.ContactNumber.Data> contactNumberList, Int64 userId)
+        //{
+        //    Boolean isCreatedSuccessfully = true;
+        //    Int64 userRoleId = 0;
+        //    base.CreateConnection();
 
-            foreach (Profile.ContactNumber.Data data in contactNumberList)
-            {
-                if (isCreatedSuccessfully)
-                {
-                    userRoleId = 0;
-                    base.CreateCommand("UserContactNumberInsert");
-                    base.AddInParameter("@UserId", DbType.Int64, userId);
-                    base.AddInParameter("@ContactNumber", DbType.String, data.ContactNumber);
-                    base.AddOutParameter("@Id", DbType.Int64, userRoleId);
-                    Int32 ret = base.ExecuteNonQuery();
-                    if (ret == -2146232060) isCreatedSuccessfully = false; //Foreign key violation                  
-                }
-            }
+        //    foreach (Profile.ContactNumber.Data data in contactNumberList)
+        //    {
+        //        if (isCreatedSuccessfully)
+        //        {
+        //            userRoleId = 0;
+        //            base.CreateCommand("UserContactNumberInsert");
+        //            base.AddInParameter("@UserId", DbType.Int64, userId);
+        //            base.AddInParameter("@ContactNumber", DbType.String, data.ContactNumber);
+        //            base.AddOutParameter("@Id", DbType.Int64, userRoleId);
+        //            Int32 ret = base.ExecuteNonQuery();
+        //            if (ret == -2146232060) isCreatedSuccessfully = false; //Foreign key violation                  
+        //        }
+        //    }
 
-            base.CloseConnection();
-            return isCreatedSuccessfully;
-        }
+        //    base.CloseConnection();
+        //    return isCreatedSuccessfully;
+        //}
 
     }
 

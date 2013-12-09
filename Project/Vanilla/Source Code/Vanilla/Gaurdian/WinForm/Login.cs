@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 
 using BinAff.Facade.Cache;
+using System.Collections.Generic;
+using BinAff.Core;
 
 namespace Vanilla.Guardian.WinForm
 {
@@ -56,6 +58,16 @@ namespace Vanilla.Guardian.WinForm
                     {
                         LoginId = this.txtUserId.Text,
                         Password = this.txtPassword.Text,
+                        Profile = new Facade.Profile.Dto
+                        {
+                            Initial = new Table(),
+                            ContactNumberList = new List<Table>(),
+                        },
+                        RoleList = new List<Facade.Role.Dto>(),
+                        SecurityAnswer = new Facade.SecurityAnswer.Dto
+                        {
+                            SecurityQuestion = new Table(),
+                        },
                     }
                 }
             };

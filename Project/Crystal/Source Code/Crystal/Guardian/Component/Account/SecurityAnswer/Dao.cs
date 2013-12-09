@@ -77,6 +77,24 @@ namespace Crystal.Guardian.Component.Account.SecurityAnswer
             }
             return ret;
         }
+        
+        public override BinAff.Core.Data ReadForParent()
+        {
+            return base.ReadForParent();
+            ////This is the special case. Here Profile is weak entity. So this function
+            ////is overriden.
+            //if (this.ReadForParentStoredProcedure == null) throw new Exception("Read for parent stored procedure not specified");
+            //this.CreateConnection();
+            //this.CreateCommand(this.ReadForParentStoredProcedure);
+            //this.AddInParameter("Id", DbType.Int64, this.ParentData.Id);
+
+            //DataSet ds = this.ExecuteDataSet();
+            //this.Data = CreateDataObject(ds, this.Data);
+            //this.CloseConnection();
+            //this.Data.Id = this.ParentData.Id;
+            //this.AttachChildDataToParent();
+            //return this.Data;
+        }
 
         protected override void AttachChildDataToParent()
         {
