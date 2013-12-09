@@ -11,6 +11,24 @@ CREATE TABLE Guardian.SecurityAnswer
 );
 GO
 
+CREATE PROCEDURE [Guardian].[SecurityAnswerInsert]
+(
+	@UserId Numeric(10,0),
+	@QuestionId Numeric(10,0),
+	@Answer Varchar(50),
+	@Id Numeric(10,0) OUT
+)
+AS
+BEGIN
+
+	INSERT INTO Guardian.SecurityAnswer (UserId, QuestionId, Answer)
+	VALUES(@UserId, @QuestionId, @Answer)   
+	SET @Id = @@IDENTITY
+   
+END
+
+GO
+
 CREATE PROCEDURE Guardian.SecurityAnswerRead
 (
 	@Id Numeric(10,0)
@@ -54,13 +72,6 @@ BEGIN
    End
 END
 
-GO
-
-/****** Object:  StoredProcedure [dbo].[SecurityAnswerDelete]    Script Date: 09/12/2012 00:00:23 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE Guardian.SecurityAnswerDelete
