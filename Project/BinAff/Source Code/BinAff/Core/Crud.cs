@@ -143,24 +143,8 @@ namespace BinAff.Core
             child.DataAccess.ParentData = this.Data;
             child.Validator.ParentData = this.Data;
 
-            if (child.Data == null || child.Data.Id == 0)
-            {
-                //if (this.actionType == Action.Delete)
-                //{
-                //    child.Data = child.CreateDataObject();
-                //    child.DataAccess.Data = child.Data;
-                //    child.Validator.Data = child.Data;
-                //    if (child.Type == ChildType.Dependent)
-                //    {
-                //        child.DataAccess.ReadForParent(); //Assign child data
-                //    }
-                //    else
-                //    {
-                //        //In case of independent children, read own to get children Ids, because independent
-                //        //child id will be written in parent table or relationship table under parent
-                //        this.ReadOwn();
-                //    }
-                //}                
+            if (child.Data == null)
+            {            
                 if (this.actionType == Action.Read)
                 {
                     if (child.Type == ChildType.Dependent)
@@ -169,7 +153,6 @@ namespace BinAff.Core
                         child.DataAccess.Data = child.Data;
                         child.Validator.Data = child.Data;
                         child.DataAccess.ReadForParent();
-                        //child.IsSkip = true;
                     }
                 }
                 if (this.actionType == Action.Create || this.actionType == Action.Update)
@@ -194,8 +177,7 @@ namespace BinAff.Core
             }
             return null;
         }
-        
-        /// <summary>
+
         /// Add children component to parent component
         /// </summary>
         /// <param name="schema">Child component</param>
