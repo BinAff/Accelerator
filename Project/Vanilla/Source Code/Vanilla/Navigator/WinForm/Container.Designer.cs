@@ -1075,6 +1075,7 @@
             this.mnuRegisterUser.Name = "mnuRegisterUser";
             this.mnuRegisterUser.Size = new System.Drawing.Size(161, 22);
             this.mnuRegisterUser.Text = "Register";
+            this.mnuRegisterUser.Visible = false;
             this.mnuRegisterUser.Click += new System.EventHandler(this.mnuRegisterUser_Click);
             // 
             // mnuChangeAccount
@@ -1082,6 +1083,7 @@
             this.mnuChangeAccount.Name = "mnuChangeAccount";
             this.mnuChangeAccount.Size = new System.Drawing.Size(161, 22);
             this.mnuChangeAccount.Text = "Change Account";
+            this.mnuChangeAccount.Visible = false;
             this.mnuChangeAccount.Click += new System.EventHandler(this.mnuChangeAccount_Click);
             // 
             // mnuChangeOwnProfile
@@ -1089,6 +1091,7 @@
             this.mnuChangeOwnProfile.Name = "mnuChangeOwnProfile";
             this.mnuChangeOwnProfile.Size = new System.Drawing.Size(161, 22);
             this.mnuChangeOwnProfile.Text = "Change My Profile";
+            this.mnuChangeOwnProfile.Visible = false;
             this.mnuChangeOwnProfile.Click += new System.EventHandler(this.mnuChangeOwnProfile_Click);
             // 
             // mnuHelp

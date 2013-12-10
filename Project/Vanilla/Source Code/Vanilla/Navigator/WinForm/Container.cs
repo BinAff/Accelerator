@@ -1,13 +1,16 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 
 using BinAff.Core;
-using PresentationLib = BinAff.Presentation.Library;
-using System.Drawing;
-using Vanilla.Tool.WinfForm;
 using BinAff.Facade.Cache;
+using PresentationLib = BinAff.Presentation.Library;
+
+using Vanilla.Tool.WinfForm;
+using VanAcc = Vanilla.Guardian.Facade.Account;
+using VanRole = Vanilla.Guardian.Facade.Role;
 
 namespace Vanilla.Navigator.WinForm
 {
@@ -213,6 +216,7 @@ namespace Vanilla.Navigator.WinForm
             this.facade.LoadForm();
             this.LoadModules(tbcCategory.TabPages[0].Text);
             this.ShowControls();
+            this.HideAndShowMenuForRole();
         }
 
         #endregion
@@ -1136,6 +1140,27 @@ namespace Vanilla.Navigator.WinForm
             this.mnuEdit.Visible = false;
             this.mnuView.Visible = false;
             this.mnuUserManagement.Visible = false;
+        }
+
+        private void HideAndShowMenuForRole()
+        {
+            VanAcc.Dto currentUser = Server.Current.Cache["User"] as VanAcc.Dto;
+            VanRole.Dto role = currentUser.RoleList.Find((p) => 
+            { 
+                return String.Compare(p.Name, "Admin") == 0 || String.Compare(p.Name, "SuperAdmin") == 0; 
+            });
+            if (role == null)
+            {
+                this.mnuRegisterUser.Visible = false;
+                this.mnuChangeAccount.Visible = false;
+                this.mnuChangeOwnProfile.Visible = true;
+            }
+            else //Admin or Super Admin
+            {
+                this.mnuRegisterUser.Visible = true;
+                this.mnuChangeAccount.Visible = true;
+                this.mnuChangeOwnProfile.Visible = false;
+            }
         }
 
         private void PopulateNewArtifact(String fileName, Facade.Artifact.Type type, Facade.Artifact.Dto currentArtifact)

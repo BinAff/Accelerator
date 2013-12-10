@@ -174,7 +174,7 @@ namespace Crystal.Guardian.Component.Account
                     }
                 };
             }
-
+            (this.Data as Data).Profile.Id = this.Data.Id;//Since profile is weak entity
             return this.Read();
         }
 
