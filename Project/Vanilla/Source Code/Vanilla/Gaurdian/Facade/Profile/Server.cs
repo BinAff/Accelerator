@@ -47,7 +47,6 @@ namespace Vanilla.Guardian.Facade.Profile
                 }
                 if (profileData.ContactNumberList != null && profileData.ContactNumberList.Count > 0)
                 {
-                    profileDto.ContactNumberList = new List<Table>();
                     foreach (CrysProfile.ContactNumber.Data contactNumber in profileData.ContactNumberList)
                     {
                         profileDto.ContactNumberList.Add(new Table
@@ -63,10 +62,10 @@ namespace Vanilla.Guardian.Facade.Profile
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            CrysProfile.Data profileData = new CrysProfile.Data();
             Dto profileDto = dto as Dto;
             if (profileDto != null)
             {
+                CrysProfile.Data profileData = new CrysProfile.Data();
                 profileData.Id = profileDto.Id;
                 if (!String.IsNullOrEmpty(profileDto.FirstName) || !String.IsNullOrEmpty(profileDto.MiddleName)
                     || !String.IsNullOrEmpty(profileDto.FirstName) || !String.IsNullOrEmpty(profileDto.MiddleName))
@@ -88,18 +87,19 @@ namespace Vanilla.Guardian.Facade.Profile
                 if (profileDto.ContactNumberList != null && profileDto.ContactNumberList.Count > 0)
                 {
                     profileData.ContactNumberList = new List<Data>();
-                    foreach (Table d in profileDto.ContactNumberList)
+                    foreach (Table contactNumber in profileDto.ContactNumberList)
                     {
                         profileData.ContactNumberList.Add(new CrysProfile.ContactNumber.Data
                         {
-                            Id = d.Id,
-                            ContactNumber = d.Name,
+                            Id = contactNumber.Id,
+                            UserId = profileData.Id,
+                            ContactNumber = contactNumber.Name,
                         });
                     }
                 }
+                return profileData;
             }
-
-            return profileData;
+            return null;
         }
 
         public override void Change()

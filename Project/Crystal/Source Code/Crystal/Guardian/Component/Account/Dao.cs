@@ -247,7 +247,7 @@ namespace Crystal.Guardian.Component.Account
         /// <returns></returns>
         protected override Boolean UpdateAfter()
         {
-            Boolean retVal = false;
+            Boolean retVal = true;
             base.CreateConnection();
             if (((Data)this.Data).RoleList != null)
             {
