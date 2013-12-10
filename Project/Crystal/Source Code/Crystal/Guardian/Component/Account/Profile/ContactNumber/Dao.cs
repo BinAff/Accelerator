@@ -19,7 +19,7 @@ namespace Crystal.Guardian.Component.Account.Profile.ContactNumber
             base.CreateStoredProcedure = "Guardian.ProfileContactNumberInsert";
             base.NumberOfRowsAffectedInCreate = 1;
             base.ReadStoredProcedure = "Guardian.ProfileContactNumberRead";
-            base.ReadForParentStoredProcedure = "Guardian.ProfileContactNumberRead";
+            base.ReadForParentStoredProcedure = "Guardian.ProfileContactNumberReadForParent";
             base.UpdateStoredProcedure = "Guardian.ProfileContactNumberUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
             base.DeleteStoredProcedure = "Guardian.ProfileContactNumberDelete";
@@ -42,8 +42,8 @@ namespace Crystal.Guardian.Component.Account.Profile.ContactNumber
             {
                 row = ds.Tables[0].Rows[0];
 
-                dt.Id = this.ParentData.Id;
-                dt.UserId = Convert.IsDBNull(row["UserId"]) ? 0 : Convert.ToInt64(row["UserId"]); ;
+                //dt.Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]);
+                dt.UserId = Convert.IsDBNull(row["UserId"]) ? 0 : Convert.ToInt64(row["UserId"]);
                 dt.ContactNumber = Convert.IsDBNull(row["ContactNumber"]) ? String.Empty : Convert.ToString(row["ContactNumber"]);
                
             }

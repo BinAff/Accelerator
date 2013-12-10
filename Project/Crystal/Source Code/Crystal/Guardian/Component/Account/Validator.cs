@@ -31,7 +31,11 @@ namespace Crystal.Guardian.Component.Account
                 retMsg.Add(new Message("Password cannot be empty.", Message.Type.Error));
             }
 
-            if (this.Data.Id != new Dao(data).GetUserByLoginId().Id)
+            if (this.Data.Id != new Dao(new Data
+            {
+                Id = data.Id,
+                LoginId = data.LoginId,
+            }).GetUserByLoginId().Id)
             {
                 retMsg.Add(new Message("Duplicate login id is not allowed.", Message.Type.Error));
             }

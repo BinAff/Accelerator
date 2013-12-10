@@ -29,10 +29,6 @@ namespace Vanilla.Guardian.WinForm
                         Initial = new Table(),
                         ContactNumberList = new List<Table>(),
                     },
-                    SecurityAnswer = new Facade.SecurityAnswer.Dto
-                    {
-                        SecurityQuestion = new Table(),
-                    },
                 }
             };
         }
@@ -162,7 +158,10 @@ namespace Vanilla.Guardian.WinForm
                         }
                     }
 
-                    if (!blnExists) contactNumberList.Add(dto);
+                    if (!blnExists)
+                    {
+                        contactNumberList.Add(dto);
+                    }
                 }
             }
 
@@ -171,7 +170,6 @@ namespace Vanilla.Guardian.WinForm
             {
                 this.lstContact.DataSource = contactNumberList;
                 this.lstContact.DisplayMember = "Name";
-                this.lstContact.SelectedIndex = -1;
             }
         }
 
@@ -202,6 +200,13 @@ namespace Vanilla.Guardian.WinForm
                 DialogueType = facade.IsError ? PresentationLib.MessageBox.Type.Error : PresentationLib.MessageBox.Type.Information,
                 Heading = "Splash",
             }.Show(facade.DisplayMessageList);
+            if (!facade.IsError)
+            {
+                this.Close();
+                (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Password = this.formDto.Dto.Password;
+                (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile = this.formDto.Dto.Profile;
+                (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).SecurityAnswer = this.formDto.Dto.SecurityAnswer;
+            }
         }
 
         private void LoadForm()

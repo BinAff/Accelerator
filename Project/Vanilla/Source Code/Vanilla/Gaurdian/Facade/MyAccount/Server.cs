@@ -45,21 +45,23 @@ namespace Vanilla.Guardian.Facade.MyAccount
             }
             if (accountData.SecurityAnswerList != null && accountData.SecurityAnswerList.Count > 0)
             {
-                this.Convert(accountDto, accountData.SecurityAnswerList[0] as CrysAcc.SecurityAnswer.Data);
+                accountDto.SecurityAnswer = new SecurityAnswer.Dto();
+                this.Convert(accountDto.SecurityAnswer, accountData.SecurityAnswerList[0] as CrysAcc.SecurityAnswer.Data);
             }            
             return accountDto;
         }
 
-        private BinAff.Facade.Library.Dto Convert(Dto dto, CrysAcc.SecurityAnswer.Data secData)
+        private BinAff.Facade.Library.Dto Convert(SecurityAnswer.Dto secDto, CrysAcc.SecurityAnswer.Data secData)
         {
-            dto.SecurityAnswer.Id = secData.Id;
-            dto.SecurityAnswer.Answer = secData.Answer;
+            secDto.Id = secData.Id;
+            secDto.Answer = secData.Answer;
+            secDto.SecurityQuestion = new Table();
             if (secData.Question != null)
             {
-                dto.SecurityAnswer.SecurityQuestion.Id = secData.Question.Id;
-                dto.SecurityAnswer.SecurityQuestion.Name = secData.Question.Question;
+                secDto.SecurityQuestion.Id = secData.Question.Id;
+                secDto.SecurityQuestion.Name = secData.Question.Question;
             };
-            return dto;
+            return secDto;
         }
 
         public override Data Convert(BinAff.Facade.Library.Dto dto)
@@ -71,8 +73,9 @@ namespace Vanilla.Guardian.Facade.MyAccount
 
             //Attach Login Id, since it is not present in screen
             accountData.LoginId = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Account.Dto).LoginId;
-            if (String.IsNullOrEmpty(accountData.Password)) accountData.Password = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Account.Dto).Password;
-
+            accountData.Password = (String.IsNullOrEmpty(accountDto.Password)) ? 
+                (BinAff.Facade.Cache.Server.Current.Cache["User"] as Account.Dto).Password :
+                accountDto.Password;
             accountData.Profile = new Profile.Server(new Profile.FormDto
             {
                 Dto = accountDto.Profile,
