@@ -3,15 +3,16 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 
-using Crystal.Guardian;
-using CrysGuardian = Crystal.Guardian.Component;
+using CrysAcc = Crystal.Guardian.Component.Account;
+using CrysRole = Crystal.Guardian.Component.Role;
+using CrysSecQ = Crystal.Guardian.Component.SecurityQuestion;
 
 namespace Vanilla.Guardian.Facade.Account
 {
 
     public class Server : BinAff.Facade.Library.Server
     {
-        private CrysGuardian.Account.Data data;
+        private CrysAcc.Data data;
 
         public Server(FormDto formDto)
             :base(formDto)
@@ -32,7 +33,7 @@ namespace Vanilla.Guardian.Facade.Account
         private List<Role.Dto> GetRoleList()
         {
             //Call component for list of roles
-            ICrud server = new CrysGuardian.Role.Server(null);
+            ICrud server = new CrysRole.Server(null);
             ReturnObject<List<BinAff.Core.Data>> roleList = server.ReadAll();
             if (roleList == null)
             {
@@ -57,7 +58,7 @@ namespace Vanilla.Guardian.Facade.Account
                             retRoleList.Add(new Role.Dto
                             {
                                 Id = role.Id,
-                                Name = ((CrysGuardian.Role.Data)role).Name,
+                                Name = ((CrysRole.Data)role).Name,
                             });
                         }
                         return retRoleList;
@@ -81,7 +82,7 @@ namespace Vanilla.Guardian.Facade.Account
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            CrysGuardian.Account.Data accountdata = data as CrysGuardian.Account.Data;
+            CrysAcc.Data accountdata = data as CrysAcc.Data;
             Dto accountDto = (this.FormDto as FormDto).Dto as Dto;
             accountDto.Id = accountdata.Id;
             accountDto.LoginId = accountdata.LoginId;
@@ -95,7 +96,8 @@ namespace Vanilla.Guardian.Facade.Account
             }
             if (accountdata.RoleList != null && accountdata.RoleList.Count > 0)
             {
-                foreach (CrysGuardian.Role.Data role in accountdata.RoleList)
+                accountDto.RoleList = new List<Role.Dto>();
+                foreach (CrysRole.Data role in accountdata.RoleList)
                 {
                     accountDto.RoleList.Add(new Role.Dto
                     {
@@ -106,13 +108,19 @@ namespace Vanilla.Guardian.Facade.Account
             }
             if (accountdata.SecurityAnswerList != null && accountdata.SecurityAnswerList.Count > 0)
             {
-                CrysGuardian.Account.SecurityAnswer.Data securityAnswer = accountdata.SecurityAnswerList[0] as CrysGuardian.Account.SecurityAnswer.Data;
-                accountDto.SecurityAnswer.Id = securityAnswer.Id;
-                accountDto.SecurityAnswer.Answer = securityAnswer.Answer;
+                CrysAcc.SecurityAnswer.Data securityAnswer = accountdata.SecurityAnswerList[0] as CrysAcc.SecurityAnswer.Data;
+                accountDto.SecurityAnswer = new SecurityAnswer.Dto
+                {
+                    Id = securityAnswer.Id,
+                    Answer = securityAnswer.Answer,
+                };
                 if (securityAnswer.Question != null)
                 {
-                    accountDto.SecurityAnswer.SecurityQuestion.Id = securityAnswer.Question.Id;
-                    accountDto.SecurityAnswer.SecurityQuestion.Name = securityAnswer.Question.Question;
+                    accountDto.SecurityAnswer.SecurityQuestion = new Table
+                    {
+                        Id = securityAnswer.Question.Id,
+                        Name = securityAnswer.Question.Question,
+                    };
                 }
             }
             return accountDto;
@@ -121,7 +129,7 @@ namespace Vanilla.Guardian.Facade.Account
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Account.Dto accountDto = dto as Account.Dto;
-            CrysGuardian.Account.Data accountdata = new CrysGuardian.Account.Data
+            CrysAcc.Data accountData = new CrysAcc.Data
             {
                 Id = accountDto.Id,
                 LoginId = accountDto.LoginId,
@@ -129,14 +137,17 @@ namespace Vanilla.Guardian.Facade.Account
             };
             if (accountDto.Profile != null)
             {
-                accountdata.Profile = new Profile.Server(null).Convert(accountDto.Profile) as CrysGuardian.Account.Profile.Data;
+                accountData.Profile = new Profile.Server(new Profile.FormDto
+                {
+                    Dto = accountDto.Profile,
+                }).Convert(accountDto.Profile) as CrysAcc.Profile.Data;
             }
             if (accountDto.RoleList != null && accountDto.RoleList.Count > 0)
             {
-                accountdata.RoleList = new List<BinAff.Core.Data>();
+                accountData.RoleList = new List<BinAff.Core.Data>();
                 foreach (Role.Dto role in accountDto.RoleList)
                 {
-                    accountdata.RoleList.Add(new CrysGuardian.Role.Data
+                    accountData.RoleList.Add(new CrysRole.Data
                     {
                         Id = role.Id,
                         Name = role.Name,
@@ -145,31 +156,29 @@ namespace Vanilla.Guardian.Facade.Account
             }
             if (accountDto.SecurityAnswer != null)
             {
-                CrysGuardian.Account.SecurityAnswer.Data securityAnswer = new CrysGuardian.Account.SecurityAnswer.Data
+                accountData.SecurityAnswerList = new List<Data>();
+                CrysAcc.SecurityAnswer.Data secAns = new CrysAcc.SecurityAnswer.Data
                 {
-                    Id = accountDto.SecurityAnswer.Id,                    
+                    Id = accountDto.SecurityAnswer.Id,
                     Answer = accountDto.SecurityAnswer.Answer,
                 };
+                accountData.SecurityAnswerList.Add(secAns);
                 if (accountDto.SecurityAnswer.SecurityQuestion != null)
                 {
-                    securityAnswer.Question = new CrysGuardian.SecurityQuestion.Data
+                    secAns.Question = new CrysSecQ.Data
                     {
                         Id = accountDto.SecurityAnswer.SecurityQuestion.Id,
                         Question = accountDto.SecurityAnswer.SecurityQuestion.Name,
                     };
                 }
-                accountdata.SecurityAnswerList = new List<Data>
-                {
-                    { securityAnswer },
-                };
             }
-            return accountdata;
+            return accountData;
         }
 
         public override void Add()
         {
             //Dto dto = ((FormDto)this.FormDto).Dto;
-            //CrysGuardian.Account.Data data = new CrysGuardian.Account.Data
+            //CrysAcc.Data data = new CrysAcc.Data
             //{
             //    LoginId = dto.LoginId,
             //    Password = dto.Password,
@@ -186,7 +195,7 @@ namespace Vanilla.Guardian.Facade.Account
             //    }
             //}
 
-            ReturnObject<Boolean> ret = (new CrysGuardian.Account.Server(this.Convert(((FormDto)this.FormDto).Dto) as CrysGuardian.Account.Data) as ICrud).Save();
+            ReturnObject<Boolean> ret = (new CrysAcc.Server(this.Convert(((FormDto)this.FormDto).Dto) as CrysAcc.Data) as ICrud).Save();
             
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
@@ -194,8 +203,8 @@ namespace Vanilla.Guardian.Facade.Account
         public void Login()
         {
             Dto dto = ((FormDto)this.FormDto).Dto;
-            CrysGuardian.Account.Data data = this.Convert(dto) as CrysGuardian.Account.Data;
-            ReturnObject<BinAff.Core.Data> ret = (new CrysGuardian.Account.Server(data) as CrysGuardian.Account.IUser).Login();
+            CrysAcc.Data data = this.Convert(dto) as CrysAcc.Data;
+            ReturnObject<BinAff.Core.Data> ret = (new CrysAcc.Server(data) as CrysAcc.IUser).Login();
             if (this.IsError = ret.HasError())
             {
                 this.DisplayMessageList = ret.GetMessage(Message.Type.Error);
