@@ -368,31 +368,9 @@ namespace Vanilla.Navigator.WinForm
         private void lstViewContainer_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
-            {
-                //TreeView current = new TreeView();
-                //ToolStripMenuItem newItem;
+            {               
                 ListViewItem selectedItem = lsvContainer.GetItemAt(e.X, e.Y);
-
-                //clear all contextStripMenu items
-                //cmsExplorer.Items.Clear();
-
-                if (selectedItem == null) //not right clicked on any item
-                {
-                    ShowHideContextMenuItems(true, null, selectedItem);
-                    //newItem = new ToolStripMenuItem { Text = "New" };
-                    //newItem.DropDownItems.Insert(0, new ToolStripMenuItem { Text = "Folder" });
-                    //newItem.DropDownItems[0].Click += ListViewFolder_Click;
-                    //newItem.DropDownItems.Insert(1, new ToolStripMenuItem { Text = tbcCategory.SelectedTab.Text });
-                    //newItem.DropDownItems[1].Click += ListViewDocument_Click;
-
-                }
-                else //right click on list item
-                {
-                    //newItem = new ToolStripMenuItem { Text = "Delete" };
-                    //newItem.Click += ListViewDelete_Click;
-                }
-
-                //cmsExplorer.Items.Insert(0, newItem);
+                ShowHideContextMenuItems(true, null, selectedItem);
                 cmsExplorer.Show(Cursor.Position);
             }
         }
@@ -508,8 +486,10 @@ namespace Vanilla.Navigator.WinForm
                 //sort list view
                 this.sortColumn = "Name"; //this name will come from rule
                 this.lvwColumnSorter.Order = SortOrder.Ascending;
+                this.ResetColumnOrderInListView();
+
                 this.SortListView(sortColumn);
-                
+
             }
         }
 
@@ -527,28 +507,12 @@ namespace Vanilla.Navigator.WinForm
             {
                 ToolStripMenuItem menuItem = cmsExplorer.Items[0] as ToolStripMenuItem;
                 if (current.SelectedNode != null) //check whether right click is done on tree node
-                {
-                    if (menuItem.DropDownItems.Count > 1)
-                    {
-                        menuItem.DropDownItems[1].Text = tbcCategory.SelectedTab.Text;
-                    }
-                    else
-                    {
-                        //add new item in context menu [Form, catalog, report]
-                        ToolStripMenuItem newItem = new ToolStripMenuItem
-                        {
-                            Text = tbcCategory.SelectedTab.Text,
-                        };
-                        newItem.Click += addDocument_Click;
-                        menuItem.DropDownItems.Insert(menuItem.DropDownItems.Count, newItem);
-                    }
+                {  
+                    ShowHideContextMenuItems(false, current.SelectedNode, null);
                     cmsExplorer.Show(current, e.Location);
                 }
             }
-            else
-            {
-                //TreeNodeMouseDown(current.SelectedNode);
-            }
+           
         }
 
         private void trvArtifact_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
@@ -1100,6 +1064,40 @@ namespace Vanilla.Navigator.WinForm
             this.lvwColumnSorter.Order = SortOrder.Ascending;
             this.SortListView(sortColumn);
         }
+
+        private void cmnuSortAscending_Click(object sender, EventArgs e)
+        {
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(sortColumn);
+        }
+
+        private void cmnuSortDescending_Click(object sender, EventArgs e)
+        {
+            this.lvwColumnSorter.Order = SortOrder.Descending;
+            this.SortListView(sortColumn);
+        }
+        #endregion
+
+        #region View-Listview Display
+        private void cmnuViewLargeIcon_Click(object sender, EventArgs e)
+        {
+            this.lsvContainer.View = View.LargeIcon;
+        }
+
+        private void cmnuViewSmallIcon_Click(object sender, EventArgs e)
+        {
+            this.lsvContainer.View = View.SmallIcon;
+        }
+
+        private void cmnuViewList_Click(object sender, EventArgs e)
+        {
+            this.lsvContainer.View = View.List;
+        }
+
+        private void cmnuDetail_Click(object sender, EventArgs e)
+        {
+            this.lsvContainer.View = View.Details;
+        }
         #endregion
 
         #endregion
@@ -1443,14 +1441,14 @@ namespace Vanilla.Navigator.WinForm
             for (int i = 0; i < lsvContainer.Columns.Count; i++)
             {
                 if (lsvContainer.Columns[i].Text == columnHeaderCaption)
-                {                   
+                {
                     lvwColumnSorter.SortColumn = i;
 
                     // Reverse the current sort direction for this column.
-                    if (lvwColumnSorter.Order == SortOrder.Ascending)
-                        lsvContainer.Columns[lvwColumnSorter.SortColumn].Text += "     ^";
+                    if (lvwColumnSorter.Order == SortOrder.Ascending)                        
+                        this.lsvContainer.Columns[lvwColumnSorter.SortColumn].ImageKey = "Down.gif";
                     else
-                        lsvContainer.Columns[lvwColumnSorter.SortColumn].Text += "     v";
+                        this.lsvContainer.Columns[lvwColumnSorter.SortColumn].ImageKey = "Up.gif";                 
 
                     // Perform the sort with these new sort options.
                     this.lsvContainer.Sort();
@@ -1462,51 +1460,150 @@ namespace Vanilla.Navigator.WinForm
         }       
 
         private void ResetListViewColumnHeader()
-        {
+        {  
             //clear sort character from column caption
             for (int i = 0; i < lsvContainer.Columns.Count; i++)
-                lsvContainer.Columns[i].Text = lsvContainer.Columns[i].Text.Replace("v", "").Replace("^", "").Trim();
+            {
+                this.lsvContainer.Columns[i].ImageKey = String.Empty;
+                this.lsvContainer.Columns[i].ImageIndex = -1;
+                this.lsvContainer.Columns[i].TextAlign = HorizontalAlignment.Center;
+            }            
         }
 
         private void ShowHideContextMenuItems(Boolean isListView, TreeNode treeNode, ListViewItem listViewItem) 
         {
-            
-            if (isListView && listViewItem == null)
+            if (isListView)
             {
                 for (int i = 0; i < cmsExplorer.Items.Count; i++)
                 {
-                    cmsExplorer.Items[i].Visible = IsListViewWithNoItem(cmsExplorer.Items[i].Name);
+                    cmsExplorer.Items[i].Visible = IsListViewItem(cmsExplorer.Items[i].Name, listViewItem);
 
-                    //if (cmsExplorer.Items[i].Name == "cmnuSort")
-                    //{
-                    //    cmsExplorer.Items[i].DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+                    //attach image to context menu
+                    if ((cmsExplorer.Items[i].Name == "cmnuSort" && lvwColumnSorter.Order != SortOrder.None) || (cmsExplorer.Items[i].Name == "cmnuView"))
+                        this.SetImageInContextMenu((cmsExplorer.Items[i] as ToolStripMenuItem).DropDownItems, cmsExplorer.Items[i].Name);
 
-                    //    for (int j = 0; j < (cmsExplorer.Items[i] as ToolStripMenuItem).DropDownItems.Count; j++)
-                    //    {
+                    if (cmsExplorer.Items[i].Name == "newToolStripMenuItem")
+                        this.ShowHideContextMenuNewItems((cmsExplorer.Items[i] as ToolStripMenuItem).DropDownItems);
 
-                    //        (cmsExplorer.Items[i] as ToolStripMenuItem).DropDownItems[0].DisplayStyle = ToolStripItemDisplayStyle.Image;
-                    //        (cmsExplorer.Items[i] as ToolStripMenuItem).DropDownItems[0].ImageKey = "Directory.gif";
-                    //    }
-                    //}
+                }
+            }
+            else //Tree View
+            {
+                for (int i = 0; i < cmsExplorer.Items.Count; i++)
+                {
+                    cmsExplorer.Items[i].Visible = IsTreeViewItem(cmsExplorer.Items[i].Name);
+
+                    if (cmsExplorer.Items[i].Name == "newToolStripMenuItem")
+                        this.ShowHideContextMenuNewItems((cmsExplorer.Items[i] as ToolStripMenuItem).DropDownItems);
                 }
             }
         }
 
-        private Boolean IsListViewWithNoItem(String listViewItemName)
+        private Boolean IsListViewItem(String contextMenuName, ListViewItem listViewItem)
         {
-            if (listViewItemName == "cmnuView")
-                return true;
-            else if (listViewItemName == "cmnuSort")
-                return true;
-            else if (listViewItemName == "cmnuRefresh")
-                return true;
-            else if (listViewItemName == "cmnuSeparator1")
-                return true;
-            else if (listViewItemName == "newToolStripMenuItem")
-                return true;
-
-            return false;
+            switch (contextMenuName)
+            {
+                case "cmnuOpen":
+                    return listViewItem != null;
+                case "cmnuView":
+                    return listViewItem == null;
+                case "cmnuSort":
+                    return listViewItem == null;
+                case "cmnuRefresh":
+                    return listViewItem == null;
+                case "newToolStripMenuItem":
+                    return listViewItem == null;
+                case "cmnuDelete":
+                    return listViewItem != null;
+                case "cmnuRename":
+                    return listViewItem != null;
+                case "cmnuCut":
+                    return listViewItem != null;
+                case "cmnuCopy":
+                    return ((listViewItem != null) && ((listViewItem.Tag as Facade.Artifact.Dto).Style == Facade.Artifact.Type.Directory));
+                case "cmnuPaste":
+                    return ((listViewItem != null) && (this.editNode != null) && ((listViewItem.Tag as Facade.Artifact.Dto).Style == Facade.Artifact.Type.Directory));
+                case "cmnuSeparator1":
+                    return true;
+                case "cmnuSeparator2":
+                    return listViewItem != null;
+                default:
+                    return false;
+            }
         }
+
+        private Boolean IsTreeViewItem(String contextMenuName)
+        {
+            switch (contextMenuName)
+            {
+                case "cmnuCut":
+                    return true;
+                case "cmnuCopy":
+                    return true;
+                case "cmnuPaste":
+                    return this.editNode != null;
+                case "cmnuSeparator2":
+                    return true;
+                case "cmnuDelete":
+                    return true;
+                case "cmnuRename":
+                    return true;
+                case "cmnuSeparator3":
+                    return true;
+                case "newToolStripMenuItem":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private void ResetColumnOrderInListView()
+        {
+            for (int i = 0; i < this.lsvContainer.Columns.Count; i++)
+            {
+                this.lsvContainer.Columns[i].DisplayIndex = i;
+            }
+        }
+
+        private void SetImageInContextMenu(ToolStripItemCollection sortItems, String menuName)
+        {
+            //clear images
+            for (int i = 0; i < sortItems.Count; i++)
+                sortItems[i].Image = null;
+
+            //set image in list context menu
+            for (int i = 0; i < sortItems.Count; i++)
+            {
+                if (menuName == "cmnuSort")
+                {
+                    if ((this.sortColumn == sortItems[i].Text) || (lvwColumnSorter.Order.ToString() == sortItems[i].Text))
+                        sortItems[i].Image = this.imgMisc.Images["Dot.gif"];
+                }
+                else if (menuName == "cmnuView")
+                {
+                    String view = String.Empty;
+
+                    if (sortItems[i].Text == "Large Icon")
+                        view = "LargeIcon";
+                    else if (sortItems[i].Text == "Small Icon")
+                        view = "SmallIcon";
+                    else
+                        view = sortItems[i].Text;
+
+                    if (view == this.lsvContainer.View.ToString())
+                        sortItems[i].Image = this.imgMisc.Images["Dot.gif"];
+                }
+            }
+
+        }
+
+        private void ShowHideContextMenuNewItems(ToolStripItemCollection newItems)
+        {
+            //starting from 2nd item, since the 1st item directory will always be visible
+            for (int i = 1; i < newItems.Count; i++)
+                newItems[i].Visible = newItems[i].Text == tbcCategory.SelectedTab.Text;
+        }
+
     }
    
     /// <summary>
