@@ -63,11 +63,6 @@ namespace Vanilla.Guardian.WinForm
                             Initial = new Table(),
                             ContactNumberList = new List<Table>(),
                         },
-                        RoleList = new List<Facade.Role.Dto>(),
-                        SecurityAnswer = new Facade.SecurityAnswer.Dto
-                        {
-                            SecurityQuestion = new Table(),
-                        },
                     }
                 }
             };
@@ -85,6 +80,11 @@ namespace Vanilla.Guardian.WinForm
                 Server.Current.Cache["User"] = this.CurrentUser; //Add user to global variable
                 //Add Login info to log
                 this.Close();
+                //First time first name will be null
+                if (this.CurrentUser.Profile == null || String.IsNullOrEmpty(this.CurrentUser.Profile.FirstName))
+                {
+                    new MyAccount().ShowDialog(this.Owner);
+                }
             }
         }
 
