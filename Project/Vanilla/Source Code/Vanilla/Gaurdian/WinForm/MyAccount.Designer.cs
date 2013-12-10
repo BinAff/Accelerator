@@ -86,6 +86,7 @@
             this.cboSecQ.Location = new System.Drawing.Point(106, 51);
             this.cboSecQ.Name = "cboSecQ";
             this.cboSecQ.Size = new System.Drawing.Size(376, 21);
+            this.cboSecQ.Sorted = true;
             this.cboSecQ.TabIndex = 16;
             // 
             // label5
@@ -229,6 +230,7 @@
             this.lstContact.Location = new System.Drawing.Point(347, 65);
             this.lstContact.Name = "lstContact";
             this.lstContact.Size = new System.Drawing.Size(168, 43);
+            this.lstContact.Sorted = true;
             this.lstContact.TabIndex = 12;
             // 
             // txtLandLine
@@ -297,6 +299,7 @@
             this.cboInitial.Location = new System.Drawing.Point(109, 13);
             this.cboInitial.Name = "cboInitial";
             this.cboInitial.Size = new System.Drawing.Size(48, 21);
+            this.cboInitial.Sorted = true;
             this.cboInitial.TabIndex = 1;
             // 
             // lblName
