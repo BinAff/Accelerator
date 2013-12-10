@@ -46,6 +46,7 @@ namespace Vanilla.Guardian.Facade.MyAccount
             if (accountData.SecurityAnswerList != null && accountData.SecurityAnswerList.Count > 0)
             {
                 accountDto.SecurityAnswer = new SecurityAnswer.Dto();
+                //Taking one security Answer
                 this.Convert(accountDto.SecurityAnswer, accountData.SecurityAnswerList[0] as CrysAcc.SecurityAnswer.Data);
             }            
             return accountDto;
@@ -55,11 +56,13 @@ namespace Vanilla.Guardian.Facade.MyAccount
         {
             secDto.Id = secData.Id;
             secDto.Answer = secData.Answer;
-            secDto.SecurityQuestion = new Table();
             if (secData.Question != null)
             {
-                secDto.SecurityQuestion.Id = secData.Question.Id;
-                secDto.SecurityQuestion.Name = secData.Question.Question;
+                secDto.SecurityQuestion = new Table
+                {
+                    Id = secData.Question.Id,
+                    Name = secData.Question.Question,
+                };
             };
             return secDto;
         }
