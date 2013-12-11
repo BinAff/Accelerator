@@ -82,10 +82,10 @@
             // 
             // txtAdvance
             // 
-            this.txtAdvance.BackColor = System.Drawing.Color.Lavender;
+            this.txtAdvance.BackColor = System.Drawing.SystemColors.Window;
             this.txtAdvance.Enabled = false;
             this.txtAdvance.ForeColor = System.Drawing.Color.Black;
-            this.txtAdvance.Location = new System.Drawing.Point(109, 122);
+            this.txtAdvance.Location = new System.Drawing.Point(109, 125);
             this.txtAdvance.Name = "txtAdvance";
             this.txtAdvance.Size = new System.Drawing.Size(148, 20);
             this.txtAdvance.TabIndex = 105;
@@ -95,7 +95,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Enabled = false;
-            this.label6.Location = new System.Drawing.Point(14, 125);
+            this.label6.Location = new System.Drawing.Point(15, 128);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(89, 13);
             this.label6.TabIndex = 104;
@@ -103,10 +103,10 @@
             // 
             // txtRooms
             // 
-            this.txtRooms.BackColor = System.Drawing.Color.Lavender;
+            this.txtRooms.BackColor = System.Drawing.SystemColors.Window;
             this.txtRooms.Enabled = false;
             this.txtRooms.ForeColor = System.Drawing.Color.Black;
-            this.txtRooms.Location = new System.Drawing.Point(109, 96);
+            this.txtRooms.Location = new System.Drawing.Point(110, 99);
             this.txtRooms.Name = "txtRooms";
             this.txtRooms.Size = new System.Drawing.Size(32, 20);
             this.txtRooms.TabIndex = 103;
@@ -115,7 +115,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Enabled = false;
-            this.label4.Location = new System.Drawing.Point(14, 99);
+            this.label4.Location = new System.Drawing.Point(15, 102);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(69, 13);
             this.label4.TabIndex = 102;
@@ -123,10 +123,10 @@
             // 
             // txtPersons
             // 
-            this.txtPersons.BackColor = System.Drawing.Color.Lavender;
+            this.txtPersons.BackColor = System.Drawing.SystemColors.Window;
             this.txtPersons.Enabled = false;
             this.txtPersons.ForeColor = System.Drawing.Color.Black;
-            this.txtPersons.Location = new System.Drawing.Point(109, 70);
+            this.txtPersons.Location = new System.Drawing.Point(110, 73);
             this.txtPersons.Name = "txtPersons";
             this.txtPersons.Size = new System.Drawing.Size(32, 20);
             this.txtPersons.TabIndex = 101;
@@ -135,7 +135,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Enabled = false;
-            this.label3.Location = new System.Drawing.Point(14, 73);
+            this.label3.Location = new System.Drawing.Point(15, 76);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(74, 13);
             this.label3.TabIndex = 100;
@@ -143,10 +143,10 @@
             // 
             // txtDays
             // 
-            this.txtDays.BackColor = System.Drawing.Color.Lavender;
+            this.txtDays.BackColor = System.Drawing.SystemColors.Window;
             this.txtDays.Enabled = false;
             this.txtDays.ForeColor = System.Drawing.Color.Black;
-            this.txtDays.Location = new System.Drawing.Point(109, 44);
+            this.txtDays.Location = new System.Drawing.Point(110, 47);
             this.txtDays.Name = "txtDays";
             this.txtDays.Size = new System.Drawing.Size(32, 20);
             this.txtDays.TabIndex = 98;
@@ -155,7 +155,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Enabled = false;
-            this.label2.Location = new System.Drawing.Point(14, 47);
+            this.label2.Location = new System.Drawing.Point(15, 50);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 13);
             this.label2.TabIndex = 96;
@@ -165,7 +165,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Enabled = false;
-            this.label1.Location = new System.Drawing.Point(14, 24);
+            this.label1.Location = new System.Drawing.Point(15, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 97;
@@ -182,19 +182,19 @@
             this.groupBox1.Controls.Add(this.txtName);
             this.groupBox1.Controls.Add(this.lblName);
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(266, 18);
+            this.groupBox1.Location = new System.Drawing.Point(267, 16);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(272, 212);
+            this.groupBox1.Size = new System.Drawing.Size(272, 217);
             this.groupBox1.TabIndex = 95;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Customer Details";
             // 
             // txtEmail
             // 
-            this.txtEmail.BackColor = System.Drawing.Color.Lavender;
+            this.txtEmail.BackColor = System.Drawing.SystemColors.Window;
             this.txtEmail.Enabled = false;
             this.txtEmail.ForeColor = System.Drawing.Color.Black;
-            this.txtEmail.Location = new System.Drawing.Point(104, 188);
+            this.txtEmail.Location = new System.Drawing.Point(104, 185);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(154, 20);
             this.txtEmail.TabIndex = 85;
@@ -203,7 +203,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Enabled = false;
-            this.label8.Location = new System.Drawing.Point(9, 191);
+            this.label8.Location = new System.Drawing.Point(9, 188);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(33, 13);
             this.label8.TabIndex = 84;
@@ -211,20 +211,20 @@
             // 
             // txtAdds
             // 
-            this.txtAdds.BackColor = System.Drawing.Color.Lavender;
+            this.txtAdds.BackColor = System.Drawing.SystemColors.Window;
             this.txtAdds.Enabled = false;
             this.txtAdds.ForeColor = System.Drawing.Color.Black;
-            this.txtAdds.Location = new System.Drawing.Point(104, 104);
+            this.txtAdds.Location = new System.Drawing.Point(104, 111);
             this.txtAdds.Multiline = true;
             this.txtAdds.Name = "txtAdds";
-            this.txtAdds.Size = new System.Drawing.Size(154, 78);
+            this.txtAdds.Size = new System.Drawing.Size(154, 66);
             this.txtAdds.TabIndex = 83;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Enabled = false;
-            this.label7.Location = new System.Drawing.Point(9, 107);
+            this.label7.Location = new System.Drawing.Point(9, 114);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(45, 13);
             this.label7.TabIndex = 82;
@@ -232,20 +232,20 @@
             // 
             // lstContact
             // 
-            this.lstContact.BackColor = System.Drawing.Color.Lavender;
+            this.lstContact.BackColor = System.Drawing.SystemColors.Window;
             this.lstContact.Enabled = false;
             this.lstContact.ForeColor = System.Drawing.Color.Black;
             this.lstContact.FormattingEnabled = true;
-            this.lstContact.Location = new System.Drawing.Point(104, 55);
+            this.lstContact.Location = new System.Drawing.Point(104, 48);
             this.lstContact.Name = "lstContact";
-            this.lstContact.Size = new System.Drawing.Size(154, 43);
+            this.lstContact.Size = new System.Drawing.Size(154, 56);
             this.lstContact.TabIndex = 81;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Enabled = false;
-            this.label5.Location = new System.Drawing.Point(9, 52);
+            this.label5.Location = new System.Drawing.Point(9, 45);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(89, 13);
             this.label5.TabIndex = 80;
@@ -253,10 +253,10 @@
             // 
             // txtName
             // 
-            this.txtName.BackColor = System.Drawing.Color.Lavender;
+            this.txtName.BackColor = System.Drawing.SystemColors.Window;
             this.txtName.Enabled = false;
             this.txtName.ForeColor = System.Drawing.Color.Black;
-            this.txtName.Location = new System.Drawing.Point(104, 29);
+            this.txtName.Location = new System.Drawing.Point(104, 22);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(154, 20);
             this.txtName.TabIndex = 23;
@@ -265,7 +265,7 @@
             // 
             this.lblName.AutoSize = true;
             this.lblName.Enabled = false;
-            this.lblName.Location = new System.Drawing.Point(9, 32);
+            this.lblName.Location = new System.Drawing.Point(9, 25);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 22;
@@ -273,11 +273,11 @@
             // 
             // lstRooms
             // 
-            this.lstRooms.BackColor = System.Drawing.Color.Lavender;
+            this.lstRooms.BackColor = System.Drawing.SystemColors.Window;
             this.lstRooms.Enabled = false;
             this.lstRooms.ForeColor = System.Drawing.Color.Black;
             this.lstRooms.FormattingEnabled = true;
-            this.lstRooms.Location = new System.Drawing.Point(109, 148);
+            this.lstRooms.Location = new System.Drawing.Point(110, 151);
             this.lstRooms.Name = "lstRooms";
             this.lstRooms.Size = new System.Drawing.Size(148, 82);
             this.lstRooms.TabIndex = 86;
@@ -286,7 +286,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Enabled = false;
-            this.label9.Location = new System.Drawing.Point(14, 148);
+            this.label9.Location = new System.Drawing.Point(15, 151);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(75, 13);
             this.label9.TabIndex = 106;
@@ -297,7 +297,7 @@
             this.dtBookingFrom.CalendarMonthBackground = System.Drawing.Color.Lavender;
             this.dtBookingFrom.CalendarTitleBackColor = System.Drawing.Color.LightSteelBlue;
             this.dtBookingFrom.CalendarTitleForeColor = System.Drawing.Color.Lavender;
-            this.dtBookingFrom.Location = new System.Drawing.Point(75, 47);
+            this.dtBookingFrom.Location = new System.Drawing.Point(79, 10);
             this.dtBookingFrom.Name = "dtBookingFrom";
             this.dtBookingFrom.Size = new System.Drawing.Size(115, 20);
             this.dtBookingFrom.TabIndex = 107;
@@ -307,7 +307,7 @@
             this.dtBookingTo.CalendarMonthBackground = System.Drawing.Color.Lavender;
             this.dtBookingTo.CalendarTitleBackColor = System.Drawing.Color.LightSteelBlue;
             this.dtBookingTo.CalendarTitleForeColor = System.Drawing.Color.Lavender;
-            this.dtBookingTo.Location = new System.Drawing.Point(211, 47);
+            this.dtBookingTo.Location = new System.Drawing.Point(215, 10);
             this.dtBookingTo.Name = "dtBookingTo";
             this.dtBookingTo.Size = new System.Drawing.Size(119, 20);
             this.dtBookingTo.TabIndex = 108;
@@ -316,12 +316,11 @@
             // 
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.SteelBlue;
             this.dgvReservation.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvReservation.BackgroundColor = System.Drawing.Color.LightSlateGray;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightSlateGray;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.SteelBlue;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvReservation.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
@@ -336,19 +335,18 @@
             this.Advance});
             this.dgvReservation.ContextMenuStrip = this.contextMenuGrid;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Lavender;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.SteelBlue;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvReservation.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvReservation.GridColor = System.Drawing.Color.Lavender;
-            this.dgvReservation.Location = new System.Drawing.Point(8, 83);
+            this.dgvReservation.Location = new System.Drawing.Point(12, 46);
             this.dgvReservation.Name = "dgvReservation";
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.SteelBlue;
             this.dgvReservation.RowsDefaultCellStyle = dataGridViewCellStyle4;
-            this.dgvReservation.Size = new System.Drawing.Size(747, 226);
+            this.dgvReservation.Size = new System.Drawing.Size(747, 274);
             this.dgvReservation.TabIndex = 109;
             // 
             // Date
@@ -394,36 +392,36 @@
             this.cMenuItemDelete,
             this.cMenuItemView});
             this.contextMenuGrid.Name = "contextMenuGrid";
-            this.contextMenuGrid.Size = new System.Drawing.Size(121, 92);
+            this.contextMenuGrid.Size = new System.Drawing.Size(117, 92);
             // 
             // cMenuItemCheckIn
             // 
             this.cMenuItemCheckIn.Name = "cMenuItemCheckIn";
-            this.cMenuItemCheckIn.Size = new System.Drawing.Size(120, 22);
+            this.cMenuItemCheckIn.Size = new System.Drawing.Size(116, 22);
             this.cMenuItemCheckIn.Text = "Check In";
             // 
             // cMenuItemCancel
             // 
             this.cMenuItemCancel.Name = "cMenuItemCancel";
-            this.cMenuItemCancel.Size = new System.Drawing.Size(120, 22);
+            this.cMenuItemCancel.Size = new System.Drawing.Size(116, 22);
             this.cMenuItemCancel.Text = "Cancel";
             // 
             // cMenuItemDelete
             // 
             this.cMenuItemDelete.Name = "cMenuItemDelete";
-            this.cMenuItemDelete.Size = new System.Drawing.Size(120, 22);
+            this.cMenuItemDelete.Size = new System.Drawing.Size(116, 22);
             this.cMenuItemDelete.Text = "Delete";
             // 
             // cMenuItemView
             // 
             this.cMenuItemView.Name = "cMenuItemView";
-            this.cMenuItemView.Size = new System.Drawing.Size(120, 22);
+            this.cMenuItemView.Size = new System.Drawing.Size(116, 22);
             this.cMenuItemView.Text = "View";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(8, 51);
+            this.label10.Location = new System.Drawing.Point(12, 14);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(64, 13);
             this.label10.TabIndex = 110;
@@ -431,9 +429,9 @@
             // 
             // cmbReservationStatus
             // 
-            this.cmbReservationStatus.BackColor = System.Drawing.Color.Lavender;
+            this.cmbReservationStatus.BackColor = System.Drawing.SystemColors.Window;
             this.cmbReservationStatus.FormattingEnabled = true;
-            this.cmbReservationStatus.Location = new System.Drawing.Point(539, 47);
+            this.cmbReservationStatus.Location = new System.Drawing.Point(543, 10);
             this.cmbReservationStatus.Name = "cmbReservationStatus";
             this.cmbReservationStatus.Size = new System.Drawing.Size(131, 21);
             this.cmbReservationStatus.TabIndex = 112;
@@ -441,7 +439,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(496, 51);
+            this.label12.Location = new System.Drawing.Point(500, 14);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(37, 13);
             this.label12.TabIndex = 113;
@@ -463,26 +461,26 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.groupBox1);
             this.groupBox2.ForeColor = System.Drawing.Color.Black;
-            this.groupBox2.Location = new System.Drawing.Point(102, 315);
+            this.groupBox2.Location = new System.Drawing.Point(110, 326);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(551, 245);
+            this.groupBox2.Size = new System.Drawing.Size(551, 246);
             this.groupBox2.TabIndex = 133;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Reservation Details";
             // 
             // txtFromDate
             // 
-            this.txtFromDate.BackColor = System.Drawing.Color.Lavender;
+            this.txtFromDate.BackColor = System.Drawing.SystemColors.Window;
             this.txtFromDate.Enabled = false;
             this.txtFromDate.ForeColor = System.Drawing.Color.Black;
-            this.txtFromDate.Location = new System.Drawing.Point(109, 17);
+            this.txtFromDate.Location = new System.Drawing.Point(110, 20);
             this.txtFromDate.Name = "txtFromDate";
             this.txtFromDate.Size = new System.Drawing.Size(148, 20);
             this.txtFromDate.TabIndex = 107;
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(676, 44);
+            this.btnSearch.Location = new System.Drawing.Point(680, 10);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(75, 23);
             this.btnSearch.TabIndex = 134;
@@ -503,7 +501,12 @@
             this.Controls.Add(this.dtBookingTo);
             this.Controls.Add(this.dtBookingFrom);
             this.Controls.Add(this.dgvReservation);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "RoomReservationRegister";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Room Reservation Register";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

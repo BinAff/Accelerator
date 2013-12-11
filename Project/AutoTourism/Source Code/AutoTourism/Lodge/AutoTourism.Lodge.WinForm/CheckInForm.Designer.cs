@@ -69,7 +69,7 @@
             this.groupBox2.Controls.Add(this.cmbCheckInRoom);
             this.groupBox2.Controls.Add(this.btnAddRoom);
             this.groupBox2.ForeColor = System.Drawing.Color.Black;
-            this.groupBox2.Location = new System.Drawing.Point(13, 167);
+            this.groupBox2.Location = new System.Drawing.Point(13, 142);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(207, 145);
             this.groupBox2.TabIndex = 107;
@@ -78,7 +78,7 @@
             // 
             // cboRoomList
             // 
-            this.cboRoomList.BackColor = System.Drawing.Color.Lavender;
+            this.cboRoomList.BackColor = System.Drawing.SystemColors.Window;
             this.cboRoomList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboRoomList.FormattingEnabled = true;
             this.cboRoomList.Location = new System.Drawing.Point(10, 19);
@@ -98,7 +98,7 @@
             // 
             // cmbCheckInRoom
             // 
-            this.cmbCheckInRoom.BackColor = System.Drawing.Color.Lavender;
+            this.cmbCheckInRoom.BackColor = System.Drawing.SystemColors.Window;
             this.cmbCheckInRoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cmbCheckInRoom.FormattingEnabled = true;
             this.cmbCheckInRoom.Location = new System.Drawing.Point(126, 19);
@@ -118,8 +118,8 @@
             // 
             // txtAdvance
             // 
-            this.txtAdvance.BackColor = System.Drawing.Color.Lavender;
-            this.txtAdvance.Location = new System.Drawing.Point(105, 141);
+            this.txtAdvance.BackColor = System.Drawing.SystemColors.Window;
+            this.txtAdvance.Location = new System.Drawing.Point(105, 116);
             this.txtAdvance.MaxLength = 10;
             this.txtAdvance.Name = "txtAdvance";
             this.txtAdvance.Size = new System.Drawing.Size(74, 20);
@@ -128,7 +128,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 144);
+            this.label6.Location = new System.Drawing.Point(10, 119);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(89, 13);
             this.label6.TabIndex = 105;
@@ -136,8 +136,8 @@
             // 
             // txtRooms
             // 
-            this.txtRooms.BackColor = System.Drawing.Color.Lavender;
-            this.txtRooms.Location = new System.Drawing.Point(105, 115);
+            this.txtRooms.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
+            this.txtRooms.Location = new System.Drawing.Point(105, 90);
             this.txtRooms.MaxLength = 3;
             this.txtRooms.Name = "txtRooms";
             this.txtRooms.Size = new System.Drawing.Size(32, 20);
@@ -146,7 +146,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 118);
+            this.label4.Location = new System.Drawing.Point(10, 93);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(69, 13);
             this.label4.TabIndex = 103;
@@ -154,8 +154,8 @@
             // 
             // txtPersons
             // 
-            this.txtPersons.BackColor = System.Drawing.Color.Lavender;
-            this.txtPersons.Location = new System.Drawing.Point(105, 89);
+            this.txtPersons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
+            this.txtPersons.Location = new System.Drawing.Point(105, 64);
             this.txtPersons.MaxLength = 4;
             this.txtPersons.Name = "txtPersons";
             this.txtPersons.Size = new System.Drawing.Size(32, 20);
@@ -164,7 +164,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 92);
+            this.label3.Location = new System.Drawing.Point(10, 67);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(74, 13);
             this.label3.TabIndex = 101;
@@ -172,8 +172,8 @@
             // 
             // txtDays
             // 
-            this.txtDays.BackColor = System.Drawing.Color.Lavender;
-            this.txtDays.Location = new System.Drawing.Point(105, 63);
+            this.txtDays.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
+            this.txtDays.Location = new System.Drawing.Point(105, 38);
             this.txtDays.MaxLength = 4;
             this.txtDays.Name = "txtDays";
             this.txtDays.Size = new System.Drawing.Size(32, 20);
@@ -182,7 +182,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 66);
+            this.label2.Location = new System.Drawing.Point(10, 41);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 13);
             this.label2.TabIndex = 97;
@@ -193,7 +193,7 @@
             this.dtCheckIn.CalendarMonthBackground = System.Drawing.Color.Lavender;
             this.dtCheckIn.CalendarTitleBackColor = System.Drawing.Color.LightSteelBlue;
             this.dtCheckIn.CalendarTitleForeColor = System.Drawing.Color.Lavender;
-            this.dtCheckIn.Location = new System.Drawing.Point(105, 37);
+            this.dtCheckIn.Location = new System.Drawing.Point(105, 12);
             this.dtCheckIn.Name = "dtCheckIn";
             this.dtCheckIn.Size = new System.Drawing.Size(115, 20);
             this.dtCheckIn.TabIndex = 100;
@@ -201,7 +201,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 43);
+            this.label1.Location = new System.Drawing.Point(10, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 98;
@@ -219,7 +219,7 @@
             this.groupBox1.Controls.Add(this.lblName);
             this.groupBox1.Enabled = false;
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(226, 37);
+            this.groupBox1.Location = new System.Drawing.Point(226, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(272, 245);
             this.groupBox1.TabIndex = 96;
@@ -228,7 +228,7 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.BackColor = System.Drawing.Color.Lavender;
+            this.txtEmail.BackColor = System.Drawing.SystemColors.Window;
             this.txtEmail.ForeColor = System.Drawing.Color.Black;
             this.txtEmail.Location = new System.Drawing.Point(104, 216);
             this.txtEmail.Name = "txtEmail";
@@ -246,7 +246,7 @@
             // 
             // txtAdds
             // 
-            this.txtAdds.BackColor = System.Drawing.Color.Lavender;
+            this.txtAdds.BackColor = System.Drawing.SystemColors.Window;
             this.txtAdds.ForeColor = System.Drawing.Color.Black;
             this.txtAdds.Location = new System.Drawing.Point(104, 94);
             this.txtAdds.Multiline = true;
@@ -265,7 +265,7 @@
             // 
             // lstContact
             // 
-            this.lstContact.BackColor = System.Drawing.Color.Lavender;
+            this.lstContact.BackColor = System.Drawing.SystemColors.Window;
             this.lstContact.ForeColor = System.Drawing.Color.Black;
             this.lstContact.FormattingEnabled = true;
             this.lstContact.Location = new System.Drawing.Point(104, 45);
@@ -284,7 +284,7 @@
             // 
             // txtName
             // 
-            this.txtName.BackColor = System.Drawing.Color.Lavender;
+            this.txtName.BackColor = System.Drawing.SystemColors.Window;
             this.txtName.ForeColor = System.Drawing.Color.Black;
             this.txtName.Location = new System.Drawing.Point(104, 19);
             this.txtName.Name = "txtName";
@@ -302,7 +302,7 @@
             // 
             // btnPickReservation
             // 
-            this.btnPickReservation.Location = new System.Drawing.Point(344, 292);
+            this.btnPickReservation.Location = new System.Drawing.Point(344, 264);
             this.btnPickReservation.Name = "btnPickReservation";
             this.btnPickReservation.Size = new System.Drawing.Size(154, 23);
             this.btnPickReservation.TabIndex = 97;
@@ -316,7 +316,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(514, 43);
+            this.btnRefresh.Location = new System.Drawing.Point(514, 13);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 108;
@@ -325,7 +325,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(514, 79);
+            this.btnOk.Location = new System.Drawing.Point(514, 49);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 109;
@@ -337,7 +337,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 326);
+            this.ClientSize = new System.Drawing.Size(601, 302);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnPickReservation);
@@ -353,7 +353,12 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtPersons);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "CheckInForm";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Check In Form";
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);

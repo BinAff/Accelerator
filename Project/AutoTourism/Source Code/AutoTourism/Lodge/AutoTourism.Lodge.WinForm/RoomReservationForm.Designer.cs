@@ -75,16 +75,16 @@
             this.groupBox1.Controls.Add(this.txtName);
             this.groupBox1.Controls.Add(this.lblName);
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(322, 43);
+            this.groupBox1.Location = new System.Drawing.Point(315, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(272, 273);
+            this.groupBox1.Size = new System.Drawing.Size(272, 234);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Customer Details";
             // 
             // btnPickCustomer
             // 
-            this.btnPickCustomer.Location = new System.Drawing.Point(104, 244);
+            this.btnPickCustomer.Location = new System.Drawing.Point(103, 200);
             this.btnPickCustomer.Name = "btnPickCustomer";
             this.btnPickCustomer.Size = new System.Drawing.Size(154, 23);
             this.btnPickCustomer.TabIndex = 96;
@@ -94,10 +94,10 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.BackColor = System.Drawing.Color.Lavender;
+            this.txtEmail.BackColor = System.Drawing.SystemColors.Window;
             this.txtEmail.Enabled = false;
             this.txtEmail.ForeColor = System.Drawing.Color.Black;
-            this.txtEmail.Location = new System.Drawing.Point(104, 216);
+            this.txtEmail.Location = new System.Drawing.Point(103, 168);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(154, 20);
             this.txtEmail.TabIndex = 85;
@@ -105,7 +105,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 219);
+            this.label8.Location = new System.Drawing.Point(8, 171);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(33, 13);
             this.label8.TabIndex = 84;
@@ -113,19 +113,19 @@
             // 
             // txtAdds
             // 
-            this.txtAdds.BackColor = System.Drawing.Color.Lavender;
+            this.txtAdds.BackColor = System.Drawing.SystemColors.Window;
             this.txtAdds.Enabled = false;
             this.txtAdds.ForeColor = System.Drawing.Color.Black;
-            this.txtAdds.Location = new System.Drawing.Point(104, 94);
+            this.txtAdds.Location = new System.Drawing.Point(103, 94);
             this.txtAdds.Multiline = true;
             this.txtAdds.Name = "txtAdds";
-            this.txtAdds.Size = new System.Drawing.Size(154, 116);
+            this.txtAdds.Size = new System.Drawing.Size(154, 64);
             this.txtAdds.TabIndex = 83;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 97);
+            this.label7.Location = new System.Drawing.Point(8, 97);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(45, 13);
             this.label7.TabIndex = 82;
@@ -133,11 +133,11 @@
             // 
             // lstContact
             // 
-            this.lstContact.BackColor = System.Drawing.Color.Lavender;
+            this.lstContact.BackColor = System.Drawing.SystemColors.Window;
             this.lstContact.Enabled = false;
             this.lstContact.ForeColor = System.Drawing.Color.Black;
             this.lstContact.FormattingEnabled = true;
-            this.lstContact.Location = new System.Drawing.Point(104, 45);
+            this.lstContact.Location = new System.Drawing.Point(103, 45);
             this.lstContact.Name = "lstContact";
             this.lstContact.Size = new System.Drawing.Size(154, 43);
             this.lstContact.TabIndex = 81;
@@ -145,7 +145,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 42);
+            this.label5.Location = new System.Drawing.Point(8, 42);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(89, 13);
             this.label5.TabIndex = 80;
@@ -153,10 +153,10 @@
             // 
             // txtName
             // 
-            this.txtName.BackColor = System.Drawing.Color.Lavender;
+            this.txtName.BackColor = System.Drawing.SystemColors.Window;
             this.txtName.Enabled = false;
             this.txtName.ForeColor = System.Drawing.Color.Black;
-            this.txtName.Location = new System.Drawing.Point(104, 19);
+            this.txtName.Location = new System.Drawing.Point(103, 19);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(154, 20);
             this.txtName.TabIndex = 23;
@@ -164,7 +164,7 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(9, 22);
+            this.lblName.Location = new System.Drawing.Point(8, 22);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 22;
@@ -173,7 +173,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 49);
+            this.label1.Location = new System.Drawing.Point(8, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 82;
@@ -184,7 +184,7 @@
             this.dtFrom.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
             this.dtFrom.CalendarTitleBackColor = System.Drawing.Color.LightSteelBlue;
             this.dtFrom.CalendarTitleForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.dtFrom.Location = new System.Drawing.Point(110, 43);
+            this.dtFrom.Location = new System.Drawing.Point(103, 12);
             this.dtFrom.Name = "dtFrom";
             this.dtFrom.Size = new System.Drawing.Size(108, 20);
             this.dtFrom.TabIndex = 1;
@@ -192,7 +192,7 @@
             // txtDays
             // 
             this.txtDays.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtDays.Location = new System.Drawing.Point(110, 69);
+            this.txtDays.Location = new System.Drawing.Point(103, 39);
             this.txtDays.MaxLength = 3;
             this.txtDays.Name = "txtDays";
             this.txtDays.Size = new System.Drawing.Size(32, 20);
@@ -201,7 +201,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 72);
+            this.label2.Location = new System.Drawing.Point(8, 43);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 13);
             this.label2.TabIndex = 82;
@@ -210,7 +210,7 @@
             // txtPersons
             // 
             this.txtPersons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtPersons.Location = new System.Drawing.Point(110, 95);
+            this.txtPersons.Location = new System.Drawing.Point(271, 39);
             this.txtPersons.MaxLength = 3;
             this.txtPersons.Name = "txtPersons";
             this.txtPersons.Size = new System.Drawing.Size(32, 20);
@@ -219,7 +219,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 98);
+            this.label3.Location = new System.Drawing.Point(141, 43);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(74, 13);
             this.label3.TabIndex = 84;
@@ -228,7 +228,7 @@
             // txtRooms
             // 
             this.txtRooms.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtRooms.Location = new System.Drawing.Point(110, 121);
+            this.txtRooms.Location = new System.Drawing.Point(103, 68);
             this.txtRooms.MaxLength = 3;
             this.txtRooms.Name = "txtRooms";
             this.txtRooms.Size = new System.Drawing.Size(32, 20);
@@ -237,7 +237,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 124);
+            this.label4.Location = new System.Drawing.Point(8, 72);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(69, 13);
             this.label4.TabIndex = 86;
@@ -246,7 +246,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(15, 150);
+            this.label6.Location = new System.Drawing.Point(141, 72);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(89, 13);
             this.label6.TabIndex = 88;
@@ -254,8 +254,8 @@
             // 
             // txtAdvance
             // 
-            this.txtAdvance.BackColor = System.Drawing.Color.Lavender;
-            this.txtAdvance.Location = new System.Drawing.Point(110, 147);
+            this.txtAdvance.BackColor = System.Drawing.SystemColors.Window;
+            this.txtAdvance.Location = new System.Drawing.Point(250, 68);
             this.txtAdvance.MaxLength = 10;
             this.txtAdvance.Name = "txtAdvance";
             this.txtAdvance.Size = new System.Drawing.Size(53, 20);
@@ -264,20 +264,20 @@
             // 
             // cboRoomList
             // 
-            this.cboRoomList.BackColor = System.Drawing.Color.Lavender;
+            this.cboRoomList.BackColor = System.Drawing.SystemColors.Window;
             this.cboRoomList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboRoomList.FormattingEnabled = true;
-            this.cboRoomList.Location = new System.Drawing.Point(10, 19);
+            this.cboRoomList.Location = new System.Drawing.Point(5, 19);
             this.cboRoomList.Name = "cboRoomList";
             this.cboRoomList.Size = new System.Drawing.Size(108, 124);
             this.cboRoomList.TabIndex = 90;
             // 
             // cboSelectedRoom
             // 
-            this.cboSelectedRoom.BackColor = System.Drawing.Color.Lavender;
+            this.cboSelectedRoom.BackColor = System.Drawing.SystemColors.Window;
             this.cboSelectedRoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboSelectedRoom.FormattingEnabled = true;
-            this.cboSelectedRoom.Location = new System.Drawing.Point(162, 19);
+            this.cboSelectedRoom.Location = new System.Drawing.Point(168, 19);
             this.cboSelectedRoom.Name = "cboSelectedRoom";
             this.cboSelectedRoom.Size = new System.Drawing.Size(107, 124);
             this.cboSelectedRoom.TabIndex = 91;
@@ -311,9 +311,9 @@
             this.groupBox2.Controls.Add(this.cboSelectedRoom);
             this.groupBox2.Controls.Add(this.btnAddRoom);
             this.groupBox2.ForeColor = System.Drawing.Color.Black;
-            this.groupBox2.Location = new System.Drawing.Point(18, 173);
+            this.groupBox2.Location = new System.Drawing.Point(11, 95);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(275, 145);
+            this.groupBox2.Size = new System.Drawing.Size(292, 145);
             this.groupBox2.TabIndex = 94;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preffered Room";
@@ -327,14 +327,14 @@
             this.dtFromTime.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
             this.dtFromTime.CalendarTitleBackColor = System.Drawing.Color.LightSteelBlue;
             this.dtFromTime.CalendarTitleForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.dtFromTime.Location = new System.Drawing.Point(224, 42);
+            this.dtFromTime.Location = new System.Drawing.Point(217, 11);
             this.dtFromTime.Name = "dtFromTime";
             this.dtFromTime.Size = new System.Drawing.Size(86, 20);
             this.dtFromTime.TabIndex = 2;
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(603, 78);
+            this.btnOk.Location = new System.Drawing.Point(601, 41);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 95;
@@ -344,7 +344,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(603, 49);
+            this.button1.Location = new System.Drawing.Point(601, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 96;
@@ -355,7 +355,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 328);
+            this.ClientSize = new System.Drawing.Size(690, 251);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.dtFrom);
@@ -371,7 +371,12 @@
             this.Controls.Add(this.txtRooms);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtPersons);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "RoomReservationForm";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Room Registration Form";
             this.Load += new System.EventHandler(this.RoomBookingForm_Load);
             this.groupBox1.ResumeLayout(false);
