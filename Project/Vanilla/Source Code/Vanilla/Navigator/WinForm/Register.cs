@@ -93,7 +93,9 @@ namespace Vanilla.Navigator.WinForm
             if (e.Button == MouseButtons.Right)
             {
                 ToolStripMenuItem menuItem = cmsExplorer.Items[0] as ToolStripMenuItem;
-                if (current.SelectedNode != null) //check whether right click is done on tree node
+                //check whether right click is done on tree node
+                //Avoiding operations for the Modules
+                if (current.SelectedNode != null && current.SelectedNode.Parent != null) 
                 {
                     this.ShowHideContextMenuItems(false, current.SelectedNode, null);
                     this.cmsExplorer.Show(current, e.Location);
