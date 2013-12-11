@@ -18,6 +18,26 @@ namespace Vanilla.Guardian.WinForm
             InitializeComponent();
         }
 
+        private void Info_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cboUser_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnResetPassword_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
 
     }
