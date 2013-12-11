@@ -42,6 +42,7 @@
     <Compile Include="Artifact\Type.cs" />
     <Compile Include="Container\Dto.cs" />
     <Compile Include="Container\FormDto.cs" />
+    <Compile Include="Container\RoleManager.cs" />
     <Compile Include="Container\Server.cs" />
     <Compile Include="Module\Dto.cs" />
     <Compile Include="Module\FormDto.cs" />
@@ -86,6 +87,10 @@
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Navigator\Rule\Crystal.Navigator.Rule.csproj">
       <Project>{a42c45cd-ffbb-425e-a5d8-540b365d97bb}</Project>
       <Name>Crystal.Navigator.Rule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
+      <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
+      <Name>Vanilla.Guardian.Facade</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

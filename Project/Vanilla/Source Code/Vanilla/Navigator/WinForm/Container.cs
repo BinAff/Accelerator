@@ -977,6 +977,71 @@ namespace Vanilla.Navigator.WinForm
             this.ShowSms();
         }
 
+        #region Sort
+
+        private void mnuCreatedAt_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Created At";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(this.sortColumn);
+        }
+
+        private void mnuCreatedBy_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Created By";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(this.sortColumn);
+        }
+
+        private void mnuModifiedAt_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Modified At";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(this.sortColumn);
+        }
+
+        private void mnuModifiedBy_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Modified By";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(this.sortColumn);
+        }
+
+        private void cmnuSortName_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Name";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(this.sortColumn);
+        }
+
+        private void mnuType_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Type";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(this.sortColumn);
+        }
+
+        private void mnuVersion_Click(object sender, EventArgs e)
+        {
+            this.sortColumn = "Version";
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(this.sortColumn);
+        }
+
+        private void mnuAscending_Click(object sender, EventArgs e)
+        {
+            this.lvwColumnSorter.Order = SortOrder.Ascending;
+            this.SortListView(this.sortColumn);
+        }
+
+        private void mnuDescending_Click(object sender, EventArgs e)
+        {
+            this.lvwColumnSorter.Order = SortOrder.Descending;
+            this.SortListView(this.sortColumn);
+        }
+
+        #endregion
+
         #endregion
 
         #region Tool
@@ -999,6 +1064,16 @@ namespace Vanilla.Navigator.WinForm
             form.ShowDialog();
         }
 
+        private void mnuRoomReservation_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuCheckin_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion
 
         #region Help
@@ -1013,70 +1088,7 @@ namespace Vanilla.Navigator.WinForm
 
         }
 
-        #endregion
-
-        #region Sort
-        private void cmnuSortCreatedAt_Click(object sender, EventArgs e)
-        {         
-            this.sortColumn = "Created At"; 
-            this.lvwColumnSorter.Order = SortOrder.Ascending;
-            this.SortListView(sortColumn);
-        }
-
-        private void cmnuSortCreatedBy_Click(object sender, EventArgs e)
-        {
-            this.sortColumn = "Created By";
-            this.lvwColumnSorter.Order = SortOrder.Ascending;
-            this.SortListView(sortColumn);
-        }
-
-        private void cmnuSortModifiedAt_Click(object sender, EventArgs e)
-        {
-            this.sortColumn = "Modified At";
-            this.lvwColumnSorter.Order = SortOrder.Ascending;
-            this.SortListView(sortColumn);
-        }
-
-        private void cmnuSortModifiedBy_Click(object sender, EventArgs e)
-        {
-            this.sortColumn = "Modified By";
-            this.lvwColumnSorter.Order = SortOrder.Ascending;
-            this.SortListView(sortColumn);
-        }
-
-        private void cmnuSortName_Click(object sender, EventArgs e)
-        {
-            this.sortColumn = "Name";
-            this.lvwColumnSorter.Order = SortOrder.Ascending;
-            this.SortListView(sortColumn);
-        }
-
-        private void cmnuSortType_Click(object sender, EventArgs e)
-        {
-            this.sortColumn = "Type";
-            this.lvwColumnSorter.Order = SortOrder.Ascending;
-            this.SortListView(sortColumn);
-        }
-
-        private void cmnuSortVersion_Click(object sender, EventArgs e)
-        {
-            this.sortColumn = "Version";
-            this.lvwColumnSorter.Order = SortOrder.Ascending;
-            this.SortListView(sortColumn);
-        }
-
-        private void cmnuSortAscending_Click(object sender, EventArgs e)
-        {
-            this.lvwColumnSorter.Order = SortOrder.Ascending;
-            this.SortListView(sortColumn);
-        }
-
-        private void cmnuSortDescending_Click(object sender, EventArgs e)
-        {
-            this.lvwColumnSorter.Order = SortOrder.Descending;
-            this.SortListView(sortColumn);
-        }
-        #endregion
+        #endregion        
 
         #region View-Listview Display
         private void cmnuViewLargeIcon_Click(object sender, EventArgs e)
@@ -1099,6 +1111,23 @@ namespace Vanilla.Navigator.WinForm
             this.lsvContainer.View = View.Details;
         }
         #endregion
+
+        private void HideAndShowMenuForRole()
+        {
+            Facade.Container.RoleManager roleMgr = new Facade.Container.RoleManager((Server.Current.Cache["User"] as VanAcc.Dto).RoleList);
+
+            #region Tool
+
+            this.mnuRegisterUser.Visible = roleMgr.IsAdmin || roleMgr.IsSuperAdmin ? true : false;
+            this.mnuChangeAccount.Visible = roleMgr.IsAdmin || roleMgr.IsSuperAdmin ? true : false;
+            this.mnuChangeOwnProfile.Visible = roleMgr.IsSuperAdmin ? false : true;
+
+            this.mnuAdvanceSearch.Visible = roleMgr.IsSuperAdmin || roleMgr.IsReceptionist ? true : false;
+            this.mnuRoomReservation.Visible = roleMgr.IsSuperAdmin || roleMgr.IsReceptionist ? true : false;
+            this.mnuCheckin.Visible = roleMgr.IsSuperAdmin || roleMgr.IsReceptionist ? true : false;
+
+            #endregion
+        }
 
         #endregion
 
@@ -1135,30 +1164,13 @@ namespace Vanilla.Navigator.WinForm
             this.mnuFileSeperator2.Visible = false;
             this.mnuRecentFile.Visible = false;
             this.mnuFileSeperator3.Visible = false;
-            this.mnuEdit.Visible = false;
-            this.mnuView.Visible = false;
-            this.mnuUserManagement.Visible = false;
-        }
 
-        private void HideAndShowMenuForRole()
-        {
-            VanAcc.Dto currentUser = Server.Current.Cache["User"] as VanAcc.Dto;
-            VanRole.Dto role = currentUser.RoleList.Find((p) => 
-            { 
-                return String.Compare(p.Name, "Admin") == 0 || String.Compare(p.Name, "SuperAdmin") == 0; 
-            });
-            if (role == null)
-            {
-                this.mnuRegisterUser.Visible = false;
-                this.mnuChangeAccount.Visible = false;
-                this.mnuChangeOwnProfile.Visible = true;
-            }
-            else //Admin or Super Admin
-            {
-                this.mnuRegisterUser.Visible = true;
-                this.mnuChangeAccount.Visible = true;
-                this.mnuChangeOwnProfile.Visible = false;
-            }
+            this.mnuEdit.Visible = false;
+
+            this.mnuView.Visible = false;
+
+            this.mnuUserManagement.Visible = false;
+            this.mnuAdvanceSearch.Visible = false;
         }
 
         private void PopulateNewArtifact(String fileName, Facade.Artifact.Type type, Facade.Artifact.Dto currentArtifact)
