@@ -635,7 +635,10 @@ namespace Vanilla.Navigator.WinForm
             {
                 for (int i = 0; i < cmsExplorer.Items.Count; i++)
                 {
-                    cmsExplorer.Items[i].Visible = this.IsListViewItem(cmsExplorer.Items[i].Name, listViewItem);
+                    if (cmsExplorer.Items[i].Name == "cmnuPaste")
+                        cmsExplorer.Items[i].Enabled = this.IsListViewItem(cmsExplorer.Items[i].Name, listViewItem);
+                    else
+                        cmsExplorer.Items[i].Visible = this.IsListViewItem(cmsExplorer.Items[i].Name, listViewItem);
 
                     //attach image to context menu
                     if ((cmsExplorer.Items[i].Name == "cmnuSort" && lvwColumnSorter.Order != SortOrder.None) || (cmsExplorer.Items[i].Name == "cmnuView"))
@@ -653,7 +656,10 @@ namespace Vanilla.Navigator.WinForm
             {
                 for (int i = 0; i < cmsExplorer.Items.Count; i++)
                 {
-                    cmsExplorer.Items[i].Visible = IsTreeViewItem(cmsExplorer.Items[i].Name);
+                    if (cmsExplorer.Items[i].Name == "cmnuPaste")
+                        cmsExplorer.Items[i].Enabled = IsTreeViewItem(cmsExplorer.Items[i].Name);
+                    else
+                        cmsExplorer.Items[i].Visible = IsTreeViewItem(cmsExplorer.Items[i].Name);
 
                     if (cmsExplorer.Items[i].Name == "newToolStripMenuItem")
                         this.ShowHideContextMenuNewItems((cmsExplorer.Items[i] as ToolStripMenuItem).DropDownItems);
