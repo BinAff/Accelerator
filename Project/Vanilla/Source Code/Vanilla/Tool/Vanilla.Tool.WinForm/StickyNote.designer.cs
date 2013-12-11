@@ -40,10 +40,10 @@
             // pnlTitleBar
             // 
             this.pnlTitleBar.BackColor = System.Drawing.Color.LightSlateGray;
+            this.pnlTitleBar.Controls.Add(this.btnClose);
             this.pnlTitleBar.Controls.Add(this.lblTitle);
             this.pnlTitleBar.Controls.Add(this.btnHide);
             this.pnlTitleBar.Controls.Add(this.btnAdd);
-            this.pnlTitleBar.Controls.Add(this.btnClose);
             this.pnlTitleBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTitleBar.Location = new System.Drawing.Point(0, 0);
             this.pnlTitleBar.Name = "pnlTitleBar";
@@ -62,8 +62,8 @@
             // 
             this.btnHide.FlatAppearance.BorderSize = 0;
             this.btnHide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHide.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHide.Location = new System.Drawing.Point(192, 0);
+            this.btnHide.Font = new System.Drawing.Font("Arial Narrow", 7.25F);
+            this.btnHide.Location = new System.Drawing.Point(190, 0);
             this.btnHide.Name = "btnHide";
             this.btnHide.Size = new System.Drawing.Size(26, 26);
             this.btnHide.TabIndex = 88;
