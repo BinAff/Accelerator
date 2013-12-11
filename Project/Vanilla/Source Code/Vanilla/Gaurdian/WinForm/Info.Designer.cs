@@ -32,15 +32,16 @@
             this.tapProfile = new System.Windows.Forms.TabPage();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnResetPassword = new System.Windows.Forms.Button();
-            this.tapLogin = new System.Windows.Forms.TabPage();
-            this.lstContact = new System.Windows.Forms.ListBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtDateOfBirth = new System.Windows.Forms.TextBox();
-            this.lblDOB = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.lblName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.chkLstRole = new System.Windows.Forms.CheckedListBox();
+            this.txtDateOfBirth = new System.Windows.Forms.TextBox();
+            this.lblDOB = new System.Windows.Forms.Label();
+            this.lstContact = new System.Windows.Forms.ListBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.lblName = new System.Windows.Forms.Label();
+            this.tapLogin = new System.Windows.Forms.TabPage();
+            this.cboUser = new System.Windows.Forms.ComboBox();
             this.tbcUser.SuspendLayout();
             this.tapProfile.SuspendLayout();
             this.SuspendLayout();
@@ -49,11 +50,10 @@
             // 
             this.tbcUser.Controls.Add(this.tapProfile);
             this.tbcUser.Controls.Add(this.tapLogin);
-            this.tbcUser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbcUser.Location = new System.Drawing.Point(0, 0);
+            this.tbcUser.Location = new System.Drawing.Point(182, 14);
             this.tbcUser.Name = "tbcUser";
             this.tbcUser.SelectedIndex = 0;
-            this.tbcUser.Size = new System.Drawing.Size(344, 253);
+            this.tbcUser.Size = new System.Drawing.Size(455, 260);
             this.tbcUser.TabIndex = 50;
             // 
             // tapProfile
@@ -71,7 +71,7 @@
             this.tapProfile.Location = new System.Drawing.Point(4, 22);
             this.tapProfile.Name = "tapProfile";
             this.tapProfile.Padding = new System.Windows.Forms.Padding(3);
-            this.tapProfile.Size = new System.Drawing.Size(336, 227);
+            this.tapProfile.Size = new System.Drawing.Size(447, 234);
             this.tapProfile.TabIndex = 0;
             this.tapProfile.Text = "Profile";
             this.tapProfile.UseVisualStyleBackColor = true;
@@ -84,6 +84,7 @@
             this.btnOk.TabIndex = 123;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // btnResetPassword
             // 
@@ -93,16 +94,41 @@
             this.btnResetPassword.TabIndex = 48;
             this.btnResetPassword.Text = "Reset";
             this.btnResetPassword.UseVisualStyleBackColor = true;
+            this.btnResetPassword.Click += new System.EventHandler(this.btnResetPassword_Click);
             // 
-            // tapLogin
+            // label1
             // 
-            this.tapLogin.Location = new System.Drawing.Point(4, 22);
-            this.tapLogin.Name = "tapLogin";
-            this.tapLogin.Padding = new System.Windows.Forms.Padding(3);
-            this.tapLogin.Size = new System.Drawing.Size(336, 227);
-            this.tapLogin.TabIndex = 1;
-            this.tapLogin.Text = "Login History";
-            this.tapLogin.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 104);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(29, 13);
+            this.label1.TabIndex = 122;
+            this.label1.Text = "Role";
+            // 
+            // chkLstRole
+            // 
+            this.chkLstRole.FormattingEnabled = true;
+            this.chkLstRole.Location = new System.Drawing.Point(107, 104);
+            this.chkLstRole.Name = "chkLstRole";
+            this.chkLstRole.Size = new System.Drawing.Size(126, 64);
+            this.chkLstRole.TabIndex = 121;
+            // 
+            // txtDateOfBirth
+            // 
+            this.txtDateOfBirth.Enabled = false;
+            this.txtDateOfBirth.Location = new System.Drawing.Point(106, 32);
+            this.txtDateOfBirth.Name = "txtDateOfBirth";
+            this.txtDateOfBirth.Size = new System.Drawing.Size(128, 20);
+            this.txtDateOfBirth.TabIndex = 120;
+            // 
+            // lblDOB
+            // 
+            this.lblDOB.AutoSize = true;
+            this.lblDOB.Location = new System.Drawing.Point(12, 35);
+            this.lblDOB.Name = "lblDOB";
+            this.lblDOB.Size = new System.Drawing.Size(66, 13);
+            this.lblDOB.TabIndex = 119;
+            this.lblDOB.Text = "Date of Birth";
             // 
             // lstContact
             // 
@@ -123,23 +149,6 @@
             this.label5.TabIndex = 80;
             this.label5.Text = "Contact Numbers";
             // 
-            // txtDateOfBirth
-            // 
-            this.txtDateOfBirth.Enabled = false;
-            this.txtDateOfBirth.Location = new System.Drawing.Point(106, 32);
-            this.txtDateOfBirth.Name = "txtDateOfBirth";
-            this.txtDateOfBirth.Size = new System.Drawing.Size(128, 20);
-            this.txtDateOfBirth.TabIndex = 120;
-            // 
-            // lblDOB
-            // 
-            this.lblDOB.AutoSize = true;
-            this.lblDOB.Location = new System.Drawing.Point(12, 35);
-            this.lblDOB.Name = "lblDOB";
-            this.lblDOB.Size = new System.Drawing.Size(66, 13);
-            this.lblDOB.TabIndex = 119;
-            this.lblDOB.Text = "Date of Birth";
-            // 
             // txtName
             // 
             this.txtName.BackColor = System.Drawing.SystemColors.Window;
@@ -158,33 +167,42 @@
             this.lblName.TabIndex = 51;
             this.lblName.Text = "Name";
             // 
-            // label1
+            // tapLogin
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 104);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 13);
-            this.label1.TabIndex = 122;
-            this.label1.Text = "Role";
+            this.tapLogin.Location = new System.Drawing.Point(4, 22);
+            this.tapLogin.Name = "tapLogin";
+            this.tapLogin.Padding = new System.Windows.Forms.Padding(3);
+            this.tapLogin.Size = new System.Drawing.Size(447, 234);
+            this.tapLogin.TabIndex = 1;
+            this.tapLogin.Text = "Login History";
+            this.tapLogin.UseVisualStyleBackColor = true;
             // 
-            // chkLstRole
+            // cboUser
             // 
-            this.chkLstRole.FormattingEnabled = true;
-            this.chkLstRole.Location = new System.Drawing.Point(107, 104);
-            this.chkLstRole.Name = "chkLstRole";
-            this.chkLstRole.Size = new System.Drawing.Size(126, 64);
-            this.chkLstRole.TabIndex = 121;
+            this.cboUser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
+            this.cboUser.FormattingEnabled = true;
+            this.cboUser.Location = new System.Drawing.Point(12, 14);
+            this.cboUser.Name = "cboUser";
+            this.cboUser.Size = new System.Drawing.Size(154, 260);
+            this.cboUser.Sorted = true;
+            this.cboUser.TabIndex = 51;
+            this.cboUser.Click += new System.EventHandler(this.cboUser_Click);
             // 
             // Info
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(344, 253);
+            this.ClientSize = new System.Drawing.Size(652, 286);
+            this.Controls.Add(this.cboUser);
             this.Controls.Add(this.tbcUser);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Info";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Info";
+            this.Load += new System.EventHandler(this.Info_Load);
             this.tbcUser.ResumeLayout(false);
             this.tapProfile.ResumeLayout(false);
             this.tapProfile.PerformLayout();
@@ -207,5 +225,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.ComboBox cboUser;
     }
 }
