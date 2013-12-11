@@ -40,14 +40,14 @@
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(18, 13);
+            this.panel1.Location = new System.Drawing.Point(15, 13);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(723, 266);
             this.panel1.TabIndex = 1;
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(353, 473);
+            this.btnChange.Location = new System.Drawing.Point(350, 473);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 23);
             this.btnChange.TabIndex = 111;
@@ -57,7 +57,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(272, 473);
+            this.btnDelete.Location = new System.Drawing.Point(269, 473);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 110;
@@ -66,7 +66,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(191, 473);
+            this.btnAdd.Location = new System.Drawing.Point(188, 473);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 109;
@@ -76,7 +76,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(110, 473);
+            this.btnRefresh.Location = new System.Drawing.Point(107, 473);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 108;
@@ -86,7 +86,7 @@
             // 
             // btnBook
             // 
-            this.btnBook.Location = new System.Drawing.Point(434, 473);
+            this.btnBook.Location = new System.Drawing.Point(431, 473);
             this.btnBook.Name = "btnBook";
             this.btnBook.Size = new System.Drawing.Size(66, 23);
             this.btnBook.TabIndex = 107;
@@ -96,16 +96,16 @@
             // 
             // btnCheckIn
             // 
-            this.btnCheckIn.Location = new System.Drawing.Point(506, 473);
+            this.btnCheckIn.Location = new System.Drawing.Point(503, 473);
             this.btnCheckIn.Name = "btnCheckIn";
             this.btnCheckIn.Size = new System.Drawing.Size(66, 23);
             this.btnCheckIn.TabIndex = 112;
             this.btnCheckIn.Text = "CheckIn";
-            this.btnCheckIn.UseVisualStyleBackColor = true;          
+            this.btnCheckIn.UseVisualStyleBackColor = true;
             // 
             // bookingDetails1
             // 
-            this.bookingDetails1.Location = new System.Drawing.Point(112, 285);
+            this.bookingDetails1.Location = new System.Drawing.Point(109, 293);
             this.bookingDetails1.Name = "bookingDetails1";
             this.bookingDetails1.Size = new System.Drawing.Size(462, 171);
             this.bookingDetails1.TabIndex = 113;
@@ -114,7 +114,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(764, 503);
+            this.ClientSize = new System.Drawing.Size(751, 509);
             this.Controls.Add(this.bookingDetails1);
             this.Controls.Add(this.btnCheckIn);
             this.Controls.Add(this.btnChange);
@@ -123,7 +123,12 @@
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnBook);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "CustomerRegister";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CustomerRegister";
             this.Load += new System.EventHandler(this.CustomerRegister_Load);
             this.ResumeLayout(false);
