@@ -100,13 +100,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autotourism.Component.Custo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autotourism.Component.Customer.Test", "Component\Autotourism.Component.Customer.Test\Autotourism.Component.Customer.Test.csproj", "{1635C34B-0CBF-48C0-8A8A-75E0A698FE7D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{724BC8F1-82FA-4C31-8A5D-68C5AFFCD8C4}"
-	ProjectSection(SolutionItems) = preProject
-		AutoTourism.vsmdi = AutoTourism.vsmdi
-		Local.testsettings = Local.testsettings
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystal.Organization.Observer", "..\..\..\Crystal\Source Code\Crystal\Organization\Crystal.Organization.Observer\Crystal.Organization.Observer.csproj", "{AED8C51C-C073-43BF-BD6E-00D033B589E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{5363500D-C42A-459A-9DFC-7BC55299458D}"
@@ -661,7 +654,6 @@ Global
 		{BC8CC2BB-9EAF-4A32-BA6A-229386ABCA72} = {39C80DB4-540C-4492-82B3-A5122ABB8DD7}
 		{9E9F89C1-91BE-4595-8D69-3E56AFC1BC4C} = {3BA98407-8695-4959-8DDF-EA3B93748C42}
 		{1635C34B-0CBF-48C0-8A8A-75E0A698FE7D} = {3BA98407-8695-4959-8DDF-EA3B93748C42}
-		{724BC8F1-82FA-4C31-8A5D-68C5AFFCD8C4} = {3BA98407-8695-4959-8DDF-EA3B93748C42}
 		{2099FB59-6194-4BC7-8AB2-6CABE513082A} = {3BA98407-8695-4959-8DDF-EA3B93748C42}
 		{99EEF65F-E520-4AA1-A9E0-DB3EA19A6C16} = {3BA98407-8695-4959-8DDF-EA3B93748C42}
 		{72DB3928-1A94-4E8B-8013-052AFFF74AAE} = {DD85537F-583B-44A0-8232-3895ED0D4524}
