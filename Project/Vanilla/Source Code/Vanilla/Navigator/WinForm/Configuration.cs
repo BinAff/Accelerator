@@ -36,36 +36,44 @@ namespace Vanilla.Navigator.WinForm
             }
         }
 
-        void btnGeneral_Click(object sender, EventArgs e)
+        private void btnGeneral_Click(object sender, EventArgs e)
         {
             this.lsvConfiguration.Items.Clear();
+            this.lsvConfiguration.LargeImageList = this.imgIcons;
             this.lsvConfiguration.Items.Add(new ListViewItem("Customer")
             {
                 Tag = this.InstantiateObject("AutoTourism.Customer.WinForm.CustomerRule", "AutoTourism.Customer.WinForm"),
-            });
-            this.lsvConfiguration.Items.Add(new ListViewItem("User")
-            {
-                Tag = new Vanilla.Guardian.WinForm.UserRule(),
-            });
-            this.lsvConfiguration.Items.Add(new ListViewItem("State")
-            {
-                Tag = new Vanilla.Configuration.WinForm.State(),
+                ImageKey = "Customer",
             });
             this.lsvConfiguration.Items.Add(new ListViewItem("Identity Proof Type")
             {
                 Tag = new Vanilla.Configuration.WinForm.IdentityProofType(),
+                ImageKey = "IdentityProofType",
             });
             this.lsvConfiguration.Items.Add(new ListViewItem("Initial")
             {
                 Tag = new Vanilla.Configuration.WinForm.Initial(),
+                ImageKey = "Initial",
             });
             this.lsvConfiguration.Items.Add(new ListViewItem("Payment Type")
             {
                 Tag = new Vanilla.Configuration.WinForm.PaymentType(),
+                ImageKey = "PaymentType",
             });
             this.lsvConfiguration.Items.Add(new ListViewItem("Security Question")
             {
                 Tag = new Vanilla.Configuration.WinForm.SecurityQuestion(),
+                ImageKey = "SecurityQuestion",
+            });
+            this.lsvConfiguration.Items.Add(new ListViewItem("State")
+            {
+                Tag = new Vanilla.Configuration.WinForm.State(),
+                ImageKey = "State",
+            });
+            this.lsvConfiguration.Items.Add(new ListViewItem("User")
+            {
+                Tag = new Vanilla.Guardian.WinForm.UserRule(),
+                ImageKey = "User",
             });
         }
 
