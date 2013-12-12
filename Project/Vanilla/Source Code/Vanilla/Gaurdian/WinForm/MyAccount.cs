@@ -190,9 +190,15 @@ namespace Vanilla.Guardian.WinForm
             this.formDto.Dto.Profile.ContactNumberList = this.lstContact.DataSource as List<Table>;
 
             this.formDto.Dto.Password = this.txtPassword.Text.Trim();
-            
-            this.formDto.Dto.SecurityAnswer.Answer = this.txtAnswer.Text.Trim();
-            this.formDto.Dto.SecurityAnswer.SecurityQuestion.Id = (this.cboSecQ.SelectedItem as Table).Id;
+
+            this.formDto.Dto.SecurityAnswer = new Facade.SecurityAnswer.Dto
+            {
+                Answer = this.txtAnswer.Text.Trim(),
+                SecurityQuestion = new Table
+                {
+                    Id = (this.cboSecQ.SelectedItem as Table).Id,
+                },
+            };
             facade.Change();
 
             new PresentationLib.MessageBox

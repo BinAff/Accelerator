@@ -7,6 +7,7 @@ using CrysInitial = Crystal.Configuration.Component.Initial;
 using CrysSecQ = Crystal.Guardian.Component.SecurityQuestion;
 using CrysAcc = Crystal.Guardian.Component.Account;
 using CrysProfile = Crystal.Guardian.Component.Account.Profile;
+using CrysRole = Crystal.Guardian.Component.Role;
 
 namespace Vanilla.Guardian.Facade.MyAccount
 {
@@ -36,7 +37,7 @@ namespace Vanilla.Guardian.Facade.MyAccount
         {
             CrysAcc.Data accountData = data as CrysAcc.Data;
             Dto accountDto = (this.FormDto as FormDto).Dto;
-            if(accountData.Profile != null)
+            if (accountData.Profile != null)
             {
                 accountDto.Profile = new Profile.Server(new Profile.FormDto
                 {
@@ -48,7 +49,7 @@ namespace Vanilla.Guardian.Facade.MyAccount
                 accountDto.SecurityAnswer = new SecurityAnswer.Dto();
                 //Taking one security Answer
                 this.Convert(accountDto.SecurityAnswer, accountData.SecurityAnswerList[0] as CrysAcc.SecurityAnswer.Data);
-            }            
+            }
             return accountDto;
         }
 
@@ -69,41 +70,51 @@ namespace Vanilla.Guardian.Facade.MyAccount
 
         public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            CrysAcc.Data accountData = new CrysAcc.Data();
-            Dto accountDto = dto as Dto;
+            CrysAcc.Data accData = new CrysAcc.Data();
+            Dto accDto = dto as Dto;
 
-            accountData.Id = accountDto.Id;
+            accData.Id = accDto.Id;
 
-            //Attach Login Id, since it is not present in screen
-            accountData.LoginId = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Account.Dto).LoginId;
-            accountData.Password = (String.IsNullOrEmpty(accountDto.Password)) ? 
-                (BinAff.Facade.Cache.Server.Current.Cache["User"] as Account.Dto).Password :
-                accountDto.Password;
-            accountData.Profile = new Profile.Server(new Profile.FormDto
+            //Attach Login Id, Password(if not entered) and role list; since it is not present in screen
+            Account.Dto currentUser = BinAff.Facade.Cache.Server.Current.Cache["User"] as Account.Dto;
+            accData.LoginId = currentUser.LoginId;
+            accData.Password = (String.IsNullOrEmpty(accDto.Password)) ?
+                currentUser.Password : accDto.Password;
+            accData.RoleList = new List<Data>();
+            foreach (Role.Dto role in currentUser.RoleList)
             {
-                Dto = accountDto.Profile,
-            }).Convert(accountDto.Profile) as CrysProfile.Data;
+                accData.RoleList.Add(new CrysRole.Data
+                {
+                    Id = role.Id,
+                    Name = role.Name,
+                });
+            }
 
-            if (accountDto.SecurityAnswer != null)
+            accData.Profile = new Profile.Server(new Profile.FormDto
             {
-                accountData.SecurityAnswerList = new List<Data>();
+                Dto = accDto.Profile,
+            }).Convert(accDto.Profile) as CrysProfile.Data;
+
+            if (accDto.SecurityAnswer != null)
+            {
+                accData.SecurityAnswerList = new List<Data>();
                 CrysAcc.SecurityAnswer.Data secAns = new CrysAcc.SecurityAnswer.Data
                 {
-                    Id = accountDto.SecurityAnswer.Id,
-                    Answer = accountDto.SecurityAnswer.Answer,
+                    Id = accDto.SecurityAnswer.Id,
+                    Answer = accDto.SecurityAnswer.Answer,
                 };
-                accountData.SecurityAnswerList.Add(secAns);
-                if (accountDto.SecurityAnswer.SecurityQuestion != null)
+                accData.SecurityAnswerList.Add(secAns);
+                if (accDto.SecurityAnswer.SecurityQuestion != null)
                 {
                     secAns.Question = new CrysSecQ.Data
                     {
-                        Id = accountDto.SecurityAnswer.SecurityQuestion.Id,
-                        Question = accountDto.SecurityAnswer.SecurityQuestion.Name,
+                        Id = accDto.SecurityAnswer.SecurityQuestion.Id,
+                        Question = accDto.SecurityAnswer.SecurityQuestion.Name,
                     };
                 }
             }
 
-            return accountData;
+            return accData;
         }
 
         public override void Change()

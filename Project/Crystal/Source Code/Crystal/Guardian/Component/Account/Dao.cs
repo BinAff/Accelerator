@@ -271,7 +271,7 @@ namespace Crystal.Guardian.Component.Account
 
         private Boolean CreateUserRoles(List<BinAff.Core.Data> roleList,Int64 userId)
         {
-            Boolean isCreatedSuccessfully = true;
+            Boolean isCreatedSuccessfully = this.DeleteUserRoles(userId);
             Int64 userRoleId;
             foreach (BinAff.Core.Data roleData in roleList)
             {
