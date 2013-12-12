@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Configuration));
             this.pnlMain = new System.Windows.Forms.SplitContainer();
             this.lsvConfiguration = new System.Windows.Forms.ListView();
+            this.imgIcons = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).BeginInit();
             this.pnlMain.Panel2.SuspendLayout();
             this.pnlMain.SuspendLayout();
@@ -59,6 +62,18 @@
             this.lsvConfiguration.UseCompatibleStateImageBehavior = false;
             this.lsvConfiguration.DoubleClick += new System.EventHandler(this.lsvConfiguration_DoubleClick);
             // 
+            // imgIcons
+            // 
+            this.imgIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgIcons.ImageStream")));
+            this.imgIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgIcons.Images.SetKeyName(0, "State");
+            this.imgIcons.Images.SetKeyName(1, "Customer");
+            this.imgIcons.Images.SetKeyName(2, "Initial");
+            this.imgIcons.Images.SetKeyName(3, "IdentityProofType");
+            this.imgIcons.Images.SetKeyName(4, "PaymentType");
+            this.imgIcons.Images.SetKeyName(5, "User");
+            this.imgIcons.Images.SetKeyName(6, "SecurityQuestion");
+            // 
             // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -77,5 +92,6 @@
 
         private System.Windows.Forms.SplitContainer pnlMain;
         private System.Windows.Forms.ListView lsvConfiguration;
+        private System.Windows.Forms.ImageList imgIcons;
     }
 }

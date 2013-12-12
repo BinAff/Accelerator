@@ -62,9 +62,9 @@ namespace Vanilla.Navigator.WinForm
 
         private void DockContainers()
         {
-            this.ucRegister.Dock = DockStyle.Fill;            
             this.pnlNote.Dock = DockStyle.Fill;
             this.ucConfiguration.Dock = DockStyle.Fill;
+            this.ucRegister.Dock = DockStyle.Fill;
         }
 
         //private void SelectNode(String selectedNodePath)
@@ -171,7 +171,6 @@ namespace Vanilla.Navigator.WinForm
             {
                 TopLevel = false,
                 Dock = DockStyle.Fill,
-                FormBorderStyle = FormBorderStyle.None,
             };
             this.pnlLoginFormContainer.Show();
             this.pnlLoginFormContainer.Height = this.loginForm.Height;
@@ -201,17 +200,8 @@ namespace Vanilla.Navigator.WinForm
 
         private void LoadForm()
         {
-            //this.facade = new Facade.Container.Server(this.formDto = new Facade.Container.FormDto
-            //{
-            //    ModuleFormDto = new Facade.Module.FormDto
-            //    {
-            //        Dto = new Facade.Module.Dto()
-            //    },
-            //});
-            //this.facade.LoadForm();
-            //this.LoadModules(tbcCategory.TabPages[0].Text);
             this.ShowControls();
-            this.HideAndShowMenuForRole();
+            this.ManageMenuAndButtonsForRole();
         }
 
         #endregion
@@ -575,23 +565,6 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion        
 
-        private void HideAndShowMenuForRole()
-        {
-            Facade.Container.RoleManager roleMgr = new Facade.Container.RoleManager((Server.Current.Cache["User"] as VanAcc.Dto).RoleList);
-
-            #region Tool
-
-            this.mnuRegisterUser.Visible = roleMgr.IsAdmin || roleMgr.IsSuperAdmin ? true : false;
-            this.mnuChangeAccount.Visible = roleMgr.IsAdmin || roleMgr.IsSuperAdmin ? true : false;
-            this.mnuChangeOwnProfile.Visible = roleMgr.IsSuperAdmin ? false : true;
-
-            this.mnuAdvanceSearch.Visible = roleMgr.IsSuperAdmin || roleMgr.IsReceptionist ? true : false;
-            this.mnuRoomReservation.Visible = roleMgr.IsSuperAdmin || roleMgr.IsReceptionist ? true : false;
-            this.mnuCheckin.Visible = roleMgr.IsSuperAdmin || roleMgr.IsReceptionist ? true : false;
-
-            #endregion
-        }
-
         #endregion
 
         private void ShowControls()
@@ -637,6 +610,26 @@ namespace Vanilla.Navigator.WinForm
             this.mnuUserManagement.Visible = false;
             this.mnuAdvanceSearch.Visible = false;
            
+        }
+
+        private void ManageMenuAndButtonsForRole()
+        {
+            Facade.Container.RoleManager roleMgr = new Facade.Container.RoleManager((Server.Current.Cache["User"] as VanAcc.Dto).RoleList);
+
+            #region Tool
+
+            this.mnuRegisterUser.Visible = roleMgr.IsAdmin || roleMgr.IsSuperAdmin ? true : false;
+            this.mnuChangeAccount.Visible = roleMgr.IsAdmin || roleMgr.IsSuperAdmin ? true : false;
+            this.mnuChangeOwnProfile.Visible = roleMgr.IsSuperAdmin ? false : true;
+
+            this.mnuAdvanceSearch.Visible = roleMgr.IsSuperAdmin || roleMgr.IsReceptionist ? true : false;
+            this.mnuRoomReservation.Visible = roleMgr.IsSuperAdmin || roleMgr.IsReceptionist ? true : false;
+            this.mnuCheckin.Visible = roleMgr.IsSuperAdmin || roleMgr.IsReceptionist ? true : false;
+
+            #endregion
+
+            this.btnConfiguration.Enabled = roleMgr.IsAdmin || roleMgr.IsSuperAdmin ? true : false;
+
         }
 
         /// <summary>

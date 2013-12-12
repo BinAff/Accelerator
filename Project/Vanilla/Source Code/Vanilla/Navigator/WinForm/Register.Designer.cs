@@ -50,6 +50,7 @@
             this.cmnuSmallIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.cmnuList = new System.Windows.Forms.ToolStripMenuItem();
             this.cmnuDetail = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmnuTile = new System.Windows.Forms.ToolStripMenuItem();
             this.cmnuSort = new System.Windows.Forms.ToolStripMenuItem();
             this.cmnuCreatedAt = new System.Windows.Forms.ToolStripMenuItem();
             this.cmnuCreatedBy = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,7 +79,6 @@
             this.cmnuReport = new System.Windows.Forms.ToolStripMenuItem();
             this.imgMisc = new System.Windows.Forms.ImageList(this.components);
             this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
-            this.cmnuTile = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
             this.pnlArtifact.Panel2.SuspendLayout();
@@ -265,7 +265,7 @@
             this.cmnuSeparator3,
             this.newToolStripMenuItem});
             this.cmsExplorer.Name = "cmsExplorer";
-            this.cmsExplorer.Size = new System.Drawing.Size(186, 286);
+            this.cmsExplorer.Size = new System.Drawing.Size(186, 264);
             // 
             // cmnuOpen
             // 
@@ -288,30 +288,37 @@
             // cmnuLargeIcon
             // 
             this.cmnuLargeIcon.Name = "cmnuLargeIcon";
-            this.cmnuLargeIcon.Size = new System.Drawing.Size(152, 22);
+            this.cmnuLargeIcon.Size = new System.Drawing.Size(125, 22);
             this.cmnuLargeIcon.Text = "Large Icon";
             this.cmnuLargeIcon.Click += new System.EventHandler(this.cmnuLargeIcon_Click);
             // 
             // cmnuSmallIcon
             // 
             this.cmnuSmallIcon.Name = "cmnuSmallIcon";
-            this.cmnuSmallIcon.Size = new System.Drawing.Size(152, 22);
+            this.cmnuSmallIcon.Size = new System.Drawing.Size(125, 22);
             this.cmnuSmallIcon.Text = "Small Icon";
             this.cmnuSmallIcon.Click += new System.EventHandler(this.cmnuSmallIcon_Click);
             // 
             // cmnuList
             // 
             this.cmnuList.Name = "cmnuList";
-            this.cmnuList.Size = new System.Drawing.Size(152, 22);
+            this.cmnuList.Size = new System.Drawing.Size(125, 22);
             this.cmnuList.Text = "List";
             this.cmnuList.Click += new System.EventHandler(this.cmnuList_Click);
             // 
             // cmnuDetail
             // 
             this.cmnuDetail.Name = "cmnuDetail";
-            this.cmnuDetail.Size = new System.Drawing.Size(152, 22);
+            this.cmnuDetail.Size = new System.Drawing.Size(125, 22);
             this.cmnuDetail.Text = "Details";
             this.cmnuDetail.Click += new System.EventHandler(this.cmnuDetail_Click);
+            // 
+            // cmnuTile
+            // 
+            this.cmnuTile.Name = "cmnuTile";
+            this.cmnuTile.Size = new System.Drawing.Size(125, 22);
+            this.cmnuTile.Text = "Tile";
+            this.cmnuTile.Click += new System.EventHandler(this.cmnuTile_Click);
             // 
             // cmnuSort
             // 
@@ -513,13 +520,6 @@
             this.imgSmallIcon.Images.SetKeyName(0, "Directory.gif");
             this.imgSmallIcon.Images.SetKeyName(1, "DirectoryOpen.gif");
             this.imgSmallIcon.Images.SetKeyName(2, "Document.gif");
-            // 
-            // cmnuTile
-            // 
-            this.cmnuTile.Name = "cmnuTile";
-            this.cmnuTile.Size = new System.Drawing.Size(152, 22);
-            this.cmnuTile.Text = "Tile";
-            this.cmnuTile.Click += new System.EventHandler(this.cmnuTile_Click);
             // 
             // Register
             // 
