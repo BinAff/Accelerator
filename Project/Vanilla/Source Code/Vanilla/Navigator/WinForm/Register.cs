@@ -369,10 +369,10 @@ namespace Vanilla.Navigator.WinForm
             {
                 this.lsvContainer.Columns[i].ImageKey = String.Empty;
                 this.lsvContainer.Columns[i].ImageIndex = -1;
-                this.lsvContainer.Columns[i].TextAlign = HorizontalAlignment.Center;
+                this.lsvContainer.Columns[i].TextAlign = HorizontalAlignment.Left;
             }
         }
-
+        
         private Boolean IsTreeViewItem(String contextMenuName)
         {
             switch (contextMenuName)
