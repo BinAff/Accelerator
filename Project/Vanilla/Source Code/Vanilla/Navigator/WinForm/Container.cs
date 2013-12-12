@@ -52,7 +52,6 @@ namespace Vanilla.Navigator.WinForm
             {
                 this.LoadForm();
                 //this.SelectNode(this.selectedNodePath);
-                //this.txtAddress.Text = "Form" + this.formDto.Rule.ModuleSeperator;
             }
             else
             {
@@ -63,8 +62,6 @@ namespace Vanilla.Navigator.WinForm
 
         private void DockContainers()
         {
-            //this.pnlArtifact.Dock = DockStyle.Fill;
-            //this.pnlArtifact.Dock = DockStyle.Top;
             this.ucRegister.Dock = DockStyle.Fill;            
             this.pnlNote.Dock = DockStyle.Fill;
             this.ucConfiguration.Dock = DockStyle.Fill;
@@ -394,32 +391,32 @@ namespace Vanilla.Navigator.WinForm
 
         private void mnuCut_Click(object sender, EventArgs e)
         {
-            //this.Cut();
+            this.ucRegister.Cut();
         }
 
         private void mnuCopy_Click(object sender, EventArgs e)
         {
-            //this.Copy();
+            this.ucRegister.Copy();
         }
 
         private void mnuPaste_Click(object sender, EventArgs e)
         {
-            //this.Paste();
-        }
-
-        private void mnuSelectAll_Click(object sender, EventArgs e)
-        {
-            //this.SelectAll();
-        }
-
-        private void mnuInvertSelection_Click(object sender, EventArgs e)
-        {
-            //this.InvertSelection();
+            this.ucRegister.Paste();
         }
 
         private void mnuDelete_Click(object sender, EventArgs e)
         {
-            //this.Delete();
+            this.ucRegister.Delete();
+        }
+
+        private void mnuSelectAll_Click(object sender, EventArgs e)
+        {
+            this.ucRegister.SelectAll();
+        }
+
+        private void mnuInvertSelection_Click(object sender, EventArgs e)
+        {
+            this.ucRegister.InvertSelection();
         }
 
         #endregion
@@ -460,50 +457,75 @@ namespace Vanilla.Navigator.WinForm
 
         private void mnuCreatedAt_Click(object sender, EventArgs e)
         {
-            //this.Sort("Created At");
+            this.ucRegister.Sort("Created At");
         }
 
         private void mnuCreatedBy_Click(object sender, EventArgs e)
         {
-            //this.Sort("Created By");
+            this.ucRegister.Sort("Created By");
         }
 
         private void mnuModifiedAt_Click(object sender, EventArgs e)
         {
-            //this.Sort("Modified At");
+            this.ucRegister.Sort("Modified At");
         }
 
         private void mnuModifiedBy_Click(object sender, EventArgs e)
         {
-            //this.Sort("Modified By");
+            this.ucRegister.Sort("Modified By");
         }
 
         private void cmnuSortName_Click(object sender, EventArgs e)
         {
-            //this.Sort("Name");
+            this.ucRegister.Sort("Name");
         }
 
         private void mnuType_Click(object sender, EventArgs e)
         {
-            //this.Sort("Type");
+            this.ucRegister.Sort("Type");
         }
 
         private void mnuVersion_Click(object sender, EventArgs e)
         {
-            //this.Sort("Version");
+            this.ucRegister.Sort("Version");
         }
 
         private void mnuAscending_Click(object sender, EventArgs e)
         {
-            //this.Sort(SortOrder.Ascending);
+            this.ucRegister.Sort(SortOrder.Ascending);
         }
 
         private void mnuDescending_Click(object sender, EventArgs e)
         {
-            //this.Sort(SortOrder.Descending);
+            this.ucRegister.Sort(SortOrder.Descending);
         }
 
         #endregion
+
+        private void mnuLargeIcon_Click(object sender, EventArgs e)
+        {
+            this.ucRegister.SetViewForList(View.LargeIcon);
+        }
+
+        private void mnuSmallIcon_Click(object sender, EventArgs e)
+        {
+            this.ucRegister.SetViewForList(View.SmallIcon);
+        }
+
+        private void mnuList_Click(object sender, EventArgs e)
+        {
+            this.ucRegister.SetViewForList(View.List);
+        }
+
+        private void mnuDetail_Click(object sender, EventArgs e)
+        {
+            this.ucRegister.SetViewForList(View.Details);
+        }
+
+        private void mnuTile_Click(object sender, EventArgs e)
+        {
+            this.ucRegister.SetViewForList(View.Tile);
+        }
 
         #endregion
 
@@ -553,28 +575,6 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion        
 
-        #region View-Listview Display
-        private void cmnuViewLargeIcon_Click(object sender, EventArgs e)
-        {
-            //this.lsvContainer.View = View.LargeIcon;
-        }
-
-        private void cmnuViewSmallIcon_Click(object sender, EventArgs e)
-        {
-            //this.lsvContainer.View = View.SmallIcon;
-        }
-
-        private void cmnuViewList_Click(object sender, EventArgs e)
-        {
-            //this.lsvContainer.View = View.List;
-        }
-
-        private void cmnuDetail_Click(object sender, EventArgs e)
-        {
-            //this.lsvContainer.View = View.Details;
-        }
-        #endregion
-
         private void HideAndShowMenuForRole()
         {
             Facade.Container.RoleManager roleMgr = new Facade.Container.RoleManager((Server.Current.Cache["User"] as VanAcc.Dto).RoleList);
@@ -597,7 +597,6 @@ namespace Vanilla.Navigator.WinForm
         private void ShowControls()
         {
             this.pnlAddress.Show();
-            //this.pnlArtifact.Show(); 
             this.ucRegister.Show();
             this.pnlTool.Show();
 
@@ -619,7 +618,6 @@ namespace Vanilla.Navigator.WinForm
         {
             this.pnlAddress.Hide();
             this.pnlTool.Hide();
-            //this.pnlArtifact.Hide(); 
             this.ucRegister.Hide();
             this.pnlNote.Hide();
             this.ucConfiguration.Hide();
@@ -782,6 +780,11 @@ namespace Vanilla.Navigator.WinForm
         #endregion
 
         #region Address Bar
+        
+        private void ucRegister_PathChanged()
+        {
+            this.txtAddress.Text = this.ucRegister.Address;
+        }
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
