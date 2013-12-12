@@ -160,6 +160,9 @@
     <None Include="Pics\DirectoryOpen.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pics\Directory.gif" />
+    <Content Include="Pics\DirectoryOpen.gif" />
+    <Content Include="Pics\Document.gif" />
     <Content Include="Pics\Dot.gif" />
     <Content Include="Pics\Down.gif" />
     <Content Include="Pics\Up.gif" />
