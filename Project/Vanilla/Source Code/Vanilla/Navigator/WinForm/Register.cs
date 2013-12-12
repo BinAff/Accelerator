@@ -1084,35 +1084,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void cmnuForm_Click(object sender, EventArgs e)
         {
-            if (this.trvForm.SelectedNode != null)
-            {
-                TreeNode rootNode = this.FindRootNode((this.trvForm.SelectedNode as TreeNode));
-
-                //Show Dialogue to capture module data
-                BinAff.Facade.Library.Dto moduleFormDto = new Facade.Module.Server(null).InstantiateDto(rootNode.Tag as Facade.Module.Dto);
-                Type type = Type.GetType((rootNode.Tag as Facade.Module.Dto).ComponentFormType, true);
-                Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
-                form.ShowDialog(this);
-                //moduleFormDto.Id = 7;// Hard coding. Just to ignore form feeling. Just remove
-
-                if (moduleFormDto.Id > 0)
-                {
-                    ListViewItem newNode = this.CreateNewListViewItem("New " + sender.ToString(), 2);
-                    newNode.Tag = new Facade.Artifact.Dto
-                    {
-                        Module = moduleFormDto,
-                    };
-                    this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
-                    {
-                        Dto = newNode.Tag as Facade.Artifact.Dto,
-                    };
-                    this.AttachNodes(this.trvForm.SelectedNode.Tag as BinAff.Facade.Library.Dto, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
-
-                    this.lsvContainer.LabelEdit = true;
-                    this.lsvContainer.Items.Add(newNode);
-                    newNode.BeginEdit();
-                }
-            }
+            this.AddDocument();          
         }
 
         #endregion
@@ -1240,6 +1212,45 @@ namespace Vanilla.Navigator.WinForm
                             break;
                         }
                     }
+                }
+            }
+        }
+
+        private void AddDocument()
+        {
+            TreeNode selectedNode = null;
+
+            if ((this.menuClickSource.ToString() == MenuClickSource.ListView.ToString()) && (this.currentArtifact != null))
+                selectedNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, selectedNode);
+            else if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
+                selectedNode = this.trvForm.SelectedNode;
+
+            if (selectedNode != null)
+            {
+                TreeNode rootNode = this.FindRootNode((this.trvForm.SelectedNode as TreeNode));
+
+                //Show Dialogue to capture module data
+                BinAff.Facade.Library.Dto moduleFormDto = new Facade.Module.Server(null).InstantiateDto(rootNode.Tag as Facade.Module.Dto);
+                Type type = Type.GetType((rootNode.Tag as Facade.Module.Dto).ComponentFormType, true);
+                Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
+                form.ShowDialog(this);
+
+                if (moduleFormDto.Id > 0)
+                {
+                    ListViewItem newNode = this.CreateNewListViewItem("New Document", 2);
+                    newNode.Tag = new Facade.Artifact.Dto
+                    {
+                        Module = moduleFormDto,
+                    };
+                    this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
+                    {
+                        Dto = newNode.Tag as Facade.Artifact.Dto,
+                    };
+                    this.AttachNodes(selectedNode.Tag as BinAff.Facade.Library.Dto, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
+
+                    this.lsvContainer.LabelEdit = true;
+                    this.lsvContainer.Items.Add(newNode);
+                    newNode.BeginEdit();
                 }
             }
         }
