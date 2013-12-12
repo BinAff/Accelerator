@@ -22,14 +22,14 @@ namespace Vanilla.Configuration.Facade.State
             {
                 Value = new FormDto
                 {
-                    StateList = new List<Dto>()
+                    DtoList = new List<Dto>()
                 }
             };
 
             //Populate data in dto from business entity
             foreach (Crystal.Configuration.Component.State.Data data in dataList.Value)
             {
-                ret.Value.StateList.Add(new Dto
+                ret.Value.DtoList.Add(new Dto
                 {
                     Id = data.Id,
                     Name = data.Name
