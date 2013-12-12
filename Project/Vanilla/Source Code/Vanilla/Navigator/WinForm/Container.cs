@@ -735,14 +735,14 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowRegister()
         {
-            //this.pnlArtifact.Show();
+            this.ucRegister.Show();
             this.ucConfiguration.Hide();
             this.pnlNote.Hide();
         }
 
         private void ShowConfiguration()
         {
-            //this.pnlArtifact.Hide();
+            this.ucRegister.Hide();
             this.pnlNote.Hide();
             this.ucConfiguration.Show();
             this.ucConfiguration.PopulateModuleForConfiguration();
@@ -750,7 +750,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowNote()
         {
-            //this.pnlArtifact.Hide();
+            this.ucRegister.Hide();
             this.ucConfiguration.Hide();
             this.pnlNote.Show();
             if (this.pnlNote.Controls.Count == 0)

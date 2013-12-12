@@ -3,10 +3,12 @@
 namespace Vanilla.Configuration.Facade.SecurityQuestion
 {
 
-    public class FormDto
+    public class FormDto : BinAff.Facade.Library.FormDto
     {
 
-        public List<Dto> QuestionList { get; set; }
+        public Dto Dto { get; set; }
+
+        public List<Dto> DtoList { get; set; }
 
     }
 
