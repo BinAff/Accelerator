@@ -3,11 +3,10 @@
 namespace Vanilla.Configuration.Facade.SecurityQuestion
 {
 
-    public class Dto
+    public class Dto : BinAff.Facade.Library.Dto
     {
 
-        public Int64 Id { get; set; }
-        public String Question { get; set; }
+        public String Name { get; set; }
 
     }
 

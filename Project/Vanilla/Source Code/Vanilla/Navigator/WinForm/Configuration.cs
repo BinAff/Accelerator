@@ -45,11 +45,27 @@ namespace Vanilla.Navigator.WinForm
             });
             this.lsvConfiguration.Items.Add(new ListViewItem("User")
             {
-                Tag = this.InstantiateObject("Vanilla.Guardian.WinForm.UserRule", "Vanilla.Guardian.WinForm"),
+                Tag = new Vanilla.Guardian.WinForm.UserRule(),
             });
-            this.lsvConfiguration.Items.Add(new ListViewItem("Config Manager")
+            this.lsvConfiguration.Items.Add(new ListViewItem("State")
             {
-                Tag = this.InstantiateObject("Vanilla.Configuration.WinForm.ConfigManager", "Vanilla.Configuration.WinForm"),
+                Tag = new Vanilla.Configuration.WinForm.State(),
+            });
+            this.lsvConfiguration.Items.Add(new ListViewItem("Identity Proof Type")
+            {
+                Tag = new Vanilla.Configuration.WinForm.IdentityProofType(),
+            });
+            this.lsvConfiguration.Items.Add(new ListViewItem("Initial")
+            {
+                Tag = new Vanilla.Configuration.WinForm.Initial(),
+            });
+            this.lsvConfiguration.Items.Add(new ListViewItem("Payment Type")
+            {
+                Tag = new Vanilla.Configuration.WinForm.PaymentType(),
+            });
+            this.lsvConfiguration.Items.Add(new ListViewItem("Security Question")
+            {
+                Tag = new Vanilla.Configuration.WinForm.SecurityQuestion(),
             });
         }
 
@@ -84,11 +100,6 @@ namespace Vanilla.Navigator.WinForm
             this.lsvConfiguration.Items.Add(new ListViewItem("Room Category")
             {
                 Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.RoomCategory", "AutoTourism.Lodge.Configuration.WinForm"),
-            });
-            
-            this.lsvConfiguration.Items.Add(new ListViewItem("General Configuration")
-            {
-                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.ConfigManager", "AutoTourism.Lodge.Configuration.WinForm"),
             });
 
             this.lsvConfiguration.Items.Add(new ListViewItem("Building")
