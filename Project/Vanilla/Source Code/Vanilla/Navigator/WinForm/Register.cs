@@ -27,7 +27,24 @@ namespace Vanilla.Navigator.WinForm
         private SortOrder sortOrder;
         private Boolean isCutAction;
 
-        public String Address { get; set; }
+        private String address;
+        public String Address
+        {
+            get
+            {
+                return this.address;
+            }
+            set
+            {
+                if (this.address != value)
+                {
+                    this.address = value;
+                    if (PathChanged != null) PathChanged();
+                }
+            }
+        }
+        public delegate void ChangePath();
+        public event ChangePath PathChanged;
 
         public Register()
         {
@@ -39,6 +56,7 @@ namespace Vanilla.Navigator.WinForm
         {
             this.cmsExplorer.ImageList = this.imgSmallIcon;
             this.InitializeListView();
+            this.InitializeTab();
             this.LoadForm();
         }
 
@@ -53,6 +71,7 @@ namespace Vanilla.Navigator.WinForm
             });
             this.facade.LoadForm();
             this.LoadModules(tbcCategory.TabPages[0].Text);
+            this.Address = "Form" + this.formDto.Rule.ModuleSeperator;
         }
 
         private void LoadModules(String currentTab)
@@ -1036,6 +1055,11 @@ namespace Vanilla.Navigator.WinForm
             this.SetViewForList(View.Details);
         }
 
+        private void cmnuTile_Click(object sender, EventArgs e)
+        {
+            this.SetViewForList(View.Tile);
+        }
+
         public void SetViewForList(View view)
         {
             this.lsvContainer.View = view;
@@ -1114,95 +1138,39 @@ namespace Vanilla.Navigator.WinForm
 
         private void tbcCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //TabPage currentTab = (sender as TabControl).SelectedTab;
-
-            //if (currentTab.Text == "Form")
-            //{
-            //    if (hashTreeView[currentTab.Text] == null)
-            //    {
-            //        this.Address = @"Form::";
-            //        this.facade.GetCurrentModules(Facade.Artifact.Category.Form);
-            //        this.LoadModules(currentTab.Text);
-            //        //this.isCatalogueLoaded = true;
-            //    }
-            //    else
-            //    {
-            //        CopyNodes(hashTreeView[currentTab.Text] as TreeView, trvForm);
-            //    }
-
-            //    //if (!this.isFormLoaded)
-            //    //{
-            //    //    this.txtAddress.Text = @"Form::";
-            //    //    this.facade.GetCurrentModules(Facade.Category.Form);
-            //    //    this.LoadModules(currentTab.Text);
-            //    //    this.isFormLoaded = true;
-            //    //}
-            //}
-            //else if (currentTab.Text == "Catalogue")
-            //{
-            //    if (hashTreeView[currentTab.Text] == null)
-            //    {
-            //        this.txtAddress.Text = @"Catalogue::";
-            //        this.facade.GetCurrentModules(Facade.Artifact.Category.Catalogue);
-            //        this.LoadModules(currentTab.Text);
-            //        //this.isCatalogueLoaded = true;
-            //    }
-            //    else
-            //    {
-            //        CopyNodes(hashTreeView[currentTab.Text] as TreeView, trvCatalogue);
-            //    }
-            //    //if (!this.isCatalogueLoaded)
-            //    //{
-            //    //    this.txtAddress.Text = @"Catalogue::";
-            //    //    this.facade.GetCurrentModules(Facade.Category.Catalogue);
-            //    //    this.LoadModules(currentTab.Text);
-            //    //    this.isCatalogueLoaded = true;
-            //    //}
-            //}
-            //else if (currentTab.Text == "Report")
-            //{
-            //    if (hashTreeView[currentTab.Text] == null)
-            //    {
-            //        this.txtAddress.Text = @"Report::";
-            //        this.facade.GetCurrentModules(Facade.Artifact.Category.Report);
-            //        this.LoadModules(currentTab.Text);
-            //        //this.isCatalogueLoaded = true;
-            //    }
-            //    else
-            //    {
-            //        CopyNodes(hashTreeView[currentTab.Text] as TreeView, trvReport);
-            //    }
-            //    //if (!this.isReportLoaded)
-            //    //{
-            //    //    this.txtAddress.Text = @"Report::";
-            //    //    this.facade.GetCurrentModules(Facade.Category.Report);
-            //    //    this.LoadModules(currentTab.Text);
-            //    //    this.isReportLoaded = true;
-            //    //}
-            //}
+            TabPage currentTab = (sender as TabControl).SelectedTab;
+            CategoryStatus currentCategory = (currentTab.Tag as CategoryStatus);
+            //this.lsvContainer.Clear(); ////This line is used to clear the listview every time. But it is disableing TreeView click feature.
+            this.facade.GetCurrentModules((Facade.Artifact.Category)(currentCategory.Category));
+            if(!currentCategory.IsAlreadyLoaded) this.LoadModules(currentTab.Text);
+            currentCategory.IsAlreadyLoaded = true;
+            this.Address = currentTab.Text + this.formDto.Rule.ModuleSeperator;
         }
 
-        private void tbcCategory_Deselected(object sender, TabControlEventArgs e)
+        private void InitializeTab()
         {
-            //String tabName = (sender as TabControl).SelectedTab.Text;
-            ////hashTreeView[tabName] = CopyNodes(trvForm, new TreeView());
-            //switch (tabName)
-            //{
-            //    case "Form":
-            //        hashTreeView[tabName] = CopyNodes(trvForm, new TreeView());
-            //        break;
-            //    case "Catalogue":
-            //        hashTreeView[tabName] = CopyNodes(trvCatalogue, new TreeView());
-            //        break;
-            //    case "Report":
-            //        hashTreeView[tabName] = CopyNodes(trvReport, new TreeView());
-            //        break;
-            //    default:
-            //        break;
-            //}
+            this.tbpForm.Tag = new CategoryStatus
+            {
+                Category = Facade.Artifact.Category.Form,
+                IsAlreadyLoaded = true,
+            };
+            this.tbpCatalogue.Tag = new CategoryStatus
+            {
+                Category = Facade.Artifact.Category.Catalogue,
+            };
+            this.tbpReport.Tag = new CategoryStatus
+            {
+                Category = Facade.Artifact.Category.Report,
+            };
         }
 
         #endregion
+
+        private class CategoryStatus
+        {
+            internal Facade.Artifact.Category Category { get; set; }
+            internal Boolean IsAlreadyLoaded { get; set; }
+        }
 
     }
 
