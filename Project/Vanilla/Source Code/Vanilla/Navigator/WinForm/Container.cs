@@ -555,7 +555,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void mnuChangeAccount_Click(object sender, EventArgs e)
         {
-            Guardian.WinForm.Info form = new Guardian.WinForm.Info();
+            Guardian.WinForm.UserRegister form = new Guardian.WinForm.UserRegister();
             form.ShowDialog();
         }
 
