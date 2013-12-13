@@ -29,23 +29,7 @@ namespace Vanilla.Navigator.WinForm
 
         private Facade.Artifact.Dto currentArtifact; 
         private MenuClickSource menuClickSource;
-
-        private String address;
-        public String Address
-        {
-            get
-            {
-                return this.address;
-            }
-            set
-            {
-                if (this.address != value)
-                {
-                    this.address = value;
-                    if (PathChanged != null) PathChanged();
-                }
-            }
-        }
+       
         public delegate void ChangePath();
         public event ChangePath PathChanged;
 
@@ -74,7 +58,7 @@ namespace Vanilla.Navigator.WinForm
             });
             this.facade.LoadForm();
             this.LoadModules(tbcCategory.TabPages[0].Text);
-            this.Address = "Form" + this.formDto.Rule.ModuleSeperator;
+            this.txtAddress.Text = "Form" + this.formDto.Rule.ModuleSeperator;
         }
 
         private void LoadModules(String currentTab)
@@ -173,7 +157,7 @@ namespace Vanilla.Navigator.WinForm
                 ((sender as TreeView).SelectedNode.Tag as Facade.Module.Dto).Artifact :
                 (sender as TreeView).SelectedNode.Tag as Facade.Artifact.Dto;
             this.SelectNode(selectedNode);
-            this.Address = selectedNode.Path;
+            this.txtAddress.Text = selectedNode.Path;
             this.formDto.ModuleFormDto.Dto = this.FindRootNode((sender as TreeView).SelectedNode).Tag as Facade.Module.Dto;
         }
 
@@ -527,7 +511,7 @@ namespace Vanilla.Navigator.WinForm
             if (currentArtifact.Style == Facade.Artifact.Type.Directory)
             {
                 this.SelectNode(currentArtifact);
-                this.Address = currentArtifact.Path;
+                this.txtAddress.Text = currentArtifact.Path;
             }
             else
             {
@@ -940,12 +924,12 @@ namespace Vanilla.Navigator.WinForm
                     {
                         //populating list view for the selected node
                         this.SelectNode((node.Tag as Facade.Module.Dto).Artifact);
-                        this.Address = (node.Tag as Facade.Module.Dto).Artifact.Path;
+                        this.txtAddress.Text = (node.Tag as Facade.Module.Dto).Artifact.Path;
                     }
                     else
                     {
                         this.SelectNode(node.Tag as Facade.Artifact.Dto);
-                        this.Address = (node.Tag as Facade.Artifact.Dto).Path;
+                        this.txtAddress.Text = (node.Tag as Facade.Artifact.Dto).Path;
                     }
 
                     this.formDto.ModuleFormDto.Dto = this.FindRootNode(node).Tag as Facade.Module.Dto;
@@ -1101,7 +1085,7 @@ namespace Vanilla.Navigator.WinForm
             this.facade.GetCurrentModules((Facade.Artifact.Category)(currentCategory.Category));
             if (!currentCategory.IsAlreadyLoaded) this.LoadModules(currentTab.Text);
             currentCategory.IsAlreadyLoaded = true;
-            this.Address = currentTab.Text + this.formDto.Rule.ModuleSeperator;
+            this.txtAddress.Text = currentTab.Text + this.formDto.Rule.ModuleSeperator;
         }
 
         private void InitializeTab()
@@ -1371,6 +1355,36 @@ namespace Vanilla.Navigator.WinForm
             internal Facade.Artifact.Category Category { get; set; }
             internal Boolean IsAlreadyLoaded { get; set; }
         }
+                
+        #region Address Bar
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+
+            }
+        }
+
+        private void txtSearch_Enter(object sender, EventArgs e)
+        {
+            if (String.Compare(this.txtSearch.Text, "Search...") == 0)
+            {
+                this.txtSearch.Text = String.Empty;
+                this.txtSearch.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtSearch_Leave(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(this.txtSearch.Text))
+            {
+                this.txtSearch.Text = "Search...";
+                this.txtSearch.ForeColor = Color.Gray;
+            }
+        }
+
+        #endregion
 
     }
 
