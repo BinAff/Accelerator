@@ -589,7 +589,6 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowControls()
         {
-            this.pnlAddress.Show();
             this.ucRegister.Show();
             this.pnlTool.Show();
 
@@ -609,7 +608,6 @@ namespace Vanilla.Navigator.WinForm
 
         private void HideControl()
         {
-            this.pnlAddress.Hide();
             this.pnlTool.Hide();
             this.ucRegister.Hide();
             this.pnlNote.Hide();
@@ -788,41 +786,6 @@ namespace Vanilla.Navigator.WinForm
         private void ShowSms()
         {
 
-        }
-
-        #endregion
-
-        #region Address Bar
-
-        private void ucRegister_PathChanged()
-        {
-            this.txtAddress.Text = this.ucRegister.Address;
-        }
-
-        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-
-            }
-        }
-
-        private void txtSearch_Enter(object sender, EventArgs e)
-        {
-            if (String.Compare(this.txtSearch.Text, "Search...") == 0)
-            {
-                this.txtSearch.Text = String.Empty;
-                this.txtSearch.ForeColor = Color.Black;
-            }
-        }
-
-        private void txtSearch_Leave(object sender, EventArgs e)
-        {
-            if (String.IsNullOrEmpty(this.txtSearch.Text))
-            {
-                this.txtSearch.Text = "Search...";
-                this.txtSearch.ForeColor = Color.Gray;
-            }
         }
 
         #endregion

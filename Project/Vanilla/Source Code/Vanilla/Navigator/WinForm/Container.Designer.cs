@@ -32,12 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Container));
             this.imglIcons = new System.Windows.Forms.ImageList(this.components);
             this.imgLargeIcon = new System.Windows.Forms.ImageList(this.components);
-            this.txtAddress = new System.Windows.Forms.TextBox();
-            this.btnUp = new System.Windows.Forms.Button();
-            this.btnBack = new System.Windows.Forms.Button();
-            this.btnEnter = new System.Windows.Forms.Button();
-            this.pnlAddress = new System.Windows.Forms.Panel();
-            this.txtSearch = new System.Windows.Forms.TextBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnConfiguration = new System.Windows.Forms.Button();
             this.btnNote = new System.Windows.Forms.Button();
@@ -157,7 +151,6 @@
             this.imgMisc = new System.Windows.Forms.ImageList(this.components);
             this.ucRegister = new Vanilla.Navigator.WinForm.Register();
             this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
-            this.pnlAddress.SuspendLayout();
             this.cmsExplorer.SuspendLayout();
             this.mnuMain.SuspendLayout();
             this.pnlTool.SuspendLayout();
@@ -186,74 +179,6 @@
             this.imgLargeIcon.Images.SetKeyName(3, "Directory.png");
             this.imgLargeIcon.Images.SetKeyName(4, "DirectoryOpen.png");
             this.imgLargeIcon.Images.SetKeyName(5, "Document.png");
-            // 
-            // txtAddress
-            // 
-            this.txtAddress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtAddress.Location = new System.Drawing.Point(40, 0);
-            this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(600, 20);
-            this.txtAddress.TabIndex = 1;
-            // 
-            // btnUp
-            // 
-            this.btnUp.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnUp.Location = new System.Drawing.Point(0, 0);
-            this.btnUp.Name = "btnUp";
-            this.btnUp.Size = new System.Drawing.Size(20, 20);
-            this.btnUp.TabIndex = 2;
-            this.btnUp.Text = "Ç";
-            this.btnUp.UseVisualStyleBackColor = true;
-            // 
-            // btnBack
-            // 
-            this.btnBack.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnBack.Location = new System.Drawing.Point(20, 0);
-            this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(20, 20);
-            this.btnBack.TabIndex = 3;
-            this.btnBack.Text = "Å";
-            this.btnBack.UseVisualStyleBackColor = true;
-            // 
-            // btnEnter
-            // 
-            this.btnEnter.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnEnter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnEnter.Location = new System.Drawing.Point(640, 0);
-            this.btnEnter.Name = "btnEnter";
-            this.btnEnter.Size = new System.Drawing.Size(23, 20);
-            this.btnEnter.TabIndex = 4;
-            this.btnEnter.Text = "Æ";
-            this.btnEnter.UseVisualStyleBackColor = true;
-            // 
-            // pnlAddress
-            // 
-            this.pnlAddress.Controls.Add(this.txtAddress);
-            this.pnlAddress.Controls.Add(this.btnEnter);
-            this.pnlAddress.Controls.Add(this.btnBack);
-            this.pnlAddress.Controls.Add(this.btnUp);
-            this.pnlAddress.Controls.Add(this.txtSearch);
-            this.pnlAddress.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlAddress.Location = new System.Drawing.Point(0, 24);
-            this.pnlAddress.Name = "pnlAddress";
-            this.pnlAddress.Size = new System.Drawing.Size(827, 20);
-            this.pnlAddress.TabIndex = 5;
-            this.pnlAddress.Visible = false;
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Dock = System.Windows.Forms.DockStyle.Right;
-            this.txtSearch.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.txtSearch.Location = new System.Drawing.Point(663, 0);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(164, 20);
-            this.txtSearch.TabIndex = 5;
-            this.txtSearch.Text = "Search...";
-            this.txtSearch.Enter += new System.EventHandler(this.txtSearch_Enter);
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
-            this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
             // btnConfiguration
             // 
@@ -1212,13 +1137,11 @@
             // 
             // ucRegister
             // 
-            this.ucRegister.Address = "Form:";
             this.ucRegister.Location = new System.Drawing.Point(512, 54);
             this.ucRegister.Name = "ucRegister";
             this.ucRegister.Size = new System.Drawing.Size(10, 26);
             this.ucRegister.TabIndex = 13;
             this.ucRegister.Visible = false;
-            this.ucRegister.PathChanged += new Vanilla.Navigator.WinForm.Register.ChangePath(this.ucRegister_PathChanged);
             // 
             // ucConfiguration
             // 
@@ -1238,15 +1161,12 @@
             this.Controls.Add(this.ucConfiguration);
             this.Controls.Add(this.pnlNote);
             this.Controls.Add(this.pnlLoginFormContainer);
-            this.Controls.Add(this.pnlAddress);
             this.Controls.Add(this.mnuMain);
             this.MainMenuStrip = this.mnuMain;
             this.Name = "Container";
             this.Text = "Navigator";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Container_Load);
-            this.pnlAddress.ResumeLayout(false);
-            this.pnlAddress.PerformLayout();
             this.cmsExplorer.ResumeLayout(false);
             this.mnuMain.ResumeLayout(false);
             this.mnuMain.PerformLayout();
@@ -1259,11 +1179,6 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtAddress;
-        private System.Windows.Forms.Button btnUp;
-        private System.Windows.Forms.Button btnBack;
-        private System.Windows.Forms.Button btnEnter;
-        private System.Windows.Forms.Panel pnlAddress;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.ContextMenuStrip cmsExplorer;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
@@ -1342,7 +1257,6 @@
         private System.Windows.Forms.ToolStripMenuItem mnuDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem mnuChangeAccount;
-        private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.ToolStripMenuItem mnuRecentFile;
         private System.Windows.Forms.ToolStripSeparator mnuFileSeperator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
