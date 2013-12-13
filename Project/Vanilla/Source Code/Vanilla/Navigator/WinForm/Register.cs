@@ -29,10 +29,7 @@ namespace Vanilla.Navigator.WinForm
 
         private Facade.Artifact.Dto currentArtifact; 
         private MenuClickSource menuClickSource;
-       
-        public delegate void ChangePath();
-        public event ChangePath PathChanged;
-
+        
         public Register()
         {
             InitializeComponent();
@@ -265,7 +262,7 @@ namespace Vanilla.Navigator.WinForm
                 },
                 new ListViewItem.ListViewSubItem(node, "Created At")
                 {
-                    Text = artifact.CreatedAt == null ? String.Empty : artifact.CreatedAt.ToString(),
+                    Text = artifact.CreatedAt.ToString(),
                 },
                 new ListViewItem.ListViewSubItem(node, "Modified By")
                 {
