@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Transactions;
 
 using BinAff.Core;
 
@@ -205,54 +206,22 @@ namespace Crystal.Guardian.Component.Account
 
         ReturnObject<Boolean> IUser.ChangeRole()
         {
-            ReturnObject<Boolean> ret = new ReturnObject<Boolean>
+            
+            ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
+
+            using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
             {
-                Value = new Dao((Data)this.Data).ChangeRoles()
-            };
-            ret.MessageList = ret.Value ? new List<Message> 
-            { 
-                new Message 
-                {
-                    Category = Message.Type.Information,
-                    Description = "User roles changed."
-                }
-            } :
-            new List<Message> 
-            { 
-                new Message 
-                {
-                    Category = Message.Type.Error,
-                    Description = "Unable to change user roles."
-                }                
-            };
+                ret.Value = new Dao((Data)this.Data).ChangeRoles();
+                if (ret.Value) T.Complete();
+            }
+
+            ret.MessageList = ret.Value ? 
+                new List<Message> { new Message ("User roles changed.", Message.Type.Information) } :
+                new List<Message> { new Message ("Unable to change user roles.", Message.Type.Error) };
             return ret;
         }
 
         #endregion
-
-        //protected override ReturnObject<List<BinAff.Core.Data>> ReadAll()
-        //{
-        //    //ReturnObject<List<BinAff.Core.Data>> lstData = new ReturnObject<List<BinAff.Core.Data>>();
-        //    //List<BinAff.Core.Data> data = new List<BinAff.Core.Data>();
-
-        //    //Dao dao = new Dao(new Data());
-        //    //data = dao.ReadAll();
-
-        //    //lstData.Value = data;
-        //    //return lstData;
-
-        //    ReturnObject<List<BinAff.Core.Data>> retList = new ReturnObject<List<BinAff.Core.Data>>
-        //    {
-        //        Value = ((Dao)this.DataAccess).ReadAll()
-        //    };
-
-        //    foreach (BinAff.Core.Data data in retList.Value)
-        //    {
-        //        ICrud crud = new Server((Data)data);
-        //        crud.Read();
-        //    }
-        //    return retList;
-        //}
 
     }
 

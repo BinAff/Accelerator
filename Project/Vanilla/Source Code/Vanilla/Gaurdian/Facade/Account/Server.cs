@@ -12,7 +12,6 @@ namespace Vanilla.Guardian.Facade.Account
 
     public class Server : BinAff.Facade.Library.Server
     {
-        private CrysAcc.Data data;
 
         public Server(FormDto formDto)
             :base(formDto)
@@ -175,6 +174,28 @@ namespace Vanilla.Guardian.Facade.Account
             return accountData;
         }
 
+        public List<Account.Dto> Convert(List<Data> dataList)
+        {
+            if (this.FormDto == null)
+            {
+                this.FormDto = new FormDto();
+            }
+            List<Account.Dto> dtoList = new List<Account.Dto>();
+            foreach (Data data in dataList)
+            {
+                (this.FormDto as FormDto).Dto = new Account.Dto
+                {
+                    Profile = new Profile.Dto
+                    {
+                        Initial = new Table(),
+                        ContactNumberList = new List<Table>(),
+                    },
+                };
+                dtoList.Add(this.Convert(data) as Account.Dto);
+            }
+            return dtoList;
+        }
+
         public override void Add()
         {
             //Dto dto = ((FormDto)this.FormDto).Dto;
@@ -213,6 +234,22 @@ namespace Vanilla.Guardian.Facade.Account
             {
                 (this.FormDto as FormDto).Dto = this.Convert(ret.Value) as Account.Dto;
             }
+        }
+
+        public void ChangeRole()
+        {
+            Dto dto = ((FormDto)this.FormDto).Dto;
+            CrysAcc.Data data = this.Convert(dto) as CrysAcc.Data;
+            ReturnObject<Boolean> ret = (new CrysAcc.Server(data) as CrysAcc.IUser).ChangeRole();
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+        }
+
+        public void ResetPassword()
+        {
+            Dto dto = ((FormDto)this.FormDto).Dto;
+            CrysAcc.Data data = this.Convert(dto) as CrysAcc.Data;
+            ReturnObject<Boolean> ret = (new CrysAcc.Server(data) as CrysAcc.IUser).ChangePassword();
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
     }

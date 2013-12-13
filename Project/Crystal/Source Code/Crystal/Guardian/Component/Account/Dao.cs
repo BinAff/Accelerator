@@ -131,7 +131,7 @@ namespace Crystal.Guardian.Component.Account
         public Boolean ChangePassword()
         {
             base.CreateConnection();
-            base.CreateCommand("UserResetPassword");
+            base.CreateCommand("Guardian.AccountUpdatePassword");
             base.AddInParameter("@Id", DbType.Int64, this.Data.Id);
             base.AddInParameter("@Password", DbType.String, ((Data)this.Data).Password);
 
