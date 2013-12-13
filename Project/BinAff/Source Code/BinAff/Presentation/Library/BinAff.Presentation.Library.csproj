@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormWithRightButtons.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWithRightButtons.Designer.cs">
+      <DependentUpon>FormWithRightButtons.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +86,9 @@
     <Compile Include="Theme\Blue.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FormWithRightButtons.resx">
+      <DependentUpon>FormWithRightButtons.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialog.resx">
       <DependentUpon>Dialog.cs</DependentUpon>
     </EmbeddedResource>
