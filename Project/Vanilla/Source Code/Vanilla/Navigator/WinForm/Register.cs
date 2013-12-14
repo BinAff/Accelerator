@@ -653,6 +653,9 @@ namespace Vanilla.Navigator.WinForm
         {
             if (isListView)
             {
+                if (listViewItem != null)
+                    this.currentArtifact = listViewItem.Tag as Facade.Artifact.Dto;
+
                 menuClickSource = MenuClickSource.ListView;
 
                 for (int i = 0; i < cmsExplorer.Items.Count; i++)
@@ -675,6 +678,11 @@ namespace Vanilla.Navigator.WinForm
             }
             else //Tree View
             {
+                if (treeNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                    this.currentArtifact = (treeNode.Tag as Facade.Module.Dto).Artifact;
+                else
+                    this.currentArtifact = treeNode.Tag as Facade.Artifact.Dto;
+
                 menuClickSource = MenuClickSource.TreeView;
 
                 for (int i = 0; i < cmsExplorer.Items.Count; i++)
@@ -895,68 +903,120 @@ namespace Vanilla.Navigator.WinForm
 
         public void Delete()
         {
-            if (this.trvForm.SelectedNode != null)
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this Directory/Document?", "Delete", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
             {
-                //donot delete the root node
-                if (this.trvForm.SelectedNode.Parent == null)
+                TreeNode node = null;
+                TreeNode selectNode = null;
+
+                if (this.currentArtifact.Style == Facade.Artifact.Type.Document)
+                    node = this.FindTreeNodeFromTag(this.currentArtifact.Parent as Facade.Artifact.Dto, this.trvForm.Nodes, node);
+                else
                 {
-                    return;
+                    selectNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, node);
+                    node = selectNode.Parent;
                 }
 
-                this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
+                if ((this.menuClickSource.ToString() == MenuClickSource.ListView.ToString()) && (this.currentArtifact.Style == Facade.Artifact.Type.Document))
+                    this.DeleteDocument(this.currentArtifact);
+                else
                 {
-                    Dto = (this.trvForm.SelectedNode as TreeNode).Tag as Facade.Artifact.Dto,
-                };
+                    Boolean retVal = true;
+                    this.DeleteDirectory(this.currentArtifact, retVal);
+                }
 
-                this.facade = new Facade.Container.Server(this.formDto);
-                this.facade.Delete();
+                //Reset the ListView          
+                if (node.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                    this.SelectNode((node.Tag as Facade.Module.Dto).Artifact);
+                else
+                    this.SelectNode(node.Tag as Facade.Artifact.Dto);
 
-                if (!this.facade.IsError)
+                if (selectNode != null)
                 {
-                    Boolean isFirstLevelNode = false;
-                    Facade.Artifact.Dto parentNode;
-
-                    //Removing node from Parent Tag
-                    if (this.trvForm.SelectedNode.Parent.Parent == null) //First level nodes [nodes whose parent id is null]      
-                    {
-                        isFirstLevelNode = true;
-                        parentNode = (this.trvForm.SelectedNode.Parent.Tag as Facade.Module.Dto).Artifact;
-                    }
-                    else
-                    {
-                        parentNode = this.trvForm.SelectedNode.Parent.Tag as Facade.Artifact.Dto;
-                    }
-
-                    foreach (Facade.Artifact.Dto child in parentNode.Children)
-                    {
-                        if (child.Id == (this.trvForm.SelectedNode.Tag as Facade.Artifact.Dto).Id)
-                        {
-                            parentNode.Children.Remove(child);
-                            break;
-                        }
-                    }
-
-                    TreeNode node = this.trvForm.SelectedNode.Parent;
-                    this.trvForm.SelectedNode.Remove();
-                    this.trvForm.SelectedNode = node;
-
-                    //populating the path
-                    if (isFirstLevelNode)
-                    {
-                        //populating list view for the selected node
-                        this.SelectNode((node.Tag as Facade.Module.Dto).Artifact);
-                        this.txtAddress.Text = (node.Tag as Facade.Module.Dto).Artifact.Path;
-                    }
-                    else
-                    {
-                        this.SelectNode(node.Tag as Facade.Artifact.Dto);
-                        this.txtAddress.Text = (node.Tag as Facade.Artifact.Dto).Path;
-                    }
-
-                    this.formDto.ModuleFormDto.Dto = this.FindRootNode(node).Tag as Facade.Module.Dto;
+                    this.trvForm.SelectedNode = selectNode.Parent;
+                    this.trvForm.Nodes.Remove(selectNode);
                 }
             }
+            else if (dialogResult == DialogResult.No)
+            {
+                return;
+            }           
         }
+
+        private Boolean DeleteDocument(Facade.Artifact.Dto artifact)
+        {
+            Boolean retVal = true;
+            Facade.Artifact.Dto parentArtifact = artifact.Parent as Facade.Artifact.Dto;
+            TreeNode parentNode = null;
+            parentNode = this.FindTreeNodeFromTag(parentArtifact, this.trvForm.Nodes, parentNode);
+
+            if (parentNode != null)
+                retVal = this.DeleteItem(artifact, parentNode);
+
+            return retVal;
+        }
+
+        private void DeleteDirectory(Facade.Artifact.Dto artifact, Boolean retVal)
+        {
+            if (!retVal)
+                return;
+
+            //Delete the children
+            if (artifact.Children != null)
+            {
+                while (artifact.Children.Count > 0)
+                {
+                    if (artifact.Children[0].Style == Facade.Artifact.Type.Directory)
+                        this.DeleteDirectory(artifact.Children[0], retVal);
+                    else
+                    {
+                        retVal = this.DeleteDocument(artifact.Children[0]);
+                        if (!retVal)
+                            break;
+                    }
+                }            
+            }
+            
+
+            //Delete Own
+            TreeNode node = null;
+            node = this.FindTreeNodeFromTag(artifact, this.trvForm.Nodes, node);
+            retVal = this.DeleteItem(artifact, node.Parent);
+            
+        }
+
+        private Boolean DeleteItem(Facade.Artifact.Dto artifact, TreeNode parentNode)
+        {
+            this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
+            {
+                Dto = artifact,
+            };
+
+            this.facade = new Facade.Container.Server(this.formDto);
+            this.facade.Delete();
+
+            //if deleted successfully
+            if (!this.facade.IsError)
+            {
+                if (parentNode.Tag.GetType().ToString() == "Vanilla.Navigator.Facade.Module.Dto")
+                    (parentNode.Tag as Facade.Module.Dto).Artifact.Children.Remove(artifact);
+                else
+                    (parentNode.Tag as Facade.Artifact.Dto).Children.Remove(artifact);
+            }
+            else
+            {
+                new PresLib.MessageBox
+                {
+                    DialogueType = PresLib.MessageBox.Type.Error,
+                    Heading = "Splash",
+                }.Show("Document contains transactional information. Cannot be deleted.");
+
+                return false;
+            }
+
+            return true;
+        }
+
 
         public void SelectAll()
         {
