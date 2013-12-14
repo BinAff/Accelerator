@@ -29,6 +29,26 @@ namespace Vanilla.Navigator.WinForm
 
         private Facade.Artifact.Dto currentArtifact; 
         private MenuClickSource menuClickSource;
+
+        private String address;
+        public String Address
+        {
+            get
+            {
+                return this.address;
+            }
+            set
+            {
+                if (this.address != value)
+                {
+                    this.address = value;
+                    if (PathChanged != null) PathChanged();
+                }
+            }
+        }
+
+        public delegate void ChangePath();
+        public event ChangePath PathChanged;
         
         public Register()
         {
@@ -107,13 +127,13 @@ namespace Vanilla.Navigator.WinForm
         }
 
         private void trvArtifact_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
-        {                
+        {
             (sender as TreeView).LabelEdit = false;
 
-            Facade.Artifact.Dto artifactDto = e.Node.Tag as Facade.Artifact.Dto;          
+            Facade.Artifact.Dto artifactDto = e.Node.Tag as Facade.Artifact.Dto;
             String artifactFileName = String.Empty;
-                     
-            if (e.Label != null && e.Label.Trim().Length == 0)            
+
+            if (e.Label != null && e.Label.Trim().Length == 0)
                 e.CancelEdit = true; // Can not be empty text            
             else if ((e.Node.Tag as Facade.Artifact.Dto).Id > 0 && e.Label == null) //no text inserted during edit            
                 e.CancelEdit = true; // Can not be empty text            
@@ -122,18 +142,17 @@ namespace Vanilla.Navigator.WinForm
 
             if (e.CancelEdit)
             {
-                 artifactFileName = artifactDto.FileName;   
+                artifactFileName = artifactDto.FileName;
 
-                if(artifactDto.Id != 0)
+                if (artifactDto.Id != 0)
                     return;
-            }            
-          
-               
-            if(artifactFileName == String.Empty)
+            }
+
+            if (artifactFileName == String.Empty)
                 artifactFileName = (e.Label == null || e.Label.Trim().Length == 0) ? e.Node.Text : e.Label.Trim();
 
-            this.SaveArtifact(e.Node, artifactFileName, artifactDto.Id != 0);
-         
+            this.SaveArtifact(artifactDto, artifactFileName, artifactDto.Id != 0);
+
         }
 
         private void trvArtifact_AfterSelect(object sender, TreeViewEventArgs e)
@@ -425,14 +444,14 @@ namespace Vanilla.Navigator.WinForm
         #region Events
 
         private void lsvContainer_AfterLabelEdit(object sender, LabelEditEventArgs e)
-        {            
+        {
             (sender as ListView).LabelEdit = false;
 
             ListViewItem selectedItem = (sender as ListView).FocusedItem;
             Facade.Artifact.Dto selectedItemArtifactDto = selectedItem.Tag as Facade.Artifact.Dto;
 
             String defaultFileName = selectedItemArtifactDto.FileName;
-            String artifactFileName = String.Empty;            
+            String artifactFileName = String.Empty;
 
             //if the selected item text is empty then no operations will be done
             if (e.Label == null || e.Label.Trim().Length == 0)
@@ -447,7 +466,7 @@ namespace Vanilla.Navigator.WinForm
 
             if (artifactFileName == String.Empty)
                 artifactFileName = (e.Label == null || e.Label.Trim().Length == 0) ? selectedItem.Text.Trim() : e.Label.Trim();
-            
+
             //loop through the list to check for duplicate
             foreach (ListViewItem item in this.lsvContainer.Items)
             {
@@ -471,20 +490,23 @@ namespace Vanilla.Navigator.WinForm
                     }
                 }
             }
-           
+
 
             TreeNode selectedNode = null;
-            selectedNode = this.FindTreeNodeFromTag(selectedItemArtifactDto, this.trvForm.Nodes, selectedNode);
+            if (selectedItemArtifactDto.Style == Facade.Artifact.Type.Document)
+                selectedNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, selectedNode);
+            else
+                selectedNode = this.FindTreeNodeFromTag(selectedItemArtifactDto, this.trvForm.Nodes, selectedNode);
 
             //Update TreeNode Text
-            if (defaultFileName != artifactFileName)
-            {                
+            if ((selectedItemArtifactDto.Style == Facade.Artifact.Type.Directory) && (defaultFileName != artifactFileName))
+            {
                 selectedNode.Text = artifactFileName;
                 (selectedNode.Tag as Facade.Artifact.Dto).FileName = artifactFileName;
             }
 
-            this.SaveArtifact(selectedNode, artifactFileName, selectedItemArtifactDto.Id != 0);   
-         
+            this.SaveArtifact(selectedItemArtifactDto, artifactFileName, selectedItemArtifactDto.Id != 0);
+
         }
 
         private void lsvContainer_MouseDown(object sender, MouseEventArgs e)
@@ -503,12 +525,12 @@ namespace Vanilla.Navigator.WinForm
         }
 
         private void lsvContainer_DoubleClick(object sender, EventArgs e)
-        {           
+        {
             Facade.Artifact.Dto currentArtifact = ((sender as ListView).SelectedItems[0].Tag as Facade.Artifact.Dto);
             if (currentArtifact.Style == Facade.Artifact.Type.Directory)
             {
                 this.SelectNode(currentArtifact);
-                this.txtAddress.Text = currentArtifact.Path;
+                this.Address = currentArtifact.Path;
             }
             else
             {
@@ -516,9 +538,11 @@ namespace Vanilla.Navigator.WinForm
                 //TreeNode rootNode = FindRootNode(selectedNode);
                 //Type type = Type.GetType((rootNode.Tag as Facade.Module.Dto).ComponentFormType, true);
                 Type type = Type.GetType("AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm", true);
-                Form form = (Form)Activator.CreateInstance(type, currentArtifact.Module);
-
+                PresLib.Form form = (PresLib.Form)Activator.CreateInstance(type, currentArtifact.Module);
                 form.ShowDialog(this);
+
+                if (form.IsModified)
+                    this.SaveArtifact(currentArtifact, currentArtifact.FileName, true);
             }
         }
 
@@ -1104,18 +1128,33 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion
 
-        private String GetDirectoryName(TreeNode node)
+        private String GetDirectoryName(TreeNode node, Facade.Artifact.Type type)
         {
+            Facade.Artifact.Dto artifactDto = null;
+
+            if (node.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                artifactDto = (node.Tag as Facade.Module.Dto).Artifact;
+            else
+                artifactDto = node.Tag as Facade.Artifact.Dto;
+
             String fileName = String.Empty;
+            String appendText = "New Directory";
+
+            if (type.ToString() == Facade.Artifact.Type.Document.ToString())
+                appendText = "New " + this.tbcCategory.SelectedTab.Text;
+
+            if (artifactDto.Children == null)
+                return appendText;
+
             Boolean isExists = false;
-            for (int i = 0; i <= node.Nodes.Count; i++)
+            for (int i = 0; i <= artifactDto.Children.Count; i++)
             {
                 isExists = false;
-                fileName = i == 0 ? "New Directory" : "New Directory (" + i + ")";
+                fileName = i == 0 ? appendText : appendText + " (" + i + ")";
 
-                foreach (TreeNode tNode in node.Nodes)
+                foreach (Facade.Artifact.Dto childArtifact in artifactDto.Children)
                 {
-                    if (tNode.Text.ToUpper().Trim() == fileName.ToUpper().Trim())
+                    if (childArtifact.FileName.ToUpper().Trim() == fileName.ToUpper().Trim())
                     {
                         isExists = true;
                         break;
@@ -1131,70 +1170,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void AddDirectory()
         {
-            TreeNode selectedNode = null;
-
-            if ((this.menuClickSource.ToString() == MenuClickSource.ListView.ToString()) && (this.currentArtifact != null))
-                selectedNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, selectedNode);
-            else if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
-                selectedNode = this.trvForm.SelectedNode;
-
-            if (selectedNode != null)
-            {
-                Table currentLoggedInUser = new Table
-                {
-                    Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                    Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
-                };
-
-                String fileName = this.GetDirectoryName(selectedNode);
-                TreeNode newNode = new TreeNode
-                {
-                    Text = fileName,
-                    Tag = new Facade.Artifact.Dto()
-                    {
-                        FileName = fileName,
-                        Version = 1,
-                        Style = Facade.Artifact.Type.Directory,
-                        CreatedBy = currentLoggedInUser,
-                        CreatedAt = DateTime.Now
-                    }
-                };
-                this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
-                {
-                    Dto = newNode.Tag as Facade.Artifact.Dto,
-                };
-
-                this.AttachNodes(selectedNode.Tag as BinAff.Facade.Library.Dto, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
-
-                selectedNode.Nodes.Add(newNode);
-
-                //Adding items to listView for the selected node
-                if (selectedNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
-                    this.SelectNode((selectedNode.Tag as Facade.Module.Dto).Artifact);
-                else
-                    this.SelectNode(selectedNode.Tag as Facade.Artifact.Dto);
-
-                if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
-                {
-                    this.trvForm.LabelEdit = true;
-
-                    newNode.Parent.Expand();
-                    this.trvForm.SelectedNode = null;
-                    newNode.BeginEdit();
-                }
-                else
-                {
-                    this.lsvContainer.LabelEdit = true;
-                    foreach (ListViewItem item in this.lsvContainer.Items)
-                    {
-                        if (((item.Tag as Facade.Artifact.Dto).Style == Facade.Artifact.Type.Directory) && item.Text == fileName)
-                        {
-                            item.BeginEdit();
-                            break;
-                        }
-                    }
-                }
-            }
+            this.AddArtifact(Facade.Artifact.Type.Directory, null);
         }
 
         private void AddDocument()
@@ -1215,23 +1191,11 @@ namespace Vanilla.Navigator.WinForm
                 Type type = Type.GetType((rootNode.Tag as Facade.Module.Dto).ComponentFormType, true);
                 Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
                 form.ShowDialog(this);
-
+               
                 if (moduleFormDto.Id > 0)
                 {
-                    ListViewItem newNode = this.CreateNewListViewItem("New Document", 2);
-                    newNode.Tag = new Facade.Artifact.Dto
-                    {
-                        Module = moduleFormDto,
-                    };
-                    this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
-                    {
-                        Dto = newNode.Tag as Facade.Artifact.Dto,
-                    };
-                    this.AttachNodes(selectedNode.Tag as BinAff.Facade.Library.Dto, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
-
-                    this.lsvContainer.LabelEdit = true;
-                    this.lsvContainer.Items.Add(newNode);
-                    newNode.BeginEdit();
+                    this.menuClickSource = MenuClickSource.ListView;
+                    AddArtifact(Facade.Artifact.Type.Document, moduleFormDto);
                 }
             }
         }
@@ -1284,38 +1248,41 @@ namespace Vanilla.Navigator.WinForm
             current.SelectedNode.BeginEdit();
         }
 
-        private void SaveArtifact(TreeNode selectedNode, String fileName, Boolean isModify)
-        {
-            Facade.Artifact.Dto artifactDto = null;
-            if (selectedNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
-               artifactDto = (selectedNode.Tag as Facade.Module.Dto).Artifact;
-            else
-                artifactDto = selectedNode.Tag as Facade.Artifact.Dto;        
-
-            if (this.formDto.ModuleFormDto.CurrentArtifact == null)
+        private void SaveArtifact(Facade.Artifact.Dto artifactDto, String fileName, Boolean isModify)
+        {           
+            this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
             {
-                this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
-                {
-                    Dto = artifactDto,
-                };
-            }
+                Dto = artifactDto,
+            };          
+
             this.PopulateNewArtifact(fileName, artifactDto.Style, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
             this.facade = new Facade.Container.Server(this.formDto);
 
+            TreeNode parentNode = null;
+            if (artifactDto.Style == Facade.Artifact.Type.Document)
+                parentNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, parentNode);
+            else
+            {
+                TreeNode selectedNode = null;
+                selectedNode = this.FindTreeNodeFromTag(artifactDto, this.trvForm.Nodes, selectedNode);
+                parentNode = selectedNode != null ? selectedNode.Parent : null;
+            }
+
+            String pathOfParent = String.Empty;
+            if (parentNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                pathOfParent = (parentNode.Tag as Facade.Module.Dto).Artifact.Path;
+            else
+                pathOfParent = (parentNode.Tag as Facade.Artifact.Dto).Path;
+
+            artifactDto.Path = pathOfParent + fileName + this.formDto.Rule.PathSeperator;
+
             if (isModify)
             {
-                String pathOfParent = String.Empty;
-                if (selectedNode.Parent.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                if (parentNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
                 {
-                    pathOfParent = (selectedNode.Parent.Tag as Facade.Module.Dto).Artifact.Path;
                     if (artifactDto.Parent != null)
                         artifactDto.Parent.Id = 0;
                 }
-                else
-                    pathOfParent = (selectedNode.Parent.Tag as Facade.Artifact.Dto).Path;
-
-                artifactDto.Path = pathOfParent + fileName + this.formDto.Rule.PathSeperator;
-
 
                 this.formDto.ModuleFormDto.CurrentArtifact.Dto.Version = this.formDto.ModuleFormDto.CurrentArtifact.Dto.Version + 1;
                 this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedAt = DateTime.Now;
@@ -1332,11 +1299,11 @@ namespace Vanilla.Navigator.WinForm
 
 
             //Reset the ListView          
-            if (selectedNode.Parent.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
-                this.SelectNode((selectedNode.Parent.Tag as Facade.Module.Dto).Artifact);
+            if (parentNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                this.SelectNode((parentNode.Tag as Facade.Module.Dto).Artifact);
             else
-                this.SelectNode(selectedNode.Parent.Tag as Facade.Artifact.Dto);
-           
+                this.SelectNode(parentNode.Tag as Facade.Artifact.Dto);
+
             if (this.facade.IsError)
             {
                 new PresLib.MessageBox
@@ -1344,6 +1311,78 @@ namespace Vanilla.Navigator.WinForm
                     DialogueType = PresLib.MessageBox.Type.Error,
                     Heading = "Splash",
                 }.Show(this.facade.DisplayMessageList);
+            }
+        }
+
+        private void AddArtifact(Facade.Artifact.Type type, BinAff.Facade.Library.Dto moduleFormDto)
+        {
+            TreeNode selectedNode = null;
+
+            if ((this.menuClickSource.ToString() == MenuClickSource.ListView.ToString()) && (this.currentArtifact != null))
+                selectedNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, selectedNode);
+            else if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
+                selectedNode = this.trvForm.SelectedNode;
+
+            if (selectedNode != null)
+            {
+                Table currentLoggedInUser = new Table
+                {
+                    Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                    Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
+                };
+
+                String fileName = this.GetDirectoryName(selectedNode, type);
+
+                TreeNode newNode = new TreeNode
+                {
+                    Text = fileName,
+                    Tag = new Facade.Artifact.Dto()
+                    {
+                        FileName = fileName,
+                        Version = 1,
+                        Style = type,
+                        CreatedBy = currentLoggedInUser,
+                        CreatedAt = DateTime.Now,
+                        Module = moduleFormDto
+                    }
+                };
+
+
+                this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
+                {
+                    Dto = newNode.Tag as Facade.Artifact.Dto,
+                };
+
+                this.AttachNodes(selectedNode.Tag as BinAff.Facade.Library.Dto, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
+                if (type.ToString() == Facade.Artifact.Type.Directory.ToString())
+                    selectedNode.Nodes.Add(newNode);
+
+                //Adding items to listView for the selected node
+                if (selectedNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                    this.SelectNode((selectedNode.Tag as Facade.Module.Dto).Artifact);
+                else
+                    this.SelectNode(selectedNode.Tag as Facade.Artifact.Dto);
+
+                if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
+                {
+                    this.trvForm.LabelEdit = true;
+
+                    newNode.Parent.Expand();
+                    this.trvForm.SelectedNode = null;
+                    newNode.BeginEdit();
+                }
+                else
+                {
+                    this.lsvContainer.LabelEdit = true;
+                    foreach (ListViewItem item in this.lsvContainer.Items)
+                    {
+                        if (((item.Tag as Facade.Artifact.Dto).Style.ToString() == type.ToString()) && item.Text == fileName)
+                        {
+                            item.BeginEdit();
+                            break;
+                        }
+                    }
+                }
             }
         }
 

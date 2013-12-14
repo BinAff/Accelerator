@@ -14,7 +14,7 @@ using ConfigurationRuleFacade = Autotourism.Configuration.Rule.Facade;
 namespace AutoTourism.Customer.WinForm
 {
 
-    public partial class CustomerForm : Form
+    public partial class CustomerForm : PresentationLibrary.Form
     {   
 
         private System.Drawing.Color MandatoryColor = System.Drawing.Color.FromArgb(255, 255, 240, 240);
@@ -401,9 +401,9 @@ namespace AutoTourism.Customer.WinForm
 
         private Boolean SaveCustomerData()
         {
-            Boolean retVal = true;
+            Boolean retVal = this.ValidateCustomer();
 
-            if (this.ValidateCustomer())
+            if (retVal)
             {
                 if (this.dto == null) this.dto = new CustomerFacade.Dto();
                 this.dto.Id = this.dto == null ? 0 : this.dto.Id;
@@ -571,9 +571,12 @@ namespace AutoTourism.Customer.WinForm
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (this.SaveCustomerData()) this.Close();
+            if (this.SaveCustomerData())
+            {
+                base.IsModified = true;
+                this.Close();
+            }
         }
-
     }
 
 }
