@@ -661,7 +661,15 @@ namespace Vanilla.Navigator.WinForm
                 for (int i = 0; i < cmsExplorer.Items.Count; i++)
                 {
                     if (cmsExplorer.Items[i].Name == "cmnuPaste")
+                    {
+
+                        if (listViewItem == null && this.currentArtifact != null)
+                            listViewItem = new ListViewItem { 
+                                Tag = this.currentArtifact
+                            }; 
+                        
                         cmsExplorer.Items[i].Enabled = this.IsListViewItem(cmsExplorer.Items[i].Name, listViewItem);
+                    }
                     else
                         cmsExplorer.Items[i].Visible = this.IsListViewItem(cmsExplorer.Items[i].Name, listViewItem);
 
@@ -775,33 +783,47 @@ namespace Vanilla.Navigator.WinForm
 
         public void Cut()
         {
-            this.editNode = null;
-
-            if (this.trvForm.SelectedNode != null && this.trvForm.SelectedNode.Parent != null)
-            {
-                this.editNode = this.trvForm.SelectedNode;
-                this.isCutAction = true;
-            }
+            this.isCutAction = true;
+            this.PopulateCutCopyNode();
         }
 
         public void Copy()
         {
-            this.editNode = null;
-
-            if (this.trvForm.SelectedNode != null && this.trvForm.SelectedNode.Parent != null)
-            {
-                this.editNode = this.trvForm.SelectedNode;
-                this.isCutAction = false;
-            }
+            this.isCutAction = false;
+            this.PopulateCutCopyNode();
         }
 
         public void Paste()
         {
-            if (this.trvForm.SelectedNode != null && this.editNode != null)
+          
+            TreeNode pasteNode = null;
+
+            if (this.menuClickSource == MenuClickSource.TreeView)
+                pasteNode = this.trvForm.SelectedNode;
+            else 
             {
+                if (this.currentArtifact.Style == Facade.Artifact.Type.Document)
+                    pasteNode = this.FindTreeNodeFromTag(this.currentArtifact.Parent as Facade.Artifact.Dto, this.trvForm.Nodes, pasteNode);
+                else               
+                    pasteNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, pasteNode);
+            }
+
+            if (pasteNode != null && this.editNode != null)
+            {
+                //check where destination folder is a sub folder of the source folder
+                if (this.CompareNode(pasteNode, this.editNode))
+                {
+                    new PresLib.MessageBox
+                    {
+                        DialogueType = PresLib.MessageBox.Type.Error,
+                        Heading = "Splash"
+                    }.Show("The destination folder is a subfolder of the source folder.");
+                    return;
+                }
+
                 Int64 newParentId = 0;
 
-                foreach (TreeNode node in this.trvForm.SelectedNode.Nodes)
+                foreach (TreeNode node in pasteNode.Nodes)
                 {
                     if (node.Text.Trim() == this.editNode.Text.Trim())
                     {
@@ -814,8 +836,8 @@ namespace Vanilla.Navigator.WinForm
                     }
                 }
 
-                if (this.trvForm.SelectedNode.Parent != null)
-                    newParentId = (this.trvForm.SelectedNode.Tag as Facade.Artifact.Dto).Id;
+                if (pasteNode.Parent != null)
+                    newParentId = (pasteNode.Tag as Facade.Artifact.Dto).Id;
 
                 Facade.Artifact.Dto artifactDto;
 
@@ -828,10 +850,10 @@ namespace Vanilla.Navigator.WinForm
                 BinAff.Facade.Library.Dto parent = new BinAff.Facade.Library.Dto { Id = newParentId };
 
                 String path = String.Empty;
-                if (this.trvForm.SelectedNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
-                    path = (this.trvForm.SelectedNode.Tag as Facade.Module.Dto).Artifact.Path;
+                if (pasteNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                    path = (pasteNode.Tag as Facade.Module.Dto).Artifact.Path;
                 else
-                    path = (this.trvForm.SelectedNode.Tag as Facade.Artifact.Dto).Path;
+                    path = (pasteNode.Tag as Facade.Artifact.Dto).Path;
 
                 if (this.isCutAction)
                 {
@@ -877,16 +899,14 @@ namespace Vanilla.Navigator.WinForm
                     else
                     {
                         actorNode = this.editNode.Clone() as TreeNode;
-                        selectNode = this.FindRootNode(this.trvForm.SelectedNode as TreeNode);
+                        selectNode = this.FindRootNode(pasteNode as TreeNode);
                     }
 
-                    (this.trvForm.SelectedNode as TreeNode).Nodes.Add(actorNode);
+                    (pasteNode as TreeNode).Nodes.Add(actorNode);
                     actorNode.Tag = this.formDto.ModuleFormDto.CurrentArtifact.Dto;
-                    this.AddChildDtoToParentDto(this.trvForm.SelectedNode, actorNode);
+                    this.AddChildDtoToParentDto(pasteNode, actorNode);
                     this.AttachTagToChildNodes(actorNode);
-
-                    this.trvForm.SelectedNode = selectNode;
-
+               
                     //Adding items to listView for the selected node
                     if (selectNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
                     {
@@ -1444,6 +1464,39 @@ namespace Vanilla.Navigator.WinForm
                     }
                 }
             }
+        }
+
+        private void PopulateCutCopyNode()
+        {
+            this.editNode = null;
+            TreeNode node = null;
+
+            if (this.menuClickSource == MenuClickSource.TreeView)
+                node = this.trvForm.SelectedNode;
+            else if(this.currentArtifact.Style == Facade.Artifact.Type.Directory)
+            {
+                node = FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, node);
+            }
+
+            if (node != null)
+                this.editNode = node;            
+        }
+
+        private Boolean CompareNode(TreeNode nodeOne, TreeNode nodeTwo)
+        {
+            Int64 nodeOneArtifactId = 0;
+            Int64 nodeTwoArtifactId = 0;
+            if (nodeOne.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                nodeOneArtifactId = (nodeOne.Tag as Facade.Module.Dto).Artifact.Id;
+            else
+                nodeOneArtifactId = (nodeOne.Tag as Facade.Artifact.Dto).Id;
+
+            if (nodeTwo.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
+                nodeTwoArtifactId = (nodeTwo.Tag as Facade.Module.Dto).Artifact.Id;
+            else
+                nodeTwoArtifactId = (nodeTwo.Tag as Facade.Artifact.Dto).Id;
+
+            return nodeOneArtifactId == nodeTwoArtifactId;
         }
 
         private class CategoryStatus
