@@ -56,11 +56,13 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Management" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calender.cs" />
     <Compile Include="Convert.cs" />
     <Compile Include="Exception\Handler.cs" />
+    <Compile Include="HardwareToken.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Log\CallingMethod.cs" />
     <Compile Include="Log\Handler.cs" />
