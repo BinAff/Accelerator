@@ -61,6 +61,8 @@
   <ItemGroup>
     <Compile Include="Calender.cs" />
     <Compile Include="Convert.cs" />
+    <Compile Include="Cryptography\ManagedAes.cs" />
+    <Compile Include="Cryptography\Server.cs" />
     <Compile Include="Exception\Handler.cs" />
     <Compile Include="HardwareToken.cs" />
     <Compile Include="Logger.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="Reader.cs" />
     <Compile Include="ValidationRule.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
