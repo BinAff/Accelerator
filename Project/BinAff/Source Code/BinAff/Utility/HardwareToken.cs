@@ -32,7 +32,7 @@ namespace BinAff.Utility.Hardware
             {
                 try
                 {
-                    if (mo[wmiMustBeTrue].ToString() == "True")
+                    if ((Boolean)mo[wmiMustBeTrue])
                     {
                         return mo[wmiProperty].ToString();
                     }
@@ -57,7 +57,6 @@ namespace BinAff.Utility.Hardware
         {
             get
             {
-
                 return Token.GetIdentifier("Win32_NetworkAdapterConfiguration", "MACAddress", "IPEnabled");
             }
         }
