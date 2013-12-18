@@ -22,8 +22,8 @@ namespace BinAff.Core
                 if (this.parentData != value)
                 {
                     this.parentData = value;
-                    this.DataAccess.ParentData = value;
-                    this.Validator.ParentData = value;
+                    if (this.DataAccess != null) this.DataAccess.ParentData = value;
+                    if (this.Validator != null) this.Validator.ParentData = value;
                 }
             }
         }
@@ -141,7 +141,7 @@ namespace BinAff.Core
             //Assign parent data
             child.ParentData = this.Data;
             child.DataAccess.ParentData = this.Data;
-            child.Validator.ParentData = this.Data;
+            if (child.Validator != null) child.Validator.ParentData = this.Data;
 
             if (child.Data == null)
             {            
@@ -151,7 +151,7 @@ namespace BinAff.Core
                     {
                         child.Data = child.CreateDataObject();
                         child.DataAccess.Data = child.Data;
-                        child.Validator.Data = child.Data;
+                        if (child.Validator != null) child.Validator.Data = child.Data;
                         child.DataAccess.ReadForParent();
                     }
                 }
@@ -370,16 +370,21 @@ namespace BinAff.Core
             }
         }
 
+        /// <summary>
+        /// Validate component as per validation defined in Validator
+        /// Validation will be ignored if Validator is not declared
+        /// </summary>
+        /// <returns></returns>
         private List<Message> Validate()
         {
             List<Message> valMsgLst = new List<Message>();
             IValidator val = this.Validator;
-            valMsgLst = val.Validate();
+            if(this.Validator != null) valMsgLst = val.Validate();
 
             //Validate independent children
             foreach (Crud child in this.independentChildren)
             {
-                if (!child.IsSkip && !child.IsReadOnly)
+                if (!child.IsSkip && !child.IsReadOnly && child.Validator != null)
                 {
                     val = child.Validator;
                     valMsgLst.AddRange(val.Validate());
@@ -389,7 +394,7 @@ namespace BinAff.Core
             //Validate independent children
             foreach (Crud child in this.dependentChildren)
             {
-                if (!child.IsSkip && !child.IsReadOnly)
+                if (!child.IsSkip && !child.IsReadOnly && child.Validator != null)
                 {
                     val = child.Validator;
                     valMsgLst.AddRange(val.Validate());
