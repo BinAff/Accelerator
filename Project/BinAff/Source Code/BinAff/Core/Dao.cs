@@ -12,7 +12,13 @@ namespace BinAff.Core
     /// </summary>
     public abstract class Dao : IDisposable
     {
+
         #region Properties
+
+        /// <summary>
+        /// Connection string
+        /// </summary>
+        public String ConnectionString { get; set; }
         
         /// <summary>
         /// Data object
@@ -60,6 +66,7 @@ namespace BinAff.Core
 
         /// <summary>
         /// Stored procedure to read record from parent reference
+        /// Stored procedure should have @ParentId parameter
         /// </summary>
         public String ReadForParentStoredProcedure { get; set; }
 
@@ -126,7 +133,13 @@ namespace BinAff.Core
         protected virtual DataSet ExecuteDataSet()
         {
             DataSet ds = new DataSet();
-            new SqlDataAdapter((SqlCommand)this.command).Fill(ds);
+            try
+            {
+                new SqlDataAdapter((SqlCommand)this.command).Fill(ds);
+            }
+            catch
+            {
+            }
             return ds;
         }
 
@@ -144,7 +157,11 @@ namespace BinAff.Core
         {
             if (this.conn == null)
             {
-                CreateConnection(System.Configuration.ConfigurationManager.ConnectionStrings[0].ConnectionString);
+                if (String.IsNullOrEmpty(this.ConnectionString))
+                {
+                    this.ConnectionString = Properties.Settings.Default.ConnectionString;
+                }   
+                this.CreateConnection(this.ConnectionString);
             }
             else if(this.conn.State != ConnectionState.Open)
             {
@@ -160,14 +177,6 @@ namespace BinAff.Core
         /// <returns>Active connection</returns>
         protected DbConnection CreateConnection(String connStr)
         {
-            //Hard coded, problem to read from resource
-            //connStr = "Data Source=ba_server_blr\\SQLEXPRESS;Initial Catalog=Crud;User Id=sa;Password=infotech@1;"; //Untrusted connection
-            //connStr = "Data Source=ba_server_blr\\SQLEXPRESS;Initial Catalog=Crud;Integrated Security=True;"; //Trusted connection
-
-            connStr = "Data Source=.\\SQLEXPRESS;Initial Catalog=AutoTourism;User Id=sa;Password=infotech@1;"; //Untrusted connection
-
-            //connStr = "Data Source=(local);Initial Catalog=AutoTourism;User Id=sa;Password=BinAff@1;"; //Biraj Desktop
-
             this.conn = new SqlConnection(connStr);
             if (this.conn.State != ConnectionState.Open) this.conn.Open();
 
