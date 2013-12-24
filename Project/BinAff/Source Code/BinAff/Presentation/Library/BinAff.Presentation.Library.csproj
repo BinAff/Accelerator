@@ -62,6 +62,7 @@
     <Compile Include="Form.Designer.cs">
       <DependentUpon>Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extension.cs" />
     <Compile Include="ListViewColumnSorter.cs" />
     <Compile Include="ListViewItemWithImage.cs" />
     <Compile Include="MessageBox.cs">
