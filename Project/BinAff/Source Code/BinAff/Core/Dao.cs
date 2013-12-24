@@ -133,13 +133,7 @@ namespace BinAff.Core
         protected virtual DataSet ExecuteDataSet()
         {
             DataSet ds = new DataSet();
-            try
-            {
-                new SqlDataAdapter((SqlCommand)this.command).Fill(ds);
-            }
-            catch
-            {
-            }
+            new SqlDataAdapter((SqlCommand)this.command).Fill(ds);
             return ds;
         }
 
