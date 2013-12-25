@@ -36,6 +36,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateTimeHandler.cs" />
     <Compile Include="FingurePrint\Generator.cs" />
     <Compile Include="LicenseFileHandler.cs" />
     <Compile Include="Module\Dao.cs" />
