@@ -3,6 +3,7 @@ using System;
 
 namespace BinAff.Tool.SecurityHandler
 {
+
     public static class RegistryHandler
     {
 
@@ -11,8 +12,7 @@ namespace BinAff.Tool.SecurityHandler
             RegistryKey softwareKey = Registry.CurrentUser.OpenSubKey("Software", true);
             RegistryKey binAffKey = GetKey(softwareKey, "BinAff");
             softwareKey.Close();
-            binAffKey.DeleteSubKeyTree(productName);
-            RegistryKey productKey = binAffKey.CreateSubKey(productName);
+            RegistryKey productKey = GetKey(binAffKey, productName);
             binAffKey.Close();
             productKey.SetValue("Id", productId);
             productKey.SetValue("License Number", licenseNo);
@@ -37,6 +37,48 @@ namespace BinAff.Tool.SecurityHandler
                 }
             }
             if (isNew) newKey = parent.CreateSubKey(keyName);
+            return newKey;
+        }
+
+        public static License Read(String licenseNo, String productName)
+        {
+            Utility.Cryptography.ManagedAes decryptor = new Utility.Cryptography.ManagedAes
+            {
+                EncryptionKey = licenseNo,
+            };
+            RegistryKey softwareKey = Registry.CurrentUser.OpenSubKey("Software", true);
+            if (softwareKey == null) return null;
+            RegistryKey binAffKey = OpenKey(softwareKey, "BinAff");
+            softwareKey.Close();
+            if (binAffKey == null) return null;
+            RegistryKey productKey = OpenKey(binAffKey, productName);
+            binAffKey.Close();
+            if (productKey == null) return null;
+            License lic = new License
+            {
+                ProductId = Convert.ToString(productKey.GetValue("Id")),
+                ProductName = productName,
+                LicenseNumber = decryptor.Decrypt(Convert.ToString(productKey.GetValue("License Number"))),
+                LicenseDate = Convert.ToDateTime(decryptor.Decrypt(Convert.ToString(productKey.GetValue("License Date")))),
+                FingurePrint = decryptor.Decrypt(Convert.ToString(productKey.GetValue("Fingure Print"))),
+                RegistrationDate = Convert.ToDateTime(decryptor.Decrypt(Convert.ToString(productKey.GetValue("Registration Date")))),
+            };
+            productKey.Close();
+            return lic;
+        }
+
+        private static RegistryKey OpenKey(RegistryKey parent, String keyName)
+        {
+            String[] keyNames = parent.GetSubKeyNames();
+            RegistryKey newKey = null;
+            foreach (String key in keyNames)
+            {
+                if (String.Compare(key, keyName) == 0)
+                {
+                    newKey = parent.OpenSubKey(keyName, true);
+                    break;
+                }
+            }
             return newKey;
         }
 
