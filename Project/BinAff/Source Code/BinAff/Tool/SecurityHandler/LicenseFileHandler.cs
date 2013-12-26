@@ -28,11 +28,28 @@ namespace BinAff.Tool.SecurityHandler
                     {
                         EncryptionKey = "B1n@ry@ff@1r5",
                     }.Encrypt(licenseNo)); //Write license number
+                    binaryWriter.Write(svr.Encrypt(moduleList.Count.ToString())); //Write number of module
                     foreach (SecurityHandler.Module.Data module in moduleList)
                     {
                         binaryWriter.Write(svr.Encrypt(module.Code + ":" + module.Name + ":" + module.Description + ":"
                             + module.IsForm + ":" + module.IsCatalogue + ":" + module.IsReport));
                     }
+                }
+            }
+        }
+
+        public static void Append(String licenseNo, DateTime registrationDate, String targetPath)
+        {
+            using (FileStream fileStream = new FileStream(targetPath, FileMode.Append))
+            {
+                using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
+                {
+                    Utility.Cryptography.Server svr = new Utility.Cryptography.ManagedAes
+                    {
+                        EncryptionKey = licenseNo,
+                    };
+                    binaryWriter.Write(svr.Encrypt(FingurePrintHandler.Generate())); //Write fingure print
+                    binaryWriter.Write(svr.Encrypt(registrationDate.ToShortDateString())); //Write registration time
                 }
             }
         }
@@ -145,15 +162,52 @@ namespace BinAff.Tool.SecurityHandler
             return code;
         }
 
-        public static License Read(String folderPath, String productName)
+        //public static License Read(String filePath)
+        //{
+        //    String licenseNo = AssignLicenseKey(filePath);
+        //    if (String.IsNullOrEmpty(licenseNo))
+        //    {
+        //        return null;
+        //    }
+        //    License lic = new License();
+        //    using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+        //    {
+        //        using (BinaryReader reader = new BinaryReader(fileStream))
+        //        {
+        //            BinAff.Utility.Cryptography.Server svr = new BinAff.Utility.Cryptography.ManagedAes
+        //            {
+        //                EncryptionKey = licenseNo,
+        //            };
+        //            lic.LicenseNumber = licenseNo;
+        //            reader.ReadString(); //Ignore unencrypted product name
+        //            lic.ProductName = svr.Decrypt(reader.ReadString());
+        //            lic.ProductId = svr.Decrypt(reader.ReadString());
+        //            if (lic.ProductId == null) return null;
+        //            String data = reader.ReadString();
+        //            lic.LicenseDate = Convert.ToDateTime(svr.Decrypt(data));
+        //            if (lic.LicenseDate == null) return null;
+        //            reader.ReadString(); //Ignore license
+        //            lic.ModuleList = new List<String>();
+        //            while (reader.BaseStream.Position < reader.BaseStream.Length)
+        //            {
+        //                String module = svr.Decrypt(reader.ReadString());
+        //                lic.ModuleList.Add(module);
+        //                if (module == null) return null;
+        //            }
+        //        }
+        //    }
+        //    return lic;
+        //}
+
+        public static License Read(String filePath)
         {
-            String licenseNo = AssignLicenseKey(folderPath, productName);
+            String licenseNo = AssignLicenseKey(filePath);
             if (String.IsNullOrEmpty(licenseNo))
             {
                 return null;
             }
             License lic = new License();
-            using (FileStream fileStream = new FileStream(folderPath + "\\" + productName + ".lic", FileMode.Open))
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
             {
                 using (BinaryReader reader = new BinaryReader(fileStream))
                 {
@@ -168,24 +222,32 @@ namespace BinAff.Tool.SecurityHandler
                     if (lic.ProductId == null) return null;
                     String data = reader.ReadString();
                     lic.LicenseDate = Convert.ToDateTime(svr.Decrypt(data));
-                    if (lic.LicenseDate == null) return null;
+                    if (lic.LicenseDate == null || lic.LicenseDate == DateTime.MinValue) return null;
                     reader.ReadString(); //Ignore license
+                    Int16 moduleCount = Convert.ToInt16(svr.Decrypt(reader.ReadString()));
                     lic.ModuleList = new List<String>();
-                    while (reader.BaseStream.Position < reader.BaseStream.Length)
+                    while (moduleCount-- > 0)
                     {
                         String module = svr.Decrypt(reader.ReadString());
                         lic.ModuleList.Add(module);
                         if (module == null) return null;
+                    }
+                    if (reader.BaseStream.Position < reader.BaseStream.Length) //This part is optional
+                    {
+                        lic.FingurePrint = svr.Decrypt(reader.ReadString());
+                        if (lic.FingurePrint == null) return null;
+                        lic.RegistrationDate = Convert.ToDateTime(svr.Decrypt(reader.ReadString()));
+                        if (lic.RegistrationDate == null || lic.RegistrationDate == DateTime.MinValue) return null;
                     }
                 }
             }
             return lic;
         }
 
-        private static String AssignLicenseKey(String folderPath, String productName)
+        private static String AssignLicenseKey(String filePath)
         {
             String licenseNo;
-            using (FileStream fileStream = new FileStream(folderPath + "\\" + productName + ".lic", FileMode.Open))
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
             {
                 using (BinaryReader reader = new BinaryReader(fileStream))
                 {

@@ -7,18 +7,22 @@ namespace BinAff.Tool.SecurityHandler
     public static class RegistryHandler
     {
 
-        public static void Write(String productId, String productName, String licenseNo, String licenseDate, String registrationDate, String fingurePrint)
+        public static void Write(License license)
         {
             RegistryKey softwareKey = Registry.CurrentUser.OpenSubKey("Software", true);
             RegistryKey binAffKey = GetKey(softwareKey, "BinAff");
             softwareKey.Close();
-            RegistryKey productKey = GetKey(binAffKey, productName);
+            RegistryKey productKey = GetKey(binAffKey, license.ProductName);
             binAffKey.Close();
-            productKey.SetValue("Id", productId);
-            productKey.SetValue("License Number", licenseNo);
-            productKey.SetValue("License Date", licenseDate);
-            productKey.SetValue("Fingure Print", fingurePrint);
-            productKey.SetValue("Registration Date", registrationDate);
+            Utility.Cryptography.ManagedAes encryptor = new Utility.Cryptography.ManagedAes
+            {
+                EncryptionKey = license.LicenseNumber,
+            };
+            productKey.SetValue("Id", license.ProductId);
+            productKey.SetValue("License Number", encryptor.Encrypt(license.LicenseNumber));
+            productKey.SetValue("License Date", encryptor.Encrypt(license.LicenseDate.ToShortDateString()));
+            productKey.SetValue("Fingure Print", encryptor.Encrypt(license.FingurePrint));
+            productKey.SetValue("Registration Date", encryptor.Encrypt(license.RegistrationDate.ToShortDateString()));
             productKey.Close();
         }
 
