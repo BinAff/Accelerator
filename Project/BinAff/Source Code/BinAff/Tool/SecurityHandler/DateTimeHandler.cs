@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Threading;
+using System.Timers;
+//using System.Threading;
 
 namespace BinAff.Tool.SecurityHandler
 {
@@ -10,27 +11,47 @@ namespace BinAff.Tool.SecurityHandler
         public delegate void Changed();
         public event Changed SystemDateChanged;
 
+        private Timer timer;
+        DateTime savedStamp;
+
         public void Start()
         {
-            new Thread(() => Check()).Start();
+            this.timer = new Timer(5000);
+            this.timer.Elapsed += timer_Elapsed;
+            this.timer.Start();
+            this.savedStamp = DateTime.Now;
+            //new Thread(() => Check())
+            //{
+            //    IsBackground = true,
+            //}.Start();
         }
 
-        private void Check()
+        void timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            DateTime last;
-            DateTime now;
-            while (true)
+            if (Math.Abs(DateTime.Now.Subtract(savedStamp).TotalSeconds) > 20)
             {
-                last = DateTime.Now;
-                Thread.Sleep(5000);
-                now = DateTime.Now;
-                if (Math.Abs(now.Subtract(last).TotalSeconds) > 20)
-                {
-                    this.SystemDateChanged();
-                    break;
-                }
+                this.SystemDateChanged();
+                this.timer.Stop();
             }
+            savedStamp = DateTime.Now;
         }
+
+        //private void Check()
+        //{
+        //    DateTime last;
+        //    DateTime now;
+        //    while (true)
+        //    {
+        //        last = DateTime.Now;
+        //        System.Threading.Thread.Sleep(5000);
+        //        now = DateTime.Now;
+        //        if (Math.Abs(now.Subtract(last).TotalSeconds) > 20)
+        //        {
+        //            this.SystemDateChanged();
+        //            break;
+        //        }
+        //    }
+        //}
 
     }
 
