@@ -37,8 +37,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateTimeHandler.cs" />
-    <Compile Include="FingurePrint\Generator.cs" />
+    <Compile Include="FingurePrintHandler.cs" />
     <Compile Include="LicenseFileHandler.cs" />
+    <Compile Include="License.cs" />
     <Compile Include="Module\Dao.cs" />
     <Compile Include="Module\Data.cs" />
     <Compile Include="Module\Server.cs" />
@@ -70,6 +71,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

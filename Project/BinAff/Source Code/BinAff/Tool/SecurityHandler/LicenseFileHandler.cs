@@ -145,6 +145,64 @@ namespace BinAff.Tool.SecurityHandler
             return code;
         }
 
+        public static License Read(String folderPath, String productName)
+        {
+            String licenseNo = AssignLicenseKey(folderPath, productName);
+            if (String.IsNullOrEmpty(licenseNo))
+            {
+                return null;
+            }
+            License lic = new License();
+            using (FileStream fileStream = new FileStream(folderPath + "\\" + productName + ".lic", FileMode.Open))
+            {
+                using (BinaryReader reader = new BinaryReader(fileStream))
+                {
+                    BinAff.Utility.Cryptography.Server svr = new BinAff.Utility.Cryptography.ManagedAes
+                    {
+                        EncryptionKey = licenseNo,
+                    };
+                    lic.LicenseNumber = licenseNo;
+                    reader.ReadString(); //Ignore unencrypted product name
+                    lic.ProductName = svr.Decrypt(reader.ReadString());
+                    lic.ProductId = svr.Decrypt(reader.ReadString());
+                    if (lic.ProductId == null) return null;
+                    String data = reader.ReadString();
+                    lic.LicenseDate = Convert.ToDateTime(svr.Decrypt(data));
+                    if (lic.LicenseDate == null) return null;
+                    reader.ReadString(); //Ignore license
+                    lic.ModuleList = new List<String>();
+                    while (reader.BaseStream.Position < reader.BaseStream.Length)
+                    {
+                        String module = svr.Decrypt(reader.ReadString());
+                        lic.ModuleList.Add(module);
+                        if (module == null) return null;
+                    }
+                }
+            }
+            return lic;
+        }
+
+        private static String AssignLicenseKey(String folderPath, String productName)
+        {
+            String licenseNo;
+            using (FileStream fileStream = new FileStream(folderPath + "\\" + productName + ".lic", FileMode.Open))
+            {
+                using (BinaryReader reader = new BinaryReader(fileStream))
+                {
+                    reader.ReadString(); //Ignore unencrypted product name
+                    reader.ReadString(); //Ignore product name
+                    reader.ReadString(); //Ignore product id
+                    reader.ReadString(); //Ignore License Date
+                    licenseNo = new Utility.Cryptography.ManagedAes
+                    {
+                        EncryptionKey = "B1n@ry@ff@1r5",
+                    }.Decrypt(reader.ReadString());
+                    if (licenseNo.Length != 11) return null;
+                }
+            }
+            return licenseNo;
+        }        
+
     }
 
 }

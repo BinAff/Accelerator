@@ -1,18 +1,18 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace BinAff.Tool.SecurityHandler.FingurePrint
+namespace BinAff.Tool.SecurityHandler
 {
 
-    public static class Generator
+    public static class FingurePrintHandler
     {
 
-        public static string Value()
+        public static string Generate()
         {
             string fingerPrint = GetHash("CPU >> " + BinAff.Utility.Hardware.Processor.Identifier
                     + "\nBIOS >> " + BinAff.Utility.Hardware.Bios.SerialNumber
                     + "\nBASE >> " + BinAff.Utility.Hardware.MotherBoard.SerialNumber);
-                    //+ "\nMAC >> " + BinAff.Utility.Hardware.NetworkCard.MacId);
+            //+ "\nMAC >> " + BinAff.Utility.Hardware.NetworkCard.MacId);
             return fingerPrint;
         }
 
@@ -32,7 +32,7 @@ namespace BinAff.Tool.SecurityHandler.FingurePrint
                 n1 = n & 15;
                 n2 = (n >> 4) & 15;
                 s += (n2 > 9) ? ((char)(n2 - 10 + (int)'A')).ToString() : n2.ToString();
-                s +=  (n1 > 9) ? ((char)(n1 - 10 + (int)'A')).ToString() : n1.ToString();
+                s += (n1 > 9) ? ((char)(n1 - 10 + (int)'A')).ToString() : n1.ToString();
                 if ((i + 1) != byteArray.Length && (i + 1) % 2 == 0) s += "-";
             }
             return s;
