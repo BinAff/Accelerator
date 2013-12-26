@@ -15,34 +15,35 @@ namespace BinAff.Tool.SecurityHandler
         public DateTime RegistrationDate { get; set; }
         public List<String> ModuleList { get; set; }
 
-        public Boolean Compare(License val)
+        public Int16 CompareAll(License val)
         {
-            if (!this.CompareWithoutModule(val)) return false;
+            Int16 ret = this.CompareWithoutModule(val);
+            if (ret > 0) return ret;
 
-            if (this.ModuleList == null && val.ModuleList == null) return true;
-            if (this.ModuleList != null && val.ModuleList == null) return false;
-            if (this.ModuleList == null && val.ModuleList != null) return false;
-            if ((this.ModuleList.Count != val.ModuleList.Count)) return false; //Here both list will be not null.
+            if (this.ModuleList == null && val.ModuleList == null) return 0;
+            if (this.ModuleList != null && val.ModuleList == null) return 600;
+            if (this.ModuleList == null && val.ModuleList != null) return 600;
+            if ((this.ModuleList.Count != val.ModuleList.Count)) return 600; //Here both list will be not null.
             foreach (String module in this.ModuleList) //Here count of both list is same
             {
-                if (String.IsNullOrEmpty(val.ModuleList.Find((p) => String.Compare(p, module) == 0))) return false;
+                if (String.IsNullOrEmpty(val.ModuleList.Find((p) => String.Compare(p, module) == 0))) return 601;
             }
 
-            return true;
+            return 0;
         }
 
-        public Boolean CompareWithoutModule(License val)
+        public Int16 CompareWithoutModule(License val)
         {
-            if (val == null) return false;
+            if (val == null) return 100;
 
-            if (this.ProductId != val.ProductId) return false;
-            if (this.ProductName != val.ProductName) return false;
-            if (this.LicenseNumber != val.LicenseNumber) return false;
-            if (this.LicenseDate != val.LicenseDate) return false;
-            if (this.FingurePrint != val.FingurePrint) return false;
-            if (this.RegistrationDate != val.RegistrationDate) return false;
+            if (this.ProductId != val.ProductId) return 200;
+            if (this.ProductName != val.ProductName) return 201;
+            if (this.LicenseNumber != val.LicenseNumber) return 300;
+            if (this.LicenseDate != val.LicenseDate) return 301;
+            if (this.FingurePrint != val.FingurePrint) return 400;
+            if (this.RegistrationDate != val.RegistrationDate) return 500;
 
-            return true;
+            return 0;
         }
 
     }
