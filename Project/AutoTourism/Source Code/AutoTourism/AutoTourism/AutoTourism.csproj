@@ -119,6 +119,10 @@
       <Project>{1EE9A9DD-9151-437A-B1A3-28015975EF52}</Project>
       <Name>BinAff.Presentation.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\BinAff\Source Code\BinAff\Tool\SecurityHandler\BinAff.Tool.SecurityHandler.csproj">
+      <Project>{234e829d-e7f0-4ee9-bcb7-238f12be25ad}</Project>
+      <Name>BinAff.Tool.SecurityHandler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\BinAff\Source Code\BinAff\Utility\BinAff.Utility.csproj">
       <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
       <Name>BinAff.Utility</Name>
