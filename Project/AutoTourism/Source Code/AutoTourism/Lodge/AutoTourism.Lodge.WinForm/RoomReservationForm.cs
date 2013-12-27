@@ -16,20 +16,19 @@ namespace AutoTourism.Lodge.WinForm
 
     public partial class RoomReservationForm : Form
     {      
+
         private LodgeFacade.RoomReservation.Dto bookingDto;
         private RuleFacade.Dto ruleDto;
-
-        public enum LodgeReservationStatus
-        {
-            open = 10001,
-            closed = 10002,
-            cancel = 10003,
-            checkin = 10004
-        }
 
         public RoomReservationForm()
         {
             InitializeComponent();
+        }
+
+        public RoomReservationForm(LodgeFacade.RoomReservation.Dto bookingDto)
+        {
+            InitializeComponent();
+            this.bookingDto = bookingDto;
         }
 
         public RoomReservationForm(LodgeFacade.RoomReservation.Dto bookingDto, RuleFacade.Dto ruleDto)
@@ -308,6 +307,14 @@ namespace AutoTourism.Lodge.WinForm
                 this.Close();
 
             }
+        }
+
+        public enum LodgeReservationStatus
+        {
+            open = 10001,
+            closed = 10002,
+            cancel = 10003,
+            checkin = 10004
         }
 
     }

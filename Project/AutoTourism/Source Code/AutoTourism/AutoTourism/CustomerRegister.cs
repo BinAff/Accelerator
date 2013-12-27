@@ -118,10 +118,10 @@ namespace AutoTourism
             {
                 if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
                 {                   
-                    new RoomReservationForm(new LodgeFacade.RoomReservation.Dto
-                                                {
-                                                    Customer = (CustomerFacade.Dto)(control as ComboBox).SelectedItem
-                                                }, this.ruleDto).ShowDialog();
+                    //new RoomReservationForm(new LodgeFacade.RoomReservation.Dto
+                    //                            {
+                    //                                Customer = (CustomerFacade.Dto)(control as ComboBox).SelectedItem
+                    //                            }, this.ruleDto).ShowDialog();
                     break;
                 }
             }

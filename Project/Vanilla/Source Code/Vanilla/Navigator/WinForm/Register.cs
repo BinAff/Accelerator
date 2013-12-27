@@ -29,7 +29,7 @@ namespace Vanilla.Navigator.WinForm
         private SortOrder sortOrder;
         private Boolean isCutAction;
 
-        private Facade.Artifact.Dto currentArtifact; 
+        private Facade.Artifact.Dto currentArtifact;
         private MenuClickSource menuClickSource;
 
         private String address;
@@ -51,7 +51,7 @@ namespace Vanilla.Navigator.WinForm
 
         public delegate void ChangePath();
         public event ChangePath PathChanged;
-        
+
         public Register()
         {
             InitializeComponent();
@@ -110,7 +110,7 @@ namespace Vanilla.Navigator.WinForm
         #region Events
 
         private void trvArtifact_MouseDown(object sender, MouseEventArgs e)
-        { 
+        {
             // Select the clicked node
             TreeView current = sender as TreeView;
             current.SelectedNode = current.GetNodeAt(e.X, e.Y);
@@ -165,7 +165,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void trvArtifact_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.F2)            
+            if (e.KeyCode == Keys.F2)
                 this.EditTreeViewSelectedNode();
         }
 
@@ -238,7 +238,7 @@ namespace Vanilla.Navigator.WinForm
         }
 
         private void SelectNode(Facade.Artifact.Dto selectedNode)
-        {           
+        {
             this.currentArtifact = selectedNode;
 
             this.lsvContainer.Items.Clear();
@@ -369,7 +369,7 @@ namespace Vanilla.Navigator.WinForm
                     return false;
             }
         }
-       
+
 
         private TreeNode FindRootNode(TreeNode treeNode)
         {
@@ -666,10 +666,11 @@ namespace Vanilla.Navigator.WinForm
                     {
 
                         if (listViewItem == null && this.currentArtifact != null)
-                            listViewItem = new ListViewItem { 
+                            listViewItem = new ListViewItem
+                            {
                                 Tag = this.currentArtifact
-                            }; 
-                        
+                            };
+
                         cmsExplorer.Items[i].Enabled = this.IsListViewItem(cmsExplorer.Items[i].Name, listViewItem);
                     }
                     else
@@ -707,7 +708,7 @@ namespace Vanilla.Navigator.WinForm
                 }
             }
         }
-              
+
         private void SetImageInContextMenu(ToolStripItemCollection sortItems, String menuName)
         {
             //clear images
@@ -797,16 +798,16 @@ namespace Vanilla.Navigator.WinForm
 
         public void Paste()
         {
-          
+
             TreeNode pasteNode = null;
 
             if (this.menuClickSource == MenuClickSource.TreeView)
                 pasteNode = this.trvForm.SelectedNode;
-            else 
+            else
             {
                 if (this.currentArtifact.Style == Facade.Artifact.Type.Document)
                     pasteNode = this.FindTreeNodeFromTag(this.currentArtifact.Parent as Facade.Artifact.Dto, this.trvForm.Nodes, pasteNode);
-                else               
+                else
                     pasteNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, pasteNode);
             }
 
@@ -908,7 +909,7 @@ namespace Vanilla.Navigator.WinForm
                     actorNode.Tag = this.formDto.ModuleFormDto.CurrentArtifact.Dto;
                     this.AddChildDtoToParentDto(pasteNode, actorNode);
                     this.AttachTagToChildNodes(actorNode);
-               
+
                     //Adding items to listView for the selected node
                     if (selectNode.Tag.GetType().FullName == "Vanilla.Navigator.Facade.Module.Dto")
                     {
@@ -962,7 +963,7 @@ namespace Vanilla.Navigator.WinForm
             else if (dialogResult == DialogResult.No)
             {
                 return;
-            }           
+            }
         }
 
         private Boolean DeleteDocument(Facade.Artifact.Dto artifact)
@@ -996,15 +997,15 @@ namespace Vanilla.Navigator.WinForm
                         if (!retVal)
                             break;
                     }
-                }            
+                }
             }
-            
+
 
             //Delete Own
             TreeNode node = null;
             node = this.FindTreeNodeFromTag(artifact, this.trvForm.Nodes, node);
             retVal = this.DeleteItem(artifact, node.Parent);
-            
+
         }
 
         private Boolean DeleteItem(Facade.Artifact.Dto artifact, TreeNode parentNode)
@@ -1171,7 +1172,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void cmnuForm_Click(object sender, EventArgs e)
         {
-            this.AddDocument();          
+            this.AddDocument();
         }
 
         #endregion
@@ -1274,16 +1275,9 @@ namespace Vanilla.Navigator.WinForm
                 //Show Dialogue to capture module data
                 BinAff.Facade.Library.Dto moduleFormDto = new Facade.Module.Server(null).InstantiateDto(rootNode.Tag as Facade.Module.Dto);
                 Type type = Type.GetType((rootNode.Tag as Facade.Module.Dto).ComponentFormType, true);
-                try
-                {
-                    Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
-                    form.ShowDialog(this);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-               
+                Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
+                form.ShowDialog(this);
+
                 if (moduleFormDto.Id > 0)
                 {
                     this.menuClickSource = MenuClickSource.ListView;
@@ -1341,11 +1335,11 @@ namespace Vanilla.Navigator.WinForm
         }
 
         private void SaveArtifact(Facade.Artifact.Dto artifactDto, String fileName, Boolean isModify)
-        {           
+        {
             this.formDto.ModuleFormDto.CurrentArtifact = new Facade.Artifact.FormDto
             {
                 Dto = artifactDto,
-            };          
+            };
 
             this.PopulateNewArtifact(fileName, artifactDto.Style, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
             this.facade = new Facade.Container.Server(this.formDto);
@@ -1485,13 +1479,13 @@ namespace Vanilla.Navigator.WinForm
 
             if (this.menuClickSource == MenuClickSource.TreeView)
                 node = this.trvForm.SelectedNode;
-            else if(this.currentArtifact.Style == Facade.Artifact.Type.Directory)
+            else if (this.currentArtifact.Style == Facade.Artifact.Type.Directory)
             {
                 node = FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, node);
             }
 
             if (node != null)
-                this.editNode = node;            
+                this.editNode = node;
         }
 
         private Boolean CompareNode(TreeNode nodeOne, TreeNode nodeTwo)
@@ -1516,7 +1510,7 @@ namespace Vanilla.Navigator.WinForm
             internal Facade.Artifact.Category Category { get; set; }
             internal Boolean IsAlreadyLoaded { get; set; }
         }
-                
+
         #region Address Bar
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
