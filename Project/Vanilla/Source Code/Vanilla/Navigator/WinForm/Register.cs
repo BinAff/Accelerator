@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using BinAff.Core;
 using BinAff.Facade.Cache;
 using PresLib = BinAff.Presentation.Library;
-
-//using AutoTourism.Lodge.WinForm; //will be removed later
 
 namespace Vanilla.Navigator.WinForm
 {
@@ -177,6 +171,7 @@ namespace Vanilla.Navigator.WinForm
             this.SelectNode(selectedNode);
             this.txtAddress.Text = selectedNode.Path;
             this.formDto.ModuleFormDto.Dto = this.FindRootNode((sender as TreeView).SelectedNode).Tag as Facade.Module.Dto;
+            this.Assign(selectedNode);
         }
 
         #endregion
@@ -647,6 +642,35 @@ namespace Vanilla.Navigator.WinForm
             if (parentDto.Children == null) parentDto.Children = new List<Facade.Artifact.Dto>();
             parentDto.Children.Add(child);
             child.Path = parentDto.Path;
+        }
+
+        #endregion
+
+        #region Status
+
+        private void Assign(Facade.Artifact.Dto selectedNode)
+        {
+            if (selectedNode != null)
+            {
+                this.lblFileName.Text = selectedNode.FileName;
+                if (selectedNode.Version > 0)
+                {
+                    this.lblType.Text = selectedNode.Style.ToString();
+                    this.lblVersion.Text = selectedNode.Version.ToString();
+                }
+
+                if (selectedNode.CreatedBy != null)
+                {
+                    this.lblCreatedBy.Text = selectedNode.CreatedBy.Name;
+                    this.lblCreatedAt.Text = selectedNode.CreatedAt.ToShortDateString();
+                }
+
+                if (selectedNode.ModifiedBy != null)
+                {
+                    this.lblModifiedBy.Text = selectedNode.ModifiedBy.Name;
+                    this.lblModifiedAt.Text = ((DateTime)selectedNode.ModifiedAt).ToShortDateString();
+                }
+            }
         }
 
         #endregion
