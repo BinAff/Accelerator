@@ -11,6 +11,8 @@ using BinAff.Core;
 using BinAff.Facade.Cache;
 using PresLib = BinAff.Presentation.Library;
 
+//using AutoTourism.Lodge.WinForm; //will be removed later
+
 namespace Vanilla.Navigator.WinForm
 {
 
@@ -1255,6 +1257,9 @@ namespace Vanilla.Navigator.WinForm
 
         private void AddDocument()
         {
+
+            //new RoomReservationForm().ShowDialog();
+
             TreeNode selectedNode = null;
 
             if ((this.menuClickSource.ToString() == MenuClickSource.ListView.ToString()) && (this.currentArtifact != null))
@@ -1269,8 +1274,15 @@ namespace Vanilla.Navigator.WinForm
                 //Show Dialogue to capture module data
                 BinAff.Facade.Library.Dto moduleFormDto = new Facade.Module.Server(null).InstantiateDto(rootNode.Tag as Facade.Module.Dto);
                 Type type = Type.GetType((rootNode.Tag as Facade.Module.Dto).ComponentFormType, true);
-                Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
-                form.ShowDialog(this);
+                try
+                {
+                    Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
+                    form.ShowDialog(this);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
                
                 if (moduleFormDto.Id > 0)
                 {
