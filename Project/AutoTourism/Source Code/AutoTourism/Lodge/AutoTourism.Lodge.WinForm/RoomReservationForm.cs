@@ -27,7 +27,7 @@ namespace AutoTourism.Lodge.WinForm
             checkin = 10004
         }
 
-        private RoomReservationForm()
+        public RoomReservationForm()
         {
             InitializeComponent();
         }
