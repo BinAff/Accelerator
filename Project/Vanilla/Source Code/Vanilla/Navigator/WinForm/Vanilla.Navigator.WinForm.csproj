@@ -95,6 +95,10 @@
       <Project>{1EE9A9DD-9151-437A-B1A3-28015975EF52}</Project>
       <Name>BinAff.Presentation.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Tool\SecurityHandler\BinAff.Tool.SecurityHandler.csproj">
+      <Project>{234e829d-e7f0-4ee9-bcb7-238f12be25ad}</Project>
+      <Name>BinAff.Tool.SecurityHandler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Guardian\Component\Crystal.Guardian.Component.csproj">
       <Project>{1c4faab4-7ce4-4a10-9600-855a984b0805}</Project>
       <Name>Crystal.Guardian.Component</Name>

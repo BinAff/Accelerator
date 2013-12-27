@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace BinAff.Tool.SecurityHandler
@@ -10,25 +12,25 @@ namespace BinAff.Tool.SecurityHandler
         public delegate void Changed();
         public event Changed SystemDateChanged;
 
-        private Timer timer;
         DateTime savedStamp;
 
         public void Start()
         {
-            this.timer = new Timer(5000);
-            this.timer.Elapsed += timer_Elapsed;
-            this.timer.Start();
-            this.savedStamp = DateTime.Now;
+            new Thread(() => Change()).Start();
         }
 
-        void timer_Elapsed(object sender, ElapsedEventArgs e)
+        void Change()
         {
-            if (Math.Abs(DateTime.Now.Subtract(savedStamp).TotalSeconds) > 20)
+            while (true)
             {
-                this.SystemDateChanged();
-                this.timer.Stop();
+                savedStamp = DateTime.Now;
+                Thread.Sleep(5000);
+                if (Math.Abs(DateTime.Now.Subtract(savedStamp).TotalSeconds) > 20)
+                {
+                    this.SystemDateChanged();
+                    break;
+                }
             }
-            savedStamp = DateTime.Now;
         }
 
     }
