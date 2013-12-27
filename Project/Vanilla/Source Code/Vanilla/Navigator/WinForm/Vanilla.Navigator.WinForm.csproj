@@ -79,6 +79,10 @@
       <Project>{99eef65f-e520-4aa1-a9e0-db3ea19a6c16}</Project>
       <Name>AutoTourism.Customer.WinForm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Lodge\AutoTourism.Lodge.WinForm\AutoTourism.Lodge.WinForm.csproj">
+      <Project>{8d642295-3554-43b7-8e20-c73a745b9c5a}</Project>
+      <Name>AutoTourism.Lodge.WinForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
       <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
       <Name>BinAff.Core</Name>
