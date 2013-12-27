@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace BinAff.Tool.SecurityHandler
@@ -36,6 +37,24 @@ namespace BinAff.Tool.SecurityHandler
                 if ((i + 1) != byteArray.Length && (i + 1) % 2 == 0) s += "-";
             }
             return s;
+        }
+
+        public static Int16 Authenticate(String productName, String applicationFolder, String instanceName, String databaseName)
+        {
+            SecurityHandler.License appLic = LicenseFileHandler.Read(applicationFolder + "\\" + productName + ".lic"); //Find license file from application folder
+            if (appLic == null) return 1; //License file tampered
+            SecurityHandler.License license = appLic;
+
+            SecurityHandler.License sysLic = LicenseFileHandler.Read(Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\" + productName + ".lic"); //Find license file from system folder
+            if (sysLic == null) return 1; //License file tampered
+
+            if (license.CompareAll(sysLic) > 0) return 1; //License file tampered. The error is not shown; it can be used for internal purpose.
+
+            SecurityHandler.License regLic = RegistryHandler.Read(appLic.LicenseNumber, productName); //Find license information from registry
+            if (String.Compare(FingurePrintHandler.Generate(), regLic.FingurePrint) != 0) return 2; //Invalid machine
+            if (license.CompareWithoutModule(regLic) > 0) return 1;
+
+            return (Int16)((license.CompareAll(ProductDatabaseHandler.Read(license.LicenseNumber, instanceName, databaseName)) > 0) ? 5 : 0);
         }
 
     }

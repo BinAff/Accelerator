@@ -83,6 +83,10 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Select Product:";
             // 
+            // dlgOpenApplicationFile
+            // 
+            this.dlgOpenApplicationFile.FileOk += new System.ComponentModel.CancelEventHandler(this.dlgOpenApplicationFile_FileOk);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -102,6 +106,7 @@
             // 
             // btnTestConnection
             // 
+            this.btnTestConnection.Enabled = false;
             this.btnTestConnection.Location = new System.Drawing.Point(482, 212);
             this.btnTestConnection.Name = "btnTestConnection";
             this.btnTestConnection.Size = new System.Drawing.Size(114, 23);
