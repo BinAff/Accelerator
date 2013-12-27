@@ -103,22 +103,22 @@ namespace Vanilla.Navigator.Facade.Module
                     break;
 
                 case "LRSV"://Need to change
-                    this.ModuleFormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
-                    this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Dto, AutoTourism.Customer.Facade";
-                    this.ArtifacComponentAssembly = "Autotourism.Component.Customer";
-                    this.ArtifactDataType = "Autotourism.Component.Customer.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Autotourism.Component.Customer.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Autotourism.Component.Customer.Data, Autotourism.Component.Customer";
+                    this.ModuleFormType = "AutoTourism.Lodge.WinForm.RoomReservationForm, AutoTourism.Lodge.WinForm";
+                    this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.RoomReservation.Dto, AutoTourism.Lodge.Facade";
+                    this.ArtifacComponentAssembly = "Crystal.Lodge.Component";
+                    this.ArtifactDataType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data";
+                    this.ArtifacComponentType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Lodge.Component.Room.Reservation.Data, Crystal.Lodge.Component";
                     this.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
                     break;
 
                 case "LCHK"://Need to change
-                    this.ModuleFormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
-                    this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Dto, AutoTourism.Customer.Facade";
-                    this.ArtifacComponentAssembly = "Autotourism.Component.Customer";
-                    this.ArtifactDataType = "Autotourism.Component.Customer.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Autotourism.Component.Customer.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Autotourism.Component.Customer.Data, Autotourism.Component.Customer";
+                    this.ModuleFormType = "AutoTourism.Lodge.WinForm.CheckInForm, AutoTourism.Lodge.WinForm";
+                    this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.CheckIn.Dto, AutoTourism.Lodge.Facade";
+                    this.ArtifacComponentAssembly = "Crystal.Lodge.Component";
+                    this.ArtifactDataType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data";
+                    this.ArtifacComponentType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Lodge.Component.Room.CheckIn.Data, Crystal.Lodge.Component";
                     this.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
                     break;
 
