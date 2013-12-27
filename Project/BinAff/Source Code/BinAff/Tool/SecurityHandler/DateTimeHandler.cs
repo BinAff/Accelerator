@@ -16,7 +16,10 @@ namespace BinAff.Tool.SecurityHandler
 
         public void Start()
         {
-            new Thread(() => Change()).Start();
+            new Thread(() => Change())
+            {
+                IsBackground = true,
+            }.Start();
         }
 
         void Change()
