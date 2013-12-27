@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BinAff.Tool.License.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="License" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=.\SQLEXPRESS;Initial Catalog=BinAff;User Id=sa;Password=infotech@1;</Value>
+    </Setting>
+    <Setting Name="Application" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=.\SQLEXPRESS;Initial Catalog=AutoTourism;User Id=sa;Password=infotech@1;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
