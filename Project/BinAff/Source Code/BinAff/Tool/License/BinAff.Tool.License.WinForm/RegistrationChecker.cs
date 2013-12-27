@@ -23,6 +23,12 @@ namespace BinAff.Tool.License
             this.dlgOpenApplicationFile.ShowDialog();
         }
 
+        private void dlgOpenApplicationFile_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            this.txtAppFolderPath.Text = this.dlgOpenApplicationFile.FileName;
+            this.btnTestConnection.Enabled = true;
+        }
+
         private void optLocal_CheckedChanged(object sender, EventArgs e)
         {
             this.UseWaitCursor = true;
@@ -68,7 +74,7 @@ namespace BinAff.Tool.License
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            Int16 result = new Facade.RegistrationChecker.Server()
+            Int16 result = new Facade.RegistrationChecker.Server
             {
                 ProductName = this.txtProductName.Text.Trim(),
                 Folder = Directory.GetParent(this.dlgOpenApplicationFile.FileName).FullName,

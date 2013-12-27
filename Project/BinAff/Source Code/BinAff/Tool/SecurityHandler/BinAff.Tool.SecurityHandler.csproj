@@ -43,6 +43,7 @@
     <Compile Include="Module\Dao.cs" />
     <Compile Include="Module\Data.cs" />
     <Compile Include="Module\Server.cs" />
+    <Compile Include="ProductDatabaseHandler.cs" />
     <Compile Include="Product\Dao.cs" />
     <Compile Include="Product\Data.cs" />
     <Compile Include="Product\Server.cs" />
@@ -58,6 +59,10 @@
     <ProjectReference Include="..\..\Core\BinAff.Core.csproj">
       <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
       <Name>BinAff.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SqlServerUtil\BinAff.SqlServerUtil.csproj">
+      <Project>{ec64cd55-4d60-45a3-ba72-900efd400f4b}</Project>
+      <Name>BinAff.SqlServerUtil</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\BinAff.Utility.csproj">
       <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
