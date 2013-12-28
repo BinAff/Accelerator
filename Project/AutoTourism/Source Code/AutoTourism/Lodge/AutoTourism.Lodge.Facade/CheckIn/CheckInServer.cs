@@ -7,6 +7,7 @@ using System.Text;
 
 using CrystalLodge = Crystal.Lodge.Component;
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
+using RuleFacade = Autotourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
@@ -35,6 +36,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 Value = new FormDto()
                 {
                     roomList = this.ReadAllRoom().Value,
+                    configurationRuleDto = this.ReadConfigurationRule().Value
                 }
             };
 
@@ -45,7 +47,12 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         {
             return this.SaveCheckIn(dto);
         }
-        
+
+        private ReturnObject<RuleFacade.ConfigurationRuleDto> ReadConfigurationRule()
+        {
+            return new RuleFacade.RuleServer().ReadConfigurationRule();
+        }
+
         private ReturnObject<Boolean> SaveCheckIn(Dto dto)
         {
             ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()

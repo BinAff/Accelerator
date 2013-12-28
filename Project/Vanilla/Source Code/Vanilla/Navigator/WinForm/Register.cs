@@ -1282,9 +1282,6 @@ namespace Vanilla.Navigator.WinForm
 
         private void AddDocument()
         {
-
-            //new RoomReservationForm().ShowDialog();
-
             TreeNode selectedNode = null;
 
             if ((this.menuClickSource.ToString() == MenuClickSource.ListView.ToString()) && (this.currentArtifact != null))
@@ -1302,7 +1299,7 @@ namespace Vanilla.Navigator.WinForm
                 Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
                 form.ShowDialog(this);
 
-                if (moduleFormDto.Id > 0)
+                if (moduleFormDto != null && moduleFormDto.Id > 0)
                 {
                     this.menuClickSource = MenuClickSource.ListView;
                     AddArtifact(Facade.Artifact.Type.Document, moduleFormDto);

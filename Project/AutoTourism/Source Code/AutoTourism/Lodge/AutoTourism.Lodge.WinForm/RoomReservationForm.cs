@@ -18,12 +18,12 @@ namespace AutoTourism.Lodge.WinForm
     {      
 
         private LodgeFacade.RoomReservation.Dto bookingDto;
-        private RuleFacade.Dto ruleDto;
+        //private RuleFacade.Dto ruleDto;
 
-        public RoomReservationForm()
-        {
-            InitializeComponent();
-        }
+        //public RoomReservationForm()
+        //{
+        //    InitializeComponent();
+        //}
 
         public RoomReservationForm(LodgeFacade.RoomReservation.Dto bookingDto)
         {
@@ -31,25 +31,34 @@ namespace AutoTourism.Lodge.WinForm
             this.bookingDto = bookingDto;
         }
 
-        public RoomReservationForm(LodgeFacade.RoomReservation.Dto bookingDto, RuleFacade.Dto ruleDto)
-        {
-            InitializeComponent();
-            this.bookingDto = bookingDto;
-            this.ruleDto = ruleDto;
-        }
+        //public RoomReservationForm(LodgeFacade.RoomReservation.Dto bookingDto, RuleFacade.Dto ruleDto)
+        //{
+        //    InitializeComponent();
+        //    this.bookingDto = bookingDto;
+        //    this.ruleDto = ruleDto;
+        //}
 
         private void RoomBookingForm_Load(object sender, System.EventArgs e)
-        {
+        {          
+            //set default date format
             dtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            if (this.ruleDto == null || this.ruleDto.ConfigurationRule == null || this.ruleDto.ConfigurationRule.DateFormat == String.Empty)
-                dtFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
-            else
-                dtFrom.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
+            dtFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
 
             dtFromTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             dtFromTime.ShowUpDown = true;
 
-            if (this.bookingDto != null) LoadForm();
+            LoadForm();
+
+            //dtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            //if (this.ruleDto == null || this.ruleDto.ConfigurationRule == null || this.ruleDto.ConfigurationRule.DateFormat == String.Empty)
+            //    dtFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+            //else
+            //    dtFrom.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
+
+            //dtFromTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            //dtFromTime.ShowUpDown = true;
+
+            //if (this.bookingDto != null) LoadForm();
         }  
 
         private void btnPickCustomer_Click(object sender, System.EventArgs e)
@@ -58,7 +67,7 @@ namespace AutoTourism.Lodge.WinForm
             //new CustomerRegister(this.ruleDto).Show(this.Owner);     
 
             //new RoomReservationRegister(this.ruleDto).ShowDialog();
-            new CheckInForm(new LodgeFacade.CheckIn.Dto(), this.ruleDto).ShowDialog();
+            //new CheckInForm(new LodgeFacade.CheckIn.Dto(), this.ruleDto).ShowDialog();
         }
         
         private void btnAddRoom_Click(object sender, EventArgs e)
@@ -87,6 +96,12 @@ namespace AutoTourism.Lodge.WinForm
         {
             LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer();
             ReturnObject<LodgeFacade.RoomReservation.FormDto> ret = reservation.LoadForm();
+
+            //populate rule
+            if (ret.Value.configurationRuleDto != null && ret.Value.configurationRuleDto.DateFormat != null)
+            {
+                dtFrom.CustomFormat = ret.Value.configurationRuleDto.DateFormat;
+            }
 
             List<LodgeConfigurationFacade.Room.Dto> RoomList = new List<LodgeConfigurationFacade.Room.Dto>();
 
@@ -118,7 +133,7 @@ namespace AutoTourism.Lodge.WinForm
             }
 
             //populate customer data
-            if (this.bookingDto != null)
+            if (this.bookingDto != null && this.bookingDto.Id > 0)
             {
                 if (this.bookingDto.Customer != null)
                 {                   

@@ -110,7 +110,7 @@ namespace Autotourism.Configuration.Rule.Facade
             return new ReturnObject<TaxRuleDto>();
         }
 
-        private ReturnObject<ConfigurationRuleDto> ReadConfigurationRule()
+        public ReturnObject<ConfigurationRuleDto> ReadConfigurationRule()
         {
             ICrud congurationfiRuleCrud = new CrystalConfigurationRule.Server(new CrystalConfigurationRule.Data { Id = 1 });            
             ReturnObject<BinAff.Core.Data> RuleData = congurationfiRuleCrud.Read();

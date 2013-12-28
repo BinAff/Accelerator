@@ -28,24 +28,47 @@ namespace AutoTourism.Lodge.WinForm
             Modify = 10005
         }
 
-        public CheckInForm(LodgeFacade.CheckIn.Dto CheckInDto, RuleFacade.Dto ruleDto)
+        public CheckInForm(LodgeFacade.CheckIn.Dto CheckInDto)
         {
             InitializeComponent();
-
-            this.ruleDto = ruleDto;
+            this.checkInDto = CheckInDto;
 
             dtCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            if (this.ruleDto == null || this.ruleDto.ConfigurationRule == null || this.ruleDto.ConfigurationRule.DateFormat == String.Empty)
-                dtCheckIn.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
-            else
-                dtCheckIn.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
+            dtCheckIn.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
 
-            if (CheckInDto != null)
-            {
-                this.checkInDto = CheckInDto;
-                this.LoadForm();
-            }
+            this.LoadForm();
+
+            //dtCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            //if (this.ruleDto == null || this.ruleDto.ConfigurationRule == null || this.ruleDto.ConfigurationRule.DateFormat == String.Empty)
+            //    dtCheckIn.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+            //else
+            //    dtCheckIn.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
+
+            //if (CheckInDto != null)
+            //{
+            //    this.checkInDto = CheckInDto;
+            //    this.LoadForm();
+            //}
         }
+
+        //public CheckInForm(LodgeFacade.CheckIn.Dto CheckInDto, RuleFacade.Dto ruleDto)
+        //{
+        //    InitializeComponent();
+
+        //    this.ruleDto = ruleDto;
+
+        //    dtCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+        //    if (this.ruleDto == null || this.ruleDto.ConfigurationRule == null || this.ruleDto.ConfigurationRule.DateFormat == String.Empty)
+        //        dtCheckIn.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+        //    else
+        //        dtCheckIn.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
+
+        //    if (CheckInDto != null)
+        //    {
+        //        this.checkInDto = CheckInDto;
+        //        this.LoadForm();
+        //    }
+        //}
         
         private void btnOk_Click(object sender, EventArgs e)
         {
@@ -189,6 +212,12 @@ namespace AutoTourism.Lodge.WinForm
             //populate room list
             LodgeFacade.CheckIn.ICheckIn checkIn = new LodgeFacade.CheckIn.CheckInServer();
             LodgeFacade.CheckIn.FormDto formDto = checkIn.LoadForm().Value;
+
+            //populate rule
+            if (formDto.configurationRuleDto != null && formDto.configurationRuleDto.DateFormat != null)
+            {
+                dtCheckIn.CustomFormat = formDto.configurationRuleDto.DateFormat;
+            }
 
             List<LodgeConfigurationFacade.Room.Dto> RoomList = new List<LodgeConfigurationFacade.Room.Dto>();
             if (formDto.roomList != null && formDto.roomList.Count > 0)

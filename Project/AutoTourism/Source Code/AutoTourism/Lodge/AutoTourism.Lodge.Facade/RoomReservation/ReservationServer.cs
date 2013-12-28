@@ -5,6 +5,7 @@ using BinAff.Core;
 
 using CrystalLodge = Crystal.Lodge.Component;
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
+using RuleFacade = Autotourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
@@ -15,11 +16,12 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         ReturnObject<FormDto> IReservation.LoadForm()
         {
-            BinAff.Core.ReturnObject<FormDto> ret = new BinAff.Core.ReturnObject<FormDto>()
+            ReturnObject<FormDto> ret = new ReturnObject<FormDto>()
             {
                 Value = new FormDto()
                 {
                     roomList = this.ReadAllRoom().Value,
+                    configurationRuleDto = this.ReadConfigurationRule().Value
                 }
             };
 
@@ -41,6 +43,13 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return this.UpdateReservationStatus(dto);
         }
         #endregion
+
+        private ReturnObject<RuleFacade.ConfigurationRuleDto> ReadConfigurationRule()
+        {
+            return new RuleFacade.RuleServer().ReadConfigurationRule();
+        }
+
+
 
         private ReturnObject<List<LodgeConfigurationFacade.Room.Dto>> ReadAllRoom()
         {

@@ -6,9 +6,9 @@ using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
-    public class Dto
+    public class Dto : BinAff.Facade.Library.Dto
     {
-        public Int64 Id { get; set; }
+        //public Int64 Id { get; set; }
         public DateTime BookingDate { get; set; }
         public DateTime BookingFrom { get; set; }
         public Int16 NoOfDays { get; set; }
