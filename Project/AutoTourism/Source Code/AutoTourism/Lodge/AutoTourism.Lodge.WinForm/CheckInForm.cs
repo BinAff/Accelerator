@@ -222,7 +222,7 @@ namespace AutoTourism.Lodge.WinForm
             List<LodgeConfigurationFacade.Room.Dto> RoomList = new List<LodgeConfigurationFacade.Room.Dto>();
             if (formDto.roomList != null && formDto.roomList.Count > 0)
             {
-                if (this.checkInDto.Reservation.RoomList == null || this.checkInDto.Reservation.RoomList.Count == 0)
+                if (this.checkInDto.Reservation == null || this.checkInDto.Reservation.RoomList == null || this.checkInDto.Reservation.RoomList.Count == 0)
                     RoomList = formDto.roomList;
                 else
                 {
