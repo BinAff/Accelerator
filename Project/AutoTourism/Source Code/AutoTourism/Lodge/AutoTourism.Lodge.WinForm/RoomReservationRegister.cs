@@ -159,7 +159,7 @@ namespace AutoTourism.Lodge.WinForm
                     }
                 };
 
-                new CheckInForm(checkInDto, this.ruleDto).ShowDialog();
+                //new CheckInForm(checkInDto, this.ruleDto).ShowDialog();
             }
         }
 
