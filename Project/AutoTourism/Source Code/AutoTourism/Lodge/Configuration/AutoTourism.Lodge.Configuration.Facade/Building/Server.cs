@@ -47,6 +47,8 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
 
             //Populate data in dto from business entity
             FormDto formDto = this.FormDto as FormDto;
+            formDto.DtoList = new List<Dto>();
+
             foreach (CrystalComponent.Data data in dataList.Value)
             {
                 formDto.DtoList.Add(this.Convert(data) as Dto);

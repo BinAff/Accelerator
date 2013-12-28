@@ -29,6 +29,10 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             Building.FormDto buildingFormDto = new FacadeBuilding.FormDto();
             Building.Server buildFacade = new FacadeBuilding.Server(buildingFormDto);
             buildFacade.LoadForm();
+
+            if (this.DisplayMessageList == null)
+                this.DisplayMessageList = new List<string>();
+
             this.DisplayMessageList.AddRange(buildFacade.DisplayMessageList);
             formDto.BuildingList = buildingFormDto.DtoList;
 

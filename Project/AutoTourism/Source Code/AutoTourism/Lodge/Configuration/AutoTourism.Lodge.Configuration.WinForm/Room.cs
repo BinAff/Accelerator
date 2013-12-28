@@ -453,12 +453,12 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 txtNumber.Focus();
                 return false;
             }
-            else if (!(new Regex(@"^[0-9]*$").IsMatch(txtNumber.Text.Trim())))
-            {
-                errorProvider.SetError(txtNumber, "Entered " + txtNumber.Text + " is Invalid.");
-                txtNumber.Focus();
-                return false;
-            }
+            //else if (!(new Regex(@"^[0-9]*$").IsMatch(txtNumber.Text.Trim())))
+            //{
+            //    errorProvider.SetError(txtNumber, "Entered " + txtNumber.Text + " is Invalid.");
+            //    txtNumber.Focus();
+            //    return false;
+            //}
             else if (String.IsNullOrEmpty(txtName.Text.Trim()))
             {
                 errorProvider.SetError(txtName, "Please enter room name.");
