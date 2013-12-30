@@ -689,13 +689,15 @@ namespace Vanilla.Navigator.WinForm
                     if (cmsExplorer.Items[i].Name == "cmnuPaste")
                     {
 
+                        ListViewItem listViewPaste = null;
                         if (listViewItem == null && this.currentArtifact != null)
-                            listViewItem = new ListViewItem
+                        {
+                            listViewPaste = new ListViewItem
                             {
                                 Tag = this.currentArtifact
                             };
-
-                        cmsExplorer.Items[i].Enabled = this.IsListViewItem(cmsExplorer.Items[i].Name, listViewItem);
+                        }
+                        cmsExplorer.Items[i].Enabled = this.IsListViewItem(cmsExplorer.Items[i].Name, listViewPaste);
                     }
                     else
                         cmsExplorer.Items[i].Visible = this.IsListViewItem(cmsExplorer.Items[i].Name, listViewItem);
