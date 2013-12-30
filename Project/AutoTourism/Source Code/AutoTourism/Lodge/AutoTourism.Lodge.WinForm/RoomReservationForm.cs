@@ -10,6 +10,7 @@ using LodgeFacade = AutoTourism.Lodge.Facade;
 using RuleFacade = Autotourism.Configuration.Rule.Facade;
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using CustomerFacade = AutoTourism.Customer.Facade;
+using AutoTourism.Customer.WinForm;
 
 namespace AutoTourism.Lodge.WinForm
 {
@@ -18,7 +19,7 @@ namespace AutoTourism.Lodge.WinForm
     {      
 
         private LodgeFacade.RoomReservation.Dto bookingDto;
-        //private RuleFacade.Dto ruleDto;
+        //private RuleFacade.ConfigurationRuleDto configurationRuleDto;
 
         //public RoomReservationForm()
         //{
@@ -62,12 +63,8 @@ namespace AutoTourism.Lodge.WinForm
         }  
 
         private void btnPickCustomer_Click(object sender, System.EventArgs e)
-        {
-            //this.Close();
-            //new CustomerRegister(this.ruleDto).Show(this.Owner);     
-
-            //new RoomReservationRegister(this.ruleDto).ShowDialog();
-            //new CheckInForm(new LodgeFacade.CheckIn.Dto(), this.ruleDto).ShowDialog();
+        {   
+            new CustomerRegister().ShowDialog();
         }
         
         private void btnAddRoom_Click(object sender, EventArgs e)
@@ -100,6 +97,7 @@ namespace AutoTourism.Lodge.WinForm
             //populate rule
             if (ret.Value.configurationRuleDto != null && ret.Value.configurationRuleDto.DateFormat != null)
             {
+                //this.configurationRuleDto = ret.Value.configurationRuleDto;
                 dtFrom.CustomFormat = ret.Value.configurationRuleDto.DateFormat;
             }
 

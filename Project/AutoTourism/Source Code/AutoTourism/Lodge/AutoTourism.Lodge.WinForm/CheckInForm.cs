@@ -316,7 +316,7 @@ namespace AutoTourism.Lodge.WinForm
 
         private void btnPickReservation_Click_1(object sender, EventArgs e)
         {
-            new RoomReservationRegister(ruleDto).ShowDialog();
+            //new RoomReservationRegister(ruleDto).ShowDialog();
         }
 
     }
