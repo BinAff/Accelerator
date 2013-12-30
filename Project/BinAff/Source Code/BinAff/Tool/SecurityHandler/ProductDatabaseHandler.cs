@@ -12,6 +12,64 @@ namespace BinAff.Tool.SecurityHandler
     public static class ProductDatabaseHandler
     {
 
+        public static Boolean CreateSecuritySchema(String productName)
+        {
+            Boolean status = true;
+            DatabaseCredential database = RegistryHandler.Read(productName);
+            SqlConnection conn = Handler.GetConnectionObject(database.InstanceName, database.DatabaseName);
+            conn.Open();
+            SqlTransaction trans = conn.BeginTransaction();
+
+            if (Handler.CreateSchema(trans, "BinAff"))
+            {
+                if (!Handler.CreateTable(trans, "BinAff", "Stamp", new List<Handler.ColumnDefinition>
+                {
+                    { new Handler.ColumnDefinition { ColumnName = "ProductId", Type = "VarChar(Max)" } },
+                    { new Handler.ColumnDefinition { ColumnName = "ProductName", Type = "VarChar(Max)" } },
+                    { new Handler.ColumnDefinition { ColumnName = "FingurePrint", Type = "VarChar(Max)" } },
+                    { new Handler.ColumnDefinition { ColumnName = "LicenseDate", Type = "VarChar(Max)" } },
+                    { new Handler.ColumnDefinition { ColumnName = "RegistrationDate", Type = "VarChar(Max)" } },
+                })) status = false;
+                if (!Handler.CreateTable(trans, "BinAff", "DateStamp", new List<Handler.ColumnDefinition>
+                {
+                    { new Handler.ColumnDefinition { ColumnName = "Stamp", Type = "VarChar(Max)" } },
+                })) status = false;
+            }
+            else
+            {
+                status = false;
+            }
+
+            if (Handler.CreateSchema(trans, "License"))
+            {
+                if (!Handler.CreateTable(trans, "License", "Module", new List<Handler.ColumnDefinition>
+                {
+                    { new Handler.ColumnDefinition { ColumnName = "Id", Type = "Numeric(10, 0)", IsAutoNumber = true } },
+                    { new Handler.ColumnDefinition { ColumnName = "Code", Type = "Char(4)" } },
+                    { new Handler.ColumnDefinition { ColumnName = "Name", Type = "VarChar(50)" } },
+                    { new Handler.ColumnDefinition { ColumnName = "Description", Type = "VarChar(50)", IsNull = true } },
+                    { new Handler.ColumnDefinition { ColumnName = "IsForm", Type = "Bit", IsNull = true } },
+                    { new Handler.ColumnDefinition { ColumnName = "IsReport", Type = "Bit", IsNull = true } },
+                    { new Handler.ColumnDefinition { ColumnName = "IsCatalogue", Type = "Bit", IsNull = true } },
+                })) status = false;
+            }
+            else
+            {
+                status = false;
+            }
+
+            if (status)
+            {
+                trans.Commit();
+            }
+            else
+            {
+                trans.Rollback();
+            }
+            if (conn != null && conn.State != ConnectionState.Closed) conn.Close();
+            return status;
+        }
+
         public static Int16 Write(License license, String instanceName, String databaseName)
         {
             ManagedAes encryptor = new ManagedAes
@@ -116,6 +174,50 @@ namespace BinAff.Tool.SecurityHandler
             trans.Commit();
             conn.Close();
             return lics;
+        }
+
+        public static Int16 Write(DatabaseCredential databaseCredential, DateTime current)
+        {
+            ManagedAes encryptor = new ManagedAes
+            {
+                EncryptionKey = "B1n@ry@ff@1r5",
+            };
+
+            SqlConnection conn = Handler.GetConnectionObject(databaseCredential.InstanceName, databaseCredential.DatabaseName);
+            conn.Open();
+
+            Handler.Update(conn, "BinAff", "DateStamp", new Dictionary<String, String>
+            {
+                { "Stamp", "'" + encryptor.Encrypt(current.ToShortDateString()) + "'" },
+            }, null);
+
+            return 0;
+        }
+
+        public static DateTime Read(DatabaseCredential databaseCredential)
+        {
+            SqlConnection conn = Handler.GetConnectionObject(databaseCredential.InstanceName, databaseCredential.DatabaseName);
+            conn.Open();
+            SqlTransaction trans = conn.BeginTransaction();
+
+            System.Data.DataRow stamp = Handler.ReadRow(trans, "BinAff", "DateStamp");
+
+            ManagedAes decryptor = new ManagedAes
+            {
+                EncryptionKey = "B1n@ry@ff@1r5",
+            };
+
+            return Convert.ToDateTime(stamp["DateStamp"]);
+        }
+
+        public static Int16 Write(String productName, DateTime current)
+        {
+            return Write(RegistryHandler.Read(productName), current);
+        }
+
+        public static DateTime Read(String productName)
+        {
+            return Read(RegistryHandler.Read(productName));
         }
 
     }
