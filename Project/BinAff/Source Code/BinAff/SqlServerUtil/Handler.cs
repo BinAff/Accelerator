@@ -92,7 +92,7 @@ namespace BinAff.SqlServerUtil
             return String.Format("Data Source={0};Initial Catalog={1};User Id={2};Password={3};",
                 instanceName, dbName, userName, password);
         }
-
+        
         public static SqlConnection GetConnectionObject(String instanceName, String dbName)
         {
             return new SqlConnection(GetConnectionString(instanceName, dbName));
@@ -334,9 +334,20 @@ namespace BinAff.SqlServerUtil
             return cmd.ExecuteNonQuery() == 1;
         }
 
+        public static Boolean Update(SqlConnection conn, String schemaName, String tableName, Dictionary<String, String> columnDetails, List<KeyValuePair<String, String>> whereClause)
+        {
+            StringBuilder field = new StringBuilder();
+            foreach (KeyValuePair<String, String> node in columnDetails)
+            {
+                field.Append(node.Key + " = " + node.Value + ", ");
+            }
+            field.Remove(field.Length - 2, 2);
+            return new SqlCommand(String.Format("UPDATE {0}.{1} SET {2} {3}", schemaName, tableName, field.ToString(), CreateWhereClause(whereClause, Clause.AND, Operator.Equal)), conn).ExecuteNonQuery() == 1;
+        }
+
         public static Boolean DeleteOther(SqlTransaction trans, String schemaName, String tableName, List<KeyValuePair<String, String>> whereClause)
         {
-            SqlCommand cmd = new SqlCommand(String.Format("DELETE FROM {0}.{1}{2}", schemaName, tableName, CreateWhereClause(whereClause, Clause.AND, Operator.NotEqual)), trans.Connection)
+            SqlCommand cmd = new SqlCommand(String.Format("DELETE FROM {0}.{1} {2}", schemaName, tableName, CreateWhereClause(whereClause, Clause.AND, Operator.NotEqual)), trans.Connection)
             {
                 Transaction = trans,
             };
@@ -407,22 +418,22 @@ namespace BinAff.SqlServerUtil
         
         private static String CreateWhereClause(List<KeyValuePair<String, String>> whereClause, Clause clause, Operator opt)
         {
-            StringBuilder where = new StringBuilder();
-            String oper;
-            switch (opt)
-            {
-                case Operator.Equal:
-                    oper = " = ";
-                    break;
-                case Operator.NotEqual:
-                    oper = " <> ";
-                    break;
-                default:
-                    oper = " = ";
-                    break;
-            }
+            StringBuilder where = new StringBuilder();            
             if (whereClause != null && whereClause.Count > 0)
             {
+                String oper;
+                switch (opt)
+                {
+                    case Operator.Equal:
+                        oper = " = ";
+                        break;
+                    case Operator.NotEqual:
+                        oper = " <> ";
+                        break;
+                    default:
+                        oper = " = ";
+                        break;
+                }
                 where.Append(" WHERE ");
                 foreach (KeyValuePair<String, String> node in whereClause)
                 {

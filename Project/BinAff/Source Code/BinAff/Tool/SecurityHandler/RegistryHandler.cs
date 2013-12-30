@@ -86,6 +86,47 @@ namespace BinAff.Tool.SecurityHandler
             return newKey;
         }
 
+        public static DatabaseCredential Read(String productName)
+        {
+            RegistryKey softwareKey = Registry.CurrentUser.OpenSubKey("Software", true);
+            if (softwareKey == null) return null;
+            RegistryKey binAffKey = OpenKey(softwareKey, "BinAff");
+            softwareKey.Close();
+            if (binAffKey == null) return null;
+            RegistryKey productKey = OpenKey(binAffKey, productName);
+            binAffKey.Close();
+            if (productKey == null) return null;
+            DatabaseCredential db = new DatabaseCredential
+            {
+                InstanceName = Convert.ToString(productKey.GetValue("Instance Name")),
+                DatabaseName = Convert.ToString(productKey.GetValue("Database Name")),
+                UserName = Convert.ToString(productKey.GetValue("User Name")),
+                Password = new Utility.Cryptography.ManagedAes
+                {
+                    EncryptionKey = "B1n@ry@ff@1r5",
+                }.Decrypt(Convert.ToString(productKey.GetValue("Password"))),
+            };
+            productKey.Close();
+            return db;
+        }
+
+        public static void Write(String productName, DatabaseCredential databaseCredential)
+        {
+            RegistryKey softwareKey = Registry.CurrentUser.OpenSubKey("Software", true);
+            RegistryKey binAffKey = GetKey(softwareKey, "BinAff");
+            softwareKey.Close();
+            RegistryKey productKey = GetKey(binAffKey, productName);
+            binAffKey.Close();
+            productKey.SetValue("Instance Name", databaseCredential.InstanceName);
+            productKey.SetValue("Database Name", databaseCredential.DatabaseName);
+            productKey.SetValue("User Name", databaseCredential.UserName);
+            productKey.SetValue("Password", new Utility.Cryptography.ManagedAes
+            {
+                EncryptionKey = "B1n@ry@ff@1r5",
+            }.Encrypt(databaseCredential.Password));
+            productKey.Close();
+        }
+
     }
 
 }
