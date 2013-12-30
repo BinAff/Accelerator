@@ -23,7 +23,7 @@ namespace AutoTourism
 
                 DateTimeHandler dateTimeManipulationHandler = new DateTimeHandler();
                 dateTimeManipulationHandler.SystemDateChanged += handler_SystemDateChanged;
-                if (!dateTimeManipulationHandler.Start()) Quit("System date got changed after application is shutdown last time. Restore the date to continue.");
+                if (!dateTimeManipulationHandler.Start("Splash")) Quit("System date got changed after application is shutdown last time. Restore the date to continue.");
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -46,6 +46,7 @@ namespace AutoTourism
 
         static void Application_ApplicationExit(object sender, EventArgs e)
         {
+            ProductDatabaseHandler.Write("Splash", DateTime.Now);
             Application.ExitThread();
         }
 
