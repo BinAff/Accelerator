@@ -121,6 +121,10 @@
       <Project>{2099fb59-6194-4bc7-8ab2-6cabe513082a}</Project>
       <Name>AutoTourism.Customer.Facade</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Customer\AutoTourism.Customer.WinForm\AutoTourism.Customer.WinForm.csproj">
+      <Project>{99EEF65F-E520-4AA1-A9E0-DB3EA19A6C16}</Project>
+      <Name>AutoTourism.Customer.WinForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AutoTourism.Lodge.Facade\AutoTourism.Lodge.Facade.csproj">
       <Project>{87b249d1-5284-4376-9c8f-990025c3aedd}</Project>
       <Name>AutoTourism.Lodge.Facade</Name>

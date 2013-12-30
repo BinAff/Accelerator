@@ -15,26 +15,26 @@ namespace AutoTourism.Lodge.WinForm
     public partial class RoomReservationRegister : Form
     {
 
-        private RuleFacade.Dto ruleDto;
+        private RuleFacade.ConfigurationRuleDto configurationRuleDto;
        
-        public RoomReservationRegister(RuleFacade.Dto ruleDto)
+        public RoomReservationRegister(RuleFacade.ConfigurationRuleDto ruleDto)
         {
             InitializeComponent();
-            this.ruleDto = ruleDto;
+            this.configurationRuleDto = ruleDto;
             //base.IsOkButton = false;
 
             dtBookingFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             dtBookingTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
 
-            if (this.ruleDto == null || this.ruleDto.ConfigurationRule == null || this.ruleDto.ConfigurationRule.DateFormat == String.Empty)
+            if (this.configurationRuleDto == null ||this.configurationRuleDto.DateFormat == String.Empty)
             {
                 dtBookingFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
                 dtBookingTo.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
             }
             else
             {
-                dtBookingFrom.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
-                dtBookingTo.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
+                dtBookingFrom.CustomFormat = this.configurationRuleDto.DateFormat;
+                dtBookingTo.CustomFormat = this.configurationRuleDto.DateFormat;
             }
 
             dgvReservation.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
