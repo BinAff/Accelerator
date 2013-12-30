@@ -23,7 +23,7 @@ namespace AutoTourism
 
                 DateTimeHandler dateTimeManipulationHandler = new DateTimeHandler();
                 dateTimeManipulationHandler.SystemDateChanged += handler_SystemDateChanged;
-                dateTimeManipulationHandler.Start();
+                if (!dateTimeManipulationHandler.Start()) Quit("System date got changed after application is shutdown last time. Restore the date to continue.");
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -51,16 +51,21 @@ namespace AutoTourism
 
         static void handler_SystemDateChanged()
         {
+            Quit("System date changed or trying to change.");
+        }
+
+        private static void Quit(String message)
+        {
             FormCollection formCollection = Application.OpenForms;
             foreach (Form frm in formCollection)
             {
                 frm.BeginInvoke(new Action(() => { frm.Enabled = false; }));
             }
             new BinAff.Presentation.Library.MessageBox()
-            { 
+            {
                 DialogueType = BinAff.Presentation.Library.MessageBox.Type.Error,
                 Heading = "Splash :: Fatal Error!!!",
-            }.Show("System date changed or trying to change.");
+            }.Show(message);
             Application.Exit();
         }
 
