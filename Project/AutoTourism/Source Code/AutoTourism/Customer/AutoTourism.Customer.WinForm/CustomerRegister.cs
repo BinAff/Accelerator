@@ -67,24 +67,26 @@ namespace AutoTourism.Customer.WinForm
 
         private void cboCustomer_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            //if (cboCustomer.SelectedIndex != -1)
-            //{
-            //    AutoTourism.Facade.CustomerManagement.Dto dto = (AutoTourism.Facade.CustomerManagement.Dto)cboCustomer.SelectedItem;
-            //    txtName.Text = (dto.Initial == null ? String.Empty : dto.Initial.Name)
-            //        + dto.FirstName + " " + dto.MiddleName + " " + dto.LastName;
-            //    txtAdds.Text = dto.Address;
-            //    txtEmail.Text = dto.Email;
-            //    this.lblIdProofTypeName.Text = dto.IdentityProofType.Name;
-            //    this.txtIdentityProofNo.Text = dto.IdentityProofName;
+            if (cboCustomer.SelectedIndex != -1)
+            {
+                CustomerFacade.Dto dto = (CustomerFacade.Dto)cboCustomer.SelectedItem;
+                txtName.Text = (dto.Initial == null ? String.Empty : dto.Initial.Name)
+                    + dto.FirstName + " " + dto.MiddleName + " " + dto.LastName;
+                txtAdds.Text = dto.Address;
+                txtEmail.Text = dto.Email;
+                this.lblIdProofTypeName.Text = dto.IdentityProofType.Name;
+                this.txtIdentityProofNo.Text = dto.IdentityProofName;
 
-            //    lstContact.DataSource = null;
-            //    if (dto.ContactNumberList != null && dto.ContactNumberList.Count > 0)
-            //    {
-            //        lstContact.DataSource = dto.ContactNumberList;
-            //        lstContact.DisplayMember = "Name";
-            //        lstContact.ValueMember = "Id";
-            //        lstContact.SelectedIndex = -1;
-            //    }
+
+                lstContact.DataSource = null;
+                if (dto.ContactNumberList != null && dto.ContactNumberList.Count > 0)
+                {
+                    lstContact.DataSource = dto.ContactNumberList;
+                    lstContact.DisplayMember = "Name";
+                    lstContact.ValueMember = "Id";
+                    lstContact.SelectedIndex = -1;
+                }
+            }
 
             //    //load booking data
             //    IReservation reservation = new ReservationServer();
