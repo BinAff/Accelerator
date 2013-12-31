@@ -40,16 +40,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Installation.cs">
+    <Compile Include="ApplicationConfiguration.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Installation.Designer.cs">
-      <DependentUpon>Installation.cs</DependentUpon>
+    <Compile Include="ApplicationConfiguration.Designer.cs">
+      <DependentUpon>ApplicationConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseConfiguration.Designer.cs">
+      <DependentUpon>DatabaseConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Prerequisite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Prerequisite.Designer.cs">
+      <DependentUpon>Prerequisite.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Installation.resx">
-      <DependentUpon>Installation.cs</DependentUpon>
+    <Compile Include="Welcome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Welcome.Designer.cs">
+      <DependentUpon>Welcome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizard.Designer.cs">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ApplicationConfiguration.resx">
+      <DependentUpon>ApplicationConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseConfiguration.resx">
+      <DependentUpon>DatabaseConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prerequisite.resx">
+      <DependentUpon>Prerequisite.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -60,6 +90,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Welcome.resx">
+      <DependentUpon>Welcome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -81,6 +117,10 @@
     <ProjectReference Include="..\..\SqlServerUtil\BinAff.SqlServerUtil.csproj">
       <Project>{ec64cd55-4d60-45a3-ba72-900efd400f4b}</Project>
       <Name>BinAff.SqlServerUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\License\BinAff.Tool.License.WinForm\BinAff.Tool.License.WinForm.csproj">
+      <Project>{bd50acb9-051e-4ea6-b151-c025c11dfbf8}</Project>
+      <Name>BinAff.Tool.License.WinForm</Name>
     </ProjectReference>
     <ProjectReference Include="..\SecurityHandler\BinAff.Tool.SecurityHandler.csproj">
       <Project>{234e829d-e7f0-4ee9-bcb7-238f12be25ad}</Project>
