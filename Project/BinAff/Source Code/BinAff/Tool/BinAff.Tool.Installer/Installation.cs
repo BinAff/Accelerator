@@ -8,17 +8,12 @@ using BinAff.SqlServerUtil;
 namespace BinAff.Tool.Installer
 {
 
-    public partial class Installation : Form
+    public partial class DatabaseConfiguration : Form
     {
 
-        public Installation()
+        public DatabaseConfiguration()
         {
             InitializeComponent();
-        }
-
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            RegistryHandler.Write("Splash", new DatabaseCredential());
         }
 
         private void optLocal_CheckedChanged(object sender, EventArgs e)
@@ -33,6 +28,9 @@ namespace BinAff.Tool.Installer
             this.UseWaitCursor = true;
             this.cboSqlServerInstanceList.Bind<String>(Handler.GetSqlServerInstances(false));
             this.UseWaitCursor = false;
+            this.cboSqlServerInstanceList.Text = String.Empty;
+            this.lstDatabaseList.Items.Clear();
+            this.UseWaitCursor = false;
         }
 
         private void cboSqlServerInstanceList_SelectedIndexChanged(object sender, EventArgs e)
@@ -43,6 +41,18 @@ namespace BinAff.Tool.Installer
             }
         }
 
+        private void optWindows_CheckedChanged(object sender, EventArgs e)
+        {
+            this.txtUserName.Enabled = false;
+            this.txtPassword.Enabled = false;
+        }
+
+        private void optSQLServer_CheckedChanged(object sender, EventArgs e)
+        {
+            this.txtUserName.Enabled = true;
+            this.txtPassword.Enabled = true;
+        }
+
         private void btnTestConnection_Click(object sender, EventArgs e)
         {
             if (this.cboSqlServerInstanceList.SelectedItem == null || this.lstDatabaseList.SelectedItem == null)
@@ -50,11 +60,31 @@ namespace BinAff.Tool.Installer
                 MessageBox.Show("Select server instance and database from list.");
                 return;
             }
-            if (Handler.TestDbConnection(this.cboSqlServerInstanceList.SelectedItem.ToString(), this.lstDatabaseList.SelectedItem.ToString()))
+            Boolean isConnected = this.optWindows.Checked ? 
+                Handler.TestDbConnection(this.cboSqlServerInstanceList.SelectedItem.ToString(), this.lstDatabaseList.SelectedItem.ToString()) :
+                Handler.TestDbConnection(this.cboSqlServerInstanceList.SelectedItem.ToString(), this.lstDatabaseList.SelectedItem.ToString(), this.txtUserName.Text.Trim(), this.txtPassword.Text.Trim());
+            if (isConnected)
             {
                 MessageBox.Show("Successfully connected.");
-                this.btnLicenseMachine.Enabled = true;
+                this.btnStart.Enabled = true;
             }
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            DatabaseCredential dbCread = new DatabaseCredential
+            {
+                InstanceName = this.cboSqlServerInstanceList.SelectedItem.ToString(),
+                DatabaseName =  this.lstDatabaseList.SelectedItem.ToString(),
+            };
+            if (this.optSQLServer.Checked)
+            {
+                dbCread.UserName = this.txtUserName.Text.Trim();
+                dbCread.Password = this.txtPassword.Text.Trim();
+            }
+            RegistryHandler.Write("Splash", dbCread);
+            ProductDatabaseHandler.CreateSecuritySchema("Splash");
+            ProductDatabaseHandler.Write(dbCread, DateTime.Now);
         }
 
     }

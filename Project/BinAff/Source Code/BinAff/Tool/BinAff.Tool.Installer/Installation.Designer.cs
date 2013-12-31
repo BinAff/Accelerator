@@ -1,6 +1,6 @@
 ﻿namespace BinAff.Tool.Installer
 {
-    partial class Installation
+    partial class DatabaseConfiguration
     {
         /// <summary>
         /// Required designer variable.
@@ -37,20 +37,28 @@
             this.optLocal = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnLicenseMachine = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.optSQLServer = new System.Windows.Forms.RadioButton();
+            this.optWindows = new System.Windows.Forms.RadioButton();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.txtUserName = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(12, 420);
+            this.progressBar.Location = new System.Drawing.Point(12, 357);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(679, 23);
-            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBar.Size = new System.Drawing.Size(468, 23);
+            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar.TabIndex = 0;
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(616, 449);
+            this.btnStart.Enabled = false;
+            this.btnStart.Location = new System.Drawing.Point(405, 386);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 1;
@@ -60,7 +68,7 @@
             // 
             // btnTestConnection
             // 
-            this.btnTestConnection.Location = new System.Drawing.Point(486, 159);
+            this.btnTestConnection.Location = new System.Drawing.Point(366, 328);
             this.btnTestConnection.Name = "btnTestConnection";
             this.btnTestConnection.Size = new System.Drawing.Size(114, 23);
             this.btnTestConnection.TabIndex = 22;
@@ -127,21 +135,83 @@
             this.label3.TabIndex = 16;
             this.label3.Text = "SQL Server Instances";
             // 
-            // btnLicenseMachine
+            // panel1
             // 
-            this.btnLicenseMachine.Enabled = false;
-            this.btnLicenseMachine.Location = new System.Drawing.Point(486, 188);
-            this.btnLicenseMachine.Name = "btnLicenseMachine";
-            this.btnLicenseMachine.Size = new System.Drawing.Size(114, 23);
-            this.btnLicenseMachine.TabIndex = 15;
-            this.btnLicenseMachine.Text = "Insert Fingure Print";
-            this.btnLicenseMachine.UseVisualStyleBackColor = true;
+            this.panel1.Controls.Add(this.optSQLServer);
+            this.panel1.Controls.Add(this.optWindows);
+            this.panel1.Controls.Add(this.txtPassword);
+            this.panel1.Controls.Add(this.txtUserName);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Location = new System.Drawing.Point(2, 217);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(488, 104);
+            this.panel1.TabIndex = 23;
+            // 
+            // optSQLServer
+            // 
+            this.optSQLServer.AutoSize = true;
+            this.optSQLServer.Location = new System.Drawing.Point(201, 26);
+            this.optSQLServer.Name = "optSQLServer";
+            this.optSQLServer.Size = new System.Drawing.Size(151, 17);
+            this.optSQLServer.TabIndex = 34;
+            this.optSQLServer.Text = "SQL Server Authentication";
+            this.optSQLServer.UseVisualStyleBackColor = true;
+            this.optSQLServer.CheckedChanged += new System.EventHandler(this.optSQLServer_CheckedChanged);
+            // 
+            // optWindows
+            // 
+            this.optWindows.AutoSize = true;
+            this.optWindows.Checked = true;
+            this.optWindows.Location = new System.Drawing.Point(201, 3);
+            this.optWindows.Name = "optWindows";
+            this.optWindows.Size = new System.Drawing.Size(140, 17);
+            this.optWindows.TabIndex = 33;
+            this.optWindows.TabStop = true;
+            this.optWindows.Text = "Windows Authentication";
+            this.optWindows.UseVisualStyleBackColor = true;
+            this.optWindows.CheckedChanged += new System.EventHandler(this.optWindows_CheckedChanged);
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Enabled = false;
+            this.txtPassword.Location = new System.Drawing.Point(201, 75);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(277, 20);
+            this.txtPassword.TabIndex = 32;
+            // 
+            // txtUserName
+            // 
+            this.txtUserName.Enabled = false;
+            this.txtUserName.Location = new System.Drawing.Point(201, 49);
+            this.txtUserName.Name = "txtUserName";
+            this.txtUserName.Size = new System.Drawing.Size(277, 20);
+            this.txtUserName.TabIndex = 31;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(11, 78);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.TabIndex = 30;
+            this.label2.Text = "Password";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(11, 52);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 13);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "User Name";
             // 
             // Installation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(703, 489);
+            this.ClientSize = new System.Drawing.Size(495, 418);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnTestConnection);
             this.Controls.Add(this.cboSqlServerInstanceList);
             this.Controls.Add(this.lstDatabaseList);
@@ -149,11 +219,12 @@
             this.Controls.Add(this.optLocal);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.btnLicenseMachine);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.progressBar);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Installation";
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -170,7 +241,13 @@
         private System.Windows.Forms.RadioButton optLocal;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnLicenseMachine;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.RadioButton optSQLServer;
+        private System.Windows.Forms.RadioButton optWindows;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.TextBox txtUserName;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
 
