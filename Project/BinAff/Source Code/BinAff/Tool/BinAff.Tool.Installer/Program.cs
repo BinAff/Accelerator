@@ -16,7 +16,7 @@ namespace BinAff.Tool.Installer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Installation());
+            Application.Run(new DatabaseConfiguration());
         }
     }
 }
