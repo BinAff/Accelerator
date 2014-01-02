@@ -840,7 +840,16 @@ namespace Vanilla.Navigator.WinForm
                     pasteNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, pasteNode);
             }
 
-            if (pasteNode != null && this.editNode != null)
+            if (!isNodeTypeEqual(pasteNode,this.editNode))
+            {
+                new PresLib.MessageBox
+                {
+                    DialogueType = PresLib.MessageBox.Type.Error,
+                    Heading = "Splash"
+                }.Show("Destination folder type and the Source folder type cannot be same.");
+                return;
+            }
+            else if (pasteNode != null && this.editNode != null)
             {
                 //check where destination folder is a sub folder of the source folder
                 if (this.CompareNode(pasteNode, this.editNode))
@@ -1067,8 +1076,7 @@ namespace Vanilla.Navigator.WinForm
             }
 
             return true;
-        }
-
+        }        
 
         public void SelectAll()
         {
@@ -1239,6 +1247,20 @@ namespace Vanilla.Navigator.WinForm
         }
 
         #endregion
+
+
+        private Boolean isNodeTypeEqual(TreeNode destination, TreeNode source)
+        {
+            if (destination != null && source != null)
+            {
+                TreeNode destinationRootNode = this.FindRootNode(destination);
+                TreeNode sourceRootNode = this.FindRootNode(source);
+
+               return ((destinationRootNode.Tag as Vanilla.Navigator.Facade.Module.Dto).Code == (sourceRootNode.Tag as Vanilla.Navigator.Facade.Module.Dto).Code); 
+            }
+
+            return false;
+        }
 
         private String GetDirectoryName(TreeNode node, Facade.Artifact.Type type)
         {
