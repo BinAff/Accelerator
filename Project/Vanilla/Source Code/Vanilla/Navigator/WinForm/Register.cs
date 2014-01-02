@@ -7,6 +7,8 @@ using BinAff.Core;
 using BinAff.Facade.Cache;
 using PresLib = BinAff.Presentation.Library;
 
+using Vanilla.Navigator.Facade.Extender;
+
 namespace Vanilla.Navigator.WinForm
 {
 
@@ -92,7 +94,8 @@ namespace Vanilla.Navigator.WinForm
                     default: current = trvForm;
                         break;
                 }
-                tree[i] = this.CreateTreeNodes(module.Artifact);
+                //tree[i] = this.CreateTreeNodes(module.Artifact);
+                tree[i] = this.trvForm.CreateTreeNodes(module.Artifact);
                 tree[i++].Tag = module;
             }
             current.Nodes.Clear();
@@ -176,24 +179,24 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion
 
-        public TreeNode CreateTreeNodes(Facade.Artifact.Dto node)
-        {
-            TreeNode treeNode = new TreeNode(node.FileName)
-            {
-                Tag = node,
-            };
-            if (node.Children != null && node.Children.Count > 0)
-            {
-                foreach (Facade.Artifact.Dto child in node.Children)
-                {
-                    if (child.Style == Facade.Artifact.Type.Directory)
-                    {
-                        treeNode.Nodes.Add(this.CreateTreeNodes(child));
-                    }
-                }
-            }
-            return treeNode;
-        }
+        //public TreeNode CreateTreeNodes(Facade.Artifact.Dto node)
+        //{
+        //    TreeNode treeNode = new TreeNode(node.FileName)
+        //    {
+        //        Tag = node,
+        //    };
+        //    if (node.Children != null && node.Children.Count > 0)
+        //    {
+        //        foreach (Facade.Artifact.Dto child in node.Children)
+        //        {
+        //            if (child.Style == Facade.Artifact.Type.Directory)
+        //            {
+        //                treeNode.Nodes.Add(this.CreateTreeNodes(child));
+        //            }
+        //        }
+        //    }
+        //    return treeNode;
+        //}
 
         private void PopulateNewArtifact(String fileName, Facade.Artifact.Type type, Facade.Artifact.Dto currentArtifact)
         {
@@ -1563,6 +1566,191 @@ namespace Vanilla.Navigator.WinForm
         }
 
         #endregion
+
+        private void pnlArtifact_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+
+        }
+
+        private void lsvContainer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbpForm_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbpCatalogue_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void trvCatalogue_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+        }
+
+        private void tbpReport_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void trvReport_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+        }
+
+        private void Modification_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblFileName_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblCreationDetails_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblType_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblVersion_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblCreatedBy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblCreatedAt_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblModifiedBy_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblModifiedAt_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolTip_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
+
+        private void cmsExplorer_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void cmnuOpen_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmnuView_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmnuSort_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmnuSortSepaerator_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmnuRefresh_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuNewWindow_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmnuSeparator1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmnuSeparator2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmnuSeparator3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmnuCatalog_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmnuReport_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnlAddress_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void txtAddress_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnEnter_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+
+        }
 
     }
 

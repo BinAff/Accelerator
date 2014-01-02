@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Artifact\Category.cs" />
@@ -44,6 +45,7 @@
     <Compile Include="Container\FormDto.cs" />
     <Compile Include="Container\RoleManager.cs" />
     <Compile Include="Container\Server.cs" />
+    <Compile Include="Extender\RegisterExtension.cs" />
     <Compile Include="Module\Dto.cs" />
     <Compile Include="Module\FormDto.cs" />
     <Compile Include="Module\Helper.cs" />

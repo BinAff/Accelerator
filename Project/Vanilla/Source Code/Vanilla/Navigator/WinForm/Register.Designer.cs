@@ -47,6 +47,10 @@
             this.lblCreationDetails = new System.Windows.Forms.Label();
             this.lblType = new System.Windows.Forms.Label();
             this.lblVersion = new System.Windows.Forms.Label();
+            this.lblCreatedBy = new System.Windows.Forms.Label();
+            this.lblCreatedAt = new System.Windows.Forms.Label();
+            this.lblModifiedBy = new System.Windows.Forms.Label();
+            this.lblModifiedAt = new System.Windows.Forms.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.cmsExplorer = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmnuOpen = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,10 +94,6 @@
             this.btnBack = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.lblCreatedBy = new System.Windows.Forms.Label();
-            this.lblCreatedAt = new System.Windows.Forms.Label();
-            this.lblModifiedBy = new System.Windows.Forms.Label();
-            this.lblModifiedAt = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
             this.pnlArtifact.Panel2.SuspendLayout();
@@ -125,6 +125,7 @@
             this.pnlArtifact.Size = new System.Drawing.Size(698, 410);
             this.pnlArtifact.SplitterDistance = 217;
             this.pnlArtifact.TabIndex = 0;
+            this.pnlArtifact.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.pnlArtifact_SplitterMoved);
             // 
             // tbcCategory
             // 
@@ -149,6 +150,7 @@
             this.tbpForm.TabIndex = 0;
             this.tbpForm.Text = "Form";
             this.tbpForm.UseVisualStyleBackColor = true;
+            this.tbpForm.Click += new System.EventHandler(this.tbpForm_Click);
             // 
             // trvForm
             // 
@@ -192,6 +194,7 @@
             this.tbpCatalogue.TabIndex = 1;
             this.tbpCatalogue.Text = "Catalogue";
             this.tbpCatalogue.UseVisualStyleBackColor = true;
+            this.tbpCatalogue.Click += new System.EventHandler(this.tbpCatalogue_Click);
             // 
             // trvCatalogue
             // 
@@ -200,6 +203,7 @@
             this.trvCatalogue.Name = "trvCatalogue";
             this.trvCatalogue.Size = new System.Drawing.Size(203, 378);
             this.trvCatalogue.TabIndex = 0;
+            this.trvCatalogue.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvCatalogue_AfterSelect);
             // 
             // tbpReport
             // 
@@ -211,6 +215,7 @@
             this.tbpReport.TabIndex = 2;
             this.tbpReport.Text = "Report";
             this.tbpReport.UseVisualStyleBackColor = true;
+            this.tbpReport.Click += new System.EventHandler(this.tbpReport_Click);
             // 
             // trvReport
             // 
@@ -219,6 +224,7 @@
             this.trvReport.Name = "trvReport";
             this.trvReport.Size = new System.Drawing.Size(203, 378);
             this.trvReport.TabIndex = 0;
+            this.trvReport.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvReport_AfterSelect);
             // 
             // lsvContainer
             // 
@@ -237,6 +243,7 @@
             this.lsvContainer.View = System.Windows.Forms.View.Details;
             this.lsvContainer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lsvContainer_AfterLabelEdit);
             this.lsvContainer.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lsvContainer_ColumnClick);
+            this.lsvContainer.SelectedIndexChanged += new System.EventHandler(this.lsvContainer_SelectedIndexChanged);
             this.lsvContainer.DoubleClick += new System.EventHandler(this.lsvContainer_DoubleClick);
             this.lsvContainer.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lsvContainer_KeyUp);
             this.lsvContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lsvContainer_MouseDown);
@@ -277,6 +284,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(477, 73);
             this.tableLayoutPanel1.TabIndex = 5;
+            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // Modification
             // 
@@ -286,6 +294,7 @@
             this.Modification.Size = new System.Drawing.Size(64, 13);
             this.Modification.TabIndex = 4;
             this.Modification.Text = "Modification";
+            this.Modification.Click += new System.EventHandler(this.Modification_Click);
             // 
             // lblFileName
             // 
@@ -294,6 +303,7 @@
             this.lblFileName.Name = "lblFileName";
             this.lblFileName.Size = new System.Drawing.Size(0, 13);
             this.lblFileName.TabIndex = 1;
+            this.lblFileName.Click += new System.EventHandler(this.lblFileName_Click);
             // 
             // lblCreationDetails
             // 
@@ -304,6 +314,7 @@
             this.lblCreationDetails.TabIndex = 3;
             this.lblCreationDetails.Text = "Creation";
             this.lblCreationDetails.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblCreationDetails.Click += new System.EventHandler(this.lblCreationDetails_Click);
             // 
             // lblType
             // 
@@ -312,6 +323,7 @@
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(0, 13);
             this.lblType.TabIndex = 2;
+            this.lblType.Click += new System.EventHandler(this.lblType_Click);
             // 
             // lblVersion
             // 
@@ -320,6 +332,47 @@
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(0, 13);
             this.lblVersion.TabIndex = 2;
+            this.lblVersion.Click += new System.EventHandler(this.lblVersion_Click);
+            // 
+            // lblCreatedBy
+            // 
+            this.lblCreatedBy.AutoSize = true;
+            this.lblCreatedBy.Location = new System.Drawing.Point(241, 26);
+            this.lblCreatedBy.Name = "lblCreatedBy";
+            this.lblCreatedBy.Size = new System.Drawing.Size(0, 13);
+            this.lblCreatedBy.TabIndex = 5;
+            this.lblCreatedBy.Click += new System.EventHandler(this.lblCreatedBy_Click);
+            // 
+            // lblCreatedAt
+            // 
+            this.lblCreatedAt.AutoSize = true;
+            this.lblCreatedAt.Location = new System.Drawing.Point(241, 49);
+            this.lblCreatedAt.Name = "lblCreatedAt";
+            this.lblCreatedAt.Size = new System.Drawing.Size(0, 13);
+            this.lblCreatedAt.TabIndex = 6;
+            this.lblCreatedAt.Click += new System.EventHandler(this.lblCreatedAt_Click);
+            // 
+            // lblModifiedBy
+            // 
+            this.lblModifiedBy.AutoSize = true;
+            this.lblModifiedBy.Location = new System.Drawing.Point(360, 26);
+            this.lblModifiedBy.Name = "lblModifiedBy";
+            this.lblModifiedBy.Size = new System.Drawing.Size(0, 13);
+            this.lblModifiedBy.TabIndex = 7;
+            this.lblModifiedBy.Click += new System.EventHandler(this.lblModifiedBy_Click);
+            // 
+            // lblModifiedAt
+            // 
+            this.lblModifiedAt.AutoSize = true;
+            this.lblModifiedAt.Location = new System.Drawing.Point(360, 49);
+            this.lblModifiedAt.Name = "lblModifiedAt";
+            this.lblModifiedAt.Size = new System.Drawing.Size(0, 13);
+            this.lblModifiedAt.TabIndex = 8;
+            this.lblModifiedAt.Click += new System.EventHandler(this.lblModifiedAt_Click);
+            // 
+            // toolTip
+            // 
+            this.toolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip_Popup);
             // 
             // cmsExplorer
             // 
@@ -340,12 +393,14 @@
             this.newToolStripMenuItem});
             this.cmsExplorer.Name = "cmsExplorer";
             this.cmsExplorer.Size = new System.Drawing.Size(186, 264);
+            this.cmsExplorer.Opening += new System.ComponentModel.CancelEventHandler(this.cmsExplorer_Opening);
             // 
             // cmnuOpen
             // 
             this.cmnuOpen.Name = "cmnuOpen";
             this.cmnuOpen.Size = new System.Drawing.Size(185, 22);
             this.cmnuOpen.Text = "Open";
+            this.cmnuOpen.Click += new System.EventHandler(this.cmnuOpen_Click);
             // 
             // cmnuView
             // 
@@ -358,39 +413,40 @@
             this.cmnuView.Name = "cmnuView";
             this.cmnuView.Size = new System.Drawing.Size(185, 22);
             this.cmnuView.Text = "View";
+            this.cmnuView.Click += new System.EventHandler(this.cmnuView_Click);
             // 
             // cmnuLargeIcon
             // 
             this.cmnuLargeIcon.Name = "cmnuLargeIcon";
-            this.cmnuLargeIcon.Size = new System.Drawing.Size(125, 22);
+            this.cmnuLargeIcon.Size = new System.Drawing.Size(129, 22);
             this.cmnuLargeIcon.Text = "Large Icon";
             this.cmnuLargeIcon.Click += new System.EventHandler(this.cmnuLargeIcon_Click);
             // 
             // cmnuSmallIcon
             // 
             this.cmnuSmallIcon.Name = "cmnuSmallIcon";
-            this.cmnuSmallIcon.Size = new System.Drawing.Size(125, 22);
+            this.cmnuSmallIcon.Size = new System.Drawing.Size(129, 22);
             this.cmnuSmallIcon.Text = "Small Icon";
             this.cmnuSmallIcon.Click += new System.EventHandler(this.cmnuSmallIcon_Click);
             // 
             // cmnuList
             // 
             this.cmnuList.Name = "cmnuList";
-            this.cmnuList.Size = new System.Drawing.Size(125, 22);
+            this.cmnuList.Size = new System.Drawing.Size(129, 22);
             this.cmnuList.Text = "List";
             this.cmnuList.Click += new System.EventHandler(this.cmnuList_Click);
             // 
             // cmnuDetail
             // 
             this.cmnuDetail.Name = "cmnuDetail";
-            this.cmnuDetail.Size = new System.Drawing.Size(125, 22);
+            this.cmnuDetail.Size = new System.Drawing.Size(129, 22);
             this.cmnuDetail.Text = "Details";
             this.cmnuDetail.Click += new System.EventHandler(this.cmnuDetail_Click);
             // 
             // cmnuTile
             // 
             this.cmnuTile.Name = "cmnuTile";
-            this.cmnuTile.Size = new System.Drawing.Size(125, 22);
+            this.cmnuTile.Size = new System.Drawing.Size(129, 22);
             this.cmnuTile.Text = "Tile";
             this.cmnuTile.Click += new System.EventHandler(this.cmnuTile_Click);
             // 
@@ -410,72 +466,74 @@
             this.cmnuSort.Name = "cmnuSort";
             this.cmnuSort.Size = new System.Drawing.Size(185, 22);
             this.cmnuSort.Text = "Sort By";
+            this.cmnuSort.Click += new System.EventHandler(this.cmnuSort_Click);
             // 
             // cmnuCreatedAt
             // 
             this.cmnuCreatedAt.Name = "cmnuCreatedAt";
-            this.cmnuCreatedAt.Size = new System.Drawing.Size(129, 22);
+            this.cmnuCreatedAt.Size = new System.Drawing.Size(138, 22);
             this.cmnuCreatedAt.Text = "Created At";
             this.cmnuCreatedAt.Click += new System.EventHandler(this.cmnuCreatedAt_Click);
             // 
             // cmnuCreatedBy
             // 
             this.cmnuCreatedBy.Name = "cmnuCreatedBy";
-            this.cmnuCreatedBy.Size = new System.Drawing.Size(129, 22);
+            this.cmnuCreatedBy.Size = new System.Drawing.Size(138, 22);
             this.cmnuCreatedBy.Text = "Created By";
             this.cmnuCreatedBy.Click += new System.EventHandler(this.cmnuCreatedBy_Click);
             // 
             // cmnuModifiedAt
             // 
             this.cmnuModifiedAt.Name = "cmnuModifiedAt";
-            this.cmnuModifiedAt.Size = new System.Drawing.Size(129, 22);
+            this.cmnuModifiedAt.Size = new System.Drawing.Size(138, 22);
             this.cmnuModifiedAt.Text = "Modified At";
             this.cmnuModifiedAt.Click += new System.EventHandler(this.cmnuModifiedAt_Click);
             // 
             // cmnuModifiedBy
             // 
             this.cmnuModifiedBy.Name = "cmnuModifiedBy";
-            this.cmnuModifiedBy.Size = new System.Drawing.Size(129, 22);
+            this.cmnuModifiedBy.Size = new System.Drawing.Size(138, 22);
             this.cmnuModifiedBy.Text = "Modified By";
             this.cmnuModifiedBy.Click += new System.EventHandler(this.cmnuModifiedBy_Click);
             // 
             // cmnuName
             // 
             this.cmnuName.Name = "cmnuName";
-            this.cmnuName.Size = new System.Drawing.Size(129, 22);
+            this.cmnuName.Size = new System.Drawing.Size(138, 22);
             this.cmnuName.Text = "Name";
             this.cmnuName.Click += new System.EventHandler(this.cmnuName_Click);
             // 
             // cmnuType
             // 
             this.cmnuType.Name = "cmnuType";
-            this.cmnuType.Size = new System.Drawing.Size(129, 22);
+            this.cmnuType.Size = new System.Drawing.Size(138, 22);
             this.cmnuType.Text = "Type";
             this.cmnuType.Click += new System.EventHandler(this.cmnuType_Click);
             // 
             // cmnuVersion
             // 
             this.cmnuVersion.Name = "cmnuVersion";
-            this.cmnuVersion.Size = new System.Drawing.Size(129, 22);
+            this.cmnuVersion.Size = new System.Drawing.Size(138, 22);
             this.cmnuVersion.Text = "Version";
             this.cmnuVersion.Click += new System.EventHandler(this.cmnuVersion_Click);
             // 
             // cmnuSortSepaerator
             // 
             this.cmnuSortSepaerator.Name = "cmnuSortSepaerator";
-            this.cmnuSortSepaerator.Size = new System.Drawing.Size(126, 6);
+            this.cmnuSortSepaerator.Size = new System.Drawing.Size(135, 6);
+            this.cmnuSortSepaerator.Click += new System.EventHandler(this.cmnuSortSepaerator_Click);
             // 
             // cmnuAscending
             // 
             this.cmnuAscending.Name = "cmnuAscending";
-            this.cmnuAscending.Size = new System.Drawing.Size(129, 22);
+            this.cmnuAscending.Size = new System.Drawing.Size(138, 22);
             this.cmnuAscending.Text = "Ascending";
             this.cmnuAscending.Click += new System.EventHandler(this.cmnuAscending_Click);
             // 
             // cmnuDescending
             // 
             this.cmnuDescending.Name = "cmnuDescending";
-            this.cmnuDescending.Size = new System.Drawing.Size(129, 22);
+            this.cmnuDescending.Size = new System.Drawing.Size(138, 22);
             this.cmnuDescending.Text = "Descending";
             this.cmnuDescending.Click += new System.EventHandler(this.cmnuDescending_Click);
             // 
@@ -484,17 +542,20 @@
             this.cmnuRefresh.Name = "cmnuRefresh";
             this.cmnuRefresh.Size = new System.Drawing.Size(185, 22);
             this.cmnuRefresh.Text = "Refresh";
+            this.cmnuRefresh.Click += new System.EventHandler(this.cmnuRefresh_Click);
             // 
             // mnuNewWindow
             // 
             this.mnuNewWindow.Name = "mnuNewWindow";
             this.mnuNewWindow.Size = new System.Drawing.Size(185, 22);
             this.mnuNewWindow.Text = "Open in a New Window";
+            this.mnuNewWindow.Click += new System.EventHandler(this.mnuNewWindow_Click);
             // 
             // cmnuSeparator1
             // 
             this.cmnuSeparator1.Name = "cmnuSeparator1";
             this.cmnuSeparator1.Size = new System.Drawing.Size(182, 6);
+            this.cmnuSeparator1.Click += new System.EventHandler(this.cmnuSeparator1_Click);
             // 
             // cmnuCut
             // 
@@ -524,6 +585,7 @@
             // 
             this.cmnuSeparator2.Name = "cmnuSeparator2";
             this.cmnuSeparator2.Size = new System.Drawing.Size(182, 6);
+            this.cmnuSeparator2.Click += new System.EventHandler(this.cmnuSeparator2_Click);
             // 
             // cmnuDelete
             // 
@@ -544,6 +606,7 @@
             // 
             this.cmnuSeparator3.Name = "cmnuSeparator3";
             this.cmnuSeparator3.Size = new System.Drawing.Size(182, 6);
+            this.cmnuSeparator3.Click += new System.EventHandler(this.cmnuSeparator3_Click);
             // 
             // newToolStripMenuItem
             // 
@@ -555,32 +618,35 @@
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // cmnuDirectory
             // 
             this.cmnuDirectory.Name = "cmnuDirectory";
-            this.cmnuDirectory.Size = new System.Drawing.Size(152, 22);
+            this.cmnuDirectory.Size = new System.Drawing.Size(122, 22);
             this.cmnuDirectory.Text = "Directory";
             this.cmnuDirectory.Click += new System.EventHandler(this.cmnuDirectory_Click);
             // 
             // cmnuForm
             // 
             this.cmnuForm.Name = "cmnuForm";
-            this.cmnuForm.Size = new System.Drawing.Size(152, 22);
+            this.cmnuForm.Size = new System.Drawing.Size(122, 22);
             this.cmnuForm.Text = "Form";
             this.cmnuForm.Click += new System.EventHandler(this.cmnuForm_Click);
             // 
             // cmnuCatalog
             // 
             this.cmnuCatalog.Name = "cmnuCatalog";
-            this.cmnuCatalog.Size = new System.Drawing.Size(152, 22);
+            this.cmnuCatalog.Size = new System.Drawing.Size(122, 22);
             this.cmnuCatalog.Text = "Catalog";
+            this.cmnuCatalog.Click += new System.EventHandler(this.cmnuCatalog_Click);
             // 
             // cmnuReport
             // 
             this.cmnuReport.Name = "cmnuReport";
-            this.cmnuReport.Size = new System.Drawing.Size(152, 22);
+            this.cmnuReport.Size = new System.Drawing.Size(122, 22);
             this.cmnuReport.Text = "Report";
+            this.cmnuReport.Click += new System.EventHandler(this.cmnuReport_Click);
             // 
             // imgMisc
             // 
@@ -608,6 +674,7 @@
             this.pnlAddress.Name = "pnlAddress";
             this.pnlAddress.Size = new System.Drawing.Size(698, 20);
             this.pnlAddress.TabIndex = 6;
+            this.pnlAddress.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlAddress_Paint);
             // 
             // txtAddress
             // 
@@ -616,6 +683,7 @@
             this.txtAddress.Name = "txtAddress";
             this.txtAddress.Size = new System.Drawing.Size(471, 20);
             this.txtAddress.TabIndex = 1;
+            this.txtAddress.TextChanged += new System.EventHandler(this.txtAddress_TextChanged);
             // 
             // btnEnter
             // 
@@ -627,6 +695,7 @@
             this.btnEnter.TabIndex = 4;
             this.btnEnter.Text = "Æ";
             this.btnEnter.UseVisualStyleBackColor = true;
+            this.btnEnter.Click += new System.EventHandler(this.btnEnter_Click);
             // 
             // btnBack
             // 
@@ -638,6 +707,7 @@
             this.btnBack.TabIndex = 3;
             this.btnBack.Text = "Å";
             this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // btnUp
             // 
@@ -649,6 +719,7 @@
             this.btnUp.TabIndex = 2;
             this.btnUp.Text = "Ç";
             this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
             // 
             // txtSearch
             // 
@@ -659,38 +730,7 @@
             this.txtSearch.Size = new System.Drawing.Size(164, 20);
             this.txtSearch.TabIndex = 5;
             this.txtSearch.Text = "Search...";
-            // 
-            // lblCreatedBy
-            // 
-            this.lblCreatedBy.AutoSize = true;
-            this.lblCreatedBy.Location = new System.Drawing.Point(241, 26);
-            this.lblCreatedBy.Name = "lblCreatedBy";
-            this.lblCreatedBy.Size = new System.Drawing.Size(0, 13);
-            this.lblCreatedBy.TabIndex = 5;
-            // 
-            // lblCreatedAt
-            // 
-            this.lblCreatedAt.AutoSize = true;
-            this.lblCreatedAt.Location = new System.Drawing.Point(241, 49);
-            this.lblCreatedAt.Name = "lblCreatedAt";
-            this.lblCreatedAt.Size = new System.Drawing.Size(0, 13);
-            this.lblCreatedAt.TabIndex = 6;
-            // 
-            // lblModifiedBy
-            // 
-            this.lblModifiedBy.AutoSize = true;
-            this.lblModifiedBy.Location = new System.Drawing.Point(360, 26);
-            this.lblModifiedBy.Name = "lblModifiedBy";
-            this.lblModifiedBy.Size = new System.Drawing.Size(0, 13);
-            this.lblModifiedBy.TabIndex = 7;
-            // 
-            // lblModifiedAt
-            // 
-            this.lblModifiedAt.AutoSize = true;
-            this.lblModifiedAt.Location = new System.Drawing.Point(360, 49);
-            this.lblModifiedAt.Name = "lblModifiedAt";
-            this.lblModifiedAt.Size = new System.Drawing.Size(0, 13);
-            this.lblModifiedAt.TabIndex = 8;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // Register
             // 

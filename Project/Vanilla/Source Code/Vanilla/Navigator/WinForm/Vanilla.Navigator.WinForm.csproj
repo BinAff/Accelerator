@@ -46,6 +46,12 @@
     <Compile Include="Container.Designer.cs">
       <DependentUpon>Container.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModuleBrowser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModuleBrowser.Designer.cs">
+      <DependentUpon>ModuleBrowser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pics.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -127,6 +133,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Container.resx">
       <DependentUpon>Container.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModuleBrowser.resx">
+      <DependentUpon>ModuleBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pics.resx">
       <Generator>ResXFileCodeGenerator</Generator>
