@@ -94,7 +94,7 @@ namespace AutoTourism.Customer.WinForm
         public CustomerForm(CustomerFacade.Dto dto)
         {
             InitializeComponent();
-            this.dto = dto;   
+            this.dto = dto;  
         }
 
         #endregion

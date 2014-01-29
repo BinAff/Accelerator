@@ -230,7 +230,6 @@ namespace BinAff.Core
                 this.AssignParameter(this.CreateStoredProcedure);
                 this.AddOutParameter("@Id", DbType.Int64, this.Data.Id);
                 this.command.ExecuteNonQuery();
-
                 this.Data.Id = Convert.ToInt64(this.command.Parameters["@Id"].Value);
                 if (this.Data.Id > 0) status = this.CreateAfter();                
             }

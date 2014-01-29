@@ -146,7 +146,7 @@ namespace Vanilla.Navigator.WinForm
         //    current.Nodes.AddRange(tree);
         //}
 
-        public TreeNode CreateTreeNodes(Facade.Artifact.Dto node)
+        public TreeNode CreateTreeNodes(Vanilla.Utility.Facade.Artifact.Dto node)
         {
             TreeNode treeNode = new TreeNode(node.FileName)
             {
@@ -154,9 +154,9 @@ namespace Vanilla.Navigator.WinForm
             };
             if (node.Children != null && node.Children.Count > 0)
             {
-                foreach (Facade.Artifact.Dto child in node.Children)
+                foreach (Vanilla.Utility.Facade.Artifact.Dto child in node.Children)
                 {
-                    if (child.Style == Facade.Artifact.Type.Directory)
+                    if (child.Style == Vanilla.Utility.Facade.Artifact.Type.Directory)
                     {
                         treeNode.Nodes.Add(this.CreateTreeNodes(child));
                     }
@@ -654,19 +654,19 @@ namespace Vanilla.Navigator.WinForm
         /// Attach parent to new node  and instantiate path with parent path
         /// </summary>
         /// <param name="parent"></param>
-        private void AttachNodes(BinAff.Facade.Library.Dto parent, Facade.Artifact.Dto child)
+        private void AttachNodes(BinAff.Facade.Library.Dto parent, Vanilla.Utility.Facade.Artifact.Dto child)
         {
-            Facade.Artifact.Dto parentDto;
-            if (parent.GetType().ToString() == "Vanilla.Navigator.Facade.Module.Dto") //Adding to module
+            Vanilla.Utility.Facade.Artifact.Dto parentDto;
+            if (parent.GetType().ToString() == "Vanilla.Utility.Facade.Module.Dto") //Adding to module
             {
-                parentDto = (parent as Facade.Module.Dto).Artifact;
+                parentDto = (parent as Vanilla.Utility.Facade.Module.Dto).Artifact;
             }
             else
             {
-                parentDto = parent as Facade.Artifact.Dto;
+                parentDto = parent as Vanilla.Utility.Facade.Artifact.Dto;
                 child.Parent = parent;
             }
-            if (parentDto.Children == null) parentDto.Children = new List<Facade.Artifact.Dto>();
+            if (parentDto.Children == null) parentDto.Children = new List<Vanilla.Utility.Facade.Artifact.Dto>();
             parentDto.Children.Add(child);
             child.Path = parentDto.Path;
         }

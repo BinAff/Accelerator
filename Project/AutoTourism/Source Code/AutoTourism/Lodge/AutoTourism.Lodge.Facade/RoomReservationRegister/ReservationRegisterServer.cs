@@ -9,6 +9,7 @@ using CrystalLodge = Crystal.Lodge.Component;
 using CrystalAction = Crystal.Customer.Component.Action;
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using CrystalReservation = Crystal.Reservation.Component;
+using RuleFacade = Autotourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 {
@@ -22,6 +23,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
                 {
                     RoomReservationDtoList = this.GetBookingSearchRecords(bookingStatusId, startDate, endDate).Value,
                     StatusList = this.GetLodgeReservationStatus().Value,
+                    configurationRuleDto = this.ReadConfigurationRule().Value
                 }
             };
 
@@ -127,6 +129,12 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 
             return strbRoom.ToString().Substring(1);
         }
+
+        private ReturnObject<RuleFacade.ConfigurationRuleDto> ReadConfigurationRule()
+        {
+            return new RuleFacade.RuleServer().ReadConfigurationRule();
+        }
+
     }
 
 }

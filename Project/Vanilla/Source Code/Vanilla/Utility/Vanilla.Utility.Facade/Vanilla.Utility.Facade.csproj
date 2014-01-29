@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5FD93A71-D5B7-43FF-8996-29232B518B3A}</ProjectGuid>
+    <ProjectGuid>{A10719AF-5C9F-4903-AB83-089EC502EEA2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Vanilla.Navigator.Facade</RootNamespace>
-    <AssemblyName>Vanilla.Navigator.Facade</AssemblyName>
+    <RootNamespace>Vanilla.Utility.Facade</RootNamespace>
+    <AssemblyName>Vanilla.Utility.Facade</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -26,66 +26,68 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Reference\Lib\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Container\Dto.cs" />
-    <Compile Include="Container\FormDto.cs" />
-    <Compile Include="Container\RoleManager.cs" />
-    <Compile Include="Container\Server.cs" />
+    <Compile Include="Artifact\Category.cs" />
+    <Compile Include="Artifact\Dto.cs" />
+    <Compile Include="Artifact\FormDto.cs" />
+    <Compile Include="Artifact\Server.cs" />
+    <Compile Include="Artifact\Type.cs" />
+    <Compile Include="Extender\RegisterExtension.cs" />
+    <Compile Include="Module\Dto.cs" />
+    <Compile Include="Module\FormDto.cs" />
+    <Compile Include="Module\Helper.cs" />
+    <Compile Include="Module\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rule\Dto.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Component\Autotourism.Component.Customer\Autotourism.Component.Customer.csproj">
-      <Project>{9e9f89c1-91be-4595-8d69-3e56afc1bc4c}</Project>
+      <Project>{9E9F89C1-91BE-4595-8D69-3E56AFC1BC4C}</Project>
       <Name>Autotourism.Component.Customer</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">
-      <Project>{2099fb59-6194-4bc7-8ab2-6cabe513082a}</Project>
+      <Project>{2099FB59-6194-4BC7-8AB2-6CABE513082A}</Project>
       <Name>AutoTourism.Customer.Facade</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Lodge\AutoTourism.Lodge.Facade\AutoTourism.Lodge.Facade.csproj">
+      <Project>{87B249D1-5284-4376-9C8F-990025C3AEDD}</Project>
+      <Name>AutoTourism.Lodge.Facade</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
-      <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
+      <Project>{D25DF173-3451-49AA-9570-269B2880C393}</Project>
       <Name>BinAff.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
       <Project>{F6AB9943-F271-4293-B13E-DC58DEF3F59D}</Project>
       <Name>BinAff.Facade.Library</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Customer\Crystal.Customer.Component\Crystal.Customer.Component.csproj">
-      <Project>{cf2b7682-fa1e-4cdc-8a8c-30d610d18c5e}</Project>
-      <Name>Crystal.Customer.Component</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Guardian\Component\Crystal.Guardian.Component.csproj">
-      <Project>{1c4faab4-7ce4-4a10-9600-855a984b0805}</Project>
+      <Project>{1C4FAAB4-7CE4-4A10-9600-855A984B0805}</Project>
       <Name>Crystal.Guardian.Component</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\License\Crystal.License\Crystal.License.csproj">
-      <Project>{05dedcc9-9d79-4f0e-a869-8c6f880a13b8}</Project>
+      <Project>{05DEDCC9-9D79-4F0E-A869-8C6F880A13B8}</Project>
       <Name>Crystal.License</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Navigator\Component\Crystal.Navigator.Component.csproj">
       <Project>{3E089798-771D-44F3-8A99-C990AB47A0B4}</Project>
       <Name>Crystal.Navigator.Component</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Navigator\Rule\Crystal.Navigator.Rule.csproj">
-      <Project>{a42c45cd-ffbb-425e-a5d8-540b365d97bb}</Project>
-      <Name>Crystal.Navigator.Rule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
-      <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
-      <Name>Vanilla.Guardian.Facade</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
-      <Project>{A10719AF-5C9F-4903-AB83-089EC502EEA2}</Project>
-      <Name>Vanilla.Utility.Facade</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

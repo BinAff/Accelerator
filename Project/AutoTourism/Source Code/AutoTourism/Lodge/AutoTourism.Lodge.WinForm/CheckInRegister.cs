@@ -121,23 +121,23 @@ namespace AutoTourism.Lodge.WinForm
 
         private void checkOutToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer();           
-            ReturnObject<Boolean> retVal = new ReturnObject<bool>();
+            //LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer();           
+            //ReturnObject<Boolean> retVal = new ReturnObject<bool>();
 
-            if (dgvCheckIn.DataSource != null && dgvCheckIn.SelectedRows.Count > 0)
-            {
-                LodgeFacade.CheckInRegister.Dto dto = ((List<LodgeFacade.CheckInRegister.Dto>)dgvCheckIn.DataSource)[dgvCheckIn.SelectedRows[0].Index];
+            //if (dgvCheckIn.DataSource != null && dgvCheckIn.SelectedRows.Count > 0)
+            //{
+            //    LodgeFacade.CheckInRegister.Dto dto = ((List<LodgeFacade.CheckInRegister.Dto>)dgvCheckIn.DataSource)[dgvCheckIn.SelectedRows[0].Index];
 
-                LodgeFacade.RoomReservation.Dto reservationDto = new LodgeFacade.RoomReservation.Dto()
-                {
-                    Id = dto.Reservation.Id,
-                    BookingStatusId = Convert.ToInt64(LodgeReservationStatus.Closed),
-                };
+            //    LodgeFacade.RoomReservation.Dto reservationDto = new LodgeFacade.RoomReservation.Dto()
+            //    {
+            //        Id = dto.Reservation.Id,
+            //        BookingStatusId = Convert.ToInt64(LodgeReservationStatus.Closed),
+            //    };
 
-                retVal = reservation.ChangeReservationStatus(reservationDto);
+            //    retVal = reservation.ChangeReservationStatus(reservationDto);
 
-                //base.ShowMessage(retVal); //Show message  
-            }
+            //    //base.ShowMessage(retVal); //Show message  
+            //}
         }
 
         //private void viewToolStripMenuItem_Click(object sender, System.EventArgs e)

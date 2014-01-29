@@ -46,12 +46,6 @@
     <Compile Include="Container.Designer.cs">
       <DependentUpon>Container.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModuleBrowser.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ModuleBrowser.Designer.cs">
-      <DependentUpon>ModuleBrowser.cs</DependentUpon>
-    </Compile>
     <Compile Include="Pics.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -125,6 +119,10 @@
       <Project>{1292d85c-1a35-4978-9f23-2e502f1cb45f}</Project>
       <Name>Vanilla.Tool.WinForm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
+      <Project>{A10719AF-5C9F-4903-AB83-089EC502EEA2}</Project>
+      <Name>Vanilla.Utility.Facade</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Facade\Vanilla.Navigator.Facade.csproj">
       <Project>{5fd93a71-d5b7-43ff-8996-29232b518b3a}</Project>
       <Name>Vanilla.Navigator.Facade</Name>
@@ -133,9 +131,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Container.resx">
       <DependentUpon>Container.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModuleBrowser.resx">
-      <DependentUpon>ModuleBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pics.resx">
       <Generator>ResXFileCodeGenerator</Generator>
