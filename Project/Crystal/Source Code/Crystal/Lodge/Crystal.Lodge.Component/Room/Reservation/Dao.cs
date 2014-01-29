@@ -34,7 +34,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
             base.AssignParameter(procedureName);
             base.AddInParameter("@NoOfDays", DbType.Int16, ((Data)this.Data).NoOfDays);
             base.AddInParameter("@NoOfPersons", DbType.Int16, ((Data)this.Data).NoOfPersons);
-            base.AddInParameter("@NoOfRooms", DbType.Int64, ((Data)this.Data).NoOfRooms);
+            base.AddInParameter("@NoOfRooms", DbType.Int16, ((Data)this.Data).NoOfRooms);
             base.AddInParameter("@Description", DbType.String, ((Data)this.Data).Description);
             base.AddInParameter("@Advance", DbType.Double, ((Data)this.Data).Advance);
         }

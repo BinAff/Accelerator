@@ -15,27 +15,30 @@ namespace AutoTourism.Lodge.WinForm
     public partial class RoomReservationRegister : Form
     {
 
-        private RuleFacade.ConfigurationRuleDto configurationRuleDto;
-       
-        public RoomReservationRegister(RuleFacade.ConfigurationRuleDto ruleDto)
+        //private RuleFacade.ConfigurationRuleDto configurationRuleDto;
+
+        public RoomReservationRegister()
         {
             InitializeComponent();
-            this.configurationRuleDto = ruleDto;
+            //this.configurationRuleDto = ruleDto;
             //base.IsOkButton = false;
 
             dtBookingFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             dtBookingTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
 
-            if (this.configurationRuleDto == null ||this.configurationRuleDto.DateFormat == String.Empty)
-            {
-                dtBookingFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
-                dtBookingTo.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
-            }
-            else
-            {
-                dtBookingFrom.CustomFormat = this.configurationRuleDto.DateFormat;
-                dtBookingTo.CustomFormat = this.configurationRuleDto.DateFormat;
-            }
+            dtBookingFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+            dtBookingTo.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+
+            //if (this.configurationRuleDto == null || this.configurationRuleDto.DateFormat == String.Empty)
+            //{
+            //    dtBookingFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+            //    dtBookingTo.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+            //}
+            //else
+            //{
+            //    dtBookingFrom.CustomFormat = this.configurationRuleDto.DateFormat;
+            //    dtBookingTo.CustomFormat = this.configurationRuleDto.DateFormat;
+            //}
 
             dgvReservation.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             for (int i = 0; i < dgvReservation.Columns.Count; i++) dgvReservation.Columns[i].ReadOnly = true;
@@ -44,10 +47,44 @@ namespace AutoTourism.Lodge.WinForm
             LoadForm();
         }
 
+        //public RoomReservationRegister(RuleFacade.ConfigurationRuleDto ruleDto)
+        //{
+        //    InitializeComponent();
+        //    this.configurationRuleDto = ruleDto;
+        //    //base.IsOkButton = false;
+
+        //    dtBookingFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+        //    dtBookingTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+
+        //    if (this.configurationRuleDto == null ||this.configurationRuleDto.DateFormat == String.Empty)
+        //    {
+        //        dtBookingFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+        //        dtBookingTo.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+        //    }
+        //    else
+        //    {
+        //        dtBookingFrom.CustomFormat = this.configurationRuleDto.DateFormat;
+        //        dtBookingTo.CustomFormat = this.configurationRuleDto.DateFormat;
+        //    }
+
+        //    dgvReservation.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+        //    for (int i = 0; i < dgvReservation.Columns.Count; i++) dgvReservation.Columns[i].ReadOnly = true;
+        //    dgvReservation.MultiSelect = false;
+
+        //    LoadForm();
+        //}
+
         private void LoadForm()
         {
             LodgeFacade.RoomReservationRegister.IReservationRegister reservationRegister = new LodgeFacade.RoomReservationRegister.ReservationRegisterServer();
             ReturnObject<LodgeFacade.RoomReservationRegister.FormDto> ret = reservationRegister.LoadRegisterForm(Convert.ToInt64(LodgeReservationStatus.Open), dtBookingFrom.Value, dtBookingTo.Value);
+
+            //populate rule
+            if (ret.Value.configurationRuleDto != null && ret.Value.configurationRuleDto.DateFormat != null)
+            {
+                dtBookingFrom.CustomFormat = ret.Value.configurationRuleDto.DateFormat;
+                dtBookingTo.CustomFormat = ret.Value.configurationRuleDto.DateFormat;
+            }
 
             if (ret.Value.RoomReservationDtoList != null && ret.Value.RoomReservationDtoList.Count > 0)
                 PopulateReservationData(ret.Value.RoomReservationDtoList);

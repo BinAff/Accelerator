@@ -17,6 +17,7 @@ namespace AutoTourism.Customer.WinForm
     public partial class CustomerRegister : PresentationLibrary.Form
     {
         private CustomerFacade.FormDto formDto;
+        
         //private List<Facade.LodgeManagement.Reservation.Dto> reservationDtoList;
         //private Facade.CustomerManagement.Rule.Dto customerRule;
 
@@ -34,6 +35,12 @@ namespace AutoTourism.Customer.WinForm
         {
             InitializeComponent();
         }
+
+        //public CustomerRegister(CustomerFacade.Dto dto)
+        //{            
+        //    InitializeComponent();
+        //    this.dto = dto;
+        //}        
 
         private void CustomerRegister_Load(object sender, System.EventArgs e)
         {
@@ -130,10 +137,11 @@ namespace AutoTourism.Customer.WinForm
 
         private void cboCustomer_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            //if (cboCustomer.SelectedIndex != -1)
-            //{
-            //    this.View();
-            //}
+            if (cboCustomer.SelectedIndex != -1)
+            {
+                CustomerFacade.Dto dto = (CustomerFacade.Dto)cboCustomer.SelectedItem;
+                this.Close();
+            }
         }
 
         //protected override void btnRefresh_Click(object sender, EventArgs e)
@@ -165,7 +173,7 @@ namespace AutoTourism.Customer.WinForm
         private void dgvBooking_CellDoubleClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
         {
             //if (this.cboCustomer.SelectedIndex != -1 && this.reservationDtoList != null)
-            //{   
+            //{
             //    AutoTourism.Facade.LodgeManagement.Reservation.Dto reservationDto = this.reservationDtoList[e.RowIndex];
             //    AutoTourism.Facade.LodgeManagement.Reservation.Dto bookingDto = new Facade.LodgeManagement.Reservation.Dto()
             //    {
@@ -234,7 +242,7 @@ namespace AutoTourism.Customer.WinForm
             this.lstContact.DataSource = null;
             this.txtEmail.Text = String.Empty;
 
-            dgvBooking.DataSource = null;
+            //dgvBooking.DataSource = null;
         }
 
         //private String GetRooms(List<Facade.Configuration.Room.Dto> roomList)
@@ -280,6 +288,15 @@ namespace AutoTourism.Customer.WinForm
 
             //    this.Close();
             //}
+        }
+
+        private void btnSelect_Click(object sender, EventArgs e)
+        {
+            if (cboCustomer.SelectedIndex != -1)
+            {   
+                this.Tag = (CustomerFacade.Dto)cboCustomer.SelectedItem;
+                this.Close();
+            }
         }
                 
     }

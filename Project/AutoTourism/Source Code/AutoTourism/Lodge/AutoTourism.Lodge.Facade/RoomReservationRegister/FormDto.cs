@@ -1,8 +1,6 @@
 ﻿using BinAff.Core;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using RuleFacade = Autotourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 {
@@ -10,5 +8,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
     {
         public List<Dto> RoomReservationDtoList { get; set; }
         public List<Table> StatusList { get; set; }
+        public RuleFacade.ConfigurationRuleDto configurationRuleDto { get; set; }
     }
 }

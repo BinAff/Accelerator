@@ -9,39 +9,90 @@ using RuleFacade = Autotourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
-    public class ReservationServer : IReservation
-    {       
+    public class ReservationServer : BinAff.Facade.Library.Server
+    {
+
+        public ReservationServer(FormDto formDto)
+            : base(formDto)
+        {
+
+        }
+
+        public override void LoadForm()
+        {
+            FormDto formDto = this.FormDto as FormDto;
+            formDto.roomList = this.ReadAllRoom().Value;
+            formDto.configurationRuleDto = this.ReadConfigurationRule().Value;
+
+            //formDto.InitialList = this.ReadAllInitial();
+            //formDto.StateList = this.ReadAllState().Value;
+            //formDto.IdentityProofTypeList = this.ReadAllIdentityProof().Value;
+            //formDto.DtoList = this.ReadAllCustomer().Value;
+            //formDto.customerRuleDto = this.ReadCustomerRule().Value;
+        }
+
+        public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
+        {
+            CrystalLodge.Room.Reservation.Data reservation = data as CrystalLodge.Room.Reservation.Data;
+            return new Dto
+            {
+                Id = data.Id,                
+            };
+        }
+
+        public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
+        {
+            
+            Dto reservation = dto as Dto;
+            return new CrystalLodge.Room.Reservation.Data
+            {
+                Id = dto.Id,                
+                NoOfDays = reservation.NoOfDays,
+                NoOfPersons = reservation.NoOfPersons,
+                NoOfRooms = reservation.NoOfRooms,
+                Advance = reservation.Advance,
+                ActivityDate = reservation.BookingFrom,
+                Date = DateTime.Now,
+                ProductList = reservation.RoomList == null ? null : GetRoomDataList(reservation.RoomList),
+                Status = new Crystal.Customer.Component.Action.Status.Data
+                {
+                    Id = System.Convert.ToInt64(RoomStatus.Open)
+                },
+                Description=String.Empty,//description will be added later if required
+            };
+        }
+
 
         #region "IReservation"
 
-        ReturnObject<FormDto> IReservation.LoadForm()
-        {
-            ReturnObject<FormDto> ret = new ReturnObject<FormDto>()
-            {
-                Value = new FormDto()
-                {
-                    roomList = this.ReadAllRoom().Value,
-                    configurationRuleDto = this.ReadConfigurationRule().Value
-                }
-            };
+        //ReturnObject<FormDto> IReservation.LoadForm()
+        //{
+        //    ReturnObject<FormDto> ret = new ReturnObject<FormDto>()
+        //    {
+        //        Value = new FormDto()
+        //        {
+        //            roomList = this.ReadAllRoom().Value,
+        //            configurationRuleDto = this.ReadConfigurationRule().Value
+        //        }
+        //    };
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
-        ReturnObject<Boolean> IReservation.Save(Dto dto)
-        {
-            return this.SaveReservation(dto);
-        }
+        //ReturnObject<Boolean> IReservation.Save(Dto dto)
+        //{
+        //    return this.SaveReservation(dto);
+        //}
 
         //ReturnObject<List<Dto>> IReservation.GetBooking(Int64 customerId)
         //{
         //    return this.GetCustomerBooking(customerId);
         //}
 
-        ReturnObject<Boolean> IReservation.ChangeReservationStatus(Dto dto)
-        {
-            return this.UpdateReservationStatus(dto);
-        }
+        //ReturnObject<Boolean> IReservation.ChangeReservationStatus(Dto dto)
+        //{
+        //    return this.UpdateReservationStatus(dto);
+        //}
         #endregion
 
         private ReturnObject<RuleFacade.ConfigurationRuleDto> ReadConfigurationRule()
@@ -56,27 +107,23 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return new LodgeConfigurationFacade.Room.Server(null).ReadAllRoom();
         }
 
-        private ReturnObject<Boolean> SaveReservation(Dto dto)
+        public override void Add()
         {
-            ICrud crud = new CrystalLodge.Room.Reservation.Server(new CrystalLodge.Room.Reservation.Data
-            {
-                Id = dto.Id,
-                //Description = "",
-                NoOfDays = dto.NoOfDays,
-                NoOfPersons = dto.NoOfPersons,
-                NoOfRooms = dto.NoOfRooms,
-                Advance = dto.Advance,
-                //IsCheckedIn = false,
+            this.Save();
+        }
 
-                ActivityDate = dto.BookingFrom,
+        public override void Change()
+        {
+            this.Save();
+        }
 
-                Date = DateTime.Now,
-                ProductList = dto.RoomList == null ? null : GetRoomDataList(dto.RoomList),
-                Status = new Crystal.Customer.Component.Action.Status.Data
-                {
-                },
-            });
-            return crud.Save();            
+        private void Save()
+        {
+            ICrud crud = new CrystalLodge.Room.Reservation.Server(this.Convert((this.FormDto as FormDto).Dto) as CrystalLodge.Room.Reservation.Data);
+            ReturnObject<Boolean> ret = crud.Save();
+
+            (this.FormDto as FormDto).Dto.Id = (crud as Crud).Data.Id;
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);           
         }
 
         private List<Data> GetRoomDataList(List<LodgeConfigurationFacade.Room.Dto> RoomList)
@@ -197,11 +244,14 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return crud.Save();
         }
 
+        //-- RoomStaus ID is mapped with database table RoomReservationStatus
         public enum RoomStatus
         {
-            Unoccupied = 10001,
-            Occupied = 10002,
-            Closed = 10003
+            Open = 10001,
+            Close = 10002,
+            Cancel = 10003,
+            CheckIn = 10004,
+            Modify = 10005
         }
 
     }

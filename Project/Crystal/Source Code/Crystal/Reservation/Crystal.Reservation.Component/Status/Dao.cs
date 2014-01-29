@@ -18,8 +18,8 @@ namespace Crystal.Reservation.Component.Status
         {
             base.CreateStoredProcedure = "[Reservation].[StatusInsert]";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Reservation].[StatusRead]";
-            base.ReadAllStoredProcedure = "[Reservation].[StatusReadAll]";
+            base.ReadStoredProcedure = "[Lodge].[RoomReservationStatusRead]";
+            base.ReadAllStoredProcedure = "[Lodge].[RoomReservationStatusReadAll]";
             base.UpdateStoredProcedure = "[Reservation].[StatusUpdate]";
             base.NumberOfRowsAffectedInUpdate = -1;
             base.DeleteStoredProcedure = "[Reservation].[StatusDelete]";
