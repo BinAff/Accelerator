@@ -766,9 +766,8 @@ namespace Vanilla.Navigator.WinForm
             this.pnlNote.Show();
             if (this.pnlNote.Controls.Count == 0)
             {
-                StickyNote stickyNote = StickyNote.Create(this);
+                StickyNote stickyNote = StickyNote.Create(this.pnlNote.Controls);
                 stickyNote.TopLevel = false;
-                this.pnlNote.Controls.Add(stickyNote);
                 stickyNote.Show();
             }
         }

@@ -22,6 +22,8 @@ namespace Vanilla.Tool.WinfForm
         private Int32 shownHeight;
         private Boolean isInternallyClosed;
 
+        private static Control.ControlCollection containerControl;
+
         private StickyNote()
         {
             InitializeComponent();
@@ -44,14 +46,28 @@ namespace Vanilla.Tool.WinfForm
             StickyNote note = new StickyNote
             {
                 ShowInTaskbar = false,
-                //MdiParent = mdiParent
+                MdiParent = mdiParent
             };
             notes.Add(note);
             return note;
         }
 
+        public static StickyNote Create(Control.ControlCollection controlCollection)
+        {
+            containerControl = controlCollection;
+            StickyNote note = new StickyNote
+            {
+                ShowInTaskbar = false,
+                TopLevel = false,
+            };
+            notes.Add(note);
+            controlCollection.Add(note);
+            return note;
+        }
+
         private void pnlTitleBar_MouseDown(object sender, MouseEventArgs e)
         {
+            ((StickyNote)((Panel)sender).Parent).BringToFront();
             if (e.Button == MouseButtons.Left)
             {
                 ReleaseCapture();
@@ -96,12 +112,19 @@ namespace Vanilla.Tool.WinfForm
             StickyNote note = new StickyNote
             {
                 ShowInTaskbar = false,
-                MdiParent = this.ParentForm,
+                TopLevel = false,
                 Top = this.Top + 50,
                 Left = this.Left + 50,
                 StartPosition = FormStartPosition.Manual
             };
+
+            if (containerControl != null)
+            {
+                containerControl.Add(note);
+            }
             notes.Add(note);
+
+            note.BringToFront();
             note.Show();
             this.txtMsg.Focus();
         }
