@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 
 using BinAff.Presentation.Library.Extension;
+using BinAff.SqlServerUtil;
 
 namespace BinAff.Tool.License
 {
@@ -31,16 +32,14 @@ namespace BinAff.Tool.License
 
         private void optLocal_CheckedChanged(object sender, EventArgs e)
         {
-            this.UseWaitCursor = true;
-            this.cboSqlServerInstanceList.Bind<String>(new Facade.FingurePrintManager.Server().GetSqlServerInstances(true));
-            this.UseWaitCursor = false;
+            this.cboSqlServerInstanceList.DisplayMember = "Name";
+            this.cboSqlServerInstanceList.Bind<Handler.InstanceInfo>(new Facade.FingurePrintManager.Server().GetSqlServerInstances(true));
         }
 
         private void optRemote_CheckedChanged(object sender, EventArgs e)
         {
-            this.UseWaitCursor = true;
-            this.cboSqlServerInstanceList.Bind<String>(new Facade.FingurePrintManager.Server().GetSqlServerInstances(false));
-            this.UseWaitCursor = false;
+            this.cboSqlServerInstanceList.DisplayMember = "Name";
+            this.cboSqlServerInstanceList.Bind<Handler.InstanceInfo>(new Facade.FingurePrintManager.Server().GetSqlServerInstances(false));
         }
 
         private void cboSqlServerInstanceList_SelectedIndexChanged(object sender, EventArgs e)
@@ -49,7 +48,7 @@ namespace BinAff.Tool.License
             {
                 this.lstDatabaseList.Bind<String>(new Facade.FingurePrintManager.Server
                 {
-                    InstanceName = this.cboSqlServerInstanceList.SelectedItem.ToString(),
+                    InstanceName = (this.cboSqlServerInstanceList.SelectedItem as Handler.InstanceInfo).Name,
                 }.GetSqlServerDatabases());
             }
         }
@@ -63,7 +62,7 @@ namespace BinAff.Tool.License
             }
             if (new Facade.FingurePrintManager.Server
             {
-                InstanceName = this.cboSqlServerInstanceList.SelectedItem.ToString(),
+                InstanceName = (this.cboSqlServerInstanceList.SelectedItem as Handler.InstanceInfo).Name,
                 DatabaseName = this.lstDatabaseList.SelectedItem.ToString(),
             }.TestDbConnection())
             {
@@ -78,7 +77,7 @@ namespace BinAff.Tool.License
             {
                 ProductName = this.txtProductName.Text.Trim(),
                 Folder = Directory.GetParent(this.dlgOpenApplicationFile.FileName).FullName,
-                InstanceName = this.cboSqlServerInstanceList.SelectedItem.ToString(),
+                InstanceName = (this.cboSqlServerInstanceList.SelectedItem as Handler.InstanceInfo).Name,
                 DatabaseName = this.lstDatabaseList.SelectedItem.ToString(),
             }.Authenticate();
             switch (result)
