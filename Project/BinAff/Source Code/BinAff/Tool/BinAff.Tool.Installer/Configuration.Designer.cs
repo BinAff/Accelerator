@@ -1,6 +1,6 @@
 ﻿namespace BinAff.Tool.Installer
 {
-    partial class ApplicationConfiguration
+    partial class Configuration
     {
         /// <summary>
         /// Required designer variable.
@@ -46,6 +46,10 @@
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.optWindows = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
+            this.txtLicsFilePath = new System.Windows.Forms.TextBox();
+            this.btnBrowseLicsFile = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.dlgOpenLicenseFile = new System.Windows.Forms.OpenFileDialog();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,6 +73,7 @@
             // 
             // btnNext
             // 
+            this.btnNext.Enabled = false;
             this.btnNext.Location = new System.Drawing.Point(503, 336);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 23);
@@ -100,7 +105,7 @@
             // 
             this.cboSqlServerInstanceList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboSqlServerInstanceList.FormattingEnabled = true;
-            this.cboSqlServerInstanceList.Location = new System.Drawing.Point(136, 84);
+            this.cboSqlServerInstanceList.Location = new System.Drawing.Point(136, 65);
             this.cboSqlServerInstanceList.Name = "cboSqlServerInstanceList";
             this.cboSqlServerInstanceList.Size = new System.Drawing.Size(171, 111);
             this.cboSqlServerInstanceList.Sorted = true;
@@ -109,7 +114,7 @@
             // optRemote
             // 
             this.optRemote.AutoSize = true;
-            this.optRemote.Location = new System.Drawing.Point(193, 61);
+            this.optRemote.Location = new System.Drawing.Point(193, 42);
             this.optRemote.Name = "optRemote";
             this.optRemote.Size = new System.Drawing.Size(62, 17);
             this.optRemote.TabIndex = 24;
@@ -120,7 +125,7 @@
             // optLocal
             // 
             this.optLocal.AutoSize = true;
-            this.optLocal.Location = new System.Drawing.Point(136, 61);
+            this.optLocal.Location = new System.Drawing.Point(136, 42);
             this.optLocal.Name = "optLocal";
             this.optLocal.Size = new System.Drawing.Size(51, 17);
             this.optLocal.TabIndex = 23;
@@ -131,7 +136,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 63);
+            this.label3.Location = new System.Drawing.Point(12, 44);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(111, 13);
             this.label3.TabIndex = 22;
@@ -139,7 +144,7 @@
             // 
             // btnTestConnection
             // 
-            this.btnTestConnection.Location = new System.Drawing.Point(422, 271);
+            this.btnTestConnection.Location = new System.Drawing.Point(422, 255);
             this.btnTestConnection.Name = "btnTestConnection";
             this.btnTestConnection.Size = new System.Drawing.Size(156, 23);
             this.btnTestConnection.TabIndex = 35;
@@ -155,7 +160,7 @@
             this.panel1.Controls.Add(this.txtUserName);
             this.panel1.Controls.Add(this.optWindows);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Location = new System.Drawing.Point(136, 201);
+            this.panel1.Location = new System.Drawing.Point(122, 182);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(287, 106);
             this.panel1.TabIndex = 36;
@@ -165,6 +170,7 @@
             this.txtPassword.Enabled = false;
             this.txtPassword.Location = new System.Drawing.Point(79, 76);
             this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(199, 20);
             this.txtPassword.TabIndex = 38;
             // 
@@ -177,6 +183,7 @@
             this.optSQLServer.TabIndex = 40;
             this.optSQLServer.Text = "SQL Server Authentication";
             this.optSQLServer.UseVisualStyleBackColor = true;
+            this.optSQLServer.CheckedChanged += new System.EventHandler(this.optSQLServer_CheckedChanged);
             // 
             // label2
             // 
@@ -206,6 +213,7 @@
             this.optWindows.TabStop = true;
             this.optWindows.Text = "Windows Authentication";
             this.optWindows.UseVisualStyleBackColor = true;
+            this.optWindows.CheckedChanged += new System.EventHandler(this.optWindows_CheckedChanged);
             // 
             // label4
             // 
@@ -216,11 +224,45 @@
             this.label4.TabIndex = 35;
             this.label4.Text = "User Name:";
             // 
-            // ApplicationConfiguration
+            // txtLicsFilePath
+            // 
+            this.txtLicsFilePath.Enabled = false;
+            this.txtLicsFilePath.Location = new System.Drawing.Point(193, 294);
+            this.txtLicsFilePath.Name = "txtLicsFilePath";
+            this.txtLicsFilePath.Size = new System.Drawing.Size(388, 20);
+            this.txtLicsFilePath.TabIndex = 39;
+            // 
+            // btnBrowseLicsFile
+            // 
+            this.btnBrowseLicsFile.Location = new System.Drawing.Point(112, 292);
+            this.btnBrowseLicsFile.Name = "btnBrowseLicsFile";
+            this.btnBrowseLicsFile.Size = new System.Drawing.Size(75, 23);
+            this.btnBrowseLicsFile.TabIndex = 38;
+            this.btnBrowseLicsFile.Text = "Browse";
+            this.btnBrowseLicsFile.UseVisualStyleBackColor = true;
+            this.btnBrowseLicsFile.Click += new System.EventHandler(this.btnBrowseLicsFile_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(14, 297);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(95, 13);
+            this.label5.TabIndex = 37;
+            this.label5.Text = "Open License File:";
+            // 
+            // dlgOpenLicenseFile
+            // 
+            this.dlgOpenLicenseFile.FileOk += new System.ComponentModel.CancelEventHandler(this.dlgOpenLicenseFile_FileOk);
+            // 
+            // Configuration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(590, 371);
+            this.Controls.Add(this.txtLicsFilePath);
+            this.Controls.Add(this.btnBrowseLicsFile);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnTestConnection);
             this.Controls.Add(this.cboSqlServerInstanceList);
@@ -232,10 +274,7 @@
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.txtPath);
             this.Controls.Add(this.btnBrowse);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.MaximizeBox = false;
-            this.Name = "ApplicationConfiguration";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Name = "Configuration";
             this.Text = "Application Configuration";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -264,5 +303,9 @@
         private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.RadioButton optWindows;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtLicsFilePath;
+        private System.Windows.Forms.Button btnBrowseLicsFile;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.OpenFileDialog dlgOpenLicenseFile;
     }
 }
