@@ -1,4 +1,5 @@
-﻿using Microsoft.SqlServer.Management.Smo;
+﻿using Microsoft.SqlServer.Management.Common;
+using Microsoft.SqlServer.Management.Smo;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,13 +12,21 @@ namespace BinAff.SqlServerUtil
     public static class Handler
     {
 
-        public static List<String> GetSqlServerInstances(Boolean isLocal)
+        public static List<InstanceInfo> GetSqlServerInstances(Boolean isLocal)
         {
-            List<String> instanceList = new List<String>();
+            List<InstanceInfo> instanceList = new List<InstanceInfo>();
             DataTable table = SmoApplication.EnumAvailableSqlServers(isLocal);
             foreach (DataRow row in table.Rows)
             {
-                instanceList.Add(row["Server"].ToString() + "\\" + row["Instance"].ToString());
+                instanceList.Add(new InstanceInfo
+                {
+                    Name = row["Name"].ToString(),
+                    Server = row["Server"].ToString(),
+                    Instance = row["Instance"].ToString(),
+                    IsClustered = Convert.ToBoolean(row["IsClustered"]),
+                    Version = row["Version"].ToString(),
+                    IsLocal = Convert.ToBoolean(row["IsLocal"])
+                });
             }
             return instanceList;
         }
@@ -160,6 +169,46 @@ namespace BinAff.SqlServerUtil
             if (isOpenHere && trans.Connection.State == ConnectionState.Open) trans.Connection.Close();
             return status;
         }
+                
+        public static Boolean CreateDatabase(String serverInstance, String databaseName, String userName, String password, String path)
+        {
+            Server svr = new Server(new ServerConnection(serverInstance, userName, password));
+            return CreateDatabase(svr, databaseName, path);
+        }
+
+        public static Boolean CreateDatabase(String serverInstance, String databaseName, String path)
+        {
+            Server svr = new Server(new ServerConnection(serverInstance));
+            return CreateDatabase(svr, databaseName, path);
+        }
+
+        /// <summary>
+        /// Create database
+        /// </summary>
+        /// <param name="svr">Server instance name</param>
+        /// <param name="databaseName">Database name</param>
+        /// <param name="path">Data and log file path</param>
+        /// <returns></returns>
+        private static Boolean CreateDatabase(Server svr, String databaseName, String path)
+        {
+            Database db = new Database(svr, databaseName);
+            FileGroup fileGroup = new FileGroup(db, "PRIMARY");
+            db.FileGroups.Add(fileGroup);
+            fileGroup.Files.Add(new DataFile(fileGroup, databaseName, path + "\\" + databaseName + ".mdf"));
+            db.LogFiles.Add(new LogFile(db, databaseName + "_log", path + "\\" + databaseName + ".ldf"));
+
+            //If database is not there then create new database
+            if (GetSqlServerDatabases(svr.Name).Find((p) => String.Compare(p.Name, databaseName, true) == 0) == null)
+            {
+                db.Create();
+                svr.Refresh();
+            }
+            else
+            {
+                //Need to check : Should the data and log file is moved to app folder?
+            }
+            return true;
+        }
 
         /// <summary>
         /// Create schema if does not exist
@@ -264,7 +313,7 @@ namespace BinAff.SqlServerUtil
                 if (!CheckIfColumnExist(trans, table, col.ColumnName)) isColumnMatching = false;
             }
             columnQuery.Remove(columnQuery.Length - 2, 2);
-            if (!isColumnMatching)
+            if (CheckIfTableExist(trans, table) && !isColumnMatching)
             {
                 Boolean status = DropTable(trans, table);
             }
@@ -277,6 +326,15 @@ namespace BinAff.SqlServerUtil
         {
             SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM sys.columns WHERE Name = N'" + columnName
                    + "' and Object_ID = Object_ID(N'" + tableName + "')", trans.Connection)
+            {
+                Transaction = trans,
+            };
+            return (Int32)cmd.ExecuteScalar() == 1;
+        }
+
+        private static Boolean CheckIfTableExist(SqlTransaction trans, String tableName)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM sys.objects WHERE Object_ID = Object_ID(N'" + tableName + "') AND type IN (N'U')", trans.Connection)
             {
                 Transaction = trans,
             };
@@ -442,6 +500,46 @@ namespace BinAff.SqlServerUtil
                 where.Remove(where.Length - (clause.ToString().Length + 1), clause.ToString().Length + 1);
             }
             return where.ToString();
+        }
+
+        public static String CheckSqlExpressInstance()
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process
+            {
+                StartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c sc queryex type= service | find \"MSSQL\"")
+                {
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                }
+            };
+            process.Start();
+            return process.StandardOutput.ReadToEnd().Trim();
+        }
+
+        //public static String CheckSqlExpressVersion()
+        //{
+
+        //}
+
+        public class InstanceInfo
+        {
+            public String Name { get; set; }
+            public String Server { get; set; }
+            public String Instance { get; set; }
+            public Boolean IsClustered { get; set; }
+            public String Version { get; set; }
+            public Boolean IsLocal { get; set; }
+        }
+
+        public class DatabaseDefinition
+        {
+            public String Name { get; set; }
+            public String Server { get; set; }
+            public String Instance { get; set; }
+            public Boolean IsClustered { get; set; }
+            public String Version { get; set; }
+            public Boolean IsLocal { get; set; }
         }
 
         public class ColumnDefinition
