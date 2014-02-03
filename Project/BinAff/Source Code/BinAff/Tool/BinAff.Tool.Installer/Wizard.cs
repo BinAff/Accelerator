@@ -44,6 +44,13 @@ namespace BinAff.Tool.Installer
             Application.Exit();
         }
 
+        protected String GenerateErrorMessage(String message, Exception ex)
+        {
+            return "Installation cannot be continued..." + Environment.NewLine + message + Environment.NewLine
+                    + "Technical Details: " + Environment.NewLine + ex.Message + Environment.NewLine
+                    + "Stack Trace:" + Environment.NewLine + ex.StackTrace;
+        }
+
     }
 
 }

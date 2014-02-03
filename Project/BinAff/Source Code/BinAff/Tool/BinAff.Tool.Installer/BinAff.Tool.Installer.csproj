@@ -9,15 +9,31 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BinAff.Tool.Installer</RootNamespace>
     <AssemblyName>BinAff.Tool.Installer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>Output\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,6 +49,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -40,17 +57,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationConfiguration.cs">
+    <Compile Include="Configuration.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ApplicationConfiguration.Designer.cs">
-      <DependentUpon>ApplicationConfiguration.cs</DependentUpon>
+    <Compile Include="Configuration.Designer.cs">
+      <DependentUpon>Configuration.cs</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseConfiguration.cs">
+    <Compile Include="Creadential.cs" />
+    <Compile Include="Installation.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DatabaseConfiguration.Designer.cs">
-      <DependentUpon>DatabaseConfiguration.cs</DependentUpon>
+    <Compile Include="Installation.Designer.cs">
+      <DependentUpon>Installation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Legal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Legal.Designer.cs">
+      <DependentUpon>Legal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LicenseManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LicenseManager.Designer.cs">
+      <DependentUpon>LicenseManager.cs</DependentUpon>
     </Compile>
     <Compile Include="Prerequisite.cs">
       <SubType>Form</SubType>
@@ -60,6 +90,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Success.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Success.Designer.cs">
+      <DependentUpon>Success.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Validator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Validator.Designer.cs">
+      <DependentUpon>Validator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Welcome.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,11 +114,17 @@
     <Compile Include="Wizard.Designer.cs">
       <DependentUpon>Wizard.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ApplicationConfiguration.resx">
-      <DependentUpon>ApplicationConfiguration.cs</DependentUpon>
+    <EmbeddedResource Include="Configuration.resx">
+      <DependentUpon>Configuration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DatabaseConfiguration.resx">
-      <DependentUpon>DatabaseConfiguration.cs</DependentUpon>
+    <EmbeddedResource Include="Installation.resx">
+      <DependentUpon>Installation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Legal.resx">
+      <DependentUpon>Legal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LicenseManager.resx">
+      <DependentUpon>LicenseManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Prerequisite.resx">
       <DependentUpon>Prerequisite.cs</DependentUpon>
@@ -89,13 +137,21 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Success.resx">
+      <DependentUpon>Success.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Validator.resx">
+      <DependentUpon>Validator.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Welcome.resx">
       <DependentUpon>Welcome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Output\App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -107,9 +163,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Presentation\Library\BinAff.Presentation.Library.csproj">
       <Project>{1ee9a9dd-9151-437a-b1a3-28015975ef52}</Project>
       <Name>BinAff.Presentation.Library</Name>
@@ -117,6 +170,10 @@
     <ProjectReference Include="..\..\SqlServerUtil\BinAff.SqlServerUtil.csproj">
       <Project>{ec64cd55-4d60-45a3-ba72-900efd400f4b}</Project>
       <Name>BinAff.SqlServerUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\License\BinAff.Tool.License.Facade\BinAff.Tool.License.Facade.csproj">
+      <Project>{6b04490f-cd93-434d-bc21-7865286f4039}</Project>
+      <Name>BinAff.Tool.License.Facade</Name>
     </ProjectReference>
     <ProjectReference Include="..\License\BinAff.Tool.License.WinForm\BinAff.Tool.License.WinForm.csproj">
       <Project>{bd50acb9-051e-4ea6-b151-c025c11dfbf8}</Project>
@@ -126,6 +183,32 @@
       <Project>{234e829d-e7f0-4ee9-bcb7-238f12be25ad}</Project>
       <Name>BinAff.Tool.SecurityHandler</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Output\Database\" />
+    <Folder Include="Output\Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+
+using BinAff.SqlServerUtil;
 
 namespace BinAff.Tool.Installer
 {
@@ -21,7 +15,7 @@ namespace BinAff.Tool.Installer
 
         protected override Wizard AssignNextForm()
         {
-            return new ApplicationConfiguration(); 
+            return new Configuration();
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -32,6 +26,13 @@ namespace BinAff.Tool.Installer
         private void btnNext_Click(object sender, EventArgs e)
         {
             base.Next();
+        }
+
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show(Handler.CheckSqlExpressInstance());
+            //Test SQL Server is installed or not
+            //Test dot net framework is installed or not
         }
 
     }

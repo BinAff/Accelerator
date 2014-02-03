@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BinAff.Tool.Installer
 {
+
     static class Program
     {
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -16,7 +15,10 @@ namespace BinAff.Tool.Installer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DatabaseConfiguration());
+            Application.Run(new Welcome());
+            //Application.Run(new ApplicationConfiguration());
         }
+
     }
+
 }
