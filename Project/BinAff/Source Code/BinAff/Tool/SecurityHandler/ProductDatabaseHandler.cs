@@ -147,6 +147,7 @@ namespace BinAff.Tool.SecurityHandler
             SqlTransaction trans = conn.BeginTransaction();
 
             System.Data.DataRow stamp = Handler.ReadRow(trans, "BinAff", "Stamp");
+            if (stamp == null) return null;
 
             ManagedAes decryptor = new ManagedAes
             {
@@ -178,10 +179,7 @@ namespace BinAff.Tool.SecurityHandler
 
         public static Int16 Write(DatabaseCredential databaseCredential, DateTime current)
         {
-            ManagedAes encryptor = new ManagedAes
-            {
-                EncryptionKey = "B1n@ry@ff@1r5",
-            };
+            ManagedAes encryptor = new ManagedAes();
 
             SqlConnection conn = Handler.GetConnectionObject(databaseCredential.InstanceName, databaseCredential.DatabaseName);
             conn.Open();
@@ -202,12 +200,9 @@ namespace BinAff.Tool.SecurityHandler
 
             System.Data.DataRow stamp = Handler.ReadRow(trans, "BinAff", "DateStamp");
 
-            ManagedAes decryptor = new ManagedAes
-            {
-                EncryptionKey = "B1n@ry@ff@1r5",
-            };
+            ManagedAes decryptor = new ManagedAes();
 
-            return Convert.ToDateTime(stamp["DateStamp"]);
+            return Convert.ToDateTime(decryptor.Decrypt(stamp["Stamp"].ToString()));
         }
 
         public static Int16 Write(String productName, DateTime current)
