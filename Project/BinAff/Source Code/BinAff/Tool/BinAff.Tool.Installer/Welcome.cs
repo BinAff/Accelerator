@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Windows.Forms;
+using System.Configuration;
 
 namespace BinAff.Tool.Installer
 {
@@ -14,7 +14,10 @@ namespace BinAff.Tool.Installer
 
         protected override Wizard AssignNextForm()
         {
-            return new Prerequisite();
+            return new Prerequisite
+            {
+                Credential = this.Credential,
+            };
         }
 
         private void btnNext_Click(object sender, EventArgs e)
