@@ -16,7 +16,7 @@ namespace BinAff.Tool.License.Facade.FingurePrintManager
         public String InstanceName { get; set; }
         public String DatabaseName { get; set; }
 
-        public List<String> GetSqlServerInstances(Boolean isLocal)
+        public List<Handler.InstanceInfo> GetSqlServerInstances(Boolean isLocal)
         {
             return Handler.GetSqlServerInstances(isLocal);
         }
