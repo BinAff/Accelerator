@@ -65,7 +65,7 @@ namespace BinAff.Tool.Installer
         {
             this.folderBrowserDialog.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
             this.folderBrowserDialog.ShowDialog(this);
-            this.txtPath.Text = this.folderBrowserDialog.SelectedPath + String.Format("\\{0}\\{1}", this.Credential.CompanyName, this.Credential.ProductName);
+            this.txtPath.Text = this.folderBrowserDialog.SelectedPath;
             this.Credential.ApplicationFolder = this.folderBrowserDialog.SelectedPath;
             this.btnNext.Enabled = true;
         }

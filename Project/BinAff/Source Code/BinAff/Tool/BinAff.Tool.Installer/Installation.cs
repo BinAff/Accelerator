@@ -234,7 +234,7 @@ namespace BinAff.Tool.Installer
             BinAff.Tool.License.Facade.FingurePrintManager.Server server = new BinAff.Tool.License.Facade.FingurePrintManager.Server
             {
                 SourceLicenseFolder = System.IO.Directory.GetParent(this.Credential.licenseFilePath).FullName,
-                ApplicationFolder = this.Credential.ApplicationFolder,
+                ApplicationFolder = this.Credential.ApplicationPath,
                 LicenseFileName = FileNameTokens[FileNameTokens.Length - 1],
                 InstanceName = dbCred.InstanceName,
                 DatabaseName = dbCred.DatabaseName,
@@ -252,7 +252,7 @@ namespace BinAff.Tool.Installer
                         if (server.Stamp(true) == 0)
                         {
                             MessageBox.Show("Machine registration successful.");
-                            return String.Empty;
+                            break;
                         }
                     }
                     return "Machine registration failed.";
