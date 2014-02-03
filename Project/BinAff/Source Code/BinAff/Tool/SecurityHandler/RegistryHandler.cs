@@ -119,11 +119,28 @@ namespace BinAff.Tool.SecurityHandler
             binAffKey.Close();
             productKey.SetValue("Instance Name", databaseCredential.InstanceName);
             productKey.SetValue("Database Name", databaseCredential.DatabaseName);
-            productKey.SetValue("User Name", databaseCredential.UserName);
-            productKey.SetValue("Password", new Utility.Cryptography.ManagedAes
+            if (!String.IsNullOrEmpty(databaseCredential.UserName))
             {
-                EncryptionKey = "B1n@ry@ff@1r5",
-            }.Encrypt(databaseCredential.Password));
+                productKey.SetValue("User Name", new Utility.Cryptography.ManagedAes().Encrypt(databaseCredential.Password));
+            }
+            else
+            {
+                if (productKey.GetValue("User Name") != null)
+                {
+                    productKey.DeleteValue("User Name");
+                }
+            }
+            if (!String.IsNullOrEmpty(databaseCredential.Password))
+            {
+                productKey.SetValue("Password", new Utility.Cryptography.ManagedAes().Encrypt(databaseCredential.Password));
+            }
+            else
+            {
+                if (productKey.GetValue("Password") != null)
+                {
+                    productKey.DeleteValue("Password");
+                }
+            }
             productKey.Close();
         }
 
