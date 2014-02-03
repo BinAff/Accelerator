@@ -9,10 +9,12 @@ namespace BinAff.Tool.Installer
 
         public Wizard NextForm { get; set; }
         public Wizard LastForm { get; set; }
+        public Creadential Credential { get; set; }
 
         public Wizard()
         {
             InitializeComponent();
+            this.Credential = new Creadential();
         }
 
         protected void Next()
@@ -35,6 +37,11 @@ namespace BinAff.Tool.Installer
         {
             this.LastForm.Show();
             this.Hide();
+        }
+
+        private void Wizard_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
 
     }
