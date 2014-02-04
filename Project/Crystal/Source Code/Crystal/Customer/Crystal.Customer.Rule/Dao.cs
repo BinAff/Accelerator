@@ -3,8 +3,10 @@ using System.Data;
 
 namespace Crystal.Customer.Rule
 {
+
     public class Dao : BinAff.Core.Dao
     {
+
         public Dao(Data data)
             : base(data)
         {
@@ -42,5 +44,7 @@ namespace Crystal.Customer.Rule
             }
             return dt;
         }
+
     }
+
 }
