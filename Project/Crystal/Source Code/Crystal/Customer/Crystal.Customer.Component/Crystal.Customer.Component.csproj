@@ -83,7 +83,6 @@
     <Compile Include="ContactNumber\Data.cs" />
     <Compile Include="Dao.cs" />
     <Compile Include="Data.cs" />
-    <Compile Include="ICustomer.cs" />
     <Compile Include="Navigator\Artifact\Dao.cs" />
     <Compile Include="Navigator\Artifact\Data.cs" />
     <Compile Include="Navigator\Artifact\Server.cs" />

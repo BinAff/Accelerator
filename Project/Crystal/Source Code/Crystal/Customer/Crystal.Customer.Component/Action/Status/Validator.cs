@@ -21,7 +21,9 @@ namespace Crystal.Customer.Component.Action.Status
             Data data = (Data)base.Data;
 
             if (ValidationRule.IsNullOrEmpty(data.Name))
+            {
                 retMsg.Add(new Message("Action status name cannot be empty.", Message.Type.Error));
+            }
 
             return retMsg;
         }

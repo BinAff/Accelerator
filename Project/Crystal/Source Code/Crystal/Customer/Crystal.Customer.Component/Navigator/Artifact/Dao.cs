@@ -8,6 +8,7 @@ namespace Crystal.Customer.Component.Navigator.Artifact
 
     public abstract class Dao : CrystalNavigator.Artifact.Dao
     {
+
         protected String DeleteArtifactLinkSPName;
 
         public Dao(Data data)
@@ -28,7 +29,6 @@ namespace Crystal.Customer.Component.Navigator.Artifact
             base.CloseConnection();
 
             return status;
-
         }
 
     }
