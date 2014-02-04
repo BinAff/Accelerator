@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using BinAff.Core;
-
-namespace Crystal.Customer.Component.Action.Status
+﻿namespace Crystal.Customer.Component.Action.Status
 {
 
     public class Server : BinAff.Core.Observer.SubjectCrud

@@ -26,9 +26,10 @@ namespace Crystal.Customer.Component.Characteristic
         protected override ReturnObject<Boolean> DeleteBefore()
         {
             //If there is any action attached with characteristic, it cannot be deleted
-            if ((this.Data as Data).AllList != null && (this.Data as Data).AllList.Count > 0)
-                return new ReturnObject<Boolean>();
-            return new ReturnObject<Boolean> { Value = true, };
+            return new ReturnObject<Boolean> 
+            {
+                Value = (this.Data as Data).AllList != null && (this.Data as Data).AllList.Count > 0,
+            };
         }
 
     }

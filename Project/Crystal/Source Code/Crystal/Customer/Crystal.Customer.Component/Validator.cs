@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using BinAff.Core;
-using BinAff.Utility;
 using System.Text.RegularExpressions;
 
-using Rule = Crystal.Customer.Rule;
+using BinAff.Core;
+using BinAff.Utility;
 
 namespace Crystal.Customer.Component
 {
+
     public class Validator : BinAff.Core.Validator
     {
+
         public Validator(Data data)
             : base(data)
         {
@@ -23,63 +23,88 @@ namespace Crystal.Customer.Component
             List<Message> retMsg = new List<Message>();
             Data data = (Data)base.Data;
 
-            ValidateRule(retMsg, data);
+            this.ValidateRule(retMsg, data);
 
             if (ValidationRule.IsNullOrEmpty(data.FirstName))
+            {
                 retMsg.Add(new Message("First name cannot be empty.", Message.Type.Error));
+            }
             else if (!(new Regex(@"^[a-zA-Z\s]*$").IsMatch(data.FirstName)))
+            {
                 retMsg.Add(new Message("First name is not valid.", Message.Type.Error));
+            }
             else if (data.FirstName.Length > 50)
+            {
                 retMsg.Add(new Message("First name cannot be more than 50 characters.", Message.Type.Error));
+            }
 
             if (!ValidationRule.IsNullOrEmpty(data.MiddleName))
             {
                 if (!(new Regex(@"^[a-zA-Z\s]*$").IsMatch(data.MiddleName)))
+                {
                     retMsg.Add(new Message("Middle name is not valid.", Message.Type.Error));
+                }
                 else if (data.MiddleName.Length > 50)
+                {
                     retMsg.Add(new Message("Middle name cannot be more than 50 characters.", Message.Type.Error));
+                }
             }
 
             if (!ValidationRule.IsNullOrEmpty(data.LastName))
             {
                 if (!(new Regex(@"^[a-zA-Z\s]*$").IsMatch(data.LastName)))
+                {
                     retMsg.Add(new Message("Last name is not valid.", Message.Type.Error));
+                }
                 else if (data.LastName.Length > 50)
+                {
                     retMsg.Add(new Message("Last name cannot be more than 50 characters.", Message.Type.Error));
+                }
             }
 
             if (ValidationRule.IsNullOrEmpty(data.Address))
+            {
                 retMsg.Add(new Message("Address cannot be empty.", Message.Type.Error));
-
+            }
             if (ValidationRule.IsNullOrEmpty(data.City))
+            {
                 retMsg.Add(new Message("City cannot be empty.", Message.Type.Error));
-
+            }
             if (!ValidationRule.IsNullOrEmpty(data.Pin))
             {
                 if (!ValidationRule.IsPinCode(data.Pin.ToString()))
+                {
                     retMsg.Add(new Message("Invalid pin code.", Message.Type.Error));
+                }
             }
 
             if (!ValidationRule.IsNullOrEmpty(data.Email))
             {
                 if (!ValidationRule.IsEmailId(data.Email))
+                {
                     retMsg.Add(new Message("Invalid Email.", Message.Type.Error));
+                }
             }
 
             if (data.State == null || data.State.Id == 0)
+            {
                 retMsg.Add(new Message("State cannot be empty.", Message.Type.Error));
-
+            }
             if (data.ContactNumberList != null && data.ContactNumberList.Count > 0 && !ValidatePhoneNumber(data.ContactNumberList))
+            {
                 retMsg.Add(new Message("Invalid phone number exists.", Message.Type.Error));
-
+            }
             if (data.IdentityProofType != null && !ValidationRule.IsNullOrEmpty(data.IdentityProofType.Name) && data.IdentityProofType.Name.Length > 50)
+            {
                 retMsg.Add(new Message("Identity Proof name cannot be more than 50 characters.", Message.Type.Error));
-
+            }
 
             //Find duplication
             String duplicateCustomerInfo = this.IsExists(data);
             if (!ValidationRule.IsNullOrEmpty(duplicateCustomerInfo))
+            {
                 retMsg.Add(new Message(duplicateCustomerInfo, Message.Type.Error));
+            }
 
             return retMsg;
         }
@@ -129,46 +154,61 @@ namespace Crystal.Customer.Component
 
         private void ValidateRule(List<Message> retMsg, Data customerData)
         {
-            //Read rule
-            ICrud crud = new Rule.Server(new Crystal.Customer.Rule.Data());
-            ReturnObject<BinAff.Core.Data> retVal = crud.Read();
+            ReturnObject<BinAff.Core.Data> retVal = (new Rule.Server(new Rule.Data()) as ICrud).Read();
 
             if (retVal.Value != null)
             {
-                Crystal.Customer.Rule.Data data = (Crystal.Customer.Rule.Data)retVal.Value;
+                Rule.Data rule = (Rule.Data)retVal.Value;
 
-                if (data.IsPinNumber) // pin Mandatory
+                if (rule.IsPinNumber)
                 {
                     if (ValidationRule.IsNullOrEmpty(customerData.Pin))
+                    {
                         retMsg.Add(new Message("Pin cannot be empty.", Message.Type.Error));
+                    }
                     else if (!ValidationRule.IsPinCode(customerData.Pin.ToString()))
+                    {
                         retMsg.Add(new Message("Pin is not valid.", Message.Type.Error));
+                    }
                 }
                 else if (!ValidationRule.IsNullOrEmpty(customerData.Pin) && !ValidationRule.IsPinCode(customerData.Pin.ToString()))
+                {
                     retMsg.Add(new Message("Pin is not valid.", Message.Type.Error));
-
-                if (data.IsAlternateContactNumber) // Alternate Contact Number Mandatory
+                }
+                if (rule.IsAlternateContactNumber) //Alternate Contact Number Mandatory
                 {
                     if (customerData.ContactNumberList == null || customerData.ContactNumberList.Count < 2)
+                    {
                         retMsg.Add(new Message("AlternateContactNumber cannot be empty.", Message.Type.Error));
+                    }
                     else if (customerData.ContactNumberList != null && !ValidatePhoneNumber(customerData.ContactNumberList))
+                    {
                         retMsg.Add(new Message("Phone number is not valid.", Message.Type.Error));
+                    }
                 }
                 else if (customerData.ContactNumberList != null && customerData.ContactNumberList.Count > 0 && !ValidatePhoneNumber(customerData.ContactNumberList))
+                {
                     retMsg.Add(new Message("Phone number is not valid.", Message.Type.Error));
-
-                if (data.IsEmail) // Email Mandatory
+                }
+                if (rule.IsEmail) //Email Mandatory
                 {
                     if (ValidationRule.IsNullOrEmpty(customerData.Email))
+                    {
                         retMsg.Add(new Message("Email cannot be empty.", Message.Type.Error));
+                    }
                     else if (!ValidationRule.IsEmailId(customerData.Email))
+                    {
                         retMsg.Add(new Message("Email is not valid.", Message.Type.Error));
+                    }
                 }
                 else if (!ValidationRule.IsNullOrEmpty(customerData.Email) && !ValidationRule.IsEmailId(customerData.Email))
+                {
                     retMsg.Add(new Message("Email is not valid.", Message.Type.Error));
-
-                if (data.IsIdentityProof && ValidationRule.IsNullOrEmpty(customerData.IdentityProof)) // IdentityProof Mandatory               
+                }
+                if (rule.IsIdentityProof && ValidationRule.IsNullOrEmpty(customerData.IdentityProof)) //IdentityProof Mandatory
+                {
                     retMsg.Add(new Message("Identity Proof cannot be empty.", Message.Type.Error));
+                }
             }
         }
 
@@ -177,11 +217,13 @@ namespace Crystal.Customer.Component
             foreach (ContactNumber.Data data in contactData)
             {
                 if (!(ValidationRule.IsMobileNo(data.ContactNumber) || ValidationRule.IsTelephoneNumber(data.ContactNumber)))
+                {
                     return false;
+                }
             }
             return true;
         }
 
-
     }
+
 }
