@@ -36,7 +36,12 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             CrystalLodge.Room.Reservation.Data reservation = data as CrystalLodge.Room.Reservation.Data;
             return new Dto
             {
-                Id = data.Id,                
+                Id = data.Id,  
+                NoOfDays = reservation.NoOfDays,
+                NoOfPersons = reservation.NoOfPersons,
+                NoOfRooms = reservation.NoOfRooms,  
+                BookingFrom = reservation.ActivityDate,
+                Advance = reservation.Advance               
             };
         }
 
