@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using CrysConf = Crystal.Configuration.Component;
+
 namespace Crystal.Guardian.Component.Account.Profile
 {
 
@@ -21,7 +23,7 @@ namespace Crystal.Guardian.Component.Account.Profile
         /// <summary>
         /// Initial of user
         /// </summary>
-        public Crystal.Configuration.Component.Initial.Data Initial { get; set; }
+        public CrysConf.Initial.Data Initial { get; set; }
 
         public String Name
         {
