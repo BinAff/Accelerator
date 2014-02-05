@@ -198,11 +198,20 @@ namespace BinAff.Tool.SecurityHandler
             conn.Open();
             SqlTransaction trans = conn.BeginTransaction();
 
+            DateTime retDate;
             System.Data.DataRow stamp = Handler.ReadRow(trans, "BinAff", "DateStamp");
-
-            ManagedAes decryptor = new ManagedAes();
-
-            return Convert.ToDateTime(decryptor.Decrypt(stamp["Stamp"].ToString()));
+            if (stamp != null)
+            {
+                trans.Commit();
+                retDate = Convert.ToDateTime(new ManagedAes().Decrypt(stamp["Stamp"].ToString()));
+            }
+            else
+            {
+                trans.Rollback();
+                retDate = DateTime.MinValue;
+            }
+            conn.Close();
+            return retDate;
         }
 
         public static Int16 Write(String productName, DateTime current)

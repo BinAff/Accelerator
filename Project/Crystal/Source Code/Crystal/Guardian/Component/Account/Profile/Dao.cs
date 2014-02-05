@@ -101,7 +101,7 @@ namespace Crystal.Guardian.Component.Account.Profile
         {
             ((Account.Data)this.ParentData).Profile = (Data)this.Data;
         }
-
+        
         /// <summary>
         /// Check if initial exists in any of Profile or not
         /// </summary>
@@ -111,7 +111,7 @@ namespace Crystal.Guardian.Component.Account.Profile
         {
             List<Data> dataList = new List<Data>();
             this.CreateConnection();
-            this.CreateCommand("ProfileIsInitialDeletable");
+            this.CreateCommand("Guardian.IsInitialDeletable");
             this.AddInParameter("@InitialId", DbType.Int64, initial.Id);
             DataSet ds = this.ExecuteDataSet();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -121,7 +121,7 @@ namespace Crystal.Guardian.Component.Account.Profile
                     dataList.Add(new Data
                     {
                         FirstName = Convert.IsDBNull(row["FirstName"]) ? String.Empty : Convert.ToString(row["FirstName"]),
-                        LastName = Convert.IsDBNull(row["LastName"]) ? String.Empty : Convert.ToString(row["LastName"])
+                        LastName = Convert.IsDBNull(row["LastName"]) ? String.Empty : Convert.ToString(row["LastName"]),                        
                     });
                 }
             }
@@ -129,7 +129,6 @@ namespace Crystal.Guardian.Component.Account.Profile
             this.CloseConnection();
             return dataList;
         }
-
 
     }
 

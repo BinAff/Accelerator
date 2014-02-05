@@ -29,7 +29,8 @@ namespace BinAff.Tool.SecurityHandler
 
         private Boolean CheckCurrentDateisLaterOrNot(String productName)
         {
-            return DateTime.Now.CompareTo(ProductDatabaseHandler.Read(productName)) >= 0;
+            DateTime installationDate = ProductDatabaseHandler.Read(productName);
+            return installationDate.CompareTo(DateTime.MinValue) != 0 && DateTime.Now.CompareTo(installationDate) >= 0;
         }
 
         private void PushDateTimeStamp(String productName)
