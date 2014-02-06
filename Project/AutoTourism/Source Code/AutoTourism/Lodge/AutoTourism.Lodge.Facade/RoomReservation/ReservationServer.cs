@@ -146,7 +146,16 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                     Name = reservationDto.Customer.State.Name
                 },
                 ContactNumberList = this.ConvertToContactNumberData(reservationDto.Customer.ContactNumberList),
-
+                Initial = new Crystal.Configuration.Component.Initial.Data
+                {
+                    Id = reservationDto.Customer.Initial.Id,
+                    Name = reservationDto.Customer.Initial.Name
+                },
+                IdentityProofType = new Crystal.Configuration.Component.IdentityProofType.Data
+                {
+                    Id = reservationDto.Customer.IdentityProofType.Id,
+                    Name = reservationDto.Customer.IdentityProofType.Name
+                },
                 RoomReserver = new CrystalLodge.Room.Reserver.Data()
             };
 
@@ -155,7 +164,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             ICrud crud = new AutoTourism.Component.Customer.Server(autoCustomer);
             ReturnObject<Boolean> ret = crud.Save();
 
-            (this.FormDto as FormDto).Dto.Id = (crud as Crud).Data.Id;
+            (this.FormDto as FormDto).Dto.Id = autoCustomer.RoomReserver.Active.Id;
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);           
         }
 

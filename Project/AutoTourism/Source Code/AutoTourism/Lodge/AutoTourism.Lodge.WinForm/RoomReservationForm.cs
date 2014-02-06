@@ -287,12 +287,18 @@ namespace AutoTourism.Lodge.WinForm
                             Id = this.dto.Customer.IdentityProofType.Id,
                             Name = this.dto.Customer.IdentityProofType.Name
                         },
-                        State = new Table 
+                        IdentityProofName = this.dto.Customer.IdentityProofName,
+                        State = new Table
                         {
                             Id = this.dto.Customer.State.Id,
                             Name = this.dto.Customer.State.Name
                         },
-                        ContactNumberList = this.dto.Customer.ContactNumberList
+                        ContactNumberList = this.dto.Customer.ContactNumberList,
+                        Initial = new Table 
+                        {
+                            Id = this.dto.Customer.Initial.Id,
+                            Name = this.dto.Customer.Initial.Name
+                        }
                     };
                 this.dto.RoomList = this.cboSelectedRoom.Items.Count == 0 ? null : (List<LodgeConfigurationFacade.Room.Dto>)this.cboSelectedRoom.DataSource;
 
