@@ -54,6 +54,10 @@
       <Project>{003E77D0-671D-4B79-975C-A8CB0B4B1361}</Project>
       <Name>Crystal.Organization.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Autotourism.Component.Customer\Autotourism.Component.Customer.csproj">
+      <Project>{9e9f89c1-91be-4595-8d69-3e56afc1bc4c}</Project>
+      <Name>Autotourism.Component.Customer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
