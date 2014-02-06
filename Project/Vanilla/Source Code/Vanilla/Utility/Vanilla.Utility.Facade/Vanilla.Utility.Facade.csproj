@@ -57,10 +57,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Component\Autotourism.Component.Customer\AutoTourism.Component.Customer.csproj">
-      <Project>{9E9F89C1-91BE-4595-8D69-3E56AFC1BC4C}</Project>
-      <Name>AutoTourism.Component.Customer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">
       <Project>{2099FB59-6194-4BC7-8AB2-6CABE513082A}</Project>
       <Name>AutoTourism.Customer.Facade</Name>

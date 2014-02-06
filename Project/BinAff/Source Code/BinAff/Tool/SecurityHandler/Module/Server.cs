@@ -31,6 +31,15 @@ namespace BinAff.Tool.SecurityHandler.Module
             return new Server(data as Data);
         }
 
+        protected override void CreateChildren()
+        {
+            base.AddChildren(new Module.Server(null)
+            {
+                Type = ChildType.Dependent,
+                IsReadOnly = true,
+            }, (this.Data as Data).ComponentList);
+        }
+
     }
 
 }

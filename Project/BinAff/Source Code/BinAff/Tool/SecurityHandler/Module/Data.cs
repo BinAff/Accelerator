@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BinAff.Tool.SecurityHandler.Module
 {
@@ -9,9 +10,8 @@ namespace BinAff.Tool.SecurityHandler.Module
         public String Code { get; set; }
         public String Name { get; set; }
         public String Description { get; set; }
-        public Boolean IsForm { get; set; }
-        public Boolean IsReport { get; set; }
-        public Boolean IsCatalogue { get; set; }
+        public Boolean IsMandatory { get; set; }
+        public List<Core.Data> ComponentList { get; set; }
 
     }
 
