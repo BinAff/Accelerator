@@ -47,9 +47,9 @@ namespace BinAff.Tool.License
                 Name = module.Name,
                 Code = module.Code,
                 Description = module.Description,
-                IsForm = module.IsForm,
-                IsCatalogue = module.IsCatalogue,
-                IsReport = module.IsReport,
+                //IsForm = module.IsForm,
+                //IsCatalogue = module.IsCatalogue,
+                //IsReport = module.IsReport,
             };
         }
 
