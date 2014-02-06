@@ -2,7 +2,7 @@
 using System.Data;
 using System.Collections.Generic;
 
-namespace Autotourism.Component.Customer
+namespace AutoTourism.Component.Customer
 {
     public class Dao : Crystal.Customer.Component.Dao
     {

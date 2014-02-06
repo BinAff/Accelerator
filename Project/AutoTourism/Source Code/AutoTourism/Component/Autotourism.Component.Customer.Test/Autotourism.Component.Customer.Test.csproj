@@ -74,9 +74,9 @@
       <Project>{9AD10300-505D-4B2B-8376-B6049EE47BFA}</Project>
       <Name>Crystal.Reservation.Component</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Autotourism.Component.Customer\Autotourism.Component.Customer.csproj">
+    <ProjectReference Include="..\Autotourism.Component.Customer\AutoTourism.Component.Customer.csproj">
       <Project>{9E9F89C1-91BE-4595-8D69-3E56AFC1BC4C}</Project>
-      <Name>Autotourism.Component.Customer</Name>
+      <Name>AutoTourism.Component.Customer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

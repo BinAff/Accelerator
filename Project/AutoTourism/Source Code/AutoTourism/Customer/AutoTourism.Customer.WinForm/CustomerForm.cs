@@ -8,7 +8,7 @@ using BinAff.Utility;
 
 using CustomerFacade = AutoTourism.Customer.Facade;
 using PresentationLibrary = BinAff.Presentation.Library;
-using ConfigurationRuleFacade = Autotourism.Configuration.Rule.Facade;
+using ConfigurationRuleFacade = AutoTourism.Configuration.Rule.Facade;
 
 
 namespace AutoTourism.Customer.WinForm

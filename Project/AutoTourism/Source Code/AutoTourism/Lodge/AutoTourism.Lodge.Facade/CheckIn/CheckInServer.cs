@@ -7,7 +7,7 @@ using System.Text;
 
 using CrystalLodge = Crystal.Lodge.Component;
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
-using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {

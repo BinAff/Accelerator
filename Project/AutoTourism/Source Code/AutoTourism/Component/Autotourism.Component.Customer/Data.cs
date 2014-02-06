@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Lodge = Crystal.Lodge.Component;
 
-namespace Autotourism.Component.Customer
+namespace AutoTourism.Component.Customer
 {
 
     public class Data : Crystal.Customer.Component.Data

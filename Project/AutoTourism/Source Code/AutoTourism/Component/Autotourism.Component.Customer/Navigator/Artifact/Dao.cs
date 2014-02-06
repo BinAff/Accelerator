@@ -2,7 +2,7 @@
 using System.Data;
 using CrystalArtifact = Crystal.Customer.Component.Navigator.Artifact;
 
-namespace Autotourism.Component.Customer.Navigator.Artifact
+namespace AutoTourism.Component.Customer.Navigator.Artifact
 {
 
     public class Dao : CrystalArtifact.Dao
@@ -33,7 +33,7 @@ namespace Autotourism.Component.Customer.Navigator.Artifact
             Int64 custId = Convert.IsDBNull(ds.Tables[0].Rows[0]["CustomerId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["CustomerId"]);
             if (custId > 0)
             {
-                (this.Data as Data).ModuleData = new Autotourism.Component.Customer.Data
+                (this.Data as Data).ModuleData = new AutoTourism.Component.Customer.Data
                 {
                     Id = custId
                 };

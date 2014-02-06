@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Autotourism.Configuration.Rule.Facade
+namespace AutoTourism.Configuration.Rule.Facade
 {
     public class TaxRuleDto
     {

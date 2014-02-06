@@ -1,6 +1,6 @@
 ﻿using BinAff.Core;
 using System.Collections.Generic;
-using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using BinAff.Core;
-using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Customer.Facade
 {

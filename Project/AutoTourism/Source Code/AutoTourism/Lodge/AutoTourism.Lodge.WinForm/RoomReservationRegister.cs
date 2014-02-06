@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using BinAff.Core;
 using BinAff.Utility;
 
-using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using LodgeFacade = AutoTourism.Lodge.Facade;
 
 

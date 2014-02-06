@@ -2,7 +2,7 @@
 using System;
 using CrystalArtifact = Crystal.Customer.Component.Navigator.Artifact;
 
-namespace Autotourism.Component.Customer.Navigator.Artifact
+namespace AutoTourism.Component.Customer.Navigator.Artifact
 {
 
     public class Server : CrystalArtifact.Server
@@ -16,7 +16,7 @@ namespace Autotourism.Component.Customer.Navigator.Artifact
 
         protected override void Compose()
         {
-            this.Name = "Autotourism Customer Form";
+            this.Name = "AutoTourism Customer Form";
             this.DataAccess = new Dao((Data)this.Data);
             this.Validator = new Validator((Data)this.Data);
         }
@@ -37,14 +37,14 @@ namespace Autotourism.Component.Customer.Navigator.Artifact
         protected override BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData)
         {
             //Find out customer data from customer form
-            return new Autotourism.Component.Customer.Server(moduleData as Autotourism.Component.Customer.Data);
+            return new AutoTourism.Component.Customer.Server(moduleData as AutoTourism.Component.Customer.Data);
         }               
 
         protected override ReturnObject<bool> DeleteAfter()
         {
             if ((this.Data as Data).ModuleData != null && (this.Data as Data).ModuleData.Id > 0)
             {
-                ICrud crud = new Autotourism.Component.Customer.Server(new Autotourism.Component.Customer.Data() { Id = (this.Data as Data).ModuleData.Id });
+                ICrud crud = new AutoTourism.Component.Customer.Server(new AutoTourism.Component.Customer.Data() { Id = (this.Data as Data).ModuleData.Id });
                 return crud.Delete();
             }
 

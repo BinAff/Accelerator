@@ -9,7 +9,7 @@ using CrystalConfigurationRule = Crystal.Configuration.Rule;
 using CrystalGuardianRule = Crystal.Guardian.Rule;
 
 
-namespace Autotourism.Configuration.Rule.Facade
+namespace AutoTourism.Configuration.Rule.Facade
 {
     public class RuleServer : IRule
     {

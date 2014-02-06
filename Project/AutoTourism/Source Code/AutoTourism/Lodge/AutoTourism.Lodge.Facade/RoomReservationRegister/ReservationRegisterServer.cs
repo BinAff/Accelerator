@@ -9,7 +9,7 @@ using CrystalLodge = Crystal.Lodge.Component;
 using CrystalAction = Crystal.Customer.Component.Action;
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using CrystalReservation = Crystal.Reservation.Component;
-using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 {

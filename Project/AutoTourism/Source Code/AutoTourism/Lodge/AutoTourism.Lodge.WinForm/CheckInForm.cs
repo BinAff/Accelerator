@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using BinAff.Core;
 using BinAff.Utility;
 
-using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using LodgeFacade = AutoTourism.Lodge.Facade;
 using CustomerFacade = AutoTourism.Customer.Facade;
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;

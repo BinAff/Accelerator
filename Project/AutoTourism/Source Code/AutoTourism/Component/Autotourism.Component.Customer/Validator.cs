@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BinAff.Core;
 
-namespace Autotourism.Component.Customer
+namespace AutoTourism.Component.Customer
 {
     public class Validator : Crystal.Customer.Component.Validator
     {
