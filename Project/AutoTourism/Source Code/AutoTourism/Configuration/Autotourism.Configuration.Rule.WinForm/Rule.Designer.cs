@@ -1,4 +1,4 @@
-﻿namespace Autotourism.Configuration.Rule.WinForm
+﻿namespace AutoTourism.Configuration.Rule.WinForm
 {
     partial class Rule
     {

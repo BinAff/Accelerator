@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Autotourism.Configuration.Rule.WinForm
+namespace AutoTourism.Configuration.Rule.WinForm
 {
     static class Program
     {

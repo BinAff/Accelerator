@@ -2,7 +2,7 @@
 
 using BinAff.Core;
 
-namespace Autotourism.Configuration.Rule.Facade
+namespace AutoTourism.Configuration.Rule.Facade
 {
     public interface IRule
     {

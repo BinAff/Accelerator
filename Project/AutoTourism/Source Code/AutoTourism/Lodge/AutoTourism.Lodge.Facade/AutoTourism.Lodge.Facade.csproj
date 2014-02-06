@@ -100,6 +100,10 @@
       <Project>{9ad10300-505d-4b2b-8376-b6049ee47bfa}</Project>
       <Name>Crystal.Reservation.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Component\Autotourism.Component.Customer\AutoTourism.Component.Customer.csproj">
+      <Project>{9E9F89C1-91BE-4595-8D69-3E56AFC1BC4C}</Project>
+      <Name>AutoTourism.Component.Customer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Configuration\Autotourism.Configuration.Rule.Facade\Autotourism.Configuration.Rule.Facade.csproj">
       <Project>{C8CF309D-21F1-43F7-BB6B-CF78E2B14245}</Project>
       <Name>Autotourism.Configuration.Rule.Facade</Name>

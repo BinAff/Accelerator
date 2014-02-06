@@ -43,9 +43,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Component\Autotourism.Component.Customer\Autotourism.Component.Customer.csproj">
+    <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Component\Autotourism.Component.Customer\AutoTourism.Component.Customer.csproj">
       <Project>{9e9f89c1-91be-4595-8d69-3e56afc1bc4c}</Project>
-      <Name>Autotourism.Component.Customer</Name>
+      <Name>AutoTourism.Component.Customer</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">
       <Project>{2099fb59-6194-4bc7-8ab2-6cabe513082a}</Project>

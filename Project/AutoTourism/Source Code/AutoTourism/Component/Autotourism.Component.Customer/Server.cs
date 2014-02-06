@@ -1,6 +1,6 @@
 ﻿using Lodge = Crystal.Lodge.Component;
 
-namespace Autotourism.Component.Customer
+namespace AutoTourism.Component.Customer
 {
 
     public class Server : Crystal.Customer.Component.Server

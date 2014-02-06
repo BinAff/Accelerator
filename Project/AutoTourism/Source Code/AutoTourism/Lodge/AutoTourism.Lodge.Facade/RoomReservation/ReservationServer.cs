@@ -5,7 +5,9 @@ using BinAff.Core;
 
 using CrystalLodge = Crystal.Lodge.Component;
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
-using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using RuleFacade = AutoTourism.Configuration.Rule.Facade;
+using CrystalReservation = Crystal.Reservation.Component;
+using CrystalCustomer = Crystal.Customer.Component;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
@@ -104,9 +106,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         {
             return new RuleFacade.RuleServer().ReadConfigurationRule();
         }
-
-
-
+        
         private ReturnObject<List<LodgeConfigurationFacade.Room.Dto>> ReadAllRoom()
         {
             return new LodgeConfigurationFacade.Room.Server(null).ReadAllRoom();
@@ -124,11 +124,57 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         private void Save()
         {
-            ICrud crud = new CrystalLodge.Room.Reservation.Server(this.Convert((this.FormDto as FormDto).Dto) as CrystalLodge.Room.Reservation.Data);
+            //ICrud crud = new CrystalLodge.Room.Reservation.Server(this.Convert((this.FormDto as FormDto).Dto) as CrystalLodge.Room.Reservation.Data);
+            //ReturnObject<Boolean> ret = crud.Save();
+
+            Dto reservationDto = (this.FormDto as FormDto).Dto;
+
+            AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data() 
+            { 
+                Id = reservationDto.Customer.Id,
+                FirstName = reservationDto.Customer.FirstName,
+                MiddleName = reservationDto.Customer.MiddleName,
+                LastName = reservationDto.Customer.LastName,
+                Address = reservationDto.Customer.Address,
+                City = reservationDto.Customer.City,
+                Pin = reservationDto.Customer.Pin,
+                Email = reservationDto.Customer.Email,
+                IdentityProof = reservationDto.Customer.IdentityProofName == null ? String.Empty : reservationDto.Customer.IdentityProofName,
+                State = new Crystal.Configuration.Component.State.Data
+                {
+                    Id = reservationDto.Customer.State.Id,
+                    Name = reservationDto.Customer.State.Name
+                },
+                ContactNumberList = this.ConvertToContactNumberData(reservationDto.Customer.ContactNumberList),
+
+                RoomReserver = new CrystalLodge.Room.Reserver.Data()
+            };
+
+            autoCustomer.RoomReserver.Active = this.Convert(reservationDto) as CrystalCustomer.Action.Data;
+
+            ICrud crud = new AutoTourism.Component.Customer.Server(autoCustomer);
             ReturnObject<Boolean> ret = crud.Save();
 
             (this.FormDto as FormDto).Dto.Id = (crud as Crud).Data.Id;
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);           
+        }
+
+        private List<CrystalCustomer.ContactNumber.Data> ConvertToContactNumberData(List<Table> contactNumberList)
+        {
+            List<CrystalCustomer.ContactNumber.Data> lstContactNumber = new List<CrystalCustomer.ContactNumber.Data>();
+            if (contactNumberList != null && contactNumberList.Count > 0)
+            {
+                foreach (Table table in contactNumberList)
+                {
+                    lstContactNumber.Add(new CrystalCustomer.ContactNumber.Data 
+                    { 
+                        Id = table.Id,
+                        ContactNumber = table.Name
+                    });
+                }
+            }
+
+            return lstContactNumber;
         }
 
         private List<Data> GetRoomDataList(List<LodgeConfigurationFacade.Room.Dto> RoomList)

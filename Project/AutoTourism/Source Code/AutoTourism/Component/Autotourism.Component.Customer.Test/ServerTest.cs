@@ -3,7 +3,7 @@ using BinAff.Core;
 using System.Collections.Generic;
 using System;
 
-namespace Autotourism.Component.Customer.Test
+namespace AutoTourism.Component.Customer.Test
 {
     [TestClass]
     public class ServerTest
@@ -14,7 +14,7 @@ namespace Autotourism.Component.Customer.Test
         [TestMethod]
         public void TestMethod1()
         {
-            ICrud crud = new Autotourism.Component.Customer.Server(new Autotourism.Component.Customer.Data()
+            ICrud crud = new AutoTourism.Component.Customer.Server(new AutoTourism.Component.Customer.Data()
             {
                 Address = "#6 S.K. Apts, Wind Tunnel Road",
                 City = "Bangalore1",
@@ -41,7 +41,7 @@ namespace Autotourism.Component.Customer.Test
         [TestMethod]
         public void TestMethod2()
         {
-            ICrud crud = new Autotourism.Component.Customer.Server(new Autotourism.Component.Customer.Data()
+            ICrud crud = new AutoTourism.Component.Customer.Server(new AutoTourism.Component.Customer.Data()
             {
                 Address = "#6 S.K. Apts, Wind Tunnel Road",
                 City = "Bangalore",
@@ -82,7 +82,7 @@ namespace Autotourism.Component.Customer.Test
         [TestMethod]
         public void TestMethod3()
         {
-            ICrud crud = new Autotourism.Component.Customer.Server(new Autotourism.Component.Customer.Data()
+            ICrud crud = new AutoTourism.Component.Customer.Server(new AutoTourism.Component.Customer.Data()
             {
                 Id=30,
                 Address = "#6 S.K. Apts, Wind Tunnel Road",
@@ -130,11 +130,11 @@ namespace Autotourism.Component.Customer.Test
         [TestMethod]
         public void TestMethod4()
         {
-            Autotourism.Component.Customer.Data data = new Data() 
+            AutoTourism.Component.Customer.Data data = new Data() 
             {
                 Id = 44
             };
-            ICrud crud = new Autotourism.Component.Customer.Server(data);
+            ICrud crud = new AutoTourism.Component.Customer.Server(data);
             ReturnObject<BinAff.Core.Data> ret = crud.Read();
             List<BinAff.Core.Data> Archive = data.RoomReserver.ArchiveList;
             List<BinAff.Core.Data> Current = data.RoomReserver.CurrentList;
@@ -146,7 +146,7 @@ namespace Autotourism.Component.Customer.Test
         [TestMethod]
         public void TestMethod5()
         {
-            ICrud crud = new Autotourism.Component.Customer.Server(null);
+            ICrud crud = new AutoTourism.Component.Customer.Server(null);
             ReturnObject<List<BinAff.Core.Data>> ret = crud.ReadAll();
             //List<BinAff.Core.Data> Archive = data.RoomReserver.ArchiveList;
             //List<BinAff.Core.Data> Current = data.RoomReserver.CurrentList;
@@ -160,7 +160,7 @@ namespace Autotourism.Component.Customer.Test
         [TestMethod]
         public void TestMethod6()
         {
-            ICrud crud = new Autotourism.Component.Customer.Server(new Autotourism.Component.Customer.Data()
+            ICrud crud = new AutoTourism.Component.Customer.Server(new AutoTourism.Component.Customer.Data()
             {
                 Id = 30,
                 Address = "#6 S.K. Apts, Wind Tunnel Road",
@@ -213,7 +213,7 @@ namespace Autotourism.Component.Customer.Test
         [TestMethod]
         public void TestMethod8()
         {
-            ICrud crud = new Autotourism.Component.Customer.Server(new Autotourism.Component.Customer.Data()
+            ICrud crud = new AutoTourism.Component.Customer.Server(new AutoTourism.Component.Customer.Data()
             {              
                 Id=45,
                 Address = "#6 S.K. Apts, Wind Tunnel Road",

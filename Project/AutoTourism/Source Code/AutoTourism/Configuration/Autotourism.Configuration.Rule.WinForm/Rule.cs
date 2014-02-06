@@ -3,10 +3,10 @@ using System.Windows.Forms;
 
 using BinAff.Utility;
 
-using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using BinAff.Core;
 
-namespace Autotourism.Configuration.Rule.WinForm
+namespace AutoTourism.Configuration.Rule.WinForm
 {
     public partial class Rule : Form
     {

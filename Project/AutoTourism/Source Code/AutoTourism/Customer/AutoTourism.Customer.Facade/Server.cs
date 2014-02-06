@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 
-using AutotourismComponent = Autotourism.Component.Customer;
+using AutotourismComponent = AutoTourism.Component.Customer;
 using CustomerComponent = Crystal.Customer.Component;
 using LodgeComponent = Crystal.Lodge.Component;
 using ConfigurationComponent = Crystal.Configuration.Component;
-using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Customer.Facade
 {

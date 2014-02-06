@@ -7,7 +7,7 @@ using BinAff.Core;
 using BinAff.Utility;
 
 using LodgeFacade = AutoTourism.Lodge.Facade;
-using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using CustomerFacade = AutoTourism.Customer.Facade;
 using PresentationLibrary = BinAff.Presentation.Library;
@@ -271,10 +271,28 @@ namespace AutoTourism.Lodge.WinForm
                 this.dto.NoOfDays = Convert.ToInt16(txtDays.Text);
                 this.dto.NoOfPersons = Convert.ToInt16(txtPersons.Text);
                 this.dto.NoOfRooms = Convert.ToInt16(txtRooms.Text);
-                this.dto.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));                
+                this.dto.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));
                 this.dto.Customer = new CustomerFacade.Dto()
                     {
                         Id = this.dto.Customer.Id,
+                        FirstName = this.dto.Customer.FirstName,
+                        MiddleName = this.dto.Customer.MiddleName,
+                        LastName = this.dto.Customer.LastName,
+                        Address = this.dto.Customer.Address,
+                        City = this.dto.Customer.City,
+                        Pin = this.dto.Customer.Pin,
+                        Email = this.dto.Customer.Email,
+                        IdentityProofType = new Table
+                        {
+                            Id = this.dto.Customer.IdentityProofType.Id,
+                            Name = this.dto.Customer.IdentityProofType.Name
+                        },
+                        State = new Table 
+                        {
+                            Id = this.dto.Customer.State.Id,
+                            Name = this.dto.Customer.State.Name
+                        },
+                        ContactNumberList = this.dto.Customer.ContactNumberList
                     };
                 this.dto.RoomList = this.cboSelectedRoom.Items.Count == 0 ? null : (List<LodgeConfigurationFacade.Room.Dto>)this.cboSelectedRoom.DataSource;
 
@@ -388,7 +406,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.Close();
             }
         }
-
+              
         public enum LodgeReservationStatus
         {
             open = 10001,

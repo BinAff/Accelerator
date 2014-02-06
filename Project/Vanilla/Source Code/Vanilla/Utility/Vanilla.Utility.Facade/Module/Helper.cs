@@ -94,10 +94,10 @@ namespace Vanilla.Utility.Facade.Module
                 case "CUST":
                     this.ModuleFormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
                     this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Dto, AutoTourism.Customer.Facade";
-                    this.ArtifacComponentAssembly = "Autotourism.Component.Customer";
-                    this.ArtifactDataType = "Autotourism.Component.Customer.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Autotourism.Component.Customer.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Autotourism.Component.Customer.Data, Autotourism.Component.Customer";
+                    this.ArtifacComponentAssembly = "AutoTourism.Component.Customer";
+                    this.ArtifactDataType = "AutoTourism.Component.Customer.Navigator.Artifact.Data";
+                    this.ArtifacComponentType = "AutoTourism.Component.Customer.Navigator.Artifact.Server";
+                    this.ModuleDataType = "AutoTourism.Component.Customer.Data, AutoTourism.Component.Customer";
                     this.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
                     break;
 
@@ -124,10 +124,10 @@ namespace Vanilla.Utility.Facade.Module
                 case "INVO"://Need to change
                     this.ModuleFormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
                     this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Dto, AutoTourism.Customer.Facade";
-                    this.ArtifacComponentAssembly = "Autotourism.Component.Customer";
-                    this.ArtifactDataType = "Autotourism.Component.Customer.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Autotourism.Component.Customer.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Autotourism.Component.Customer.Data, Autotourism.Component.Customer";
+                    this.ArtifacComponentAssembly = "AutoTourism.Component.Customer";
+                    this.ArtifactDataType = "AutoTourism.Component.Customer.Navigator.Artifact.Data";
+                    this.ArtifacComponentType = "AutoTourism.Component.Customer.Navigator.Artifact.Server";
+                    this.ModuleDataType = "AutoTourism.Component.Customer.Data, AutoTourism.Component.Customer";
                     this.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
                     break;
 

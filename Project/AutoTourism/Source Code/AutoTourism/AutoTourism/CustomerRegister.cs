@@ -8,7 +8,7 @@ using AutoTourism.Lodge.WinForm;
 
 using CustomerFacade = AutoTourism.Customer.Facade;
 using LodgeFacade = AutoTourism.Lodge.Facade;
-using RuleFacade = Autotourism.Configuration.Rule.Facade;
+using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism
 {
