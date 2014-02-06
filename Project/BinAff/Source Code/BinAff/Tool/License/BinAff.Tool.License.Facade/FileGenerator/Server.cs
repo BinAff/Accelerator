@@ -25,7 +25,7 @@ namespace BinAff.Tool.License.Facade.FileGenerator
 
         public void Generate(SecurityHandler.Product.Data product, List<SecurityHandler.Module.Data> moduleList, String targetPath)
         {
-            LicenseFileHandler.Write(product, moduleList, targetPath);
+            LicenseFileHandler.Write(product, targetPath);
         }
         
     }

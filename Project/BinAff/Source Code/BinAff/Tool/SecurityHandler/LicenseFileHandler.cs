@@ -9,7 +9,8 @@ namespace BinAff.Tool.SecurityHandler
     public class LicenseFileHandler
     {
 
-        public static void Write(Product.Data product, List<Module.Data> moduleList, String targetPath)
+        //public static void Write(Product.Data product, List<BinAff.Tool.SecurityHandler.Component.Data> componentList, String targetPath)
+        public static void Write(Product.Data product, String targetPath)
         {
             using (FileStream fileStream = new FileStream(targetPath, FileMode.Create))
             {
@@ -28,15 +29,20 @@ namespace BinAff.Tool.SecurityHandler
                     {
                         EncryptionKey = "B1n@ry@ff@1r5",
                     }.Encrypt(licenseNo)); //Write license number
-                    binaryWriter.Write(svr.Encrypt(moduleList.Count.ToString())); //Write number of module
-                    foreach (SecurityHandler.Module.Data module in moduleList)
-                    {
-                        binaryWriter.Write(svr.Encrypt(module.Code + ":" + module.Name + ":" + module.Description + ":"
-                            + module.IsForm + ":" + module.IsCatalogue + ":" + module.IsReport));
-                    }
+                    //binaryWriter.Write(svr.Encrypt(componentList.Count.ToString())); //Write number of module
+                    //foreach (Component.Data component in componentList)
+                    //{
+                    //    binaryWriter.Write(svr.Encrypt(component.Code + ":" + component.Name + ":" + component.Description + ":"
+                    //        + component.IsForm + ":" + component.IsCatalogue + ":" + component.IsReport));
+                    //}
                 }
             }
         }
+
+        //private static List<Component.Data> GetComponentList(Product.Data product)
+        //{
+        //    return null;
+        //}
 
         public static void Append(String licenseNo, DateTime registrationDate, String targetPath)
         {
