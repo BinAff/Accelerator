@@ -34,9 +34,7 @@ namespace BinAff.Tool.SecurityHandler.Module
                         Code = Convert.IsDBNull(row["Code"]) ? String.Empty : Convert.ToString(row["Code"]),
                         Name = Convert.IsDBNull(row["Name"]) ? String.Empty : Convert.ToString(row["Name"]),
                         Description = Convert.IsDBNull(row["Description"]) ? String.Empty : Convert.ToString(row["Description"]),
-                        IsForm = Convert.IsDBNull(row["IsForm"]) ? false : Convert.ToBoolean(row["IsForm"]),
-                        IsCatalogue = Convert.IsDBNull(row["IsCatalogue"]) ? false : Convert.ToBoolean(row["IsCatalogue"]),
-                        IsReport = Convert.IsDBNull(row["IsReport"]) ? false : Convert.ToBoolean(row["IsReport"]),
+                        IsMandatory = Convert.IsDBNull(row["IsMandatory"]) ? false : Convert.ToBoolean(row["IsMandatory"]),
                     });
                 }
             }
@@ -50,9 +48,7 @@ namespace BinAff.Tool.SecurityHandler.Module
             dt.Code = Convert.IsDBNull(dr["Code"]) ? String.Empty : Convert.ToString(dr["Code"]);
             dt.Name = Convert.IsDBNull(dr["Name"]) ? String.Empty : Convert.ToString(dr["Name"]);
             dt.Description = Convert.IsDBNull(dr["Description"]) ? String.Empty : Convert.ToString(dr["Description"]);
-            dt.IsForm = Convert.IsDBNull(dr["IsForm"]) ? false : Convert.ToBoolean(dr["IsForm"]);
-            dt.IsCatalogue = Convert.IsDBNull(dr["IsCatalogue"]) ? false : Convert.ToBoolean(dr["IsCatalogue"]);
-            dt.IsReport = Convert.IsDBNull(dr["IsReport"]) ? false : Convert.ToBoolean(dr["IsReport"]);
+            dt.IsMandatory = Convert.IsDBNull(dr["IsMandatory"]) ? false : Convert.ToBoolean(dr["IsMandatory"]);
             return dt;
         }
 
