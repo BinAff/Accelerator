@@ -8,8 +8,8 @@
     <ProjectGuid>{9E9F89C1-91BE-4595-8D69-3E56AFC1BC4C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Autotourism.Component.Customer</RootNamespace>
-    <AssemblyName>Autotourism.Component.Customer</AssemblyName>
+    <RootNamespace>AutoTourism.Component.Customer</RootNamespace>
+    <AssemblyName>AutoTourism.Component.Customer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
