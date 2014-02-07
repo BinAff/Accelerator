@@ -1,9 +1,14 @@
-﻿using Lodge = Crystal.Lodge.Component;
+﻿
+using System;
+
+using BinAff.Core;
+using Lodge = Crystal.Lodge.Component;
+using Customer = Crystal.Customer.Component;
 
 namespace AutoTourism.Component.Customer
 {
 
-    public class Server : Crystal.Customer.Component.Server
+    public class Server : Crystal.Customer.Component.Server, ICustomer
     {
 
         public Server(Data data)
@@ -45,6 +50,24 @@ namespace AutoTourism.Component.Customer
 
         }
 
+        Crystal.Customer.Component.Data ICustomer.GetCustomerForReservation(long reservationId)
+        {
+            return this.ReadCustomerForReservation(reservationId);
+        }
+
+        private Customer.Data ReadCustomerForReservation(Int64 reservationId)
+        {
+            Int64 customerId = new Dao(null).ReadCustomerIdForReservation(reservationId);
+            if (customerId > 0)
+            {
+                ICrud customer = new Server(new Data { Id = customerId });
+                return customer.Read().Value as Customer.Data;               
+            }
+
+            return null;
+        }
+
+        
     }
 
 }

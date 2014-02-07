@@ -190,6 +190,19 @@ namespace AutoTourism.Component.Customer
 
                 }
             }
+        }        
+
+        public Int64 ReadCustomerIdForReservation(Int64 reservationId)
+        {
+            Int64 customerId = 0;
+            this.CreateCommand("[AutoTourism].[GetCustomerIdForReservation]");
+            this.AddInParameter("@ReservationId", DbType.Int64, reservationId);
+
+            DataSet ds = this.ExecuteDataSet();
+            if (ds != null && ds.Tables != null && ds.Tables[0].Rows != null && ds.Tables[0].Rows.Count > 0)
+                customerId = Convert.ToInt64(ds.Tables[0].Rows[0]["CustomerId"]);
+
+            return customerId;
         }
     }
 
