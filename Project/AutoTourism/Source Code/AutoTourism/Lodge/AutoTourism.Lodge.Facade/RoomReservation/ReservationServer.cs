@@ -8,6 +8,7 @@ using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using CrystalReservation = Crystal.Reservation.Component;
 using CrystalCustomer = Crystal.Customer.Component;
+using AutoCustomer = AutoTourism.Component.Customer;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
@@ -26,11 +27,17 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             formDto.roomList = this.ReadAllRoom().Value;
             formDto.configurationRuleDto = this.ReadConfigurationRule().Value;
 
-            //formDto.InitialList = this.ReadAllInitial();
-            //formDto.StateList = this.ReadAllState().Value;
-            //formDto.IdentityProofTypeList = this.ReadAllIdentityProof().Value;
-            //formDto.DtoList = this.ReadAllCustomer().Value;
-            //formDto.customerRuleDto = this.ReadCustomerRule().Value;
+            if (formDto.Dto != null && formDto.Dto.Id > 0)
+            {
+                AutoCustomer.ICustomer autoCustomer = new AutoCustomer.Server(null);
+                formDto.Dto.Customer = ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(formDto.Dto.Id));
+            }
+        }
+
+        private Customer.Facade.Dto ConvertToCustomerDto(Crystal.Customer.Component.Data customerData)
+        {
+            BinAff.Facade.Library.Dto dto = new AutoTourism.Customer.Facade.Server(null).Convert(customerData);
+            return dto as Customer.Facade.Dto;
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)

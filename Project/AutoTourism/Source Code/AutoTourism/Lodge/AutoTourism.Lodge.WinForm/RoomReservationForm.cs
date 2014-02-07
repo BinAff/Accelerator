@@ -39,7 +39,7 @@ namespace AutoTourism.Lodge.WinForm
             dtFromTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             dtFromTime.ShowUpDown = true;
 
-            this.formDto = new LodgeFacade.RoomReservation.FormDto();
+            this.formDto = new LodgeFacade.RoomReservation.FormDto() { Dto = this.dto };
 
             LoadForm();
 
@@ -116,7 +116,7 @@ namespace AutoTourism.Lodge.WinForm
 
             //populate customer data
             if (this.dto != null && this.dto.Id > 0)
-            {
+            {               
                 if (this.dto.Customer != null)
                 {                   
                     txtName.Text = (this.dto.Customer.Initial == null ? String.Empty : this.dto.Customer.Initial.Name);
