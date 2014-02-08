@@ -285,31 +285,31 @@ namespace BinAff.Core
                     if (!((Crud)child).IsReadOnly && !this.SaveOrDelete(child, retObj).Value) return retObj;
                 }
 
-                //Create link data in case of update
-                if (this.actionType == Action.Update)
-                {
-                    if (this.independentChildren.Exists((p) => p.actionType == Action.Create))
-                    {
-                        this.ManipulateReturnObject(retObj, this.dataAccess.CreateAfter()?
-                            new ReturnObject<Boolean>
-                            {
-                                Value = true,
-                                MessageList = new List<Message>
-                                {
-                                    new Message(String.IsNullOrEmpty(this.Name)? "Children link created." : "Children link for " +  this.Name + " created.", Message.Type.Information)
-                                },
-                            } :
-                            new ReturnObject<Boolean>
-                            {
-                                Value = false,
-                                MessageList = new List<Message>
-                                {
-                                    new Message(String.IsNullOrEmpty(this.Name)? "Children link creation failed." : "Children link creation for " +  this.Name + " failed.", Message.Type.Error)
-                                },
-                            });
-                        if (retObj.HasError()) return retObj;
-                    }
-                }
+                ////Create link data in case of update
+                //if (this.actionType == Action.Update)
+                //{
+                //    if (this.independentChildren.Exists((p) => p.actionType == Action.Create))
+                //    {
+                //        this.ManipulateReturnObject(retObj, this.dataAccess.CreateAfter()?
+                //            new ReturnObject<Boolean>
+                //            {
+                //                Value = true,
+                //                MessageList = new List<Message>
+                //                {
+                //                    new Message(String.IsNullOrEmpty(this.Name)? "Children link created." : "Children link for " +  this.Name + " created.", Message.Type.Information)
+                //                },
+                //            } :
+                //            new ReturnObject<Boolean>
+                //            {
+                //                Value = false,
+                //                MessageList = new List<Message>
+                //                {
+                //                    new Message(String.IsNullOrEmpty(this.Name)? "Children link creation failed." : "Children link creation for " +  this.Name + " failed.", Message.Type.Error)
+                //                },
+                //            });
+                //        if (retObj.HasError()) return retObj;
+                //    }
+                //}
 
                 //Manage hook after
                 if (!ManipulateReturnObject(retObj, this.actionType == Action.Create ? this.CreateAfter() : this.UpdateAfter()).Value) return retObj;
