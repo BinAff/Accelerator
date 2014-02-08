@@ -131,9 +131,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         private void Save()
         {
-            //ICrud crud = new CrystalLodge.Room.Reservation.Server(this.Convert((this.FormDto as FormDto).Dto) as CrystalLodge.Room.Reservation.Data);
-            //ReturnObject<Boolean> ret = crud.Save();
-
             Dto reservationDto = (this.FormDto as FormDto).Dto;
 
             AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data() 
@@ -167,11 +164,14 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             };
 
             autoCustomer.RoomReserver.Active = this.Convert(reservationDto) as CrystalCustomer.Action.Data;
+            autoCustomer.RoomReserver.Active.ProductList = this.GetRoomDataList(reservationDto.RoomList);
 
             ICrud crud = new AutoTourism.Component.Customer.Server(autoCustomer);
             ReturnObject<Boolean> ret = crud.Save();
 
-            (this.FormDto as FormDto).Dto.Id = autoCustomer.RoomReserver.Active.Id;
+            if (autoCustomer.RoomReserver.Active != null)
+                (this.FormDto as FormDto).Dto.Id = autoCustomer.RoomReserver.Active.Id;
+
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);           
         }
 
@@ -244,45 +244,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         }
                
-        //private AutoTourism.Facade.CustomerManagement.Dto ReadCustomer(Int64 customerId)
-        //{               
-
-        //    ICrud crud = new Crystal.CustomerManagement.Server(new Crystal.CustomerManagement.Data(){Id=customerId});
-        //    ReturnObject<BinAff.Core.Data> data = crud.Read();
-
-        //    AutoTourism.Facade.CustomerManagement.Dto customerDto = new CustomerManagement.Dto() {
-        //        Id = data.Value.Id,
-        //        Initial = ((Crystal.CustomerManagement.Data)data.Value).Initial == null ? null : new Configuration.Initial.Dto()
-        //            {
-        //                Id = ((Crystal.CustomerManagement.Data)data.Value).Initial.Id,
-        //                Name = ((Crystal.CustomerManagement.Data)data.Value).Initial.Name,
-        //            },
-        //        FirstName = ((Crystal.CustomerManagement.Data)data.Value).FirstName,
-        //        MiddleName = ((Crystal.CustomerManagement.Data)data.Value).MiddleName,
-        //        LastName = ((Crystal.CustomerManagement.Data)data.Value).LastName,
-        //        Address = ((Crystal.CustomerManagement.Data)data.Value).Address,
-        //        State = ((Crystal.CustomerManagement.Data)data.Value).State == null ? null : new Configuration.State.Dto()
-        //        {
-        //            Id = ((Crystal.CustomerManagement.Data)data.Value).State.Id,
-        //            Name = ((Crystal.CustomerManagement.Data)data.Value).State.Name,
-        //        },
-        //        City = ((Crystal.CustomerManagement.Data)data.Value).City,
-        //        Pin = ((Crystal.CustomerManagement.Data)data.Value).Pin,
-        //        ContactNumberList = ((Crystal.CustomerManagement.Data)data.Value).ContactNumberList == null ? null : GetContactNumberList(((Crystal.CustomerManagement.Data)data.Value).ContactNumberList),
-        //        Email = ((Crystal.CustomerManagement.Data)data.Value).Email,
-        //        IdentityProofType = ((Crystal.CustomerManagement.Data)data.Value).IdentityProofType == null ? null : new Configuration.IdentityProofType.Dto()
-        //        {
-        //            Id = ((Crystal.CustomerManagement.Data)data.Value).IdentityProofType.Id,
-        //            Name = ((Crystal.CustomerManagement.Data)data.Value).IdentityProofType.Name,
-        //        },
-        //        IdentityProofName = ((Crystal.CustomerManagement.Data)data.Value).IdentityProof,
-                
-        //    };
-
-
-        //    return customerDto;
-        //}
-
+       
         //private List<AutoTourism.Facade.Library.ContactNumberDto> GetContactNumberList(List<Crystal.CustomerManagement.ContactNumberData> ContactNumberDataList)
         //{
         //    List<AutoTourism.Facade.Library.ContactNumberDto> ContactNumberDtoList = new List<AutoTourism.Facade.Library.ContactNumberDto>();
