@@ -118,13 +118,13 @@ namespace AutoTourism.Lodge.WinForm
             if (this.dto != null && this.dto.Id > 0)
             {               
                 if (this.dto.Customer != null)
-                {                   
-                    txtName.Text = (this.dto.Customer.Initial == null ? String.Empty : this.dto.Customer.Initial.Name);
+                {
+                    String Name = (this.dto.Customer.Initial == null ? String.Empty : this.dto.Customer.Initial.Name);
                     Name += (Name == String.Empty) ? (this.dto.Customer.FirstName == null ? String.Empty : this.dto.Customer.FirstName) : " " + (this.dto.Customer.FirstName == null ? String.Empty : this.dto.Customer.FirstName);
                     Name += (Name == String.Empty) ? (this.dto.Customer.MiddleName == null ? String.Empty : this.dto.Customer.MiddleName) : " " + (this.dto.Customer.MiddleName == null ? String.Empty : this.dto.Customer.MiddleName);
                     Name += (Name == String.Empty) ? (this.dto.Customer.LastName == null ? String.Empty : this.dto.Customer.LastName) : " " + (this.dto.Customer.LastName == null ? String.Empty : this.dto.Customer.LastName);
-                
 
+                    txtName.Text = Name;
                     lstContact.DataSource = this.dto.Customer.ContactNumberList;
                     lstContact.DisplayMember = "Name";
                     lstContact.ValueMember = "Id";

@@ -47,17 +47,25 @@ namespace AutoTourism.Component.Customer
 
         protected override Boolean UpdateAfter()
         {
-            if (isNewReservation)
-            {
-                return this.InsertCustomerReservationList();
-            }
+            //if (isNewReservation)
+            //{
+            //    return this.InsertCustomerReservationList();
+            //}
+
+            //if (isNewCheckIn)
+            //{
+            //    return this.InsertCustomerCheckInList();
+            //}
+
+            Boolean blnRetVal = true;
+            blnRetVal = this.InsertCustomerReservationList();
 
             if (isNewCheckIn)
             {
-                return this.InsertCustomerCheckInList();
+                blnRetVal = this.InsertCustomerCheckInList();
             }
 
-            return true;
+            return blnRetVal;
         }
 
         protected override Boolean ReadAfter()
@@ -158,10 +166,11 @@ namespace AutoTourism.Component.Customer
                     {
                         Id = Convert.IsDBNull(row["RoomReservationId"]) ? 0 : Convert.ToInt64(row["RoomReservationId"]),
                     };
-                    //TO DO: Need to check why read is required. some createchildren is missing.
-                    BinAff.Core.ICrud server = new Crystal.Lodge.Component.Room.Reservation.Server(data);
-                    server.Read();
-                    (this.Data as Data).RoomReserver.AllList.Add(data);
+
+                    ////TO DO: Need to check why read is required. some createchildren is missing.
+                    //BinAff.Core.ICrud server = new Crystal.Lodge.Component.Room.Reservation.Server(data);
+                    //server.Read();
+                    //(this.Data as Data).RoomReserver.AllList.Add(data);
 
                 }
             }
