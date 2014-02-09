@@ -50,7 +50,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 NoOfPersons = reservation.NoOfPersons,
                 NoOfRooms = reservation.NoOfRooms,  
                 BookingFrom = reservation.ActivityDate,
-                Advance = reservation.Advance               
+                Advance = reservation.Advance,
+                RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList)
             };
         }
 
@@ -205,6 +206,21 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 });
             }
             return RoomDataList;
+        }
+
+        private List<LodgeConfigurationFacade.Room.Dto> GetRoomDtoList(List<Data> RoomList)
+        {
+            List<LodgeConfigurationFacade.Room.Dto> RoomDtoList = new List<LodgeConfigurationFacade.Room.Dto>();
+            foreach (CrystalLodge.Room.Data data in RoomList)
+            {
+                RoomDtoList.Add(new LodgeConfigurationFacade.Room.Dto
+                {
+                    Id = data.Id,
+                    Number = data.Number,
+                    Name = data.Name
+                });
+            }
+            return RoomDtoList;
         }
 
         private ReturnObject<List<Dto>> GetCustomerBooking(Int64 customerId)
