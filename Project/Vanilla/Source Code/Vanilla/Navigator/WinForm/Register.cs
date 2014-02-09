@@ -537,11 +537,12 @@ namespace Vanilla.Navigator.WinForm
             }
             else
             {
-                TreeNode parentNode = null;
-                parentNode = this.FindTreeNodeFromTag(currentArtifact.Parent as Vanilla.Utility.Facade.Artifact.Dto, this.trvForm.Nodes, parentNode);
+                Vanilla.Utility.Facade.Artifact.Dto artifactDto = currentArtifact.Parent.GetType().ToString() == "Vanilla.Utility.Facade.Module.Dto" ?
+                    (currentArtifact.Parent as Vanilla.Utility.Facade.Module.Dto).Artifact : currentArtifact.Parent as Vanilla.Utility.Facade.Artifact.Dto;
+                TreeNode parentNode = null;                
+                parentNode = this.FindTreeNodeFromTag(artifactDto, this.trvForm.Nodes, parentNode);
                 TreeNode rootNode = FindRootNode(parentNode); //to check the logic [currently entire tree is getting compared]
-                Type type = Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true);
-                //Type type = Type.GetType("AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm", true);
+                Type type = Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true);                
                 PresLib.Form form = (PresLib.Form)Activator.CreateInstance(type, currentArtifact.Module);
                 form.ShowDialog(this);
 

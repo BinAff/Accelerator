@@ -47,17 +47,11 @@ namespace AutoTourism.Component.Customer
 
         protected override Boolean UpdateAfter()
         {
-            //if (isNewReservation)
-            //{
-            //    return this.InsertCustomerReservationList();
-            //}
-
-            //if (isNewCheckIn)
-            //{
-            //    return this.InsertCustomerCheckInList();
-            //}
-
             Boolean blnRetVal = true;
+
+            if (!isNewReservation)            
+                this.DeleteCustomerReservationList();
+
             blnRetVal = this.InsertCustomerReservationList();
 
             if (isNewCheckIn)
@@ -99,6 +93,29 @@ namespace AutoTourism.Component.Customer
             return true;
         }
 
+        private Boolean DeleteCustomerReservationList()
+        {
+            Data data = this.Data as Data;
+            Boolean retVal = true;            
+
+            //This condition will be null, if the customer has no reservation
+            if (((BinAff.Core.Data)(((Crystal.Customer.Component.Characteristic.Data)(data.RoomReserver)).Active)) != null)
+            {
+                Int64 ReservationId = ((BinAff.Core.Data)(((Crystal.Customer.Component.Characteristic.Data)(data.RoomReserver)).Active)).Id;
+
+                this.CreateCommand("[AutoTourism].[CustomerRoomReservationLinkDelete]");                
+                this.AddInParameter("@RoomReservationId", DbType.Int64, ReservationId);                
+                Int32 ret = this.ExecuteNonQuery();
+
+                if (ret == -2146232060)
+                    return false;//Foreign key violation
+                else
+                    retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+
+            }
+            return retVal;
+        }
+        
         private Boolean InsertCustomerReservationList()
         {
             Data data = this.Data as Data;
