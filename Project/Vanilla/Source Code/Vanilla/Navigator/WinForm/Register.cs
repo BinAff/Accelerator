@@ -452,7 +452,7 @@ namespace Vanilla.Navigator.WinForm
 
             ListViewItem selectedItem = (sender as ListView).FocusedItem;
             Vanilla.Utility.Facade.Artifact.Dto selectedItemArtifactDto = selectedItem.Tag as Vanilla.Utility.Facade.Artifact.Dto;
-
+          
             String defaultFileName = selectedItemArtifactDto.FileName;
             String artifactFileName = String.Empty;
 
@@ -1410,8 +1410,8 @@ namespace Vanilla.Navigator.WinForm
             String pathOfParent = String.Empty;
             if (parentNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
                 pathOfParent = (parentNode.Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Path;
-            else
-                pathOfParent = (parentNode.Tag as Vanilla.Utility.Facade.Artifact.Dto).Path;
+            else            
+                pathOfParent = (parentNode.Tag as Vanilla.Utility.Facade.Artifact.Dto).Path;            
 
             artifactDto.Path = pathOfParent + fileName + this.formDto.Rule.PathSeperator;
 
@@ -1685,8 +1685,8 @@ namespace Vanilla.Navigator.WinForm
         }
 
         private void cmnuOpen_Click(object sender, EventArgs e)
-        {
-
+        {            
+            this.lsvContainer_DoubleClick(this.lsvContainer, e);
         }
 
         private void cmnuView_Click(object sender, EventArgs e)
