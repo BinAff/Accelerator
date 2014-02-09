@@ -164,7 +164,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             };
 
             autoCustomer.RoomReserver.Active = this.Convert(reservationDto) as CrystalCustomer.Action.Data;
-            autoCustomer.RoomReserver.Active.ProductList = this.GetRoomDataList(reservationDto.RoomList);
+            autoCustomer.RoomReserver.Active.ProductList = reservationDto.RoomList == null ? null : this.GetRoomDataList(reservationDto.RoomList);
 
             ICrud crud = new AutoTourism.Component.Customer.Server(autoCustomer);
             ReturnObject<Boolean> ret = crud.Save();

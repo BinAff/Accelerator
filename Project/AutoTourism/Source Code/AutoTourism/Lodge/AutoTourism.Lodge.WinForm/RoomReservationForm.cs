@@ -423,7 +423,10 @@ namespace AutoTourism.Lodge.WinForm
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            this.Clear();
+            if (this.formDto.Dto.Id > 0)
+                LoadForm();
+            else
+                this.Clear();
         }
 
     }
