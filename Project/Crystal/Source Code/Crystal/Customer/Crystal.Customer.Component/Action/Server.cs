@@ -45,11 +45,11 @@ namespace Crystal.Customer.Component.Action
             return ret;
         }
 
-        ReturnObject<Boolean> IAction.UpdateStatus(Status.Data status)
+        ReturnObject<Boolean> IAction.UpdateStatus()
         {
             ReturnObject<Boolean> ret = new ReturnObject<bool>
             {
-                Value = (this.DataAccess as Dao).UpdateStatus(status)
+                Value = (this.DataAccess as Dao).UpdateStatus()
             };
             ret.MessageList = new List<Message>();
             if (ret.Value)

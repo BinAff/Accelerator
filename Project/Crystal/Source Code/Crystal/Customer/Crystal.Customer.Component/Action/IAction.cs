@@ -11,7 +11,7 @@ namespace Crystal.Customer.Component.Action
 
         ReturnObject<List<Data>> Search(Status.Data status, DateTime startDate, DateTime endDate);
 
-        ReturnObject<Boolean> UpdateStatus(Status.Data status);
+        ReturnObject<Boolean> UpdateStatus();
 
     }
 

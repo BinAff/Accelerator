@@ -86,6 +86,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
         {
             return new Dao((Data)this.Data).ModifyReservationToOccupied();
         }
+
     }
 
 }

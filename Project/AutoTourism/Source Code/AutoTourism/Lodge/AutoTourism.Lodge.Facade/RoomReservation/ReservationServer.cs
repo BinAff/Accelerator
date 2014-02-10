@@ -12,7 +12,7 @@ using AutoCustomer = AutoTourism.Component.Customer;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
-    public class ReservationServer : BinAff.Facade.Library.Server
+    public class ReservationServer : BinAff.Facade.Library.Server, IReservation
     {
 
         public ReservationServer(FormDto formDto)
@@ -51,6 +51,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 NoOfRooms = reservation.NoOfRooms,  
                 BookingFrom = reservation.ActivityDate,
                 Advance = reservation.Advance,
+                BookingStatusId = reservation.Status.Id,
                 RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList)
             };
         }
@@ -258,35 +259,26 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 Value = bookingList,
             };
 
-        }
-               
-       
-        //private List<AutoTourism.Facade.Library.ContactNumberDto> GetContactNumberList(List<Crystal.CustomerManagement.ContactNumberData> ContactNumberDataList)
-        //{
-        //    List<AutoTourism.Facade.Library.ContactNumberDto> ContactNumberDtoList = new List<AutoTourism.Facade.Library.ContactNumberDto>();
-        //    foreach (Crystal.CustomerManagement.ContactNumberData data in ContactNumberDataList)
-        //    {
-        //        ContactNumberDtoList.Add(new AutoTourism.Facade.Library.ContactNumberDto()
-        //        {
-        //            Id = data.Id,
-        //            Name = data.ContactNumber,
-        //        });
-        //    }
-        //    return ContactNumberDtoList;
-        //}
+        }        
 
-
-        private ReturnObject<Boolean> UpdateReservationStatus(Dto dto)
+        ReturnObject<bool> IReservation.ChangeReservationStatus()
         {
-            ICrud crud = new CrystalLodge.Room.Reservation.Server(new CrystalLodge.Room.Reservation.Data
+            return this.UpdateReservationStatus();
+        }
+
+        private ReturnObject<Boolean> UpdateReservationStatus()
+        {
+            Dto reservationDto = (this.FormDto as FormDto).Dto;
+
+            CrystalCustomer.Action.IAction roomReservation = new CrystalLodge.Room.Reservation.Server(new CrystalLodge.Room.Reservation.Data 
             {
-                Id = dto.Id,
-                Status = new Crystal.Customer.Component.Action.Status.Data { 
-                    Id = dto.BookingStatusId
-                }
-                //BookingStatusId = dto.BookingStatusId,
+                Id = reservationDto.Id,
+                Status = new CrystalCustomer.Action.Status.Data
+                {
+                    Id = reservationDto.BookingStatusId
+                }            
             });
-            return crud.Save();
+            return roomReservation.UpdateStatus();
         }
 
         //-- RoomStaus ID is mapped with database table RoomReservationStatus
@@ -298,7 +290,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             CheckIn = 10004,
             Modify = 10005
         }
-
     }
 
 }

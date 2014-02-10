@@ -77,7 +77,7 @@ namespace Crystal.Customer.Component.Action
             return dataList;
         }
 
-        public virtual Boolean UpdateStatus(Status.Data status)
+        public virtual Boolean UpdateStatus()
         {
             if (this.UpdateStatusStoredProcedure == null) throw new Exception("Update status stored procedure not specified");
 
@@ -85,7 +85,7 @@ namespace Crystal.Customer.Component.Action
             this.CreateConnection();
             this.CreateCommand(this.UpdateStatusStoredProcedure);
             this.AddInParameter("@ProductId", DbType.Int64, this.Data.Id);
-            this.AddInParameter("@StatusId", DbType.Int64, status.Id);
+            this.AddInParameter("@StatusId", DbType.Int64, (this.Data as Data).Status.Id);
             Int32 i = this.ExecuteNonQuery();
             this.CloseConnection();
             return i != -2146232060;
