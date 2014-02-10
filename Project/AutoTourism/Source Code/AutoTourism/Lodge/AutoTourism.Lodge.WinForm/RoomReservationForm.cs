@@ -448,6 +448,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.formDto.Dto.BookingStatusId = btnCancelOpen.Text == "Cancel" ? Convert.ToInt64(LodgeReservationStatus.cancel) : Convert.ToInt64(LodgeReservationStatus.open);                              
                 LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(this.formDto);
                 reservation.ChangeReservationStatus();
+                base.IsModified = true;
                 this.Close();
             }
         }
