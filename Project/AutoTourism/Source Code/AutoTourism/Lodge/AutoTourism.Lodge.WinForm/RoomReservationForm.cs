@@ -148,6 +148,18 @@ namespace AutoTourism.Lodge.WinForm
                 cboSelectedRoom.ValueMember = "Id";
                 cboSelectedRoom.SelectedIndex = -1;
 
+                if (this.dto.BookingStatusId == Convert.ToInt64(LodgeReservationStatus.open))
+                {
+                    txtReservationStatus.Text = "Open";
+                    btnCancelOpen.Text = "Cancel";
+                }
+                else if (this.dto.BookingStatusId == Convert.ToInt64(LodgeReservationStatus.cancel))
+                {
+                    txtReservationStatus.Text = "Cancel";
+                    btnCancelOpen.Text = "Re Open";
+                }
+                
+
                 if ((Convert.ToInt64(LodgeReservationStatus.open) != this.dto.BookingStatusId) && (this.dto.BookingStatusId != 0))
                     btnOk.Enabled = false;
             }
@@ -427,6 +439,17 @@ namespace AutoTourism.Lodge.WinForm
                 LoadForm();
             else
                 this.Clear();
+        }
+
+        private void btnCancelOpen_Click(object sender, EventArgs e)
+        {
+            if (this.formDto != null && this.formDto.Dto != null)
+            {
+                this.formDto.Dto.BookingStatusId = btnCancelOpen.Text == "Cancel" ? Convert.ToInt64(LodgeReservationStatus.cancel) : Convert.ToInt64(LodgeReservationStatus.open);                              
+                LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(this.formDto);
+                reservation.ChangeReservationStatus();
+                this.Close();
+            }
         }
 
     }

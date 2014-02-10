@@ -58,6 +58,14 @@
             this.dtFromTime = new System.Windows.Forms.DateTimePicker();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnCancelOpen = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.chkIsAC = new System.Windows.Forms.CheckBox();
+            this.lblCategory = new System.Windows.Forms.Label();
+            this.lblType = new System.Windows.Forms.Label();
+            this.lblReservationStatus = new System.Windows.Forms.Label();
+            this.txtReservationStatus = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -267,7 +275,7 @@
             this.cboRoomList.BackColor = System.Drawing.SystemColors.Window;
             this.cboRoomList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboRoomList.FormattingEnabled = true;
-            this.cboRoomList.Location = new System.Drawing.Point(5, 19);
+            this.cboRoomList.Location = new System.Drawing.Point(1, 95);
             this.cboRoomList.Name = "cboRoomList";
             this.cboRoomList.Size = new System.Drawing.Size(108, 124);
             this.cboRoomList.TabIndex = 90;
@@ -277,7 +285,7 @@
             this.cboSelectedRoom.BackColor = System.Drawing.SystemColors.Window;
             this.cboSelectedRoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboSelectedRoom.FormattingEnabled = true;
-            this.cboSelectedRoom.Location = new System.Drawing.Point(168, 19);
+            this.cboSelectedRoom.Location = new System.Drawing.Point(164, 95);
             this.cboSelectedRoom.Name = "cboSelectedRoom";
             this.cboSelectedRoom.Size = new System.Drawing.Size(107, 124);
             this.cboSelectedRoom.TabIndex = 91;
@@ -285,7 +293,7 @@
             // btnAddRoom
             // 
             this.btnAddRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRoom.Location = new System.Drawing.Point(124, 19);
+            this.btnAddRoom.Location = new System.Drawing.Point(120, 95);
             this.btnAddRoom.Name = "btnAddRoom";
             this.btnAddRoom.Size = new System.Drawing.Size(32, 22);
             this.btnAddRoom.TabIndex = 7;
@@ -296,7 +304,7 @@
             // btnRemoveRoom
             // 
             this.btnRemoveRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveRoom.Location = new System.Drawing.Point(124, 47);
+            this.btnRemoveRoom.Location = new System.Drawing.Point(120, 123);
             this.btnRemoveRoom.Name = "btnRemoveRoom";
             this.btnRemoveRoom.Size = new System.Drawing.Size(32, 22);
             this.btnRemoveRoom.TabIndex = 8;
@@ -306,6 +314,11 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.lblType);
+            this.groupBox2.Controls.Add(this.lblCategory);
+            this.groupBox2.Controls.Add(this.chkIsAC);
+            this.groupBox2.Controls.Add(this.comboBox2);
+            this.groupBox2.Controls.Add(this.comboBox1);
             this.groupBox2.Controls.Add(this.cboRoomList);
             this.groupBox2.Controls.Add(this.btnRemoveRoom);
             this.groupBox2.Controls.Add(this.cboSelectedRoom);
@@ -313,7 +326,7 @@
             this.groupBox2.ForeColor = System.Drawing.Color.Black;
             this.groupBox2.Location = new System.Drawing.Point(11, 95);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(292, 145);
+            this.groupBox2.Size = new System.Drawing.Size(292, 221);
             this.groupBox2.TabIndex = 94;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preffered Room";
@@ -352,11 +365,86 @@
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
+            // btnCancelOpen
+            // 
+            this.btnCancelOpen.Location = new System.Drawing.Point(603, 68);
+            this.btnCancelOpen.Name = "btnCancelOpen";
+            this.btnCancelOpen.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelOpen.TabIndex = 97;
+            this.btnCancelOpen.Text = "Cancel";
+            this.btnCancelOpen.UseVisualStyleBackColor = true;
+            this.btnCancelOpen.Click += new System.EventHandler(this.btnCancelOpen_Click);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(83, 19);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(188, 21);
+            this.comboBox1.TabIndex = 92;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(83, 43);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(188, 21);
+            this.comboBox2.TabIndex = 93;
+            // 
+            // chkIsAC
+            // 
+            this.chkIsAC.AutoSize = true;
+            this.chkIsAC.Location = new System.Drawing.Point(11, 70);
+            this.chkIsAC.Name = "chkIsAC";
+            this.chkIsAC.Size = new System.Drawing.Size(97, 17);
+            this.chkIsAC.TabIndex = 94;
+            this.chkIsAC.Text = "Air Conditioned";
+            this.chkIsAC.UseVisualStyleBackColor = true;
+            // 
+            // lblCategory
+            // 
+            this.lblCategory.AutoSize = true;
+            this.lblCategory.Location = new System.Drawing.Point(8, 22);
+            this.lblCategory.Name = "lblCategory";
+            this.lblCategory.Size = new System.Drawing.Size(49, 13);
+            this.lblCategory.TabIndex = 95;
+            this.lblCategory.Text = "Category";
+            // 
+            // lblType
+            // 
+            this.lblType.AutoSize = true;
+            this.lblType.Location = new System.Drawing.Point(6, 46);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(31, 13);
+            this.lblType.TabIndex = 96;
+            this.lblType.Text = "Type";
+            // 
+            // lblReservationStatus
+            // 
+            this.lblReservationStatus.AutoSize = true;
+            this.lblReservationStatus.Location = new System.Drawing.Point(12, 331);
+            this.lblReservationStatus.Name = "lblReservationStatus";
+            this.lblReservationStatus.Size = new System.Drawing.Size(97, 13);
+            this.lblReservationStatus.TabIndex = 98;
+            this.lblReservationStatus.Text = "Reservation Status";
+            // 
+            // txtReservationStatus
+            // 
+            this.txtReservationStatus.AutoSize = true;
+            this.txtReservationStatus.Location = new System.Drawing.Point(131, 331);
+            this.txtReservationStatus.Name = "txtReservationStatus";
+            this.txtReservationStatus.Size = new System.Drawing.Size(35, 13);
+            this.txtReservationStatus.TabIndex = 99;
+            this.txtReservationStatus.Text = "label9";
+            // 
             // RoomReservationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 251);
+            this.ClientSize = new System.Drawing.Size(690, 357);
+            this.Controls.Add(this.txtReservationStatus);
+            this.Controls.Add(this.lblReservationStatus);
+            this.Controls.Add(this.btnCancelOpen);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.dtFrom);
@@ -372,17 +460,13 @@
             this.Controls.Add(this.txtRooms);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtPersons);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "RoomReservationForm";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Room Registration Form";
             this.Load += new System.EventHandler(this.RoomBookingForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -420,5 +504,13 @@
         private System.Windows.Forms.DateTimePicker dtFromTime;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button btnCancelOpen;
+        private System.Windows.Forms.CheckBox chkIsAC;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label lblCategory;
+        private System.Windows.Forms.Label lblType;
+        private System.Windows.Forms.Label txtReservationStatus;
+        private System.Windows.Forms.Label lblReservationStatus;
     }
 }
