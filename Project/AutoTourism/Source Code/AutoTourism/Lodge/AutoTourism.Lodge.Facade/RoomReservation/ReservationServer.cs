@@ -26,6 +26,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             FormDto formDto = this.FormDto as FormDto;
             formDto.roomList = this.ReadAllRoom().Value;
             formDto.configurationRuleDto = this.ReadConfigurationRule().Value;
+            formDto.CategoryList = new LodgeConfigurationFacade.Room.Server(null).ReadAllCategory().Value;
+            formDto.TypeList = new LodgeConfigurationFacade.Room.Server(null).ReadAllType().Value;
 
             if (formDto.Dto != null && formDto.Dto.Id > 0)
             {

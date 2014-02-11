@@ -221,7 +221,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             return floorDtoList;
         }
 
-        private ReturnObject<List<Room.Category.Dto>> ReadAllCategory()
+        public ReturnObject<List<Room.Category.Dto>> ReadAllCategory()
         {
             ReturnObject<List<Room.Category.Dto>> retObj = new ReturnObject<List<Room.Category.Dto>>();
             ICrud crud = new ComponentRoom.Category.Server(null);
@@ -253,7 +253,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             return ret;
         }
 
-        private ReturnObject<List<Room.Type.Dto>> ReadAllType()
+        public ReturnObject<List<Room.Type.Dto>> ReadAllType()
         {
             ReturnObject<List<Room.Type.Dto>> retObj = new ReturnObject<List<Room.Type.Dto>>();
             ICrud crud = new ComponentRoom.Type.Server(null);

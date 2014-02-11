@@ -509,7 +509,6 @@ namespace Vanilla.Navigator.WinForm
             }
 
             this.SaveArtifact(selectedItemArtifactDto, artifactFileName, selectedItemArtifactDto.Id != 0);
-
         }
 
         private void lsvContainer_MouseDown(object sender, MouseEventArgs e)

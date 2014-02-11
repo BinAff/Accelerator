@@ -114,6 +114,26 @@ namespace AutoTourism.Lodge.WinForm
             
             this.PopulateRoomList();
 
+            //--populate room category
+            this.cboCategory.DataSource = null;
+            if (this.formDto.CategoryList != null && this.formDto.CategoryList.Count > 0)
+            {
+                this.cboCategory.DataSource = this.formDto.CategoryList;
+                this.cboCategory.ValueMember = "Id";
+                this.cboCategory.DisplayMember = "Name";
+                this.cboCategory.SelectedIndex = -1;
+            }
+
+            //--populate room type
+            this.cboType.DataSource = null;
+            if (this.formDto.TypeList != null && this.formDto.TypeList.Count > 0)
+            {
+                this.cboType.DataSource = this.formDto.TypeList;
+                this.cboType.ValueMember = "Id";
+                this.cboType.DisplayMember = "Name";
+                this.cboType.SelectedIndex = -1;
+            }
+
             //populate customer data
             if (this.dto != null && this.dto.Id > 0)
             {               
@@ -147,6 +167,8 @@ namespace AutoTourism.Lodge.WinForm
                 cboSelectedRoom.DisplayMember = "Number";
                 cboSelectedRoom.ValueMember = "Id";
                 cboSelectedRoom.SelectedIndex = -1;
+
+                
 
                 if (this.dto.BookingStatusId == Convert.ToInt64(LodgeReservationStatus.open))
                 {
