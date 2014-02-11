@@ -358,6 +358,7 @@
             this.chkIsAC.TabIndex = 94;
             this.chkIsAC.Text = "Air Conditioned";
             this.chkIsAC.UseVisualStyleBackColor = true;
+            this.chkIsAC.CheckedChanged += new System.EventHandler(this.chkIsAC_CheckedChanged);
             // 
             // cboType
             // 
@@ -366,6 +367,7 @@
             this.cboType.Name = "cboType";
             this.cboType.Size = new System.Drawing.Size(188, 21);
             this.cboType.TabIndex = 93;
+            this.cboType.SelectedIndexChanged += new System.EventHandler(this.cboType_SelectedIndexChanged);
             // 
             // cboCategory
             // 
@@ -374,6 +376,7 @@
             this.cboCategory.Name = "cboCategory";
             this.cboCategory.Size = new System.Drawing.Size(188, 21);
             this.cboCategory.TabIndex = 92;
+            this.cboCategory.SelectedIndexChanged += new System.EventHandler(this.cboCategory_SelectedIndexChanged);
             // 
             // errorProvider
             // 
