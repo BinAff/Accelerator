@@ -54,16 +54,16 @@
             this.btnAddRoom = new System.Windows.Forms.Button();
             this.btnRemoveRoom = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblType = new System.Windows.Forms.Label();
+            this.lblCategory = new System.Windows.Forms.Label();
+            this.chkIsAC = new System.Windows.Forms.CheckBox();
+            this.cboType = new System.Windows.Forms.ComboBox();
+            this.cboCategory = new System.Windows.Forms.ComboBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.dtFromTime = new System.Windows.Forms.DateTimePicker();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnCancelOpen = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.chkIsAC = new System.Windows.Forms.CheckBox();
-            this.lblCategory = new System.Windows.Forms.Label();
-            this.lblType = new System.Windows.Forms.Label();
             this.lblReservationStatus = new System.Windows.Forms.Label();
             this.txtReservationStatus = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
@@ -317,8 +317,8 @@
             this.groupBox2.Controls.Add(this.lblType);
             this.groupBox2.Controls.Add(this.lblCategory);
             this.groupBox2.Controls.Add(this.chkIsAC);
-            this.groupBox2.Controls.Add(this.comboBox2);
-            this.groupBox2.Controls.Add(this.comboBox1);
+            this.groupBox2.Controls.Add(this.cboType);
+            this.groupBox2.Controls.Add(this.cboCategory);
             this.groupBox2.Controls.Add(this.cboRoomList);
             this.groupBox2.Controls.Add(this.btnRemoveRoom);
             this.groupBox2.Controls.Add(this.cboSelectedRoom);
@@ -330,6 +330,50 @@
             this.groupBox2.TabIndex = 94;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preffered Room";
+            // 
+            // lblType
+            // 
+            this.lblType.AutoSize = true;
+            this.lblType.Location = new System.Drawing.Point(6, 46);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(31, 13);
+            this.lblType.TabIndex = 96;
+            this.lblType.Text = "Type";
+            // 
+            // lblCategory
+            // 
+            this.lblCategory.AutoSize = true;
+            this.lblCategory.Location = new System.Drawing.Point(8, 22);
+            this.lblCategory.Name = "lblCategory";
+            this.lblCategory.Size = new System.Drawing.Size(49, 13);
+            this.lblCategory.TabIndex = 95;
+            this.lblCategory.Text = "Category";
+            // 
+            // chkIsAC
+            // 
+            this.chkIsAC.AutoSize = true;
+            this.chkIsAC.Location = new System.Drawing.Point(11, 70);
+            this.chkIsAC.Name = "chkIsAC";
+            this.chkIsAC.Size = new System.Drawing.Size(97, 17);
+            this.chkIsAC.TabIndex = 94;
+            this.chkIsAC.Text = "Air Conditioned";
+            this.chkIsAC.UseVisualStyleBackColor = true;
+            // 
+            // cboType
+            // 
+            this.cboType.FormattingEnabled = true;
+            this.cboType.Location = new System.Drawing.Point(83, 43);
+            this.cboType.Name = "cboType";
+            this.cboType.Size = new System.Drawing.Size(188, 21);
+            this.cboType.TabIndex = 93;
+            // 
+            // cboCategory
+            // 
+            this.cboCategory.FormattingEnabled = true;
+            this.cboCategory.Location = new System.Drawing.Point(83, 19);
+            this.cboCategory.Name = "cboCategory";
+            this.cboCategory.Size = new System.Drawing.Size(188, 21);
+            this.cboCategory.TabIndex = 92;
             // 
             // errorProvider
             // 
@@ -374,50 +418,6 @@
             this.btnCancelOpen.Text = "Cancel";
             this.btnCancelOpen.UseVisualStyleBackColor = true;
             this.btnCancelOpen.Click += new System.EventHandler(this.btnCancelOpen_Click);
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(83, 19);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(188, 21);
-            this.comboBox1.TabIndex = 92;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(83, 43);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(188, 21);
-            this.comboBox2.TabIndex = 93;
-            // 
-            // chkIsAC
-            // 
-            this.chkIsAC.AutoSize = true;
-            this.chkIsAC.Location = new System.Drawing.Point(11, 70);
-            this.chkIsAC.Name = "chkIsAC";
-            this.chkIsAC.Size = new System.Drawing.Size(97, 17);
-            this.chkIsAC.TabIndex = 94;
-            this.chkIsAC.Text = "Air Conditioned";
-            this.chkIsAC.UseVisualStyleBackColor = true;
-            // 
-            // lblCategory
-            // 
-            this.lblCategory.AutoSize = true;
-            this.lblCategory.Location = new System.Drawing.Point(8, 22);
-            this.lblCategory.Name = "lblCategory";
-            this.lblCategory.Size = new System.Drawing.Size(49, 13);
-            this.lblCategory.TabIndex = 95;
-            this.lblCategory.Text = "Category";
-            // 
-            // lblType
-            // 
-            this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(6, 46);
-            this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(31, 13);
-            this.lblType.TabIndex = 96;
-            this.lblType.Text = "Type";
             // 
             // lblReservationStatus
             // 
@@ -506,8 +506,8 @@
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnCancelOpen;
         private System.Windows.Forms.CheckBox chkIsAC;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cboType;
+        private System.Windows.Forms.ComboBox cboCategory;
         private System.Windows.Forms.Label lblCategory;
         private System.Windows.Forms.Label lblType;
         private System.Windows.Forms.Label txtReservationStatus;

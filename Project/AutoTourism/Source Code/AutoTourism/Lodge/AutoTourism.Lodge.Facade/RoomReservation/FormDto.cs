@@ -10,11 +10,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
     {
 
         public Dto Dto { get; set; }
-        public RuleFacade.ConfigurationRuleDto configurationRuleDto { get; set; }
-
-        //public Dto bookingDto { get; set; }
+        public RuleFacade.ConfigurationRuleDto configurationRuleDto { get; set; }        
         public List<LodgeConfigurationFacade.Room.Dto> roomList { get; set; }
-
-        //public List<LodgeReservationDto> ReservationList { get; set; }
+        public List<LodgeConfigurationFacade.Room.Category.Dto> CategoryList { get; set; }
+        public List<LodgeConfigurationFacade.Room.Type.Dto> TypeList { get; set; }
     }
 }
