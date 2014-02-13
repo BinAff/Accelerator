@@ -59,21 +59,21 @@
             // 
             // cboCustomer
             // 
-            this.cboCustomer.BackColor = System.Drawing.Color.Lavender;
+            this.cboCustomer.BackColor = System.Drawing.SystemColors.Window;
             this.cboCustomer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboCustomer.FormattingEnabled = true;
-            this.cboCustomer.Location = new System.Drawing.Point(11, 40);
+            this.cboCustomer.Location = new System.Drawing.Point(12, 12);
             this.cboCustomer.Name = "cboCustomer";
             this.cboCustomer.Size = new System.Drawing.Size(154, 247);
             this.cboCustomer.Sorted = true;
-            this.cboCustomer.TabIndex = 41;
+            this.cboCustomer.TabIndex = 1;
             this.cboCustomer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cboCustomer_MouseClick);
             this.cboCustomer.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cboCustomer_MouseDoubleClick);
             this.cboCustomer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.cboContact_MouseDown);
             // 
             // tbpOtherInfo
             // 
-            this.tbpOtherInfo.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.tbpOtherInfo.BackColor = System.Drawing.SystemColors.Control;
             this.tbpOtherInfo.Location = new System.Drawing.Point(4, 22);
             this.tbpOtherInfo.Name = "tbpOtherInfo";
             this.tbpOtherInfo.Size = new System.Drawing.Size(467, 221);
@@ -84,7 +84,7 @@
             // 
             this.tbcCustomer.Controls.Add(this.tbpPersonalInfo);
             this.tbcCustomer.Controls.Add(this.tbpOtherInfo);
-            this.tbcCustomer.Location = new System.Drawing.Point(171, 40);
+            this.tbcCustomer.Location = new System.Drawing.Point(172, 12);
             this.tbcCustomer.Name = "tbcCustomer";
             this.tbcCustomer.SelectedIndex = 0;
             this.tbcCustomer.Size = new System.Drawing.Size(475, 247);
@@ -92,7 +92,7 @@
             // 
             // tbpPersonalInfo
             // 
-            this.tbpPersonalInfo.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.tbpPersonalInfo.BackColor = System.Drawing.SystemColors.Control;
             this.tbpPersonalInfo.Controls.Add(this.lblIdProofTypeName);
             this.tbpPersonalInfo.Controls.Add(this.lstContact);
             this.tbpPersonalInfo.Controls.Add(this.label5);
@@ -121,13 +121,14 @@
             // 
             // lstContact
             // 
-            this.lstContact.BackColor = System.Drawing.Color.Lavender;
+            this.lstContact.BackColor = System.Drawing.SystemColors.Window;
             this.lstContact.Enabled = false;
             this.lstContact.FormattingEnabled = true;
             this.lstContact.Location = new System.Drawing.Point(126, 112);
             this.lstContact.Name = "lstContact";
             this.lstContact.Size = new System.Drawing.Size(168, 43);
-            this.lstContact.TabIndex = 79;
+            this.lstContact.TabIndex = 103;
+            this.lstContact.TabStop = false;
             // 
             // label5
             // 
@@ -141,21 +142,23 @@
             // 
             // txtIdentityProofNo
             // 
-            this.txtIdentityProofNo.BackColor = System.Drawing.Color.Lavender;
+            this.txtIdentityProofNo.BackColor = System.Drawing.SystemColors.Window;
             this.txtIdentityProofNo.Enabled = false;
             this.txtIdentityProofNo.Location = new System.Drawing.Point(126, 187);
             this.txtIdentityProofNo.Name = "txtIdentityProofNo";
             this.txtIdentityProofNo.Size = new System.Drawing.Size(168, 20);
-            this.txtIdentityProofNo.TabIndex = 38;
+            this.txtIdentityProofNo.TabIndex = 105;
+            this.txtIdentityProofNo.TabStop = false;
             // 
             // txtEmail
             // 
-            this.txtEmail.BackColor = System.Drawing.Color.Lavender;
+            this.txtEmail.BackColor = System.Drawing.SystemColors.Window;
             this.txtEmail.Enabled = false;
             this.txtEmail.Location = new System.Drawing.Point(126, 161);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(168, 20);
-            this.txtEmail.TabIndex = 36;
+            this.txtEmail.TabIndex = 104;
+            this.txtEmail.TabStop = false;
             // 
             // label7
             // 
@@ -179,22 +182,24 @@
             // 
             // txtAdds
             // 
-            this.txtAdds.BackColor = System.Drawing.Color.Lavender;
+            this.txtAdds.BackColor = System.Drawing.SystemColors.Window;
             this.txtAdds.Enabled = false;
             this.txtAdds.Location = new System.Drawing.Point(126, 33);
             this.txtAdds.Multiline = true;
             this.txtAdds.Name = "txtAdds";
             this.txtAdds.Size = new System.Drawing.Size(168, 73);
-            this.txtAdds.TabIndex = 23;
+            this.txtAdds.TabIndex = 102;
+            this.txtAdds.TabStop = false;
             // 
             // txtName
             // 
-            this.txtName.BackColor = System.Drawing.Color.Lavender;
+            this.txtName.BackColor = System.Drawing.SystemColors.Window;
             this.txtName.Enabled = false;
             this.txtName.Location = new System.Drawing.Point(126, 7);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(335, 20);
-            this.txtName.TabIndex = 20;
+            this.txtName.TabIndex = 101;
+            this.txtName.TabStop = false;
             // 
             // lblName
             // 
@@ -208,9 +213,9 @@
             // 
             // btnBook
             // 
-            this.btnBook.Location = new System.Drawing.Point(658, 197);
+            this.btnBook.Location = new System.Drawing.Point(606, 265);
             this.btnBook.Name = "btnBook";
-            this.btnBook.Size = new System.Drawing.Size(41, 40);
+            this.btnBook.Size = new System.Drawing.Size(41, 23);
             this.btnBook.TabIndex = 46;
             this.btnBook.Text = "Book";
             this.btnBook.UseVisualStyleBackColor = true;
@@ -226,54 +231,55 @@
             this.toolStripSeparator1,
             this.menuItemRegister});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(117, 120);
+            this.contextMenu.Size = new System.Drawing.Size(115, 120);
             // 
             // menuItemView
             // 
             this.menuItemView.Name = "menuItemView";
-            this.menuItemView.Size = new System.Drawing.Size(116, 22);
+            this.menuItemView.Size = new System.Drawing.Size(114, 22);
             this.menuItemView.Text = "View";
             this.menuItemView.Click += new System.EventHandler(this.menuItemView_Click);
             // 
             // menuItemUpdate
             // 
             this.menuItemUpdate.Name = "menuItemUpdate";
-            this.menuItemUpdate.Size = new System.Drawing.Size(116, 22);
+            this.menuItemUpdate.Size = new System.Drawing.Size(114, 22);
             this.menuItemUpdate.Text = "Update";
             this.menuItemUpdate.Click += new System.EventHandler(this.menuItemUpdate_Click);
             // 
             // menuItemDelete
             // 
             this.menuItemDelete.Name = "menuItemDelete";
-            this.menuItemDelete.Size = new System.Drawing.Size(116, 22);
+            this.menuItemDelete.Size = new System.Drawing.Size(114, 22);
             this.menuItemDelete.Text = "Delete";
             this.menuItemDelete.Click += new System.EventHandler(this.menuItemDelete_Click);
             // 
             // menuItemBook
             // 
             this.menuItemBook.Name = "menuItemBook";
-            this.menuItemBook.Size = new System.Drawing.Size(116, 22);
+            this.menuItemBook.Size = new System.Drawing.Size(114, 22);
             this.menuItemBook.Text = "Book";
             this.menuItemBook.Click += new System.EventHandler(this.menuItemBook_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(113, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(111, 6);
             // 
             // menuItemRegister
             // 
             this.menuItemRegister.Name = "menuItemRegister";
-            this.menuItemRegister.Size = new System.Drawing.Size(116, 22);
+            this.menuItemRegister.Size = new System.Drawing.Size(114, 22);
             this.menuItemRegister.Text = "Register";
             this.menuItemRegister.Click += new System.EventHandler(this.menuItemRegister_Click);
             // 
             // btnSelect
             // 
-            this.btnSelect.Location = new System.Drawing.Point(171, 11);
+            this.btnSelect.ContextMenuStrip = this.contextMenu;
+            this.btnSelect.Location = new System.Drawing.Point(502, 265);
             this.btnSelect.Name = "btnSelect";
-            this.btnSelect.Size = new System.Drawing.Size(152, 23);
-            this.btnSelect.TabIndex = 47;
+            this.btnSelect.Size = new System.Drawing.Size(98, 23);
+            this.btnSelect.TabIndex = 2;
             this.btnSelect.Text = "Select And Close";
             this.btnSelect.UseVisualStyleBackColor = true;
             this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
@@ -282,13 +288,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(706, 298);
+            this.ClientSize = new System.Drawing.Size(660, 302);
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.tbcCustomer);
             this.Controls.Add(this.cboCustomer);
             this.Controls.Add(this.btnBook);
             this.Name = "CustomerRegister";
             this.Text = "Customer Register";
+            this.TransparencyKey = System.Drawing.Color.Lime;
             this.Load += new System.EventHandler(this.CustomerRegister_Load);
             this.tbcCustomer.ResumeLayout(false);
             this.tbpPersonalInfo.ResumeLayout(false);
