@@ -205,8 +205,7 @@ namespace Crystal.Guardian.Component.Account
         }
 
         ReturnObject<Boolean> IUser.ChangeRole()
-        {
-            
+        {            
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
 
             using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
@@ -218,6 +217,18 @@ namespace Crystal.Guardian.Component.Account
             ret.MessageList = ret.Value ? 
                 new List<Message> { new Message ("User roles changed.", Message.Type.Information) } :
                 new List<Message> { new Message ("Unable to change user roles.", Message.Type.Error) };
+            return ret;
+        }
+
+        ReturnObject<Boolean> IUser.ChangeLoginId()
+        {
+            ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
+
+            ret.Value = (this.DataAccess as Dao).UpdateLoginId();
+
+            ret.MessageList = ret.Value ?
+                new List<Message> { new Message("User login id changed.", Message.Type.Information) } :
+                new List<Message> { new Message("Unable to change user login id.", Message.Type.Error) };
             return ret;
         }
 

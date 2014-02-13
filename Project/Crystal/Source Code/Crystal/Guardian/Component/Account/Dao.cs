@@ -319,6 +319,21 @@ namespace Crystal.Guardian.Component.Account
             return isDeletedSuccessfully;
         }
 
+        internal Boolean UpdateLoginId()
+        {
+            Boolean isUpdatedSuccessfully = true;
+
+            base.CreateConnection();
+            base.CreateCommand("Guardian.AccountUpdateLoginId");
+            base.AddInParameter("@Id", DbType.Int64, this.Data.Id);
+            base.AddInParameter("@LoginId", DbType.Int64, (this.Data as Data).LoginId);
+            Int32 ret = base.ExecuteNonQuery();
+            if (ret == -2146232060) isUpdatedSuccessfully = false; //Foreign key violation                  
+            base.CloseConnection();
+
+            return isUpdatedSuccessfully;
+        }
+
         //private Boolean DeleteUserContactNumber(Int64 userId)
         //{
         //    Boolean isDeletedSuccessfully = true;
