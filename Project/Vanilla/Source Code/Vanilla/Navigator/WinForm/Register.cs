@@ -496,10 +496,10 @@ namespace Vanilla.Navigator.WinForm
 
 
             TreeNode selectedNode = null;
-            if (selectedItemArtifactDto.Style == Vanilla.Utility.Facade.Artifact.Type.Document)
-                selectedNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, selectedNode);
-            else
-                selectedNode = this.FindTreeNodeFromTag(selectedItemArtifactDto, this.trvForm.Nodes, selectedNode);
+            if (selectedItemArtifactDto.Style == Vanilla.Utility.Facade.Artifact.Type.Document)            
+                selectedNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, selectedNode);            
+            else            
+                selectedNode = this.FindTreeNodeFromTag(selectedItemArtifactDto, this.trvForm.Nodes, selectedNode);            
 
             //Update TreeNode Text
             if ((selectedItemArtifactDto.Style == Vanilla.Utility.Facade.Artifact.Type.Directory) && (defaultFileName != artifactFileName))
@@ -509,6 +509,15 @@ namespace Vanilla.Navigator.WinForm
             }
 
             this.SaveArtifact(selectedItemArtifactDto, artifactFileName, selectedItemArtifactDto.Id != 0);
+
+            //code added to fix issue
+            //issue description : if any document is created on root and then double click immediately to open the form in edit mode , was giving error
+            //if this block is moved up before save, then a foreign key error will be thrown
+            if (selectedItemArtifactDto.Style == Vanilla.Utility.Facade.Artifact.Type.Document)
+            {
+                if ((selectedNode.Tag.GetType().ToString() == "Vanilla.Utility.Facade.Module.Dto") && (selectedItemArtifactDto.Parent == null))
+                    (selectedItem.Tag as Vanilla.Utility.Facade.Artifact.Dto).Parent = selectedNode.Tag as Vanilla.Utility.Facade.Module.Dto;
+            }
         }
 
         private void lsvContainer_MouseDown(object sender, MouseEventArgs e)
