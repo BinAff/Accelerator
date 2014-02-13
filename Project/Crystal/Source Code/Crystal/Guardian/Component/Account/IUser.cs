@@ -11,6 +11,7 @@ namespace Crystal.Guardian.Component.Account
         ReturnObject<BinAff.Core.Data> Login();
         ReturnObject<Boolean> ChangePassword();
         ReturnObject<Boolean> ChangeRole();
+        ReturnObject<Boolean> ChangeLoginId();
 
         void Logout();
 

@@ -40,6 +40,9 @@
     <Compile Include="Account\Dao.cs" />
     <Compile Include="Account\Data.cs" />
     <Compile Include="Account\IUser.cs" />
+    <Compile Include="Account\LoginHistory\Dao.cs" />
+    <Compile Include="Account\LoginHistory\Data.cs" />
+    <Compile Include="Account\LoginHistory\Server.cs" />
     <Compile Include="Account\Profile\ContactNumber\Dao.cs" />
     <Compile Include="Account\Profile\ContactNumber\Data.cs" />
     <Compile Include="Account\Profile\ContactNumber\Server.cs" />
