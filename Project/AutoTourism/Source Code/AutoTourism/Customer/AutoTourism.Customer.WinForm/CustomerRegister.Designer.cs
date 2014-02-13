@@ -295,7 +295,7 @@
             this.Controls.Add(this.btnBook);
             this.Name = "CustomerRegister";
             this.Text = "Customer Register";
-            this.TransparencyKey = System.Drawing.Color.Lime;
+            this.TransparencyKey = System.Drawing.Color.Empty;
             this.Load += new System.EventHandler(this.CustomerRegister_Load);
             this.tbcCustomer.ResumeLayout(false);
             this.tbpPersonalInfo.ResumeLayout(false);
