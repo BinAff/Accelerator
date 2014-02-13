@@ -12,6 +12,10 @@ namespace Crystal.Lodge.Component.Room.Reservation
         public String Description { get; set; }
         public Double Advance { get; set; }
         public Boolean IsCheckedIn { get; set; }
+
+        public Category.Data RoomCategory { get; set; }
+        public Room.Type.Data RoomType { get; set; }
+        public Boolean IsAC { get; set; }
     }
 
 }

@@ -167,8 +167,32 @@ namespace AutoTourism.Lodge.WinForm
                 cboSelectedRoom.DisplayMember = "Number";
                 cboSelectedRoom.ValueMember = "Id";
                 cboSelectedRoom.SelectedIndex = -1;
-
                 
+                if (this.dto.RoomCategory != null && this.dto.RoomCategory.Id > 0)
+                {
+                    for (int i = 0; i < cboCategory.Items.Count; i++)
+                    {
+                        if (this.dto.RoomCategory.Id == ((LodgeConfigurationFacade.Room.Category.Dto)cboCategory.Items[i]).Id)
+                        {
+                            cboCategory.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+
+                if (this.dto.RoomType != null && this.dto.RoomType.Id > 0)
+                {
+                    for (int i = 0; i < cboType.Items.Count; i++)
+                    {
+                        if (this.dto.RoomType.Id == ((LodgeConfigurationFacade.Room.Type.Dto)cboType.Items[i]).Id)
+                        {
+                            cboType.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+
+                chkIsAC.Checked = this.dto.IsAC;
 
                 if (this.dto.BookingStatusId == Convert.ToInt64(LodgeReservationStatus.open))
                 {
@@ -493,29 +517,63 @@ namespace AutoTourism.Lodge.WinForm
 
             if (this.formDto.roomList != null && this.formDto.roomList.Count > 0)
             {
-                //if (this.dto.RoomList == null || this.dto.RoomList.Count == 0)
-                //    RoomList = this.formDto.roomList;
-                //else
-                //{
                 foreach (LodgeConfigurationFacade.Room.Dto roomDto in this.formDto.roomList)
                 {
-                    if (!this.ValidateRoom(roomDto))
-                        continue;
-
-                    Boolean blnNotExist = true;
-                    foreach (LodgeConfigurationFacade.Room.Dto bookedRoomDto in this.dto.RoomList)
-                    {
-                        if (roomDto.Id == bookedRoomDto.Id)
-                        {
-                            blnNotExist = false;
-                            break;
-                        }
-                    }
-                    if (blnNotExist) RoomList.Add(roomDto);
+                    if (this.ValidateRoom(roomDto))
+                        RoomList.Add(roomDto);
                 }
-                //}
+            }
 
-                this.cboRoomList.DataSource = RoomList;
+
+            List<LodgeConfigurationFacade.Room.Dto> SelectedRoomList = new List<LodgeConfigurationFacade.Room.Dto>();
+            List<LodgeConfigurationFacade.Room.Dto> AvailableRoomList = new List<LodgeConfigurationFacade.Room.Dto>();
+
+            if (RoomList != null && RoomList.Count > 0)
+            {
+                if (this.dto.RoomList == null || this.dto.RoomList.Count == 0)
+                {
+                    SelectedRoomList = null;
+                    AvailableRoomList = RoomList;
+                }
+                else
+                {
+                    Boolean isSelected = false;
+                    foreach (LodgeConfigurationFacade.Room.Dto roomDto in RoomList)
+                    {
+                        isSelected = false;
+                        foreach (LodgeConfigurationFacade.Room.Dto validRoomDto in this.dto.RoomList)
+                        {
+                            if (roomDto.Id == validRoomDto.Id)
+                            {
+                                isSelected = true;
+                                break;
+                            }
+                        }
+
+                        if (isSelected)
+                            SelectedRoomList.Add(roomDto);
+                        else
+                            AvailableRoomList.Add(roomDto);
+                    }
+                }
+            }
+            else
+            {
+                SelectedRoomList = null;
+                AvailableRoomList = null;                
+            }
+
+            this.cboSelectedRoom.DataSource = SelectedRoomList;
+            if (SelectedRoomList != null && SelectedRoomList.Count > 0)
+            {
+                this.cboSelectedRoom.DisplayMember = "Number";
+                this.cboSelectedRoom.ValueMember = "Id";
+                this.cboSelectedRoom.SelectedIndex = -1;
+            }
+
+            this.cboRoomList.DataSource = AvailableRoomList;
+            if (AvailableRoomList != null && AvailableRoomList.Count > 0)
+            {
                 this.cboRoomList.DisplayMember = "Number";
                 this.cboRoomList.ValueMember = "Id";
                 this.cboRoomList.SelectedIndex = -1;

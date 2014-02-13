@@ -47,24 +47,26 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             CrystalLodge.Room.Reservation.Data reservation = data as CrystalLodge.Room.Reservation.Data;
             return new Dto
             {
-                Id = data.Id,  
+                Id = data.Id,
                 NoOfDays = reservation.NoOfDays,
                 NoOfPersons = reservation.NoOfPersons,
-                NoOfRooms = reservation.NoOfRooms,  
+                NoOfRooms = reservation.NoOfRooms,
                 BookingFrom = reservation.ActivityDate,
                 Advance = reservation.Advance,
                 BookingStatusId = reservation.Status.Id,
-                RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList)
+                RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList),
+                RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
+                RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id },
+                IsAC = reservation.IsAC
             };
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
-        {
-            
+        {            
             Dto reservation = dto as Dto;
             return new CrystalLodge.Room.Reservation.Data
             {
-                Id = dto.Id,                
+                Id = dto.Id,
                 NoOfDays = reservation.NoOfDays,
                 NoOfPersons = reservation.NoOfPersons,
                 NoOfRooms = reservation.NoOfRooms,
@@ -76,7 +78,10 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 {
                     Id = System.Convert.ToInt64(RoomStatus.Open)
                 },
-                Description=String.Empty,//description will be added later if required
+                Description = String.Empty,//description will be added later if required
+                RoomCategory = reservation.RoomCategory == null ? null : new CrystalLodge.Room.Category.Data { Id = reservation.RoomCategory.Id },
+                RoomType = reservation.RoomType == null ? null : new CrystalLodge.Room.Type.Data { Id = reservation.RoomType.Id },
+                IsAC = reservation.IsAC
             };
         }
 
