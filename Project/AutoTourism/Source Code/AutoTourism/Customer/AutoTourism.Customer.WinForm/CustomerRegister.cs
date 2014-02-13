@@ -77,7 +77,7 @@ namespace AutoTourism.Customer.WinForm
             if (cboCustomer.SelectedIndex != -1)
             {
                 CustomerFacade.Dto dto = (CustomerFacade.Dto)cboCustomer.SelectedItem;
-                txtName.Text = (dto.Initial == null ? String.Empty : dto.Initial.Name)
+                txtName.Text = (dto.Initial == null ? String.Empty : dto.Initial.Name + " ")
                     + dto.FirstName + " " + dto.MiddleName + " " + dto.LastName;
                 txtAdds.Text = dto.Address;
                 txtEmail.Text = dto.Email;
