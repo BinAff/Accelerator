@@ -206,8 +206,8 @@ namespace AutoTourism.Lodge.WinForm
                 }
                 
 
-                if ((Convert.ToInt64(LodgeReservationStatus.open) != this.dto.BookingStatusId) && (this.dto.BookingStatusId != 0))
-                    btnOk.Enabled = false;
+                //if ((Convert.ToInt64(LodgeReservationStatus.open) != this.dto.BookingStatusId) && (this.dto.BookingStatusId != 0))
+                //    btnOk.Enabled = false;
             }
         }
 

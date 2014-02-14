@@ -10,6 +10,7 @@ using CrystalAction = Crystal.Customer.Component.Action;
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using CrystalReservation = Crystal.Reservation.Component;
 using RuleFacade = AutoTourism.Configuration.Rule.Facade;
+using AutoCustomer = AutoTourism.Component.Customer;
 
 namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 {
@@ -44,25 +45,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
             
             foreach (Data data in reservationDataList.Value)
             {
-                Dto regDto = new Dto
-                {
-                    BookingFrom = ((CrystalLodge.Room.Reservation.Data)data).ActivityDate,
-                    NoOfDays = ((CrystalLodge.Room.Reservation.Data)data).NoOfDays,
-                    NoOfPersons = ((CrystalLodge.Room.Reservation.Data)data).NoOfPersons,
-                    NoOfRooms = ((CrystalLodge.Room.Reservation.Data)data).NoOfRooms,
-                    Advance = ((CrystalLodge.Room.Reservation.Data)data).Advance,
-                    BookingStatusId = ((CrystalLodge.Room.Reservation.Data)data).Status.Id,
-                    RoomList = GetRoomDtoList(((CrystalLodge.Room.Reservation.Data)data).ProductList),
-                   
-                    //call the customer component read method
-                   //Customer = ((Crystal.Lodge.Reservation.Data)data).Customer == null ? null : ReadCustomer(((Crystal.Lodge.Reservation.Data)data).Customer.Id),
-
-                };
-                regDto.BookingTo = regDto.BookingFrom.AddDays(regDto.NoOfDays);
-                regDto.Name = regDto.Customer == null ? String.Empty : regDto.Customer.FirstName + " " + regDto.Customer.MiddleName + " " + regDto.Customer.LastName;
-                regDto.ContactNumber = regDto.Customer == null ? String.Empty : regDto.Customer.ContactNumberList[0].Name;
-                regDto.Room = GetRooms(regDto.RoomList);
-                
+                Dto regDto = this.Convert(new RoomReservation.ReservationServer(null).Convert(data));
                 bookingList.Add(regDto);
             }
 
@@ -70,6 +53,30 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
             {
                 Value = bookingList,
             };
+        }
+
+        private Dto Convert(BinAff.Facade.Library.Dto libDto)
+        {
+            RoomReservation.Dto reservation = libDto as RoomReservation.Dto;
+            Dto reservationDto = new Dto 
+            {
+                Id = reservation.Id,
+                NoOfDays = reservation.NoOfDays,
+                NoOfPersons = reservation.NoOfPersons,
+                NoOfRooms = reservation.NoOfRooms,
+                BookingFrom = reservation.BookingFrom,
+                Advance = reservation.Advance,
+                BookingStatusId = reservation.BookingStatusId,
+                RoomList = reservation.RoomList,
+                RoomCategory = reservation.RoomCategory,
+                RoomType = reservation.RoomType,
+                IsAC = reservation.IsAC
+            };
+
+            AutoCustomer.ICustomer autoCustomer = new AutoCustomer.Server(null);
+            reservationDto.Customer = new RoomReservation.ReservationServer(null).ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(reservation.Id));
+
+            return reservationDto;
         }
 
         private ReturnObject<List<Table>> GetLodgeReservationStatus()
