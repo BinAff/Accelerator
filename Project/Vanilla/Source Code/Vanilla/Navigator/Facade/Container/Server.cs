@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 
 using BinAff.Core;
-//using VanilaModule = Vanilla.Navigator.Facade.Module;
+
 using VanilaModule = Vanilla.Utility.Facade.Module;
+using VanAcc = Vanilla.Guardian.Facade.Account;
 
 
 namespace Vanilla.Navigator.Facade.Container
@@ -16,6 +17,11 @@ namespace Vanilla.Navigator.Facade.Container
             :base(formDto)
         {
 
+        }
+
+        public void Logout()
+        {
+            new VanAcc.Server(new VanAcc.FormDto()).Logout();
         }
 
         public override void LoadForm()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Crystal.Guardian.Component.Account.LoginHistory
 {
@@ -15,16 +16,17 @@ namespace Crystal.Guardian.Component.Account.LoginHistory
         protected override void Compose()
         {
             base.Name = "Login History";
+            base.DataAccess = new Dao(this.Data as Data);
         }
 
         protected override BinAff.Core.Data CreateDataObject()
         {
-            throw new NotImplementedException();
+            return new Data();
         }
 
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
-            throw new NotImplementedException();
+            return new Server((Data)data);
         }
 
     }

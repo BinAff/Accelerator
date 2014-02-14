@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace Vanilla.Guardian.Facade.Account
 {
-
-
+    
     public class Dto : BinAff.Facade.Library.Dto
     {
 
@@ -31,6 +30,10 @@ namespace Vanilla.Guardian.Facade.Account
         public SecurityAnswer.Dto SecurityAnswer { get; set; }
 
         public BinAff.Facade.Library.Dto Extension { get; set; }
+
+        public LoginHistory.Dto LoginInfo { get; set; }
+
+        public List<LoginHistory.Dto> LoginHistory { get; set; }
 
     }
 

@@ -37,6 +37,7 @@
     <Compile Include="Account\Dto.cs" />
     <Compile Include="Account\FormDto.cs" />
     <Compile Include="Account\Server.cs" />
+    <Compile Include="LoginHistory\Dto.cs" />
     <Compile Include="Login\Dto.cs" />
     <Compile Include="Login\FormDto.cs" />
     <Compile Include="Login\Server.cs" />

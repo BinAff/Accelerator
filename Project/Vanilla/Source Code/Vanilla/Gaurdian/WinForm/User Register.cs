@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 using PresLib = BinAff.Presentation.Library;
 
-using VanRegister = Vanilla.Guardian.Facade.UserRegister;
+using VanReg = Vanilla.Guardian.Facade.UserRegister;
 using VanAcc = Vanilla.Guardian.Facade.Account;
 using BinAff.Core;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace Vanilla.Guardian.WinForm
 
         private void LoadForm()
         {
-            VanRegister.Server facade = new VanRegister.Server(this.formDto);
+            VanReg.Server facade = new VanReg.Server(this.formDto);
             facade.LoadForm();
 
             if (facade.IsError)
@@ -52,6 +52,7 @@ namespace Vanilla.Guardian.WinForm
 
         private void Clear()
         {
+            this.txtLoginId.Text = String.Empty;
             this.txtDateOfBirth.Text = String.Empty;
             this.txtName.Text = String.Empty;
             this.lstContact.DataSource = null;
@@ -59,6 +60,8 @@ namespace Vanilla.Guardian.WinForm
             {
                 this.chkLstRole.SetItemChecked(i, false);
             }
+            this.grvLoginHistory.DataSource = null;
+            this.grvLoginHistory.Refresh();
         }
 
         private void BindRole()
@@ -88,6 +91,7 @@ namespace Vanilla.Guardian.WinForm
         {
             this.Clear();
             VanAcc.Dto current = this.cboUser.SelectedItem as VanAcc.Dto;
+            this.txtLoginId.Text = current.LoginId;
             this.txtName.Text = current.Profile.Name;
             if (current.Profile.DateOfBirth != null)
             {
@@ -112,17 +116,27 @@ namespace Vanilla.Guardian.WinForm
                     }
                 }
             }
+            this.grvLoginHistory.AutoGenerateColumns = false;
+            this.grvLoginHistory.DataSource = current.LoginHistory;
+
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            new Registration().ShowDialog();
+            Registration registration = new Registration();
+            DialogResult dig = new Registration().ShowDialog();
+            if (registration.IsOkClicked)
+            {
+                this.LoadForm();
+                this.Clear();
+            }
         }
 
         private void btnChange_Click(object sender, EventArgs e)
         {
             Facade.Account.Dto currentAccount = this.cboUser.SelectedItem as Facade.Account.Dto;
             this.formDto.Dto.Id = currentAccount.Id;
+            this.formDto.Dto.LoginId = this.txtLoginId.Text.Trim();
             this.formDto.Dto.RoleList = new List<Facade.Role.Dto>();
             foreach (String itemChecked in this.chkLstRole.CheckedItems)
             {
@@ -131,7 +145,7 @@ namespace Vanilla.Guardian.WinForm
                     return (String.Compare(p.Name, itemChecked) == 0); 
                 }));
             }
-            VanRegister.Server facade = new VanRegister.Server(this.formDto);
+            VanReg.Server facade = new VanReg.Server(this.formDto);
             facade.Change();
             if (!facade.IsError) currentAccount.RoleList = this.formDto.Dto.RoleList;
             new PresLib.MessageBox
@@ -139,11 +153,42 @@ namespace Vanilla.Guardian.WinForm
                 DialogueType = facade.IsError ? PresLib.MessageBox.Type.Error : PresLib.MessageBox.Type.Information,
                 Heading = "Splash",
             }.Show(facade.DisplayMessageList);
+            this.LoadForm();
+            this.Clear();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            DialogResult result = MessageBox.Show("Do you want to delete the record?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == System.Windows.Forms.DialogResult.No)
+            {
+                return;
+            }
+            this.formDto.Dto = new VanReg.Dto
+            {
+                Id = (this.cboUser.SelectedItem as VanAcc.Dto).Id,
+            };
+            VanReg.Server facade = new VanReg.Server(this.formDto);
+            facade.Delete();
 
+            if (facade.IsError)
+            {
+                new PresLib.MessageBox
+                {
+                    DialogueType = PresLib.MessageBox.Type.Error,
+                    Heading = "Error",
+                }.Show(facade.DisplayMessageList);
+            }
+            else
+            {
+                new PresLib.MessageBox
+                {
+                    DialogueType = PresLib.MessageBox.Type.Information,
+                    Heading = "Information",
+                }.Show(facade.DisplayMessageList);
+            }
+            this.LoadForm();
+            this.Clear();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -156,7 +201,7 @@ namespace Vanilla.Guardian.WinForm
         {
             Facade.Account.Dto currentAccount = this.cboUser.SelectedItem as Facade.Account.Dto;
             this.formDto.Dto.Id = currentAccount.Id;
-            VanRegister.Server facade = new VanRegister.Server(this.formDto);
+            VanReg.Server facade = new VanReg.Server(this.formDto);
             facade.ResetPassword();
             new PresLib.MessageBox
             {
