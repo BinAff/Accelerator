@@ -52,12 +52,13 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 NoOfPersons = reservation.NoOfPersons,
                 NoOfRooms = reservation.NoOfRooms,
                 BookingFrom = reservation.ActivityDate,
-                Advance = reservation.Advance,
+                Advance = reservation.Advance,                
                 BookingStatusId = reservation.Status.Id,
                 RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList),
                 RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
                 RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id },
-                IsAC = reservation.IsAC
+                IsAC = reservation.IsAC,
+                BookingDate = reservation.Date
             };
         }
 

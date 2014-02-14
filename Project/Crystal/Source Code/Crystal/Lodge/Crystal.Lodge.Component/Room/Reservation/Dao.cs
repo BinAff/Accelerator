@@ -51,8 +51,9 @@ namespace Crystal.Lodge.Component.Room.Reservation
         {
             base.CreateDataObject(dr, data);
             Data dt = (Data)data;
-           
-            dt.ActivityDate = Convert.IsDBNull(dr["BookingFrom"]) ? DateTime.MinValue : Convert.ToDateTime(dr["BookingFrom"]);           
+
+            dt.Date = Convert.IsDBNull(dr["CreatedDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CreatedDate"]);           
+            dt.ActivityDate = Convert.IsDBNull(dr["BookingFrom"]) ? DateTime.MinValue : Convert.ToDateTime(dr["BookingFrom"]);                       
             dt.NoOfDays = Convert.ToInt16(dr["NoOfDays"]);
             dt.NoOfPersons = Convert.ToInt16(dr["NoOfPersons"]);
             dt.NoOfRooms = Convert.ToInt16(dr["NoOfRooms"]);

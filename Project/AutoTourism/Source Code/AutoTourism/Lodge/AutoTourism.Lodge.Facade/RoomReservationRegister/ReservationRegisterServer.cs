@@ -65,16 +65,30 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
                 NoOfPersons = reservation.NoOfPersons,
                 NoOfRooms = reservation.NoOfRooms,
                 BookingFrom = reservation.BookingFrom,
+                BookingTo = reservation.BookingFrom.AddDays(reservation.NoOfDays),
                 Advance = reservation.Advance,
+                AdvanceDisplay = reservation.Advance == 0 ? String.Empty : reservation.Advance.ToString(),
                 BookingStatusId = reservation.BookingStatusId,
                 RoomList = reservation.RoomList,
                 RoomCategory = reservation.RoomCategory,
                 RoomType = reservation.RoomType,
-                IsAC = reservation.IsAC
+                IsAC = reservation.IsAC,
+                BookingDate = reservation.BookingDate,
+                Room = reservation.RoomList == null ? String.Empty : this.GetRooms(reservation.RoomList)
             };
 
             AutoCustomer.ICustomer autoCustomer = new AutoCustomer.Server(null);
             reservationDto.Customer = new RoomReservation.ReservationServer(null).ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(reservation.Id));
+
+            reservationDto.ContactNumber = (reservationDto.Customer == null || reservationDto.Customer.ContactNumberList == null) ? String.Empty : this.GetCustomerContactNumber(reservationDto.Customer.ContactNumberList);
+
+            //--every reservation must have a customer
+            String Name = (reservationDto.Customer.Initial == null ? String.Empty : reservationDto.Customer.Initial.Name);
+            Name += (Name == String.Empty) ? (reservationDto.Customer.FirstName == null ? String.Empty : reservationDto.Customer.FirstName) : " " + (reservationDto.Customer.FirstName == null ? String.Empty : reservationDto.Customer.FirstName);
+            Name += (Name == String.Empty) ? (reservationDto.Customer.MiddleName == null ? String.Empty : reservationDto.Customer.MiddleName) : " " + (reservationDto.Customer.MiddleName == null ? String.Empty : reservationDto.Customer.MiddleName);
+            Name += (Name == String.Empty) ? (reservationDto.Customer.LastName == null ? String.Empty : reservationDto.Customer.LastName) : " " + (reservationDto.Customer.LastName == null ? String.Empty : reservationDto.Customer.LastName);
+
+            reservationDto.Name = Name;
 
             return reservationDto;
         }
@@ -132,14 +146,32 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 
             StringBuilder strbRoom = new StringBuilder();
             foreach (LodgeConfigurationFacade.Room.Dto room in roomList)
-                strbRoom.Append(", " + room.Number.ToString());
+            {
+                if (room.Number != null)
+                    strbRoom.Append(", " + room.Number.ToString());
+            }
 
-            return strbRoom.ToString().Substring(1);
+            return strbRoom.ToString().IndexOf(",") > -1 ? strbRoom.ToString().Substring(1) : String.Empty;            
         }
 
         private ReturnObject<RuleFacade.ConfigurationRuleDto> ReadConfigurationRule()
         {
             return new RuleFacade.RuleServer().ReadConfigurationRule();
+        }
+
+        private String GetCustomerContactNumber(List<Table> customerContactNumberList)
+        {
+            if (customerContactNumberList == null || customerContactNumberList.Count == 0)
+                return String.Empty;
+
+            StringBuilder strbContactNumber = new StringBuilder();
+            foreach (Table table in customerContactNumberList)
+            {
+                if (table.Name != null)
+                    strbContactNumber.Append(", " + table.Name);
+            }
+
+            return strbContactNumber.ToString().IndexOf(",") > -1 ? strbContactNumber.ToString().Substring(1) : String.Empty;  
         }
 
     }
