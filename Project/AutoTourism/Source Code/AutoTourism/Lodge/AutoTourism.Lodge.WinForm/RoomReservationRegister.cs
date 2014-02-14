@@ -89,26 +89,26 @@ namespace AutoTourism.Lodge.WinForm
             if (ret.Value.RoomReservationDtoList != null && ret.Value.RoomReservationDtoList.Count > 0)
                 PopulateReservationData(ret.Value.RoomReservationDtoList);
 
-            if (ret.Value.StatusList != null && ret.Value.StatusList.Count > 0)
-            {
-                ret.Value.StatusList.Insert(0, new Table() { Id = 00000, Name = "All" });
-                cmbReservationStatus.DataSource = ret.Value.StatusList;
-                cmbReservationStatus.DisplayMember = "Name";
-                cmbReservationStatus.ValueMember = "Id";
-            }
+            //if (ret.Value.StatusList != null && ret.Value.StatusList.Count > 0)
+            //{
+            //    ret.Value.StatusList.Insert(0, new Table() { Id = 00000, Name = "All" });
+            //    cmbReservationStatus.DataSource = ret.Value.StatusList;
+            //    cmbReservationStatus.DisplayMember = "Name";
+            //    cmbReservationStatus.ValueMember = "Id";
+            //}
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
             LodgeFacade.RoomReservationRegister.IReservationRegister reservationRegister = new LodgeFacade.RoomReservationRegister.ReservationRegisterServer();
-            ReturnObject<List<LodgeFacade.RoomReservationRegister.Dto>> ret = reservationRegister.Search(((Table)cmbReservationStatus.SelectedItem).Id, dtBookingFrom.Value, dtBookingTo.Value);
+            ReturnObject<List<LodgeFacade.RoomReservationRegister.Dto>> ret = reservationRegister.Search(Convert.ToInt64(LodgeReservationStatus.Open), dtBookingFrom.Value, dtBookingTo.Value);
 
             dgvReservation.DataSource = null;
             if (ret.Value != null && ret.Value.Count > 0)
                 PopulateReservationData(ret.Value);
         }
         
-        private void dgvReservation_CellMouseDown(object sender, System.Windows.Forms.DataGridViewCellMouseEventArgs e)
+        private void dgvReservation_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             dgvReservation.Rows[e.RowIndex].Selected = true;
             if (dgvReservation.DataSource != null)
@@ -131,7 +131,7 @@ namespace AutoTourism.Lodge.WinForm
                 dgvReservation.Columns[3].DataPropertyName = "BookingFrom";
                 dgvReservation.Columns[4].DataPropertyName = "BookingTo";
                 dgvReservation.Columns[5].DataPropertyName = "Room";
-                dgvReservation.Columns[6].DataPropertyName = "Advance";
+                dgvReservation.Columns[6].DataPropertyName = "AdvanceDisplay";
                 dgvReservation.Columns[6].HeaderText = "Advance Taken";
                 dgvReservation.AutoGenerateColumns = false;
 
@@ -156,13 +156,8 @@ namespace AutoTourism.Lodge.WinForm
 
             if (dto.Customer != null)
             {
-                //populate customer data           
-
-                txtName.Text = (dto.Customer.Initial == null ? String.Empty : dto.Customer.Initial.Name);
-                Name += (Name == String.Empty) ? (dto.Customer.FirstName == null ? String.Empty : dto.Customer.FirstName) : " " + (dto.Customer.FirstName == null ? String.Empty : dto.Customer.FirstName);
-                Name += (Name == String.Empty) ? (dto.Customer.MiddleName == null ? String.Empty : dto.Customer.MiddleName) : " " + (dto.Customer.MiddleName == null ? String.Empty : dto.Customer.MiddleName);
-                Name += (Name == String.Empty) ? (dto.Customer.LastName == null ? String.Empty : dto.Customer.LastName) : " " + (dto.Customer.LastName == null ? String.Empty : dto.Customer.LastName);
-                
+                //populate customer data 
+                txtName.Text = dto.Name;
                 lstContact.DataSource = dto.Customer.ContactNumberList;
                 lstContact.DisplayMember = "Name";
                 lstContact.ValueMember = "Id";
@@ -242,16 +237,31 @@ namespace AutoTourism.Lodge.WinForm
             //}
         }
 
+        private void btnSelect_Click(object sender, EventArgs e)
+        {
+            if (this.dgvReservation.DataSource != null)
+            {
+                List<LodgeFacade.RoomReservationRegister.Dto> RoomRegistrationRegisterList = this.dgvReservation.DataSource as List<LodgeFacade.RoomReservationRegister.Dto>;
+
+                if (this.dgvReservation.SelectedRows[0].Index != -1)
+                {
+                    this.Tag = (LodgeFacade.RoomReservationRegister.Dto)RoomRegistrationRegisterList[this.dgvReservation.SelectedRows[0].Index];
+                    this.Close();
+                }
+            }
+            
+        }
+
         public enum LodgeReservationStatus
         {
             Open = 10001,
-            Closed = 10002,
+            Close = 10002,
             Cancel = 10003,
             CheckIn = 10004
         }
 
-          
-
+       
+               
     }
 
 }
