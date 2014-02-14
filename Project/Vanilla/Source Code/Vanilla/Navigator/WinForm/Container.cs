@@ -360,6 +360,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void mnuLogOut_Click(object sender, EventArgs e)
         {
+            new Vanilla.Navigator.Facade.Container.Server(null).Logout();
             this.HideControl();
             this.ShowLoginForm();
 
@@ -392,6 +393,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void mnuExit_Click(object sender, EventArgs e)
         {
+            new Vanilla.Navigator.Facade.Container.Server(null).Logout();
             this.Close();
         }
 
@@ -788,6 +790,11 @@ namespace Vanilla.Navigator.WinForm
         }
 
         #endregion
+
+        private void Container_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            new Vanilla.Navigator.Facade.Container.Server(null).Logout();
+        }
 
         #region Remove List
 

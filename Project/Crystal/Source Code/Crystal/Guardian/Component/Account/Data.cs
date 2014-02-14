@@ -35,6 +35,10 @@ namespace Crystal.Guardian.Component.Account
         /// </summary>
         public List<BinAff.Core.Data> SecurityAnswerList { get; set; }
 
+        public LoginHistory.Data LoginInfo { get; set; }
+
+        public List<BinAff.Core.Data> LoginHistory { get; set; }
+
     }
 
 }

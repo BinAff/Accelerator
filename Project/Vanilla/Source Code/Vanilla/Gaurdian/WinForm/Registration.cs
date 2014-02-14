@@ -12,6 +12,7 @@ namespace Vanilla.Guardian.WinForm
     {
 
         Facade.Register.FormDto formDto;
+        public Boolean IsOkClicked { get; private set; }
 
         public Registration()
         {
@@ -32,6 +33,7 @@ namespace Vanilla.Guardian.WinForm
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.SubmitData();
+            this.IsOkClicked = true;
         }
 
         protected void LoadData()

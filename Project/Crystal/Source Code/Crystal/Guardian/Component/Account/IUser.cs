@@ -13,7 +13,10 @@ namespace Crystal.Guardian.Component.Account
         ReturnObject<Boolean> ChangeRole();
         ReturnObject<Boolean> ChangeLoginId();
 
-        void Logout();
+        ReturnObject<Boolean> InsertLoginDetails();
+        ReturnObject<Boolean> InsertLogoutDetails();
+
+        ReturnObject<Boolean> Logout();
 
     }
 

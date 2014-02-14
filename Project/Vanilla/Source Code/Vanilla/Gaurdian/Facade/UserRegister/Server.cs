@@ -57,10 +57,25 @@ namespace Vanilla.Guardian.Facade.UserRegister
                 Dto = new Account.Dto
                 {
                     Id = (this.FormDto as FormDto).Dto.Id,
+                    LoginId = (this.FormDto as FormDto).Dto.LoginId,
                     RoleList = (this.FormDto as FormDto).Dto.RoleList,
                 }
             });
-            accFacade.ChangeRole();
+            accFacade.ChangeRoleAndLoginId();
+            this.IsError = accFacade.IsError;
+            this.DisplayMessageList = accFacade.DisplayMessageList;
+        }
+
+        public override void Delete()
+        {
+            Account.Server accFacade = new Account.Server(new Account.FormDto
+            {
+                Dto = new Account.Dto
+                {
+                    Id = (this.FormDto as FormDto).Dto.Id,
+                }
+            });
+            accFacade.Delete();
             this.IsError = accFacade.IsError;
             this.DisplayMessageList = accFacade.DisplayMessageList;
         }

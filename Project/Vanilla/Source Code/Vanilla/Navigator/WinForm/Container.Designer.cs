@@ -580,21 +580,21 @@
             // mnuLogin
             // 
             this.mnuLogin.Name = "mnuLogin";
-            this.mnuLogin.Size = new System.Drawing.Size(127, 22);
+            this.mnuLogin.Size = new System.Drawing.Size(152, 22);
             this.mnuLogin.Text = "Login";
             this.mnuLogin.Click += new System.EventHandler(this.mnuLogin_Click);
             // 
             // mnuLogOut
             // 
             this.mnuLogOut.Name = "mnuLogOut";
-            this.mnuLogOut.Size = new System.Drawing.Size(127, 22);
+            this.mnuLogOut.Size = new System.Drawing.Size(152, 22);
             this.mnuLogOut.Text = "Log Out";
             this.mnuLogOut.Click += new System.EventHandler(this.mnuLogOut_Click);
             // 
             // mnuFileSeperator1
             // 
             this.mnuFileSeperator1.Name = "mnuFileSeperator1";
-            this.mnuFileSeperator1.Size = new System.Drawing.Size(124, 6);
+            this.mnuFileSeperator1.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuNew
             // 
@@ -602,7 +602,7 @@
             this.mnuNewDirectory,
             this.mnuNewForm});
             this.mnuNew.Name = "mnuNew";
-            this.mnuNew.Size = new System.Drawing.Size(127, 22);
+            this.mnuNew.Size = new System.Drawing.Size(152, 22);
             this.mnuNew.Text = "New";
             // 
             // mnuNewDirectory
@@ -623,7 +623,7 @@
             this.mnuOpenDirectory,
             this.mnuOpenForm});
             this.mnuOpen.Name = "mnuOpen";
-            this.mnuOpen.Size = new System.Drawing.Size(127, 22);
+            this.mnuOpen.Size = new System.Drawing.Size(152, 22);
             this.mnuOpen.Text = "Open";
             // 
             // mnuOpenDirectory
@@ -641,7 +641,7 @@
             // mnuFileSeperator2
             // 
             this.mnuFileSeperator2.Name = "mnuFileSeperator2";
-            this.mnuFileSeperator2.Size = new System.Drawing.Size(124, 6);
+            this.mnuFileSeperator2.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuRecentFile
             // 
@@ -649,7 +649,7 @@
             this.toolStripSeparator7,
             this.mnuClear});
             this.mnuRecentFile.Name = "mnuRecentFile";
-            this.mnuRecentFile.Size = new System.Drawing.Size(127, 22);
+            this.mnuRecentFile.Size = new System.Drawing.Size(152, 22);
             this.mnuRecentFile.Text = "Recent File";
             // 
             // toolStripSeparator7
@@ -667,12 +667,12 @@
             // mnuFileSeperator3
             // 
             this.mnuFileSeperator3.Name = "mnuFileSeperator3";
-            this.mnuFileSeperator3.Size = new System.Drawing.Size(124, 6);
+            this.mnuFileSeperator3.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(127, 22);
+            this.mnuExit.Size = new System.Drawing.Size(152, 22);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
@@ -1137,6 +1137,7 @@
             // 
             // ucRegister
             // 
+            this.ucRegister.Address = null;
             this.ucRegister.Location = new System.Drawing.Point(512, 54);
             this.ucRegister.Name = "ucRegister";
             this.ucRegister.Size = new System.Drawing.Size(10, 26);
@@ -1166,6 +1167,7 @@
             this.Name = "Container";
             this.Text = "Navigator";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Container_FormClosed);
             this.Load += new System.EventHandler(this.Container_Load);
             this.cmsExplorer.ResumeLayout(false);
             this.mnuMain.ResumeLayout(false);

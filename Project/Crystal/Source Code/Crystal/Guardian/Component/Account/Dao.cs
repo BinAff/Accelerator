@@ -26,7 +26,7 @@ namespace Crystal.Guardian.Component.Account
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
-        protected override void AssignParameter(string procedureName)
+        protected override void AssignParameter(String procedureName)
         {
             base.AddInParameter("@LoginId", DbType.String, ((Data)this.Data).LoginId);
             base.AddInParameter("@Password", DbType.String, ((Data)this.Data).Password);

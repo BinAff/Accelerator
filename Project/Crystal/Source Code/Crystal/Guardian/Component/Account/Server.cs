@@ -39,9 +39,9 @@ namespace Crystal.Guardian.Component.Account
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
-            }, ((Data)base.Data).RoleList);
+            }, (base.Data as Data).RoleList);
 
-            base.AddChild(new Profile.Server(((Data)Data).Profile)
+            base.AddChild(new Profile.Server((Data as Data).Profile)
             {
                 Type = ChildType.Dependent,
             });
@@ -49,9 +49,13 @@ namespace Crystal.Guardian.Component.Account
             base.AddChildren(new SecurityAnswer.Server(null)
             {
                 Type = ChildType.Dependent,
-            }, ((Data)base.Data).SecurityAnswerList);
+            }, (base.Data as Data).SecurityAnswerList);
 
-            
+            base.AddChildren(new LoginHistory.Server(null)
+            {
+                Type = ChildType.Dependent,
+                IsReadOnly = true,
+            }, (base.Data as Data).LoginHistory);
 
             #region 1
             //if (((Data)Data).Roles != null && ((Data)this.Data).Roles.Count > 0)
@@ -156,11 +160,6 @@ namespace Crystal.Guardian.Component.Account
 
         #region IUser
 
-        void IUser.Logout()
-        {
-            throw new System.Exception("Not implemented");
-        }
-
         ReturnObject<BinAff.Core.Data> IUser.Login()
         {
             String pswd = ((Data)this.Data).Password;
@@ -170,13 +169,38 @@ namespace Crystal.Guardian.Component.Account
                 return new BinAff.Core.ReturnObject<BinAff.Core.Data>
                 {
                     MessageList = new List<BinAff.Core.Message>
-                    { 
+                    {
                         new BinAff.Core.Message("Wrong user name or password!!", BinAff.Core.Message.Type.Error) 
                     }
                 };
             }
             (this.Data as Data).Profile.Id = this.Data.Id;//Since profile is weak entity
-            return this.Read();
+
+            ReturnObject<Boolean> loginHistoryResult = (new LoginHistory.Server((this.Data as Data).LoginInfo = new LoginHistory.Data())
+            {
+                ParentData = this.Data,
+            } as ICrud).Save();
+            ReturnObject<BinAff.Core.Data> accountReadResult = this.Read();
+            if (!loginHistoryResult.Value)
+            {
+                if (accountReadResult.MessageList == null)
+                {
+                    accountReadResult.MessageList = loginHistoryResult.MessageList;
+                }
+                else
+                {
+                    accountReadResult.MessageList.AddRange(loginHistoryResult.MessageList);
+                }
+            }
+            return accountReadResult;
+        }
+
+        ReturnObject<Boolean> IUser.Logout()
+        {
+            return (new LoginHistory.Server((this.Data as Data).LoginInfo)
+            {
+                ParentData = this.Data,
+            } as ICrud).Save();
         }
 
         ReturnObject<Boolean> IUser.ChangePassword()
@@ -232,8 +256,20 @@ namespace Crystal.Guardian.Component.Account
             return ret;
         }
 
-        #endregion
+        ReturnObject<Boolean> IUser.InsertLoginDetails()
+        {
+            ICrud login = new LoginHistory.Server((this.Data as Data).LoginInfo);
+            return login.Save();
+        }
 
+        ReturnObject<Boolean> IUser.InsertLogoutDetails()
+        {
+            ICrud login = new LoginHistory.Server((this.Data as Data).LoginInfo);
+            return login.Save();
+        }
+
+        #endregion
+        
     }
 
 }
