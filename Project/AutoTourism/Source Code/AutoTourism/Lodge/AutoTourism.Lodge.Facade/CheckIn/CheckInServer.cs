@@ -11,36 +11,37 @@ using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
-    public class CheckInServer : ICheckIn
+    public class CheckInServer : BinAff.Facade.Library.Server, ICheckIn
     {
-        public enum LodgeReservationStatus
+        public CheckInServer(FormDto formDto)
+            : base(formDto)
         {
-            Open = 10001,
-            Closed = 10002,
-            Cancel = 10003,
-            CheckIn = 10004,
-            Modify = 10005
+
         }
 
-        public enum RoomStatus
-        {
-            Unoccupied = 10001,
-            Occupied = 10002,
-            Closed = 10003
-        }
+        //public enum LodgeReservationStatus
+        //{
+        //    Open = 10001,
+        //    Closed = 10002,
+        //    Cancel = 10003,
+        //    CheckIn = 10004,
+        //    Modify = 10005
+        //}
 
-        ReturnObject<FormDto> ICheckIn.LoadForm()
-        {
-            BinAff.Core.ReturnObject<FormDto> ret = new BinAff.Core.ReturnObject<FormDto>()
-            {
-                Value = new FormDto()
-                {
-                    roomList = this.ReadAllRoom().Value,
-                    configurationRuleDto = this.ReadConfigurationRule().Value
-                }
-            };
+        //public enum RoomStatus
+        //{
+        //    Unoccupied = 10001,
+        //    Occupied = 10002,
+        //    Closed = 10003
+        //}
 
-            return ret;
+        public override void LoadForm()
+        {
+            FormDto formDto = this.FormDto as FormDto;
+            formDto.roomList = this.ReadAllRoom().Value;
+            formDto.configurationRuleDto = this.ReadConfigurationRule().Value;
+            formDto.CategoryList = new LodgeConfigurationFacade.Room.Server(null).ReadAllCategory().Value;
+            formDto.TypeList = new LodgeConfigurationFacade.Room.Server(null).ReadAllType().Value;           
         }
 
         ReturnObject<Boolean> ICheckIn.Save(Dto dto)
@@ -157,10 +158,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         {
             return new LodgeConfigurationFacade.Room.Server(null).ReadAllRoom();
         }
-
-        
-
-        
+                      
 
         //private List<AutoTourism.Facade.Configuration.Room.Dto> GetRoomDtoList(List<Crystal.Lodge.Configuration.Room.Data> RoomDataList)
         //{
@@ -244,8 +242,16 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    }
         //    return ContactNumberDtoList;
         //}
-        
-      
+
+        public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
+        {
+            return new Data();
+        }
+
+        public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
+        {
+            return new BinAff.Facade.Library.Dto();
+        }
 
     }
 }
