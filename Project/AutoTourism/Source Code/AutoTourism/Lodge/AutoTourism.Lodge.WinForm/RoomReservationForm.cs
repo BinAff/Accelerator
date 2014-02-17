@@ -588,6 +588,8 @@ namespace AutoTourism.Lodge.WinForm
               if (lstCategory[this.cboCategory.SelectedIndex].Id != roomDto.Category.Id)
                   return false;
             }
+            else
+                return false; // since category is mandatory while creating room
 
             if (this.cboType.SelectedIndex > -1)
             {                
@@ -595,6 +597,8 @@ namespace AutoTourism.Lodge.WinForm
                 if (lstType[this.cboType.SelectedIndex].Id != roomDto.Type.Id)
                     return false;
             }
+            else
+                return false; // since type is mandatory while creating room
 
             return (chkIsAC.Checked == roomDto.IsAirconditioned);
 
