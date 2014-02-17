@@ -20,6 +20,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public Table RoomCategory { get; set; }
         public Table RoomType { get; set; }
         public Boolean IsAC { get; set; }
+        public Boolean isCheckedIn { get; set; }
 
         public List<LodgeConfigurationFacade.Room.Dto> RoomList { get; set; }
         public CustomerFacade.Dto Customer { get; set; }
