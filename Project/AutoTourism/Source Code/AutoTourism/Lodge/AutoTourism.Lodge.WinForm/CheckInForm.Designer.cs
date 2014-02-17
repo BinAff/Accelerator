@@ -154,6 +154,7 @@
             this.btnRemoveRoom.TabIndex = 93;
             this.btnRemoveRoom.Text = "◄";
             this.btnRemoveRoom.UseVisualStyleBackColor = true;
+            this.btnRemoveRoom.Click += new System.EventHandler(this.btnRemoveRoom_Click);
             // 
             // cmbCheckInRoom
             // 
@@ -174,6 +175,7 @@
             this.btnAddRoom.TabIndex = 92;
             this.btnAddRoom.Text = "►";
             this.btnAddRoom.UseVisualStyleBackColor = true;
+            this.btnAddRoom.Click += new System.EventHandler(this.btnAddRoom_Click);
             // 
             // txtAdvance
             // 
