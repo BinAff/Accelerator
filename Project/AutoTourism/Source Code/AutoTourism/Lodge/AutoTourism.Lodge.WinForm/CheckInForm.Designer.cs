@@ -30,6 +30,11 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkIsAC = new System.Windows.Forms.CheckBox();
+            this.cboType = new System.Windows.Forms.ComboBox();
+            this.lblType = new System.Windows.Forms.Label();
+            this.lblCategory = new System.Windows.Forms.Label();
+            this.cboCategory = new System.Windows.Forms.ComboBox();
             this.cboRoomList = new System.Windows.Forms.ComboBox();
             this.btnRemoveRoom = new System.Windows.Forms.Button();
             this.cmbCheckInRoom = new System.Windows.Forms.ComboBox();
@@ -64,24 +69,78 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkIsAC);
+            this.groupBox2.Controls.Add(this.cboType);
+            this.groupBox2.Controls.Add(this.lblType);
+            this.groupBox2.Controls.Add(this.lblCategory);
+            this.groupBox2.Controls.Add(this.cboCategory);
             this.groupBox2.Controls.Add(this.cboRoomList);
             this.groupBox2.Controls.Add(this.btnRemoveRoom);
             this.groupBox2.Controls.Add(this.cmbCheckInRoom);
             this.groupBox2.Controls.Add(this.btnAddRoom);
             this.groupBox2.ForeColor = System.Drawing.Color.Black;
-            this.groupBox2.Location = new System.Drawing.Point(13, 142);
+            this.groupBox2.Location = new System.Drawing.Point(13, 89);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(207, 145);
+            this.groupBox2.Size = new System.Drawing.Size(325, 217);
             this.groupBox2.TabIndex = 107;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Room";
+            // 
+            // chkIsAC
+            // 
+            this.chkIsAC.AutoSize = true;
+            this.chkIsAC.Location = new System.Drawing.Point(11, 72);
+            this.chkIsAC.Name = "chkIsAC";
+            this.chkIsAC.Size = new System.Drawing.Size(97, 17);
+            this.chkIsAC.TabIndex = 98;
+            this.chkIsAC.Text = "Air Conditioned";
+            this.chkIsAC.UseVisualStyleBackColor = true;
+            this.chkIsAC.CheckedChanged += new System.EventHandler(this.chkIsAC_CheckedChanged);
+            // 
+            // cboType
+            // 
+            this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboType.FormattingEnabled = true;
+            this.cboType.Location = new System.Drawing.Point(73, 47);
+            this.cboType.Name = "cboType";
+            this.cboType.Size = new System.Drawing.Size(182, 21);
+            this.cboType.TabIndex = 97;
+            this.cboType.SelectedIndexChanged += new System.EventHandler(this.cboType_SelectedIndexChanged);
+            // 
+            // lblType
+            // 
+            this.lblType.AutoSize = true;
+            this.lblType.Location = new System.Drawing.Point(8, 47);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(31, 13);
+            this.lblType.TabIndex = 96;
+            this.lblType.Text = "Type";
+            // 
+            // lblCategory
+            // 
+            this.lblCategory.AutoSize = true;
+            this.lblCategory.Location = new System.Drawing.Point(8, 20);
+            this.lblCategory.Name = "lblCategory";
+            this.lblCategory.Size = new System.Drawing.Size(49, 13);
+            this.lblCategory.TabIndex = 95;
+            this.lblCategory.Text = "Category";
+            // 
+            // cboCategory
+            // 
+            this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCategory.FormattingEnabled = true;
+            this.cboCategory.Location = new System.Drawing.Point(73, 20);
+            this.cboCategory.Name = "cboCategory";
+            this.cboCategory.Size = new System.Drawing.Size(182, 21);
+            this.cboCategory.TabIndex = 94;
+            this.cboCategory.SelectedIndexChanged += new System.EventHandler(this.cboCategory_SelectedIndexChanged);
             // 
             // cboRoomList
             // 
             this.cboRoomList.BackColor = System.Drawing.SystemColors.Window;
             this.cboRoomList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboRoomList.FormattingEnabled = true;
-            this.cboRoomList.Location = new System.Drawing.Point(10, 19);
+            this.cboRoomList.Location = new System.Drawing.Point(5, 95);
             this.cboRoomList.Name = "cboRoomList";
             this.cboRoomList.Size = new System.Drawing.Size(70, 124);
             this.cboRoomList.TabIndex = 90;
@@ -89,7 +148,7 @@
             // btnRemoveRoom
             // 
             this.btnRemoveRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveRoom.Location = new System.Drawing.Point(88, 47);
+            this.btnRemoveRoom.Location = new System.Drawing.Point(83, 123);
             this.btnRemoveRoom.Name = "btnRemoveRoom";
             this.btnRemoveRoom.Size = new System.Drawing.Size(32, 22);
             this.btnRemoveRoom.TabIndex = 93;
@@ -101,7 +160,7 @@
             this.cmbCheckInRoom.BackColor = System.Drawing.SystemColors.Window;
             this.cmbCheckInRoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cmbCheckInRoom.FormattingEnabled = true;
-            this.cmbCheckInRoom.Location = new System.Drawing.Point(126, 19);
+            this.cmbCheckInRoom.Location = new System.Drawing.Point(121, 95);
             this.cmbCheckInRoom.Name = "cmbCheckInRoom";
             this.cmbCheckInRoom.Size = new System.Drawing.Size(70, 124);
             this.cmbCheckInRoom.TabIndex = 91;
@@ -109,7 +168,7 @@
             // btnAddRoom
             // 
             this.btnAddRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRoom.Location = new System.Drawing.Point(88, 19);
+            this.btnAddRoom.Location = new System.Drawing.Point(83, 95);
             this.btnAddRoom.Name = "btnAddRoom";
             this.btnAddRoom.Size = new System.Drawing.Size(32, 22);
             this.btnAddRoom.TabIndex = 92;
@@ -119,7 +178,7 @@
             // txtAdvance
             // 
             this.txtAdvance.BackColor = System.Drawing.SystemColors.Window;
-            this.txtAdvance.Location = new System.Drawing.Point(105, 116);
+            this.txtAdvance.Location = new System.Drawing.Point(264, 63);
             this.txtAdvance.MaxLength = 10;
             this.txtAdvance.Name = "txtAdvance";
             this.txtAdvance.Size = new System.Drawing.Size(74, 20);
@@ -128,7 +187,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 119);
+            this.label6.Location = new System.Drawing.Point(169, 64);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(89, 13);
             this.label6.TabIndex = 105;
@@ -137,7 +196,7 @@
             // txtRooms
             // 
             this.txtRooms.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.txtRooms.Location = new System.Drawing.Point(105, 90);
+            this.txtRooms.Location = new System.Drawing.Point(105, 62);
             this.txtRooms.MaxLength = 3;
             this.txtRooms.Name = "txtRooms";
             this.txtRooms.Size = new System.Drawing.Size(32, 20);
@@ -146,7 +205,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 93);
+            this.label4.Location = new System.Drawing.Point(10, 65);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(69, 13);
             this.label4.TabIndex = 103;
@@ -155,7 +214,7 @@
             // txtPersons
             // 
             this.txtPersons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.txtPersons.Location = new System.Drawing.Point(105, 64);
+            this.txtPersons.Location = new System.Drawing.Point(264, 38);
             this.txtPersons.MaxLength = 4;
             this.txtPersons.Name = "txtPersons";
             this.txtPersons.Size = new System.Drawing.Size(32, 20);
@@ -164,7 +223,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 67);
+            this.label3.Location = new System.Drawing.Point(169, 41);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(74, 13);
             this.label3.TabIndex = 101;
@@ -219,7 +278,7 @@
             this.groupBox1.Controls.Add(this.lblName);
             this.groupBox1.Enabled = false;
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(226, 12);
+            this.groupBox1.Location = new System.Drawing.Point(363, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(272, 245);
             this.groupBox1.TabIndex = 96;
@@ -302,7 +361,7 @@
             // 
             // btnPickReservation
             // 
-            this.btnPickReservation.Location = new System.Drawing.Point(344, 264);
+            this.btnPickReservation.Location = new System.Drawing.Point(440, 267);
             this.btnPickReservation.Name = "btnPickReservation";
             this.btnPickReservation.Size = new System.Drawing.Size(154, 23);
             this.btnPickReservation.TabIndex = 97;
@@ -316,7 +375,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(514, 13);
+            this.btnRefresh.Location = new System.Drawing.Point(651, 16);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 108;
@@ -325,7 +384,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(514, 49);
+            this.btnOk.Location = new System.Drawing.Point(651, 52);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 109;
@@ -337,7 +396,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 302);
+            this.ClientSize = new System.Drawing.Size(738, 312);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnPickReservation);
@@ -353,14 +412,10 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtPersons);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "CheckInForm";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Check In Form";
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
@@ -399,5 +454,10 @@
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.ComboBox cboType;
+        private System.Windows.Forms.Label lblType;
+        private System.Windows.Forms.Label lblCategory;
+        private System.Windows.Forms.ComboBox cboCategory;
+        private System.Windows.Forms.CheckBox chkIsAC;
     }
 }
