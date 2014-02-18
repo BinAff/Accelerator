@@ -66,6 +66,10 @@
             this.btnCancelOpen = new System.Windows.Forms.Button();
             this.lblReservationStatus = new System.Windows.Forms.Label();
             this.txtReservationStatus = new System.Windows.Forms.Label();
+            this.btnAddCustomer = new System.Windows.Forms.Button();
+            this.lblFilePath = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -73,7 +77,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnPickCustomer);
             this.groupBox1.Controls.Add(this.txtEmail);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.txtAdds);
@@ -83,18 +86,18 @@
             this.groupBox1.Controls.Add(this.txtName);
             this.groupBox1.Controls.Add(this.lblName);
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(315, 6);
+            this.groupBox1.Location = new System.Drawing.Point(12, 41);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(272, 234);
+            this.groupBox1.Size = new System.Drawing.Size(272, 204);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Customer Details";
             // 
             // btnPickCustomer
             // 
-            this.btnPickCustomer.Location = new System.Drawing.Point(103, 200);
+            this.btnPickCustomer.Location = new System.Drawing.Point(12, 12);
             this.btnPickCustomer.Name = "btnPickCustomer";
-            this.btnPickCustomer.Size = new System.Drawing.Size(154, 23);
+            this.btnPickCustomer.Size = new System.Drawing.Size(97, 23);
             this.btnPickCustomer.TabIndex = 96;
             this.btnPickCustomer.Text = "Pick Customer";
             this.btnPickCustomer.UseVisualStyleBackColor = true;
@@ -181,7 +184,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 16);
+            this.label1.Location = new System.Drawing.Point(295, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 82;
@@ -192,7 +195,7 @@
             this.dtFrom.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
             this.dtFrom.CalendarTitleBackColor = System.Drawing.Color.LightSteelBlue;
             this.dtFrom.CalendarTitleForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.dtFrom.Location = new System.Drawing.Point(103, 12);
+            this.dtFrom.Location = new System.Drawing.Point(390, 12);
             this.dtFrom.Name = "dtFrom";
             this.dtFrom.Size = new System.Drawing.Size(108, 20);
             this.dtFrom.TabIndex = 1;
@@ -200,7 +203,7 @@
             // txtDays
             // 
             this.txtDays.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtDays.Location = new System.Drawing.Point(103, 39);
+            this.txtDays.Location = new System.Drawing.Point(390, 39);
             this.txtDays.MaxLength = 3;
             this.txtDays.Name = "txtDays";
             this.txtDays.Size = new System.Drawing.Size(32, 20);
@@ -209,7 +212,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 43);
+            this.label2.Location = new System.Drawing.Point(295, 43);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 13);
             this.label2.TabIndex = 82;
@@ -218,7 +221,7 @@
             // txtPersons
             // 
             this.txtPersons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtPersons.Location = new System.Drawing.Point(271, 39);
+            this.txtPersons.Location = new System.Drawing.Point(558, 39);
             this.txtPersons.MaxLength = 3;
             this.txtPersons.Name = "txtPersons";
             this.txtPersons.Size = new System.Drawing.Size(32, 20);
@@ -227,7 +230,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(141, 43);
+            this.label3.Location = new System.Drawing.Point(428, 43);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(74, 13);
             this.label3.TabIndex = 84;
@@ -236,7 +239,7 @@
             // txtRooms
             // 
             this.txtRooms.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtRooms.Location = new System.Drawing.Point(103, 68);
+            this.txtRooms.Location = new System.Drawing.Point(390, 68);
             this.txtRooms.MaxLength = 3;
             this.txtRooms.Name = "txtRooms";
             this.txtRooms.Size = new System.Drawing.Size(32, 20);
@@ -245,7 +248,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 72);
+            this.label4.Location = new System.Drawing.Point(295, 72);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(69, 13);
             this.label4.TabIndex = 86;
@@ -254,7 +257,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(141, 72);
+            this.label6.Location = new System.Drawing.Point(428, 72);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(89, 13);
             this.label6.TabIndex = 88;
@@ -263,7 +266,7 @@
             // txtAdvance
             // 
             this.txtAdvance.BackColor = System.Drawing.SystemColors.Window;
-            this.txtAdvance.Location = new System.Drawing.Point(250, 68);
+            this.txtAdvance.Location = new System.Drawing.Point(537, 68);
             this.txtAdvance.MaxLength = 10;
             this.txtAdvance.Name = "txtAdvance";
             this.txtAdvance.Size = new System.Drawing.Size(53, 20);
@@ -275,7 +278,7 @@
             this.cboRoomList.BackColor = System.Drawing.SystemColors.Window;
             this.cboRoomList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboRoomList.FormattingEnabled = true;
-            this.cboRoomList.Location = new System.Drawing.Point(1, 95);
+            this.cboRoomList.Location = new System.Drawing.Point(6, 19);
             this.cboRoomList.Name = "cboRoomList";
             this.cboRoomList.Size = new System.Drawing.Size(108, 124);
             this.cboRoomList.TabIndex = 90;
@@ -285,7 +288,7 @@
             this.cboSelectedRoom.BackColor = System.Drawing.SystemColors.Window;
             this.cboSelectedRoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboSelectedRoom.FormattingEnabled = true;
-            this.cboSelectedRoom.Location = new System.Drawing.Point(164, 95);
+            this.cboSelectedRoom.Location = new System.Drawing.Point(169, 19);
             this.cboSelectedRoom.Name = "cboSelectedRoom";
             this.cboSelectedRoom.Size = new System.Drawing.Size(107, 124);
             this.cboSelectedRoom.TabIndex = 91;
@@ -293,7 +296,7 @@
             // btnAddRoom
             // 
             this.btnAddRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRoom.Location = new System.Drawing.Point(120, 95);
+            this.btnAddRoom.Location = new System.Drawing.Point(125, 19);
             this.btnAddRoom.Name = "btnAddRoom";
             this.btnAddRoom.Size = new System.Drawing.Size(32, 22);
             this.btnAddRoom.TabIndex = 7;
@@ -304,7 +307,7 @@
             // btnRemoveRoom
             // 
             this.btnRemoveRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveRoom.Location = new System.Drawing.Point(120, 123);
+            this.btnRemoveRoom.Location = new System.Drawing.Point(125, 47);
             this.btnRemoveRoom.Name = "btnRemoveRoom";
             this.btnRemoveRoom.Size = new System.Drawing.Size(32, 22);
             this.btnRemoveRoom.TabIndex = 8;
@@ -314,19 +317,14 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.lblType);
-            this.groupBox2.Controls.Add(this.lblCategory);
-            this.groupBox2.Controls.Add(this.chkIsAC);
-            this.groupBox2.Controls.Add(this.cboType);
-            this.groupBox2.Controls.Add(this.cboCategory);
             this.groupBox2.Controls.Add(this.cboRoomList);
             this.groupBox2.Controls.Add(this.btnRemoveRoom);
             this.groupBox2.Controls.Add(this.cboSelectedRoom);
             this.groupBox2.Controls.Add(this.btnAddRoom);
             this.groupBox2.ForeColor = System.Drawing.Color.Black;
-            this.groupBox2.Location = new System.Drawing.Point(11, 95);
+            this.groupBox2.Location = new System.Drawing.Point(298, 193);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(292, 221);
+            this.groupBox2.Size = new System.Drawing.Size(286, 150);
             this.groupBox2.TabIndex = 94;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preffered Room";
@@ -334,7 +332,7 @@
             // lblType
             // 
             this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(6, 46);
+            this.lblType.Location = new System.Drawing.Point(294, 146);
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(31, 13);
             this.lblType.TabIndex = 96;
@@ -343,7 +341,7 @@
             // lblCategory
             // 
             this.lblCategory.AutoSize = true;
-            this.lblCategory.Location = new System.Drawing.Point(8, 22);
+            this.lblCategory.Location = new System.Drawing.Point(296, 122);
             this.lblCategory.Name = "lblCategory";
             this.lblCategory.Size = new System.Drawing.Size(49, 13);
             this.lblCategory.TabIndex = 95;
@@ -352,7 +350,7 @@
             // chkIsAC
             // 
             this.chkIsAC.AutoSize = true;
-            this.chkIsAC.Location = new System.Drawing.Point(11, 70);
+            this.chkIsAC.Location = new System.Drawing.Point(299, 170);
             this.chkIsAC.Name = "chkIsAC";
             this.chkIsAC.Size = new System.Drawing.Size(97, 17);
             this.chkIsAC.TabIndex = 94;
@@ -364,7 +362,7 @@
             // 
             this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboType.FormattingEnabled = true;
-            this.cboType.Location = new System.Drawing.Point(83, 43);
+            this.cboType.Location = new System.Drawing.Point(371, 143);
             this.cboType.Name = "cboType";
             this.cboType.Size = new System.Drawing.Size(188, 21);
             this.cboType.TabIndex = 93;
@@ -374,7 +372,7 @@
             // 
             this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCategory.FormattingEnabled = true;
-            this.cboCategory.Location = new System.Drawing.Point(83, 19);
+            this.cboCategory.Location = new System.Drawing.Point(371, 119);
             this.cboCategory.Name = "cboCategory";
             this.cboCategory.Size = new System.Drawing.Size(188, 21);
             this.cboCategory.TabIndex = 92;
@@ -389,14 +387,14 @@
             this.dtFromTime.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
             this.dtFromTime.CalendarTitleBackColor = System.Drawing.Color.LightSteelBlue;
             this.dtFromTime.CalendarTitleForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.dtFromTime.Location = new System.Drawing.Point(217, 11);
+            this.dtFromTime.Location = new System.Drawing.Point(504, 11);
             this.dtFromTime.Name = "dtFromTime";
             this.dtFromTime.Size = new System.Drawing.Size(86, 20);
             this.dtFromTime.TabIndex = 2;
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(601, 41);
+            this.btnOk.Location = new System.Drawing.Point(606, 41);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 95;
@@ -406,7 +404,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(601, 12);
+            this.btnRefresh.Location = new System.Drawing.Point(606, 12);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 96;
@@ -416,7 +414,7 @@
             // 
             // btnCancelOpen
             // 
-            this.btnCancelOpen.Location = new System.Drawing.Point(603, 68);
+            this.btnCancelOpen.Location = new System.Drawing.Point(606, 68);
             this.btnCancelOpen.Name = "btnCancelOpen";
             this.btnCancelOpen.Size = new System.Drawing.Size(75, 23);
             this.btnCancelOpen.TabIndex = 97;
@@ -427,7 +425,7 @@
             // lblReservationStatus
             // 
             this.lblReservationStatus.AutoSize = true;
-            this.lblReservationStatus.Location = new System.Drawing.Point(12, 331);
+            this.lblReservationStatus.Location = new System.Drawing.Point(295, 99);
             this.lblReservationStatus.Name = "lblReservationStatus";
             this.lblReservationStatus.Size = new System.Drawing.Size(97, 13);
             this.lblReservationStatus.TabIndex = 98;
@@ -436,19 +434,63 @@
             // txtReservationStatus
             // 
             this.txtReservationStatus.AutoSize = true;
-            this.txtReservationStatus.Location = new System.Drawing.Point(131, 331);
+            this.txtReservationStatus.Location = new System.Drawing.Point(555, 99);
             this.txtReservationStatus.Name = "txtReservationStatus";
             this.txtReservationStatus.Size = new System.Drawing.Size(35, 13);
             this.txtReservationStatus.TabIndex = 99;
             this.txtReservationStatus.Text = "label9";
             // 
+            // btnAddCustomer
+            // 
+            this.btnAddCustomer.Location = new System.Drawing.Point(115, 12);
+            this.btnAddCustomer.Name = "btnAddCustomer";
+            this.btnAddCustomer.Size = new System.Drawing.Size(97, 23);
+            this.btnAddCustomer.TabIndex = 100;
+            this.btnAddCustomer.Text = "Add Customer";
+            this.btnAddCustomer.UseVisualStyleBackColor = true;
+            // 
+            // lblFilePath
+            // 
+            this.lblFilePath.AutoSize = true;
+            this.lblFilePath.Location = new System.Drawing.Point(14, 352);
+            this.lblFilePath.Name = "lblFilePath";
+            this.lblFilePath.Size = new System.Drawing.Size(51, 13);
+            this.lblFilePath.TabIndex = 101;
+            this.lblFilePath.Text = "File Path:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(71, 349);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(513, 20);
+            this.textBox1.TabIndex = 102;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(590, 349);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 103;
+            this.button1.Text = "Browse";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // RoomReservationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 357);
+            this.ClientSize = new System.Drawing.Size(692, 381);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.lblFilePath);
+            this.Controls.Add(this.lblType);
+            this.Controls.Add(this.btnAddCustomer);
+            this.Controls.Add(this.lblCategory);
+            this.Controls.Add(this.btnPickCustomer);
+            this.Controls.Add(this.chkIsAC);
             this.Controls.Add(this.txtReservationStatus);
+            this.Controls.Add(this.cboType);
             this.Controls.Add(this.lblReservationStatus);
+            this.Controls.Add(this.cboCategory);
             this.Controls.Add(this.btnCancelOpen);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnOk);
@@ -471,7 +513,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -517,5 +558,9 @@
         private System.Windows.Forms.Label lblType;
         private System.Windows.Forms.Label txtReservationStatus;
         private System.Windows.Forms.Label lblReservationStatus;
+        private System.Windows.Forms.Button btnAddCustomer;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label lblFilePath;
+        private System.Windows.Forms.Button button1;
     }
 }
