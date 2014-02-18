@@ -5,6 +5,6 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 {
     public interface ICheckIn
     {       
-        ReturnObject<Boolean> Save(Dto dto);
+        //ReturnObject<Boolean> Save(Dto dto);
     }
 }

@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using BinAff.Core;
-//using Crystal.Lodge.CheckIn;
-//using System.Transactions;
+﻿
+using System;
 using System.Text;
+using System.Collections.Generic;
+
+using BinAff.Core;
 
 using CrystalLodge = Crystal.Lodge.Component;
+using CrystalCustomer = Crystal.Customer.Component;
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using RuleFacade = AutoTourism.Configuration.Rule.Facade;
+using LodgeFacade = AutoTourism.Lodge.Facade;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
@@ -44,23 +46,23 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             formDto.TypeList = new LodgeConfigurationFacade.Room.Server(null).ReadAllType().Value;           
         }
 
-        ReturnObject<Boolean> ICheckIn.Save(Dto dto)
-        {
-            return this.SaveCheckIn(dto);
-        }
+        //ReturnObject<Boolean> ICheckIn.Save(Dto dto)
+        //{
+        //    return this.SaveCheckIn(dto);
+        //}
 
         private ReturnObject<RuleFacade.ConfigurationRuleDto> ReadConfigurationRule()
         {
             return new RuleFacade.RuleServer().ReadConfigurationRule();
         }
 
-        private ReturnObject<Boolean> SaveCheckIn(Dto dto)
-        {
-            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
-            {
-                Value = true,
-                MessageList = new List<Message>()
-            };
+        //private ReturnObject<Boolean> SaveCheckIn(Dto dto)
+        //{
+        //    ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
+        //    {
+        //        Value = true,
+        //        MessageList = new List<Message>()
+        //    };
 
             //using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
             //{
@@ -136,9 +138,9 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
             //retObj.MessageList.Clear();
             //retObj.MessageList.Add(new Message("Reservation is checked in successfully.",Message.Type.Information));
-            return retObj;
+        //    return retObj;
                         
-        }
+        //}
 
         //private List<CrystalLodge.Room.Data> GetRoomDataList(List<LodgeConfigurationFacade.Room.Dto> RoomList)
         //{
@@ -253,5 +255,58 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return new BinAff.Facade.Library.Dto();
         }
 
+        public override void Add()
+        {
+            this.Save();
+        }
+
+        public override void Change()
+        {
+            this.Save();
+        }
+
+        private void Save()
+        {
+            Dto checkInDto = (this.FormDto as FormDto).dto;
+            LodgeFacade.RoomReservation.Dto reservationDto = checkInDto.reservationDto;
+
+            AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data()
+            {
+                Id = reservationDto.Customer.Id,
+                FirstName = reservationDto.Customer.FirstName,
+                MiddleName = reservationDto.Customer.MiddleName,
+                LastName = reservationDto.Customer.LastName,
+                Address = reservationDto.Customer.Address,
+                City = reservationDto.Customer.City,
+                Pin = reservationDto.Customer.Pin,
+                Email = reservationDto.Customer.Email,
+                IdentityProof = reservationDto.Customer.IdentityProofName == null ? String.Empty : reservationDto.Customer.IdentityProofName,
+                State = new Crystal.Configuration.Component.State.Data
+                {
+                    Id = reservationDto.Customer.State.Id,
+                    Name = reservationDto.Customer.State.Name
+                },
+                ContactNumberList = new RoomReservation.ReservationServer(null).ConvertToContactNumberData(reservationDto.Customer.ContactNumberList),
+                Initial = new Crystal.Configuration.Component.Initial.Data
+                {
+                    Id = reservationDto.Customer.Initial.Id,
+                    Name = reservationDto.Customer.Initial.Name
+                },
+                IdentityProofType = new Crystal.Configuration.Component.IdentityProofType.Data
+                {
+                    Id = reservationDto.Customer.IdentityProofType.Id,
+                    Name = reservationDto.Customer.IdentityProofType.Name
+                },
+                RoomReserver = new CrystalLodge.Room.Reserver.Data(),
+                Checkin = new CrystalLodge.Room.CheckInContainer.Data()
+            };
+
+            autoCustomer.RoomReserver.Active = new RoomReservation.ReservationServer(null).Convert(reservationDto) as CrystalCustomer.Action.Data;
+            autoCustomer.RoomReserver.Active.ProductList = reservationDto.RoomList == null ? null : new RoomReservation.ReservationServer(null).GetRoomDataList(reservationDto.RoomList);
+
+            autoCustomer.Checkin.Active = this.Convert(checkInDto) as CrystalCustomer.Action.Data;
+        }
+
+      
     }
 }

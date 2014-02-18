@@ -96,6 +96,28 @@ namespace AutoTourism.Lodge.WinForm
                 this.formDto.dto.reservationDto.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>)[this.cboType.SelectedIndex].Id };
                 this.formDto.dto.reservationDto.IsAC = this.chkIsAC.Checked;
                 this.formDto.dto.reservationDto.RoomList = (List<LodgeConfigurationFacade.Room.Dto>)cmbCheckInRoom.DataSource;
+                
+
+                BinAff.Facade.Library.Server facade = new LodgeFacade.CheckIn.CheckInServer(new LodgeFacade.CheckIn.FormDto()
+                                                                                                {
+                                                                                                    dto = this.formDto.dto
+                                                                                                });
+
+                if (this.formDto.dto.Id == 0)                
+                    facade.Add();                
+                else                
+                    facade.Change();
+                
+
+                if (facade.IsError)
+                {
+                    retVal = false;
+                    new PresentationLibrary.MessageBox
+                    {
+                        DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
+                        Heading = "Splash",
+                    }.Show(facade.DisplayMessageList);
+                }
             }
 
             return retVal;
