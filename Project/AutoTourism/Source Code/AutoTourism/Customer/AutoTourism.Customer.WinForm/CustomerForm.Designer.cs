@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.bttnRemove = new System.Windows.Forms.Button();
             this.txtMobile = new System.Windows.Forms.TextBox();
             this.txtMobilePrefix = new System.Windows.Forms.TextBox();
@@ -56,9 +55,12 @@
             this.txtFName = new System.Windows.Forms.TextBox();
             this.cboInitial = new System.Windows.Forms.ComboBox();
             this.lblName = new System.Windows.Forms.Label();
-            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorProvider = new System.Windows.Forms.ErrorProvider();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lblFilePath = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -328,11 +330,39 @@
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(529, 212);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1004;
+            this.button1.Text = "Browse";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(106, 215);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(406, 20);
+            this.textBox1.TabIndex = 1003;
+            // 
+            // lblFilePath
+            // 
+            this.lblFilePath.AutoSize = true;
+            this.lblFilePath.Location = new System.Drawing.Point(10, 218);
+            this.lblFilePath.Name = "lblFilePath";
+            this.lblFilePath.Size = new System.Drawing.Size(51, 13);
+            this.lblFilePath.TabIndex = 1002;
+            this.lblFilePath.Text = "File Path:";
+            // 
             // CustomerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(616, 220);
+            this.ClientSize = new System.Drawing.Size(616, 247);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.lblFilePath);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtAdds);
@@ -404,5 +434,8 @@
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label lblFilePath;
     }
 }
