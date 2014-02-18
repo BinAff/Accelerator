@@ -185,7 +185,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);           
         }
 
-        private List<CrystalCustomer.ContactNumber.Data> ConvertToContactNumberData(List<Table> contactNumberList)
+        public List<CrystalCustomer.ContactNumber.Data> ConvertToContactNumberData(List<Table> contactNumberList)
         {
             List<CrystalCustomer.ContactNumber.Data> lstContactNumber = new List<CrystalCustomer.ContactNumber.Data>();
             if (contactNumberList != null && contactNumberList.Count > 0)
@@ -203,7 +203,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return lstContactNumber;
         }
 
-        private List<Data> GetRoomDataList(List<LodgeConfigurationFacade.Room.Dto> RoomList)
+        public List<Data> GetRoomDataList(List<LodgeConfigurationFacade.Room.Dto> RoomList)
         {
             List<Data> RoomDataList = new List<Data>();
             foreach (LodgeConfigurationFacade.Room.Dto dto in RoomList)
