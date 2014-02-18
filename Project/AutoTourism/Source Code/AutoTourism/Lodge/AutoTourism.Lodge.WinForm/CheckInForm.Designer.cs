@@ -62,6 +62,10 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
+            this.btnAddReservation = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lblFilePath = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -363,7 +367,7 @@
             // 
             // btnPickReservation
             // 
-            this.btnPickReservation.Location = new System.Drawing.Point(440, 267);
+            this.btnPickReservation.Location = new System.Drawing.Point(363, 263);
             this.btnPickReservation.Name = "btnPickReservation";
             this.btnPickReservation.Size = new System.Drawing.Size(154, 23);
             this.btnPickReservation.TabIndex = 97;
@@ -394,11 +398,49 @@
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
+            // btnAddReservation
+            // 
+            this.btnAddReservation.Location = new System.Drawing.Point(523, 263);
+            this.btnAddReservation.Name = "btnAddReservation";
+            this.btnAddReservation.Size = new System.Drawing.Size(154, 23);
+            this.btnAddReservation.TabIndex = 110;
+            this.btnAddReservation.Text = "Add Reservation";
+            this.btnAddReservation.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(591, 314);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 113;
+            this.button1.Text = "Browse";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(72, 314);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(513, 20);
+            this.textBox1.TabIndex = 112;
+            // 
+            // lblFilePath
+            // 
+            this.lblFilePath.AutoSize = true;
+            this.lblFilePath.Location = new System.Drawing.Point(15, 317);
+            this.lblFilePath.Name = "lblFilePath";
+            this.lblFilePath.Size = new System.Drawing.Size(51, 13);
+            this.lblFilePath.TabIndex = 111;
+            this.lblFilePath.Text = "File Path:";
+            // 
             // CheckInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(738, 312);
+            this.ClientSize = new System.Drawing.Size(738, 349);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.lblFilePath);
+            this.Controls.Add(this.btnAddReservation);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnPickReservation);
@@ -461,5 +503,9 @@
         private System.Windows.Forms.Label lblCategory;
         private System.Windows.Forms.ComboBox cboCategory;
         private System.Windows.Forms.CheckBox chkIsAC;
+        private System.Windows.Forms.Button btnAddReservation;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label lblFilePath;
     }
 }
