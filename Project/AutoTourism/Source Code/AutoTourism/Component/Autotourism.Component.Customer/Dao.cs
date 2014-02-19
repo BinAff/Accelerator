@@ -104,13 +104,21 @@ namespace AutoTourism.Component.Customer
                 Int64 ReservationId = ((BinAff.Core.Data)(((Crystal.Customer.Component.Characteristic.Data)(data.RoomReserver)).Active)).Id;
 
                 this.CreateCommand("[AutoTourism].[CustomerRoomReservationLinkDelete]");                
-                this.AddInParameter("@RoomReservationId", DbType.Int64, ReservationId);                
-                Int32 ret = this.ExecuteNonQuery();
+                this.AddInParameter("@RoomReservationId", DbType.Int64, ReservationId);
 
-                if (ret == -2146232060)
-                    return false;//Foreign key violation
-                else
-                    retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+                try
+                {
+                    Int32 ret = this.ExecuteNonQuery();
+                }
+                catch (Exception ex) 
+                { 
+                
+                }
+
+                //if (ret == -2146232060)
+                //    return false;//Foreign key violation
+                //else
+                //    retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
 
             }
             return retVal;

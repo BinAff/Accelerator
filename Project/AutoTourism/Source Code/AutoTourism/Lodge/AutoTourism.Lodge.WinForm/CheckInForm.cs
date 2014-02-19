@@ -82,6 +82,7 @@ namespace AutoTourism.Lodge.WinForm
             {
                 if (this.formDto.dto == null) this.formDto.dto = new LodgeFacade.CheckIn.Dto();
                 this.formDto.dto.Id = this.formDto.dto == null ? 0 : this.formDto.dto.Id;
+                this.formDto.dto.Date = new DateTime(dtCheckIn.Value.Year, dtCheckIn.Value.Month, dtCheckIn.Value.Day, dtCheckIn.Value.Hour, dtCheckIn.Value.Minute, dtCheckIn.Value.Second);
 
                 if (this.formDto.dto.reservationDto == null) this.formDto.dto.reservationDto = new LodgeFacade.RoomReservation.Dto();
                 this.formDto.dto.reservationDto.Id = this.formDto.dto.reservationDto == null ? 0 : this.formDto.dto.reservationDto.Id;
@@ -419,7 +420,7 @@ namespace AutoTourism.Lodge.WinForm
             {                
                 LodgeFacade.RoomReservationRegister.Dto roomReservationRegisterDto = form.Tag as LodgeFacade.RoomReservationRegister.Dto;
                 this.formDto.dto = new LodgeFacade.CheckIn.Dto
-                {                   
+                {
                     customerDisplayName = roomReservationRegisterDto.Name,
                     Date = roomReservationRegisterDto.BookingFrom,
                     reservationDto = new LodgeFacade.RoomReservation.Dto
@@ -434,14 +435,20 @@ namespace AutoTourism.Lodge.WinForm
                         IsAC = roomReservationRegisterDto.IsAC,
                         RoomList = roomReservationRegisterDto.RoomList,
                         BookingFrom = roomReservationRegisterDto.BookingFrom,
-                        Customer = new CustomerFacade.Dto 
-                        { 
-                            Id = roomReservationRegisterDto.Customer.Id,
-                            ContactNumberList = roomReservationRegisterDto.Customer.ContactNumberList,
-                            Address = roomReservationRegisterDto.Customer.Address,
-                            Email = roomReservationRegisterDto.Customer.Email
-                        }
-                    }                  
+                        Customer = roomReservationRegisterDto.Customer
+                        //Customer = new CustomerFacade.Dto
+                        //{
+                        //    Id = roomReservationRegisterDto.Customer.Id,
+                        //    FirstName = roomReservationRegisterDto.Customer.FirstName,
+                        //    ContactNumberList = roomReservationRegisterDto.Customer.ContactNumberList,
+                        //    Address = roomReservationRegisterDto.Customer.Address,
+                        //    Email = roomReservationRegisterDto.Customer.Email,
+                        //    State = new Table { Id = roomReservationRegisterDto.Customer.State.Id },
+                        //    IdentityProofType = new Table { Id = roomReservationRegisterDto.Customer.IdentityProofType.Id },
+                        //    IdentityProofName = roomReservationRegisterDto.Customer.IdentityProofName,
+                        //    Initial = new Table { Id = roomReservationRegisterDto.Customer.Initial.Id }
+                        //}
+                    }
                 };
 
                 this.LoadCheckInData();                
