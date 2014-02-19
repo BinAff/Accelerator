@@ -247,7 +247,18 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            return new Data();
+            Dto checkIn = dto as Dto;
+            return new CrystalLodge.Room.CheckIn.Data
+            {
+                Id = dto.Id,
+                Advance = checkIn.reservationDto.Advance,
+                Reservation = new RoomReservation.ReservationServer(null).Convert(checkIn.reservationDto) as CrystalLodge.Room.Reservation.Data,
+                ActivityDate = checkIn.Date,
+                Status = new CrystalCustomer.Action.Status.Data
+                {
+                    Id = System.Convert.ToInt64(CheckInStatus.Open)
+                },
+            };
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
@@ -268,6 +279,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         private void Save()
         {
             Dto checkInDto = (this.FormDto as FormDto).dto;
+           
             LodgeFacade.RoomReservation.Dto reservationDto = checkInDto.reservationDto;
 
             AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data()
@@ -305,8 +317,16 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             autoCustomer.RoomReserver.Active.ProductList = reservationDto.RoomList == null ? null : new RoomReservation.ReservationServer(null).GetRoomDataList(reservationDto.RoomList);
 
             autoCustomer.Checkin.Active = this.Convert(checkInDto) as CrystalCustomer.Action.Data;
+
+            ICrud crud = new AutoTourism.Component.Customer.Server(autoCustomer);
+            ReturnObject<Boolean> ret = crud.Save();
         }
 
+        //-- RoomStaus ID is mapped with database table RoomReservationStatus
+        public enum CheckInStatus
+        {
+            Open = 10001
+        }
       
     }
 }
