@@ -320,6 +320,11 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
             ICrud crud = new AutoTourism.Component.Customer.Server(autoCustomer);
             ReturnObject<Boolean> ret = crud.Save();
+
+            if (autoCustomer.Checkin.Active != null)
+                (this.FormDto as FormDto).dto.Id = autoCustomer.Checkin.Active.Id;
+
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information); 
         }
 
         //-- RoomStaus ID is mapped with database table RoomReservationStatus
