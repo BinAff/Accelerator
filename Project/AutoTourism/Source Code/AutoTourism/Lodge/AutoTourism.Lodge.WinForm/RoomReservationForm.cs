@@ -209,40 +209,7 @@ namespace AutoTourism.Lodge.WinForm
                 //if ((Convert.ToInt64(LodgeReservationStatus.open) != this.dto.BookingStatusId) && (this.dto.BookingStatusId != 0))
                 //    btnOk.Enabled = false;
             }
-        }
-
-        //private void PopulateRoomList()
-        //{
-        //    this.cboRoomList.DataSource = null;
-        //    List<LodgeConfigurationFacade.Room.Dto> RoomList = new List<LodgeConfigurationFacade.Room.Dto>();
-
-        //    if (this.formDto.roomList != null && this.formDto.roomList.Count > 0)
-        //    {
-        //        if (this.dto.RoomList == null || this.dto.RoomList.Count == 0)
-        //            RoomList = this.formDto.roomList;
-        //        else
-        //        {
-        //            foreach (LodgeConfigurationFacade.Room.Dto roomDto in this.formDto.roomList)
-        //            {
-        //                Boolean blnNotExist = true;
-        //                foreach (LodgeConfigurationFacade.Room.Dto bookedRoomDto in this.dto.RoomList)
-        //                {
-        //                    if (roomDto.Id == bookedRoomDto.Id)
-        //                    {
-        //                        blnNotExist = false;
-        //                        break;
-        //                    }
-        //                }
-        //                if (blnNotExist) RoomList.Add(roomDto);
-        //            }
-        //        }
-
-        //        this.cboRoomList.DataSource = RoomList;
-        //        this.cboRoomList.DisplayMember = "Number";
-        //        this.cboRoomList.ValueMember = "Id";
-        //        this.cboRoomList.SelectedIndex = -1;
-        //    }
-        //}
+        }      
 
         private void Clear()
         {

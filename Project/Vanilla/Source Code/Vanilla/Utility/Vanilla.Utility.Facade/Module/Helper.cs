@@ -118,7 +118,7 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactDataType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data";
                     this.ArtifacComponentType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Lodge.Component.Room.CheckIn.Data, Crystal.Lodge.Component";
-                    //this.ModuleFacade = new AutoTourism.Lodge.Facade.CheckIn.CheckInServer(null);
+                    this.ModuleFacade = new AutoTourism.Lodge.Facade.CheckIn.CheckInServer(null);
                     break;
 
                 case "INVO"://Need to change
@@ -128,7 +128,7 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactDataType = "AutoTourism.Component.Customer.Navigator.Artifact.Data";
                     this.ArtifacComponentType = "AutoTourism.Component.Customer.Navigator.Artifact.Server";
                     this.ModuleDataType = "AutoTourism.Component.Customer.Data, AutoTourism.Component.Customer";
-                    this.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
+                    //this.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
                     break;
 
                 default:

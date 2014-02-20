@@ -17,25 +17,25 @@ namespace AutoTourism.Lodge.WinForm
 {
     public partial class CheckInForm : PresentationLibrary.Form
     {
-        //private RuleFacade.Dto ruleDto;
-        //private LodgeFacade.CheckIn.Dto dto;
+        private LodgeFacade.CheckIn.Dto dto;
         private LodgeFacade.CheckIn.FormDto formDto;
         private RuleFacade.ConfigurationRuleDto configurationRuleDto;
       
-        public enum LodgeReservationStatus
-        {
-            Open = 10001,
-            Closed = 10002,
-            Cancel = 10003,
-            CheckIn = 10004,
-            Modify = 10005
-        }
+        //public enum LodgeReservationStatus
+        //{
+        //    Open = 10001,
+        //    Closed = 10002,
+        //    Cancel = 10003,
+        //    CheckIn = 10004,
+        //    Modify = 10005
+        //}
 
         public CheckInForm(LodgeFacade.CheckIn.Dto CheckInDto)
         {
             InitializeComponent();
-            //this.dto = CheckInDto;
-            this.formDto = new LodgeFacade.CheckIn.FormDto { dto = CheckInDto };
+
+            this.dto = CheckInDto;
+            this.formDto = new LodgeFacade.CheckIn.FormDto { dto = this.dto };
 
             dtCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             dtCheckIn.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
@@ -96,19 +96,17 @@ namespace AutoTourism.Lodge.WinForm
                 this.formDto.dto.reservationDto.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
                 this.formDto.dto.reservationDto.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>)[this.cboType.SelectedIndex].Id };
                 this.formDto.dto.reservationDto.IsAC = this.chkIsAC.Checked;
-                this.formDto.dto.reservationDto.RoomList = (List<LodgeConfigurationFacade.Room.Dto>)cmbCheckInRoom.DataSource;
-                
+                this.formDto.dto.reservationDto.RoomList = (List<LodgeConfigurationFacade.Room.Dto>)cmbCheckInRoom.DataSource;               
 
-                BinAff.Facade.Library.Server facade = new LodgeFacade.CheckIn.CheckInServer(new LodgeFacade.CheckIn.FormDto()
-                                                                                                {
-                                                                                                    dto = this.formDto.dto
-                                                                                                });
+                BinAff.Facade.Library.Server facade = new LodgeFacade.CheckIn.CheckInServer(formDto);
 
-                if (this.formDto.dto.Id == 0)                
-                    facade.Add();                
-                else                
+                if (this.formDto.dto.Id == 0)
+                    facade.Add();
+                else
                     facade.Change();
-                
+
+                //checkIn Id passs back to register
+                this.dto.Id = this.formDto.dto.Id;       
 
                 if (facade.IsError)
                 {
@@ -123,42 +121,17 @@ namespace AutoTourism.Lodge.WinForm
 
             return retVal;
         }
+
         private void btnOk_Click(object sender, EventArgs e)
         {
+            //this.dto.Id = 5;
+            //this.Close();
+
             if (this.SaveCheckInData())
             {
                 base.IsModified = true;
                 this.Close();
             }
-
-            //    LodgeFacade.CheckIn.Dto dto = new LodgeFacade.CheckIn.Dto()
-            //    {
-            //        Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDecimal(txtAdvance.Text.Trim()),
-            //        Reservation = new LodgeFacade.RoomReservation.Dto()
-            //        {
-            //            Id = this.checkInDto.Reservation.Id,
-            //            BookingFrom = dtCheckIn.Value,
-            //            NoOfDays = Convert.ToInt16(txtDays.Text.Trim()),
-            //            NoOfPersons = Convert.ToInt16(txtPersons.Text.Trim()),
-            //            NoOfRooms = Convert.ToInt16(txtRooms.Text.Trim()),
-            //            Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Trim()),
-            //            Customer = new CustomerFacade.Dto() { Id = this.checkInDto.Reservation.Customer.Id },
-            //        },
-            //        RoomList = (List<LodgeConfigurationFacade.Room.Dto>)cmbCheckInRoom.DataSource,
-            //    };
-
-            //    if (dtCheckIn.Value != this.checkInDto.Reservation.BookingFrom) dto.Reservation.BookingStatusId = Convert.ToInt64(LodgeReservationStatus.Modify);
-            //    else if (Convert.ToInt32(txtDays.Text.Trim()) != this.checkInDto.Reservation.NoOfDays) dto.Reservation.BookingStatusId = Convert.ToInt64(LodgeReservationStatus.Modify);
-            //    else if (Convert.ToInt32(txtPersons.Text.Trim()) != this.checkInDto.Reservation.NoOfPersons) dto.Reservation.BookingStatusId = Convert.ToInt64(LodgeReservationStatus.Modify);
-            //    else if (Convert.ToInt32(txtRooms.Text.Trim()) != this.checkInDto.Reservation.NoOfRooms) dto.Reservation.BookingStatusId = Convert.ToInt64(LodgeReservationStatus.Modify);
-
-            //    LodgeFacade.CheckIn.ICheckIn reservation = new LodgeFacade.CheckIn.CheckInServer();
-            //    ReturnObject<Boolean> ret = reservation.Save(dto);
-
-            //    //base.ShowMessage(ret); //Show message  
-
-            //    this.Close();
-            //}
         }
         
         private Boolean ValidateCheckIn()
