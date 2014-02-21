@@ -47,7 +47,6 @@
     <Compile Include="Artifact\FormDto.cs" />
     <Compile Include="Artifact\Server.cs" />
     <Compile Include="Artifact\Type.cs" />
-    <Compile Include="Extender\RegisterExtension.cs" />
     <Compile Include="Module\Dto.cs" />
     <Compile Include="Module\FormDto.cs" />
     <Compile Include="Module\Helper.cs" />
