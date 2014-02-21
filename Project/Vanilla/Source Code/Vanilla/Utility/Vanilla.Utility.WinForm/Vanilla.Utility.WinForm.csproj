@@ -38,17 +38,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extender\RegisterExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveDialog.cs">
       <SubType>Form</SubType>
@@ -77,6 +71,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
+      <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
+      <Name>BinAff.Facade.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
+      <Project>{a10719af-5c9f-4903-ab83-089ec502eea2}</Project>
+      <Name>Vanilla.Utility.Facade</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
