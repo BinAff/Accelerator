@@ -371,7 +371,6 @@ namespace Vanilla.Navigator.WinForm
             }
         }
 
-
         private TreeNode FindRootNode(TreeNode treeNode)
         {
             while (treeNode.Parent != null)
@@ -516,7 +515,9 @@ namespace Vanilla.Navigator.WinForm
             if (selectedItemArtifactDto.Style == Vanilla.Utility.Facade.Artifact.Type.Document)
             {
                 if ((selectedNode.Tag.GetType().ToString() == "Vanilla.Utility.Facade.Module.Dto") && (selectedItemArtifactDto.Parent == null))
+                {
                     (selectedItem.Tag as Vanilla.Utility.Facade.Artifact.Dto).Parent = selectedNode.Tag as Vanilla.Utility.Facade.Module.Dto;
+                }
             }
         }
 
@@ -527,12 +528,29 @@ namespace Vanilla.Navigator.WinForm
                 this.ShowHideContextMenuItems(true, null, this.lsvContainer.GetItemAt(e.X, e.Y));
                 this.cmsExplorer.Show(Cursor.Position);
             }
+            else if (e.Button == MouseButtons.Left)
+            {
+                if (this.lsvContainer.GetItemAt(e.X, e.Y) != null) //Clicked on one item
+                {
+                    this.Assign(this.lsvContainer.GetItemAt(e.X, e.Y).Tag as Vanilla.Utility.Facade.Artifact.Dto);
+                    if (this.lsvContainer.GetItemAt(e.X, e.Y) == this.lsvContainer.FocusedItem)
+                    {
+                        //TO DO :: Edit like F2
+                    }
+                }
+            }
         }
 
         private void lsvContainer_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F2)
+            {
                 this.EditListViewSelectedItem();
+            }
+            else
+            {
+                this.Assign(this.lsvContainer.FocusedItem.Tag as Vanilla.Utility.Facade.Artifact.Dto);
+            }
         }
 
         private void lsvContainer_DoubleClick(object sender, EventArgs e)
@@ -674,14 +692,28 @@ namespace Vanilla.Navigator.WinForm
                     this.lblType.Text = selectedNode.Style.ToString();
                     this.lblVersion.Text = selectedNode.Version.ToString();
                 }
+                else
+                {
+                    this.lblType.Text = "Addon";
+                }
 
-                if (selectedNode.CreatedBy != null)
+                if (selectedNode.CreatedBy == null)
+                {
+                    this.lblCreatedBy.Text = String.Empty;
+                    this.lblCreatedAt.Text = String.Empty;
+                }
+                else
                 {
                     this.lblCreatedBy.Text = selectedNode.CreatedBy.Name;
                     this.lblCreatedAt.Text = selectedNode.CreatedAt.ToShortDateString();
                 }
 
-                if (selectedNode.ModifiedBy != null)
+                if (selectedNode.ModifiedBy == null)
+                {
+                    this.lblModifiedBy.Text = String.Empty;
+                    this.lblModifiedAt.Text = String.Empty;
+                }
+                else
                 {
                     this.lblModifiedBy.Text = selectedNode.ModifiedBy.Name;
                     this.lblModifiedAt.Text = ((DateTime)selectedNode.ModifiedAt).ToShortDateString();
@@ -1607,11 +1639,6 @@ namespace Vanilla.Navigator.WinForm
 
         }
 
-        private void lsvContainer_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void tbpForm_Click(object sender, EventArgs e)
         {
 
@@ -1748,16 +1775,6 @@ namespace Vanilla.Navigator.WinForm
         }
 
         private void cmnuReport_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pnlAddress_Paint(object sender, PaintEventArgs e)
         {
 
         }
