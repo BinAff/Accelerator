@@ -22,8 +22,8 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             List<Message> retMsg = base.Validate();
             Data data = (Data)base.Data;
 
-            if (this.IsReservationCheckedIn(data))
-                retMsg.Add(new Message("Reservation is already checked in.", Message.Type.Error));
+            //if (this.IsReservationCheckedIn(data))
+            //    retMsg.Add(new Message("Reservation is already checked in.", Message.Type.Error));
 
             return retMsg;
         }

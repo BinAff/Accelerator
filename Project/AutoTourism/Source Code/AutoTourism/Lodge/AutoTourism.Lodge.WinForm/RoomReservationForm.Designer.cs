@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnPickCustomer = new System.Windows.Forms.Button();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtAdds = new System.Windows.Forms.TextBox();
@@ -39,6 +38,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
+            this.btnPickCustomer = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
             this.txtDays = new System.Windows.Forms.TextBox();
@@ -68,8 +68,8 @@
             this.txtReservationStatus = new System.Windows.Forms.Label();
             this.btnAddCustomer = new System.Windows.Forms.Button();
             this.lblFilePath = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.txtArtifactPath = new System.Windows.Forms.TextBox();
+            this.btnBrowse = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -92,16 +92,6 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Customer Details";
-            // 
-            // btnPickCustomer
-            // 
-            this.btnPickCustomer.Location = new System.Drawing.Point(12, 12);
-            this.btnPickCustomer.Name = "btnPickCustomer";
-            this.btnPickCustomer.Size = new System.Drawing.Size(97, 23);
-            this.btnPickCustomer.TabIndex = 96;
-            this.btnPickCustomer.Text = "Pick Customer";
-            this.btnPickCustomer.UseVisualStyleBackColor = true;
-            this.btnPickCustomer.Click += new System.EventHandler(this.btnPickCustomer_Click);
             // 
             // txtEmail
             // 
@@ -180,6 +170,16 @@
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 22;
             this.lblName.Text = "Name";
+            // 
+            // btnPickCustomer
+            // 
+            this.btnPickCustomer.Location = new System.Drawing.Point(12, 12);
+            this.btnPickCustomer.Name = "btnPickCustomer";
+            this.btnPickCustomer.Size = new System.Drawing.Size(97, 23);
+            this.btnPickCustomer.TabIndex = 96;
+            this.btnPickCustomer.Text = "Pick Customer";
+            this.btnPickCustomer.UseVisualStyleBackColor = true;
+            this.btnPickCustomer.Click += new System.EventHandler(this.btnPickCustomer_Click);
             // 
             // label1
             // 
@@ -458,29 +458,29 @@
             this.lblFilePath.TabIndex = 101;
             this.lblFilePath.Text = "File Path:";
             // 
-            // textBox1
+            // txtArtifactPath
             // 
-            this.textBox1.Location = new System.Drawing.Point(71, 349);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(513, 20);
-            this.textBox1.TabIndex = 102;
+            this.txtArtifactPath.Location = new System.Drawing.Point(71, 349);
+            this.txtArtifactPath.Name = "txtArtifactPath";
+            this.txtArtifactPath.Size = new System.Drawing.Size(513, 20);
+            this.txtArtifactPath.TabIndex = 102;
             // 
-            // button1
+            // btnBrowse
             // 
-            this.button1.Location = new System.Drawing.Point(590, 349);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 103;
-            this.button1.Text = "Browse";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnBrowse.Location = new System.Drawing.Point(590, 349);
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(75, 23);
+            this.btnBrowse.TabIndex = 103;
+            this.btnBrowse.Text = "Browse";
+            this.btnBrowse.UseVisualStyleBackColor = true;
             // 
             // RoomReservationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(692, 381);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.btnBrowse);
+            this.Controls.Add(this.txtArtifactPath);
             this.Controls.Add(this.lblFilePath);
             this.Controls.Add(this.lblType);
             this.Controls.Add(this.btnAddCustomer);
@@ -559,8 +559,8 @@
         private System.Windows.Forms.Label txtReservationStatus;
         private System.Windows.Forms.Label lblReservationStatus;
         private System.Windows.Forms.Button btnAddCustomer;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtArtifactPath;
         private System.Windows.Forms.Label lblFilePath;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnBrowse;
     }
 }

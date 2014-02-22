@@ -110,10 +110,8 @@ namespace AutoTourism.Lodge.WinForm
 
             this.configurationRuleDto = formDto.configurationRuleDto;
             if(this.configurationRuleDto.DateFormat != null)
-                dtFrom.CustomFormat = this.configurationRuleDto.DateFormat;
-            
-            //this.PopulateRoomList();
-
+                dtFrom.CustomFormat = this.configurationRuleDto.DateFormat;            
+         
             //--populate room category
             this.cboCategory.DataSource = null;
             if (this.formDto.CategoryList != null && this.formDto.CategoryList.Count > 0)
@@ -204,12 +202,40 @@ namespace AutoTourism.Lodge.WinForm
                     txtReservationStatus.Text = "Cancel";
                     btnCancelOpen.Text = "Re Open";
                 }
-                
 
-                //if ((Convert.ToInt64(LodgeReservationStatus.open) != this.dto.BookingStatusId) && (this.dto.BookingStatusId != 0))
-                //    btnOk.Enabled = false;
+                //disable the controls if the reservation is checked in
+                if (this.formDto.Dto.isCheckedIn)                
+                    this.DisableFormControls();                
+
             }
-        }      
+        }
+
+        private void DisableFormControls()
+        {
+            this.btnPickCustomer.Enabled = false;
+            this.btnAddCustomer.Enabled = false;
+            this.btnRefresh.Enabled = false;
+            this.btnOk.Enabled = false;
+            this.btnCancelOpen.Enabled = false;
+            this.btnBrowse.Enabled = false;
+            this.btnAddRoom.Enabled = false;
+            this.btnRemoveRoom.Enabled = false;
+
+            this.cboCategory.Enabled = false;
+            this.cboType.Enabled = false;
+
+            this.dtFrom.Enabled = false;
+            this.dtFromTime.Enabled = false;
+            this.txtDays.Enabled = false;
+            this.txtPersons.Enabled = false;
+            this.txtRooms.Enabled = false;
+            this.txtAdvance.Enabled = false;
+
+            this.chkIsAC.Enabled = false;
+            this.cboRoomList.Enabled = false;
+            this.cboSelectedRoom.Enabled = false;
+            this.txtArtifactPath.Enabled = false;
+        }
 
         private void Clear()
         {
