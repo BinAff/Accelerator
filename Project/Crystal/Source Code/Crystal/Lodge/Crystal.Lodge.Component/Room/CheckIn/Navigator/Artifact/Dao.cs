@@ -32,12 +32,12 @@ namespace Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact
             DataSet ds = this.ExecuteDataSet();
             this.CloseConnection();
 
-            Int64 custId = Convert.IsDBNull(ds.Tables[0].Rows[0]["CheckInId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["CheckInId"]);
-            if (custId > 0)
+            Int64 CheckInId = Convert.IsDBNull(ds.Tables[0].Rows[0]["CheckInId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["CheckInId"]);
+            if (CheckInId > 0)
             {
                 (this.Data as Data).ModuleData = new Crystal.Lodge.Component.Room.CheckIn.Data
                 {
-                    Id = custId
+                    Id = CheckInId
                 };
             }
             return true;

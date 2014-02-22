@@ -263,8 +263,38 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            return new BinAff.Facade.Library.Dto();
+            CrystalLodge.Room.CheckIn.Data checkIn = data as CrystalLodge.Room.CheckIn.Data;
+            CrystalLodge.Room.Reservation.Data reservation = checkIn.Reservation;
+            return new Dto
+            {
+                Id = data.Id,
+                Date = checkIn.ActivityDate,
+                reservationDto = new RoomReservation.Dto 
+                {
+                    Id = reservation.Id,
+                    NoOfDays = reservation.NoOfDays,
+                    NoOfPersons = reservation.NoOfPersons,
+                    NoOfRooms = reservation.NoOfRooms,
+                    BookingFrom = reservation.ActivityDate,
+                    Advance = reservation.Advance,
+                    BookingStatusId = reservation.Status.Id,
+                    RoomList = reservation.ProductList == null ? null : new LodgeFacade.RoomReservation.ReservationServer(null).GetRoomDtoList(reservation.ProductList),
+                    RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
+                    RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id },
+                    IsAC = reservation.IsAC,
+                    BookingDate = reservation.Date,
+                    Customer = new LodgeFacade.RoomReservation.ReservationServer(null).GetCustomerDtoForReservation(reservation.Id)
+                }
+            };
         }
+
+          ////--every reservation must have a customer
+          //  String Name = (reservationDto.Customer.Initial == null ? String.Empty : reservationDto.Customer.Initial.Name);
+          //  Name += (Name == String.Empty) ? (reservationDto.Customer.FirstName == null ? String.Empty : reservationDto.Customer.FirstName) : " " + (reservationDto.Customer.FirstName == null ? String.Empty : reservationDto.Customer.FirstName);
+          //  Name += (Name == String.Empty) ? (reservationDto.Customer.MiddleName == null ? String.Empty : reservationDto.Customer.MiddleName) : " " + (reservationDto.Customer.MiddleName == null ? String.Empty : reservationDto.Customer.MiddleName);
+          //  Name += (Name == String.Empty) ? (reservationDto.Customer.LastName == null ? String.Empty : reservationDto.Customer.LastName) : " " + (reservationDto.Customer.LastName == null ? String.Empty : reservationDto.Customer.LastName);
+
+
 
         public override void Add()
         {

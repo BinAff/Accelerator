@@ -251,71 +251,21 @@ namespace AutoTourism.Lodge.WinForm
                 this.cboType.SelectedIndex = -1;
             }
 
-            //populate reservation data
-            //if (this.checkInDto != null && this.checkInDto.Reservation != null)
-            //{
-            //    dtCheckIn.Value = this.checkInDto.Reservation.BookingFrom;
-            //    txtDays.Text = this.checkInDto.Reservation.NoOfDays.ToString();
-            //    txtPersons.Text = this.checkInDto.Reservation.NoOfPersons.ToString();
-            //    txtRooms.Text = this.checkInDto.Reservation.NoOfRooms.ToString();
-            //    txtAdvance.Text = this.checkInDto.Reservation.Advance.ToString();
+            //populate checkIn form
+            if (this.formDto.dto.Id > 0)
+            {
+                
+                CustomerFacade.Dto customerDto = this.formDto.dto.reservationDto.Customer;
+                
+                String Name = (customerDto.Initial == null ? String.Empty : customerDto.Initial.Name);
+                Name += (Name == String.Empty) ? (customerDto.FirstName == null ? String.Empty : customerDto.FirstName) : " " + (customerDto.FirstName == null ? String.Empty : customerDto.FirstName);
+                Name += (Name == String.Empty) ? (customerDto.MiddleName == null ? String.Empty : customerDto.MiddleName) : " " + (customerDto.MiddleName == null ? String.Empty : customerDto.MiddleName);
+                Name += (Name == String.Empty) ? (customerDto.LastName == null ? String.Empty : customerDto.LastName) : " " + (customerDto.LastName == null ? String.Empty : customerDto.LastName);
 
-            //    cmbCheckInRoom.DataSource = this.checkInDto.Reservation.RoomList;
-            //    cmbCheckInRoom.DisplayMember = "Number";
-            //    cmbCheckInRoom.ValueMember = "Id";
-            //    cmbCheckInRoom.SelectedIndex = -1;
+                this.formDto.dto.customerDisplayName = Name;
 
-            //    txtName.Text = (this.checkInDto.Reservation.Customer.Initial == null ? String.Empty :
-            //        this.checkInDto.Reservation.Customer.Initial.Name) + " " +
-            //        this.checkInDto.Reservation.Customer.FirstName + " " +
-            //        this.checkInDto.Reservation.Customer.MiddleName + " " +
-            //        this.checkInDto.Reservation.Customer.LastName;
-            //    lstContact.DataSource = this.checkInDto.Reservation.Customer.ContactNumberList;
-            //    lstContact.DisplayMember = "Name";
-            //    lstContact.ValueMember = "Id";
-            //    lstContact.SelectedIndex = -1;
-            //    txtAdds.Text = this.checkInDto.Reservation.Customer.Address;
-            //    txtEmail.Text = this.checkInDto.Reservation.Customer.Email;
-            //}
-
-
-            ////populate room list
-            //LodgeFacade.CheckIn.ICheckIn checkIn = new LodgeFacade.CheckIn.CheckInServer();
-            //LodgeFacade.CheckIn.FormDto formDto = checkIn.LoadForm().Value;
-
-            ////populate rule
-            //if (formDto.configurationRuleDto != null && formDto.configurationRuleDto.DateFormat != null)
-            //{
-            //    dtCheckIn.CustomFormat = formDto.configurationRuleDto.DateFormat;
-            //}
-
-            //List<LodgeConfigurationFacade.Room.Dto> RoomList = new List<LodgeConfigurationFacade.Room.Dto>();
-            //if (formDto.roomList != null && formDto.roomList.Count > 0)
-            //{
-            //    if (this.checkInDto.Reservation == null || this.checkInDto.Reservation.RoomList == null || this.checkInDto.Reservation.RoomList.Count == 0)
-            //        RoomList = formDto.roomList;
-            //    else
-            //    {
-            //        foreach (LodgeConfigurationFacade.Room.Dto roomDto in formDto.roomList)
-            //        {
-            //            Boolean blnNotExist = true;
-            //            foreach (LodgeConfigurationFacade.Room.Dto bookedRoomDto in this.checkInDto.Reservation.RoomList)
-            //            {
-            //                if (roomDto.Id == bookedRoomDto.Id)
-            //                {
-            //                    blnNotExist = false;
-            //                    break;
-            //                }
-            //            }
-            //            if (blnNotExist) RoomList.Add(roomDto);
-            //        }
-            //    }
-
-            //    this.cboRoomList.DataSource = RoomList;
-            //    this.cboRoomList.DisplayMember = "Number";
-            //    this.cboRoomList.ValueMember = "Id";
-            //    this.cboRoomList.SelectedIndex = -1;
-            //}
+                this.LoadCheckInData();
+            }
 
         }
 
@@ -409,18 +359,6 @@ namespace AutoTourism.Lodge.WinForm
                         RoomList = roomReservationRegisterDto.RoomList,
                         BookingFrom = roomReservationRegisterDto.BookingFrom,
                         Customer = roomReservationRegisterDto.Customer
-                        //Customer = new CustomerFacade.Dto
-                        //{
-                        //    Id = roomReservationRegisterDto.Customer.Id,
-                        //    FirstName = roomReservationRegisterDto.Customer.FirstName,
-                        //    ContactNumberList = roomReservationRegisterDto.Customer.ContactNumberList,
-                        //    Address = roomReservationRegisterDto.Customer.Address,
-                        //    Email = roomReservationRegisterDto.Customer.Email,
-                        //    State = new Table { Id = roomReservationRegisterDto.Customer.State.Id },
-                        //    IdentityProofType = new Table { Id = roomReservationRegisterDto.Customer.IdentityProofType.Id },
-                        //    IdentityProofName = roomReservationRegisterDto.Customer.IdentityProofName,
-                        //    Initial = new Table { Id = roomReservationRegisterDto.Customer.Initial.Id }
-                        //}
                     }
                 };
 

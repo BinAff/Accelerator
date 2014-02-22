@@ -30,10 +30,17 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             formDto.TypeList = new LodgeConfigurationFacade.Room.Server(null).ReadAllType().Value;
 
             if (formDto.Dto != null && formDto.Dto.Id > 0)
-            {
-                AutoCustomer.ICustomer autoCustomer = new AutoCustomer.Server(null);
-                formDto.Dto.Customer = ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(formDto.Dto.Id));
-            }
+                formDto.Dto.Customer = this.GetCustomerDtoForReservation(formDto.Dto.Id);
+            //{                
+            //    //AutoCustomer.ICustomer autoCustomer = new AutoCustomer.Server(null);
+            //    //formDto.Dto.Customer = ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(formDto.Dto.Id));
+            //}
+        }
+
+        public Customer.Facade.Dto GetCustomerDtoForReservation(Int64 reservationId)
+        {
+            AutoCustomer.ICustomer autoCustomer = new AutoCustomer.Server(null);
+            return ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(reservationId));
         }
 
         public Customer.Facade.Dto ConvertToCustomerDto(Crystal.Customer.Component.Data customerData)
@@ -217,7 +224,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return RoomDataList;
         }
 
-        private List<LodgeConfigurationFacade.Room.Dto> GetRoomDtoList(List<Data> RoomList)
+        public List<LodgeConfigurationFacade.Room.Dto> GetRoomDtoList(List<Data> RoomList)
         {
             List<LodgeConfigurationFacade.Room.Dto> RoomDtoList = new List<LodgeConfigurationFacade.Room.Dto>();
             foreach (CrystalLodge.Room.Data data in RoomList)
