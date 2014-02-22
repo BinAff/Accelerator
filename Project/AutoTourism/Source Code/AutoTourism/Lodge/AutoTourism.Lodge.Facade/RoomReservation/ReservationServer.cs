@@ -65,7 +65,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
                 RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id },
                 IsAC = reservation.IsAC,
-                BookingDate = reservation.Date
+                BookingDate = reservation.Date,
+                isCheckedIn = reservation.IsCheckedIn
             };
         }
 
