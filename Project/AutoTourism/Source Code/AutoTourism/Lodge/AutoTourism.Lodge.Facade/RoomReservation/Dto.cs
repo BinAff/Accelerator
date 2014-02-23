@@ -24,5 +24,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         public List<LodgeConfigurationFacade.Room.Dto> RoomList { get; set; }
         public CustomerFacade.Dto Customer { get; set; }
+
+        public String ArtifactPath { get; set; }
     }
 }

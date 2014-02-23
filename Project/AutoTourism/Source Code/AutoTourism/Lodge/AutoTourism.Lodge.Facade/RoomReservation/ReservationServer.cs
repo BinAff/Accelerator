@@ -298,8 +298,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         }
 
         public void SaveArtifactForReservation(Dto dto,Table loggedInUser)
-        {         
-            new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto).LoadForm();
+        {
+            //-- ModuleFormDto is populated on formLoad [need to test]
+            //new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto).LoadForm();
 
             Vanilla.Utility.Facade.Module.Dto reservationModuleDto = null;
             if ((this.FormDto as FormDto).ModuleFormDto.FormModuleList != null)
@@ -340,8 +341,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             {
                 Dto = artifactDto
             };
-
-                //.Dto = artifactDto;
+                
             (this.FormDto as FormDto).ModuleFormDto.Dto = reservationModuleDto;
             Vanilla.Utility.Facade.Module.Server moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto);
             moduleFacade.Add();
