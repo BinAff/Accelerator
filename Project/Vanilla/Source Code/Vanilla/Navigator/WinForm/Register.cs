@@ -9,8 +9,6 @@ using PresLib = BinAff.Presentation.Library;
 using UtilFac = Vanilla.Utility.Facade;
 using Vanilla.Utility.WinForm.Extender;
 
-//using Vanilla.Navigator.Facade.Extender;
-
 namespace Vanilla.Navigator.WinForm
 {
 
@@ -27,8 +25,10 @@ namespace Vanilla.Navigator.WinForm
         private SortOrder sortOrder;
         private Boolean isCutAction;
 
-        private Vanilla.Utility.Facade.Artifact.Dto currentArtifact;
+        private UtilFac.Artifact.Dto currentArtifact;
         private MenuClickSource menuClickSource;
+
+        List<String> addressList;
 
         private String address;
         public String Address
@@ -54,6 +54,7 @@ namespace Vanilla.Navigator.WinForm
         {
             InitializeComponent();
             this.sortOrder = SortOrder.Ascending;
+            this.addressList = new List<String>();
         }
 
         private void Register_Load(object sender, EventArgs e)
@@ -76,6 +77,8 @@ namespace Vanilla.Navigator.WinForm
             this.facade.LoadForm();
             this.LoadModules(tbcCategory.TabPages[0].Text);
             this.txtAddress.Text = "Form" + this.formDto.Rule.ModuleSeperator;
+            this.lsvContainer.Items.Clear();
+            this.btnBack.Enabled = false;
         }
 
         private void LoadModules(String currentTab)
@@ -167,7 +170,9 @@ namespace Vanilla.Navigator.WinForm
         private void trvArtifact_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F2)
+            {
                 this.EditTreeViewSelectedNode();
+            }
         }
 
         private void trvArtifact_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -179,6 +184,15 @@ namespace Vanilla.Navigator.WinForm
             this.lsvContainer.AttachChildren(this.currentArtifact);
             //this.SelectNode(selectedNode);
             this.txtAddress.Text = selectedNode.Path;
+            if (this.addressList.Count == 0)
+            {
+                this.btnBack.Enabled = true;
+            }
+             
+            if (this.addressList.Count == 0 || this.addressList[this.addressList.Count - 1] != selectedNode.Path)
+            {
+                this.addressList.Add(this.txtAddress.Text);
+            }
             //this.formDto.ModuleFormDto.Dto = this.FindRootNode((sender as TreeView).SelectedNode).Tag as Vanilla.Utility.Facade.Module.Dto;
             this.formDto.ModuleFormDto.Dto = (sender as TreeView).FindRootNode().Tag as UtilFac.Module.Dto;
             this.ShowAuditInfo(selectedNode);
@@ -475,6 +489,7 @@ namespace Vanilla.Navigator.WinForm
                 this.lsvContainer.AttachChildren(this.currentArtifact);
                 //this.SelectNode(currentArtifact);
                 this.txtAddress.Text = currentArtifact.Path;
+                this.addressList.Add(this.txtAddress.Text);
             }
             else
             {
@@ -490,7 +505,9 @@ namespace Vanilla.Navigator.WinForm
                 form.ShowDialog(this);
 
                 if (form.IsModified)
+                {
                     this.SaveArtifact(currentArtifact, currentArtifact.FileName, true);
+                }
             }
         }
 
@@ -1664,12 +1681,26 @@ namespace Vanilla.Navigator.WinForm
 
         private void btnEnter_Click(object sender, EventArgs e)
         {
-            this.SelectNode(this.txtAddress.Text.Trim());
+            this.txtAddress.Text = this.txtAddress.Text.Trim();
+            this.SelectNode(this.txtAddress.Text);
+            this.addressList.Add(this.txtAddress.Text);
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-
+            if (this.addressList.Count > 0)
+            {
+                this.addressList.RemoveAt(this.addressList.Count - 1);
+                if (this.addressList.Count == 0)
+                {
+                    this.btnBack.Enabled = false;
+                    this.LoadForm();
+                }
+                else
+                {
+                    this.SelectNode(this.addressList[this.addressList.Count - 1]);
+                }
+            }
         }
 
         private void btnUp_Click(object sender, EventArgs e)
@@ -1678,7 +1709,6 @@ namespace Vanilla.Navigator.WinForm
             address = address.Remove(address.Length - 1);
             address = address.Substring(0, address.LastIndexOf('\\')) + "\\";
             this.SelectNode(address);
-            this.txtAddress.Text = address;
         }
 
         private void txtAddress_KeyUp(object sender, KeyEventArgs e)
@@ -1767,7 +1797,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void cmnuRefresh_Click(object sender, EventArgs e)
         {
-
+            this.SelectNode(this.addressList[this.addressList.Count]);
         }
 
         private void mnuNewWindow_Click(object sender, EventArgs e)
