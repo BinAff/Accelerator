@@ -120,8 +120,12 @@
       <Name>Vanilla.Tool.WinForm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
-      <Project>{A10719AF-5C9F-4903-AB83-089EC502EEA2}</Project>
+      <Project>{a10719af-5c9f-4903-ab83-089ec502eea2}</Project>
       <Name>Vanilla.Utility.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utility\Vanilla.Utility.WinForm\Vanilla.Utility.WinForm.csproj">
+      <Project>{49be0d61-4bd1-42b2-b582-77094af71728}</Project>
+      <Name>Vanilla.Utility.WinForm</Name>
     </ProjectReference>
     <ProjectReference Include="..\Facade\Vanilla.Navigator.Facade.csproj">
       <Project>{5fd93a71-d5b7-43ff-8996-29232b518b3a}</Project>

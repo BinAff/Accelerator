@@ -149,11 +149,13 @@
             this.pnlNote = new System.Windows.Forms.Panel();
             this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
             this.imgMisc = new System.Windows.Forms.ImageList(this.components);
-            this.ucRegister = new Vanilla.Navigator.WinForm.Register();
+            this.pnlMenuContainer = new System.Windows.Forms.Panel();
             this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
+            this.ucRegister = new Vanilla.Navigator.WinForm.Register();
             this.cmsExplorer.SuspendLayout();
             this.mnuMain.SuspendLayout();
             this.pnlTool.SuspendLayout();
+            this.pnlMenuContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // imglIcons
@@ -182,13 +184,13 @@
             // 
             // btnConfiguration
             // 
-            this.btnConfiguration.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConfiguration.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnConfiguration.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnConfiguration.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnConfiguration.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnConfiguration.Location = new System.Drawing.Point(37, 0);
+            this.btnConfiguration.Location = new System.Drawing.Point(25, 0);
             this.btnConfiguration.Name = "btnConfiguration";
-            this.btnConfiguration.Size = new System.Drawing.Size(37, 37);
+            this.btnConfiguration.Size = new System.Drawing.Size(25, 25);
             this.btnConfiguration.TabIndex = 1;
             this.btnConfiguration.Text = "@";
             this.btnConfiguration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -198,13 +200,13 @@
             // 
             // btnNote
             // 
-            this.btnNote.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnNote.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.btnNote.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnNote.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnNote.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnNote.Location = new System.Drawing.Point(111, 0);
+            this.btnNote.Location = new System.Drawing.Point(75, 0);
             this.btnNote.Name = "btnNote";
-            this.btnNote.Size = new System.Drawing.Size(37, 37);
+            this.btnNote.Size = new System.Drawing.Size(25, 25);
             this.btnNote.TabIndex = 2;
             this.btnNote.Text = "ë";
             this.btnNote.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -214,15 +216,15 @@
             // 
             // btnSms
             // 
-            this.btnSms.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSms.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnSms.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnSms.Enabled = false;
             this.btnSms.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSms.Font = new System.Drawing.Font("Webdings", 10F);
             this.btnSms.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSms.Location = new System.Drawing.Point(185, 0);
+            this.btnSms.Location = new System.Drawing.Point(125, 0);
             this.btnSms.Name = "btnSms";
-            this.btnSms.Size = new System.Drawing.Size(37, 37);
+            this.btnSms.Size = new System.Drawing.Size(25, 25);
             this.btnSms.TabIndex = 3;
             this.btnSms.Text = "À";
             this.btnSms.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -232,14 +234,14 @@
             // 
             // btnEmail
             // 
-            this.btnEmail.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnEmail.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnEmail.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnEmail.Enabled = false;
             this.btnEmail.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnEmail.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnEmail.Location = new System.Drawing.Point(148, 0);
+            this.btnEmail.Location = new System.Drawing.Point(100, 0);
             this.btnEmail.Name = "btnEmail";
-            this.btnEmail.Size = new System.Drawing.Size(37, 37);
+            this.btnEmail.Size = new System.Drawing.Size(25, 25);
             this.btnEmail.TabIndex = 4;
             this.btnEmail.Text = "t";
             this.btnEmail.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -249,13 +251,13 @@
             // 
             // btnCalender
             // 
-            this.btnCalender.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCalender.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.btnCalender.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnCalender.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnCalender.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnCalender.Location = new System.Drawing.Point(74, 0);
+            this.btnCalender.Location = new System.Drawing.Point(50, 0);
             this.btnCalender.Name = "btnCalender";
-            this.btnCalender.Size = new System.Drawing.Size(37, 37);
+            this.btnCalender.Size = new System.Drawing.Size(25, 25);
             this.btnCalender.TabIndex = 5;
             this.btnCalender.Text = "<";
             this.btnCalender.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -265,13 +267,13 @@
             // 
             // btnRegister
             // 
-            this.btnRegister.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRegister.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnRegister.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnRegister.Font = new System.Drawing.Font("Webdings", 10F);
             this.btnRegister.Location = new System.Drawing.Point(0, 0);
             this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(37, 37);
+            this.btnRegister.Size = new System.Drawing.Size(25, 25);
             this.btnRegister.TabIndex = 6;
             this.btnRegister.Text = "1";
             this.btnRegister.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -282,13 +284,14 @@
             // btnHideShow
             // 
             this.btnHideShow.AutoSize = true;
-            this.btnHideShow.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnHideShow.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnHideShow.Dock = System.Windows.Forms.DockStyle.Left;
             this.btnHideShow.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnHideShow.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnHideShow.Location = new System.Drawing.Point(222, 0);
+            this.btnHideShow.Font = new System.Drawing.Font("Webdings", 8F);
+            this.btnHideShow.Location = new System.Drawing.Point(150, 0);
+            this.btnHideShow.Margin = new System.Windows.Forms.Padding(0);
             this.btnHideShow.Name = "btnHideShow";
-            this.btnHideShow.Size = new System.Drawing.Size(37, 37);
+            this.btnHideShow.Size = new System.Drawing.Size(33, 25);
             this.btnHideShow.TabIndex = 7;
             this.btnHideShow.Text = "7";
             this.btnHideShow.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -549,6 +552,7 @@
             // 
             // mnuMain
             // 
+            this.mnuMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mnuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuFile,
             this.mnuEdit,
@@ -557,7 +561,7 @@
             this.mnuHelp});
             this.mnuMain.Location = new System.Drawing.Point(0, 0);
             this.mnuMain.Name = "mnuMain";
-            this.mnuMain.Size = new System.Drawing.Size(827, 24);
+            this.mnuMain.Size = new System.Drawing.Size(827, 25);
             this.mnuMain.TabIndex = 6;
             this.mnuMain.Text = "menuStrip1";
             // 
@@ -574,27 +578,27 @@
             this.mnuFileSeperator3,
             this.mnuExit});
             this.mnuFile.Name = "mnuFile";
-            this.mnuFile.Size = new System.Drawing.Size(35, 20);
+            this.mnuFile.Size = new System.Drawing.Size(35, 21);
             this.mnuFile.Text = "File";
             // 
             // mnuLogin
             // 
             this.mnuLogin.Name = "mnuLogin";
-            this.mnuLogin.Size = new System.Drawing.Size(152, 22);
+            this.mnuLogin.Size = new System.Drawing.Size(127, 22);
             this.mnuLogin.Text = "Login";
             this.mnuLogin.Click += new System.EventHandler(this.mnuLogin_Click);
             // 
             // mnuLogOut
             // 
             this.mnuLogOut.Name = "mnuLogOut";
-            this.mnuLogOut.Size = new System.Drawing.Size(152, 22);
+            this.mnuLogOut.Size = new System.Drawing.Size(127, 22);
             this.mnuLogOut.Text = "Log Out";
             this.mnuLogOut.Click += new System.EventHandler(this.mnuLogOut_Click);
             // 
             // mnuFileSeperator1
             // 
             this.mnuFileSeperator1.Name = "mnuFileSeperator1";
-            this.mnuFileSeperator1.Size = new System.Drawing.Size(149, 6);
+            this.mnuFileSeperator1.Size = new System.Drawing.Size(124, 6);
             // 
             // mnuNew
             // 
@@ -602,7 +606,7 @@
             this.mnuNewDirectory,
             this.mnuNewForm});
             this.mnuNew.Name = "mnuNew";
-            this.mnuNew.Size = new System.Drawing.Size(152, 22);
+            this.mnuNew.Size = new System.Drawing.Size(127, 22);
             this.mnuNew.Text = "New";
             // 
             // mnuNewDirectory
@@ -623,7 +627,7 @@
             this.mnuOpenDirectory,
             this.mnuOpenForm});
             this.mnuOpen.Name = "mnuOpen";
-            this.mnuOpen.Size = new System.Drawing.Size(152, 22);
+            this.mnuOpen.Size = new System.Drawing.Size(127, 22);
             this.mnuOpen.Text = "Open";
             // 
             // mnuOpenDirectory
@@ -641,7 +645,7 @@
             // mnuFileSeperator2
             // 
             this.mnuFileSeperator2.Name = "mnuFileSeperator2";
-            this.mnuFileSeperator2.Size = new System.Drawing.Size(149, 6);
+            this.mnuFileSeperator2.Size = new System.Drawing.Size(124, 6);
             // 
             // mnuRecentFile
             // 
@@ -649,7 +653,7 @@
             this.toolStripSeparator7,
             this.mnuClear});
             this.mnuRecentFile.Name = "mnuRecentFile";
-            this.mnuRecentFile.Size = new System.Drawing.Size(152, 22);
+            this.mnuRecentFile.Size = new System.Drawing.Size(127, 22);
             this.mnuRecentFile.Text = "Recent File";
             // 
             // toolStripSeparator7
@@ -667,12 +671,12 @@
             // mnuFileSeperator3
             // 
             this.mnuFileSeperator3.Name = "mnuFileSeperator3";
-            this.mnuFileSeperator3.Size = new System.Drawing.Size(149, 6);
+            this.mnuFileSeperator3.Size = new System.Drawing.Size(124, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(152, 22);
+            this.mnuExit.Size = new System.Drawing.Size(127, 22);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
@@ -691,7 +695,7 @@
             this.mnuSelectAll,
             this.mnuInvertSelection});
             this.mnuEdit.Name = "mnuEdit";
-            this.mnuEdit.Size = new System.Drawing.Size(37, 20);
+            this.mnuEdit.Size = new System.Drawing.Size(37, 21);
             this.mnuEdit.Text = "Edit";
             // 
             // undoToolStripMenuItem
@@ -792,7 +796,7 @@
             this.mnuStatusBar,
             this.mnuRefresh});
             this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(41, 20);
+            this.mnuView.Size = new System.Drawing.Size(41, 21);
             this.mnuView.Text = "View";
             // 
             // mnuRegister
@@ -998,7 +1002,7 @@
             this.mnuUserManagement,
             this.mnuAdvanceSearch});
             this.mnuTool.Name = "mnuTool";
-            this.mnuTool.Size = new System.Drawing.Size(44, 20);
+            this.mnuTool.Size = new System.Drawing.Size(44, 21);
             this.mnuTool.Text = "Tools";
             // 
             // mnuUserManagement
@@ -1065,7 +1069,7 @@
             this.toolStripSeparator8,
             this.mnuViewHelp});
             this.mnuHelp.Name = "mnuHelp";
-            this.mnuHelp.Size = new System.Drawing.Size(40, 20);
+            this.mnuHelp.Size = new System.Drawing.Size(40, 21);
             this.mnuHelp.Text = "Help";
             // 
             // mnuAbout
@@ -1097,7 +1101,7 @@
             // 
             // pnlTool
             // 
-            this.pnlTool.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pnlTool.AutoSize = true;
             this.pnlTool.Controls.Add(this.btnHideShow);
             this.pnlTool.Controls.Add(this.btnSms);
             this.pnlTool.Controls.Add(this.btnEmail);
@@ -1105,9 +1109,10 @@
             this.pnlTool.Controls.Add(this.btnCalender);
             this.pnlTool.Controls.Add(this.btnConfiguration);
             this.pnlTool.Controls.Add(this.btnRegister);
-            this.pnlTool.Location = new System.Drawing.Point(0, 358);
+            this.pnlTool.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnlTool.Location = new System.Drawing.Point(644, 0);
             this.pnlTool.Name = "pnlTool";
-            this.pnlTool.Size = new System.Drawing.Size(260, 37);
+            this.pnlTool.Size = new System.Drawing.Size(183, 25);
             this.pnlTool.TabIndex = 8;
             // 
             // imgConfiguration
@@ -1135,14 +1140,15 @@
             this.imgMisc.TransparentColor = System.Drawing.Color.White;
             this.imgMisc.Images.SetKeyName(0, "Dot.gif");
             // 
-            // ucRegister
+            // pnlMenuContainer
             // 
-            this.ucRegister.Address = null;
-            this.ucRegister.Location = new System.Drawing.Point(512, 54);
-            this.ucRegister.Name = "ucRegister";
-            this.ucRegister.Size = new System.Drawing.Size(10, 26);
-            this.ucRegister.TabIndex = 13;
-            this.ucRegister.Visible = false;
+            this.pnlMenuContainer.Controls.Add(this.pnlTool);
+            this.pnlMenuContainer.Controls.Add(this.mnuMain);
+            this.pnlMenuContainer.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlMenuContainer.Location = new System.Drawing.Point(0, 0);
+            this.pnlMenuContainer.Name = "pnlMenuContainer";
+            this.pnlMenuContainer.Size = new System.Drawing.Size(827, 25);
+            this.pnlMenuContainer.TabIndex = 14;
             // 
             // ucConfiguration
             // 
@@ -1152,17 +1158,25 @@
             this.ucConfiguration.TabIndex = 12;
             this.ucConfiguration.Visible = false;
             // 
+            // ucRegister
+            // 
+            this.ucRegister.Address = null;
+            this.ucRegister.Location = new System.Drawing.Point(393, 92);
+            this.ucRegister.Name = "ucRegister";
+            this.ucRegister.Size = new System.Drawing.Size(13, 12);
+            this.ucRegister.TabIndex = 13;
+            this.ucRegister.Visible = false;
+            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(827, 394);
-            this.Controls.Add(this.pnlTool);
-            this.Controls.Add(this.ucRegister);
             this.Controls.Add(this.ucConfiguration);
             this.Controls.Add(this.pnlNote);
             this.Controls.Add(this.pnlLoginFormContainer);
-            this.Controls.Add(this.mnuMain);
+            this.Controls.Add(this.ucRegister);
+            this.Controls.Add(this.pnlMenuContainer);
             this.MainMenuStrip = this.mnuMain;
             this.Name = "Container";
             this.Text = "Navigator";
@@ -1174,8 +1188,9 @@
             this.mnuMain.PerformLayout();
             this.pnlTool.ResumeLayout(false);
             this.pnlTool.PerformLayout();
+            this.pnlMenuContainer.ResumeLayout(false);
+            this.pnlMenuContainer.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -1302,6 +1317,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuDescending;
         private Register ucRegister;
         private System.Windows.Forms.ToolStripMenuItem mnuTile;
+        private System.Windows.Forms.Panel pnlMenuContainer;
 
     }
 }
