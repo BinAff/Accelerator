@@ -23,6 +23,13 @@ namespace AutoTourism.Lodge.WinForm
         private LodgeFacade.RoomReservation.Dto dto;
         private LodgeFacade.RoomReservation.FormDto formDto;
         private RuleFacade.ConfigurationRuleDto configurationRuleDto;
+        private Boolean isLoadedFromCheckInForm = false;
+
+        public RoomReservationForm()
+        {
+            InitializeComponent();
+            this.isLoadedFromCheckInForm = true;
+        }
 
         public RoomReservationForm(LodgeFacade.RoomReservation.Dto dto)
         {
@@ -370,6 +377,15 @@ namespace AutoTourism.Lodge.WinForm
                 {
                     facade.Change();
                 }
+                
+
+                if(this.isLoadedFromCheckInForm)
+                {
+                    this.Tag = new LodgeFacade.RoomReservationRegister.Dto
+                    {
+
+                    };
+                }
 
                 if (facade.IsError)
                 {
@@ -461,11 +477,11 @@ namespace AutoTourism.Lodge.WinForm
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            if (this.SaveReservationData())
-            {
-                base.IsModified = true;
-                this.Close();
-            }
+            //if (this.SaveReservationData())
+            //{
+            //    base.IsModified = true;
+            //    this.Close();
+            //}
         }
               
         private void btnRefresh_Click(object sender, EventArgs e)

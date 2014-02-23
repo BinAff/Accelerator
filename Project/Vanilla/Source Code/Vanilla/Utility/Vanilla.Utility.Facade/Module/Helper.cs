@@ -87,6 +87,7 @@ namespace Vanilla.Utility.Facade.Module
         public String ArtifacComponentAssembly { get; set; }
         public String ModuleDataType { get; set; }
 
+
         internal Helper GetObjects()
         {
             switch (this.moduleDef.Code)
@@ -107,8 +108,14 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifacComponentAssembly = "Crystal.Lodge.Component";
                     this.ArtifactDataType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data";
                     this.ArtifacComponentType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Crystal.Lodge.Component.Room.Reservation.Data, Crystal.Lodge.Component";                    
-                    this.ModuleFacade = new AutoTourism.Lodge.Facade.RoomReservation.ReservationServer(null);                    
+                    this.ModuleDataType = "Crystal.Lodge.Component.Room.Reservation.Data, Crystal.Lodge.Component";
+                    //this.ModuleFacade = new AutoTourism.Lodge.Facade.RoomReservation.ReservationServer(null);                  
+
+                    Type typeReservationServer = Type.GetType("AutoTourism.Lodge.Facade.RoomReservation.ReservationServer,AutoTourism.Lodge.Facade", true);
+                    Type typeReservationDto = Type.GetType("AutoTourism.Lodge.Facade.RoomReservation.FormDto,AutoTourism.Lodge.Facade", true);
+                    BinAff.Facade.Library.FormDto reservationDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeReservationDto);
+                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeReservationServer, reservationDto);
+
                     break;
 
                 case "LCHK"://Need to change
@@ -118,7 +125,12 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactDataType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data";
                     this.ArtifacComponentType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Lodge.Component.Room.CheckIn.Data, Crystal.Lodge.Component";
-                    this.ModuleFacade = new AutoTourism.Lodge.Facade.CheckIn.CheckInServer(null);
+                    //this.ModuleFacade = new AutoTourism.Lodge.Facade.CheckIn.CheckInServer(null);
+
+                    Type typeCheckInServer = Type.GetType("AutoTourism.Lodge.Facade.CheckIn.CheckInServer,AutoTourism.Lodge.Facade", true);
+                    Type typeCheckInDto = Type.GetType("AutoTourism.Lodge.Facade.CheckIn.FormDto,AutoTourism.Lodge.Facade", true);
+                    BinAff.Facade.Library.FormDto checkInDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeCheckInDto);
+                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeCheckInServer, checkInDto);
                     break;
 
                 case "INVO"://Need to change
