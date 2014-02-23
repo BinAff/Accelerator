@@ -29,6 +29,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             InitializeComponent();
             this.isLoadedFromCheckInForm = true;
+            
         }
 
         public RoomReservationForm(LodgeFacade.RoomReservation.Dto dto)
@@ -51,6 +52,10 @@ namespace AutoTourism.Lodge.WinForm
                 Dto = this.dto,
                 ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
             };
+
+            //if loaded form checkin form , then populate the modules
+            if(this.isLoadedFromCheckInForm)
+                new Vanilla.Utility.Facade.Module.Server(this.formDto.ModuleFormDto).LoadForm();
 
             LoadForm();
 
@@ -216,6 +221,13 @@ namespace AutoTourism.Lodge.WinForm
                 {
                     txtReservationStatus.Text = "Cancel";
                     btnCancelOpen.Text = "Re Open";
+                }
+
+                if (this.isLoadedFromCheckInForm)
+                {
+                    //String fileName = new Vanilla.Utility.Facade.Artifact.Server(null).GetArtifactName(reservationModuleDto.Artifact, Vanilla.Utility.Facade.Artifact.Type.Document, "Form");
+                    this.txtArtifactPath.Text = "";
+                    
                 }
 
                 //disable the controls if the reservation is checked in
