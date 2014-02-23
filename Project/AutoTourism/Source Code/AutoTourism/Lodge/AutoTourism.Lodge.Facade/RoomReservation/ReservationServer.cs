@@ -297,6 +297,57 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return roomReservation.UpdateStatus();
         }
 
+        public void SaveArtifactForReservation(Dto dto,Table loggedInUser)
+        {         
+            new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto).LoadForm();
+
+            Vanilla.Utility.Facade.Module.Dto reservationModuleDto = null;
+            if ((this.FormDto as FormDto).ModuleFormDto.FormModuleList != null)
+            {
+                foreach (Vanilla.Utility.Facade.Module.Dto moduleDto in (this.FormDto as FormDto).ModuleFormDto.FormModuleList)
+                {
+                    if (moduleDto.Code == "LRSV")
+                    {
+                        reservationModuleDto = moduleDto;
+                        break;
+                    }
+                }            
+            }
+
+            String fileName = new Vanilla.Utility.Facade.Artifact.Server(null).GetArtifactName(reservationModuleDto.Artifact, Vanilla.Utility.Facade.Artifact.Type.Document, "Form");
+            Vanilla.Utility.Facade.Rule.Dto ruleDto = new Vanilla.Utility.Facade.Rule.Server(null).ReadRule(); ;
+            Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto
+            {
+                Module = dto as BinAff.Facade.Library.Dto,
+                FileName = fileName,
+                Style = Vanilla.Utility.Facade.Artifact.Type.Document,
+                Version = 1,
+                CreatedBy = new Table
+                {
+                    Id = loggedInUser.Id,
+                    Name = loggedInUser.Name
+                },               
+                CreatedAt = DateTime.Now,
+                Category = Vanilla.Utility.Facade.Artifact.Category.Form,
+                
+            };
+            artifactDto.Path = reservationModuleDto.Artifact.Path + artifactDto.FileName + ruleDto.PathSeperator;
+
+            if (reservationModuleDto != null)            
+                reservationModuleDto.Artifact.Children.Add(artifactDto);
+
+            (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact = new Vanilla.Utility.Facade.Artifact.FormDto 
+            {
+                Dto = artifactDto
+            };
+
+                //.Dto = artifactDto;
+            (this.FormDto as FormDto).ModuleFormDto.Dto = reservationModuleDto;
+            Vanilla.Utility.Facade.Module.Server moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto);
+            moduleFacade.Add();
+                       
+        }
+
         //-- RoomStaus ID is mapped with database table RoomReservationStatus
         public enum RoomStatus
         {

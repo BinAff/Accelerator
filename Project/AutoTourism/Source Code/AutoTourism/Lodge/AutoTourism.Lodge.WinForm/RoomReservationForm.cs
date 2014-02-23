@@ -46,7 +46,11 @@ namespace AutoTourism.Lodge.WinForm
             dtFromTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             dtFromTime.ShowUpDown = true;
 
-            this.formDto = new LodgeFacade.RoomReservation.FormDto() { Dto = this.dto };
+            this.formDto = new LodgeFacade.RoomReservation.FormDto() 
+            { 
+                Dto = this.dto,
+                ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
+            };
 
             LoadForm();
 
@@ -69,7 +73,11 @@ namespace AutoTourism.Lodge.WinForm
             form.ShowDialog(this);
             
             if (form.Tag != null)
-            {                
+            {
+                if (this.dto == null)                
+                    this.dto = new LodgeFacade.RoomReservation.Dto();
+                
+
                 this.dto.Customer = form.Tag as CustomerFacade.Dto;
 
                 String Name = (this.dto.Customer.Initial == null ? String.Empty : this.dto.Customer.Initial.Name);
@@ -400,6 +408,18 @@ namespace AutoTourism.Lodge.WinForm
             return retVal;
         }
 
+        private Boolean SaveArtifact()
+        {
+            Table CreatedBy = new Table
+            {
+                Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
+            };
+
+            new LodgeFacade.RoomReservation.ReservationServer(this.formDto).SaveArtifactForReservation(this.dto, CreatedBy);
+            return true;
+        }
+
         private Boolean ValidateBooking()
         {
             Boolean retVal = true;
@@ -477,11 +497,15 @@ namespace AutoTourism.Lodge.WinForm
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            //if (this.SaveReservationData())
-            //{
-            //    base.IsModified = true;
-            //    this.Close();
-            //}
+            if (this.SaveReservationData())
+            {
+                if (this.isLoadedFromCheckInForm)
+                    this.SaveArtifact();                
+                
+                base.IsModified = true;
+                this.Close();                
+            }
+
         }
               
         private void btnRefresh_Click(object sender, EventArgs e)
