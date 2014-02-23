@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+using PresLib = BinAff.Presentation.Library;
+
 namespace Vanilla.Utility.WinForm.Extender
 {
 
@@ -69,36 +71,144 @@ namespace Vanilla.Utility.WinForm.Extender
             return false;
         }
 
+        public static TreeNode FindNode(this TreeView treeView, Facade.Artifact.Dto artifact)
+        {
+            return Find(artifact, treeView.Nodes, null);
+        }
+
+        //public static TreeNode FindFromTag(this TreeView treeView, Facade.Artifact.Dto artifact, TreeNode selectedNode)
+        //{
+        //    return Find(artifact, treeView.Nodes, selectedNode);
+        //}
+
+        private static TreeNode Find(Facade.Artifact.Dto artifact, TreeNodeCollection treeNodes, TreeNode selectedNode)
+        {
+            foreach (TreeNode node in treeNodes)
+            {
+                if (selectedNode != null)
+                {
+                    break;
+                }
+                Facade.Artifact.Dto tagArtifactDto;
+
+                if (node.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+                {
+                    tagArtifactDto = (node.Tag as Vanilla.Utility.Facade.Module.Dto).Artifact;
+                }
+                else
+                {
+                    tagArtifactDto = node.Tag as Vanilla.Utility.Facade.Artifact.Dto;
+                }
+
+                if ((tagArtifactDto.Id == artifact.Id) && (tagArtifactDto.FileName == artifact.FileName))
+                {
+                    selectedNode = node;
+                    break;
+                }
+                else
+                {
+                    selectedNode = Find(artifact, node.Nodes, selectedNode);
+                }
+            }
+
+            return selectedNode;
+        }
+
     }
 
     public static class ListViewExtender
     {
 
-        //private void SortListView(this ListView listView, String columnHeaderCaption)
-        //{
-        //    listView.ResetColumnHeader();
-        //    for (int i = 0; i < listView.Columns.Count; i++)
-        //    {
-        //        if (listView.Columns[i].Text == columnHeaderCaption)
-        //        {
-        //            this.lvwColumnSorter.SortColumn = i;
+        public static void AttachChildren(this ListView listView, Facade.Artifact.Dto selectedNode)
+        {
+            listView.Items.Clear();
+            if (selectedNode.Children != null && selectedNode.Children.Count > 0)
+            {
+                foreach (Facade.Artifact.Dto artifact in selectedNode.Children)
+                {
+                    ListViewItem current = new ListViewItem
+                    {
+                        Text = artifact.FileName,
+                        Tag = artifact,
+                        ImageIndex = artifact.Style == Facade.Artifact.Type.Directory ? 0 : 2,
+                    };
+                    current.SubItems.AddRange(AddListViewSubItems(current, artifact));
+                    listView.Items.Add(current);
+                }
 
-        //            // Reverse the current sort direction for this column.
-        //            if (lvwColumnSorter.Order == SortOrder.Ascending)
-        //            {
-        //                listView.Columns[lvwColumnSorter.SortColumn].ImageKey = "Down.gif";
-        //            }
-        //            else
-        //            {
-        //                listView.Columns[lvwColumnSorter.SortColumn].ImageKey = "Up.gif";
-        //            }
+                //Sort
+                listView.ResetColumnOrder();
+                listView.Sort("Name", new PresLib.ListViewColumnSorter
+                {
+                    Order = SortOrder.Ascending
+                });
+            }
+        }
 
-        //            // Perform the sort with these new sort options.
-        //            listView.Sort();
-        //            break;
-        //        }
-        //    }
-        //}
+        private static void ResetColumnOrder(this ListView listView)
+        {
+            for (int i = 0; i < listView.Columns.Count; i++)
+            {
+                listView.Columns[i].DisplayIndex = i;
+            }
+        }
+
+        private static ListViewItem.ListViewSubItem[] AddListViewSubItems(ListViewItem node, Facade.Artifact.Dto artifact)
+        {
+            return new ListViewItem.ListViewSubItem[]
+            {   
+                new ListViewItem.ListViewSubItem(node, "Type")
+                {
+                    Text = artifact.Style.ToString(),
+                },
+                new ListViewItem.ListViewSubItem(node, "Version")
+                {
+                    Text = artifact.Version.ToString(),
+                },
+                new ListViewItem.ListViewSubItem(node, "Created By")
+                {
+                    Text = artifact.CreatedBy == null ? String.Empty : (artifact.CreatedBy as BinAff.Core.Table).Name,
+                },
+                new ListViewItem.ListViewSubItem(node, "Created At")
+                {
+                    Text = artifact.CreatedAt.ToString(),
+                },
+                new ListViewItem.ListViewSubItem(node, "Modified By")
+                {
+                    Text = artifact.ModifiedBy == null ? String.Empty : (artifact.ModifiedBy as BinAff.Core.Table).Name,
+                },
+                new ListViewItem.ListViewSubItem(node, "Modified At")
+                {
+                    Text = artifact.ModifiedAt == DateTime.MinValue? String.Empty : artifact.ModifiedAt.ToString(),
+                },
+            };
+        }
+
+        public static void Sort(this ListView listView, String columnHeaderCaption, PresLib.ListViewColumnSorter columnSorter)
+        {
+            listView.ResetColumnHeader();
+            for (int i = 0; i < listView.Columns.Count; i++)
+            {
+                if (listView.Columns[i].Text == columnHeaderCaption)
+                {
+                    columnSorter.SortColumn = i;
+
+                    // Reverse the current sort direction for this column.
+                    if (columnSorter.Order == SortOrder.Ascending)
+                    {
+                        listView.Columns[columnSorter.SortColumn].ImageKey = "Down.gif";
+                    }
+                    else
+                    {
+                        listView.Columns[columnSorter.SortColumn].ImageKey = "Up.gif";
+                    }
+
+                    // Perform the sort with these new sort options.
+                    listView.Sort();
+                    break;
+                }
+            }
+        }
 
         public static void ResetColumnHeader(this ListView listView)
         {

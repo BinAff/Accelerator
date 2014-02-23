@@ -74,96 +74,24 @@ namespace Vanilla.Navigator.WinForm
             this.ucRegister.Dock = DockStyle.Fill;
         }
 
-        //private void SelectNode(String selectedNodePath)
+        //public TreeNode CreateTreeNodes(Vanilla.Utility.Facade.Artifact.Dto node)
         //{
-        //    selectedNodePath = selectedNodePath.Substring(selectedNodePath.IndexOf(this.formDto.Rule.ModuleSeperator) + 3);
-        //    TreeNode currentNode = this.FindTreeNodeFromPath(selectedNodePath, this.trvForm.Nodes);
-        //    this.trvForm.SelectedNode = currentNode;
-        //    currentNode.Expand();
-        //    this.trvForm_NodeMouseClick(this.trvForm, new TreeNodeMouseClickEventArgs(currentNode, MouseButtons.Left, 1, 0, 0));
-        //}
-
-        //private TreeNode FindTreeNodeFromPath(String path, TreeNodeCollection treeNodes)
-        //{
-        //    String text = path.Substring(0, path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()));
-        //    path = path.Substring(path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()) + 1);
-        //    foreach (TreeNode node in treeNodes)
+        //    TreeNode treeNode = new TreeNode(node.FileName)
         //    {
-        //        if (node.Text == text)
+        //        Tag = node,
+        //    };
+        //    if (node.Children != null && node.Children.Count > 0)
+        //    {
+        //        foreach (Vanilla.Utility.Facade.Artifact.Dto child in node.Children)
         //        {
-        //            if (String.IsNullOrEmpty(path))
+        //            if (child.Style == Vanilla.Utility.Facade.Artifact.Type.Directory)
         //            {
-        //                return node;
-        //            }
-        //            else if (node.Nodes.Count > 0)
-        //            {
-        //                return this.FindTreeNodeFromPath(path, node.Nodes);
+        //                treeNode.Nodes.Add(this.CreateTreeNodes(child));
         //            }
         //        }
-
         //    }
-        //    return null;
+        //    return treeNode;
         //}
-
-        //private void InitializeListView()
-        //{
-        //    this.lsvContainer.Columns.Add("Name", 300);
-        //    this.lsvContainer.Columns.Add("Type", 70);
-        //    this.lsvContainer.Columns.Add("Version", 50);
-        //    this.lsvContainer.Columns.Add("Created By", 200);
-        //    this.lsvContainer.Columns.Add("Created At", 115);
-        //    this.lsvContainer.Columns.Add("Modified By", 200);
-        //    this.lsvContainer.Columns.Add("Modified At", 115);
-
-        //    lvwColumnSorter = new PresentationLib.ListViewColumnSorter();
-        //    this.lsvContainer.ListViewItemSorter = lvwColumnSorter;
-
-        //    this.sortColumn = "Name"; //this name will come from rule
-        //}
-
-        //private void LoadModules(String currentTab)
-        //{
-        //    TreeView current = new TreeView();
-        //    TreeNode[] tree = new TreeNode[this.formDto.Dto.Modules.Count];
-        //    Int16 i = 0;
-        //    foreach (Facade.Module.Dto module in this.formDto.Dto.Modules)
-        //    {
-        //        switch (currentTab)
-        //        {
-        //            case "Form": current = trvForm;
-        //                break;
-        //            case "Catalogue": current = trvCatalogue;
-        //                break;
-        //            case "Report": current = trvReport;
-        //                break;
-        //            default: current = trvForm;
-        //                break;
-        //        }
-        //        tree[i] = this.CreateTreeNodes(module.Artifact);
-        //        tree[i++].Tag = module;
-        //    }
-        //    current.Nodes.Clear();
-        //    current.Nodes.AddRange(tree);
-        //}
-
-        public TreeNode CreateTreeNodes(Vanilla.Utility.Facade.Artifact.Dto node)
-        {
-            TreeNode treeNode = new TreeNode(node.FileName)
-            {
-                Tag = node,
-            };
-            if (node.Children != null && node.Children.Count > 0)
-            {
-                foreach (Vanilla.Utility.Facade.Artifact.Dto child in node.Children)
-                {
-                    if (child.Style == Vanilla.Utility.Facade.Artifact.Type.Directory)
-                    {
-                        treeNode.Nodes.Add(this.CreateTreeNodes(child));
-                    }
-                }
-            }
-            return treeNode;
-        }
 
         private void Container_Resize(object sender, EventArgs e)
         {
@@ -224,21 +152,21 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion
 
-        private TreeView CopyNodes(TreeView fromTreeView, TreeView toTreeView)
-        {
-            TreeNode[] myTreeNodeArray = new TreeNode[fromTreeView.Nodes.Count];
+        //private TreeView CopyNodes(TreeView fromTreeView, TreeView toTreeView)
+        //{
+        //    TreeNode[] myTreeNodeArray = new TreeNode[fromTreeView.Nodes.Count];
 
-            // Copy the tree nodes to the 'myTreeNodeArray' array.
-            fromTreeView.Nodes.CopyTo(myTreeNodeArray, 0);
+        //    // Copy the tree nodes to the 'myTreeNodeArray' array.
+        //    fromTreeView.Nodes.CopyTo(myTreeNodeArray, 0);
 
-            // Remove all the tree nodes from the 'myTreeViewBase' TreeView.
-            fromTreeView.Nodes.Clear();
+        //    // Remove all the tree nodes from the 'myTreeViewBase' TreeView.
+        //    fromTreeView.Nodes.Clear();
 
-            // Add the 'myTreeNodeArray' to the 'myTreeViewCustom' TreeView.
-            toTreeView.Nodes.AddRange(myTreeNodeArray);
+        //    // Add the 'myTreeNodeArray' to the 'myTreeViewCustom' TreeView.
+        //    toTreeView.Nodes.AddRange(myTreeNodeArray);
 
-            return toTreeView;
-        }
+        //    return toTreeView;
+        //}
 
         #region ListView Context menu events
 
