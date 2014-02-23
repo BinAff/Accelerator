@@ -234,5 +234,39 @@ namespace Vanilla.Utility.Facade.Artifact
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
+        //GetDirectoryName :  this method needs to be updated in register.cs 
+        public String GetArtifactName(Vanilla.Utility.Facade.Artifact.Dto artifactDto, Type type, String document)
+        {
+            String fileName = String.Empty;
+            String appendText = "New Directory";
+
+            if (type.ToString() == Type.Document.ToString())
+                appendText = "New " + document;
+
+            if (artifactDto.Children == null)
+                return appendText;
+
+            Boolean isExists = false;
+            for (int i = 0; i <= artifactDto.Children.Count; i++)
+            {
+                isExists = false;
+                fileName = i == 0 ? appendText : appendText + " (" + i + ")";
+
+                foreach (Vanilla.Utility.Facade.Artifact.Dto childArtifact in artifactDto.Children)
+                {
+                    if (childArtifact.FileName.ToUpper().Trim() == fileName.ToUpper().Trim())
+                    {
+                        isExists = true;
+                        break;
+                    }
+                }
+
+                if (!isExists)
+                    break;
+            }
+
+            return fileName;
+        }
+
     }
 }
