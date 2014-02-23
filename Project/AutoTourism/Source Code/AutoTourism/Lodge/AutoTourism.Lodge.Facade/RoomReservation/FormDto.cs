@@ -14,5 +14,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public List<LodgeConfigurationFacade.Room.Dto> roomList { get; set; }
         public List<LodgeConfigurationFacade.Room.Category.Dto> CategoryList { get; set; }
         public List<LodgeConfigurationFacade.Room.Type.Dto> TypeList { get; set; }
+
+        //public Vanilla.Utility.Facade.Module.FormDto ModuleFormDto { get; set; }
+
     }
 }

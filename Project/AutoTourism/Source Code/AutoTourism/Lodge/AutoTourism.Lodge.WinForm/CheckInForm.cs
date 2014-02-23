@@ -525,6 +525,13 @@ namespace AutoTourism.Lodge.WinForm
             return (chkIsAC.Checked == roomDto.IsAirconditioned);
 
         }
+
+        private void btnAddReservation_Click(object sender, EventArgs e)
+        {
+            Form form = new RoomReservationForm();
+            form.ShowDialog(this);
+
+        }
                
     }
 }
