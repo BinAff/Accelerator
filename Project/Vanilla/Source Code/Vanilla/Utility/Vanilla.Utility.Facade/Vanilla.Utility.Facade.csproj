@@ -57,14 +57,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Component\Autotourism.Component.Customer\Autotourism.Component.Customer.csproj">
-      <Project>{9e9f89c1-91be-4595-8d69-3e56afc1bc4c}</Project>
-      <Name>Autotourism.Component.Customer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">
-      <Project>{2099FB59-6194-4BC7-8AB2-6CABE513082A}</Project>
-      <Name>AutoTourism.Customer.Facade</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
       <Project>{D25DF173-3451-49AA-9570-269B2880C393}</Project>
       <Name>BinAff.Core</Name>

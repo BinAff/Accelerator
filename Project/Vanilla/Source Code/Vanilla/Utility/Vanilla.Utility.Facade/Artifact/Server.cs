@@ -5,7 +5,7 @@ using System.Text;
 
 using BinAff.Core;
 using CrystalArtifact = Crystal.Navigator.Component.Artifact;
-using CustomerArtifact = AutoTourism.Component.Customer.Navigator.Artifact;
+//using CustomerArtifact = AutoTourism.Component.Customer.Navigator.Artifact;
 using GuardianAcc = Crystal.Guardian.Component.Account;
 
 namespace Vanilla.Utility.Facade.Artifact

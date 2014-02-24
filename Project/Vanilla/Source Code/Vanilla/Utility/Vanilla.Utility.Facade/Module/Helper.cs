@@ -99,7 +99,14 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactDataType = "AutoTourism.Component.Customer.Navigator.Artifact.Data";
                     this.ArtifacComponentType = "AutoTourism.Component.Customer.Navigator.Artifact.Server";
                     this.ModuleDataType = "AutoTourism.Component.Customer.Data, AutoTourism.Component.Customer";
-                    this.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
+                    //this.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
+
+                    Type typeCustomerServer = Type.GetType("AutoTourism.Customer.Facade.Server,AutoTourism.Customer.Facade", true);
+                    Type typeCustomerDto = Type.GetType("AutoTourism.Customer.Facade.FormDto,AutoTourism.Customer.Facade", true);
+                    BinAff.Facade.Library.FormDto customerDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeCustomerDto);
+                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeCustomerServer, customerDto);
+
+
                     break;
 
                 case "LRSV"://Need to change
