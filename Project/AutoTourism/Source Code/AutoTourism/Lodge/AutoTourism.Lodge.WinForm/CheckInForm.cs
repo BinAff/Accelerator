@@ -267,6 +267,9 @@ namespace AutoTourism.Lodge.WinForm
                 this.LoadCheckInData();
             }
 
+            this.txtArtifactPath.ReadOnly = true;          
+            this.txtArtifactPath.Text = this.dto.artifactPath;
+
         }
 
         private void btnAddRoom_Click(object sender, EventArgs e)

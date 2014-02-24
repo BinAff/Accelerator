@@ -64,7 +64,7 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.btnAddReservation = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtArtifactPath = new System.Windows.Forms.TextBox();
             this.lblFilePath = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -417,12 +417,12 @@
             this.button1.Text = "Browse";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // txtArtifactPath
             // 
-            this.textBox1.Location = new System.Drawing.Point(72, 314);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(513, 20);
-            this.textBox1.TabIndex = 112;
+            this.txtArtifactPath.Location = new System.Drawing.Point(72, 314);
+            this.txtArtifactPath.Name = "txtArtifactPath";
+            this.txtArtifactPath.Size = new System.Drawing.Size(513, 20);
+            this.txtArtifactPath.TabIndex = 112;
             // 
             // lblFilePath
             // 
@@ -439,7 +439,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(738, 349);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtArtifactPath);
             this.Controls.Add(this.lblFilePath);
             this.Controls.Add(this.btnAddReservation);
             this.Controls.Add(this.btnOk);
@@ -506,7 +506,7 @@
         private System.Windows.Forms.CheckBox chkIsAC;
         private System.Windows.Forms.Button btnAddReservation;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtArtifactPath;
         private System.Windows.Forms.Label lblFilePath;
     }
 }

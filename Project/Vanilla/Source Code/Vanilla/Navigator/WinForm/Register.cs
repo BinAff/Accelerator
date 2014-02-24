@@ -496,8 +496,11 @@ namespace Vanilla.Navigator.WinForm
                 parentNode = this.trvForm.FindNode(artifactDto);
                 //TreeNode rootNode = FindRootNode(parentNode); //to check the logic [currently entire tree is getting compared]
                 TreeNode rootNode = this.trvForm.FindRootNode(parentNode);
-                Type type = Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true);                
+                Type type = Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true);
+
+                currentArtifact.Module.artifactPath = currentArtifact.Path;                
                 PresLib.Form form = (PresLib.Form)Activator.CreateInstance(type, currentArtifact.Module);
+
                 form.ShowDialog(this);
 
                 if (form.IsModified)
@@ -1489,7 +1492,9 @@ namespace Vanilla.Navigator.WinForm
                 TreeNode rootNode = this.trvForm.FindRootNode();
                 //Show Dialogue to capture module data
                 BinAff.Facade.Library.Dto moduleFormDto = new Vanilla.Utility.Facade.Module.Server(null).InstantiateDto(rootNode.Tag as Vanilla.Utility.Facade.Module.Dto);
-                Type type = Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true);
+                Type type = Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true);                
+                moduleFormDto.artifactPath = this.currentArtifact.Path + this.GetDirectoryName(selectedNode, UtilFac.Artifact.Type.Document) + this.formDto.Rule.PathSeperator;
+                
                 Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
                 form.ShowDialog(this);
 
