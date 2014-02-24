@@ -304,7 +304,8 @@ namespace AutoTourism.Customer.WinForm
             this.txtArtifactPath.ReadOnly = true;
             if (this.isLoadedFromRoomReservationForm)
                 this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("CUST", this.formDto.ModuleFormDto.FormModuleList, "Form");
-            
+            else
+                this.txtArtifactPath.Text = this.dto.artifactPath;
         }
         
         private void LoadCustomerData()

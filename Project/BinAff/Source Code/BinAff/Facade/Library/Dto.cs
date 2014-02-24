@@ -11,6 +11,8 @@ namespace BinAff.Facade.Library
         /// </summary>
         public Int64 Id { get; set; }
 
+        public String artifactPath { get; set; }        
+
         /// <summary>
         /// Mark required action on dto
         /// </summary>

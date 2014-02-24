@@ -240,7 +240,8 @@ namespace AutoTourism.Lodge.WinForm
             this.txtArtifactPath.ReadOnly = true;
             if (this.isLoadedFromCheckInForm)
                 this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("LRSV", this.formDto.ModuleFormDto.FormModuleList, "Form");
-            
+            else
+                this.txtArtifactPath.Text = this.dto.artifactPath;
 
             //disable the controls if the reservation is checked in
             if (this.formDto.Dto != null && this.formDto.Dto.isCheckedIn)
