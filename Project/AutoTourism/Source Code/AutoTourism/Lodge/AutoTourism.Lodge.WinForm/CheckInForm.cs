@@ -340,30 +340,17 @@ namespace AutoTourism.Lodge.WinForm
             form.ShowDialog(this);
 
             if (form.Tag != null)
-            {                
-                LodgeFacade.RoomReservationRegister.Dto roomReservationRegisterDto = form.Tag as LodgeFacade.RoomReservationRegister.Dto;
-                this.formDto.dto = new LodgeFacade.CheckIn.Dto
-                {
-                    customerDisplayName = roomReservationRegisterDto.Name,
-                    Date = roomReservationRegisterDto.BookingFrom,
-                    reservationDto = new LodgeFacade.RoomReservation.Dto
-                    {
-                        Id = roomReservationRegisterDto.Id,
-                        NoOfDays = roomReservationRegisterDto.NoOfDays,
-                        NoOfPersons = roomReservationRegisterDto.NoOfPersons,
-                        NoOfRooms = roomReservationRegisterDto.NoOfRooms,
-                        Advance = roomReservationRegisterDto.Advance,
-                        RoomCategory = roomReservationRegisterDto.RoomCategory,
-                        RoomType = roomReservationRegisterDto.RoomType,
-                        IsAC = roomReservationRegisterDto.IsAC,
-                        RoomList = roomReservationRegisterDto.RoomList,
-                        BookingFrom = roomReservationRegisterDto.BookingFrom,
-                        Customer = roomReservationRegisterDto.Customer
-                    }
-                };
+                this.PopulateReservationData(form);
+            
+        }
 
-                this.LoadCheckInData();                
-            }
+        private void btnAddReservation_Click(object sender, EventArgs e)
+        {
+            Form form = new RoomReservationForm();
+            form.ShowDialog(this);
+
+            if (form.Tag != null)
+                this.PopulateReservationData(form);
         }
 
         private void LoadCheckInData()
@@ -526,11 +513,30 @@ namespace AutoTourism.Lodge.WinForm
 
         }
 
-        private void btnAddReservation_Click(object sender, EventArgs e)
-        {
-            Form form = new RoomReservationForm();
-            form.ShowDialog(this);
+        private void PopulateReservationData(Form form)
+        {           
+            LodgeFacade.RoomReservationRegister.Dto roomReservationRegisterDto = form.Tag as LodgeFacade.RoomReservationRegister.Dto;
+            this.formDto.dto = new LodgeFacade.CheckIn.Dto
+            {
+                customerDisplayName = roomReservationRegisterDto.Name,
+                Date = roomReservationRegisterDto.BookingFrom,
+                reservationDto = new LodgeFacade.RoomReservation.Dto
+                {
+                    Id = roomReservationRegisterDto.Id,
+                    NoOfDays = roomReservationRegisterDto.NoOfDays,
+                    NoOfPersons = roomReservationRegisterDto.NoOfPersons,
+                    NoOfRooms = roomReservationRegisterDto.NoOfRooms,
+                    Advance = roomReservationRegisterDto.Advance,
+                    RoomCategory = roomReservationRegisterDto.RoomCategory,
+                    RoomType = roomReservationRegisterDto.RoomType,
+                    IsAC = roomReservationRegisterDto.IsAC,
+                    RoomList = roomReservationRegisterDto.RoomList,
+                    BookingFrom = roomReservationRegisterDto.BookingFrom,
+                    Customer = roomReservationRegisterDto.Customer
+                }
+            };
 
+            this.LoadCheckInData();            
         }
                
     }

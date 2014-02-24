@@ -299,24 +299,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         public void SaveArtifactForReservation(Dto dto,Table loggedInUser)
         {
-            //-- ModuleFormDto is populated on formLoad [need to test]
-            //new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto).LoadForm();
-
-            Vanilla.Utility.Facade.Module.Dto reservationModuleDto = null;
-            if ((this.FormDto as FormDto).ModuleFormDto.FormModuleList != null)
-            {
-                foreach (Vanilla.Utility.Facade.Module.Dto moduleDto in (this.FormDto as FormDto).ModuleFormDto.FormModuleList)
-                {
-                    if (moduleDto.Code == "LRSV")
-                    {
-                        reservationModuleDto = moduleDto;
-                        break;
-                    }
-                }            
-            }
-
+            Vanilla.Utility.Facade.Module.Dto reservationModuleDto = new Vanilla.Utility.Facade.Module.Server(null).GetModule("LRSV", (this.FormDto as FormDto).ModuleFormDto.FormModuleList);
             String fileName = new Vanilla.Utility.Facade.Artifact.Server(null).GetArtifactName(reservationModuleDto.Artifact, Vanilla.Utility.Facade.Artifact.Type.Document, "Form");
-            Vanilla.Utility.Facade.Rule.Dto ruleDto = new Vanilla.Utility.Facade.Rule.Server(null).ReadRule(); ;
+            
             Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto
             {
                 Module = dto as BinAff.Facade.Library.Dto,
@@ -330,9 +315,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 },               
                 CreatedAt = DateTime.Now,
                 Category = Vanilla.Utility.Facade.Artifact.Category.Form,
+                Path = dto.ArtifactPath
                 
-            };
-            artifactDto.Path = reservationModuleDto.Artifact.Path + artifactDto.FileName + ruleDto.PathSeperator;
+            };            
 
             if (reservationModuleDto != null)            
                 reservationModuleDto.Artifact.Children.Add(artifactDto);

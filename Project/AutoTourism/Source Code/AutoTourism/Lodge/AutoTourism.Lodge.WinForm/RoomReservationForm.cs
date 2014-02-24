@@ -222,19 +222,16 @@ namespace AutoTourism.Lodge.WinForm
                     txtReservationStatus.Text = "Cancel";
                     btnCancelOpen.Text = "Re Open";
                 }
-
-                if (this.isLoadedFromCheckInForm)
-                {
-                    //String fileName = new Vanilla.Utility.Facade.Artifact.Server(null).GetArtifactName(reservationModuleDto.Artifact, Vanilla.Utility.Facade.Artifact.Type.Document, "Form");
-                    this.txtArtifactPath.Text = "";
-                    
-                }
-
-                //disable the controls if the reservation is checked in
-                if (this.formDto.Dto.isCheckedIn)                
-                    this.DisableFormControls();                
-
             }
+
+            this.txtArtifactPath.ReadOnly = true;
+            if (this.isLoadedFromCheckInForm)
+                this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("LRSV", this.formDto.ModuleFormDto.FormModuleList, "Form");
+            
+
+            //disable the controls if the reservation is checked in
+            if (this.formDto.Dto != null && this.formDto.Dto.isCheckedIn)
+                this.DisableFormControls();           
         }
 
         private void DisableFormControls()
@@ -403,7 +400,18 @@ namespace AutoTourism.Lodge.WinForm
                 {
                     this.Tag = new LodgeFacade.RoomReservationRegister.Dto
                     {
-
+                        Id = this.dto.Id,
+                        Name = txtName.Text, //display name
+                        BookingFrom = this.dto.BookingFrom,
+                        NoOfDays = this.dto.NoOfDays,
+                        NoOfPersons = this.dto.NoOfPersons,
+                        NoOfRooms = this.dto.NoOfRooms,
+                        Advance = this.dto.Advance,
+                        RoomCategory = this.dto.RoomCategory,
+                        RoomType = this.dto.RoomType,
+                        IsAC = this.dto.IsAC,
+                        RoomList = this.dto.RoomList,
+                        Customer = this.dto.Customer
                     };
                 }
 
@@ -422,6 +430,7 @@ namespace AutoTourism.Lodge.WinForm
 
         private Boolean SaveArtifact()
         {
+            this.dto.ArtifactPath = this.txtArtifactPath.Text;
             Table CreatedBy = new Table
             {
                 Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
@@ -512,10 +521,10 @@ namespace AutoTourism.Lodge.WinForm
             if (this.SaveReservationData())
             {
                 if (this.isLoadedFromCheckInForm)
-                    this.SaveArtifact();                
-                
+                    this.SaveArtifact();
+
                 base.IsModified = true;
-                this.Close();                
+                this.Close();
             }
 
         }
