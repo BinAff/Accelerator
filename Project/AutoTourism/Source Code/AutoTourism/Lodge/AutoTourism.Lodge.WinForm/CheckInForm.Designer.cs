@@ -459,6 +459,7 @@
             this.Controls.Add(this.txtPersons);
             this.Name = "CheckInForm";
             this.Text = "Check In Form";
+            this.TransparencyKey = System.Drawing.Color.Empty;
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);

@@ -510,6 +510,7 @@
             this.Controls.Add(this.txtPersons);
             this.Name = "RoomReservationForm";
             this.Text = "Room Registration Form";
+            this.TransparencyKey = System.Drawing.Color.Empty;
             this.Load += new System.EventHandler(this.RoomBookingForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
