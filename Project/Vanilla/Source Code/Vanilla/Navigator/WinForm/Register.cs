@@ -28,7 +28,7 @@ namespace Vanilla.Navigator.WinForm
         private UtilFac.Artifact.Dto currentArtifact;
         private MenuClickSource menuClickSource;
 
-        List<String> addressList;
+        List<String> addressList; //This is for back button. This will hold all navigations
 
         private String address;
         public String Address
@@ -59,14 +59,15 @@ namespace Vanilla.Navigator.WinForm
 
         private void Register_Load(object sender, EventArgs e)
         {
-            this.cmsExplorer.ImageList = this.imgSmallIcon;
-            this.InitializeListView();
-            this.InitializeTab();
             this.LoadForm();
         }
 
-        private void LoadForm()
+        public void LoadForm()
         {
+            this.cmsExplorer.ImageList = this.imgSmallIcon;
+            this.InitializeListView();
+            this.InitializeTab();
+            this.RemoveAuditInfo();
             this.facade = new Facade.Container.Server(this.formDto = new Facade.Container.FormDto
             {
                 ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto
@@ -79,6 +80,7 @@ namespace Vanilla.Navigator.WinForm
             this.txtAddress.Text = "Form" + this.formDto.Rule.ModuleSeperator;
             this.lsvContainer.Items.Clear();
             this.btnBack.Enabled = false;
+            this.btnUp.Enabled = false;
         }
 
         private void LoadModules(String currentTab)
@@ -184,6 +186,7 @@ namespace Vanilla.Navigator.WinForm
             this.lsvContainer.AttachChildren(this.currentArtifact);
             //this.SelectNode(selectedNode);
             this.txtAddress.Text = selectedNode.Path;
+            this.btnUp.Enabled = true;
             if (this.addressList.Count == 0)
             {
                 this.btnBack.Enabled = true;
@@ -191,7 +194,7 @@ namespace Vanilla.Navigator.WinForm
              
             if (this.addressList.Count == 0 || this.addressList[this.addressList.Count - 1] != selectedNode.Path)
             {
-                this.addressList.Add(this.txtAddress.Text);
+                this.addressList.Add(selectedNode.Path);
             }
             //this.formDto.ModuleFormDto.Dto = this.FindRootNode((sender as TreeView).SelectedNode).Tag as Vanilla.Utility.Facade.Module.Dto;
             this.formDto.ModuleFormDto.Dto = (sender as TreeView).FindRootNode().Tag as UtilFac.Module.Dto;
@@ -273,15 +276,6 @@ namespace Vanilla.Navigator.WinForm
                     return false;
             }
         }
-
-        //private TreeNode FindRootNode(TreeNode treeNode)
-        //{
-        //    while (treeNode.Parent != null)
-        //    {
-        //        treeNode = treeNode.Parent;
-        //    }
-        //    return treeNode;
-        //}
 
         private void RemoveChildDtoFromParentDto(TreeNode parentNode, TreeNode childNode)
         {
@@ -489,7 +483,9 @@ namespace Vanilla.Navigator.WinForm
                 this.lsvContainer.AttachChildren(this.currentArtifact);
                 //this.SelectNode(currentArtifact);
                 this.txtAddress.Text = currentArtifact.Path;
-                this.addressList.Add(this.txtAddress.Text);
+                this.addressList.Add(this.currentArtifact.Path);
+
+                this.btnUp.Enabled = true;
             }
             else
             {
@@ -534,73 +530,7 @@ namespace Vanilla.Navigator.WinForm
         }
 
         #endregion
-
-        //private void SelectNode(Vanilla.Utility.Facade.Artifact.Dto selectedNode)
-        //{
-        //    this.currentArtifact = selectedNode;
-
-        //    this.lsvContainer.Items.Clear();
-        //    if (selectedNode.Children != null && selectedNode.Children.Count > 0)
-        //    {
-        //        foreach (Vanilla.Utility.Facade.Artifact.Dto artifact in selectedNode.Children)
-        //        {
-        //            ListViewItem current = new ListViewItem
-        //            {
-        //                Text = artifact.FileName,
-        //                Tag = artifact,
-        //                ImageIndex = artifact.Style == Vanilla.Utility.Facade.Artifact.Type.Directory ? 0 : 2,
-        //            };
-        //            current.SubItems.AddRange(this.AddListViewSubItems(current, artifact));
-        //            this.lsvContainer.Items.Add(current);
-        //        }
-
-        //        //sort list view
-        //        this.sortColumn = "Name"; //this name will come from rule
-        //        this.lvwColumnSorter.Order = SortOrder.Ascending;
-        //        this.ResetColumnOrderInListView();
-
-        //        this.lsvContainer.Sort(sortColumn, this.lvwColumnSorter);
-        //        //this.SortListView(sortColumn);
-        //    }
-        //}
-
-        //private void SortListView(String columnHeaderCaption)
-        //{
-        //    this.lsvContainer.ResetColumnHeader();
-        //    for (int i = 0; i < lsvContainer.Columns.Count; i++)
-        //    {
-        //        if (this.lsvContainer.Columns[i].Text == columnHeaderCaption)
-        //        {
-        //            this.lvwColumnSorter.SortColumn = i;
-
-        //            // Reverse the current sort direction for this column.
-        //            if (lvwColumnSorter.Order == SortOrder.Ascending)
-        //            {
-        //                this.lsvContainer.Columns[lvwColumnSorter.SortColumn].ImageKey = "Down.gif";
-        //            }
-        //            else
-        //            {
-        //                this.lsvContainer.Columns[lvwColumnSorter.SortColumn].ImageKey = "Up.gif";
-        //            }
-
-        //            // Perform the sort with these new sort options.
-        //            this.lsvContainer.Sort();
-        //            break;
-        //        }
-        //    }
-        //}
-
-        //private void ResetListViewColumnHeader()
-        //{
-        //    //clear sort character from column caption
-        //    for (int i = 0; i < lsvContainer.Columns.Count; i++)
-        //    {
-        //        this.lsvContainer.Columns[i].ImageKey = String.Empty;
-        //        this.lsvContainer.Columns[i].ImageIndex = -1;
-        //        this.lsvContainer.Columns[i].TextAlign = HorizontalAlignment.Left;
-        //    }
-        //}
-
+        
         private void InitializeListView()
         {
             this.lsvContainer.Columns.Add("Name", 300);
@@ -649,15 +579,6 @@ namespace Vanilla.Navigator.WinForm
             }
         }
 
-        //private ListViewItem CreateNewListViewItem(String name, Int32 imageIndex)
-        //{
-        //    return new ListViewItem
-        //    {
-        //        Text = name,
-        //        ImageIndex = imageIndex,
-        //    };
-        //}
-
         /// <summary>
         /// Attach parent to new node  and instantiate path with parent path
         /// </summary>
@@ -686,7 +607,151 @@ namespace Vanilla.Navigator.WinForm
             {
                 item.BeginEdit();
             }
-        }        
+        }
+
+        #endregion
+
+        #region Address Bar
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+
+            }
+        }
+
+        private void txtSearch_Enter(object sender, EventArgs e)
+        {
+            if (String.Compare(this.txtSearch.Text, "Search...") == 0)
+            {
+                this.txtSearch.Text = String.Empty;
+                this.txtSearch.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtSearch_Leave(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(this.txtSearch.Text))
+            {
+                this.txtSearch.Text = "Search...";
+                this.txtSearch.ForeColor = Color.Gray;
+            }
+        }
+
+        private void btnEnter_Click(object sender, EventArgs e)
+        {
+            this.txtAddress.Text = this.txtAddress.Text.Trim();
+            this.SelectNode(this.txtAddress.Text);
+            this.addressList.Add(this.currentArtifact.Path);
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            if (this.addressList.Count > 0)
+            {
+                this.addressList.RemoveAt(this.addressList.Count - 1);
+                if (this.addressList.Count == 0)
+                {
+                    this.btnBack.Enabled = false;
+                    this.LoadForm();
+                }
+                else
+                {
+                    this.SelectNode(this.addressList[this.addressList.Count - 1]);
+                }
+            }
+        }
+
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+            String path = this.currentArtifact.Path;
+
+            path = path.Remove(path.Length - 1);
+            path = path.Substring(0, path.LastIndexOf('\\')) + "\\";
+            if (path.EndsWith("\\\\"))
+            {
+                path = path.Remove(path.Length - 2);
+                this.btnUp.Enabled = false;
+            }
+            this.SelectNode(path);
+        }
+
+        private void txtAddress_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.SelectNode(this.txtAddress.Text.Trim());
+            }
+        }
+
+        private void SelectNode(String selectedNodePath)
+        {
+            this.txtAddress.Text = selectedNodePath;
+            if (String.IsNullOrEmpty(selectedNodePath))
+            {
+                this.LoadForm();
+                return;
+            }
+            this.currentArtifact = null;
+            if (String.Compare(selectedNodePath, "Form:") == 0)
+            {
+                this.tbcCategory.SelectedTab = this.tbpForm;
+                return;
+            }
+            if (String.Compare(selectedNodePath, "Catalogue:") == 0)
+            {
+                this.tbcCategory.SelectedTab = this.tbpCatalogue;
+                return;
+            }
+            if (String.Compare(selectedNodePath, "Report:") == 0)
+            {
+                this.tbcCategory.SelectedTab = this.tbpReport;
+                return;
+            }
+
+            if (!selectedNodePath.EndsWith("\\")) selectedNodePath += "\\";
+            this.txtAddress.Text = selectedNodePath;
+            selectedNodePath = selectedNodePath.Substring(selectedNodePath.IndexOf(this.formDto.Rule.ModuleSeperator) + 3);
+            TreeNode currentNode = this.FindTreeNodeFromPath(selectedNodePath, this.trvForm.Nodes);
+            if (currentNode == null)
+            {
+                new PresLib.MessageBox
+                {
+                    DialogueType = PresLib.MessageBox.Type.Error,
+                    Heading = "Navigator",
+                }.Show(new List<BinAff.Core.Message> { { new BinAff.Core.Message("Path not found.", BinAff.Core.Message.Type.Error) } });
+                this.LoadForm();
+            }
+            else
+            {
+                this.trvForm.SelectedNode = currentNode;
+                currentNode.Expand();
+                this.currentArtifact = currentNode.Tag as UtilFac.Artifact.Dto;
+                this.trvArtifact_NodeMouseClick(this.trvForm, new TreeNodeMouseClickEventArgs(currentNode, MouseButtons.Left, 1, 0, 0));
+            }
+        }
+
+        private TreeNode FindTreeNodeFromPath(String path, TreeNodeCollection treeNodes)
+        {
+            String text = path.Substring(0, path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()));
+            path = path.Substring(path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()) + 1);
+            foreach (TreeNode node in treeNodes)
+            {
+                if (node.Text == text)
+                {
+                    if (String.IsNullOrEmpty(path))
+                    {
+                        return node;
+                    }
+                    else if (node.Nodes.Count > 0)
+                    {
+                        return this.FindTreeNodeFromPath(path, node.Nodes);
+                    }
+                }
+            }
+            return null;
+        }
 
         #endregion
 
@@ -729,6 +794,17 @@ namespace Vanilla.Navigator.WinForm
                     this.lblModifiedAt.Text = ((DateTime)selectedNode.ModifiedAt).ToShortDateString();
                 }
             }
+        }
+
+        private void RemoveAuditInfo()
+        {
+            this.lblFileName.Text = String.Empty;
+            this.lblType.Text = String.Empty;
+            this.lblVersion.Text = String.Empty;
+            this.lblCreatedBy.Text = String.Empty;
+            this.lblCreatedAt.Text = String.Empty;
+            this.lblModifiedBy.Text = String.Empty;
+            this.lblModifiedAt.Text = String.Empty;
         }
 
         #endregion
@@ -1348,19 +1424,6 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion
 
-        //private Boolean IsNodeTypeEqual(TreeNode destination, TreeNode source)
-        //{
-        //    if (destination != null && source != null)
-        //    {
-        //        TreeNode destinationRootNode = this.trvForm.FindRootNode(destination);
-        //        TreeNode sourceRootNode = this.trvForm.FindRootNode(source);
-
-        //        return ((destinationRootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == (sourceRootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code); 
-        //    }
-
-        //    return false;
-        //}
-
         private String GetDirectoryName(TreeNode node, UtilFac.Artifact.Type type)
         {
             Vanilla.Utility.Facade.Artifact.Dto artifactDto = null;
@@ -1437,32 +1500,6 @@ namespace Vanilla.Navigator.WinForm
                 }
             }
         }
-
-        //private TreeNode FindTreeNodeFromTag(Vanilla.Utility.Facade.Artifact.Dto artifactDto, TreeNodeCollection treeNodes, TreeNode selectedNode)
-        //{
-        //    foreach (TreeNode node in treeNodes)
-        //    {
-        //        if (selectedNode != null)
-        //            break;
-
-        //        Vanilla.Utility.Facade.Artifact.Dto tagArtifactDto;
-
-        //        if (node.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
-        //            tagArtifactDto = (node.Tag as Vanilla.Utility.Facade.Module.Dto).Artifact;
-        //        else
-        //            tagArtifactDto = node.Tag as Vanilla.Utility.Facade.Artifact.Dto;
-
-        //        if ((tagArtifactDto.Id == artifactDto.Id) && (tagArtifactDto.FileName == artifactDto.FileName))
-        //        {
-        //            selectedNode = node;
-        //            break;
-        //        }
-        //        else
-        //            selectedNode = this.FindTreeNodeFromTag(artifactDto, node.Nodes, selectedNode);
-        //    }
-
-        //    return selectedNode;
-        //}
         
         private void SaveArtifact(Vanilla.Utility.Facade.Artifact.Dto artifactDto, String fileName, Boolean isModify)
         {
@@ -1651,115 +1688,6 @@ namespace Vanilla.Navigator.WinForm
             return nodeOneArtifactId == nodeTwoArtifactId;
         }
 
-        #region Address Bar
-
-        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-
-            }
-        }
-
-        private void txtSearch_Enter(object sender, EventArgs e)
-        {
-            if (String.Compare(this.txtSearch.Text, "Search...") == 0)
-            {
-                this.txtSearch.Text = String.Empty;
-                this.txtSearch.ForeColor = Color.Black;
-            }
-        }
-
-        private void txtSearch_Leave(object sender, EventArgs e)
-        {
-            if (String.IsNullOrEmpty(this.txtSearch.Text))
-            {
-                this.txtSearch.Text = "Search...";
-                this.txtSearch.ForeColor = Color.Gray;
-            }
-        }
-
-        private void btnEnter_Click(object sender, EventArgs e)
-        {
-            this.txtAddress.Text = this.txtAddress.Text.Trim();
-            this.SelectNode(this.txtAddress.Text);
-            this.addressList.Add(this.txtAddress.Text);
-        }
-
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            if (this.addressList.Count > 0)
-            {
-                this.addressList.RemoveAt(this.addressList.Count - 1);
-                if (this.addressList.Count == 0)
-                {
-                    this.btnBack.Enabled = false;
-                    this.LoadForm();
-                }
-                else
-                {
-                    this.SelectNode(this.addressList[this.addressList.Count - 1]);
-                }
-            }
-        }
-
-        private void btnUp_Click(object sender, EventArgs e)
-        {
-            String address = this.txtAddress.Text.Trim();
-            address = address.Remove(address.Length - 1);
-            address = address.Substring(0, address.LastIndexOf('\\')) + "\\";
-            this.SelectNode(address);
-        }
-
-        private void txtAddress_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                this.SelectNode(this.txtAddress.Text.Trim());
-            }
-        }
-
-        private void SelectNode(String selectedNodePath)
-        {
-            this.txtAddress.Text = selectedNodePath;
-            selectedNodePath = selectedNodePath.Substring(selectedNodePath.IndexOf(this.formDto.Rule.ModuleSeperator) + 3);
-            TreeNode currentNode = this.FindTreeNodeFromPath(selectedNodePath, this.trvForm.Nodes);
-            if (currentNode != null)
-            {
-                this.trvForm.SelectedNode = currentNode;
-                currentNode.Expand();
-                this.trvArtifact_NodeMouseClick(this.trvForm, new TreeNodeMouseClickEventArgs(currentNode, MouseButtons.Left, 1, 0, 0));
-            }
-        }
-
-        private TreeNode FindTreeNodeFromPath(String path, TreeNodeCollection treeNodes)
-        {
-            String text = path.Substring(0, path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()));
-            path = path.Substring(path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()) + 1);
-            foreach (TreeNode node in treeNodes)
-            {
-                if (node.Text == text)
-                {
-                    if (String.IsNullOrEmpty(path))
-                    {
-                        return node;
-                    }
-                    else if (node.Nodes.Count > 0)
-                    {
-                        return this.FindTreeNodeFromPath(path, node.Nodes);
-                    }
-                }
-            }
-            return null;
-        }
-
-        #endregion
-
-        private void pnlArtifact_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-
-        }
-
         private void tbpForm_Click(object sender, EventArgs e)
         {
 
@@ -1791,13 +1719,13 @@ namespace Vanilla.Navigator.WinForm
         }
         
         private void cmnuOpen_Click(object sender, EventArgs e)
-        {            
+        {
             this.lsvContainer_DoubleClick(this.lsvContainer, e);
         }
 
         private void cmnuRefresh_Click(object sender, EventArgs e)
         {
-            this.SelectNode(this.addressList[this.addressList.Count]);
+            this.SelectNode(this.addressList[this.addressList.Count -1]);
         }
 
         private void mnuNewWindow_Click(object sender, EventArgs e)
@@ -1814,6 +1742,133 @@ namespace Vanilla.Navigator.WinForm
         {
 
         }
+
+        #region Need to Remove
+
+        //private void SelectNode(Vanilla.Utility.Facade.Artifact.Dto selectedNode)
+        //{
+        //    this.currentArtifact = selectedNode;
+
+        //    this.lsvContainer.Items.Clear();
+        //    if (selectedNode.Children != null && selectedNode.Children.Count > 0)
+        //    {
+        //        foreach (Vanilla.Utility.Facade.Artifact.Dto artifact in selectedNode.Children)
+        //        {
+        //            ListViewItem current = new ListViewItem
+        //            {
+        //                Text = artifact.FileName,
+        //                Tag = artifact,
+        //                ImageIndex = artifact.Style == Vanilla.Utility.Facade.Artifact.Type.Directory ? 0 : 2,
+        //            };
+        //            current.SubItems.AddRange(this.AddListViewSubItems(current, artifact));
+        //            this.lsvContainer.Items.Add(current);
+        //        }
+
+        //        //sort list view
+        //        this.sortColumn = "Name"; //this name will come from rule
+        //        this.lvwColumnSorter.Order = SortOrder.Ascending;
+        //        this.ResetColumnOrderInListView();
+
+        //        this.lsvContainer.Sort(sortColumn, this.lvwColumnSorter);
+        //        //this.SortListView(sortColumn);
+        //    }
+        //}
+
+        //private void SortListView(String columnHeaderCaption)
+        //{
+        //    this.lsvContainer.ResetColumnHeader();
+        //    for (int i = 0; i < lsvContainer.Columns.Count; i++)
+        //    {
+        //        if (this.lsvContainer.Columns[i].Text == columnHeaderCaption)
+        //        {
+        //            this.lvwColumnSorter.SortColumn = i;
+
+        //            // Reverse the current sort direction for this column.
+        //            if (lvwColumnSorter.Order == SortOrder.Ascending)
+        //            {
+        //                this.lsvContainer.Columns[lvwColumnSorter.SortColumn].ImageKey = "Down.gif";
+        //            }
+        //            else
+        //            {
+        //                this.lsvContainer.Columns[lvwColumnSorter.SortColumn].ImageKey = "Up.gif";
+        //            }
+
+        //            // Perform the sort with these new sort options.
+        //            this.lsvContainer.Sort();
+        //            break;
+        //        }
+        //    }
+        //}
+
+        //private void ResetListViewColumnHeader()
+        //{
+        //    //clear sort character from column caption
+        //    for (int i = 0; i < lsvContainer.Columns.Count; i++)
+        //    {
+        //        this.lsvContainer.Columns[i].ImageKey = String.Empty;
+        //        this.lsvContainer.Columns[i].ImageIndex = -1;
+        //        this.lsvContainer.Columns[i].TextAlign = HorizontalAlignment.Left;
+        //    }
+        //}
+
+        //private Boolean IsNodeTypeEqual(TreeNode destination, TreeNode source)
+        //{
+        //    if (destination != null && source != null)
+        //    {
+        //        TreeNode destinationRootNode = this.trvForm.FindRootNode(destination);
+        //        TreeNode sourceRootNode = this.trvForm.FindRootNode(source);
+
+        //        return ((destinationRootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == (sourceRootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code); 
+        //    }
+
+        //    return false;
+        //}
+
+        //private TreeNode FindTreeNodeFromTag(Vanilla.Utility.Facade.Artifact.Dto artifactDto, TreeNodeCollection treeNodes, TreeNode selectedNode)
+        //{
+        //    foreach (TreeNode node in treeNodes)
+        //    {
+        //        if (selectedNode != null)
+        //            break;
+
+        //        Vanilla.Utility.Facade.Artifact.Dto tagArtifactDto;
+
+        //        if (node.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+        //            tagArtifactDto = (node.Tag as Vanilla.Utility.Facade.Module.Dto).Artifact;
+        //        else
+        //            tagArtifactDto = node.Tag as Vanilla.Utility.Facade.Artifact.Dto;
+
+        //        if ((tagArtifactDto.Id == artifactDto.Id) && (tagArtifactDto.FileName == artifactDto.FileName))
+        //        {
+        //            selectedNode = node;
+        //            break;
+        //        }
+        //        else
+        //            selectedNode = this.FindTreeNodeFromTag(artifactDto, node.Nodes, selectedNode);
+        //    }
+
+        //    return selectedNode;
+        //}
+
+        //private ListViewItem CreateNewListViewItem(String name, Int32 imageIndex)
+        //{
+        //    return new ListViewItem
+        //    {
+        //        Text = name,
+        //        ImageIndex = imageIndex,
+        //    };
+        //}
+
+        //private TreeNode FindRootNode(TreeNode treeNode)
+        //{
+        //    while (treeNode.Parent != null)
+        //    {
+        //        treeNode = treeNode.Parent;
+        //    }
+        //    return treeNode;
+        //}
+
+        #endregion
 
         private class CategoryStatus
         {
