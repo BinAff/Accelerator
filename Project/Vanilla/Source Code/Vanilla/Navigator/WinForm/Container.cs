@@ -127,8 +127,8 @@ namespace Vanilla.Navigator.WinForm
         {
             if ((sender as Vanilla.Guardian.WinForm.Login).IsAuthenticated)
             {
-                this.LoadForm();
                 this.pnlLoginFormContainer.Hide();
+                this.LoadForm();
                 VanAcc.Dto loggedInUser = (Server.Current.Cache["User"] as VanAcc.Dto);
                 String heading = this.Text + " : " + loggedInUser.Profile.Name + " - ";
                 if (loggedInUser.RoleList != null)
@@ -519,6 +519,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowControls()
         {
+            this.ucRegister.LoadForm();
             this.ucRegister.Show();
             this.pnlTool.Show();
 
@@ -532,8 +533,6 @@ namespace Vanilla.Navigator.WinForm
             this.mnuEdit.Visible = true;
             this.mnuView.Visible = true;
             this.mnuUserManagement.Visible = true;
-
-            this.ucRegister.Show();
         }
 
         private void HideControl()
@@ -616,13 +615,14 @@ namespace Vanilla.Navigator.WinForm
         {
             if (this.btnRegister.Width == 0)
             {
-                this.btnRegister.Width = this.btnHideShow.Width;
-                this.btnCalender.Width = this.btnHideShow.Width;
-                this.btnEmail.Width = this.btnHideShow.Width;
-                this.btnSms.Width = this.btnHideShow.Width;
-                this.btnNote.Width = this.btnHideShow.Width;
-                this.btnConfiguration.Width = this.btnHideShow.Width;
-                this.pnlTool.Width = this.btnHideShow.Width * 7;
+                Int32 width = 25;
+                this.btnRegister.Width = width;
+                this.btnCalender.Width = width;
+                this.btnEmail.Width = width;
+                this.btnSms.Width = width;
+                this.btnNote.Width = width;
+                this.btnConfiguration.Width = width;
+                this.pnlTool.Width = width * 7;
                 this.btnHideShow.Text = "7";
                 this.toolTip.SetToolTip(this.btnHideShow, "Hide");
             }
