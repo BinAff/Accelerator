@@ -5,7 +5,7 @@ using BinAff.Core;
 
 using CrystalArtifact = Crystal.Navigator.Component.Artifact;
 
-using AutotourismCustomerArtifact = AutoTourism.Component.Customer.Navigator.Artifact;
+//using AutotourismCustomerArtifact = AutoTourism.Component.Customer.Navigator.Artifact;
 
 namespace Vanilla.Utility.Facade.Module
 {
