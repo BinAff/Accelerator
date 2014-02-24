@@ -323,6 +323,43 @@ namespace AutoTourism.Customer.Facade
             return new RuleFacade.RuleServer().ReadCustomerRule();            
         }
 
+        public void SaveArtifactForCustomer(Dto dto, Table loggedInUser)
+        {
+            Vanilla.Utility.Facade.Module.Dto customerModuleDto = new Vanilla.Utility.Facade.Module.Server(null).GetModule("CUST", (this.FormDto as FormDto).ModuleFormDto.FormModuleList);
+            String fileName = new Vanilla.Utility.Facade.Artifact.Server(null).GetArtifactName(customerModuleDto.Artifact, Vanilla.Utility.Facade.Artifact.Type.Document, "Form");
+
+            Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto
+            {
+                Module = dto as BinAff.Facade.Library.Dto,
+                FileName = fileName,
+                Style = Vanilla.Utility.Facade.Artifact.Type.Document,
+                Version = 1,
+                CreatedBy = new Table
+                {
+                    Id = loggedInUser.Id,
+                    Name = loggedInUser.Name
+                },
+                CreatedAt = DateTime.Now,
+                Category = Vanilla.Utility.Facade.Artifact.Category.Form,
+                Path = dto.ArtifactPath
+
+            };
+
+            if (customerModuleDto != null)
+                customerModuleDto.Artifact.Children.Add(artifactDto);
+
+            (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact = new Vanilla.Utility.Facade.Artifact.FormDto
+            {
+                Dto = artifactDto
+            };
+
+            (this.FormDto as FormDto).ModuleFormDto.Dto = customerModuleDto;
+            Vanilla.Utility.Facade.Module.Server moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto);
+            moduleFacade.Add();
+
+        }
+
+
     }
 
 }

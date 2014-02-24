@@ -108,6 +108,10 @@
       <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
       <Name>BinAff.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\BinAff.Facade.Cache\BinAff.Facade.Cache.csproj">
+      <Project>{266B4DEB-D9C2-4607-A5D5-60F5124E89AE}</Project>
+      <Name>BinAff.Facade.Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
       <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
       <Name>BinAff.Facade.Library</Name>
@@ -119,6 +123,10 @@
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Utility\BinAff.Utility.csproj">
       <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
       <Name>BinAff.Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
+      <Project>{24A3CC18-9FA6-4976-8ADE-AC07EE6844FB}</Project>
+      <Name>Vanilla.Guardian.Facade</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
       <Project>{A10719AF-5C9F-4903-AB83-089EC502EEA2}</Project>

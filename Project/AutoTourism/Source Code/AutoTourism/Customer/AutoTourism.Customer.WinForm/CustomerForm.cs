@@ -460,6 +460,10 @@ namespace AutoTourism.Customer.WinForm
                 {
                     facade.Change();
                 }
+
+                if (this.isLoadedFromRoomReservationForm)
+                    this.Tag = this.dto;                
+
                 if (facade.IsError)
                 {
                     retVal = false;
@@ -471,6 +475,19 @@ namespace AutoTourism.Customer.WinForm
                 }
             }
             return retVal;
+        }
+
+        private Boolean SaveArtifact()
+        {
+            this.dto.ArtifactPath = this.txtArtifactPath.Text;
+            Table CreatedBy = new Table
+            {
+                Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
+            };
+
+            new CustomerFacade.Server(this.formDto).SaveArtifactForCustomer(this.dto, CreatedBy);
+            return true;
         }
 
         private Boolean ValidateCustomer()
@@ -591,6 +608,9 @@ namespace AutoTourism.Customer.WinForm
         {
             if (this.SaveCustomerData())
             {
+                if (this.isLoadedFromRoomReservationForm)
+                    this.SaveArtifact();
+
                 base.IsModified = true;
                 this.Close();
             }
