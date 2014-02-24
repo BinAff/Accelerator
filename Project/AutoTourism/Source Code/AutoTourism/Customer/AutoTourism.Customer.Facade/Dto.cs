@@ -22,6 +22,7 @@ namespace AutoTourism.Customer.Facade
         public String IdentityProofName { get; set; }
            
         public List<Table> ContactNumberList { get; set; }
+        public String ArtifactPath { get; set; }
         
     }
 
