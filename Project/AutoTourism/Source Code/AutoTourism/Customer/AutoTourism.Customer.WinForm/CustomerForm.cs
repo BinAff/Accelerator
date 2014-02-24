@@ -20,7 +20,9 @@ namespace AutoTourism.Customer.WinForm
         private System.Drawing.Color MandatoryColor = System.Drawing.Color.FromArgb(255, 255, 240, 240);
 
         private CustomerFacade.Dto dto;
+        private CustomerFacade.FormDto formDto;
         private ConfigurationRuleFacade.CustomerRuleDto customerRule;
+        private Boolean isLoadedFromRoomReservationForm = false;
 
         #region Rule property
 
@@ -89,6 +91,7 @@ namespace AutoTourism.Customer.WinForm
         public CustomerForm()
         {
             InitializeComponent();
+            this.isLoadedFromRoomReservationForm = true;
         }
       
         public CustomerForm(CustomerFacade.Dto dto)
@@ -109,6 +112,16 @@ namespace AutoTourism.Customer.WinForm
 
         private void CustomerForm_Load(object sender, System.EventArgs e)
         {
+            this.formDto = new CustomerFacade.FormDto()
+            {
+                Dto = this.dto,
+                ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
+            };
+
+            //if loaded form room reservation form , then populate the modules
+            if (this.isLoadedFromRoomReservationForm)
+                new Vanilla.Utility.Facade.Module.Server(this.formDto.ModuleFormDto).LoadForm();
+
             this.LoadForm();
 
             if (this.dto != null)
@@ -287,6 +300,11 @@ namespace AutoTourism.Customer.WinForm
                 this.cboProofType.ValueMember = "Id";
                 this.cboProofType.SelectedIndex = -1;
             }
+
+            this.txtArtifactPath.ReadOnly = true;
+            if (this.isLoadedFromRoomReservationForm)
+                this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("CUST", this.formDto.ModuleFormDto.FormModuleList, "Form");
+            
         }
         
         private void LoadCustomerData()

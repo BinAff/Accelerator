@@ -120,6 +120,10 @@
       <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
       <Name>BinAff.Utility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
+      <Project>{A10719AF-5C9F-4903-AB83-089EC502EEA2}</Project>
+      <Name>Vanilla.Utility.Facade</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Configuration\Autotourism.Configuration.Rule.Facade\Autotourism.Configuration.Rule.Facade.csproj">
       <Project>{c8cf309d-21f1-43f7-bb6b-cf78e2b14245}</Project>
       <Name>Autotourism.Configuration.Rule.Facade</Name>

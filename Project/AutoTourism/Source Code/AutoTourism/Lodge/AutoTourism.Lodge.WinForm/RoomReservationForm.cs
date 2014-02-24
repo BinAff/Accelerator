@@ -76,31 +76,44 @@ namespace AutoTourism.Lodge.WinForm
             Type type = Type.GetType("AutoTourism.Customer.WinForm.CustomerRegister, AutoTourism.Customer.WinForm", true);
             Form form = (Form)Activator.CreateInstance(type);
             form.ShowDialog(this);
-            
+
             if (form.Tag != null)
-            {
-                if (this.dto == null)                
-                    this.dto = new LodgeFacade.RoomReservation.Dto();
-                
-
-                this.dto.Customer = form.Tag as CustomerFacade.Dto;
-
-                String Name = (this.dto.Customer.Initial == null ? String.Empty : this.dto.Customer.Initial.Name);
-                Name += (Name == String.Empty) ? (this.dto.Customer.FirstName == null ? String.Empty : this.dto.Customer.FirstName) : " " + (this.dto.Customer.FirstName == null ? String.Empty : this.dto.Customer.FirstName);
-                Name += (Name == String.Empty) ? (this.dto.Customer.MiddleName == null ? String.Empty : this.dto.Customer.MiddleName) : " " + (this.dto.Customer.MiddleName == null ? String.Empty : this.dto.Customer.MiddleName);
-                Name += (Name == String.Empty) ? (this.dto.Customer.LastName == null ? String.Empty : this.dto.Customer.LastName) : " " + (this.dto.Customer.LastName == null ? String.Empty : this.dto.Customer.LastName);
-
-                txtName.Text = Name;
-                lstContact.DataSource = this.dto.Customer.ContactNumberList;
-                lstContact.DisplayMember = "Name";
-                lstContact.ValueMember = "Id";
-                lstContact.SelectedIndex = -1;
-                txtAdds.Text = this.dto.Customer.Address;
-                txtEmail.Text = this.dto.Customer.Email;
-            }
+                this.PopulateCustomerData(form);
             
         }
-        
+
+        private void btnAddCustomer_Click(object sender, EventArgs e)
+        {
+            Type type = Type.GetType("AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm", true);
+            Form form = (Form)Activator.CreateInstance(type);
+            form.ShowDialog(this);
+
+            if (form.Tag != null)
+                this.PopulateCustomerData(form);
+        }
+
+        private void PopulateCustomerData(Form form)
+        {            
+            if (this.dto == null)
+                this.dto = new LodgeFacade.RoomReservation.Dto();
+
+            this.dto.Customer = form.Tag as CustomerFacade.Dto;
+
+            String Name = (this.dto.Customer.Initial == null ? String.Empty : this.dto.Customer.Initial.Name);
+            Name += (Name == String.Empty) ? (this.dto.Customer.FirstName == null ? String.Empty : this.dto.Customer.FirstName) : " " + (this.dto.Customer.FirstName == null ? String.Empty : this.dto.Customer.FirstName);
+            Name += (Name == String.Empty) ? (this.dto.Customer.MiddleName == null ? String.Empty : this.dto.Customer.MiddleName) : " " + (this.dto.Customer.MiddleName == null ? String.Empty : this.dto.Customer.MiddleName);
+            Name += (Name == String.Empty) ? (this.dto.Customer.LastName == null ? String.Empty : this.dto.Customer.LastName) : " " + (this.dto.Customer.LastName == null ? String.Empty : this.dto.Customer.LastName);
+
+            txtName.Text = Name;
+            lstContact.DataSource = this.dto.Customer.ContactNumberList;
+            lstContact.DisplayMember = "Name";
+            lstContact.ValueMember = "Id";
+            lstContact.SelectedIndex = -1;
+            txtAdds.Text = this.dto.Customer.Address;
+            txtEmail.Text = this.dto.Customer.Email;
+            
+        }
+
         private void btnAddRoom_Click(object sender, EventArgs e)
         {
             LodgeConfigurationFacade.Room.Dto roomDto = null;

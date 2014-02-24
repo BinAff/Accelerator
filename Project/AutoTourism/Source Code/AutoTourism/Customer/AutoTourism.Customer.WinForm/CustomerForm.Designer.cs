@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.bttnRemove = new System.Windows.Forms.Button();
             this.txtMobile = new System.Windows.Forms.TextBox();
             this.txtMobilePrefix = new System.Windows.Forms.TextBox();
@@ -55,11 +56,11 @@
             this.txtFName = new System.Windows.Forms.TextBox();
             this.cboInitial = new System.Windows.Forms.ComboBox();
             this.lblName = new System.Windows.Forms.Label();
-            this.errorProvider = new System.Windows.Forms.ErrorProvider();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnOK = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtArtifactPath = new System.Windows.Forms.TextBox();
             this.lblFilePath = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -339,12 +340,12 @@
             this.button1.Text = "Browse";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // txtArtifactPath
             // 
-            this.textBox1.Location = new System.Drawing.Point(106, 215);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(406, 20);
-            this.textBox1.TabIndex = 1003;
+            this.txtArtifactPath.Location = new System.Drawing.Point(106, 215);
+            this.txtArtifactPath.Name = "txtArtifactPath";
+            this.txtArtifactPath.Size = new System.Drawing.Size(406, 20);
+            this.txtArtifactPath.TabIndex = 1003;
             // 
             // lblFilePath
             // 
@@ -361,7 +362,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(616, 247);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtArtifactPath);
             this.Controls.Add(this.lblFilePath);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnOK);
@@ -435,7 +436,7 @@
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtArtifactPath;
         private System.Windows.Forms.Label lblFilePath;
     }
 }
