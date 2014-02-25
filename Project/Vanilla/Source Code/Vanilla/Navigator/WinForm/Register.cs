@@ -1538,9 +1538,13 @@ namespace Vanilla.Navigator.WinForm
             if (parentNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
                 pathOfParent = (parentNode.Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Path;
             else            
-                pathOfParent = (parentNode.Tag as Vanilla.Utility.Facade.Artifact.Dto).Path;            
+                pathOfParent = (parentNode.Tag as Vanilla.Utility.Facade.Artifact.Dto).Path;
 
-            artifactDto.Path = pathOfParent + fileName + this.formDto.Rule.PathSeperator;
+            //-- document should not contain the path separator
+            if (artifactDto.Style == Vanilla.Utility.Facade.Artifact.Type.Document)
+                artifactDto.Path = pathOfParent + fileName;
+            else
+                artifactDto.Path = pathOfParent + fileName + this.formDto.Rule.PathSeperator;
 
             if (isModify)
             {

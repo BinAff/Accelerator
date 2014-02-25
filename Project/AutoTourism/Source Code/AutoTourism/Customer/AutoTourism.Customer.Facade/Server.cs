@@ -323,27 +323,12 @@ namespace AutoTourism.Customer.Facade
             return new RuleFacade.RuleServer().ReadCustomerRule();            
         }
 
-        public void SaveArtifactForCustomer(Dto dto, Table loggedInUser)
+        public void SaveArtifactForCustomer(Vanilla.Utility.Facade.Artifact.Dto artifactDto)
         {
             Vanilla.Utility.Facade.Module.Dto customerModuleDto = new Vanilla.Utility.Facade.Module.Server(null).GetModule("CUST", (this.FormDto as FormDto).ModuleFormDto.FormModuleList);
             String fileName = new Vanilla.Utility.Facade.Artifact.Server(null).GetArtifactName(customerModuleDto.Artifact, Vanilla.Utility.Facade.Artifact.Type.Document, "Form");
 
-            Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto
-            {
-                Module = dto as BinAff.Facade.Library.Dto,
-                FileName = fileName,
-                Style = Vanilla.Utility.Facade.Artifact.Type.Document,
-                Version = 1,
-                CreatedBy = new Table
-                {
-                    Id = loggedInUser.Id,
-                    Name = loggedInUser.Name
-                },
-                CreatedAt = DateTime.Now,
-                Category = Vanilla.Utility.Facade.Artifact.Category.Form,
-                Path = dto.ArtifactPath
-
-            };
+            artifactDto.FileName = fileName;            
 
             if (customerModuleDto != null)
                 customerModuleDto.Artifact.Children.Add(artifactDto);
@@ -358,7 +343,6 @@ namespace AutoTourism.Customer.Facade
             moduleFacade.Add();
 
         }
-
 
     }
 

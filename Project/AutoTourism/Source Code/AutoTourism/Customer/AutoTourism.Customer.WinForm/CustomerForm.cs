@@ -456,14 +456,14 @@ namespace AutoTourism.Customer.WinForm
                 };
 
                 BinAff.Facade.Library.Server facade = new CustomerFacade.Server(formDto);
-                //if (formDto.Dto.Id == 0)
-                //{
-                //    facade.Add();
-                //}
-                //else
-                //{
-                //    facade.Change();
-                //}
+                if (formDto.Dto.Id == 0)
+                {
+                    facade.Add();
+                }
+                else
+                {
+                    facade.Change();
+                }
 
                 if (this.isLoadedFromRoomReservationForm)
                     this.Tag = this.dto;                
@@ -484,33 +484,35 @@ namespace AutoTourism.Customer.WinForm
         private Boolean SaveArtifact()
         {
             this.dto.ArtifactPath = this.txtArtifactPath.Text;
-            String pathSeparator = new Vanilla.Utility.Facade.Rule.Server(null).ReadRule().PathSeperator;
-            String[] arrArtifactPath = this.txtArtifactPath.Text.ToString().Split(Convert.ToChar(pathSeparator));
-            this.dto.fileName = arrArtifactPath[arrArtifactPath.Length-1].ToString();
-            
-            Table CreatedBy = new Table
-            {
-                Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
-            };
-
-            
-
-            //new CustomerFacade.Server(this.formDto).SaveArtifactForCustomer(this.dto, CreatedBy);
-
-            //-Add artifact to customer node                    
-            Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto 
-            { 
-                Category = Vanilla.Utility.Facade.Artifact.Category.Form,
-                CreatedAt = DateTime.Now,
-                CreatedBy = CreatedBy,
-                FileName = this.dto.fileName,
+            Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto
+            {                
+                Module = this.dto,
                 Style = Vanilla.Utility.Facade.Artifact.Type.Document,
-                Version = 1,                
-                Module = this.dto
+                Version = 1,
+                CreatedBy = new Table
+                {
+                    Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                    Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
+                },
+                CreatedAt = DateTime.Now,
+                Category = Vanilla.Utility.Facade.Artifact.Category.Form,
+                Path = this.dto.ArtifactPath
             };
-            (this.trvForm.Nodes[0].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children.Add(artifactDto);
-            artifactDto.Parent = this.trvForm.Nodes[0].Tag as Vanilla.Utility.Facade.Module.Dto;
+
+            new CustomerFacade.Server(this.formDto).SaveArtifactForCustomer(artifactDto);
+
+            //-Add artifact to customer node
+            Int16 customerNodePosition = 0;
+            for (int i = 0; i < this.trvForm.Nodes.Count; i++)
+            {
+                if (this.trvForm.Nodes[i].Text == "Customer")
+                    break;
+
+                customerNodePosition++;
+            }
+
+            (this.trvForm.Nodes[customerNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children.Add(artifactDto);
+            artifactDto.Parent = this.trvForm.Nodes[customerNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto;
 
             return true;
         }
