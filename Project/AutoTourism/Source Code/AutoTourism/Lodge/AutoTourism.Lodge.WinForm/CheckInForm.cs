@@ -20,16 +20,7 @@ namespace AutoTourism.Lodge.WinForm
         private LodgeFacade.CheckIn.Dto dto;
         private LodgeFacade.CheckIn.FormDto formDto;
         private RuleFacade.ConfigurationRuleDto configurationRuleDto;
-
-        //public enum LodgeReservationStatus
-        //{
-        //    Open = 10001,
-        //    Closed = 10002,
-        //    Cancel = 10003,
-        //    CheckIn = 10004,
-        //    Modify = 10005
-        //}
-
+        
         public CheckInForm(LodgeFacade.CheckIn.Dto CheckInDto)
         {
             InitializeComponent();
@@ -54,26 +45,7 @@ namespace AutoTourism.Lodge.WinForm
             //    this.LoadForm();
             //}
         }
-
-        //public CheckInForm(LodgeFacade.CheckIn.Dto CheckInDto, RuleFacade.Dto ruleDto)
-        //{
-        //    InitializeComponent();
-
-        //    this.ruleDto = ruleDto;
-
-        //    dtCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-        //    if (this.ruleDto == null || this.ruleDto.ConfigurationRule == null || this.ruleDto.ConfigurationRule.DateFormat == String.Empty)
-        //        dtCheckIn.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
-        //    else
-        //        dtCheckIn.CustomFormat = this.ruleDto.ConfigurationRule.DateFormat;
-
-        //    if (CheckInDto != null)
-        //    {
-        //        this.checkInDto = CheckInDto;
-        //        this.LoadForm();
-        //    }
-        //}
-
+        
         private Boolean SaveCheckInData()
         {
             Boolean retVal = this.ValidateCheckIn();
@@ -108,6 +80,9 @@ namespace AutoTourism.Lodge.WinForm
                 //checkIn Id passs back to register
                 this.dto.Id = this.formDto.dto.Id;
 
+                //Update reservation tree node
+                this.UpdateRoomReservationNodeInTree(this.formDto.dto.reservationDto);
+
                 if (facade.IsError)
                 {
                     retVal = false;
@@ -122,11 +97,57 @@ namespace AutoTourism.Lodge.WinForm
             return retVal;
         }
 
+        private void UpdateRoomReservationNodeInTree(LodgeFacade.RoomReservation.Dto reservationDto)
+        {             
+            //-Add artifact to customer node
+            Int16 reservationNodePosition = 0;
+            for (int i = 0; i < this.dto.trvForm.Nodes.Count; i++)
+            {
+                if (this.dto.trvForm.Nodes[i].Text == "Room Reservation")
+                    break;
+
+                reservationNodePosition++;
+            }
+
+            Boolean isNodeUpdated = false;            
+            List<Vanilla.Utility.Facade.Artifact.Dto> artifactList = (this.dto.trvForm.Nodes[reservationNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children;
+            this.UpdateTreeNode(isNodeUpdated, reservationDto, artifactList);
+
+            
+        }
+
+        private void UpdateTreeNode(Boolean isNodeUpdated, LodgeFacade.RoomReservation.Dto reservationDto, List<Vanilla.Utility.Facade.Artifact.Dto> artifactList)
+        {
+            if (isNodeUpdated) return;
+
+            foreach (Vanilla.Utility.Facade.Artifact.Dto dto in artifactList)
+            {
+                if (dto.Style == Vanilla.Utility.Facade.Artifact.Type.Document)
+                {
+                    if (dto.Module.Id == reservationDto.Id)
+                    {
+                        dto.Module = reservationDto;
+                        isNodeUpdated = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!isNodeUpdated)
+            {
+                foreach (Vanilla.Utility.Facade.Artifact.Dto dto in artifactList)
+                {
+                    if (dto.Style == Vanilla.Utility.Facade.Artifact.Type.Directory && dto.Children != null)
+                    {
+                        this.UpdateTreeNode(isNodeUpdated, reservationDto, dto.Children);
+                        if (isNodeUpdated) break;
+                    }
+                }
+            }
+        }
+
         private void btnOk_Click(object sender, EventArgs e)
         {
-            //this.dto.Id = 5;
-            //this.Close();
-
             if (this.SaveCheckInData())
             {
                 base.IsModified = true;
