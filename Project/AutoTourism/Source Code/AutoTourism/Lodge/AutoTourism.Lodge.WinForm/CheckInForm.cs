@@ -79,6 +79,8 @@ namespace AutoTourism.Lodge.WinForm
 
                 //checkIn Id passs back to register
                 this.dto.Id = this.formDto.dto.Id;
+                this.dto.Date = this.formDto.dto.Date;
+                this.dto.reservationDto = this.formDto.dto.reservationDto;
 
                 //Update reservation tree node
                 this.UpdateRoomReservationNodeInTree(this.formDto.dto.reservationDto);
