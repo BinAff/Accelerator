@@ -14,9 +14,9 @@ namespace Vanilla.Navigator.WinForm
 
     public partial class Register : UserControl
     {
-
-        private Facade.Container.FormDto formDto;
-        private Facade.Container.Server facade;
+        
+        private Facade.Register.FormDto formDto;
+        private Facade.Register.Server facade;
 
         private PresLib.ListViewColumnSorter lvwColumnSorter;
 
@@ -68,7 +68,7 @@ namespace Vanilla.Navigator.WinForm
             this.InitializeListView();
             this.InitializeTab();
             this.RemoveAuditInfo();
-            this.facade = new Facade.Container.Server(this.formDto = new Facade.Container.FormDto
+            this.facade = new Facade.Register.Server(this.formDto = new Facade.Register.FormDto
             {
                 ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto
                 {
@@ -196,7 +196,7 @@ namespace Vanilla.Navigator.WinForm
             {
                 this.addressList.Add(selectedNode.Path);
             }
-            //this.formDto.ModuleFormDto.Dto = this.FindRootNode((sender as TreeView).SelectedNode).Tag as Vanilla.Utility.Facade.Module.Dto;
+            //this.formDto1.ModuleFormDto.Dto = this.FindRootNode((sender as TreeView).SelectedNode).Tag as Vanilla.Utility.Facade.Module.Dto;
             this.formDto.ModuleFormDto.Dto = (sender as TreeView).FindRootNode().Tag as UtilFac.Module.Dto;
             this.ShowAuditInfo(selectedNode);
         }
@@ -620,7 +620,7 @@ namespace Vanilla.Navigator.WinForm
         {
             if (e.KeyCode == Keys.Enter)
             {
-
+                List<UtilFac.Artifact.Dto> artifactList = this.facade.Search(this.txtSearch.Text.Trim());
             }
         }
 
@@ -1008,7 +1008,7 @@ namespace Vanilla.Navigator.WinForm
                     Dto = artifactDto,
                 };
 
-                this.facade = new Facade.Container.Server(this.formDto);
+                this.facade = new Facade.Register.Server(this.formDto);
                 this.facade.Paste(this.isCutAction);
 
                 if (!this.facade.IsError)
@@ -1166,7 +1166,7 @@ namespace Vanilla.Navigator.WinForm
                 Dto = artifact,
             };
 
-            this.facade = new Facade.Container.Server(this.formDto);
+            this.facade = new Facade.Register.Server(this.formDto);
             this.facade.Delete();
 
             //if deleted successfully
@@ -1518,7 +1518,7 @@ namespace Vanilla.Navigator.WinForm
             };
 
             this.PopulateNewArtifact(fileName, artifactDto.Style, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
-            this.facade = new Facade.Container.Server(this.formDto);
+            this.facade = new Facade.Register.Server(this.formDto);
 
             TreeNode parentNode = null;
             if (artifactDto.Style == Vanilla.Utility.Facade.Artifact.Type.Document)
