@@ -297,36 +297,20 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return roomReservation.UpdateStatus();
         }
 
-        public void SaveArtifactForReservation(Dto dto,Table loggedInUser)
+        public void SaveArtifactForReservation(Vanilla.Utility.Facade.Artifact.Dto artifactDto)
         {
             Vanilla.Utility.Facade.Module.Dto reservationModuleDto = new Vanilla.Utility.Facade.Module.Server(null).GetModule("LRSV", (this.FormDto as FormDto).ModuleFormDto.FormModuleList);
-            String fileName = new Vanilla.Utility.Facade.Artifact.Server(null).GetArtifactName(reservationModuleDto.Artifact, Vanilla.Utility.Facade.Artifact.Type.Document, "Form");
-            
-            Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto
-            {
-                Module = dto as BinAff.Facade.Library.Dto,
-                FileName = fileName,
-                Style = Vanilla.Utility.Facade.Artifact.Type.Document,
-                Version = 1,
-                CreatedBy = new Table
-                {
-                    Id = loggedInUser.Id,
-                    Name = loggedInUser.Name
-                },               
-                CreatedAt = DateTime.Now,
-                Category = Vanilla.Utility.Facade.Artifact.Category.Form,
-                Path = dto.ArtifactPath
-                
-            };            
+            String fileName = new Vanilla.Utility.Facade.Artifact.Server(null).GetArtifactName(reservationModuleDto.Artifact, Vanilla.Utility.Facade.Artifact.Type.Document, "Form");         
+            artifactDto.FileName = fileName;
 
-            if (reservationModuleDto != null)            
+            if (reservationModuleDto != null)
                 reservationModuleDto.Artifact.Children.Add(artifactDto);
 
-            (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact = new Vanilla.Utility.Facade.Artifact.FormDto 
+            (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact = new Vanilla.Utility.Facade.Artifact.FormDto
             {
                 Dto = artifactDto
             };
-                
+
             (this.FormDto as FormDto).ModuleFormDto.Dto = reservationModuleDto;
             Vanilla.Utility.Facade.Module.Server moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto);
             moduleFacade.Add();

@@ -20,7 +20,7 @@ namespace AutoTourism.Lodge.WinForm
         private LodgeFacade.CheckIn.Dto dto;
         private LodgeFacade.CheckIn.FormDto formDto;
         private RuleFacade.ConfigurationRuleDto configurationRuleDto;
-      
+
         //public enum LodgeReservationStatus
         //{
         //    Open = 10001,
@@ -96,7 +96,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.formDto.dto.reservationDto.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
                 this.formDto.dto.reservationDto.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>)[this.cboType.SelectedIndex].Id };
                 this.formDto.dto.reservationDto.IsAC = this.chkIsAC.Checked;
-                this.formDto.dto.reservationDto.RoomList = (List<LodgeConfigurationFacade.Room.Dto>)cmbCheckInRoom.DataSource;               
+                this.formDto.dto.reservationDto.RoomList = (List<LodgeConfigurationFacade.Room.Dto>)cmbCheckInRoom.DataSource;
 
                 BinAff.Facade.Library.Server facade = new LodgeFacade.CheckIn.CheckInServer(formDto);
 
@@ -106,7 +106,7 @@ namespace AutoTourism.Lodge.WinForm
                     facade.Change();
 
                 //checkIn Id passs back to register
-                this.dto.Id = this.formDto.dto.Id;       
+                this.dto.Id = this.formDto.dto.Id;
 
                 if (facade.IsError)
                 {
@@ -133,7 +133,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.Close();
             }
         }
-        
+
         private Boolean ValidateCheckIn()
         {
             Boolean retVal = true;
@@ -254,9 +254,9 @@ namespace AutoTourism.Lodge.WinForm
             //populate checkIn form
             if (this.formDto.dto.Id > 0)
             {
-                
+
                 CustomerFacade.Dto customerDto = this.formDto.dto.reservationDto.Customer;
-                
+
                 String Name = (customerDto.Initial == null ? String.Empty : customerDto.Initial.Name);
                 Name += (Name == String.Empty) ? (customerDto.FirstName == null ? String.Empty : customerDto.FirstName) : " " + (customerDto.FirstName == null ? String.Empty : customerDto.FirstName);
                 Name += (Name == String.Empty) ? (customerDto.MiddleName == null ? String.Empty : customerDto.MiddleName) : " " + (customerDto.MiddleName == null ? String.Empty : customerDto.MiddleName);
@@ -267,7 +267,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.LoadCheckInData();
             }
 
-            this.txtArtifactPath.ReadOnly = true;          
+            this.txtArtifactPath.ReadOnly = true;
             this.txtArtifactPath.Text = this.dto.artifactPath;
 
         }
@@ -338,18 +338,18 @@ namespace AutoTourism.Lodge.WinForm
         }
 
         private void btnPickReservation_Click_1(object sender, EventArgs e)
-        { 
+        {
             Form form = new RoomReservationRegister();
             form.ShowDialog(this);
 
             if (form.Tag != null)
                 this.PopulateReservationData(form);
-            
+
         }
 
         private void btnAddReservation_Click(object sender, EventArgs e)
         {
-            Form form = new RoomReservationForm();
+            Form form = new RoomReservationForm(this.dto.trvForm);
             form.ShowDialog(this);
 
             if (form.Tag != null)
@@ -417,7 +417,7 @@ namespace AutoTourism.Lodge.WinForm
 
         private void PopulateFilteredRoomList()
         {
-            
+
             this.cboRoomList.DataSource = null;
             List<LodgeConfigurationFacade.Room.Dto> RoomList = new List<LodgeConfigurationFacade.Room.Dto>();
 
@@ -517,7 +517,7 @@ namespace AutoTourism.Lodge.WinForm
         }
 
         private void PopulateReservationData(Form form)
-        {           
+        {
             LodgeFacade.RoomReservationRegister.Dto roomReservationRegisterDto = form.Tag as LodgeFacade.RoomReservationRegister.Dto;
             this.formDto.dto = new LodgeFacade.CheckIn.Dto
             {
@@ -539,8 +539,8 @@ namespace AutoTourism.Lodge.WinForm
                 }
             };
 
-            this.LoadCheckInData();            
+            this.LoadCheckInData();
         }
-               
+
     }
 }
