@@ -186,9 +186,8 @@ namespace Vanilla.Utility.Facade.Module
         public String GetRootLevelModulePath(String moduleCode, List<Dto> moduleList,String documentType)
         {
             Dto dto = this.GetModule(moduleCode, moduleList);
-            String fileName = new Artifact.Server(null).GetArtifactName(dto.Artifact, Artifact.Type.Document, documentType);
-            Rule.Dto ruleDto = new Rule.Server(null).ReadRule();
-            return dto.Artifact.Path + fileName + ruleDto.PathSeperator;
+            String fileName = new Artifact.Server(null).GetArtifactName(dto.Artifact, Artifact.Type.Document, documentType);            
+            return dto.Artifact.Path + fileName ;
         }
     }
 }

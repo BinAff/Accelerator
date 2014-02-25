@@ -94,7 +94,7 @@ namespace AutoTourism
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            new CustomerForm().ShowDialog();
+            //new CustomerForm().ShowDialog();
         }
 
         private void btnChange_Click(object sender, EventArgs e)

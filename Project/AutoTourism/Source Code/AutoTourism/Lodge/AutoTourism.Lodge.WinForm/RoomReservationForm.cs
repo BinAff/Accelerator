@@ -85,7 +85,7 @@ namespace AutoTourism.Lodge.WinForm
         private void btnAddCustomer_Click(object sender, EventArgs e)
         {
             Type type = Type.GetType("AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm", true);
-            Form form = (Form)Activator.CreateInstance(type);
+            Form form = (Form)Activator.CreateInstance(type,this.dto.trvForm);
             form.ShowDialog(this);
 
             if (form.Tag != null)

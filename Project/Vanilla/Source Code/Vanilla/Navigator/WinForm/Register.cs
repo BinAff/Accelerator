@@ -1492,9 +1492,13 @@ namespace Vanilla.Navigator.WinForm
                 TreeNode rootNode = this.trvForm.FindRootNode();
                 //Show Dialogue to capture module data
                 BinAff.Facade.Library.Dto moduleFormDto = new Vanilla.Utility.Facade.Module.Server(null).InstantiateDto(rootNode.Tag as Vanilla.Utility.Facade.Module.Dto);
-                Type type = Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true);                
-                moduleFormDto.artifactPath = this.currentArtifact.Path + this.GetDirectoryName(selectedNode, UtilFac.Artifact.Type.Document) + this.formDto.Rule.PathSeperator;
-                
+                Type type = Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true);
+
+                String fileName = this.GetDirectoryName(selectedNode, UtilFac.Artifact.Type.Document);
+                moduleFormDto.artifactPath = this.currentArtifact.Path + fileName;
+                moduleFormDto.fileName = fileName;
+                moduleFormDto.trvForm = this.trvForm;
+
                 Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
                 form.ShowDialog(this);
 

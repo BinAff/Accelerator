@@ -11,7 +11,10 @@ namespace BinAff.Facade.Library
         /// </summary>
         public Int64 Id { get; set; }
 
-        public String artifactPath { get; set; }        
+        public String artifactPath { get; set; }
+        public String fileName { get; set; }
+
+        public System.Windows.Forms.TreeView trvForm { get; set; }
 
         /// <summary>
         /// Mark required action on dto

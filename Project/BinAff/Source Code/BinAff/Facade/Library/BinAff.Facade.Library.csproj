@@ -43,6 +43,7 @@
       <HintPath>..\..\Reference\Lib\BinAff.Utility.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dto.cs" />
