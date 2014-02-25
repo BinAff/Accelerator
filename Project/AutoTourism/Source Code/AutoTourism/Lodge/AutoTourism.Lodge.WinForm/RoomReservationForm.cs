@@ -37,6 +37,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             InitializeComponent();
             this.dto = dto;
+            this.trvForm = this.dto.trvForm;
         }
 
         private void RoomBookingForm_Load(object sender, System.EventArgs e)
@@ -86,7 +87,7 @@ namespace AutoTourism.Lodge.WinForm
         private void btnAddCustomer_Click(object sender, EventArgs e)
         {
             Type type = Type.GetType("AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm", true);
-            Form form = (Form)Activator.CreateInstance(type,this.dto.trvForm);
+            Form form = (Form)Activator.CreateInstance(type,this.trvForm);
             form.ShowDialog(this);
 
             if (form.Tag != null)
