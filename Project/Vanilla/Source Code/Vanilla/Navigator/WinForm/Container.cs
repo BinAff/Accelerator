@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 
 using BinAff.Facade.Cache;
 
 using Vanilla.Tool.WinfForm;
 using VanAcc = Vanilla.Guardian.Facade.Account;
-using VanRole = Vanilla.Guardian.Facade.Role;
 
 namespace Vanilla.Navigator.WinForm
 {
@@ -28,13 +25,13 @@ namespace Vanilla.Navigator.WinForm
             //mybutton.MinTrayBtnClicked += mybutton_MinTrayBtnClicked;
         }
 
-        void mybutton_MinTrayBtnClicked(object sender, EventArgs e)
-        {
-            this.HideControl();
-            this.ShowLoginForm();
+        //void mybutton_MinTrayBtnClicked(object sender, EventArgs e)
+        //{
+        //    this.HideControl();
+        //    this.ShowLoginForm();
 
-            this.Text = this.Text.Split(new Char[]{' ', ':', ' '})[0];
-        }
+        //    this.Text = this.Text.Split(new Char[]{' ', ':', ' '})[0];
+        //}
 
         public Container(String selectedNodePath)
             : this()
@@ -73,25 +70,6 @@ namespace Vanilla.Navigator.WinForm
             this.ucConfiguration.Dock = DockStyle.Fill;
             this.ucRegister.Dock = DockStyle.Fill;
         }
-
-        //public TreeNode CreateTreeNodes(Vanilla.Utility.Facade.Artifact.Dto node)
-        //{
-        //    TreeNode treeNode = new TreeNode(node.FileName)
-        //    {
-        //        Tag = node,
-        //    };
-        //    if (node.Children != null && node.Children.Count > 0)
-        //    {
-        //        foreach (Vanilla.Utility.Facade.Artifact.Dto child in node.Children)
-        //        {
-        //            if (child.Style == Vanilla.Utility.Facade.Artifact.Type.Directory)
-        //            {
-        //                treeNode.Nodes.Add(this.CreateTreeNodes(child));
-        //            }
-        //        }
-        //    }
-        //    return treeNode;
-        //}
 
         private void Container_Resize(object sender, EventArgs e)
         {
@@ -152,67 +130,51 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion
 
-        //private TreeView CopyNodes(TreeView fromTreeView, TreeView toTreeView)
+        //#region ListView Context menu events
+
+        //private void lstViewContainer_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
         //{
-        //    TreeNode[] myTreeNodeArray = new TreeNode[fromTreeView.Nodes.Count];
+        //    //foreach (ListViewItem lstItem in (sender as ListView).Items)
+        //    //{
+        //    //    lstItem.BackColor = System.Drawing.Color.FromArgb(255, 255, 255, 255);
+        //    //}
 
-        //    // Copy the tree nodes to the 'myTreeNodeArray' array.
-        //    fromTreeView.Nodes.CopyTo(myTreeNodeArray, 0);
-
-        //    // Remove all the tree nodes from the 'myTreeViewBase' TreeView.
-        //    fromTreeView.Nodes.Clear();
-
-        //    // Add the 'myTreeNodeArray' to the 'myTreeViewCustom' TreeView.
-        //    toTreeView.Nodes.AddRange(myTreeNodeArray);
-
-        //    return toTreeView;
+        //    //e.Item.BackColor = System.Drawing.Color.LightBlue;
         //}
 
-        #region ListView Context menu events
+        //private void ListViewFolder_Click(object sender, EventArgs e)
+        //{
+        //    //throw new NotImplementedException();
+        //}
 
-        private void lstViewContainer_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
-        {
-            //foreach (ListViewItem lstItem in (sender as ListView).Items)
-            //{
-            //    lstItem.BackColor = System.Drawing.Color.FromArgb(255, 255, 255, 255);
-            //}
+        //private void ListViewDocument_Click(object sender, EventArgs e)
+        //{
+        //    //throw new NotImplementedException();
+        //}
 
-            //e.Item.BackColor = System.Drawing.Color.LightBlue;
-        }
+        //private void ListViewDelete_Click(object sender, EventArgs e)
+        //{
+        //    //ListViewItem selectedItem = lsvContainer.SelectedItems[0];
+        //    //if (selectedItem != null)
+        //    //{
+        //    //    Facade.Artifact.Dto artifactDto = selectedItem.Tag as Facade.Artifact.Dto;
 
-        private void ListViewFolder_Click(object sender, EventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
+        //    //}
+        //}
 
-        private void ListViewDocument_Click(object sender, EventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
+        //#endregion
 
-        private void ListViewDelete_Click(object sender, EventArgs e)
-        {
-            //ListViewItem selectedItem = lsvContainer.SelectedItems[0];
-            //if (selectedItem != null)
-            //{
-            //    Facade.Artifact.Dto artifactDto = selectedItem.Tag as Facade.Artifact.Dto;
+        //#region Tree related Events and methods
 
-            //}
-        }
+        //private void TreeNodeMouseDown(TreeNode node)
+        //{
+        //    //Vanilla.Navigator.Facade.Artifact.Dto dtoArtifact = node.Tag as Vanilla.Navigator.Facade.Artifact.Dto;
+        //    //String filename = dtoArtifact.FileName;
+        //}
 
-        #endregion
+        //#endregion
 
-        #region Tree related Events and methods
-
-        private void TreeNodeMouseDown(TreeNode node)
-        {
-            //Vanilla.Navigator.Facade.Artifact.Dto dtoArtifact = node.Tag as Vanilla.Navigator.Facade.Artifact.Dto;
-            //String filename = dtoArtifact.FileName;
-        }
-
-        #endregion
-
-        #region ContextMenu Events and methods
+        //#region ContextMenu Events and methods
 
         //private void addDirectory_Click(object sender, EventArgs e)
         //{
@@ -275,7 +237,7 @@ namespace Vanilla.Navigator.WinForm
         //    }
         //}
 
-        #endregion
+        //#endregion
 
         #region Menu Management
 
@@ -579,35 +541,35 @@ namespace Vanilla.Navigator.WinForm
 
         }
 
-        /// <summary>
-        /// Attach parent to new node  and instantiate path with parent path
-        /// </summary>
-        /// <param name="parent"></param>
-        private void AttachNodes(BinAff.Facade.Library.Dto parent, Vanilla.Utility.Facade.Artifact.Dto child)
-        {
-            Vanilla.Utility.Facade.Artifact.Dto parentDto;
-            if (parent.GetType().ToString() == "Vanilla.Utility.Facade.Module.Dto") //Adding to module
-            {
-                parentDto = (parent as Vanilla.Utility.Facade.Module.Dto).Artifact;
-            }
-            else
-            {
-                parentDto = parent as Vanilla.Utility.Facade.Artifact.Dto;
-                child.Parent = parent;
-            }
-            if (parentDto.Children == null) parentDto.Children = new List<Vanilla.Utility.Facade.Artifact.Dto>();
-            parentDto.Children.Add(child);
-            child.Path = parentDto.Path;
-        }
+        ///// <summary>
+        ///// Attach parent to new node  and instantiate path with parent path
+        ///// </summary>
+        ///// <param name="parent"></param>
+        //private void AttachNodes(BinAff.Facade.Library.Dto parent, Vanilla.Utility.Facade.Artifact.Dto child)
+        //{
+        //    Vanilla.Utility.Facade.Artifact.Dto parentDto;
+        //    if (parent.GetType().ToString() == "Vanilla.Utility.Facade.Module.Dto") //Adding to module
+        //    {
+        //        parentDto = (parent as Vanilla.Utility.Facade.Module.Dto).Artifact;
+        //    }
+        //    else
+        //    {
+        //        parentDto = parent as Vanilla.Utility.Facade.Artifact.Dto;
+        //        child.Parent = parent;
+        //    }
+        //    if (parentDto.Children == null) parentDto.Children = new List<Vanilla.Utility.Facade.Artifact.Dto>();
+        //    parentDto.Children.Add(child);
+        //    child.Path = parentDto.Path;
+        //}
 
-        private ListViewItem CreateNewListViewItem(String name, Int32 imageIndex)
-        {
-            return new ListViewItem
-            {
-                Text = name,
-                ImageIndex = imageIndex,
-            };
-        }
+        //private ListViewItem CreateNewListViewItem(String name, Int32 imageIndex)
+        //{
+        //    return new ListViewItem
+        //    {
+        //        Text = name,
+        //        ImageIndex = imageIndex,
+        //    };
+        //}
 
         #region Tool Box
 
@@ -1601,6 +1563,41 @@ namespace Vanilla.Navigator.WinForm
 
         //#endregion
 
+        //public TreeNode CreateTreeNodes(Vanilla.Utility.Facade.Artifact.Dto node)
+        //{
+        //    TreeNode treeNode = new TreeNode(node.FileName)
+        //    {
+        //        Tag = node,
+        //    };
+        //    if (node.Children != null && node.Children.Count > 0)
+        //    {
+        //        foreach (Vanilla.Utility.Facade.Artifact.Dto child in node.Children)
+        //        {
+        //            if (child.Style == Vanilla.Utility.Facade.Artifact.Type.Directory)
+        //            {
+        //                treeNode.Nodes.Add(this.CreateTreeNodes(child));
+        //            }
+        //        }
+        //    }
+        //    return treeNode;
+        //}
+
+        //private TreeView CopyNodes(TreeView fromTreeView, TreeView toTreeView)
+        //{
+        //    TreeNode[] myTreeNodeArray = new TreeNode[fromTreeView.Nodes.Count];
+
+        //    // Copy the tree nodes to the 'myTreeNodeArray' array.
+        //    fromTreeView.Nodes.CopyTo(myTreeNodeArray, 0);
+
+        //    // Remove all the tree nodes from the 'myTreeViewBase' TreeView.
+        //    fromTreeView.Nodes.Clear();
+
+        //    // Add the 'myTreeNodeArray' to the 'myTreeViewCustom' TreeView.
+        //    toTreeView.Nodes.AddRange(myTreeNodeArray);
+
+        //    return toTreeView;
+        //}
+
         #endregion
 
     }
@@ -1621,9 +1618,6 @@ namespace Vanilla.Navigator.WinForm
  * 
  * Copyright (C) 2005, Tyron Madlener <mytodo@v-cm.net>
  */
-
-
-
 
 //namespace TyronM
 //{
