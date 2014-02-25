@@ -259,10 +259,10 @@ namespace AutoTourism.Customer.WinForm
 
         private void Register()
         {
-            new CustomerForm
-            {
-                MdiParent = this.MdiParent,
-            }.Show();
+            //new CustomerForm
+            //{
+            //    MdiParent = this.MdiParent,
+            //}.Show();
         }
 
         //private void View()

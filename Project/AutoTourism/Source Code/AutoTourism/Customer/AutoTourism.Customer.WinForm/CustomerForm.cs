@@ -23,6 +23,7 @@ namespace AutoTourism.Customer.WinForm
         private CustomerFacade.FormDto formDto;
         private ConfigurationRuleFacade.CustomerRuleDto customerRule;
         private Boolean isLoadedFromRoomReservationForm = false;
+        private System.Windows.Forms.TreeView trvForm;
 
         #region Rule property
 
@@ -88,10 +89,11 @@ namespace AutoTourism.Customer.WinForm
 
         #region Constructor
 
-        public CustomerForm()
+        public CustomerForm(System.Windows.Forms.TreeView trvForm)
         {
             InitializeComponent();
             this.isLoadedFromRoomReservationForm = true;
+            this.trvForm = trvForm;
         }
       
         public CustomerForm(CustomerFacade.Dto dto)
@@ -302,6 +304,7 @@ namespace AutoTourism.Customer.WinForm
             }
 
             this.txtArtifactPath.ReadOnly = true;
+          
             if (this.isLoadedFromRoomReservationForm)
                 this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("CUST", this.formDto.ModuleFormDto.FormModuleList, "Form");
             else
@@ -453,14 +456,14 @@ namespace AutoTourism.Customer.WinForm
                 };
 
                 BinAff.Facade.Library.Server facade = new CustomerFacade.Server(formDto);
-                if (formDto.Dto.Id == 0)
-                {
-                    facade.Add();
-                }
-                else
-                {
-                    facade.Change();
-                }
+                //if (formDto.Dto.Id == 0)
+                //{
+                //    facade.Add();
+                //}
+                //else
+                //{
+                //    facade.Change();
+                //}
 
                 if (this.isLoadedFromRoomReservationForm)
                     this.Tag = this.dto;                
@@ -481,13 +484,34 @@ namespace AutoTourism.Customer.WinForm
         private Boolean SaveArtifact()
         {
             this.dto.ArtifactPath = this.txtArtifactPath.Text;
+            String pathSeparator = new Vanilla.Utility.Facade.Rule.Server(null).ReadRule().PathSeperator;
+            String[] arrArtifactPath = this.txtArtifactPath.Text.ToString().Split(Convert.ToChar(pathSeparator));
+            this.dto.fileName = arrArtifactPath[arrArtifactPath.Length-1].ToString();
+            
             Table CreatedBy = new Table
             {
                 Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
                 Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
             };
 
-            new CustomerFacade.Server(this.formDto).SaveArtifactForCustomer(this.dto, CreatedBy);
+            
+
+            //new CustomerFacade.Server(this.formDto).SaveArtifactForCustomer(this.dto, CreatedBy);
+
+            //-Add artifact to customer node                    
+            Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto 
+            { 
+                Category = Vanilla.Utility.Facade.Artifact.Category.Form,
+                CreatedAt = DateTime.Now,
+                CreatedBy = CreatedBy,
+                FileName = this.dto.fileName,
+                Style = Vanilla.Utility.Facade.Artifact.Type.Document,
+                Version = 1,                
+                Module = this.dto
+            };
+            (this.trvForm.Nodes[0].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children.Add(artifactDto);
+            artifactDto.Parent = this.trvForm.Nodes[0].Tag as Vanilla.Utility.Facade.Module.Dto;
+
             return true;
         }
 
