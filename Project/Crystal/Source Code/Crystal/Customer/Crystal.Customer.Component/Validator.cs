@@ -115,38 +115,61 @@ namespace Crystal.Customer.Component
             List<Int64> duplicateIdList = new Dao(data).ReadDuplicate();
             if (duplicateIdList != null && duplicateIdList.Count > 0)
             {
-                ret.Append("Customer with similar information exists. Customer list:\r\n");
-                Data d;
-                foreach (Int64 id in duplicateIdList)
-                {
-                    d = new Data { Id = id };
-                    ICrud server = this.Server;
-                    server.Read();
-                    ret.Append(d.FirstName + ":: ");
-                    if (!String.IsNullOrEmpty(d.Email) && String.Compare(d.Email, data.Email, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        ret.Append("Email: '" + d.Email + "' ");
-                    }
-                    if (d.IdentityProofType != null && d.IdentityProofType.Id != 0 && d.IdentityProofType.Id == data.IdentityProofType.Id && String.Compare(d.IdentityProof, data.IdentityProof, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        ret.Append("Identity: '" + d.IdentityProofType.Name + " " + d.IdentityProof + "' ");
-                    }
-                    //Int32 len = d.ContactNumberList.Count;
-                    Boolean isFirst = true;
-                    if (d.ContactNumberList != null)
-                    {
-                        foreach (ContactNumber.Data phone in d.ContactNumberList)
-                        {
-                            String phoneNumber = phone.ContactNumber;
-                            if (data.ContactNumberList.Exists((p) => p.ContactNumber == phoneNumber))
-                            {
-                                if (isFirst) { ret.Append("Matching contact number: "); isFirst = false; }
-                                ret.Append("'" + phoneNumber + "' ");
-                            }
-                        }
-                    }
-                    ret.Append("\r\n");
-                }
+                ret.Append("Customer with similar information exists. Customer Info:\r\n");
+
+                Int64 customerId = this.Data.Id; 
+                this.Data.Id = duplicateIdList[0];
+                ICrud server = this.Server;
+                server.Read();
+
+                //reset customer id
+                this.Data.Id = customerId;
+
+                Crystal.Customer.Component.Data customer = this.Data as Crystal.Customer.Component.Data;
+                String customerName = customer.FirstName;
+                ret.Append("Name: " + customerName + "\r\n");
+
+                if (customer.Email != String.Empty)                
+                    ret.Append("Email: " + customer.Email + "\r\n");
+                
+                if(customer.ContactNumberList != null && customer.ContactNumberList.Count > 0)
+                    ret.Append("Contact Number: " + this.GetContactNumber(customer.ContactNumberList) + "\r\n");
+
+                if(customer.IdentityProofType != null && customer.IdentityProofType.Name != string.Empty && customer.IdentityProof != String.Empty)
+                    ret.Append("Identity Proof: " + customer.IdentityProofType.Name + " - " + customer.IdentityProof);
+
+                
+                //Data d;
+                //foreach (Int64 id in duplicateIdList)
+                //{
+                //    d = new Data { Id = id };                    
+                //    ICrud server = this.Server;
+                //    server.Read();
+                //    ret.Append(d.FirstName + ":: ");
+                //    if (!String.IsNullOrEmpty(d.Email) && String.Compare(d.Email, data.Email, StringComparison.OrdinalIgnoreCase) == 0)
+                //    {
+                //        ret.Append("Email: '" + d.Email + "' ");
+                //    }
+                //    if (d.IdentityProofType != null && d.IdentityProofType.Id != 0 && d.IdentityProofType.Id == data.IdentityProofType.Id && String.Compare(d.IdentityProof, data.IdentityProof, StringComparison.OrdinalIgnoreCase) == 0)
+                //    {
+                //        ret.Append("Identity: '" + d.IdentityProofType.Name + " " + d.IdentityProof + "' ");
+                //    }
+                //    //Int32 len = d.ContactNumberList.Count;
+                //    Boolean isFirst = true;
+                //    if (d.ContactNumberList != null)
+                //    {
+                //        foreach (ContactNumber.Data phone in d.ContactNumberList)
+                //        {
+                //            String phoneNumber = phone.ContactNumber;
+                //            if (data.ContactNumberList.Exists((p) => p.ContactNumber == phoneNumber))
+                //            {
+                //                if (isFirst) { ret.Append("Matching contact number: "); isFirst = false; }
+                //                ret.Append("'" + phoneNumber + "' ");
+                //            }
+                //        }
+                //    }
+                //    ret.Append("\r\n");
+                //}
             }
 
             return ret.ToString();
@@ -222,6 +245,16 @@ namespace Crystal.Customer.Component
                 }
             }
             return true;
+        }
+
+        private String GetContactNumber(List<Crystal.Customer.Component.ContactNumber.Data> contactNumberList)
+        {
+            StringBuilder strbContactNumber = new StringBuilder();
+
+            foreach (Crystal.Customer.Component.ContactNumber.Data data in contactNumberList)
+                strbContactNumber.Append(data.ContactNumber + " ,");
+            
+            return strbContactNumber.ToString().Substring(0,strbContactNumber.ToString().Length -2);        
         }
 
     }
