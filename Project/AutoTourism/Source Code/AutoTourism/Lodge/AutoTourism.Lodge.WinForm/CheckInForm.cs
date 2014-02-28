@@ -67,7 +67,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.formDto.dto.reservationDto.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));
                 this.formDto.dto.reservationDto.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
                 this.formDto.dto.reservationDto.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>)[this.cboType.SelectedIndex].Id };
-                this.formDto.dto.reservationDto.IsAC = this.chkIsAC.Checked;
+                //this.formDto.dto.reservationDto.IsAC = this.chkIsAC.Checked;
                 this.formDto.dto.reservationDto.RoomList = (List<LodgeConfigurationFacade.Room.Dto>)cmbCheckInRoom.DataSource;
 
                 BinAff.Facade.Library.Server facade = new LodgeFacade.CheckIn.CheckInServer(formDto);
@@ -387,7 +387,7 @@ namespace AutoTourism.Lodge.WinForm
             txtPersons.Text = this.formDto.dto.reservationDto.NoOfPersons.ToString();
             txtRooms.Text = this.formDto.dto.reservationDto.NoOfRooms.ToString();
             txtAdvance.Text = this.formDto.dto.reservationDto.Advance == 0 ? String.Empty : this.formDto.dto.reservationDto.Advance.ToString();
-            chkIsAC.Checked = this.formDto.dto.reservationDto.IsAC;
+            //chkIsAC.Checked = this.formDto.dto.reservationDto.IsAC;
 
             if (this.formDto.dto.reservationDto.RoomCategory != null && this.formDto.dto.reservationDto.RoomCategory.Id > 0)
             {
@@ -555,7 +555,7 @@ namespace AutoTourism.Lodge.WinForm
                     Advance = roomReservationRegisterDto.Advance,
                     RoomCategory = roomReservationRegisterDto.RoomCategory,
                     RoomType = roomReservationRegisterDto.RoomType,
-                    IsAC = roomReservationRegisterDto.IsAC,
+                    //IsAC = roomReservationRegisterDto.IsAC,
                     RoomList = roomReservationRegisterDto.RoomList,
                     BookingFrom = roomReservationRegisterDto.BookingFrom,
                     Customer = roomReservationRegisterDto.Customer

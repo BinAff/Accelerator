@@ -38,13 +38,13 @@ namespace Crystal.Lodge.Component.Room.Reservation
             base.AddInParameter("@Description", DbType.String, ((Data)this.Data).Description);
             base.AddInParameter("@Advance", DbType.Double, ((Data)this.Data).Advance);
 
-            if (((Data)this.Data).RoomCategory != null)
+            if (((Data)this.Data).RoomCategory != null && ((Data)this.Data).RoomCategory.Id > 0)
                 base.AddInParameter("@RoomCategoryId", DbType.Int64,((Data)this.Data).RoomCategory.Id);
 
-            if (((Data)this.Data).RoomType != null)
+            if (((Data)this.Data).RoomType != null && ((Data)this.Data).RoomType.Id > 0)
                 base.AddInParameter("@RoomTypeId", DbType.Int64, ((Data)this.Data).RoomType.Id);
 
-            base.AddInParameter("@IsAC", DbType.Boolean, ((Data)this.Data).IsAC);
+            base.AddInParameter("@ACPreference", DbType.Int16, ((Data)this.Data).ACPreference);
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
@@ -63,8 +63,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
             dt.IsCheckedIn = Convert.ToBoolean(dr["IsCheckedIn"]);
             dt.RoomCategory = Convert.IsDBNull(dr["RoomCategoryId"]) ? null : new Category.Data { Id = Convert.ToInt64(dr["RoomCategoryId"]) };
             dt.RoomType = Convert.IsDBNull(dr["RoomTypeId"]) ? null : new Type.Data { Id = Convert.ToInt64(dr["RoomTypeId"]) };
-            dt.IsAC = Convert.IsDBNull(dr["IsAcRoom"]) ? false : Convert.ToBoolean(dr["IsAcRoom"]);
-                
+            dt.ACPreference = Convert.IsDBNull(dr["AcRoomPreference"]) ? 0 :  Convert.ToInt32(dr["AcRoomPreference"]) ;            
 
             return dt;
         }

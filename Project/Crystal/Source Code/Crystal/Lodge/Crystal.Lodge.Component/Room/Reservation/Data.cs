@@ -15,7 +15,8 @@ namespace Crystal.Lodge.Component.Room.Reservation
 
         public Category.Data RoomCategory { get; set; }
         public Room.Type.Data RoomType { get; set; }
-        public Boolean IsAC { get; set; }
+        //public Boolean IsAC { get; set; }
+        public Int32 ACPreference { get; set; }
     }
 
 }

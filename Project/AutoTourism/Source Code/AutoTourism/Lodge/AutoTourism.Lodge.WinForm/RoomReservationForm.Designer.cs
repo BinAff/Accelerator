@@ -56,7 +56,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblType = new System.Windows.Forms.Label();
             this.lblCategory = new System.Windows.Forms.Label();
-            this.chkIsAC = new System.Windows.Forms.CheckBox();
             this.cboType = new System.Windows.Forms.ComboBox();
             this.cboCategory = new System.Windows.Forms.ComboBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
@@ -70,6 +69,8 @@
             this.lblFilePath = new System.Windows.Forms.Label();
             this.txtArtifactPath = new System.Windows.Forms.TextBox();
             this.btnBrowse = new System.Windows.Forms.Button();
+            this.cboAC = new System.Windows.Forms.ComboBox();
+            this.lblAC = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -199,6 +200,7 @@
             this.dtFrom.Name = "dtFrom";
             this.dtFrom.Size = new System.Drawing.Size(108, 20);
             this.dtFrom.TabIndex = 1;
+            this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
             // 
             // txtDays
             // 
@@ -208,6 +210,7 @@
             this.txtDays.Name = "txtDays";
             this.txtDays.Size = new System.Drawing.Size(32, 20);
             this.txtDays.TabIndex = 3;
+            this.txtDays.TextChanged += new System.EventHandler(this.txtDays_TextChanged);
             // 
             // label2
             // 
@@ -347,22 +350,11 @@
             this.lblCategory.TabIndex = 95;
             this.lblCategory.Text = "Category";
             // 
-            // chkIsAC
-            // 
-            this.chkIsAC.AutoSize = true;
-            this.chkIsAC.Location = new System.Drawing.Point(299, 170);
-            this.chkIsAC.Name = "chkIsAC";
-            this.chkIsAC.Size = new System.Drawing.Size(97, 17);
-            this.chkIsAC.TabIndex = 94;
-            this.chkIsAC.Text = "Air Conditioned";
-            this.chkIsAC.UseVisualStyleBackColor = true;
-            this.chkIsAC.CheckedChanged += new System.EventHandler(this.chkIsAC_CheckedChanged);
-            // 
             // cboType
             // 
             this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboType.FormattingEnabled = true;
-            this.cboType.Location = new System.Drawing.Point(371, 143);
+            this.cboType.Location = new System.Drawing.Point(390, 143);
             this.cboType.Name = "cboType";
             this.cboType.Size = new System.Drawing.Size(188, 21);
             this.cboType.TabIndex = 93;
@@ -372,7 +364,7 @@
             // 
             this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCategory.FormattingEnabled = true;
-            this.cboCategory.Location = new System.Drawing.Point(371, 119);
+            this.cboCategory.Location = new System.Drawing.Point(390, 119);
             this.cboCategory.Name = "cboCategory";
             this.cboCategory.Size = new System.Drawing.Size(188, 21);
             this.cboCategory.TabIndex = 92;
@@ -475,11 +467,34 @@
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
             // 
+            // cboAC
+            // 
+            this.cboAC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboAC.FormattingEnabled = true;
+            this.cboAC.Items.AddRange(new object[] {
+            "All"});
+            this.cboAC.Location = new System.Drawing.Point(390, 166);
+            this.cboAC.Name = "cboAC";
+            this.cboAC.Size = new System.Drawing.Size(108, 21);
+            this.cboAC.TabIndex = 104;
+            this.cboAC.SelectedIndexChanged += new System.EventHandler(this.cboAC_SelectedIndexChanged);
+            // 
+            // lblAC
+            // 
+            this.lblAC.AutoSize = true;
+            this.lblAC.Location = new System.Drawing.Point(296, 171);
+            this.lblAC.Name = "lblAC";
+            this.lblAC.Size = new System.Drawing.Size(76, 13);
+            this.lblAC.TabIndex = 105;
+            this.lblAC.Text = "AC Preference";
+            // 
             // RoomReservationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(692, 381);
+            this.Controls.Add(this.lblAC);
+            this.Controls.Add(this.cboAC);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.txtArtifactPath);
             this.Controls.Add(this.lblFilePath);
@@ -487,7 +502,6 @@
             this.Controls.Add(this.btnAddCustomer);
             this.Controls.Add(this.lblCategory);
             this.Controls.Add(this.btnPickCustomer);
-            this.Controls.Add(this.chkIsAC);
             this.Controls.Add(this.txtReservationStatus);
             this.Controls.Add(this.cboType);
             this.Controls.Add(this.lblReservationStatus);
@@ -553,7 +567,6 @@
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnCancelOpen;
-        private System.Windows.Forms.CheckBox chkIsAC;
         private System.Windows.Forms.ComboBox cboType;
         private System.Windows.Forms.ComboBox cboCategory;
         private System.Windows.Forms.Label lblCategory;
@@ -564,5 +577,7 @@
         private System.Windows.Forms.TextBox txtArtifactPath;
         private System.Windows.Forms.Label lblFilePath;
         private System.Windows.Forms.Button btnBrowse;
+        private System.Windows.Forms.ComboBox cboAC;
+        private System.Windows.Forms.Label lblAC;
     }
 }

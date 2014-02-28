@@ -281,7 +281,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                     RoomList = reservation.ProductList == null ? null : new LodgeFacade.RoomReservation.ReservationServer(null).GetRoomDtoList(reservation.ProductList),
                     RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
                     RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id },
-                    IsAC = reservation.IsAC,
+                    ACPreference = reservation.ACPreference,
                     BookingDate = reservation.Date,
                     Customer = new LodgeFacade.RoomReservation.ReservationServer(null).GetCustomerDtoForReservation(reservation.Id)
                 }
