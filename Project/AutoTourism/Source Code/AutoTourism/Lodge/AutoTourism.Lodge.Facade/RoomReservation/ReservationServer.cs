@@ -64,7 +64,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList),
                 RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
                 RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id },
-                IsAC = reservation.IsAC,
+                //IsAC = reservation.IsAC,
+                ACPreference = reservation.ACPreference,
                 BookingDate = reservation.Date,
                 isCheckedIn = reservation.IsCheckedIn
             };
@@ -90,7 +91,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 Description = String.Empty,//description will be added later if required
                 RoomCategory = reservation.RoomCategory == null ? null : new CrystalLodge.Room.Category.Data { Id = reservation.RoomCategory.Id },
                 RoomType = reservation.RoomType == null ? null : new CrystalLodge.Room.Type.Data { Id = reservation.RoomType.Id },
-                IsAC = reservation.IsAC
+                ACPreference = reservation.ACPreference
             };
         }
 
@@ -315,6 +316,31 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             Vanilla.Utility.Facade.Module.Server moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto);
             moduleFacade.Add();
                        
+        }
+        
+        ReturnObject<List<LodgeConfigurationFacade.Room.Dto>> IReservation.GetBookedRooms(DateTime startDate, DateTime endDate)
+        {
+            Crystal.Customer.Component.Action.IAction reservation = new Crystal.Lodge.Component.Room.Reservation.Server(null);
+            ReturnObject<List<Crystal.Customer.Component.Action.Data>> ret = reservation.Search(new Crystal.Customer.Component.Action.Status.Data { Id = System.Convert.ToInt64(RoomStatus.Open) }, startDate, endDate);
+
+            List<LodgeConfigurationFacade.Room.Dto> lstRoomDto = new List<LodgeConfigurationFacade.Room.Dto>();
+
+            if (ret.Value != null)
+            {
+                foreach (Crystal.Customer.Component.Action.Data roomData in ret.Value)
+                {
+                    if (roomData.ProductList != null && roomData.ProductList.Count > 0)
+                    {
+                        foreach(CrystalLodge.Room.Data data in roomData.ProductList)
+                            lstRoomDto.Add(new LodgeConfigurationFacade.Room.Dto { Id = data.Id });
+                    }
+                }
+            }
+
+            return new ReturnObject<List<LodgeConfigurationFacade.Room.Dto>>
+            {
+                Value = lstRoomDto
+            };
         }
 
         //-- RoomStaus ID is mapped with database table RoomReservationStatus

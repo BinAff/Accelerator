@@ -72,7 +72,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
                 RoomList = reservation.RoomList,
                 RoomCategory = reservation.RoomCategory,
                 RoomType = reservation.RoomType,
-                IsAC = reservation.IsAC,
+                ACPreference = reservation.ACPreference,
                 BookingDate = reservation.BookingDate,
                 Room = reservation.RoomList == null ? String.Empty : this.GetRooms(reservation.RoomList)
             };

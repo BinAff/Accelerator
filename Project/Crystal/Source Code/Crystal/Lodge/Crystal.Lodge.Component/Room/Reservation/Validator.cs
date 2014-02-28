@@ -32,34 +32,36 @@ namespace Crystal.Lodge.Component.Room.Reservation
                 retMsg.Add(new Message("No of rooms cannot be 0.", Message.Type.Error));
 
 
-            //If rooms are selected for reservation, then checking whether any of the selected rooms are already booked for the same dates
-            if (data.ProductList != null)
-            {
-                DateTime startDate = data.ActivityDate;
-                DateTime endDate = startDate.AddDays(data.NoOfDays);                
+            ////If rooms are selected for reservation, then checking whether any of the selected rooms are already booked for the same dates
+            //if (data.ProductList != null)
+            //{
+            //    DateTime startDate = data.ActivityDate;
+            //    DateTime endDate = startDate.AddDays(data.NoOfDays);
 
-                Customer.Component.Action.IAction reservation = new Room.Reservation.Server(null);
-                ReturnObject<List<Customer.Component.Action.Data>> ret = reservation.Search(data.Status, startDate, endDate);
-                
-                if (ret != null && ret.Value.Count > 0) {
-                    foreach (Crystal.Lodge.Component.Room.Data productData in data.ProductList) {
-                        foreach (Crystal.Lodge.Component.Room.Reservation.Data roomReservationData in ret.Value)
-                        {
-                            if (roomReservationData.ProductList != null && roomReservationData.ProductList.Count > 0)
-                            {
-                                foreach (Crystal.Lodge.Component.Room.Data roomtData in roomReservationData.ProductList)
-                                {
-                                    if (productData.Id == roomtData.Id && data.Id != roomReservationData.Id)
-                                    {
-                                        String msg = "Room No: " + roomtData.Number + " is booked from " + roomReservationData.ActivityDate.ToShortDateString() + " to " + roomReservationData.ActivityDate.AddDays(roomReservationData.NoOfDays).ToShortDateString();
-                                        retMsg.Add(new Message(msg, Message.Type.Error));
-                                    }
-                                }
-                            }                            
-                        }
-                    }
-                }
-            }
+            //    Customer.Component.Action.IAction reservation = new Room.Reservation.Server(null);
+            //    ReturnObject<List<Customer.Component.Action.Data>> ret = reservation.Search(data.Status, startDate, endDate);
+
+            //    if (ret != null && ret.Value.Count > 0)
+            //    {
+            //        foreach (Crystal.Lodge.Component.Room.Data productData in data.ProductList)
+            //        {
+            //            foreach (Crystal.Lodge.Component.Room.Reservation.Data roomReservationData in ret.Value)
+            //            {
+            //                if (roomReservationData.ProductList != null && roomReservationData.ProductList.Count > 0)
+            //                {
+            //                    foreach (Crystal.Lodge.Component.Room.Data roomtData in roomReservationData.ProductList)
+            //                    {
+            //                        if (productData.Id == roomtData.Id && data.Id != roomReservationData.Id)
+            //                        {
+            //                            String msg = "Room No: " + roomtData.Number + " is booked from " + roomReservationData.ActivityDate.ToShortDateString() + " to " + roomReservationData.ActivityDate.AddDays(roomReservationData.NoOfDays).ToShortDateString();
+            //                            retMsg.Add(new Message(msg, Message.Type.Error));
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
            
             return retMsg;
         }

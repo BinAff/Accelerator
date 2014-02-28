@@ -24,6 +24,7 @@ namespace AutoTourism.Customer.WinForm
         private ConfigurationRuleFacade.CustomerRuleDto customerRule;
         private Boolean isLoadedFromRoomReservationForm = false;
         private System.Windows.Forms.TreeView trvForm;
+        private CustomerFacade.Dto refreshDto;
 
         #region Rule property
 
@@ -99,10 +100,42 @@ namespace AutoTourism.Customer.WinForm
         public CustomerForm(CustomerFacade.Dto dto)
         {
             InitializeComponent();
-            this.dto = dto;  
+            this.dto = dto;
+
+            if (this.dto.Id > 0)
+            {
+                this.refreshDto = new CustomerFacade.Dto
+                {
+                    Initial = this.dto.Initial == null ? null : new Table
+                    {
+                        Id = this.dto.Initial.Id,
+                        Name = this.dto.Initial.Name
+                    },
+                    FirstName = this.dto.FirstName,
+                    MiddleName = this.dto.MiddleName,
+                    LastName = this.dto.LastName,
+                    Address = this.dto.Address,
+                    State = this.dto.State == null ? null : new Table
+                    {
+                        Id = this.dto.State.Id,
+                        Name = this.dto.State.Name
+                    },
+                    City = this.dto.City,
+                    Pin = this.dto.Pin,
+                    ContactNumberList = this.CloneContactNumber(this.dto.ContactNumberList),
+                    Email = this.dto.Email,
+                    IdentityProofType = this.dto.IdentityProofType == null ? null : new Table 
+                    {
+                        Id = this.dto.IdentityProofType.Id,
+                        Name = this.dto.IdentityProofType.Name
+                    },
+                    IdentityProofName = this.dto.IdentityProofName
+                };
+            }
         }
 
         #endregion
+
 
         private void SetMandatoryRule()
         {
@@ -628,9 +661,78 @@ namespace AutoTourism.Customer.WinForm
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
+            this.txtStd.Text = String.Empty;
+            this.txtLandLine.Text = String.Empty;
+            this.txtMobile.Text = String.Empty;
 
+            if (this.dto.Id > 0)
+                this.ResetLoad();
+            else
+                this.Clear();
         }
 
+        private void Clear()
+        {
+            this.dto = new CustomerFacade.Dto();
+            
+            this.cboInitial.SelectedIndex = -1;
+            this.txtFName.Text = String.Empty;
+            this.txtMName.Text = String.Empty;
+            this.txtLName.Text = String.Empty;
+            this.txtAdds.Text = String.Empty;
+            this.cboState.SelectedIndex = -1;
+            this.txtCity.Text = String.Empty;
+            this.txtPin.Text = String.Empty;           
+            this.lstContact.DataSource = null;
+            this.txtEmail.Text = String.Empty;
+            this.cboProofType.SelectedIndex = -1;
+            this.txtIdentityProofName.Text = String.Empty;
+        }
+
+        private void ResetLoad()
+        {            
+            this.dto.Initial = this.refreshDto.Initial == null ? null : new Table
+            {
+                Id = this.dto.Initial.Id,
+                Name = this.dto.Initial.Name
+            };
+            this.dto.FirstName = this.refreshDto.FirstName;
+            this.dto.MiddleName = this.refreshDto.MiddleName;
+            this.dto.LastName = this.refreshDto.LastName;
+            this.dto.Address = this.refreshDto.Address;
+            this.dto.State = this.refreshDto.State == null ? null : new Table
+            {
+                Id = this.refreshDto.State.Id,
+                Name = this.refreshDto.State.Name
+            };
+            this.dto.City = this.refreshDto.City;
+            this.dto.Pin = this.refreshDto.Pin;
+            this.dto.ContactNumberList = this.CloneContactNumber(this.refreshDto.ContactNumberList);
+            this.dto.Email = this.refreshDto.Email;
+            this.dto.IdentityProofType = this.refreshDto.IdentityProofType == null ? null : new Table
+            {
+                Id = this.refreshDto.IdentityProofType.Id,
+                Name = this.refreshDto.IdentityProofType.Name
+            };
+            this.dto.IdentityProofName = this.refreshDto.IdentityProofName;            
+
+            this.LoadCustomerData();
+        }
+
+        private List<Table> CloneContactNumber(List<Table> contactNumberList)
+        {
+            List<Table> lstContactNumber = new List<Table>();
+            foreach (Table contactNo in contactNumberList)
+            {
+                lstContactNumber.Add(new Table 
+                {
+                    Id = contactNo.Id,
+                    Name = contactNo.Name
+                });
+            }
+            return lstContactNumber;
+        }
+        
         private void btnOK_Click(object sender, EventArgs e)
         {
             if (this.SaveCustomerData())
