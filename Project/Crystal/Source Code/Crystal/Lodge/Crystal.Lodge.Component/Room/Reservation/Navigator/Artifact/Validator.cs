@@ -1,13 +1,13 @@
-﻿
-using System.Collections.Generic;
-using BinAff.Core;
+﻿using System.Collections.Generic;
 
-using CrystalNavigator = Crystal.Navigator.Component;
+using BinAff.Core;
 
 namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
 {
-    public class Validator : CrystalNavigator.Artifact.Validator
+
+    public class Validator : Crystal.Navigator.Component.Artifact.Validator
     {
+
         public Validator(Data data)
             : base(data)
         {
@@ -18,5 +18,7 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
         {
             return base.Validate();
         }
+
     }
+
 }

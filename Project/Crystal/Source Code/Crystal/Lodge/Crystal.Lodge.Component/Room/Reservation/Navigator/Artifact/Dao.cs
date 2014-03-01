@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Data;
 
-using CrystalNavigator = Crystal.Navigator.Component;
-
-
 namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
 {
-    public class Dao : CrystalNavigator.Artifact.Dao
+
+    public class Dao : Crystal.Navigator.Component.Artifact.Dao
     {
+
         private String DeleteArtifactLinkSPName;
 
         public Dao(Data data)
@@ -22,7 +21,7 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
             this.DeleteArtifactLinkSPName = "[Lodge].[DeleteReservationFormForArtifact]";
         }
 
-        protected override bool ReadBefore()
+        protected override Boolean ReadBefore()
         {
             base.CreateConnection();
             base.CreateCommand("[Lodge].[ReadReservationFormForArtifact]");
@@ -35,7 +34,7 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
             Int64 custId = Convert.IsDBNull(ds.Tables[0].Rows[0]["RoomReservationId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["RoomReservationId"]);
             if (custId > 0)
             {
-                (this.Data as Data).ModuleData = new Crystal.Lodge.Component.Room.Reservation.Data
+                (this.Data as Data).ModuleData = new Room.Reservation.Data
                 {
                     Id = custId
                 };
@@ -93,5 +92,7 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
             return status;
 
         }
+
     }
+
 }
