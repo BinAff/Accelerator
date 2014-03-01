@@ -1,10 +1,13 @@
-﻿using BinAff.Core;
-using CrystalNavigator = Crystal.Navigator.Component;
+﻿using System;
+
+using BinAff.Core;
 
 namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
 {
-    public class Server : CrystalNavigator.Artifact.Server
+
+    public class Server : Crystal.Navigator.Component.Artifact.Server
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -34,18 +37,23 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
         protected override BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData)
         {
             //Find out CheckIn data from CheckIn form
-            return new Crystal.Lodge.Component.Room.Reservation.Server(moduleData as Crystal.Lodge.Component.Room.Reservation.Data);
+            return new Room.Reservation.Server(moduleData as Room.Reservation.Data);
         }
 
-        protected override ReturnObject<bool> DeleteAfter()
+        protected override ReturnObject<Boolean> DeleteAfter()
         {
             if ((this.Data as Data).ModuleData != null && (this.Data as Data).ModuleData.Id > 0)
             {
-                ICrud crud = new Crystal.Lodge.Component.Room.Reservation.Server(new Crystal.Lodge.Component.Room.Reservation.Data() { Id = (this.Data as Data).ModuleData.Id });
+                ICrud crud = new Room.Reservation.Server(new Room.Reservation.Data
+                { 
+                    Id = (this.Data as Data).ModuleData.Id 
+                });
                 return crud.Delete();
             }
 
             return base.DeleteAfter();
         }
+
     }
+
 }
