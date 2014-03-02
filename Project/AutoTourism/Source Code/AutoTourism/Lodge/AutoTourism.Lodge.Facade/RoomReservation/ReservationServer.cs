@@ -307,8 +307,11 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 {
                     if (roomData.ProductList != null && roomData.ProductList.Count > 0)
                     {
-                        foreach(CrystalLodge.Room.Data data in roomData.ProductList)
-                            lstRoomDto.Add(new LodgeConfigurationFacade.Room.Dto { Id = data.Id });
+                        foreach (CrystalLodge.Room.Data data in roomData.ProductList)
+                        {
+                            if(data.Id > 0)
+                                lstRoomDto.Add(new LodgeConfigurationFacade.Room.Dto { Id = data.Id });
+                        }
                     }
                 }
             }
@@ -363,12 +366,17 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             ReturnObject<List<Crystal.Customer.Component.Action.Data>> ret = reservation.Search(new Crystal.Customer.Component.Action.Status.Data { Id = System.Convert.ToInt64(RoomStatus.Open) }, startDate, endDate);
 
             if (ret.Value != null && ret.Value.Count > 0)
-            {
-                List<Crystal.Customer.Component.Action.Data> actionList = this.RemoveDuplicateReservation(ret.Value);
-                foreach (CrystalLodge.Room.Reservation.Data reservationData in actionList)
+            {                        
+                foreach (Crystal.Customer.Component.Action.Data actionData in ret.Value)
                 {
-                    if (reservationData.Id != reservationId && ValidateRoomWithCategoryTypeAndACPreference(reservationData,categoryId,typeId,acPreference))
-                        retVal += reservationData.NoOfRooms;
+                    if (actionData.Id != reservationId && actionData.ProductList != null && actionData.ProductList.Count > 0)
+                    {
+                        foreach (CrystalLodge.Room.Data data in actionData.ProductList)
+                        {
+                            if(ValidateRoomWithCategoryTypeAndACPreference(data,categoryId,typeId,acPreference))
+                                retVal += 1;
+                        }
+                    }
                 }
             }
 
@@ -404,6 +412,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         private Boolean ValidateRoomWithCategoryTypeAndACPreference(LodgeConfigurationFacade.Room.Dto room, Int64 categoryId, Int64 typeId, Int32 acPreference)
         {
+            if (room.Id == 0)
+                return false;
+
             if (categoryId > 0 && categoryId != room.Category.Id)
                 return false;
 
@@ -414,6 +425,27 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             {
                 Boolean isAC = acPreference == 1 ? true : false;
                 if (isAC != room.IsAirconditioned)
+                    return false;
+            }
+
+            return true;
+        }
+
+        private Boolean ValidateRoomWithCategoryTypeAndACPreference(CrystalLodge.Room.Data room, Int64 categoryId, Int64 typeId, Int32 acPreference)
+        {
+            if (room.Id == 0)
+                return false;
+
+            if (categoryId > 0 && categoryId != room.Category.Id)
+                return false;
+
+            if (typeId > 0 && typeId != room.Type.Id)
+                return false;
+
+            if (acPreference > 0)
+            {
+                Boolean isAC = acPreference == 1 ? true : false;
+                if (isAC != room.IsAirConditioned)
                     return false;
             }
 
