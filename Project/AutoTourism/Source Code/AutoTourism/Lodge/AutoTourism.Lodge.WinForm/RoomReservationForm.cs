@@ -28,6 +28,10 @@ namespace AutoTourism.Lodge.WinForm
         private LodgeFacade.RoomReservation.Dto refreshDto;
         private List<LodgeConfigurationFacade.Room.Dto> bookedRooms;
 
+        private Int32 totalRooms = 0;
+        private Int32 totalBookings = 0;
+        private Int32 availableBookingCountWithCriteria = 0;
+
         public RoomReservationForm(System.Windows.Forms.TreeView trvForm)
         {
             InitializeComponent();
@@ -183,34 +187,31 @@ namespace AutoTourism.Lodge.WinForm
         private void cboCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.PopulateFilteredRoomList();
+            this.LoadRoomReservationStatusLevels();
         }
 
         private void cboType_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.PopulateFilteredRoomList();
+            this.LoadRoomReservationStatusLevels();
         }
 
         private void cboAC_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.PopulateFilteredRoomList();
+            this.LoadRoomReservationStatusLevels();
         }
 
         private void dtFrom_ValueChanged(object sender, EventArgs e)
-        {
-            //errorProvider.Clear();
-
-            //if (ValidationRule.IsDateLessThanToday(dtFrom.Value))
-            //{
-            //    errorProvider.SetError(dtFrom, "Booking date cannot be less than today.");
-            //    dtFrom.Focus();
-            //}
-
+        {           
             this.ValidateBookedRoomsAndPopulate();
+            this.LoadRoomReservationStatusLevels();
         }
 
         private void txtDays_TextChanged(object sender, EventArgs e)
         {
             this.ValidateBookedRoomsAndPopulate();
+            this.LoadRoomReservationStatusLevels();
         }
 
         private void LoadForm()
@@ -463,7 +464,7 @@ namespace AutoTourism.Lodge.WinForm
             {
                 foreach (LodgeConfigurationFacade.Room.Dto dto in (List<LodgeConfigurationFacade.Room.Dto>)cboRoom.DataSource)
                 {
-                    if (dto.Id < roomDto.Id)
+                    if (dto.Id < roomDto.Id || Include == true)
                         RoomList.Add(dto);
                     else
                     {
@@ -691,6 +692,12 @@ namespace AutoTourism.Lodge.WinForm
                 cboSelectedRoom.Focus();
                 return false;
             }
+            else if (Convert.ToInt32(txtRooms.Text.Trim()) > this.availableBookingCountWithCriteria)
+            {
+                errorProvider.SetError(txtRooms, "No of rooms cannot be greater than available rooms.");
+                cboSelectedRoom.Focus();
+                return false;
+            }
             else if (this.cboRoomList.DataSource == null && this.cboSelectedRoom.DataSource == null)
             {
                 errorProvider.SetError(cboRoomList, "No rooms available for booking.");
@@ -772,32 +779,33 @@ namespace AutoTourism.Lodge.WinForm
         }
 
         private Boolean ValidateRoom(LodgeConfigurationFacade.Room.Dto roomDto)
-        {
-            if (!this.isRoomBooked(roomDto))
-                return false;
+        {   
+            Int64 roomCategoryId = 0;
+            Int64 roomTypeId = 0;
+            Int32 acPreference = 0;
 
             if (this.cboCategory.SelectedIndex > 0)
-            { 
-              List<LodgeConfigurationFacade.Room.Category.Dto> lstCategory = this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>;
-              if (lstCategory[this.cboCategory.SelectedIndex].Id != roomDto.Category.Id)
-                  return false;
-            }            
+            {
+                List<LodgeConfigurationFacade.Room.Category.Dto> lstCategory = this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>;
+                roomCategoryId = lstCategory[this.cboCategory.SelectedIndex].Id;                    
+            }
 
             if (this.cboType.SelectedIndex > 0)
-            {                
+            {
                 List<LodgeConfigurationFacade.Room.Type.Dto> lstType = this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>;
-                if (lstType[this.cboType.SelectedIndex].Id != roomDto.Type.Id)
-                    return false;
-            }           
-            
-            if (this.cboAC.SelectedIndex > 0)
-            {                
-                List<Table> lstAC = this.cboAC.DataSource  as List<Table>;
-                Boolean isAC =  lstAC[this.cboAC.SelectedIndex].Id == 1 ? true : false;
-
-                if (isAC != roomDto.IsAirconditioned)
-                    return false;
+                roomTypeId = lstType[this.cboType.SelectedIndex].Id;
             }
+
+            acPreference = this.cboAC.SelectedIndex;
+
+            LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
+            Boolean isValidRoom = reservation.ValidateRoomWithCategoryTypeAndACPreference(roomDto, roomCategoryId, roomTypeId, acPreference);
+
+            if (!isValidRoom)
+                return false;           
+
+            if (!this.isRoomBooked(roomDto))
+                return false;
             
             return true;
 
@@ -805,7 +813,7 @@ namespace AutoTourism.Lodge.WinForm
 
         private Boolean isRoomBooked(LodgeConfigurationFacade.Room.Dto roomDto)
         {
-            if (ValidateForBookedRoomSearch())
+            if (isNoOfDaysExists())
             {
                 if (this.bookedRooms != null && this.bookedRooms.Count > 0)
                 {
@@ -840,7 +848,7 @@ namespace AutoTourism.Lodge.WinForm
         
         private void ValidateBookedRoomsAndPopulate()
         {
-            if (ValidateForBookedRoomSearch())
+            if (isNoOfDaysExists())
                 this.bookedRooms = this.GetBookedRoomListBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt16(txtDays.Text)));
             else
                 this.bookedRooms = null;
@@ -848,26 +856,12 @@ namespace AutoTourism.Lodge.WinForm
             this.PopulateFilteredRoomList();
         }
 
-        private Boolean ValidateForBookedRoomSearch()
-        {
-            //if (ValidationRule.IsDateLessThanToday(dtFrom.Value))
-            //{
-            //    //errorProvider.SetError(dtFrom, "Booking date cannot be less than today.");
-            //    //dtFrom.Focus();
-            //    return false;
-            //}
-            if (String.IsNullOrEmpty(txtDays.Text.Trim()))
-            {
-                //errorProvider.SetError(txtDays, "Please enter days.");
-                //txtDays.Focus();
+        private Boolean isNoOfDaysExists()
+        {            
+            if (String.IsNullOrEmpty(txtDays.Text.Trim()))           
+                return false;            
+            else if (!(new Regex(@"^[0-9]*$").IsMatch(txtDays.Text.Trim())))            
                 return false;
-            }
-            else if (!(new Regex(@"^[0-9]*$").IsMatch(txtDays.Text.Trim())))
-            {
-                //errorProvider.SetError(txtDays, "Entered " + txtDays.Text + " is Invalid.");
-                //txtDays.Focus();
-                return false;
-            }
 
             return true;
         }
@@ -937,6 +931,74 @@ namespace AutoTourism.Lodge.WinForm
                 });
 
             return lstRoom;
+        }
+
+        private void LoadRoomReservationStatusLevels()
+        {
+            Int64 roomCategoryId = 0;
+            Int64 roomTypeId = 0;
+            Int32 acPreference = 0;
+
+            if (this.cboCategory.SelectedIndex > 0)
+            {
+                List<LodgeConfigurationFacade.Room.Category.Dto> lstCategory = this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>;
+                roomCategoryId = lstCategory[this.cboCategory.SelectedIndex].Id;
+            }
+
+            if (this.cboType.SelectedIndex > 0)
+            {
+                List<LodgeConfigurationFacade.Room.Type.Dto> lstType = this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>;
+                roomTypeId = lstType[this.cboType.SelectedIndex].Id;
+            }
+
+            acPreference = this.cboAC.SelectedIndex;
+
+            int TotalRoomsWithMatchingCategoryTypeAndACPreference = 0;
+            int TotalRoomsBookedWithMatchingCategoryTypeAndACPreference = 0;
+            int AvailableRoomsCount = 0;
+
+            LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
+            List<LodgeConfigurationFacade.Room.Dto> filteredRoomList = new List<LodgeConfigurationFacade.Room.Dto>();
+
+            if (this.formDto.roomList != null && this.formDto.roomList.Count > 0)
+            { 
+                filteredRoomList = reservation.GetFilteredRoomsWithCategoryTypeAndACPreference(this.formDto.roomList, 0, 0, 0);
+                this.totalRooms = filteredRoomList.Count;
+                lblTotalRooms.Text = "Total Rooms : = " + filteredRoomList.Count.ToString();
+
+                filteredRoomList = reservation.GetFilteredRoomsWithCategoryTypeAndACPreference(this.formDto.roomList, roomCategoryId, roomTypeId, acPreference);
+                if (filteredRoomList != null)
+                    TotalRoomsWithMatchingCategoryTypeAndACPreference = filteredRoomList.Count;
+            }
+            lblTotalRoomCount.Text = "Total no of rooms for the selected category, type and AC preference = " + TotalRoomsWithMatchingCategoryTypeAndACPreference.ToString();
+
+            if (isNoOfDaysExists())
+            {
+                Int64 reservationId = this.dto == null ? 0 : this.dto.Id;
+                this.totalBookings = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, 0, 0, 0);
+                lblTotalBooking.Text = "Total Bookings between selected dates : = " + reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, 0, 0, 0).ToString();
+
+                TotalRoomsBookedWithMatchingCategoryTypeAndACPreference = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, roomCategoryId, roomTypeId, acPreference);
+                lblTotalBookedRoomCount.Text = "Total no of rooms booked for the selected category, type and AC preference from " +
+                    dtFrom.Value.ToShortDateString() + " and " + dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)).ToShortDateString() + " = " +
+                    TotalRoomsBookedWithMatchingCategoryTypeAndACPreference.ToString();
+
+                AvailableRoomsCount = TotalRoomsWithMatchingCategoryTypeAndACPreference - TotalRoomsBookedWithMatchingCategoryTypeAndACPreference;
+                Int32 totalAvailableRooms = this.totalRooms - this.totalBookings;                                
+                this.availableBookingCountWithCriteria = (AvailableRoomsCount > totalAvailableRooms) ? totalAvailableRooms : AvailableRoomsCount;
+
+                lblAvailableRooms.Text = "No of Rooms available for booking = " + this.availableBookingCountWithCriteria.ToString();
+
+                if (this.availableBookingCountWithCriteria == 0)
+                    this.cboRoomList.DataSource = null;
+                
+            }
+            else
+            {
+                lblTotalBookedRoomCount.Text = String.Empty;
+                lblAvailableRooms.Text = String.Empty;
+                this.availableBookingCountWithCriteria = 0;
+            }
         }
 
         public enum LodgeReservationStatus
