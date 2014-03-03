@@ -366,18 +366,25 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             ReturnObject<List<Crystal.Customer.Component.Action.Data>> ret = reservation.Search(new Crystal.Customer.Component.Action.Status.Data { Id = System.Convert.ToInt64(RoomStatus.Open) }, startDate, endDate);
 
             if (ret.Value != null && ret.Value.Count > 0)
-            {                        
-                foreach (Crystal.Customer.Component.Action.Data actionData in ret.Value)
+            {
+                List<Crystal.Customer.Component.Action.Data> actionList = this.RemoveDuplicateReservation(ret.Value);
+                foreach (CrystalLodge.Room.Reservation.Data reservationData in actionList)
                 {
-                    if (actionData.Id != reservationId && actionData.ProductList != null && actionData.ProductList.Count > 0)
-                    {
-                        foreach (CrystalLodge.Room.Data data in actionData.ProductList)
-                        {
-                            if(ValidateRoomWithCategoryTypeAndACPreference(data,categoryId,typeId,acPreference))
-                                retVal += 1;
-                        }
-                    }
+                    if (reservationData.Id != reservationId && ValidateRoomWithCategoryTypeAndACPreference(reservationData, categoryId, typeId, acPreference))
+                        retVal += reservationData.NoOfRooms;
                 }
+
+                //foreach (Crystal.Customer.Component.Action.Data actionData in ret.Value)
+                //{
+                //    if (actionData.Id != reservationId && actionData.ProductList != null && actionData.ProductList.Count > 0)
+                //    {
+                //        foreach (CrystalLodge.Room.Data data in actionData.ProductList)
+                //        {
+                //            if(ValidateRoomWithCategoryTypeAndACPreference(data,categoryId,typeId,acPreference))
+                //                retVal += 1;
+                //        }
+                //    }
+                //}
             }
 
             return retVal;      

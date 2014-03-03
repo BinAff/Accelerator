@@ -30,7 +30,7 @@ namespace AutoTourism.Lodge.WinForm
 
         private Int32 totalRooms = 0;
         private Int32 totalBookings = 0;
-        private Int32 availableBookingCountWithCriteria = 0;
+        private Int32 availableRooms = 0;
 
         public RoomReservationForm(System.Windows.Forms.TreeView trvForm)
         {
@@ -174,13 +174,23 @@ namespace AutoTourism.Lodge.WinForm
 
         private void btnCancelOpen_Click(object sender, EventArgs e)
         {
+            Boolean isOpenCancel = true;
+
             if (this.formDto != null && this.formDto.Dto != null)
             {
                 this.formDto.Dto.BookingStatusId = btnCancelOpen.Text == "Cancel" ? Convert.ToInt64(LodgeReservationStatus.cancel) : Convert.ToInt64(LodgeReservationStatus.open);
-                LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(this.formDto);
-                reservation.ChangeReservationStatus();
-                base.IsModified = true;
-                this.Close();
+
+                //validation required when re-opening a room
+                if (this.formDto.Dto.BookingStatusId == 10001 && !this.ValidateBooking())
+                    isOpenCancel = false;
+
+                if (isOpenCancel)
+                {
+                    LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(this.formDto);
+                    reservation.ChangeReservationStatus();
+                    base.IsModified = true;
+                    this.Close();
+                }                
             }
         }
 
@@ -273,6 +283,11 @@ namespace AutoTourism.Lodge.WinForm
             //disable the controls if the reservation is checked in
             if (this.formDto.Dto != null && this.formDto.Dto.isCheckedIn)
                 this.DisableFormControls();
+            else if (this.formDto.Dto.BookingStatusId == Convert.ToInt64(LodgeReservationStatus.cancel))
+            {
+                this.DisableFormControls();
+                btnCancelOpen.Enabled = true;
+            }
 
             //Hide open cancel button for new reservation
             if (this.formDto.Dto == null || this.formDto.Dto.Id == 0)
@@ -692,7 +707,7 @@ namespace AutoTourism.Lodge.WinForm
                 cboSelectedRoom.Focus();
                 return false;
             }
-            else if (Convert.ToInt32(txtRooms.Text.Trim()) > this.availableBookingCountWithCriteria)
+            else if (Convert.ToInt32(txtRooms.Text.Trim()) > this.availableRooms)
             {
                 errorProvider.SetError(txtRooms, "No of rooms cannot be greater than available rooms.");
                 cboSelectedRoom.Focus();
@@ -865,7 +880,7 @@ namespace AutoTourism.Lodge.WinForm
 
             return true;
         }
-
+        
         private List<LodgeConfigurationFacade.Room.Dto> GetBookedRoomListBetweenTwoDates(DateTime startDate, DateTime endDate)
         {  
             LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
@@ -975,8 +990,10 @@ namespace AutoTourism.Lodge.WinForm
             if (isNoOfDaysExists())
             {
                 Int64 reservationId = this.dto == null ? 0 : this.dto.Id;
-                this.totalBookings = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, 0, 0, 0);
-                lblTotalBooking.Text = "Total Bookings between selected dates : = " + reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, 0, 0, 0).ToString();
+                this.totalBookings = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId);
+                lblTotalBooking.Text = "Total Bookings between selected dates : = " + this.totalBookings.ToString();
+                    
+                //reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, 0, 0, 0).ToString();
 
                 TotalRoomsBookedWithMatchingCategoryTypeAndACPreference = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, roomCategoryId, roomTypeId, acPreference);
                 lblTotalBookedRoomCount.Text = "Total no of rooms booked for the selected category, type and AC preference from " +
@@ -985,11 +1002,11 @@ namespace AutoTourism.Lodge.WinForm
 
                 AvailableRoomsCount = TotalRoomsWithMatchingCategoryTypeAndACPreference - TotalRoomsBookedWithMatchingCategoryTypeAndACPreference;
                 Int32 totalAvailableRooms = this.totalRooms - this.totalBookings;                                
-                this.availableBookingCountWithCriteria = (AvailableRoomsCount > totalAvailableRooms) ? totalAvailableRooms : AvailableRoomsCount;
+                this.availableRooms = (AvailableRoomsCount > totalAvailableRooms) ? totalAvailableRooms : AvailableRoomsCount;
 
-                lblAvailableRooms.Text = "No of Rooms available for booking = " + this.availableBookingCountWithCriteria.ToString();
+                lblAvailableRooms.Text = "No of Rooms available for booking = " + this.availableRooms.ToString();
 
-                if (this.availableBookingCountWithCriteria == 0)
+                if (this.availableRooms == 0)
                     this.cboRoomList.DataSource = null;
                 
             }
@@ -997,7 +1014,7 @@ namespace AutoTourism.Lodge.WinForm
             {
                 lblTotalBookedRoomCount.Text = String.Empty;
                 lblAvailableRooms.Text = String.Empty;
-                this.availableBookingCountWithCriteria = 0;
+                this.availableRooms = 0;
             }
         }
 
@@ -1007,7 +1024,7 @@ namespace AutoTourism.Lodge.WinForm
             closed = 10002,
             cancel = 10003,
             checkin = 10004
-        }             
+        }      
 
     }
 }
