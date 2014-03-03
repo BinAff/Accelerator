@@ -164,7 +164,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             errorProvider.Clear();
 
-            if (this.formDto.Dto.Id > 0)
+            if (this.formDto.Dto != null && this.formDto.Dto.Id > 0)
                 this.ResetLoad();
             else
                 this.Clear();
@@ -285,7 +285,7 @@ namespace AutoTourism.Lodge.WinForm
             //disable the controls if the reservation is checked in
             if (this.formDto.Dto != null && this.formDto.Dto.isCheckedIn)
                 this.DisableFormControls();
-            else if (this.formDto.Dto.BookingStatusId == Convert.ToInt64(LodgeReservationStatus.cancel))
+            else if (this.formDto.Dto != null && this.formDto.Dto.BookingStatusId == Convert.ToInt64(LodgeReservationStatus.cancel))
             {
                 this.DisableFormControls();
                 btnCancelOpen.Enabled = true;
@@ -745,7 +745,7 @@ namespace AutoTourism.Lodge.WinForm
 
             if (RoomList != null && RoomList.Count > 0)
             {
-                if (this.dto.RoomList == null || this.dto.RoomList.Count == 0)
+                if (this.dto == null || this.dto.RoomList == null || this.dto.RoomList.Count == 0)
                 {
                     SelectedRoomList = null;
                     AvailableRoomList = RoomList;
@@ -851,7 +851,7 @@ namespace AutoTourism.Lodge.WinForm
 
         private Boolean isBookedRoomBelongsToCurrentReservation(LodgeConfigurationFacade.Room.Dto bookedRoom)
         {
-            if (this.dto.RoomList == null)
+            if (this.dto == null || this.dto.RoomList == null)
                 return false;
 
             foreach(LodgeConfigurationFacade.Room.Dto room in this.dto.RoomList)
