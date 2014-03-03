@@ -518,7 +518,7 @@
             this.lblAvailableRooms.Name = "lblAvailableRooms";
             this.lblAvailableRooms.Size = new System.Drawing.Size(81, 13);
             this.lblAvailableRooms.TabIndex = 108;
-            this.lblAvailableRooms.Text = "Available rooms";
+            this.lblAvailableRooms.Text = "Available rooms";            
             // 
             // lblTotalRooms
             // 
