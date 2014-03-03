@@ -178,16 +178,18 @@ namespace AutoTourism.Lodge.WinForm
 
             if (this.formDto != null && this.formDto.Dto != null)
             {
-                this.formDto.Dto.BookingStatusId = btnCancelOpen.Text == "Cancel" ? Convert.ToInt64(LodgeReservationStatus.cancel) : Convert.ToInt64(LodgeReservationStatus.open);
+                Int64 bookingId = btnCancelOpen.Text == "Cancel" ? Convert.ToInt64(LodgeReservationStatus.cancel) : Convert.ToInt64(LodgeReservationStatus.open);
 
                 //validation required when re-opening a room
-                if (this.formDto.Dto.BookingStatusId == 10001 && !this.ValidateBooking())
+                if (bookingId == 10001 && !this.ValidateBooking())
                     isOpenCancel = false;
 
                 if (isOpenCancel)
                 {
                     LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(this.formDto);
                     reservation.ChangeReservationStatus();
+                    this.formDto.Dto.BookingStatusId = bookingId;
+                    this.dto.BookingStatusId = this.formDto.Dto.BookingStatusId;
                     base.IsModified = true;
                     this.Close();
                 }                
