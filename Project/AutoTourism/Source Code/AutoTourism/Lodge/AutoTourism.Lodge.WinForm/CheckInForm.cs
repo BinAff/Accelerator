@@ -28,8 +28,8 @@ namespace AutoTourism.Lodge.WinForm
             this.dto = CheckInDto;
             this.formDto = new LodgeFacade.CheckIn.FormDto { dto = this.dto };
 
-            dtCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            dtCheckIn.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
+            //dtCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            //dtCheckIn.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
 
             this.LoadForm();
 
@@ -54,13 +54,16 @@ namespace AutoTourism.Lodge.WinForm
             {
                 if (this.formDto.dto == null) this.formDto.dto = new LodgeFacade.CheckIn.Dto();
                 this.formDto.dto.Id = this.formDto.dto == null ? 0 : this.formDto.dto.Id;
-                this.formDto.dto.Date = new DateTime(dtCheckIn.Value.Year, dtCheckIn.Value.Month, dtCheckIn.Value.Day, dtCheckIn.Value.Hour, dtCheckIn.Value.Minute, dtCheckIn.Value.Second);
+                //this.formDto.dto.Date = new DateTime(dtCheckIn.Value.Year, dtCheckIn.Value.Month, dtCheckIn.Value.Day, dtCheckIn.Value.Hour, dtCheckIn.Value.Minute, dtCheckIn.Value.Second);
+                this.formDto.dto.Date = DateTime.Now;
 
                 if (this.formDto.dto.reservationDto == null) this.formDto.dto.reservationDto = new LodgeFacade.RoomReservation.Dto();
                 this.formDto.dto.reservationDto.Id = this.formDto.dto.reservationDto == null ? 0 : this.formDto.dto.reservationDto.Id;
 
                 this.formDto.dto.reservationDto.isCheckedIn = true;
-                this.formDto.dto.reservationDto.BookingFrom = new DateTime(dtCheckIn.Value.Year, dtCheckIn.Value.Month, dtCheckIn.Value.Day, dtCheckIn.Value.Hour, dtCheckIn.Value.Minute, dtCheckIn.Value.Second);
+                //this.formDto.dto.reservationDto.BookingFrom = new DateTime(dtCheckIn.Value.Year, dtCheckIn.Value.Month, dtCheckIn.Value.Day, dtCheckIn.Value.Hour, dtCheckIn.Value.Minute, dtCheckIn.Value.Second);
+                this.formDto.dto.reservationDto.BookingFrom = DateTime.Now;
+
                 this.formDto.dto.reservationDto.NoOfDays = Convert.ToInt16(txtDays.Text);
                 this.formDto.dto.reservationDto.NoOfPersons = Convert.ToInt16(txtPersons.Text);
                 this.formDto.dto.reservationDto.NoOfRooms = Convert.ToInt16(txtRooms.Text);
@@ -181,12 +184,12 @@ namespace AutoTourism.Lodge.WinForm
                 btnPickReservation.Focus();
                 return false;
             }
-            else if (ValidationRule.IsDateLessThanToday(dtCheckIn.Value))
-            {
-                errorProvider.SetError(dtCheckIn, "CheckIn date cannot be less than today.");
-                dtCheckIn.Focus();
-                return false;
-            }
+            //else if (ValidationRule.IsDateLessThanToday(dtCheckIn.Value))
+            //{
+            //    errorProvider.SetError(dtCheckIn, "CheckIn date cannot be less than today.");
+            //    dtCheckIn.Focus();
+            //    return false;
+            //}
             else if (String.IsNullOrEmpty(txtDays.Text.Trim()))
             {
                 errorProvider.SetError(txtDays, "Please enter days.");
@@ -247,32 +250,53 @@ namespace AutoTourism.Lodge.WinForm
 
         private void LoadForm()
         {
+            dtFromTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            dtFromTime.ShowUpDown = true;
+
             BinAff.Facade.Library.Server facade = new LodgeFacade.CheckIn.CheckInServer(formDto);
             facade.LoadForm();
 
             this.configurationRuleDto = formDto.configurationRuleDto;
-            if (this.configurationRuleDto.DateFormat != null)
-                dtCheckIn.CustomFormat = this.configurationRuleDto.DateFormat;
+            //if (this.configurationRuleDto.DateFormat != null)
+            //    dtCheckIn.CustomFormat = this.configurationRuleDto.DateFormat;
 
             //--populate room category
             this.cboCategory.DataSource = null;
             if (this.formDto.CategoryList != null && this.formDto.CategoryList.Count > 0)
             {
+                this.formDto.CategoryList.Insert(0, new LodgeConfigurationFacade.Room.Category.Dto
+                {
+                    Name = "All"
+                });
+
                 this.cboCategory.DataSource = this.formDto.CategoryList;
                 this.cboCategory.ValueMember = "Id";
                 this.cboCategory.DisplayMember = "Name";
-                this.cboCategory.SelectedIndex = -1;
+                this.cboCategory.SelectedIndex = 0;
             }
 
             //--populate room type
             this.cboType.DataSource = null;
             if (this.formDto.TypeList != null && this.formDto.TypeList.Count > 0)
             {
+                this.formDto.TypeList.Insert(0, new LodgeConfigurationFacade.Room.Type.Dto
+                {
+                    Name = "All"
+                });
                 this.cboType.DataSource = this.formDto.TypeList;
                 this.cboType.ValueMember = "Id";
                 this.cboType.DisplayMember = "Name";
-                this.cboType.SelectedIndex = -1;
+                this.cboType.SelectedIndex = 0;
             }
+
+            List<Table> lstAC = new List<Table>();
+            lstAC.Add(new Table { Id = 0, Name = "All" });
+            lstAC.Add(new Table { Id = 1, Name = "AC" });
+            lstAC.Add(new Table { Id = 2, Name = "Non AC" });
+            this.cboAC.DataSource = lstAC;
+            this.cboAC.ValueMember = "Id";
+            this.cboAC.DisplayMember = "Name";
+            this.cboAC.SelectedIndex = 0;
 
             //populate checkIn form
             if (this.formDto.dto.Id > 0)
@@ -382,7 +406,7 @@ namespace AutoTourism.Lodge.WinForm
         private void LoadCheckInData()
         {
             //populate reservation data
-            dtCheckIn.Value = this.formDto.dto.reservationDto.BookingFrom;
+            //dtCheckIn.Value = this.formDto.dto.reservationDto.BookingFrom;
             txtDays.Text = this.formDto.dto.reservationDto.NoOfDays.ToString();
             txtPersons.Text = this.formDto.dto.reservationDto.NoOfPersons.ToString();
             txtRooms.Text = this.formDto.dto.reservationDto.NoOfRooms.ToString();
@@ -535,7 +559,8 @@ namespace AutoTourism.Lodge.WinForm
             else
                 return false; // since type is mandatory while creating room
 
-            return (chkIsAC.Checked == roomDto.IsAirconditioned);
+            //return (chkIsAC.Checked == roomDto.IsAirconditioned);
+            return true;
 
         }
 
