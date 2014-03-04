@@ -45,6 +45,18 @@
     <Compile Include="Artifact\Type.cs" />
     <Compile Include="Artifact\Validator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchAgent\Dao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SearchAgent\Data.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SearchAgent\ISearchAgent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SearchAgent\Server.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
