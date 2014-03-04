@@ -80,14 +80,12 @@ namespace Vanilla.Navigator.Facade.Register
 
         public List<UtilFac.Artifact.Dto> Search(String artifactName)
         {
-            List<UtilFac.Artifact.Dto> artifactList = new List<UtilFac.Artifact.Dto>();
-            //
-            return artifactList;
+            return new UtilFac.Artifact.Server(null).Search(artifactName);
         }
 
         public void Paste(Boolean isCut)
         {
-            UtilFac.Artifact.Dto originalArtifactDto = this.GetArtifactDtoByValue((this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto);
+            UtilFac.Artifact.Dto originalArtifactDto = this.CloneArtifact((this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto);
             originalArtifactDto.Children = new System.Collections.Generic.List<UtilFac.Artifact.Dto>();
 
             UtilFac.Artifact.Dto artifactDto = (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto;
@@ -119,7 +117,7 @@ namespace Vanilla.Navigator.Facade.Register
                 artf.ModifiedBy = artifactDto.ModifiedBy;
                 artf.Path = artifactDto.Path + artf.FileName + "\\";
 
-                UtilFac.Artifact.Dto childArtifactDto = this.GetArtifactDtoByValue(artf);
+                UtilFac.Artifact.Dto childArtifactDto = this.CloneArtifact(artf);
                 childArtifactDto.Children = new List<UtilFac.Artifact.Dto>();
                 actualArtifactDto.Children.Add(childArtifactDto);
 
@@ -230,30 +228,30 @@ namespace Vanilla.Navigator.Facade.Register
             this.IsError = moduleFacade.IsError;
         }
 
-        public UtilFac.Artifact.Dto GetArtifactDtoByValue(UtilFac.Artifact.Dto data)
+        public UtilFac.Artifact.Dto CloneArtifact(UtilFac.Artifact.Dto dto)
         {
             return new UtilFac.Artifact.Dto
             {
-                Id = data.Id,
-                FileName = data.FileName,
-                Path = data.Path,
-                Style = data.Style,
-                Category = data.Category,
-                Version = data.Version,
-                CreatedBy = data.CreatedBy,
-                ModifiedBy = data.ModifiedBy,
-                CreatedAt = data.CreatedAt,
-                ModifiedAt = data.ModifiedAt,
-                Children = data.Children == null ? null : this.GetChildren(data.Children),
-                Module = data.Module == null ? null : new BinAff.Facade.Library.Dto
+                Id = dto.Id,
+                FileName = dto.FileName,
+                Path = dto.Path,
+                Style = dto.Style,
+                Category = dto.Category,
+                Version = dto.Version,
+                CreatedBy = dto.CreatedBy,
+                ModifiedBy = dto.ModifiedBy,
+                CreatedAt = dto.CreatedAt,
+                ModifiedAt = dto.ModifiedAt,
+                Children = dto.Children == null ? null : this.GetChildren(dto.Children),
+                Module = dto.Module == null ? null : new BinAff.Facade.Library.Dto
                 {
-                    Id = data.Module.Id,
-                    Action = data.Module.Action
+                    Id = dto.Module.Id,
+                    Action = dto.Module.Action
                 },
-                Parent = data.Parent == null ? null : new BinAff.Facade.Library.Dto
+                Parent = dto.Parent == null ? null : new BinAff.Facade.Library.Dto
                 {
-                    Id = data.Parent.Id,
-                    Action = data.Parent.Action
+                    Id = dto.Parent.Id,
+                    Action = dto.Parent.Action
                 }
             };
         }
@@ -279,7 +277,7 @@ namespace Vanilla.Navigator.Facade.Register
         {
             List<UtilFac.Artifact.Dto> childrenList = new List<UtilFac.Artifact.Dto>();
             for (int i = 0; i < children.Count; i++)
-                childrenList.Add(GetArtifactDtoByValue(children[i]));
+                childrenList.Add(CloneArtifact(children[i]));
 
             return childrenList;
         }
