@@ -19,7 +19,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         public Table RoomCategory { get; set; }
         public Table RoomType { get; set; }
-        //public Boolean IsAC { get; set; }
+        
         public Boolean isCheckedIn { get; set; }
         public Int32 ACPreference { get; set; } //-- will use hard coded values 0- No Preference, 1- AC, 2- Non AC
 

@@ -9,6 +9,7 @@ using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using CrystalReservation = Crystal.Reservation.Component;
 using CrystalCustomer = Crystal.Customer.Component;
 using AutoCustomer = AutoTourism.Component.Customer;
+using CustomerFacade = AutoTourism.Customer.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
@@ -470,7 +471,93 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 return true;
             
             return false;
-        }        
+        }
+        
+        Customer.Facade.Dto IReservation.CloneCustomer(Customer.Facade.Dto customerDto)
+        {
+            return new CustomerFacade.Dto
+            {
+                Id = customerDto.Id,
+                Initial = customerDto.Initial == null ? null : new Table
+                {
+                    Id = customerDto.Initial.Id,
+                    Name = customerDto.Initial.Name
+                },
+                FirstName = customerDto.FirstName,
+                MiddleName = customerDto.MiddleName,
+                LastName = customerDto.LastName,
+                ContactNumberList = customerDto.ContactNumberList == null ? null : this.CloneContactNumber(customerDto.ContactNumberList),
+                Address = customerDto.Address,
+                Email = customerDto.Email
+            };           
+        }
+
+        Dto IReservation.CloneReservaion(Dto reservationDto)
+        {
+            return new Dto
+            {
+                BookingFrom = reservationDto.BookingFrom,
+                NoOfDays = reservationDto.NoOfDays,
+                NoOfPersons = reservationDto.NoOfPersons,
+                NoOfRooms = reservationDto.NoOfRooms,
+                Advance = reservationDto.Advance,
+                BookingStatusId = reservationDto.BookingStatusId,
+                RoomCategory = reservationDto.RoomCategory == null ? null : new Table
+                {
+                    Id = reservationDto.RoomCategory.Id,
+                    Name = reservationDto.RoomCategory.Name
+                },
+                RoomType = reservationDto.RoomType == null ? null : new Table
+                {
+                    Id = reservationDto.RoomType.Id,
+                    Name = reservationDto.RoomType.Name
+                },
+                ACPreference = reservationDto.ACPreference,
+                RoomList = reservationDto.RoomList == null ? null : this.CloneRoomList(reservationDto.RoomList)
+            };
+        }
+
+        private List<Table> CloneContactNumber(List<Table> contactNumberList)
+        {
+            List<Table> lstContactNumber = new List<Table>();
+            foreach (Table contactNo in contactNumberList)
+            {
+                lstContactNumber.Add(new Table
+                {
+                    Id = contactNo.Id,
+                    Name = contactNo.Name
+                });
+            }
+            return lstContactNumber;
+        }
+
+        private List<LodgeConfigurationFacade.Room.Dto> CloneRoomList(List<LodgeConfigurationFacade.Room.Dto> roomList)
+        {
+            List<LodgeConfigurationFacade.Room.Dto> lstRoom = new List<LodgeConfigurationFacade.Room.Dto>();
+
+            foreach (LodgeConfigurationFacade.Room.Dto room in roomList)
+                lstRoom.Add(new LodgeConfigurationFacade.Room.Dto
+                {
+                    Id = room.Id,
+                    Action = room.Action,
+                    artifactPath = room.artifactPath,
+                    Building = room.Building,
+                    Category = room.Category,
+                    Description = room.Description,
+                    fileName = room.fileName,
+                    Floor = room.Floor,
+                    ImageList = room.ImageList,
+                    IsAirconditioned = room.IsAirconditioned,
+                    Name = room.Name,
+                    Number = room.Number,
+                    StatusId = room.StatusId,
+                    trvForm = room.trvForm,
+                    Type = room.Type
+                });
+
+            return lstRoom;
+        }
+
     }
 
 }
