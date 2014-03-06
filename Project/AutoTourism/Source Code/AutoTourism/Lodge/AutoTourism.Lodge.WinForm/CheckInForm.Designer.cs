@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cboAC = new System.Windows.Forms.ComboBox();
+            this.lblAC = new System.Windows.Forms.Label();
             this.cboType = new System.Windows.Forms.ComboBox();
             this.lblType = new System.Windows.Forms.Label();
             this.lblCategory = new System.Windows.Forms.Label();
@@ -63,15 +65,12 @@
             this.button1 = new System.Windows.Forms.Button();
             this.txtArtifactPath = new System.Windows.Forms.TextBox();
             this.lblFilePath = new System.Windows.Forms.Label();
-            this.lblAC = new System.Windows.Forms.Label();
-            this.cboAC = new System.Windows.Forms.ComboBox();
             this.lblBookingFrom = new System.Windows.Forms.Label();
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
             this.dtFromTime = new System.Windows.Forms.DateTimePicker();
             this.lblTotalRoom = new System.Windows.Forms.Label();
             this.txtTotalRoom = new System.Windows.Forms.TextBox();
             this.lblBookedRoom = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.txtTotalBooked = new System.Windows.Forms.TextBox();
             this.lblAvailableRoom = new System.Windows.Forms.Label();
             this.txtAvailableRooms = new System.Windows.Forms.TextBox();
@@ -103,6 +102,25 @@
             this.groupBox2.TabIndex = 107;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Room";
+            // 
+            // cboAC
+            // 
+            this.cboAC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboAC.FormattingEnabled = true;
+            this.cboAC.Location = new System.Drawing.Point(101, 72);
+            this.cboAC.Name = "cboAC";
+            this.cboAC.Size = new System.Drawing.Size(121, 21);
+            this.cboAC.TabIndex = 99;
+            this.cboAC.SelectedIndexChanged += new System.EventHandler(this.cboAC_SelectedIndexChanged);
+            // 
+            // lblAC
+            // 
+            this.lblAC.AutoSize = true;
+            this.lblAC.Location = new System.Drawing.Point(8, 75);
+            this.lblAC.Name = "lblAC";
+            this.lblAC.Size = new System.Drawing.Size(76, 13);
+            this.lblAC.TabIndex = 98;
+            this.lblAC.Text = "AC Preference";
             // 
             // cboType
             // 
@@ -246,6 +264,7 @@
             this.txtDays.Name = "txtDays";
             this.txtDays.Size = new System.Drawing.Size(32, 20);
             this.txtDays.TabIndex = 99;
+            this.txtDays.TextChanged += new System.EventHandler(this.txtDays_TextChanged);
             // 
             // label2
             // 
@@ -371,6 +390,7 @@
             this.btnRefresh.TabIndex = 108;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnOk
             // 
@@ -417,24 +437,6 @@
             this.lblFilePath.TabIndex = 111;
             this.lblFilePath.Text = "File Path:";
             // 
-            // lblAC
-            // 
-            this.lblAC.AutoSize = true;
-            this.lblAC.Location = new System.Drawing.Point(8, 75);
-            this.lblAC.Name = "lblAC";
-            this.lblAC.Size = new System.Drawing.Size(76, 13);
-            this.lblAC.TabIndex = 98;
-            this.lblAC.Text = "AC Preference";
-            // 
-            // cboAC
-            // 
-            this.cboAC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboAC.FormattingEnabled = true;
-            this.cboAC.Location = new System.Drawing.Point(101, 72);
-            this.cboAC.Name = "cboAC";
-            this.cboAC.Size = new System.Drawing.Size(121, 21);
-            this.cboAC.TabIndex = 99;
-            // 
             // lblBookingFrom
             // 
             this.lblBookingFrom.AutoSize = true;
@@ -450,6 +452,7 @@
             this.dtFrom.Name = "dtFrom";
             this.dtFrom.Size = new System.Drawing.Size(102, 20);
             this.dtFrom.TabIndex = 115;
+            this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
             // 
             // dtFromTime
             // 
@@ -469,7 +472,7 @@
             // 
             // txtTotalRoom
             // 
-            this.txtTotalRoom.Location = new System.Drawing.Point(130, 9);
+            this.txtTotalRoom.Location = new System.Drawing.Point(151, 12);
             this.txtTotalRoom.Name = "txtTotalRoom";
             this.txtTotalRoom.Size = new System.Drawing.Size(49, 20);
             this.txtTotalRoom.TabIndex = 118;
@@ -477,22 +480,15 @@
             // lblBookedRoom
             // 
             this.lblBookedRoom.AutoSize = true;
-            this.lblBookedRoom.Location = new System.Drawing.Point(12, 45);
+            this.lblBookedRoom.Location = new System.Drawing.Point(368, 12);
             this.lblBookedRoom.Name = "lblBookedRoom";
             this.lblBookedRoom.Size = new System.Drawing.Size(107, 13);
             this.lblBookedRoom.TabIndex = 119;
             this.lblBookedRoom.Text = "Total Booked Rooms";
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(142, 173);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 120;
-            // 
             // txtTotalBooked
             // 
-            this.txtTotalBooked.Location = new System.Drawing.Point(130, 38);
+            this.txtTotalBooked.Location = new System.Drawing.Point(544, 9);
             this.txtTotalBooked.Name = "txtTotalBooked";
             this.txtTotalBooked.Size = new System.Drawing.Size(49, 20);
             this.txtTotalBooked.TabIndex = 121;
@@ -508,7 +504,7 @@
             // 
             // txtAvailableRooms
             // 
-            this.txtAvailableRooms.Location = new System.Drawing.Point(130, 68);
+            this.txtAvailableRooms.Location = new System.Drawing.Point(151, 68);
             this.txtAvailableRooms.Name = "txtAvailableRooms";
             this.txtAvailableRooms.Size = new System.Drawing.Size(49, 20);
             this.txtAvailableRooms.TabIndex = 100;
@@ -516,7 +512,7 @@
             // lblTotalRoomWithFilter
             // 
             this.lblTotalRoomWithFilter.AutoSize = true;
-            this.lblTotalRoomWithFilter.Location = new System.Drawing.Point(368, 16);
+            this.lblTotalRoomWithFilter.Location = new System.Drawing.Point(11, 45);
             this.lblTotalRoomWithFilter.Name = "lblTotalRoomWithFilter";
             this.lblTotalRoomWithFilter.Size = new System.Drawing.Size(117, 13);
             this.lblTotalRoomWithFilter.TabIndex = 123;
@@ -524,7 +520,7 @@
             // 
             // txtTotalRoomWithFilter
             // 
-            this.txtTotalRoomWithFilter.Location = new System.Drawing.Point(544, 9);
+            this.txtTotalRoomWithFilter.Location = new System.Drawing.Point(151, 42);
             this.txtTotalRoomWithFilter.Name = "txtTotalRoomWithFilter";
             this.txtTotalRoomWithFilter.Size = new System.Drawing.Size(73, 20);
             this.txtTotalRoomWithFilter.TabIndex = 124;
@@ -557,7 +553,6 @@
             this.Controls.Add(this.txtAvailableRooms);
             this.Controls.Add(this.lblAvailableRoom);
             this.Controls.Add(this.txtTotalBooked);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.lblBookedRoom);
             this.Controls.Add(this.txtTotalRoom);
             this.Controls.Add(this.lblTotalRoom);
@@ -638,7 +633,6 @@
         private System.Windows.Forms.TextBox txtAvailableRooms;
         private System.Windows.Forms.Label lblAvailableRoom;
         private System.Windows.Forms.TextBox txtTotalBooked;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label lblBookedRoom;
         private System.Windows.Forms.TextBox txtTotalRoom;
         private System.Windows.Forms.Label lblTotalRoom;

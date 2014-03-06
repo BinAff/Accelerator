@@ -18,7 +18,14 @@ namespace AutoTourism.Lodge.WinForm
 {
 
     public partial class RoomReservationForm : PresentationLibrary.Form
-    {      
+    {
+        public enum LodgeReservationStatus
+        {
+            open = 10001,
+            closed = 10002,
+            cancel = 10003,
+            checkin = 10004
+        }   
 
         private LodgeFacade.RoomReservation.Dto dto;
         private LodgeFacade.RoomReservation.FormDto formDto;
@@ -47,27 +54,8 @@ namespace AutoTourism.Lodge.WinForm
 
             if (this.dto.Id > 0)
             {
-                this.refreshDto = new LodgeFacade.RoomReservation.Dto
-                {                    
-                    BookingFrom = this.dto.BookingFrom,
-                    NoOfDays = this.dto.NoOfDays,
-                    NoOfPersons = this.dto.NoOfPersons,
-                    NoOfRooms = this.dto.NoOfRooms,
-                    Advance = this.dto.Advance,
-                    BookingStatusId = this.dto.BookingStatusId,
-                    RoomCategory = this.dto.RoomCategory == null ? null : new Table
-                    {
-                        Id = this.dto.RoomCategory.Id,
-                        Name = this.dto.RoomCategory.Name
-                    },
-                    RoomType = this.dto.RoomType == null ? null : new Table 
-                    { 
-                        Id = this.dto.RoomType.Id,
-                        Name = this.dto.RoomType.Name
-                    },
-                    ACPreference = this.dto.ACPreference,
-                    RoomList = this.dto.RoomList == null ? null : this.CloneRoomList(this.dto.RoomList)
-                };
+                LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
+                this.refreshDto = reservation.CloneReservaion(this.dto);
             }
         }
 
@@ -320,6 +308,7 @@ namespace AutoTourism.Lodge.WinForm
         
         private void LoadReservationData()
         {
+            LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
             //populate customer data
             if (this.dto != null && this.dto.Id > 0)
             {
@@ -341,7 +330,7 @@ namespace AutoTourism.Lodge.WinForm
                     //populating customer in refresh dto
                     if (this.refreshDto != null)
                     {
-                        this.refreshDto.Customer = this.CloneCustomer(this.dto.Customer);
+                        this.refreshDto.Customer = reservation.CloneCustomer(this.dto.Customer);
                     }
                 }
 
@@ -449,13 +438,12 @@ namespace AutoTourism.Lodge.WinForm
             this.cboCategory.SelectedIndex = 0;
             this.cboType.SelectedIndex = 0;
             this.cboAC.SelectedIndex = 0;
-            //this.chkIsAC.Checked = false;
-          
         }
 
         private void ResetLoad()
-        {            
-            this.dto.Customer = this.refreshDto.Customer == null ? null : this.CloneCustomer(this.refreshDto.Customer);
+        {
+            LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
+            this.dto.Customer = this.refreshDto.Customer == null ? null : reservation.CloneCustomer(this.refreshDto.Customer);
             this.dto.BookingFrom = this.refreshDto.BookingFrom;
             this.dto.NoOfDays = this.refreshDto.NoOfDays;
             this.dto.NoOfPersons = this.refreshDto.NoOfPersons;
@@ -889,66 +877,66 @@ namespace AutoTourism.Lodge.WinForm
             return reservation.GetBookedRooms(startDate,endDate).Value;
         }
         
-        private CustomerFacade.Dto CloneCustomer(CustomerFacade.Dto customerDto)
-        {
-            CustomerFacade.Dto customer = new CustomerFacade.Dto
-            {
-                Id = customerDto.Id,
-                Initial = customerDto.Initial == null ? null : new Table
-                {
-                    Id = customerDto.Initial.Id,
-                    Name = customerDto.Initial.Name
-                },
-                FirstName = customerDto.FirstName,
-                MiddleName = customerDto.MiddleName,
-                LastName = customerDto.LastName,
-                ContactNumberList = customerDto.ContactNumberList == null ? null : this.CloneContactNumber(customerDto.ContactNumberList),
-                Address = customerDto.Address,
-                Email = customerDto.Email
-            };
-            return customer;
-        }
+        //private CustomerFacade.Dto CloneCustomer(CustomerFacade.Dto customerDto)
+        //{
+        //    CustomerFacade.Dto customer = new CustomerFacade.Dto
+        //    {
+        //        Id = customerDto.Id,
+        //        Initial = customerDto.Initial == null ? null : new Table
+        //        {
+        //            Id = customerDto.Initial.Id,
+        //            Name = customerDto.Initial.Name
+        //        },
+        //        FirstName = customerDto.FirstName,
+        //        MiddleName = customerDto.MiddleName,
+        //        LastName = customerDto.LastName,
+        //        ContactNumberList = customerDto.ContactNumberList == null ? null : this.CloneContactNumber(customerDto.ContactNumberList),
+        //        Address = customerDto.Address,
+        //        Email = customerDto.Email
+        //    };
+        //    return customer;
+        //}
 
-        private List<Table> CloneContactNumber(List<Table> contactNumberList)
-        {
-            List<Table> lstContactNumber = new List<Table>();
-            foreach (Table contactNo in contactNumberList)
-            {
-                lstContactNumber.Add(new Table
-                {
-                    Id = contactNo.Id,
-                    Name = contactNo.Name
-                });
-            }
-            return lstContactNumber;
-        }
+        //private List<Table> CloneContactNumber(List<Table> contactNumberList)
+        //{
+        //    List<Table> lstContactNumber = new List<Table>();
+        //    foreach (Table contactNo in contactNumberList)
+        //    {
+        //        lstContactNumber.Add(new Table
+        //        {
+        //            Id = contactNo.Id,
+        //            Name = contactNo.Name
+        //        });
+        //    }
+        //    return lstContactNumber;
+        //}
 
-        private List<LodgeConfigurationFacade.Room.Dto> CloneRoomList(List<LodgeConfigurationFacade.Room.Dto> roomList)
-        {
-            List<LodgeConfigurationFacade.Room.Dto> lstRoom = new List<LodgeConfigurationFacade.Room.Dto>();
+        //private List<LodgeConfigurationFacade.Room.Dto> CloneRoomList(List<LodgeConfigurationFacade.Room.Dto> roomList)
+        //{
+        //    List<LodgeConfigurationFacade.Room.Dto> lstRoom = new List<LodgeConfigurationFacade.Room.Dto>();
 
-            foreach (LodgeConfigurationFacade.Room.Dto room in roomList)
-                lstRoom.Add(new LodgeConfigurationFacade.Room.Dto
-                {
-                    Id = room.Id,
-                    Action = room.Action,
-                    artifactPath = room.artifactPath,
-                    Building = room.Building,
-                    Category = room.Category,
-                    Description = room.Description,
-                    fileName = room.fileName,
-                    Floor = room.Floor,
-                    ImageList = room.ImageList,
-                    IsAirconditioned = room.IsAirconditioned,
-                    Name = room.Name,
-                    Number = room.Number,
-                    StatusId = room.StatusId,
-                    trvForm = room.trvForm,
-                    Type = room.Type
-                });
+        //    foreach (LodgeConfigurationFacade.Room.Dto room in roomList)
+        //        lstRoom.Add(new LodgeConfigurationFacade.Room.Dto
+        //        {
+        //            Id = room.Id,
+        //            Action = room.Action,
+        //            artifactPath = room.artifactPath,
+        //            Building = room.Building,
+        //            Category = room.Category,
+        //            Description = room.Description,
+        //            fileName = room.fileName,
+        //            Floor = room.Floor,
+        //            ImageList = room.ImageList,
+        //            IsAirconditioned = room.IsAirconditioned,
+        //            Name = room.Name,
+        //            Number = room.Number,
+        //            StatusId = room.StatusId,
+        //            trvForm = room.trvForm,
+        //            Type = room.Type
+        //        });
 
-            return lstRoom;
-        }
+        //    return lstRoom;
+        //}
 
         private void LoadRoomReservationStatusLevels()
         {
@@ -1019,14 +1007,6 @@ namespace AutoTourism.Lodge.WinForm
                 this.availableRooms = 0;
             }
         }
-
-        public enum LodgeReservationStatus
-        {
-            open = 10001,
-            closed = 10002,
-            cancel = 10003,
-            checkin = 10004
-        }      
 
     }
 }
