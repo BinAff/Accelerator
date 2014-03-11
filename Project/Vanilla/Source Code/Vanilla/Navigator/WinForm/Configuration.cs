@@ -119,6 +119,11 @@ namespace Vanilla.Navigator.WinForm
             {
                 Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.Room", "AutoTourism.Lodge.Configuration.WinForm"),
             });
+
+            this.lsvConfiguration.Items.Add(new ListViewItem("Room Tariff")
+            {
+                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.RoomTariff", "AutoTourism.Lodge.Configuration.WinForm"),
+            });
         }
 
         private Form InstantiateObject(String dataType, String assembly)

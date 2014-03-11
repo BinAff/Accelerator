@@ -94,9 +94,10 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 ActivityDate = reservation.BookingFrom,
                 Date = DateTime.Now,
                 ProductList = reservation.RoomList == null ? null : GetRoomDataList(reservation.RoomList),
-                Status = new Crystal.Customer.Component.Action.Status.Data
+                Status =  new Crystal.Customer.Component.Action.Status.Data
                 {
-                    Id = System.Convert.ToInt64(RoomStatus.Open)
+                    //Id = System.Convert.ToInt64(RoomStatus.Open)
+                    Id = reservation.BookingStatusId
                 },
                 Description = String.Empty,//description will be added later if required
                 RoomCategory = reservation.RoomCategory == null ? null : new CrystalLodge.Room.Category.Data { Id = reservation.RoomCategory.Id },
@@ -463,14 +464,19 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         private Boolean ValidateRoomWithCategoryTypeAndACPreference(CrystalLodge.Room.Reservation.Data reservationData, Int64 categoryId, Int64 typeId, Int32 acPreference)
         {
             Int64 catId = reservationData.RoomCategory == null ? 0 : reservationData.RoomCategory.Id;
-            Int64 typId = reservationData.RoomType == null ? 0 : reservationData.RoomType.Id;
+            Int64 typId = reservationData.RoomType == null ? 0 : reservationData.RoomType.Id;           
 
-            if (categoryId == 0 && typeId == 0 && acPreference == 0)
-                return true;
-            else if (catId == categoryId && typId == typeId && reservationData.ACPreference == acPreference)
-                return true;
-            
-            return false;
+            Boolean retVal = true;
+            if (categoryId != 0)            
+                retVal = catId == categoryId;
+
+            if (retVal && typeId != 0)
+                retVal = typId == typeId;
+
+            if (retVal && acPreference != 0)
+                retVal = reservationData.ACPreference == acPreference;
+
+            return retVal;
         }
         
         Customer.Facade.Dto IReservation.CloneCustomer(Customer.Facade.Dto customerDto)

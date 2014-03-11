@@ -12,6 +12,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
     public class Dto : BinAff.Facade.Library.Dto
     {
         public DateTime Date { get; set; }
+        public Int64 statusId { get; set; }
         public LodgeFacade.RoomReservation.Dto reservationDto { get; set; }
         public String customerDisplayName { get; set; }
         

@@ -57,6 +57,10 @@
     <Compile Include="Room\Image\Dto.cs" />
     <Compile Include="Room\IRoom.cs" />
     <Compile Include="Room\Server.cs" />
+    <Compile Include="Tariff\Dto.cs" />
+    <Compile Include="Tariff\FormDto.cs" />
+    <Compile Include="Tariff\ITariff.cs" />
+    <Compile Include="Tariff\TariffServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">

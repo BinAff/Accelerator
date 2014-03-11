@@ -15,6 +15,13 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 {
     public class CheckInServer : BinAff.Facade.Library.Server, ICheckIn
     {
+        
+        public enum CheckInStatus
+        {
+            CheckIn = 10001,
+            CheckOut = 10002
+        }
+
         public CheckInServer(FormDto formDto)
             : base(formDto)
         {
@@ -256,7 +263,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 ActivityDate = checkIn.Date,
                 Status = new CrystalCustomer.Action.Status.Data
                 {
-                    Id = System.Convert.ToInt64(CheckInStatus.Open)
+                    Id = System.Convert.ToInt64(CheckInStatus.CheckIn)
                 },
             };
         }
@@ -269,6 +276,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 Id = data.Id,
                 Date = checkIn.ActivityDate,
+                statusId = (checkIn.Status == null || checkIn.Status.Id == 0 ) ? 0 : checkIn.Status.Id,
                 reservationDto = new RoomReservation.Dto 
                 {
                     Id = reservation.Id,
@@ -287,15 +295,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 }
             };
         }
-
-          ////--every reservation must have a customer
-          //  String Name = (reservationDto.Customer.Initial == null ? String.Empty : reservationDto.Customer.Initial.Name);
-          //  Name += (Name == String.Empty) ? (reservationDto.Customer.FirstName == null ? String.Empty : reservationDto.Customer.FirstName) : " " + (reservationDto.Customer.FirstName == null ? String.Empty : reservationDto.Customer.FirstName);
-          //  Name += (Name == String.Empty) ? (reservationDto.Customer.MiddleName == null ? String.Empty : reservationDto.Customer.MiddleName) : " " + (reservationDto.Customer.MiddleName == null ? String.Empty : reservationDto.Customer.MiddleName);
-          //  Name += (Name == String.Empty) ? (reservationDto.Customer.LastName == null ? String.Empty : reservationDto.Customer.LastName) : " " + (reservationDto.Customer.LastName == null ? String.Empty : reservationDto.Customer.LastName);
-
-
-
+        
         public override void Add()
         {
             this.Save();
@@ -356,12 +356,19 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information); 
         }
+        
+        void ICheckIn.CheckOut()
+        {            
+            //updating reservation
+            LodgeFacade.RoomReservation.FormDto reservationFormDto = new LodgeFacade.RoomReservation.FormDto
+            {
+                Dto = ((this.FormDto) as FormDto).dto.reservationDto
+            };
+            new LodgeFacade.RoomReservation.ReservationServer(reservationFormDto).Change();
 
-        //-- RoomStaus ID is mapped with database table RoomReservationStatus
-        public enum CheckInStatus
-        {
-            Open = 10001
+            //update checkIn status
+            CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = ((this.FormDto) as FormDto).dto.Id });
+            checkIn.ModifyCheckInStatus(System.Convert.ToInt64(CheckInStatus.CheckOut));
         }
-      
     }
 }

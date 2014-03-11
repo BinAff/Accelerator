@@ -8,7 +8,7 @@ using System.Transactions;
 namespace Crystal.Lodge.Component.Room.CheckIn
 {
 
-    public class Server : Activity.Component.Server
+    public class Server : Activity.Component.Server, ICheckIn
     {
 
         public Server(Data data)
@@ -105,6 +105,10 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             return resrevationServer.ChangeReservationToOccupied();            
         }
 
+        ReturnObject<Boolean> ICheckIn.ModifyCheckInStatus(long statusId)
+        {            
+            return ((Dao)this.dataAccess).ModifyCheckInStatus(statusId);
+        }
     }
 
 }
