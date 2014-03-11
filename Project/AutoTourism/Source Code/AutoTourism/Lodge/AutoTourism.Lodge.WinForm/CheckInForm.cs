@@ -25,7 +25,13 @@ namespace AutoTourism.Lodge.WinForm
 
         private Int32 totalRooms = 0;
         private Int32 totalBookings = 0;
-        private Int32 availableRooms = 0;        
+        private Int32 availableRooms = 0;
+
+        public enum CheckInStatus
+        {
+            CheckIn = 10001,
+            CheckOut = 10002
+        }
         
         public CheckInForm(LodgeFacade.CheckIn.Dto CheckInDto)
         {
@@ -33,6 +39,24 @@ namespace AutoTourism.Lodge.WinForm
 
             this.dto = CheckInDto;
             this.formDto = new LodgeFacade.CheckIn.FormDto { dto = this.dto };
+
+            if (this.dto == null || this.dto.Id == 0) // new checkIn form
+            {
+                this.btnCheckOut.Enabled = false;
+            }
+            if(this.dto != null && this.dto.statusId == Convert.ToInt64(CheckInStatus.CheckIn)) //edit in checkIn mode
+            {                
+                this.btnOk.Enabled = false;
+                this.btnRefresh.Enabled = false;
+                this.DisableFormControls();
+            }
+            if (this.dto != null && this.dto.statusId == Convert.ToInt64(CheckInStatus.CheckOut)) //edit in check out mode
+            {
+                this.btnOk.Enabled = false;
+                this.btnRefresh.Enabled = false;
+                this.btnCheckOut.Enabled = false;
+                this.DisableFormControls();
+            }
 
             //dtCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             //dtCheckIn.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
@@ -161,6 +185,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             if (this.SaveCheckInData())
             {
+                this.dto.statusId = Convert.ToInt64(CheckInStatus.CheckIn);
                 base.IsModified = true;
                 this.Close();
             }
@@ -837,6 +862,50 @@ namespace AutoTourism.Lodge.WinForm
             txtEmail.Text = String.Empty;
 
             //this.formDto.dto = new LodgeFacade.CheckIn.Dto();
+        }
+
+        private void DisableFormControls()
+        {
+            dtFrom.Enabled = false;
+            dtFromTime.Enabled = false;
+            txtDays.Enabled = false;
+            txtPersons.Enabled = false;
+            txtRooms.Enabled = false;
+            txtAdvance.Enabled = false;
+            cboCategory.Enabled = false;
+            cboType.Enabled = false;
+            cboAC.Enabled = false;
+            cboRoomList.Enabled = false;
+            cmbCheckInRoom.Enabled = false;
+            btnAddRoom.Enabled = false;
+            btnRemoveRoom.Enabled = false;
+        }
+
+        private void btnCheckOut_Click(object sender, EventArgs e)
+        {         
+            int noOfDays = new Calender().DaysBetweenTwoDays(DateTime.Today, this.formDto.dto.Date);
+
+            if (noOfDays != this.formDto.dto.reservationDto.NoOfDays)
+            {
+                if (noOfDays == 0)
+                    this.formDto.dto.reservationDto.NoOfDays = 1;
+                else
+                    this.formDto.dto.reservationDto.NoOfDays = Convert.ToInt16(noOfDays);
+
+                    new PresentationLibrary.MessageBox
+                    {
+                        DialogueType = PresentationLibrary.MessageBox.Type.Alert,
+                    Heading = "Splash"
+                }.Show("CheckOut date is not matching with reservation end date. Reservation end date will be updated with checkout.");
+            }
+
+            this.formDto.dto.reservationDto.BookingStatusId = Convert.ToInt64(CheckInStatus.CheckOut);
+            LodgeFacade.CheckIn.ICheckIn checkIn = new LodgeFacade.CheckIn.CheckInServer(this.formDto);
+            checkIn.CheckOut();
+
+            this.dto.statusId = Convert.ToInt64(CheckInStatus.CheckOut);
+            base.IsModified = true;
+            this.Close();
         }
             
     }

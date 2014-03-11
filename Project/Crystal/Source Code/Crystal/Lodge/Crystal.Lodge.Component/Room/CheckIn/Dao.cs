@@ -200,6 +200,26 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             return dataList;
         }
 
+        internal ReturnObject<Boolean> ModifyCheckInStatus(Int64 statusId)
+        {
+            ReturnObject<Boolean> retVal = new ReturnObject<Boolean>();
+            Data data = this.Data as Data;
+
+            this.CreateConnection();
+            this.CreateCommand("[Lodge].[UpdateCheckInStatus]");
+            this.AddInParameter("@Id", DbType.Int64, data.Id);
+            this.AddInParameter("@StatusId", DbType.Int64, statusId);
+            Int32 ret = this.ExecuteNonQuery();
+
+            if (ret == -2146232060)
+                retVal.Value = false;//Foreign key violation
+            else
+                retVal.Value = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+
+            this.CloseConnection();
+            return retVal;
+        }
+
     }
 
 }

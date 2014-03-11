@@ -78,6 +78,7 @@
             this.txtTotalRoomWithFilter = new System.Windows.Forms.TextBox();
             this.lblBookedRoomsWithFilter = new System.Windows.Forms.Label();
             this.txtTotalBookedRoomsWithFilter = new System.Windows.Forms.TextBox();
+            this.btnCheckOut = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -398,7 +399,7 @@
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 109;
-            this.btnOk.Text = "Ok";
+            this.btnOk.Text = "CheckIn";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
@@ -541,11 +542,22 @@
             this.txtTotalBookedRoomsWithFilter.Size = new System.Drawing.Size(73, 20);
             this.txtTotalBookedRoomsWithFilter.TabIndex = 126;
             // 
+            // btnCheckOut
+            // 
+            this.btnCheckOut.Location = new System.Drawing.Point(647, 182);
+            this.btnCheckOut.Name = "btnCheckOut";
+            this.btnCheckOut.Size = new System.Drawing.Size(75, 23);
+            this.btnCheckOut.TabIndex = 127;
+            this.btnCheckOut.Text = "Check Out";
+            this.btnCheckOut.UseVisualStyleBackColor = true;
+            this.btnCheckOut.Click += new System.EventHandler(this.btnCheckOut_Click);
+            // 
             // CheckInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(738, 439);
+            this.Controls.Add(this.btnCheckOut);
             this.Controls.Add(this.txtTotalBookedRoomsWithFilter);
             this.Controls.Add(this.lblBookedRoomsWithFilter);
             this.Controls.Add(this.txtTotalRoomWithFilter);
@@ -640,5 +652,6 @@
         private System.Windows.Forms.Label lblBookedRoomsWithFilter;
         private System.Windows.Forms.TextBox txtTotalRoomWithFilter;
         private System.Windows.Forms.Label lblTotalRoomWithFilter;
+        private System.Windows.Forms.Button btnCheckOut;
     }
 }

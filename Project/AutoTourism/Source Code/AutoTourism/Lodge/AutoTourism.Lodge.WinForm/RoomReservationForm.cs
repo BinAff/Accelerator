@@ -23,8 +23,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             open = 10001,
             closed = 10002,
-            cancel = 10003,
-            checkin = 10004
+            cancel = 10003            
         }   
 
         private LodgeFacade.RoomReservation.Dto dto;
@@ -517,6 +516,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.dto.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
                 this.dto.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>)[this.cboType.SelectedIndex].Id };
                 this.dto.ACPreference = this.cboAC.SelectedIndex;
+                this.dto.BookingStatusId = Convert.ToInt64(LodgeReservationStatus.open);
                 this.dto.Customer = new CustomerFacade.Dto()
                     {
                         Id = this.dto.Customer.Id,
@@ -982,9 +982,7 @@ namespace AutoTourism.Lodge.WinForm
                 Int64 reservationId = this.dto == null ? 0 : this.dto.Id;
                 this.totalBookings = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId);
                 lblTotalBooking.Text = "Total Bookings between selected dates : = " + this.totalBookings.ToString();
-                    
-                //reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, 0, 0, 0).ToString();
-
+               
                 TotalRoomsBookedWithMatchingCategoryTypeAndACPreference = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, roomCategoryId, roomTypeId, acPreference);
                 lblTotalBookedRoomCount.Text = "Total no of rooms booked for the selected category, type and AC preference from " +
                     dtFrom.Value.ToShortDateString() + " and " + dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)).ToShortDateString() + " = " +

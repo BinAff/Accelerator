@@ -79,6 +79,7 @@
     <Compile Include="Room\CheckInContainer\Validator.cs" />
     <Compile Include="Room\CheckIn\Dao.cs" />
     <Compile Include="Room\CheckIn\Data.cs" />
+    <Compile Include="Room\CheckIn\ICheckIn.cs" />
     <Compile Include="Room\CheckIn\Navigator\Artifact\Dao.cs" />
     <Compile Include="Room\CheckIn\Navigator\Artifact\Data.cs" />
     <Compile Include="Room\CheckIn\Navigator\Artifact\Server.cs" />
