@@ -95,6 +95,10 @@
       <Project>{2cccfc6a-e087-48b1-8600-5e619e07613a}</Project>
       <Name>Crystal.Product.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\..\Crystal\Source Code\Crystal\Tariff\Crystal.Tariff.Component\Crystal.Tariff.Component.csproj">
+      <Project>{63ED7282-D4D5-4AE0-B46A-E95582D9536D}</Project>
+      <Name>Crystal.Tariff.Component</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\..\Vanilla\Source Code\Vanilla\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
       <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
       <Name>Vanilla.Guardian.Facade</Name>

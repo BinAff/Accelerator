@@ -8,6 +8,7 @@ using System;
 using System.Windows.Forms;
 
 using PresentationLibrary = BinAff.Presentation.Library;
+using ConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 
 namespace AutoTourism.Lodge.Configuration.WinForm
 {
@@ -119,63 +120,112 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         //    //base.Clear();
         //}
 
-        //protected override void btnAdd_Click(object sender, System.EventArgs e)
-        //{
-        //    Save("add");
-        //}
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            Save("add");
+        }
 
-        //protected override void btnChange_Click(object sender, System.EventArgs e)
-        //{
-        //    Save("change");
-        //}
+        private void btnChange_Click(object sender, EventArgs e)
+        {
+            Save("change");
+        }
+
+        private Boolean Save(string operation)
+        {
+            Boolean retVal = this.ValidateTariff(operation);
+
+            if (retVal)
+            {
+                if (this.dto == null) this.dto = new Facade.Tariff.Dto();
+                this.dto.Id = this.dto == null ? 0 : this.dto.Id;
+                this.dto.Category = new Facade.Room.Category.Dto { Id = ((Facade.Room.Category.Dto)cboCategory.SelectedItem).Id };
+                this.dto.Type = new Facade.Room.Type.Dto { Id = ((Facade.Room.Type.Dto)cboType.SelectedItem).Id };
+                this.dto.IsAC = chkIsAC.Checked;
+                this.dto.StartDate = dtStartDate.Value;
+                this.dto.EndDate = dtEndDate.Value;
+                this.dto.Rate = System.Convert.ToDouble(txtRate.Text);
+
+                Facade.Tariff.FormDto formDto = new Facade.Tariff.FormDto 
+                { 
+                    dto = this.dto
+                };
+
+                BinAff.Facade.Library.Server facade = new ConfigurationFacade.Tariff.TariffServer(formDto);
+
+                if (operation == "add")
+                    facade.Add();
+                else
+                    facade.Change();
+
+            }
+
+            return retVal;
+
+           
+
+            //if (operation == "change")
+            //{
+            //    if (dgvTariff.SelectedRows.Count == 0)
+            //        return;
+
+            //    tariffDto.Id = ((Dto)dgvTariff.SelectedRows[0].DataBoundItem).Id;
+
+            //}
+
+            //ITariff tariff = new TariffServer();
+            //ReturnObject<System.Boolean> ret = tariff.Change(tariffDto);
+
+            //base.ShowMessage(ret); //Show message  
+
+        }
 
         private System.Boolean ValidateTariff(string operation)
         {
             System.Boolean retVal = true;
-            //errorProvider.Clear();
+            errorProvider.Clear();
 
-            //if (cboCategory.SelectedIndex == -1)
-            //{
-            //    errorProvider.SetError(cboCategory, "Please select a category.");
-            //    cboCategory.Focus();
-            //    return false;
-            //}
-            //else if (cboType.SelectedIndex == -1)
-            //{
-            //    errorProvider.SetError(cboType, "Please select a type.");
-            //    cboType.Focus();
-            //    return false;
-            //}
-            //else if (System.String.IsNullOrEmpty(txtRate.Text))
-            //{
-            //    errorProvider.SetError(txtRate, "Please enter the rate.");
-            //    txtRate.Focus();
-            //    return false;
-            //}
-            //else if (!ValidationRule.IsDecimal(txtRate.Text.Trim().Replace(",", "")))
-            //{
-            //    errorProvider.SetError(txtRate, "Entered " + txtRate.Text + " is Invalid.");
-            //    txtRate.Focus();
-            //    return false;
-            //}
-            //else if (operation == "add" && ValidationRule.IsDateLessThanToday(dtStartDate.Value))
-            //{
-            //    errorProvider.SetError(dtStartDate, "Start date cannot be less than today.");
-            //    dtStartDate.Focus();
-            //    return false;
-            //}
-            //else if (operation == "change" && dtEndDate.Value < System.DateTime.Today.AddDays(-1))
-            //{
-            //    errorProvider.SetError(dtEndDate, "End date cannot be less than previous day.");
-            //    dtEndDate.Focus();
-            //    return false;
-            //}
-            //else if (ValidationRule.IsDateLess(dtEndDate.Value, dtStartDate.Value))
-            //{
-            //    errorProvider.SetError(dtEndDate, "End date cannot be less than start date.");
-            //    dtEndDate.Focus();
-            //    return false;
-            //}
+            if (cboCategory.SelectedIndex == -1)
+            {
+                errorProvider.SetError(cboCategory, "Please select a category.");
+                cboCategory.Focus();
+                return false;
+            }
+            else if (cboType.SelectedIndex == -1)
+            {
+                errorProvider.SetError(cboType, "Please select a type.");
+                cboType.Focus();
+                return false;
+            }
+            else if (System.String.IsNullOrEmpty(txtRate.Text))
+            {
+                errorProvider.SetError(txtRate, "Please enter the rate.");
+                txtRate.Focus();
+                return false;
+            }
+            else if (!ValidationRule.IsDecimal(txtRate.Text.Trim().Replace(",", "")))
+            {
+                errorProvider.SetError(txtRate, "Entered " + txtRate.Text + " is Invalid.");
+                txtRate.Focus();
+                return false;
+            }
+            else if (operation == "add" && ValidationRule.IsDateLessThanToday(dtStartDate.Value))
+            {
+                errorProvider.SetError(dtStartDate, "Start date cannot be less than today.");
+                dtStartDate.Focus();
+                return false;
+            }
+            else if (operation == "change" && dtEndDate.Value < System.DateTime.Today.AddDays(-1))
+            {
+                errorProvider.SetError(dtEndDate, "End date cannot be less than previous day.");
+                dtEndDate.Focus();
+                return false;
+            }
+            else if (ValidationRule.IsDateLess(dtEndDate.Value, dtStartDate.Value))
+            {
+                errorProvider.SetError(dtEndDate, "End date cannot be less than start date.");
+                dtEndDate.Focus();
+                return false;
+            }
 
 
             return retVal;
@@ -208,41 +258,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         //    txtRate.Text = dto.Rate == 0 ? string.Empty : Converter.ConvertToIndianCurrency(Convert.ToDecimal(dto.Rate));
         //}
 
-        private void Save(string operation)
-        {
-            if (!ValidateTariff(operation)) return;
-
-            //Dto tariffDto = new Dto()
-            //{
-            //    Category = new Facade.Configuration.RoomCategory.Dto()
-            //    {
-            //        Id = ((Facade.Configuration.RoomCategory.Dto)cboCategory.SelectedItem).Id,
-            //    },
-            //    Type = new Facade.Configuration.RoomType.Dto()
-            //    {
-            //        Id = ((Facade.Configuration.RoomType.Dto)cboType.SelectedItem).Id,
-            //    },
-            //    IsAC = chkIsAC.Checked,
-            //    StartDate = dtStartDate.Value,
-            //    EndDate = dtEndDate.Value,
-            //    Rate = System.Convert.ToDouble(txtRate.Text),
-            //};
-
-            //if (operation == "change")
-            //{
-            //    if (dgvTariff.SelectedRows.Count == 0)
-            //        return;
-
-            //    tariffDto.Id = ((Dto)dgvTariff.SelectedRows[0].DataBoundItem).Id;
-                
-            //}
-
-            //ITariff tariff = new TariffServer();
-            //ReturnObject<System.Boolean> ret = tariff.Change(tariffDto);
-
-            //base.ShowMessage(ret); //Show message  
-        
-        }
+       
 
         private void rdoAll_CheckedChanged(object sender, System.EventArgs e)
         {
@@ -305,6 +321,8 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             //if (dgvTariff.SelectedRows.Count > 0)
             //    PopulateFormData((Dto)dgvTariff.SelectedRows[0].DataBoundItem);
         }
+
+       
 
      
     }

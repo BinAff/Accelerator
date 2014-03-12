@@ -3,6 +3,8 @@ using BinAff.Core;
 using System;
 using BinAff.Utility;
 
+using CrystalLodge = Crystal.Lodge.Component;
+
 namespace AutoTourism.Lodge.Configuration.Facade.Tariff
 {
     public class TariffServer : BinAff.Facade.Library.Server, ITariff
@@ -80,6 +82,49 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
             return new ReturnObject<List<Dto>>();
 
         }
+
+        public override void Add()
+        {
+            Dto tariffDto = (this.FormDto as FormDto).dto;
+            CrystalLodge.Room.Tariff.Data data = new CrystalLodge.Room.Tariff.Data
+            {
+                StartDate = tariffDto.StartDate,
+                EndDate = tariffDto.EndDate,
+                Rate = tariffDto.Rate,
+                Product = new Crystal.Product.Component.Data { }
+            };
+            
+
+            //Crystal.Lodge.Tariff.Data data = new Crystal.Lodge.Tariff.Data
+            //{
+            //    Category = new Crystal.Lodge.Configuration.Room.Category.Data() { Id = dto.Category.Id },
+            //    Type = new Crystal.Lodge.Configuration.Room.Type.Data() { Id = dto.Type.Id },
+            //    IsAirConditioned = dto.IsAC,
+            //    StartDate = dto.StartDate,
+            //    EndDate = dto.EndDate,
+            //    Rate = dto.Rate
+            //};
+
+            //    Crystal.Lodge.Tariff.ITariff crud = new Crystal.Lodge.Tariff.Server(data);
+
+            //    ReturnObject<Boolean> ret = new ReturnObject<Boolean>();            
+            //    if (crud.GetExistingTariff().Value == null)
+            //    {
+            //        //Insert
+            //        ret = Save(data);
+            //    }
+            //    else
+            //    {
+            //        ret.Value = false;
+            //        ret.MessageList = new List<Message> { 
+            //            new Message("Tariff conflicts for the period selected. Please update the existing tariff.", Message.Type.Error)
+            //        };
+            //    }
+            //    return ret; 
+        }
+       
+
+
 
         //private ReturnObject<List<Dto>> ReadAllCurrentTariff()
         //{            
@@ -160,35 +205,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
         //    return new Room.Server(null).ReadAllType();
         //}
 
-        //private ReturnObject<Boolean> Add(Dto dto)
-        //{
-        //    Crystal.Lodge.Tariff.Data data = new Crystal.Lodge.Tariff.Data
-        //    {
-        //        Category = new Crystal.Lodge.Configuration.Room.Category.Data() { Id = dto.Category.Id },
-        //        Type = new Crystal.Lodge.Configuration.Room.Type.Data() { Id = dto.Type.Id },
-        //        IsAirConditioned = dto.IsAC,
-        //        StartDate = dto.StartDate,
-        //        EndDate = dto.EndDate,
-        //        Rate = dto.Rate
-        //    };
-
-        //    Crystal.Lodge.Tariff.ITariff crud = new Crystal.Lodge.Tariff.Server(data);
-
-        //    ReturnObject<Boolean> ret = new ReturnObject<Boolean>();            
-        //    if (crud.GetExistingTariff().Value == null)
-        //    {
-        //        //Insert
-        //        ret = Save(data);
-        //    }
-        //    else
-        //    {
-        //        ret.Value = false;
-        //        ret.MessageList = new List<Message> { 
-        //            new Message("Tariff conflicts for the period selected. Please update the existing tariff.", Message.Type.Error)
-        //        };
-        //    }
-        //    return ret; 
-        //}
+       
 
         //private ReturnObject<Boolean> Save(Crystal.Lodge.Tariff.Data data)
         //{
