@@ -266,6 +266,7 @@
             this.btnAdd.TabIndex = 136;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnChange
             // 
@@ -275,6 +276,7 @@
             this.btnChange.TabIndex = 137;
             this.btnChange.Text = "Change";
             this.btnChange.UseVisualStyleBackColor = true;
+            this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
             // 
             // RoomTariff
             // 
