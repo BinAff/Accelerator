@@ -20,8 +20,10 @@ namespace Crystal.Tariff.Component
             List<Message> retMsg = new List<Message>();
             Data data = (Data)base.Data;
 
-            if (ValidationRule.IsNullOrEmpty(data.Product) || (data.Product.Id == 0))
-                retMsg.Add(new Message("Product cannot be empty.", Message.Type.Error));
+            //-- this validation will not be applicable for lodge [here tariff is not on room but combination of 
+            // category, type and AC]
+            //if (ValidationRule.IsNullOrEmpty(data.Product) || (data.Product.Id == 0))
+            //    retMsg.Add(new Message("Product cannot be empty.", Message.Type.Error));
 
             if (ValidationRule.IsNullOrEmpty(data.Rate) || (data.Rate <= 0))
                 retMsg.Add(new Message("Rate cannot be empty.", Message.Type.Error));

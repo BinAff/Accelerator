@@ -121,7 +121,9 @@ namespace BinAff.Utility
                     sb.Append(newList[intNLst]);
 
                 retVal = sb.ToString().Substring(0,1) == "," ? sb.ToString().Substring(1) : sb.ToString();
-                retVal = retVal + "." + amount.ToString().Split('.')[1];
+                
+                if (amount.ToString().Split('.').Length > 1)
+                    retVal = retVal + "." + amount.ToString().Split('.')[1];
             }
             else
                 retVal =  amount.ToString();

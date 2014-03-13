@@ -21,7 +21,9 @@ namespace Crystal.Tariff.Component
             base.AddInParameter("@Rate", DbType.Int64, ((Data)this.Data).Rate);
             base.AddInParameter("@StartDate", DbType.DateTime, ((Data)this.Data).StartDate);
             base.AddInParameter("@EndDate", DbType.DateTime, ((Data)this.Data).EndDate);
-            base.AddInParameter("@ItemId", DbType.Int64, ((Data)this.Data).Product.Id);
+
+            if (((Data)this.Data).Product != null)
+                base.AddInParameter("@ItemId", DbType.Int64, ((Data)this.Data).Product.Id);
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
