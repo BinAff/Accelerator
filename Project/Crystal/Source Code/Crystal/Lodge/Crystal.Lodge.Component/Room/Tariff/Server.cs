@@ -81,6 +81,30 @@ namespace Crystal.Lodge.Component.Room.Tariff
             Data d = data as Data;
             return "Room has tariff attached from " + d.StartDate.ToShortDateString() + " to " + d.EndDate.ToShortDateString();
         }
+
+        ReturnObject<List<BinAff.Core.Data>> IRoomTariff.GetExistingTariff()
+        {
+            return new ReturnObject<List<BinAff.Core.Data>>()
+            {
+                Value = new Dao((Data)this.Data).GetExistingTariff(),
+            };
+        }
+        
+        ReturnObject<List<BinAff.Core.Data>> IRoomTariff.ReadAllCurrentTariff()
+        {
+            return new ReturnObject<List<BinAff.Core.Data>>()
+            {
+                Value = new Dao((Data)this.Data).ReadAllCurrentTariff(),
+            };
+        }
+        
+        ReturnObject<List<BinAff.Core.Data>> IRoomTariff.ReadAllFutureTariff()
+        {
+            return new ReturnObject<List<BinAff.Core.Data>>()
+            {
+                Value = new Dao((Data)this.Data).ReadAllFutureTariff(),
+            };
+        }
     }
 
 }

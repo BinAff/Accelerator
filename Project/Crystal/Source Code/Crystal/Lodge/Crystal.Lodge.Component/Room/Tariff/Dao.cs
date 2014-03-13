@@ -27,6 +27,14 @@ namespace Crystal.Lodge.Component.Room.Tariff
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
+        protected override void AssignParameter(string procedureName)
+        {
+            base.AssignParameter(procedureName);
+            base.AddInParameter("@CategoryId", DbType.Int64, ((Data)this.Data).category.Id);
+            base.AddInParameter("@TypeId", DbType.Int64, ((Data)this.Data).type.Id);
+            base.AddInParameter("@IsAC", DbType.Boolean, ((Data)this.Data).isAC);           
+        }
+
         protected override Product.Component.Data BindItem(Int64 itemId)
         {
             return new Room.Data
@@ -83,26 +91,98 @@ namespace Crystal.Lodge.Component.Room.Tariff
             return dataList;
         }
 
+        //validation is not required for lodge since here tariff is not generated for a product
         internal Boolean ReadDuplicate()
         {
+            return false;
+        }
+       
+        internal List<BinAff.Core.Data> GetExistingTariff()
+        {
+            List<BinAff.Core.Data> retList = new List<BinAff.Core.Data>();
             Data data = (Data)this.Data;
+            if (data != null)
+            {
+
+                this.CreateConnection();
+                this.CreateCommand("[Lodge].[TariffIsExist]");
+                base.AddInParameter("@CategoryId", DbType.Int64, ((Data)this.Data).category.Id);
+                base.AddInParameter("@TypeId", DbType.Int64, ((Data)this.Data).type.Id);
+                base.AddInParameter("@IsAC", DbType.Boolean, ((Data)this.Data).isAC);
+                base.AddInParameter("@StartDate", DbType.DateTime, ((Data)this.Data).StartDate == null ? DateTime.Today : ((Data)this.Data).StartDate);
+                base.AddInParameter("@EndDate", DbType.DateTime, ((Data)this.Data).EndDate == null ? DateTime.Today : ((Data)this.Data).EndDate);
+                DataSet ds = this.ExecuteDataSet();
+                retList = (ds != null && ds.Tables[0].Rows.Count > 0) ? (List<BinAff.Core.Data>)CreateDataObjectList(ds) : null;
+
+                this.CloseConnection();
+            }
+            return retList;
+        }
+
+        internal List<BinAff.Core.Data> ReadAllCurrentTariff()
+        {
             this.CreateConnection();
-            this.CreateCommand("[Lodge].[TariffReadDuplicate]");
-            this.AddInParameter("@RoomId", DbType.String, data.Product.Id);
-            this.AddInParameter("@StartDate", DbType.String, data.StartDate);
-            this.AddInParameter("@EndDate", DbType.String, data.EndDate);
+            this.CreateCommand("[Lodge].TariffReadAllCurrent");
 
             DataSet ds = this.ExecuteDataSet();
+            List<BinAff.Core.Data> dataList = CreateDataObjectList(ds);
+            this.CloseConnection();
+
+            return dataList;
+        }
+
+        internal List<BinAff.Core.Data> ReadAllFutureTariff()
+        {
+            this.CreateConnection();
+            this.CreateCommand("[Lodge].TariffReadAllFuture");
+            DataSet ds = this.ExecuteDataSet();
+            List<BinAff.Core.Data> dataList = CreateDataObjectList(ds);
+            this.CloseConnection();
+
+            return dataList;
+        }
+
+        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
+        {
+            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
 
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                foreach (DataRow dr in ds.Tables[0].Rows)
+                foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    if (!Convert.IsDBNull(dr["Id"]) && Convert.ToInt64(dr["Id"]) != this.Data.Id) return true;
+                    ret.Add(new Data
+                    {                       
+                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),                    
+                        StartDate = Convert.IsDBNull(row["StartDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["StartDate"]),
+                        EndDate = Convert.IsDBNull(row["EndDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["EndDate"]),
+                        Rate = Convert.IsDBNull(row["Rate"]) ? 0 : Convert.ToDouble(row["Rate"]),
+                        category = Convert.IsDBNull(row["CategoryId"]) ? null : new Category.Data() { Id = Convert.ToInt64(row["CategoryId"]) },
+                        type = Convert.IsDBNull(row["TypeId"]) ? null : new Room.Type.Data() { Id = Convert.ToInt64(row["TypeId"]) },
+                        isAC = Convert.IsDBNull(row["IsAirConditioned"]) ? false : Convert.ToBoolean(row["IsAirConditioned"])                     
+                    });
                 }
             }
-
-            return false;
+            return ret;
         }
+
+        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
+        {
+            Data dt = (Data)data;
+            DataRow row;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                row = ds.Tables[0].Rows[0];
+
+                dt.Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]);               
+                dt.StartDate = Convert.IsDBNull(row["StartDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["StartDate"]);
+                dt.EndDate = Convert.IsDBNull(row["EndDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["EndDate"]);
+                dt.Rate = Convert.IsDBNull(row["Rate"]) ? 0 : Convert.ToDouble(row["Rate"]);
+                dt.category = Convert.IsDBNull(row["CategoryId"]) ? null : new Category.Data() { Id = Convert.ToInt64(row["CategoryId"]) };
+                dt.type = Convert.IsDBNull(row["TypeId"]) ? null : new Room.Type.Data() { Id = Convert.ToInt64(row["TypeId"]) };
+                dt.isAC = Convert.IsDBNull(row["IsAirConditioned"]) ? false : Convert.ToBoolean(row["IsAirConditioned"]);
+            }
+            return dt;
+        }
+
     }
 }

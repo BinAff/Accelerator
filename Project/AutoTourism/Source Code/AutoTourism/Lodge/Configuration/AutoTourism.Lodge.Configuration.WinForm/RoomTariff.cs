@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 using PresentationLibrary = BinAff.Presentation.Library;
 using ConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
+using BinAff.Core;
 
 namespace AutoTourism.Lodge.Configuration.WinForm
 {
@@ -58,11 +59,6 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             this.cboCategory.DataSource = null;
             if (this.formDto.CategoryList != null && this.formDto.CategoryList.Count > 0)
             {
-                //this.formDto.CategoryList.Insert(0, new LodgeConfigurationFacade.Room.Category.Dto
-                //{
-                //    Name = "All"
-                //});
-
                 this.cboCategory.DataSource = this.formDto.CategoryList;
                 this.cboCategory.ValueMember = "Id";
                 this.cboCategory.DisplayMember = "Name";
@@ -73,56 +69,23 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             this.cboType.DataSource = null;
             if (this.formDto.TypeList != null && this.formDto.TypeList.Count > 0)
             {
-                //this.formDto.TypeList.Insert(0, new LodgeConfigurationFacade.Room.Type.Dto
-                //{
-                //    Name = "All"
-                //});
                 this.cboType.DataSource = this.formDto.TypeList;
                 this.cboType.ValueMember = "Id";
                 this.cboType.DisplayMember = "Name";
                 this.cboType.SelectedIndex = -1;
             }
-
-            //ITariff tariff = new TariffServer();
-            //ReturnObject<FormDto> ret = tariff.LoadForm();
-
-            ////populate Category List
-            //this.cboCategory.DataSource = null;
-            //if (ret.Value.CategoryList != null && ret.Value.CategoryList.Count > 0)
-            //{
-            //    this.cboCategory.DataSource = ret.Value.CategoryList;
-            //    this.cboCategory.ValueMember = "Id";
-            //    this.cboCategory.DisplayMember = "Name";
-            //    this.cboCategory.SelectedIndex = -1;
-            //}
-
-            ////populate Type List
-            //this.cboType.DataSource = null;
-            //if (ret.Value.TypeList != null && ret.Value.TypeList.Count > 0)
-            //{
-            //    this.cboType.DataSource = ret.Value.TypeList;
-            //    this.cboType.ValueMember = "Id";
-            //    this.cboType.DisplayMember = "Name";
-            //    this.cboType.SelectedIndex = -1;
-            //}
-
-            ////populate Tariff Grid
-            //if(ret.Value.TariffList != null && ret.Value.TariffList.Count>0)
-            //{
-            //    dgvTariff.DataSource = ret.Value.TariffList;               
-            //    PopulateFormData(ret.Value.TariffList[0]);                
-            //}
-
+            
+            //populate Tariff Grid
+            if (this.formDto.TariffList != null && this.formDto.TariffList.Count > 0)
+            {
+                dgvTariff.DataSource = this.formDto.TariffList;
+                PopulateFormData(this.formDto.TariffList[0]);   
+            }
         }
-
-        //protected override void Clear()
-        //{
-        //    //base.Clear();
-        //}
-
+             
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            Save("add");
+            Save("add");         
         }
 
         private void btnChange_Click(object sender, EventArgs e)
@@ -136,8 +99,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
             if (retVal)
             {
-                if (this.dto == null) this.dto = new Facade.Tariff.Dto();
-                this.dto.Id = this.dto == null ? 0 : this.dto.Id;
+                if (this.dto == null) this.dto = new Facade.Tariff.Dto();                
                 this.dto.Category = new Facade.Room.Category.Dto { Id = ((Facade.Room.Category.Dto)cboCategory.SelectedItem).Id };
                 this.dto.Type = new Facade.Room.Type.Dto { Id = ((Facade.Room.Type.Dto)cboType.SelectedItem).Id };
                 this.dto.IsAC = chkIsAC.Checked;
@@ -155,35 +117,29 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 if (operation == "add")
                     facade.Add();
                 else
+                {  
+                    this.dto.Id = ((ConfigurationFacade.Tariff.Dto)dgvTariff.SelectedRows[0].DataBoundItem).Id;    
                     facade.Change();
+                }
+                             
+                new PresentationLibrary.MessageBox
+                {
+                    DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
+                    Heading = "Splash",
+                }.Show(facade.DisplayMessageList);
 
+                if(!facade.IsError)
+                    this.RadioChange(operation);
             }
 
             return retVal;
-
-           
-
-            //if (operation == "change")
-            //{
-            //    if (dgvTariff.SelectedRows.Count == 0)
-            //        return;
-
-            //    tariffDto.Id = ((Dto)dgvTariff.SelectedRows[0].DataBoundItem).Id;
-
-            //}
-
-            //ITariff tariff = new TariffServer();
-            //ReturnObject<System.Boolean> ret = tariff.Change(tariffDto);
-
-            //base.ShowMessage(ret); //Show message  
-
         }
 
         private System.Boolean ValidateTariff(string operation)
         {
             System.Boolean retVal = true;
             errorProvider.Clear();
-
+           
             if (cboCategory.SelectedIndex == -1)
             {
                 errorProvider.SetError(cboCategory, "Please select a category.");
@@ -220,6 +176,13 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 dtEndDate.Focus();
                 return false;
             }
+            else if (operation == "change" && dgvTariff.SelectedRows.Count == 0)
+            {
+                errorProvider.SetError(dgvTariff, "Select a row in the grid to change.");
+                dgvTariff.Focus();
+                return false;
+
+            }
             else if (ValidationRule.IsDateLess(dtEndDate.Value, dtStartDate.Value))
             {
                 errorProvider.SetError(dtEndDate, "End date cannot be less than start date.");
@@ -231,99 +194,107 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             return retVal;
         }
 
-        //private void PopulateFormData(Dto dto)
-        //{
-        //    //highlight category dropdown
-        //    for (int i = 0; i < cboCategory.Items.Count; i++)
-        //    {
-        //        if (dto.Category.Id == ((AutoTourism.Facade.Configuration.RoomCategory.Dto)cboCategory.Items[i]).Id)
-        //        {
-        //            cboCategory.SelectedIndex = i;
-        //            break;
-        //        }
-        //    }
+        private void PopulateFormData(ConfigurationFacade.Tariff.Dto dto)
+        {
+            //highlight category dropdown
+            for (int i = 0; i < cboCategory.Items.Count; i++)
+            {
+                if (dto.Category.Id == ((ConfigurationFacade.Room.Category.Dto)cboCategory.Items[i]).Id)
+                {
+                    cboCategory.SelectedIndex = i;
+                    break;
+                }
+            }
 
-        //    //highlight type dropdown
-        //    for (int i = 0; i < cboType.Items.Count; i++)
-        //    {
-        //        if (dto.Type.Id == ((AutoTourism.Facade.Configuration.RoomType.Dto)cboType.Items[i]).Id)
-        //        {
-        //            cboType.SelectedIndex = i;
-        //            break;
-        //        }
-        //    }
-        //    chkIsAC.Checked = dto.IsAC;
-        //    dtStartDate.Value = dto.StartDate;
-        //    dtEndDate.Value = dto.EndDate;
-        //    txtRate.Text = dto.Rate == 0 ? string.Empty : Converter.ConvertToIndianCurrency(Convert.ToDecimal(dto.Rate));
-        //}
+            //highlight type dropdown
+            for (int i = 0; i < cboType.Items.Count; i++)
+            {
+                if (dto.Type.Id == ((ConfigurationFacade.Room.Type.Dto)cboType.Items[i]).Id)
+                {
+                    cboType.SelectedIndex = i;
+                    break;
+                }
+            }
 
-       
+            chkIsAC.Checked = dto.IsAC;
+            dtStartDate.Value = dto.StartDate;
+            dtEndDate.Value = dto.EndDate;
+            txtRate.Text = dto.Rate == 0 ? string.Empty : Converter.ConvertToIndianCurrency(Convert.ToDecimal(dto.Rate));
+        }
 
         private void rdoAll_CheckedChanged(object sender, System.EventArgs e)
         {
-            //if (rdoAll.Checked)
-            //{
-            //    ITariff tariff = new TariffServer();
-            //    ReturnObject<List<Dto>> ret = tariff.ReadAllTariff();
-
-            //    //populate Tariff Grid
-            //    if (ret.Value != null && ret.Value.Count > 0)
-            //    {
-            //        dgvTariff.DataSource = ret.Value;
-                    
-            //        PopulateFormData(ret.Value[0]);
-            //    }
-
-            //}
+            this.RadioChange("all");           
         }
 
         private void rdoCurrent_CheckedChanged(object sender, System.EventArgs e)
         {
-            //if (rdoCurrent.Checked)
-            //{
-            //    ITariff tariff = new TariffServer();
-            //    ReturnObject<List<Dto>> ret = tariff.ReadAllCurrentTariff();
-
-            //    //populate Tariff Grid
-            //    if (ret.Value != null && ret.Value.Count > 0)
-            //    {
-            //        dgvTariff.DataSource = ret.Value;
-
-            //        PopulateFormData(ret.Value[0]);
-            //    }
-
-            //}
-
+            this.RadioChange("current");
         }
 
         private void rdoFuture_CheckedChanged(object sender, System.EventArgs e)
         {
-            //if (rdoFuture.Checked)
-            //{
-            //    ITariff tariff = new TariffServer();
-            //    ReturnObject<List<Dto>> ret = tariff.ReadAllFutureTariff();
-
-            //    //populate Tariff Grid
-            //    if (ret.Value != null && ret.Value.Count > 0)
-            //    {
-            //        dgvTariff.DataSource = ret.Value;
-
-            //        PopulateFormData(ret.Value[0]);
-            //    }
-
-            //}
-
+            this.RadioChange("future");
         }
 
         private void dgvTariff_SelectionChanged(object sender, System.EventArgs e)
-        {            
-            //if (dgvTariff.SelectedRows.Count > 0)
-            //    PopulateFormData((Dto)dgvTariff.SelectedRows[0].DataBoundItem);
+        {
+            if (dgvTariff.SelectedRows.Count > 0)
+                PopulateFormData((ConfigurationFacade.Tariff.Dto)dgvTariff.SelectedRows[0].DataBoundItem);
         }
 
-       
+        private void RadioChange(String source)
+        {
+            ConfigurationFacade.Tariff.ITariff tariff = new ConfigurationFacade.Tariff.TariffServer(this.formDto);
+            ReturnObject<List<ConfigurationFacade.Tariff.Dto>> ret = new ReturnObject<List<ConfigurationFacade.Tariff.Dto>>();
 
-     
+            Int64 tariffId = 0;
+            Boolean isSelectIndexRequired = false;
+            if (source == "add" || source == "change")
+            {
+                if (source == "change")
+                {
+                    tariffId = ((ConfigurationFacade.Tariff.Dto)dgvTariff.SelectedRows[0].DataBoundItem).Id;
+                    isSelectIndexRequired = true;
+                }
+
+                if (rdoAll.Checked)
+                    source = "all";
+                else if (rdoCurrent.Checked)
+                    source = "current";
+                else if (rdoFuture.Checked)
+                    source = "future";
+            }
+
+            if (source == "all")
+                ret = tariff.ReadAllTariff();
+            else if (source == "current")
+                ret = tariff.ReadAllCurrentTariff();
+            else if (source == "future")
+                ret = tariff.ReadAllFutureTariff();
+
+            //populate Tariff Grid
+            if (ret.Value != null && ret.Value.Count > 0)
+            {
+                dgvTariff.DataSource = ret.Value;
+                ConfigurationFacade.Tariff.Dto tariffDto = ret.Value[0];
+
+                if (isSelectIndexRequired)
+                {
+                    for (int i = 0; i < dgvTariff.RowCount; i++)
+                    {
+                        if (((ConfigurationFacade.Tariff.Dto)dgvTariff.Rows[i].DataBoundItem).Id == tariffId)
+                        {
+                            dgvTariff.Rows[i].Selected = true;
+                            tariffDto = (ConfigurationFacade.Tariff.Dto)dgvTariff.Rows[i].DataBoundItem; 
+                            break;
+                        }
+                    }
+                }
+
+                PopulateFormData(tariffDto);
+            }
+        }
+        
     }
 }
