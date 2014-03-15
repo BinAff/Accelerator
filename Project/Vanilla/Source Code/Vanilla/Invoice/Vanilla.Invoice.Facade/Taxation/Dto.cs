@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Vanilla.Invoice.Facade.Taxation
 {
-    class Dto
+    public class Dto : BinAff.Facade.Library.Dto
     {
+        public Dto taxation { get; set; }
     }
 }

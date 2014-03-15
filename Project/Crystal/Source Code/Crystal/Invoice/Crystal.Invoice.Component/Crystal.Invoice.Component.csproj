@@ -44,6 +44,10 @@
     <Compile Include="LineItem\Data.cs" />
     <Compile Include="LineItem\Server.cs" />
     <Compile Include="LineItem\Validator.cs" />
+    <Compile Include="Navigator\Artifact\Dao.cs" />
+    <Compile Include="Navigator\Artifact\Data.cs" />
+    <Compile Include="Navigator\Artifact\Server.cs" />
+    <Compile Include="Navigator\Artifact\Validator.cs" />
     <Compile Include="Payment\Dao.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -81,7 +85,12 @@
       <Project>{ED04BF0C-B4F1-4E9C-80C5-799027EBE260}</Project>
       <Name>BinAff.Utility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Navigator\Component\Crystal.Navigator.Component.csproj">
+      <Project>{3E089798-771D-44F3-8A99-C990AB47A0B4}</Project>
+      <Name>Crystal.Navigator.Component</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

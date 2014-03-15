@@ -12,6 +12,8 @@ using System.Drawing.Printing;
 using System.Drawing.Imaging;
 using System.Drawing;
 
+using Facade = Vanilla.Invoice.Facade;
+
 namespace Vanilla.Invoice.WinForm
 {
     public partial class Invoice : Form
@@ -21,8 +23,8 @@ namespace Vanilla.Invoice.WinForm
 
 
         //private Crystal.Invoice.Component.Data invoiceData;
-
-        public Invoice()
+       
+        public Invoice(System.Windows.Forms.TreeView trvForm)
         {
             InitializeComponent();
             //this.invoiceData = data;
@@ -38,6 +40,13 @@ namespace Vanilla.Invoice.WinForm
             //    this.txtLastFourDigit.Enabled = false;
             //    this.txtRemark.Enabled = false;
             //}
+
+        }
+
+        public Invoice(Facade.Dto dto)
+        {
+            InitializeComponent();
+           
 
         }
 
