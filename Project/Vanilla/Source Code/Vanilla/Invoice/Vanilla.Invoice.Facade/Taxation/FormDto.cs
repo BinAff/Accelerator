@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Vanilla.Invoice.Facade.Taxation
 {
-    class FormDto
+    public class FormDto : BinAff.Facade.Library.FormDto
     {
     }
 }

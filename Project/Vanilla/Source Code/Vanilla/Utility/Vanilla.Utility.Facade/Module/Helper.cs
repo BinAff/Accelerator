@@ -140,15 +140,21 @@ namespace Vanilla.Utility.Facade.Module
                     this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeCheckInServer, checkInDto);
                     break;
 
-                case "INVO"://Need to change
-                    this.ModuleFormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
-                    this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Dto, AutoTourism.Customer.Facade";
-                    this.ArtifacComponentAssembly = "AutoTourism.Component.Customer";
-                    this.ArtifactDataType = "AutoTourism.Component.Customer.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "AutoTourism.Component.Customer.Navigator.Artifact.Server";
-                    this.ModuleDataType = "AutoTourism.Component.Customer.Data, AutoTourism.Component.Customer";
-                    //this.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
-                    break;
+                case "INVO":                   
+
+                    this.ModuleFormType = "Vanilla.Invoice.WinForm.Invoice, Vanilla.Invoice.WinForm";
+                    this.ModuleFormDtoType = "Vanilla.Invoice.Facade.Dto, Vanilla.Invoice.Facade";
+                    this.ArtifacComponentAssembly = "Crystal.Invoice.Component";
+                    this.ArtifactDataType = "Crystal.Invoice.Component.Navigator.Artifact.Data";
+                    this.ArtifacComponentType = "Crystal.Invoice.Component.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Invoice.Component.Data, Crystal.Invoice.Component";
+                    
+                    Type typeInvoiceServer = Type.GetType("Vanilla.Invoice.Facade.Server,Vanilla.Invoice.Facade", true);
+                    Type typeInvoiceDto = Type.GetType("Vanilla.Invoice.Facade.FormDto,Vanilla.Invoice.Facade", true);
+                    BinAff.Facade.Library.FormDto invoiceDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeInvoiceDto);
+                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeInvoiceServer, invoiceDto);
+                    //new Vanilla.Invoice.WinForm.Invoice();
+                    break;          
 
                 default:
                     //helper.FormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";

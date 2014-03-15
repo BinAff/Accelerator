@@ -59,9 +59,20 @@
       <DependentUpon>Taxation.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Invoice.rdlc" />
-    <EmbeddedResource Include="Invoice.resx">
-      <DependentUpon>Invoice.cs</DependentUpon>
-    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
+      <Project>{F6AB9943-F271-4293-B13E-DC58DEF3F59D}</Project>
+      <Name>BinAff.Facade.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Presentation\Library\BinAff.Presentation.Library.csproj">
+      <Project>{1EE9A9DD-9151-437A-B1A3-28015975EF52}</Project>
+      <Name>BinAff.Presentation.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vanilla.Invoice.Facade\Vanilla.Invoice.Facade.csproj">
+      <Project>{F5351CBF-9763-43A3-9B2E-7A6C1A93FCE4}</Project>
+      <Name>Vanilla.Invoice.Facade</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
