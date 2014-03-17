@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
-
 using PresLib = BinAff.Presentation.Library;
 
 namespace Vanilla.Utility.WinForm.Extender
@@ -119,12 +119,61 @@ namespace Vanilla.Utility.WinForm.Extender
     public static class ListViewExtender
     {
 
+        public static String Initialize(this ListView listView)
+        {
+            listView.Columns.Add("Name", 300);
+            listView.Columns.Add("Type", 70);
+            listView.Columns.Add("Version", 50);
+            listView.Columns.Add("Created By", 200);
+            listView.Columns.Add("Created At", 115);
+            listView.Columns.Add("Modified By", 200);
+            listView.Columns.Add("Modified At", 115);
+
+            listView.ListViewItemSorter = new PresLib.ListViewColumnSorter();
+            return "Name"; //this name will come from rule
+        }
+
+        public static void EditListViewSelectedItem(this ListView listView)
+        {
+            listView.LabelEdit = true;
+            foreach (ListViewItem item in listView.SelectedItems)
+            {
+                item.BeginEdit();
+            }
+        }
+
         public static void AttachChildren(this ListView listView, Facade.Artifact.Dto selectedNode)
         {
             listView.Items.Clear();
             if (selectedNode.Children != null && selectedNode.Children.Count > 0)
             {
                 foreach (Facade.Artifact.Dto artifact in selectedNode.Children)
+                {
+                    ListViewItem current = new ListViewItem
+                    {
+                        Text = artifact.FileName,
+                        Tag = artifact,
+                        ImageIndex = artifact.Style == Facade.Artifact.Type.Directory ? 0 : 2,
+                    };
+                    current.SubItems.AddRange(AddListViewSubItems(current, artifact));
+                    listView.Items.Add(current);
+                }
+
+                //Sort
+                listView.ResetColumnOrder();
+                listView.Sort("Name", new PresLib.ListViewColumnSorter
+                {
+                    Order = SortOrder.Ascending
+                });
+            }
+        }
+
+        public static void AttachChildren(this ListView listView, List<Facade.Artifact.Dto> nodeList)
+        {
+            listView.Items.Clear();
+            if (nodeList != null && nodeList.Count > 0)
+            {
+                foreach (Facade.Artifact.Dto artifact in nodeList)
                 {
                     ListViewItem current = new ListViewItem
                     {
