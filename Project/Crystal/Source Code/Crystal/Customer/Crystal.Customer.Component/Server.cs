@@ -142,7 +142,7 @@ namespace Crystal.Customer.Component
 
         ReturnObject<bool> ICustomer.GenerateInvoice()
         {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
