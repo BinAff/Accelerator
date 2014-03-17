@@ -789,7 +789,6 @@ namespace AutoTourism.Lodge.WinForm
                 //lblTotalBookedRoomCount.Text = "Total no of rooms booked for the selected category, type and AC preference from " +
                 //    dtFrom.Value.ToShortDateString() + " and " + dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)).ToShortDateString() + " = " +
                 //    TotalRoomsBookedWithMatchingCategoryTypeAndACPreference.ToString();
-                txtTotalBookedRoomsWithFilter.Text = TotalRoomsBookedWithMatchingCategoryTypeAndACPreference.ToString();
 
                 AvailableRoomsCount = TotalRoomsWithMatchingCategoryTypeAndACPreference - TotalRoomsBookedWithMatchingCategoryTypeAndACPreference;
                 Int32 totalAvailableRooms = this.totalRooms - this.totalBookings;
@@ -804,7 +803,6 @@ namespace AutoTourism.Lodge.WinForm
             }
             else
             {
-                txtTotalBookedRoomsWithFilter.Text = String.Empty;
                 txtAvailableRooms.Text = String.Empty;
                 //lblTotalBookedRoomCount.Text = String.Empty;
                 //lblAvailableRooms.Text = String.Empty;
@@ -840,7 +838,6 @@ namespace AutoTourism.Lodge.WinForm
             txtTotalRoom.Text = String.Empty;
             txtTotalBooked.Text = String.Empty;
             txtTotalRoomWithFilter.Text = String.Empty;
-            txtTotalBookedRoomsWithFilter.Text = String.Empty;
             txtAvailableRooms.Text = String.Empty;
 
             dtFrom.Value = DateTime.Now;
@@ -907,6 +904,12 @@ namespace AutoTourism.Lodge.WinForm
             base.IsModified = true;
             this.Close();
         }
+
+        private void btnGenerateInvoice_Click(object sender, EventArgs e)
+        {
+
+        }
             
     }
+
 }
