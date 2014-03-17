@@ -38,6 +38,8 @@
   <ItemGroup>
     <Compile Include="Dto.cs" />
     <Compile Include="FormDto.cs" />
+    <Compile Include="Payment\Dto.cs" />
+    <Compile Include="Payment\Type\Dto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Taxation\Dto.cs" />

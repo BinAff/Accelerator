@@ -24,7 +24,7 @@ namespace Vanilla.Invoice.WinForm
 
         //private Crystal.Invoice.Component.Data invoiceData;
        
-        public Invoice(System.Windows.Forms.TreeView trvForm)
+        public Invoice()
         {
             InitializeComponent();
             //this.invoiceData = data;
@@ -46,8 +46,7 @@ namespace Vanilla.Invoice.WinForm
         public Invoice(Facade.Dto dto)
         {
             InitializeComponent();
-           
-
+            this.SetGridViewSettings();
         }
 
         private void LoadReport()
@@ -114,6 +113,7 @@ namespace Vanilla.Invoice.WinForm
             //this.reportViewer1.RefreshReport();
             //this.reportViewer1.RefreshReport();
             //this.rvInvoice.RefreshReport();
+            this.rvInvoice.RefreshReport();
         }
 
         private void LoadFormData()
@@ -288,6 +288,73 @@ namespace Vanilla.Invoice.WinForm
             ev.HasMorePages = (m_currentPageIndex < m_streams.Count);
         }
 
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            List<Facade.Payment.Dto> paymentDto = new List<Facade.Payment.Dto>();
+            paymentDto.Add(new Facade.Payment.Dto 
+            {
+                //Date = DateTime.Today,
+                cardNumber = "ABC",
+                amount = 5000,
+                paymentType = "credit card",
+                remark = "test invoice"
+            });
+
+            dgvPayment.DataSource = paymentDto;
+        }
+
+        private void dgvPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
+
+            if (e.ColumnIndex == 4)
+            {
+                paymentDtoList = this.RemoveDtoAtGivenPosition(paymentDtoList,e.RowIndex);
+                dgvPayment.DataSource = paymentDtoList;
+            }
+        }
+
+        private List<Facade.Payment.Dto> RemoveDtoAtGivenPosition(List<Facade.Payment.Dto> lstPaymentDto, int removePosition)
+        {
+            List<Facade.Payment.Dto> paymentDtoList = new List<Facade.Payment.Dto>();
+            for (int i = 0; i < lstPaymentDto.Count; i++)
+            {
+                if (i != removePosition)
+                    paymentDtoList.Add(lstPaymentDto[i]);
+            }
+
+            return paymentDtoList;
+        }
+
+        private void SetGridViewSettings()
+        {
+            for (int i = 0; i < dgvPayment.Columns.Count; i++) 
+                dgvPayment.Columns[i].ReadOnly = true;
+
+            dgvPayment.MultiSelect = false;
+
+            dgvPayment.Columns[0].DataPropertyName = "paymentType";
+            dgvPayment.Columns[1].DataPropertyName = "amount";
+            dgvPayment.Columns[2].DataPropertyName = "cardNumber";
+            dgvPayment.Columns[3].DataPropertyName = "remark"; ;
+            dgvPayment.AutoGenerateColumns = false;
+
+            DataGridViewLinkColumn Editlink = new DataGridViewLinkColumn();
+            Editlink.UseColumnTextForLinkValue = true;
+            Editlink.HeaderText = "edit";
+            Editlink.DataPropertyName = "lnkColumn";
+            Editlink.LinkBehavior = LinkBehavior.SystemDefault;
+            Editlink.Text = "Edit";
+            dgvPayment.Columns.Add(Editlink);
+
+            DataGridViewLinkColumn Deletelink = new DataGridViewLinkColumn();
+            Deletelink.UseColumnTextForLinkValue = true;
+            Deletelink.HeaderText = "delete";
+            Deletelink.DataPropertyName = "lnkColumn";
+            Deletelink.LinkBehavior = LinkBehavior.SystemDefault;
+            Deletelink.Text = "Delete";
+            dgvPayment.Columns.Add(Deletelink); 
+        }
 
     }
 }
