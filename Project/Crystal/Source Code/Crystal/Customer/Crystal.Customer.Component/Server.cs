@@ -5,7 +5,7 @@ using BinAff.Core;
 
 namespace Crystal.Customer.Component
 {
-    public abstract class Server : ObserverSubjectCrud
+    public abstract class Server : ObserverSubjectCrud, ICustomer
     {
 
         public Server(Data data)
@@ -138,6 +138,11 @@ namespace Crystal.Customer.Component
                 ret.Value = true;
             }
             return ret;
+        }
+
+        ReturnObject<bool> ICustomer.GenerateInvoice()
+        {
+            //throw new NotImplementedException();
         }
     }
 }
