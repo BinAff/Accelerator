@@ -36,11 +36,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buyer\Dto.cs" />
     <Compile Include="Dto.cs" />
     <Compile Include="FormDto.cs" />
+    <Compile Include="LineItem\Dto.cs" />
     <Compile Include="Payment\Dto.cs" />
     <Compile Include="Payment\Type\Dto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Seller\Dto.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Taxation\Dto.cs" />
     <Compile Include="Taxation\FormDto.cs" />
@@ -55,7 +58,12 @@
       <Project>{F6AB9943-F271-4293-B13E-DC58DEF3F59D}</Project>
       <Name>BinAff.Facade.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Invoice\Crystal.Invoice.Component\Crystal.Invoice.Component.csproj">
+      <Project>{CA372D03-699E-4D6A-80FA-567940BFA130}</Project>
+      <Name>Crystal.Invoice.Component</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -79,6 +79,10 @@
       <Project>{f5351cbf-9763-43a3-9b2e-7a6c1a93fce4}</Project>
       <Name>Vanilla.Invoice.Facade</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Invoice\Vanilla.Invoice.WinForm\Vanilla.Invoice.WinForm.csproj">
+      <Project>{D6E90D37-D34E-46A7-8AC4-7DDD3F5C6BB8}</Project>
+      <Name>Vanilla.Invoice.WinForm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

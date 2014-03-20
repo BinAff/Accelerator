@@ -124,6 +124,10 @@
     <Compile Include="Room\Type\Server.cs" />
     <Compile Include="Room\Type\Validator.cs" />
     <Compile Include="Room\Validator.cs" />
+    <Compile Include="Taxation\Dao.cs" />
+    <Compile Include="Taxation\Data.cs" />
+    <Compile Include="Taxation\Server.cs" />
+    <Compile Include="Taxation\Validator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
@@ -145,6 +149,10 @@
     <ProjectReference Include="..\..\Customer\Crystal.Customer.Component\Crystal.Customer.Component.csproj">
       <Project>{CF2B7682-FA1E-4CDC-8A8C-30D610D18C5E}</Project>
       <Name>Crystal.Customer.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Invoice\Crystal.Invoice.Component\Crystal.Invoice.Component.csproj">
+      <Project>{CA372D03-699E-4D6A-80FA-567940BFA130}</Project>
+      <Name>Crystal.Invoice.Component</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Navigator\Component\Crystal.Navigator.Component.csproj">
       <Project>{3E089798-771D-44F3-8A99-C990AB47A0B4}</Project>

@@ -194,7 +194,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
                 FormDto formDto = this.FormDto as FormDto;
 
                 //update category
-                if (formDto.CategoryList != null && formDto.CategoryList.Count > 0)
+                if (formDto != null && formDto.CategoryList != null && formDto.CategoryList.Count > 0)
                 {
                     foreach (Dto dto in ret.Value)
                     {
@@ -211,7 +211,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
                 }
 
                 //update Type
-                if (formDto.TypeList != null && formDto.TypeList.Count > 0)
+                if (formDto != null && formDto.TypeList != null && formDto.TypeList.Count > 0)
                 {
                     foreach (Dto dto in ret.Value)
                     {

@@ -370,5 +370,6 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = ((this.FormDto) as FormDto).dto.Id });
             checkIn.ModifyCheckInStatus(System.Convert.ToInt64(CheckInStatus.CheckOut));
         }
+       
     }
 }

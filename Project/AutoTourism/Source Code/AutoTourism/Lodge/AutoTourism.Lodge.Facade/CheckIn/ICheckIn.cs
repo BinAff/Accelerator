@@ -1,11 +1,11 @@
 ﻿using System;
 using BinAff.Core;
+using System.Collections.Generic;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
     public interface ICheckIn
-    {       
-        //ReturnObject<Boolean> Save(Dto dto);
-        void CheckOut();
+    {   
+        void CheckOut();        
     }
 }

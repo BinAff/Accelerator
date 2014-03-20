@@ -929,7 +929,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=FormatDateTime(Now(), "DD/MM/YYYY")</Value>
+                  <Value>=Now()</Value>
                   <Style />
                 </TextRun>
               </TextRuns>

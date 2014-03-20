@@ -121,6 +121,14 @@
       <Project>{24A3CC18-9FA6-4976-8ADE-AC07EE6844FB}</Project>
       <Name>Vanilla.Guardian.Facade</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.Facade\Vanilla.Invoice.Facade.csproj">
+      <Project>{F5351CBF-9763-43A3-9B2E-7A6C1A93FCE4}</Project>
+      <Name>Vanilla.Invoice.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.WinForm\Vanilla.Invoice.WinForm.csproj">
+      <Project>{D6E90D37-D34E-46A7-8AC4-7DDD3F5C6BB8}</Project>
+      <Name>Vanilla.Invoice.WinForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
       <Project>{A10719AF-5C9F-4903-AB83-089EC502EEA2}</Project>
       <Name>Vanilla.Utility.Facade</Name>
