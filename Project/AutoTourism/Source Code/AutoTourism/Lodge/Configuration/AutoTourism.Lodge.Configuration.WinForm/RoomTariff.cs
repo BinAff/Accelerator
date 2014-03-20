@@ -245,6 +245,8 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
         private void RadioChange(String source)
         {
+            dgvTariff.DataSource = null;
+
             ConfigurationFacade.Tariff.ITariff tariff = new ConfigurationFacade.Tariff.TariffServer(this.formDto);
             ReturnObject<List<ConfigurationFacade.Tariff.Dto>> ret = new ReturnObject<List<ConfigurationFacade.Tariff.Dto>>();
 

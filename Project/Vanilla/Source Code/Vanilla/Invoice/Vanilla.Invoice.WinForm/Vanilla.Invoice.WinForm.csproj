@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data.cs" />
     <Compile Include="Invoice.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,10 +79,17 @@
       <Project>{1EE9A9DD-9151-437A-B1A3-28015975EF52}</Project>
       <Name>BinAff.Presentation.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Utility\BinAff.Utility.csproj">
+      <Project>{ED04BF0C-B4F1-4E9C-80C5-799027EBE260}</Project>
+      <Name>BinAff.Utility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Vanilla.Invoice.Facade\Vanilla.Invoice.Facade.csproj">
       <Project>{F5351CBF-9763-43A3-9B2E-7A6C1A93FCE4}</Project>
       <Name>Vanilla.Invoice.Facade</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\DataSources\Data.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -120,7 +120,11 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.lblTaxName);
             this.Controls.Add(this.lslList);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Taxation";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Taxation";
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -28,7 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtAmount = new System.Windows.Forms.TextBox();
+            this.lblAmount = new System.Windows.Forms.Label();
             this.dgvPayment = new System.Windows.Forms.DataGridView();
             this.PaymentType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,10 +48,10 @@
             this.txtLastFourDigit = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.rvInvoice = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.lblAmount = new System.Windows.Forms.Label();
-            this.txtAmount = new System.Windows.Forms.TextBox();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPayment)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -67,10 +70,26 @@
             this.panel1.Controls.Add(this.txtLastFourDigit);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 310);
+            this.panel1.Location = new System.Drawing.Point(0, 348);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(588, 271);
+            this.panel1.Size = new System.Drawing.Size(821, 233);
             this.panel1.TabIndex = 1;
+            // 
+            // txtAmount
+            // 
+            this.txtAmount.Location = new System.Drawing.Point(646, 30);
+            this.txtAmount.Name = "txtAmount";
+            this.txtAmount.Size = new System.Drawing.Size(100, 20);
+            this.txtAmount.TabIndex = 13;
+            // 
+            // lblAmount
+            // 
+            this.lblAmount.AutoSize = true;
+            this.lblAmount.Location = new System.Drawing.Point(597, 33);
+            this.lblAmount.Name = "lblAmount";
+            this.lblAmount.Size = new System.Drawing.Size(43, 13);
+            this.lblAmount.TabIndex = 12;
+            this.lblAmount.Text = "Amount";
             // 
             // dgvPayment
             // 
@@ -80,9 +99,9 @@
             this.Amount,
             this.LastFourDigit,
             this.Remark});
-            this.dgvPayment.Location = new System.Drawing.Point(15, 90);
+            this.dgvPayment.Location = new System.Drawing.Point(113, 90);
             this.dgvPayment.Name = "dgvPayment";
-            this.dgvPayment.Size = new System.Drawing.Size(561, 150);
+            this.dgvPayment.Size = new System.Drawing.Size(634, 108);
             this.dgvPayment.TabIndex = 11;
             this.dgvPayment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPayment_CellContentClick);
             // 
@@ -108,7 +127,7 @@
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(499, 61);
+            this.btnChange.Location = new System.Drawing.Point(674, 61);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 23);
             this.btnChange.TabIndex = 10;
@@ -117,7 +136,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(409, 61);
+            this.btnAdd.Location = new System.Drawing.Point(584, 61);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 9;
@@ -127,7 +146,7 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.Location = new System.Drawing.Point(502, 245);
+            this.btnPrint.Location = new System.Drawing.Point(672, 204);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(75, 23);
             this.btnPrint.TabIndex = 8;
@@ -139,14 +158,14 @@
             // 
             this.cboPaymentType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPaymentType.FormattingEnabled = true;
-            this.cboPaymentType.Location = new System.Drawing.Point(103, 3);
+            this.cboPaymentType.Location = new System.Drawing.Point(203, 3);
             this.cboPaymentType.Name = "cboPaymentType";
             this.cboPaymentType.Size = new System.Drawing.Size(121, 21);
             this.cboPaymentType.TabIndex = 7;
             // 
             // btnPayAndPrint
             // 
-            this.btnPayAndPrint.Location = new System.Drawing.Point(407, 245);
+            this.btnPayAndPrint.Location = new System.Drawing.Point(577, 204);
             this.btnPayAndPrint.Name = "btnPayAndPrint";
             this.btnPayAndPrint.Size = new System.Drawing.Size(89, 23);
             this.btnPayAndPrint.TabIndex = 6;
@@ -157,7 +176,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 43);
+            this.label3.Location = new System.Drawing.Point(112, 43);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(44, 13);
             this.label3.TabIndex = 5;
@@ -165,7 +184,7 @@
             // 
             // txtRemark
             // 
-            this.txtRemark.Location = new System.Drawing.Point(103, 30);
+            this.txtRemark.Location = new System.Drawing.Point(203, 30);
             this.txtRemark.MaxLength = 255;
             this.txtRemark.Multiline = true;
             this.txtRemark.Name = "txtRemark";
@@ -175,7 +194,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(324, 11);
+            this.label2.Location = new System.Drawing.Point(491, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(149, 13);
             this.label2.TabIndex = 3;
@@ -183,7 +202,7 @@
             // 
             // txtLastFourDigit
             // 
-            this.txtLastFourDigit.Location = new System.Drawing.Point(479, 8);
+            this.txtLastFourDigit.Location = new System.Drawing.Point(646, 8);
             this.txtLastFourDigit.MaxLength = 4;
             this.txtLastFourDigit.Name = "txtLastFourDigit";
             this.txtLastFourDigit.Size = new System.Drawing.Size(100, 20);
@@ -192,7 +211,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 6);
+            this.label1.Location = new System.Drawing.Point(112, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(75, 13);
             this.label1.TabIndex = 1;
@@ -202,30 +221,18 @@
             // 
             this.rvInvoice.Location = new System.Drawing.Point(0, 0);
             this.rvInvoice.Name = "rvInvoice";
-            this.rvInvoice.Size = new System.Drawing.Size(588, 304);
+            this.rvInvoice.Size = new System.Drawing.Size(821, 345);
             this.rvInvoice.TabIndex = 2;
             // 
-            // lblAmount
+            // errorProvider
             // 
-            this.lblAmount.AutoSize = true;
-            this.lblAmount.Location = new System.Drawing.Point(430, 33);
-            this.lblAmount.Name = "lblAmount";
-            this.lblAmount.Size = new System.Drawing.Size(43, 13);
-            this.lblAmount.TabIndex = 12;
-            this.lblAmount.Text = "Amount";
-            // 
-            // txtAmount
-            // 
-            this.txtAmount.Location = new System.Drawing.Point(479, 30);
-            this.txtAmount.Name = "txtAmount";
-            this.txtAmount.Size = new System.Drawing.Size(100, 20);
-            this.txtAmount.TabIndex = 13;
+            this.errorProvider.ContainerControl = this;
             // 
             // Invoice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(588, 581);
+            this.ClientSize = new System.Drawing.Size(821, 581);
             this.Controls.Add(this.rvInvoice);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
@@ -234,10 +241,10 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Invoice";
-            this.Load += new System.EventHandler(this.Invoice_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPayment)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -264,6 +271,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
         private System.Windows.Forms.TextBox txtAmount;
         private System.Windows.Forms.Label lblAmount;
+        private System.Windows.Forms.ErrorProvider errorProvider;
 
 
     }

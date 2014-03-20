@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Vanilla.Invoice.Facade.Taxation
+namespace AutoTourism.Lodge.Facade.Taxation
 {
     public class Dto : BinAff.Facade.Library.Dto
     {

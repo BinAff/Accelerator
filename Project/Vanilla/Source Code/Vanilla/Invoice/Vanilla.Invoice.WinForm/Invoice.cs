@@ -13,11 +13,17 @@ using System.Drawing.Imaging;
 using System.Drawing;
 
 using Facade = Vanilla.Invoice.Facade;
+using System.Text.RegularExpressions;
+using BinAff.Utility;
+using Microsoft.Reporting.WinForms;
 
 namespace Vanilla.Invoice.WinForm
 {
     public partial class Invoice : Form
     {
+        private Facade.Dto dto;
+        private Facade.FormDto formDto;
+
         private IList<Stream> m_streams;
         private int m_currentPageIndex;
 
@@ -46,65 +52,72 @@ namespace Vanilla.Invoice.WinForm
         public Invoice(Facade.Dto dto)
         {
             InitializeComponent();
-            this.SetGridViewSettings();
+
+            this.dto = dto;
+            this.formDto = new Facade.FormDto { dto = this.dto };
+
+            this.SetGridViewSettings();            
+            this.LoadForm();            
+            this.LoadReport();
         }
 
         private void LoadReport()
         {
-            //List<Data> invoiceList = new List<Data>();
-            //foreach (Crystal.Invoice.Component.LineItem lineItem in invoiceData.LineItem)
-            //{
-            //    invoiceList.Add(new Data
-            //    {
-            //        Start = lineItem.Start.ToShortDateString(),
-            //        End = lineItem.End.ToShortDateString(),
-            //        Description = lineItem.Description,
-            //        UnitRate = lineItem.UnitRate.ToString(),
-            //        Count = lineItem.Count.ToString(),
-            //        Total = Convert.ToString(lineItem.UnitRate * lineItem.Count * Convert.ToDateTime(lineItem.End).Subtract(Convert.ToDateTime(lineItem.Start)).Days)
-                                        
-            //    });                
-            //}
-          
-            //this.rvInvoice.DocumentMapCollapsed = true;
-            //this.rvInvoice.ShowPrintButton = false;
-            //String path = System.IO.Directory.GetCurrentDirectory();
-            ////path = path.Remove(path.IndexOf("Reference"));
-            ////path += @"BinAff\Crystal Framework\Invoice Management System\Presentation\Invoice.rdlc";
-            //path += @"\Report\Invoice Management System\Invoice.rdlc";
+            List<Data> invoiceList = new List<Data>();
 
-            //this.rvInvoice.LocalReport.ReportPath = path;
-            //string sDataSourceName = "Invoice";
+            Double lineItemTotal = 0;
+            foreach (Facade.LineItem.Dto lineItem in this.dto.productList)
+            {
+                invoiceList.Add(new Data
+                {
+                    Start = lineItem.startDate,
+                    End = lineItem.endDate,
+                    Description = String.Empty,
+                    UnitRate = lineItem.unitRate.ToString(),
+                    Count = lineItem.count.ToString(),
+                    Total = lineItem.total.ToString()
+                });
+                lineItemTotal += lineItem.total;
+            }
+           
+            this.rvInvoice.DocumentMapCollapsed = true;
+            this.rvInvoice.ShowPrintButton = false;
+            String path = System.IO.Directory.GetCurrentDirectory();
+            path = path.Remove(path.IndexOf("AutoTourism"));
+            path += @"Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.WinForm\Invoice.rdlc";
 
-            //ReportParameter[] p = new ReportParameter[13];
-            //p[0] = new ReportParameter("InvoiceNumber", this.invoiceData.Id.ToString());
-            //p[1] = new ReportParameter("SellerName", this.invoiceData.Seller.Name);
-            //p[2] = new ReportParameter("SellerAddress", this.invoiceData.Seller.Address);
-            //p[3] = new ReportParameter("SellerContactNo", this.invoiceData.Seller.ContactNumber);
-            //p[4] = new ReportParameter("SellerEmail", this.invoiceData.Seller.Email);
-            //p[5] = new ReportParameter("SellerLicenceNo", this.invoiceData.Seller.Liscence);
-            //p[6] = new ReportParameter("BuyerName", this.invoiceData.Buyer.Name);
-            //p[7] = new ReportParameter("BuyerContactNo", this.invoiceData.Buyer.ContactNumber);
-            //p[8] = new ReportParameter("BuyerAddress", this.invoiceData.Buyer.Address);
-            //p[9] = new ReportParameter("Total", "1000"); //Change
-            //p[10] = new ReportParameter("Discount", "1000"); //Change
-            //p[11] = new ReportParameter("Tax", "4"); //Change
-            //p[12] = new ReportParameter("Advance", "1000"); //Change
-            
-            //this.rvInvoice.LocalReport.SetParameters(p);
+            this.rvInvoice.LocalReport.ReportPath = path;
+            string sDataSourceName = "Invoice";
 
-            //Microsoft.Reporting.WinForms.ReportDataSource rptDataSoruce = new Microsoft.Reporting.WinForms.ReportDataSource();
-            //rptDataSoruce.Name = sDataSourceName;
-            //rptDataSoruce.Value = invoiceList;
+            ReportParameter[] p = new ReportParameter[13];
+            p[0] = new ReportParameter("InvoiceNumber", "Inv1001");
+            p[1] = new ReportParameter("SellerName", this.dto.seller.Name);
+            p[2] = new ReportParameter("SellerAddress", this.dto.seller.Address);
+            p[3] = new ReportParameter("SellerContactNo", this.dto.seller.ContactNumber);
+            p[4] = new ReportParameter("SellerEmail", this.dto.seller.Email);
+            p[5] = new ReportParameter("SellerLicenceNo", this.dto.seller.Liscence);
+            p[6] = new ReportParameter("BuyerName", this.dto.buyer.Name);
+            p[7] = new ReportParameter("BuyerContactNo", this.dto.buyer.ContactNumber);
+            p[8] = new ReportParameter("BuyerAddress", this.dto.buyer.Address);
+            p[9] = new ReportParameter("Total", lineItemTotal.ToString()); //Change
+            p[10] = new ReportParameter("Discount", "0"); //Change
+            p[11] = new ReportParameter("Tax", "4"); //Change
+            p[12] = new ReportParameter("Advance",this.dto.advance.ToString()); 
 
-            //this.rvInvoice.Visible = true;
-            //this.rvInvoice.LocalReport.DataSources.Add(rptDataSoruce);
-            //this.rvInvoice.RefreshReport();
+            this.rvInvoice.LocalReport.SetParameters(p);
+
+            Microsoft.Reporting.WinForms.ReportDataSource rptDataSoruce = new Microsoft.Reporting.WinForms.ReportDataSource();
+            rptDataSoruce.Name = sDataSourceName;
+            rptDataSoruce.Value = invoiceList;
+
+            this.rvInvoice.Visible = true;
+            this.rvInvoice.LocalReport.DataSources.Add(rptDataSoruce);
+            this.rvInvoice.RefreshReport();
                         
         }
 
-        private void Invoice_Load(object sender, EventArgs e)
-        {
+        //private void Invoice_Load(object sender, EventArgs e)
+        //{
             //// TODO: This line of code loads data into the 'DevelopmentRNDDataSet.Invoice' table. You can move, or remove it, as needed.
             //this.InvoiceTableAdapter.Fill(this.DevelopmentRNDDataSet.Invoice);
             //// TODO: This line of code loads data into the 'DevelopmentRNDDataSet.InvoiceLineItem' table. You can move, or remove it, as needed.
@@ -113,37 +126,9 @@ namespace Vanilla.Invoice.WinForm
             //this.reportViewer1.RefreshReport();
             //this.reportViewer1.RefreshReport();
             //this.rvInvoice.RefreshReport();
-            this.rvInvoice.RefreshReport();
-        }
-
-        private void LoadFormData()
-        {
-            //IReport payment = new ReportServer();
-            //ReturnObject<PaymentDto> ret = payment.LoadForm();
-
-            ////Populate Floor List
-            //this.cboPaymentType.DataSource = ret.Value.PaymentTypeList;
-            //this.cboPaymentType.DisplayMember = "Name";
-            //this.cboPaymentType.ValueMember = "Id";
-
-            //if (this.invoiceData.Payment != null)
-            //{
-            //    //select payment type
-            //    for (int i = 0; i < ret.Value.PaymentTypeList.Count; i++)
-            //    {
-            //        if (ret.Value.PaymentTypeList[i].Id == this.invoiceData.Payment.Type.Id)
-            //        {
-            //            this.cboPaymentType.SelectedIndex = i;
-            //            break;
-            //        }
-            //    }
-
-            //    this.txtLastFourDigit.Text = this.invoiceData.Payment.CardNumber;
-            //    this.txtRemark.Text = this.invoiceData.Payment.Remark;
-            //}
-          
-        }
-
+        //    this.rvInvoice.RefreshReport();
+        //}
+               
         private void btnPayAndPrint_Click(object sender, EventArgs e)
         {
             //this.invoiceData.Payment = new Component.Payment.Data()
@@ -290,17 +275,23 @@ namespace Vanilla.Invoice.WinForm
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            List<Facade.Payment.Dto> paymentDto = new List<Facade.Payment.Dto>();
-            paymentDto.Add(new Facade.Payment.Dto 
+            if (this.ValidatePayment())
             {
-                //Date = DateTime.Today,
-                cardNumber = "ABC",
-                amount = 5000,
-                paymentType = "credit card",
-                remark = "test invoice"
-            });
+                List<Facade.Payment.Dto> paymentDto = dgvPayment.DataSource == null ? new List<Facade.Payment.Dto>() : dgvPayment.DataSource as List<Facade.Payment.Dto>;
+                paymentDto.Add(new Facade.Payment.Dto
+                {
+                    paymentType = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name,
+                    cardNumber = txtLastFourDigit.Text.Trim(),
+                    remark = txtRemark.Text.Trim(),
+                    amount = Convert.ToDouble(txtAmount.Text),                    
 
-            dgvPayment.DataSource = paymentDto;
+                    Type = (Facade.Payment.Type.Dto)cboPaymentType.SelectedItem
+                });
+
+                dgvPayment.DataSource = null;
+                dgvPayment.DataSource = paymentDto;
+                this.Clear();
+            }
         }
 
         private void dgvPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -354,6 +345,62 @@ namespace Vanilla.Invoice.WinForm
             Deletelink.LinkBehavior = LinkBehavior.SystemDefault;
             Deletelink.Text = "Delete";
             dgvPayment.Columns.Add(Deletelink); 
+        }
+
+        private void LoadForm()
+        {
+            BinAff.Facade.Library.Server facade = new Facade.Server(formDto);
+            facade.LoadForm();
+
+            //--populate payment type category
+            this.cboPaymentType.DataSource = null;
+            if (this.formDto.paymentTypeList != null && this.formDto.paymentTypeList.Count > 0)
+            {
+                this.cboPaymentType.DataSource = this.formDto.paymentTypeList;
+                this.cboPaymentType.ValueMember = "Id";
+                this.cboPaymentType.DisplayMember = "Name";
+                this.cboPaymentType.SelectedIndex = 0;
+            }
+            
+        }
+        
+        private Boolean ValidatePayment()
+        {
+            errorProvider.Clear();
+
+            if (txtLastFourDigit.Text != String.Empty && !(new Regex(@"^[0-9]*$").IsMatch(txtLastFourDigit.Text)))
+            {
+                errorProvider.SetError(txtLastFourDigit, "Entered " + txtLastFourDigit.Text + " is Invalid.");
+                txtLastFourDigit.Focus();
+                return false;
+            }
+            else if (txtRemark.Text != String.Empty && txtRemark.Text.Trim().Length > 255)
+            {
+                errorProvider.SetError(txtRemark, "Length of remarks cannot be greater than 255.");
+                txtRemark.Focus();
+                return false;
+            }
+            else if (String.IsNullOrEmpty(txtAmount.Text.Trim()))
+            {
+                errorProvider.SetError(txtAmount, "Please enter amount.");
+                txtAmount.Focus();
+                return false;
+            }
+            else if (!ValidationRule.IsDecimal(txtAmount.Text.Trim() == String.Empty ? "0" : txtAmount.Text.Trim().Replace(",", "")))
+            {
+                errorProvider.SetError(txtAmount, "Entered " + txtAmount.Text + " is Invalid.");
+                txtAmount.Focus();
+                return false;
+            }
+            return true;
+        }
+
+        private void Clear()
+        {
+            this.cboPaymentType.SelectedIndex = 0;
+            txtLastFourDigit.Text = String.Empty;
+            txtRemark.Text = String.Empty;
+            txtAmount.Text = String.Empty;
         }
 
     }

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Vanilla.Invoice.Facade
 {
     public class FormDto : BinAff.Facade.Library.FormDto
     {
-        public Dto invoice { get; set; }
+        public Dto dto { get; set; }
+        public List<Payment.Type.Dto> paymentTypeList { get; set; }
     }
 }
+
+

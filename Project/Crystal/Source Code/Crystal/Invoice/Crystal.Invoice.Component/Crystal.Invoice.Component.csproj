@@ -40,6 +40,10 @@
     <Compile Include="Dao.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="IInvoice.cs" />
+    <Compile Include="InvoiceContainer\Dao.cs" />
+    <Compile Include="InvoiceContainer\Data.cs" />
+    <Compile Include="InvoiceContainer\Server.cs" />
+    <Compile Include="InvoiceContainer\Validator.cs" />
     <Compile Include="LineItem\Dao.cs" />
     <Compile Include="LineItem\Data.cs" />
     <Compile Include="LineItem\Server.cs" />
@@ -84,6 +88,10 @@
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Utility\BinAff.Utility.csproj">
       <Project>{ED04BF0C-B4F1-4E9C-80C5-799027EBE260}</Project>
       <Name>BinAff.Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Customer\Crystal.Customer.Component\Crystal.Customer.Component.csproj">
+      <Project>{CF2B7682-FA1E-4CDC-8A8C-30D610D18C5E}</Project>
+      <Name>Crystal.Customer.Component</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Navigator\Component\Crystal.Navigator.Component.csproj">
       <Project>{3E089798-771D-44F3-8A99-C990AB47A0B4}</Project>

@@ -12,7 +12,8 @@ namespace Vanilla.Invoice.Facade.Payment
         public String remark { get; set; }
         public Double amount {get;set;}
         public String paymentType { get; set; }
-        //public Type.Dto Type { get; set; }
+
+        public Type.Dto Type { get; set; }
     }
     
 }
