@@ -147,8 +147,9 @@ namespace BinAff.Utility
                 ArrayList list = new ArrayList();
                 ArrayList newList = new ArrayList();
                 for (int intCnt = 0; intCnt < Value.Length; intCnt++)
+                {
                     list.Add(Value.Substring(intCnt, 1));
-
+                }
                 list.Reverse();
                 list.Insert(3, ",");
 
@@ -157,19 +158,29 @@ namespace BinAff.Utility
                     newList.Add(list[intLst]);
 
                     if ((intLst > 4) && ((intLst % 2) != 0))
+                    {
                         newList.Add(",");
+                    }
                 }
 
                 newList.Reverse();
 
                 for (int intNLst = 0; intNLst < newList.Count; intNLst++)
+                {
                     sb.Append(newList[intNLst]);
+                }
 
                 retVal = sb.ToString().Substring(0, 1) == "," ? sb.ToString().Substring(1) : sb.ToString();
-                retVal = retVal + "." + amount.ToString().Split('.')[1];
+
+                if (amount.ToString().Split('.').Length > 1)
+                {
+                    retVal += "." + amount.ToString().Split('.')[1];
+                }
             }
             else
+            {
                 retVal = amount.ToString();
+            }
 
             return retVal;
         }
