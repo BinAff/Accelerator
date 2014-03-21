@@ -59,13 +59,16 @@ namespace Vanilla.Navigator.WinForm
 
         private void Register_Load(object sender, EventArgs e)
         {
+            this.lsvContainer.Dock = DockStyle.Fill;
+            this.ucSearchResult.Dock = DockStyle.Fill;
             this.LoadForm();
         }
 
         public void LoadForm()
         {
             this.cmsExplorer.ImageList = this.imgSmallIcon;
-            this.InitializeListView();
+            this.lvwColumnSorter = new PresLib.ListViewColumnSorter();
+            this.sortColumn = this.lsvContainer.Initialize();
             this.InitializeTab();
             this.RemoveAuditInfo();
             this.facade = new Facade.Register.Server(this.formDto = new Facade.Register.FormDto
@@ -179,6 +182,8 @@ namespace Vanilla.Navigator.WinForm
 
         private void trvArtifact_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            this.ucSearchResult.Hide();
+            this.lsvContainer.Show();
             UtilFac.Artifact.Dto selectedNode = (sender as TreeView).SelectedNode.Tag.GetType().ToString() == "Vanilla.Utility.Facade.Module.Dto" ?
                 ((sender as TreeView).SelectedNode.Tag as UtilFac.Module.Dto).Artifact :
                 (sender as TreeView).SelectedNode.Tag as UtilFac.Artifact.Dto;
@@ -466,7 +471,7 @@ namespace Vanilla.Navigator.WinForm
         {
             if (e.KeyCode == Keys.F2)
             {
-                this.EditListViewSelectedItem();
+                this.lsvContainer.EditListViewSelectedItem();
             }
             else
             {
@@ -533,21 +538,6 @@ namespace Vanilla.Navigator.WinForm
         }
 
         #endregion
-        
-        private void InitializeListView()
-        {
-            this.lsvContainer.Columns.Add("Name", 300);
-            this.lsvContainer.Columns.Add("Type", 70);
-            this.lsvContainer.Columns.Add("Version", 50);
-            this.lsvContainer.Columns.Add("Created By", 200);
-            this.lsvContainer.Columns.Add("Created At", 115);
-            this.lsvContainer.Columns.Add("Modified By", 200);
-            this.lsvContainer.Columns.Add("Modified At", 115);
-
-            this.lsvContainer.ListViewItemSorter = this.lvwColumnSorter = new PresLib.ListViewColumnSorter();
-
-            this.sortColumn = "Name"; //this name will come from rule
-        }
 
         private Boolean IsListViewItem(String contextMenuName, ListViewItem listViewItem)
         {
@@ -602,16 +592,7 @@ namespace Vanilla.Navigator.WinForm
             parentDto.Children.Add(child);
             child.Path = parentDto.Path;
         }
-
-        private void EditListViewSelectedItem()
-        {
-            this.lsvContainer.LabelEdit = true;
-            foreach (ListViewItem item in lsvContainer.SelectedItems)
-            {
-                item.BeginEdit();
-            }
-        }
-
+        
         #endregion
 
         #region Address Bar
@@ -620,7 +601,12 @@ namespace Vanilla.Navigator.WinForm
         {
             if (e.KeyCode == Keys.Enter)
             {
-                List<UtilFac.Artifact.Dto> artifactList = this.facade.Search(this.txtSearch.Text.Trim());
+                this.ucSearchResult.Show();
+                this.lsvContainer.Hide();
+
+                this.ucSearchResult.artifactList = this.facade.Search(this.txtSearch.Text.Trim());
+                this.pnlArtifact.Panel2.Controls.Add(this.ucSearchResult);
+                this.ucSearchResult.Bind();
             }
         }
 
@@ -884,9 +870,23 @@ namespace Vanilla.Navigator.WinForm
         {
             //List view Rename is clicked
             if (this.menuClickSource.ToString() == MenuClickSource.ListView.ToString())
-                this.EditListViewSelectedItem();
+            {
+                this.lsvContainer.EditListViewSelectedItem();
+            }
             else
+            {
                 this.EditTreeViewSelectedNode();
+            }
+        }
+
+        private void cmnuOpen_Click(object sender, EventArgs e)
+        {
+            this.lsvContainer_DoubleClick(this.lsvContainer, e);
+        }
+
+        private void cmnuRefresh_Click(object sender, EventArgs e)
+        {
+            this.SelectNode(this.addressList[this.addressList.Count - 1]);
         }
 
         #endregion
@@ -1729,16 +1729,6 @@ namespace Vanilla.Navigator.WinForm
         private void Modification_Click(object sender, EventArgs e)
         {
 
-        }
-        
-        private void cmnuOpen_Click(object sender, EventArgs e)
-        {
-            this.lsvContainer_DoubleClick(this.lsvContainer, e);
-        }
-
-        private void cmnuRefresh_Click(object sender, EventArgs e)
-        {
-            this.SelectNode(this.addressList[this.addressList.Count -1]);
         }
 
         private void mnuNewWindow_Click(object sender, EventArgs e)

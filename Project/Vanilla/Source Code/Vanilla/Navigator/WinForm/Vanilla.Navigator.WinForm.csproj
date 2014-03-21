@@ -69,8 +69,18 @@
     <Compile Include="Register.Designer.cs">
       <DependentUpon>Register.cs</DependentUpon>
     </Compile>
+    <Compile Include="SearchResult.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SearchResult.Designer.cs">
+      <DependentUpon>SearchResult.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Lodge\AutoTourism.Lodge.Facade\AutoTourism.Lodge.Facade.csproj">
+      <Project>{87b249d1-5284-4376-9c8f-990025c3aedd}</Project>
+      <Name>AutoTourism.Lodge.Facade</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
       <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
       <Name>BinAff.Core</Name>
@@ -145,6 +155,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Register.resx">
       <DependentUpon>Register.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchResult.resx">
+      <DependentUpon>SearchResult.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
