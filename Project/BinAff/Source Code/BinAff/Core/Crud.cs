@@ -29,7 +29,18 @@ namespace BinAff.Core
         }
 
         private Action actionType;
+
+        /// <summary>
+        /// 
+        /// </summary>
         private Boolean isMultiValuedChild;
+
+        /// <summary>
+        /// In case of AddChildren(), initially data will be null for read operation.
+        /// So there is secondtime call of CreateChildren() to protect infinite loop
+        /// this flag is used.
+        /// </summary>
+        private Boolean isChildrenCreatedAlready;
 
         public Dao dataAccess;
         /// <summary>
@@ -100,6 +111,7 @@ namespace BinAff.Core
             this.Data = data;
             this.dependentChildren = new List<Crud>();
             this.independentChildren = new List<Crud>();
+            this.isChildrenCreatedAlready = false;
             this.Compose();
         }
 
@@ -187,12 +199,28 @@ namespace BinAff.Core
         {
             if (dataList == null)
             {
+
                 Crud child = schema.CreateInstance(null);
                 child.Type = schema.Type;
                 child.IsReadOnly = schema.IsReadOnly;
                 child.IsSkip = schema.IsSkip;
-                child.ParentData = schema.ParentData;
-                this.AddChild(child);
+                child.ParentData = this.Data;
+
+                if (this.actionType == Action.Read)
+                {
+                    if (child.Type == ChildType.Dependent)
+                    {
+                        child.Data = child.CreateDataObject();
+                        child.DataAccess.Data = child.Data;
+                        if (child.Validator != null) child.Validator.Data = child.Data;
+                        child.DataAccess.ReadForParent();
+                        if (!this.isChildrenCreatedAlready)
+                        {
+                            this.isChildrenCreatedAlready = true;
+                            this.CreateChildren();
+                        }
+                    }
+                }
             }
             if (dataList != null && dataList.Count > 0)
             {
