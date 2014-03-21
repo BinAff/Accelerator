@@ -39,6 +39,7 @@
             this.trvCatalogue = new System.Windows.Forms.TreeView();
             this.tbpReport = new System.Windows.Forms.TabPage();
             this.trvReport = new System.Windows.Forms.TreeView();
+            this.ucSearchResult = new Vanilla.Navigator.WinForm.SearchResult();
             this.lsvContainer = new System.Windows.Forms.ListView();
             this.imgLargeIcon = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -120,6 +121,7 @@
             // 
             // pnlArtifact.Panel2
             // 
+            this.pnlArtifact.Panel2.Controls.Add(this.ucSearchResult);
             this.pnlArtifact.Panel2.Controls.Add(this.lsvContainer);
             this.pnlArtifact.Panel2.Controls.Add(this.tableLayoutPanel1);
             this.pnlArtifact.Size = new System.Drawing.Size(698, 410);
@@ -225,15 +227,22 @@
             this.trvReport.TabIndex = 0;
             this.trvReport.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvReport_AfterSelect);
             // 
+            // ucSearchResult
+            // 
+            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
+            this.ucSearchResult.Name = "ucSearchResult";
+            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
+            this.ucSearchResult.TabIndex = 16;
+            this.ucSearchResult.Visible = false;
+            // 
             // lsvContainer
             // 
             this.lsvContainer.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lsvContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lsvContainer.FullRowSelect = true;
             this.lsvContainer.LargeImageList = this.imgLargeIcon;
-            this.lsvContainer.Location = new System.Drawing.Point(0, 0);
+            this.lsvContainer.Location = new System.Drawing.Point(111, 165);
             this.lsvContainer.Name = "lsvContainer";
-            this.lsvContainer.Size = new System.Drawing.Size(477, 337);
+            this.lsvContainer.Size = new System.Drawing.Size(176, 101);
             this.lsvContainer.SmallImageList = this.imglIcons;
             this.lsvContainer.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lsvContainer.StateImageList = this.imglIcons;
@@ -705,6 +714,7 @@
             this.txtSearch.Size = new System.Drawing.Size(207, 20);
             this.txtSearch.TabIndex = 5;
             this.txtSearch.Text = "Search...";
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
             // Register
             // 
@@ -798,5 +808,6 @@
         private System.Windows.Forms.Label lblCreatedAt;
         private System.Windows.Forms.Label lblModifiedBy;
         private System.Windows.Forms.Label lblModifiedAt;
+        private SearchResult ucSearchResult;
     }
 }
