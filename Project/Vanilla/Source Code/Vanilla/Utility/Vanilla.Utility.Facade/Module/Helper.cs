@@ -141,7 +141,6 @@ namespace Vanilla.Utility.Facade.Module
                     break;
 
                 case "INVO":                   
-
                     this.ModuleFormType = "Vanilla.Invoice.WinForm.Invoice, Vanilla.Invoice.WinForm";
                     this.ModuleFormDtoType = "Vanilla.Invoice.Facade.Dto, Vanilla.Invoice.Facade";
                     this.ArtifacComponentAssembly = "Crystal.Invoice.Component";
@@ -153,9 +152,7 @@ namespace Vanilla.Utility.Facade.Module
                     Type typeInvoiceDto = Type.GetType("Vanilla.Invoice.Facade.FormDto,Vanilla.Invoice.Facade", true);
                     BinAff.Facade.Library.FormDto invoiceDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeInvoiceDto);
                     this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeInvoiceServer, invoiceDto);
-                    new Vanilla.Invoice.WinForm.Invoice();
                     break;          
-
                 default:
                     //helper.FormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
                     //helper.Artifact = new AutotourismCustomerArtifact.Server(new AutotourismCustomerArtifact.Data
