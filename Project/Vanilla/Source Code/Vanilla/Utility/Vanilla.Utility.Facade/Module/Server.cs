@@ -37,7 +37,7 @@ namespace Vanilla.Utility.Facade.Module
         private List<Module.Dto> Convert(List<Data> dataList)
         {
             List<Module.Dto> ret = new List<Module.Dto>();
-            foreach (Crystal.License.Module.Data module in dataList)
+            foreach (Crystal.License.Component.Data module in dataList)
             {
                 ret.Add(this.Convert(module) as Dto);
             }
@@ -50,8 +50,8 @@ namespace Vanilla.Utility.Facade.Module
             Dto dto = new Module.Dto
             {
                 Id = data.Id,
-                Code = (data as Crystal.License.Module.Data).Code,
-                Name = (data as Crystal.License.Module.Data).Name,                
+                Code = (data as Crystal.License.Component.Data).Code,
+                Name = (data as Crystal.License.Component.Data).Name,                
             };
 
             dto.Artifact = this.GetTree(dto, this.currentCategory);//mistake
@@ -62,7 +62,7 @@ namespace Vanilla.Utility.Facade.Module
 
         public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            return new Crystal.License.Module.Data
+            return new Crystal.License.Component.Data
             {
                 Id = dto.Id,
                 Code = (dto as Dto).Code,
@@ -78,7 +78,7 @@ namespace Vanilla.Utility.Facade.Module
             CrystalArtifact.Data artifactData = (helper.Artifact as CrystalArtifact.Server).Data as CrystalArtifact.Data;
             artifactData.Category = (CrystalArtifact.Category)category;
             artifactData.Path = category.ToString();
-            artifactData.ModuleDefinition = this.Convert(module) as Crystal.License.Module.Data;
+            artifactData.ComponentDefinition = this.Convert(module) as Crystal.License.Component.Data;
             Artifact.Dto tree = artifactServer.GetTree(helper.Artifact);
             //Assign parent of root lavel artifacts, which are directly under module, to module
             foreach (Artifact.Dto child in tree.Children)
@@ -157,7 +157,7 @@ namespace Vanilla.Utility.Facade.Module
             //If Document is added in Customer Node : [helper.ModuleData.Id will carry the customer id for inserting into Customer.CustomerArtifact table]
             helper.ModuleData.Id = currentArtifact.Module == null ? 0 : currentArtifact.Module.Id;
 
-            (helper.ArtifactData as CrystalArtifact.Data).ModuleDefinition = this.Convert((this.FormDto as FormDto).Dto) as Crystal.License.Module.Data;
+            (helper.ArtifactData as CrystalArtifact.Data).ComponentDefinition = this.Convert((this.FormDto as FormDto).Dto) as Crystal.License.Component.Data;
 
             artifactServer.ModuleArtifactComponent = helper.ArtifactComponent;
             artifactServer.ModuleFacade = helper.ModuleFacade;

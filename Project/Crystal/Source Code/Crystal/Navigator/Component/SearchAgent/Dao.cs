@@ -49,7 +49,7 @@ namespace Crystal.Navigator.Component.SearchAgent
                     LastName = Convert.IsDBNull(dr["ModifiedByLastName"]) ? String.Empty : Convert.ToString(dr["ModifiedByLastName"]),
                 };
             }
-            dt.ModuleDefinition = new License.Module.Data
+            dt.ComponentDefinition = new License.Component.Data
             {
                 Id = Convert.IsDBNull(dr["ModuleId"]) ? 0 : Convert.ToInt64(dr["ModuleId"]),
                 Code = Convert.IsDBNull(dr["ModuleCode"]) ? String.Empty : Convert.ToString(dr["ModuleCode"]),

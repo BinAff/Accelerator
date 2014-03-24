@@ -152,6 +152,7 @@
             this.pnlMenuContainer = new System.Windows.Forms.Panel();
             this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
             this.ucRegister = new Vanilla.Navigator.WinForm.Register();
+            this.lblLoading = new System.Windows.Forms.Label();
             this.cmsExplorer.SuspendLayout();
             this.mnuMain.SuspendLayout();
             this.pnlTool.SuspendLayout();
@@ -1167,11 +1168,22 @@
             this.ucRegister.TabIndex = 13;
             this.ucRegister.Visible = false;
             // 
+            // lblLoading
+            // 
+            this.lblLoading.AutoSize = true;
+            this.lblLoading.Location = new System.Drawing.Point(226, 136);
+            this.lblLoading.Name = "lblLoading";
+            this.lblLoading.Size = new System.Drawing.Size(45, 13);
+            this.lblLoading.TabIndex = 15;
+            this.lblLoading.Text = "Loading";
+            this.lblLoading.Visible = false;
+            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(827, 394);
+            this.Controls.Add(this.lblLoading);
             this.Controls.Add(this.ucConfiguration);
             this.Controls.Add(this.pnlNote);
             this.Controls.Add(this.pnlLoginFormContainer);
@@ -1191,6 +1203,7 @@
             this.pnlMenuContainer.ResumeLayout(false);
             this.pnlMenuContainer.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1318,6 +1331,7 @@
         private Register ucRegister;
         private System.Windows.Forms.ToolStripMenuItem mnuTile;
         private System.Windows.Forms.Panel pnlMenuContainer;
+        private System.Windows.Forms.Label lblLoading;
 
     }
 }

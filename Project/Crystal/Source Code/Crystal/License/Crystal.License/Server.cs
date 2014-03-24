@@ -16,8 +16,6 @@ namespace Crystal.License
         protected override void Compose()
         {
             this.Name = "License";
-            //this.DataAccess = new Dao((Data)this.Data);
-            //this.Validator = new Validator((Data)this.Data);
         }
 
         protected override BinAff.Core.Data CreateDataObject()
@@ -32,19 +30,19 @@ namespace Crystal.License
 
         Data ILicense.Get()
         {
-            ICrud server = new Module.Server(null);
-            List<BinAff.Core.Data> moduleDataList = server.ReadAll().Value;
-            if (moduleDataList != null && moduleDataList.Count > 0)
+            ICrud server = new Component.Server(null);
+            List<BinAff.Core.Data> componentDataList = server.ReadAll().Value;
+            if (componentDataList != null && componentDataList.Count > 0)
             {
                 Data data = this.Data as Data;
                 data.FormList = new List<BinAff.Core.Data>();
                 data.CatalogueList = new List<BinAff.Core.Data>();
                 data.ReportList = new List<BinAff.Core.Data>();
-                foreach (Module.Data module in moduleDataList)
+                foreach (Component.Data component in componentDataList)
                 {
-                    if (module.IsForm) data.FormList.Add(module);
-                    if (module.IsCatalogue) data.CatalogueList.Add(module);
-                    if (module.IsReport) data.ReportList.Add(module);
+                    if (component.IsForm) data.FormList.Add(component);
+                    if (component.IsCatalogue) data.CatalogueList.Add(component);
+                    if (component.IsReport) data.ReportList.Add(component);
                 }
             }
 
