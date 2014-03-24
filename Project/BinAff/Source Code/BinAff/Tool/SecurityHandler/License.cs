@@ -14,11 +14,21 @@ namespace BinAff.Tool.SecurityHandler
         public String FingurePrint { get; set; }
         public DateTime RegistrationDate { get; set; }
         public List<String> ModuleList { get; set; }
+        public List<String> ComponentList { get; set; }
 
         public Int16 CompareAll(License val)
         {
             Int16 ret = this.CompareWithoutModule(val);
             if (ret > 0) return ret;
+
+            if (this.ComponentList == null && val.ComponentList == null) return 0;
+            if (this.ComponentList != null && val.ComponentList == null) return 700;
+            if (this.ComponentList == null && val.ComponentList != null) return 700;
+            if ((this.ComponentList.Count != val.ComponentList.Count)) return 700; //Here both list will be not null.
+            foreach (String component in this.ComponentList) //Here count of both list is same
+            {
+                if (String.IsNullOrEmpty(val.ComponentList.Find((p) => String.Compare(p, component) == 0))) return 701;
+            }
 
             if (this.ModuleList == null && val.ModuleList == null) return 0;
             if (this.ModuleList != null && val.ModuleList == null) return 600;

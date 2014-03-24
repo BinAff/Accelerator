@@ -33,7 +33,7 @@ namespace BinAff.Tool.SecurityHandler.Module
 
         protected override void CreateChildren()
         {
-            base.AddChildren(new Module.Server(null)
+            base.AddChildren(new Component.Server(null)
             {
                 Type = ChildType.Dependent,
                 IsReadOnly = true,

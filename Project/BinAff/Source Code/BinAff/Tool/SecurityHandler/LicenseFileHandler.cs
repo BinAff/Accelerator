@@ -25,24 +25,41 @@ namespace BinAff.Tool.SecurityHandler
                     binaryWriter.Write(svr.Encrypt(product.Name));
                     binaryWriter.Write(svr.Encrypt(product.Code));
                     binaryWriter.Write(svr.Encrypt(DateTime.Today.ToShortDateString())); //Write date of license
-                    binaryWriter.Write(new Utility.Cryptography.ManagedAes
+                    binaryWriter.Write(new Utility.Cryptography.ManagedAes().Encrypt(licenseNo)); //Write license number with default encryption
+
+                    binaryWriter.Write(svr.Encrypt(product.ModuleList.Count.ToString())); //Write number of modules
+                    foreach (Module.Data module in product.ModuleList)
                     {
-                        EncryptionKey = "B1n@ry@ff@1r5",
-                    }.Encrypt(licenseNo)); //Write license number
-                    //binaryWriter.Write(svr.Encrypt(componentList.Count.ToString())); //Write number of module
-                    //foreach (Component.Data component in componentList)
-                    //{
-                    //    binaryWriter.Write(svr.Encrypt(component.Code + ":" + component.Name + ":" + component.Description + ":"
-                    //        + component.IsForm + ":" + component.IsCatalogue + ":" + component.IsReport));
-                    //}
+                        binaryWriter.Write(svr.Encrypt(module.Code + ":" + module.Name + ":" + module.Description + ":"
+                            + module.IsMandatory));
+                    }
+
+                    List<Component.Data> componentList = GetComponentList(product);
+                    binaryWriter.Write(svr.Encrypt(componentList.Count.ToString())); //Write number of components
+                    foreach (Component.Data component in componentList)
+                    {
+                        binaryWriter.Write(svr.Encrypt(component.Code + ":" + component.Name + ":" + component.Description + ":"
+                            + component.IsForm + ":" + component.IsCatalogue + ":" + component.IsReport));
+                    }
                 }
             }
         }
 
-        //private static List<Component.Data> GetComponentList(Product.Data product)
-        //{
-        //    return null;
-        //}
+        private static List<Component.Data> GetComponentList(Product.Data product)
+        {
+            List<Component.Data> componentList = new List<Component.Data>();
+            foreach (Module.Data module in product.ModuleList)
+            {
+                if (module.ComponentList != null)
+                {
+                    foreach (Component.Data component in module.ComponentList)
+                    {
+                        componentList.Add(component);
+                    }
+                }
+            }
+            return componentList;
+        }
 
         public static void Append(String licenseNo, DateTime registrationDate, String targetPath)
         {
@@ -238,6 +255,15 @@ namespace BinAff.Tool.SecurityHandler
                         lic.ModuleList.Add(module);
                         if (module == null) return null;
                     }
+                    Int16 componentCount = Convert.ToInt16(svr.Decrypt(reader.ReadString()));
+                    lic.ComponentList = new List<String>();
+                    while (componentCount-- > 0)
+                    {
+                        String component = svr.Decrypt(reader.ReadString());
+                        lic.ComponentList.Add(component);
+                        if (component == null) return null;
+                    }
+
                     if (reader.BaseStream.Position < reader.BaseStream.Length) //This part is optional
                     {
                         lic.FingurePrint = svr.Decrypt(reader.ReadString());

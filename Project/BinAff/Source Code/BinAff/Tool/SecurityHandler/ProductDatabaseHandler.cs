@@ -102,8 +102,62 @@ namespace BinAff.Tool.SecurityHandler
             }, null);
 
             //Overwrite module list
+            Int16 ret;
+            if ((ret = ManageModuleTable(trans, license)) != 0)
+            {
+                trans.Rollback();
+                conn.Close();
+                return ret;
+            }
+            if ((ret = ManageComponentTable(trans, license)) != 0)
+            {
+                trans.Rollback();
+                conn.Close();
+                return ret;
+            }
+
+            trans.Commit();
+            conn.Close();
+            return 0;
+        }
+
+        private static Int16 ManageModuleTable(SqlTransaction trans, License license)
+        {
             if (!Handler.CreateSchema(trans, "License")) return 600;
             if (!Handler.CreateTable(trans, "License", "Module", new List<Handler.ColumnDefinition>
+            {
+                { new Handler.ColumnDefinition { ColumnName = "Id", Type = "Numeric(10, 0)", IsAutoNumber = true } },
+                { new Handler.ColumnDefinition { ColumnName = "Code", Type = "Char(4)" } },
+                { new Handler.ColumnDefinition { ColumnName = "Name", Type = "VarChar(50)" } },
+                { new Handler.ColumnDefinition { ColumnName = "Description", Type = "VarChar(50)", IsNull = true } },
+                { new Handler.ColumnDefinition { ColumnName = "IsMandatory", Type = "Bit", IsNull = true } },
+            })) return 601;
+            Int32 count = license.ModuleList.Count;
+            List<KeyValuePair<String, String>> codeList = new List<KeyValuePair<String, String>>();
+            for (Int32 i = 0; i < count; i++)
+            {
+                String[] tokens = license.ModuleList[i].Split(':');
+                Handler.InsertOrUpdate(trans, "License", "Module", new Dictionary<String, String>
+                {
+                    { "Code", "'" + tokens[0] + "'" },
+                    { "Name", "'" + tokens[1] + "'" },
+                    { "Description", "'" + tokens[2] + "'" },
+                    { "IsMandatory", "'" + tokens[3] + "'" },
+
+                }, new List<KeyValuePair<String, String>>
+                {
+                    new KeyValuePair<String, String>("Code", "'" + tokens[0] + "'"),
+                });
+                codeList.Add(new KeyValuePair<String, String>("Code", "'" + tokens[0] + "'"));
+            }
+            Handler.DeleteOther(trans, "License", "Module", codeList);
+            return 0;
+        }
+
+        private static Int16 ManageComponentTable(SqlTransaction trans, License license)
+        {
+            if (!Handler.CreateSchema(trans, "License")) return 600;
+            if (!Handler.CreateTable(trans, "License", "Component", new List<Handler.ColumnDefinition>
             {
                 { new Handler.ColumnDefinition { ColumnName = "Id", Type = "Numeric(10, 0)", IsAutoNumber = true } },
                 { new Handler.ColumnDefinition { ColumnName = "Code", Type = "Char(4)" } },
@@ -113,12 +167,12 @@ namespace BinAff.Tool.SecurityHandler
                 { new Handler.ColumnDefinition { ColumnName = "IsReport", Type = "Bit", IsNull = true } },
                 { new Handler.ColumnDefinition { ColumnName = "IsCatalogue", Type = "Bit", IsNull = true } },
             })) return 601;
-            Int32 count = license.ModuleList.Count;
+            Int32 count = license.ComponentList.Count;
             List<KeyValuePair<String, String>> codeList = new List<KeyValuePair<String, String>>();
             for (Int32 i = 0; i < count; i++)
             {
-                String[] tokens = license.ModuleList[i].Split(':');
-                Handler.InsertOrUpdate(trans, "License", "Module", new Dictionary<String, String>
+                String[] tokens = license.ComponentList[i].Split(':');
+                Handler.InsertOrUpdate(trans, "License", "Component", new Dictionary<String, String>
                 {
                     { "Code", "'" + tokens[0] + "'" },
                     { "Name", "'" + tokens[1] + "'" },
@@ -133,9 +187,7 @@ namespace BinAff.Tool.SecurityHandler
                 });
                 codeList.Add(new KeyValuePair<String, String>("Code", "'" + tokens[0] + "'"));
             }
-            Handler.DeleteOther(trans, "License", "Module", codeList);
-            trans.Commit();
-            conn.Close();
+            Handler.DeleteOther(trans, "License", "Component", codeList);
             return 0;
         }
 
@@ -168,10 +220,20 @@ namespace BinAff.Tool.SecurityHandler
             lics.ModuleList = new List<String>();
             foreach (DataRow dr in dt.Rows)
             {
-                lics.ModuleList.Add(String.Format("{0}:{1}:{2}:{3}:{4}:{5}",
+                lics.ModuleList.Add(String.Format("{0}:{1}:{2}:{3}",
+                    dr["Code"].ToString(), dr["Name"].ToString(), dr["Description"].ToString(),
+                    dr["IsMandatory"].ToString()));
+            }
+
+            dt = Handler.Read(trans, "License", "Component");
+            lics.ComponentList = new List<String>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                lics.ComponentList.Add(String.Format("{0}:{1}:{2}:{3}:{4}:{5}",
                     dr["Code"].ToString(), dr["Name"].ToString(), dr["Description"].ToString(),
                     dr["IsForm"].ToString(), dr["IsCatalogue"].ToString(), dr["IsReport"].ToString()));
             }
+
             trans.Commit();
             conn.Close();
             return lics;

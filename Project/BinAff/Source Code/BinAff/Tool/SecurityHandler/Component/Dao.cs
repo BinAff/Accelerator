@@ -57,16 +57,23 @@ namespace BinAff.Tool.SecurityHandler.Component
         }
 
         protected override void AttachChildrenDataToParent(List<BinAff.Core.Data> dataList)
-        {
+        {            
             if (dataList.Count > 0)
             {
-                ((Product.Data)this.ParentData).ModuleList = new List<BinAff.Core.Data>();
+                (this.ParentData as Module.Data).ComponentList = new List<BinAff.Core.Data>();             
                 foreach (BinAff.Core.Data data in dataList)
                 {
-                    ((Product.Data)this.ParentData).ModuleList.Add((Data)data);
+                    (this.ParentData as Module.Data).ComponentList.Add((Data)data);
                 }
             }
+        }
 
+        protected override void AttachChildDataToParent()
+        {
+            (this.ParentData as Module.Data).ComponentList = new List<BinAff.Core.Data>
+            {
+                this.Data
+            };
         }
 
     }
