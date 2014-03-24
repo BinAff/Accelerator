@@ -48,7 +48,7 @@ namespace Crystal.Invoice.Component
             base.AddChildren(new Payment.Server(null)
             {
                 Type = ChildType.Independent,
-                IsReadOnly = false,
+                IsReadOnly = true,
             }, ((Data)base.Data).Payment);            
            
         }

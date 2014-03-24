@@ -934,8 +934,10 @@ namespace AutoTourism.Lodge.WinForm
             this.AttachTariff(invoiceDto.productList);
             invoiceDto.taxationList = this.ConvertToInvoiceTaxationDto(taxationList);
 
-            this.Close();
-            new Vanilla.Invoice.WinForm.Invoice(invoiceDto).ShowDialog();
+            this.Close();            
+           
+            Form form = new Vanilla.Invoice.WinForm.Payment(invoiceDto, this.dto.trvForm);
+            form.ShowDialog(this);
         }
 
         private List<Vanilla.Invoice.Facade.Taxation.Dto> ConvertToInvoiceTaxationDto(List<Facade.Taxation.Dto> taxationList)
@@ -970,13 +972,13 @@ namespace AutoTourism.Lodge.WinForm
                     Vanilla.Invoice.Facade.LineItem.Dto productDto = new Vanilla.Invoice.Facade.LineItem.Dto()
                     {
                         Id = dtoRoom.Id,
-                        startDate = this.dto.reservationDto.BookingFrom.ToShortDateString(),
+                        startDate = this.dto.reservationDto.BookingFrom,
                         roomCategoryId = dtoRoom.Category == null ? 0 : dtoRoom.Category.Id,
                         roomTypeId = dtoRoom.Type == null ? 0 : dtoRoom.Type.Id,
                         roomIsAC = dtoRoom.IsAirconditioned,
                         description = dtoRoom.Description,
                         count = 1, //count is basically rooms of same type [i.e. same typeid, categoryId, and Ac] 
-                        endDate = this.dto.reservationDto.BookingFrom.AddDays(this.dto.reservationDto.NoOfDays).ToShortDateString()
+                        endDate = this.dto.reservationDto.BookingFrom.AddDays(this.dto.reservationDto.NoOfDays)
                     };
 
                     if (productList.Count == 0)

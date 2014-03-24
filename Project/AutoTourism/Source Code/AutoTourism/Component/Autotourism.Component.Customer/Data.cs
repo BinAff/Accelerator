@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Lodge = Crystal.Lodge.Component;
+using InvoiceContainer = Crystal.Invoice.Component.InvoiceContainer;
 
 namespace AutoTourism.Component.Customer
 {
@@ -33,11 +34,24 @@ namespace AutoTourism.Component.Customer
             }
         }
 
+        public InvoiceContainer.Data Invoice
+        {
+            get
+            {
+                return this.CharacteristicList[2] as InvoiceContainer.Data;
+            }
+            set
+            {
+                this.CharacteristicList[2] = value;
+            }
+        }
+        
         public Data()
         {
             this.CharacteristicList = new List<Crystal.Customer.Component.Characteristic.Data>();
             this.CharacteristicList.Add(new Lodge.Room.Reserver.Data());
             this.CharacteristicList.Add(new Lodge.Room.CheckInContainer.Data());
+            this.CharacteristicList.Add(new InvoiceContainer.Data());
         }
 
     }

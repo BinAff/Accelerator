@@ -107,12 +107,18 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
                 {
                     //save
                     ICrud crud = new CrystalLodge.Room.Tariff.Server(tariffData);
-                    crud.Save();
+                    ret = crud.Save();
 
-                    ret.Value = true;
-                    ret.MessageList = new List<Message> { 
-                            new Message("Tariff changed successfully.", Message.Type.Information)
-                        };
+                    if (!ret.Value)
+                        this.IsError = true;
+
+                    //{                        
+                    //    ret.MessageList = new List<Message> { 
+                    //        new Message("Tariff changed successfully.", Message.Type.Information)
+                    //    };
+                    //}  
+                    //else
+                    //    this.IsError = true;
                 }
                 else
                 {

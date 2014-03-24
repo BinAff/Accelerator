@@ -195,7 +195,8 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         }
 
         private void PopulateFormData(ConfigurationFacade.Tariff.Dto dto)
-        {
+        {       
+
             //highlight category dropdown
             for (int i = 0; i < cboCategory.Items.Count; i++)
             {
@@ -244,8 +245,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         }
 
         private void RadioChange(String source)
-        {
-            dgvTariff.DataSource = null;
+        {   
 
             ConfigurationFacade.Tariff.ITariff tariff = new ConfigurationFacade.Tariff.TariffServer(this.formDto);
             ReturnObject<List<ConfigurationFacade.Tariff.Dto>> ret = new ReturnObject<List<ConfigurationFacade.Tariff.Dto>>();
@@ -278,6 +278,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             //populate Tariff Grid
             if (ret.Value != null && ret.Value.Count > 0)
             {
+                dgvTariff.DataSource = null;
                 dgvTariff.DataSource = ret.Value;
                 ConfigurationFacade.Tariff.Dto tariffDto = ret.Value[0];
 
