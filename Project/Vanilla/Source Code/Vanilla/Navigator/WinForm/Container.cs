@@ -481,7 +481,6 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowControls()
         {
-            this.ucRegister.LoadForm();
             this.ucRegister.Show();
             this.pnlTool.Show();
 
