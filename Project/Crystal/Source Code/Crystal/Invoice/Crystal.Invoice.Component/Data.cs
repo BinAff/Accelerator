@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Crystal.Invoice.Component
 {
 
-    public class Data : BinAff.Core.Data
+    public class Data : Crystal.Customer.Component.Action.Data
     {
         public DateTime Date { get; set; }
         public String InvoiceNumber { get; set; }

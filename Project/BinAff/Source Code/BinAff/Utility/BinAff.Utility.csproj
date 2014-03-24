@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calender.cs" />
+    <Compile Include="Common.cs" />
     <Compile Include="Convert.cs" />
     <Compile Include="Cryptography\ManagedAes.cs" />
     <Compile Include="Cryptography\Server.cs" />

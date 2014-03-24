@@ -67,6 +67,12 @@ namespace AutoTourism.Component.Customer
             return null;
         }
 
+        protected override ReturnObject<bool> GenerateInvoice()
+        {
+          Crystal.Invoice.Component.Data invoiceData = (((Data)this.Data).Invoice as Crystal.Customer.Component.Characteristic.Data).Active as Crystal.Invoice.Component.Data;
+          ICrud crud = new Crystal.Invoice.Component.Server(invoiceData);
+          return crud.Save();
+        }
         
     }
 

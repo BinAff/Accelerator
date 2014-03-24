@@ -1,20 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-//using Microsoft.Reporting.WinForms;
-//using Crystal.Invoice.Facade;
-//using BinAff.Core;
-//using BinAff.Utility;
-
-using System.IO;
-using System.Text;
-using System.Drawing.Printing;
-using System.Drawing.Imaging;
-using System.Drawing;
-
-using Facade = Vanilla.Invoice.Facade;
-using System.Text.RegularExpressions;
-using BinAff.Utility;
 using Microsoft.Reporting.WinForms;
 
 namespace Vanilla.Invoice.WinForm
@@ -23,13 +9,7 @@ namespace Vanilla.Invoice.WinForm
     {
         private Facade.Dto dto;
         private Facade.FormDto formDto;
-
-        private IList<Stream> m_streams;
-        private int m_currentPageIndex;
-
-
-        //private Crystal.Invoice.Component.Data invoiceData;
-       
+        
         public Invoice()
         {
             InitializeComponent();
@@ -55,8 +35,7 @@ namespace Vanilla.Invoice.WinForm
 
             this.dto = dto;
             this.formDto = new Facade.FormDto { dto = this.dto };
-
-            this.SetGridViewSettings();            
+          
             this.LoadForm();            
             this.LoadReport();
         }
@@ -70,8 +49,8 @@ namespace Vanilla.Invoice.WinForm
             {
                 invoiceList.Add(new Data
                 {
-                    Start = lineItem.startDate,
-                    End = lineItem.endDate,
+                    Start = lineItem.startDate.ToShortDateString(),
+                    End = lineItem.endDate.ToShortDateString(),
                     Description = String.Empty,
                     UnitRate = lineItem.unitRate.ToString(),
                     Count = lineItem.count.ToString(),
@@ -115,292 +94,11 @@ namespace Vanilla.Invoice.WinForm
             this.rvInvoice.RefreshReport();
                         
         }
-
-        //private void Invoice_Load(object sender, EventArgs e)
-        //{
-            //// TODO: This line of code loads data into the 'DevelopmentRNDDataSet.Invoice' table. You can move, or remove it, as needed.
-            //this.InvoiceTableAdapter.Fill(this.DevelopmentRNDDataSet.Invoice);
-            //// TODO: This line of code loads data into the 'DevelopmentRNDDataSet.InvoiceLineItem' table. You can move, or remove it, as needed.
-            //this.InvoiceLineItemTableAdapter.Fill(this.DevelopmentRNDDataSet.InvoiceLineItem);
-
-            //this.reportViewer1.RefreshReport();
-            //this.reportViewer1.RefreshReport();
-            //this.rvInvoice.RefreshReport();
-        //    this.rvInvoice.RefreshReport();
-        //}
-               
-        private void btnPayAndPrint_Click(object sender, EventArgs e)
-        {
-            //this.invoiceData.Payment = new Component.Payment.Data()
-            //{
-            //    Type = new Component.Payment.Type.Data() {
-            //        Id = ((PaymentTypeDto)this.cboPaymentType.SelectedItem).Id
-            //    },
-            //    CardNumber = this.txtLastFourDigit.Text.Trim(),
-            //    Remark = this.txtRemark.Text.Trim()
-            //};
-
-            //Crystal.Invoice.Facade.IReport report = new Crystal.Invoice.Facade.ReportServer();
-            //ReturnObject<Boolean> ret = report.SavePayment(this.invoiceData);
-
-            //if (!ret.HasError())
-            //{ 
-            //    //Print the report
-            //    PrintInvoice(this.invoiceData);
-            //}  
-        }
-
-        private void btnPrint_Click(object sender, EventArgs e)
-        {
-            //PrintInvoice(this.invoiceData);
-        }
-
-        //private void PrintInvoice(Crystal.Invoice.Component.Data invoiceData)
-        //{
-        //    return;
-        //    LocalReport report = new LocalReport();
-
-        //    String path = System.IO.Directory.GetCurrentDirectory();
-        //    path = path.Remove(path.IndexOf("Reference"));
-        //    path += @"BinAff\Crystal Framework\Invoice Management System\Presentation\Invoice.rdlc";
-
-
-        //    report.ReportPath = path;
-
-        //    string sDataSourceName = "Invoice";
-        //    Microsoft.Reporting.WinForms.ReportDataSource rptDataSoruce = new Microsoft.Reporting.WinForms.ReportDataSource();
-        //    rptDataSoruce.Name = sDataSourceName;
-        //    rptDataSoruce.Value = LoadSalesData();
-
-        //    //report.DataSources.Add(
-        //    //   new ReportDataSource("Sales", LoadSalesData()));
-        //    report.DataSources.Add(rptDataSoruce);
-
-        //    Export(report);
-        //    Print();
-
-        //}
-
-        //private List<Data> LoadSalesData()
-        //{
-        //    List<Data> invoiceList = new List<Data>();
-        //    foreach (Crystal.Invoice.Component.LineItem lineItem in invoiceData.LineItem)
-        //    {
-        //        invoiceList.Add(new Data
-        //        {
-        //            Start = lineItem.Start.ToShortDateString(),
-        //            End = lineItem.End.ToShortDateString(),
-        //            Description = lineItem.Description,
-        //            UnitRate = lineItem.UnitRate.ToString(),
-        //            Count = lineItem.Count.ToString(),
-        //            Total = Convert.ToString(lineItem.UnitRate * lineItem.Count * Convert.ToDateTime(lineItem.End).Subtract(Convert.ToDateTime(lineItem.Start)).Days)
-
-        //        });
-        //    }
-        //    return invoiceList;
-        //}
-
-//        // Export the given report as an EMF (Enhanced Metafile) file.
-//        private void Export(LocalReport report)
-//        {
-//            string deviceInfo =
-//              @"<DeviceInfo>
-//                <OutputFormat>EMF</OutputFormat>
-//                <PageWidth>8.5in</PageWidth>
-//                <PageHeight>11in</PageHeight>
-//                <MarginTop>0.25in</MarginTop>
-//                <MarginLeft>0.25in</MarginLeft>
-//                <MarginRight>0.25in</MarginRight>
-//                <MarginBottom>0.25in</MarginBottom>
-//            </DeviceInfo>";
-
-//            Warning[] warnings;
-//            m_streams = new List<Stream>();
-//            report.Render("Image", deviceInfo, CreateStream, out warnings);
-//            foreach (Stream stream in m_streams)
-//                stream.Position = 0;
-//        }
-
-        // Routine to provide to the report renderer, in order to
-        // save an image for each page of the report.
-        private Stream CreateStream(string name,
-          string fileNameExtension, Encoding encoding,
-          string mimeType, bool willSeek)
-        {
-            Stream stream = new MemoryStream();
-            m_streams.Add(stream);
-            return stream;
-        }
-
-        private void Print()
-        {
-            if (m_streams == null || m_streams.Count == 0)
-                throw new Exception("Error: no stream to print.");
-            PrintDocument printDoc = new PrintDocument();
-            if (!printDoc.PrinterSettings.IsValid)
-            {
-                throw new Exception("Error: cannot find the default printer.");
-            }
-            else
-            {
-                printDoc.PrintPage += new PrintPageEventHandler(PrintPage);
-                m_currentPageIndex = 0;
-                printDoc.Print();
-            }
-        }
-
-        // Handler for PrintPageEvents
-        private void PrintPage(object sender, PrintPageEventArgs ev)
-        {
-            Metafile pageImage = new
-               Metafile(m_streams[m_currentPageIndex]);
-
-            // Adjust rectangular area with printer margins.
-            Rectangle adjustedRect = new Rectangle(
-                ev.PageBounds.Left - (int)ev.PageSettings.HardMarginX,
-                ev.PageBounds.Top - (int)ev.PageSettings.HardMarginY,
-                ev.PageBounds.Width,
-                ev.PageBounds.Height);
-
-            // Draw a white background for the report
-            ev.Graphics.FillRectangle(Brushes.White, adjustedRect);
-
-            // Draw the report content
-            ev.Graphics.DrawImage(pageImage, adjustedRect);
-
-            // Prepare for the next page. Make sure we haven't hit the end.
-            m_currentPageIndex++;
-            ev.HasMorePages = (m_currentPageIndex < m_streams.Count);
-        }
-
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            if (this.ValidatePayment())
-            {
-                List<Facade.Payment.Dto> paymentDto = dgvPayment.DataSource == null ? new List<Facade.Payment.Dto>() : dgvPayment.DataSource as List<Facade.Payment.Dto>;
-                paymentDto.Add(new Facade.Payment.Dto
-                {
-                    paymentType = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name,
-                    cardNumber = txtLastFourDigit.Text.Trim(),
-                    remark = txtRemark.Text.Trim(),
-                    amount = Convert.ToDouble(txtAmount.Text),                    
-
-                    Type = (Facade.Payment.Type.Dto)cboPaymentType.SelectedItem
-                });
-
-                dgvPayment.DataSource = null;
-                dgvPayment.DataSource = paymentDto;
-                this.Clear();
-            }
-        }
-
-        private void dgvPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
-
-            if (e.ColumnIndex == 4)
-            {
-                paymentDtoList = this.RemoveDtoAtGivenPosition(paymentDtoList,e.RowIndex);
-                dgvPayment.DataSource = paymentDtoList;
-            }
-        }
-
-        private List<Facade.Payment.Dto> RemoveDtoAtGivenPosition(List<Facade.Payment.Dto> lstPaymentDto, int removePosition)
-        {
-            List<Facade.Payment.Dto> paymentDtoList = new List<Facade.Payment.Dto>();
-            for (int i = 0; i < lstPaymentDto.Count; i++)
-            {
-                if (i != removePosition)
-                    paymentDtoList.Add(lstPaymentDto[i]);
-            }
-
-            return paymentDtoList;
-        }
-
-        private void SetGridViewSettings()
-        {
-            for (int i = 0; i < dgvPayment.Columns.Count; i++) 
-                dgvPayment.Columns[i].ReadOnly = true;
-
-            dgvPayment.MultiSelect = false;
-
-            dgvPayment.Columns[0].DataPropertyName = "paymentType";
-            dgvPayment.Columns[1].DataPropertyName = "amount";
-            dgvPayment.Columns[2].DataPropertyName = "cardNumber";
-            dgvPayment.Columns[3].DataPropertyName = "remark"; ;
-            dgvPayment.AutoGenerateColumns = false;
-
-            DataGridViewLinkColumn Editlink = new DataGridViewLinkColumn();
-            Editlink.UseColumnTextForLinkValue = true;
-            Editlink.HeaderText = "edit";
-            Editlink.DataPropertyName = "lnkColumn";
-            Editlink.LinkBehavior = LinkBehavior.SystemDefault;
-            Editlink.Text = "Edit";
-            dgvPayment.Columns.Add(Editlink);
-
-            DataGridViewLinkColumn Deletelink = new DataGridViewLinkColumn();
-            Deletelink.UseColumnTextForLinkValue = true;
-            Deletelink.HeaderText = "delete";
-            Deletelink.DataPropertyName = "lnkColumn";
-            Deletelink.LinkBehavior = LinkBehavior.SystemDefault;
-            Deletelink.Text = "Delete";
-            dgvPayment.Columns.Add(Deletelink); 
-        }
-
+                  
         private void LoadForm()
         {
-            BinAff.Facade.Library.Server facade = new Facade.Server(formDto);
-            facade.LoadForm();
-
-            //--populate payment type category
-            this.cboPaymentType.DataSource = null;
-            if (this.formDto.paymentTypeList != null && this.formDto.paymentTypeList.Count > 0)
-            {
-                this.cboPaymentType.DataSource = this.formDto.paymentTypeList;
-                this.cboPaymentType.ValueMember = "Id";
-                this.cboPaymentType.DisplayMember = "Name";
-                this.cboPaymentType.SelectedIndex = 0;
-            }
-            
-        }
-        
-        private Boolean ValidatePayment()
-        {
-            errorProvider.Clear();
-
-            if (txtLastFourDigit.Text != String.Empty && !(new Regex(@"^[0-9]*$").IsMatch(txtLastFourDigit.Text)))
-            {
-                errorProvider.SetError(txtLastFourDigit, "Entered " + txtLastFourDigit.Text + " is Invalid.");
-                txtLastFourDigit.Focus();
-                return false;
-            }
-            else if (txtRemark.Text != String.Empty && txtRemark.Text.Trim().Length > 255)
-            {
-                errorProvider.SetError(txtRemark, "Length of remarks cannot be greater than 255.");
-                txtRemark.Focus();
-                return false;
-            }
-            else if (String.IsNullOrEmpty(txtAmount.Text.Trim()))
-            {
-                errorProvider.SetError(txtAmount, "Please enter amount.");
-                txtAmount.Focus();
-                return false;
-            }
-            else if (!ValidationRule.IsDecimal(txtAmount.Text.Trim() == String.Empty ? "0" : txtAmount.Text.Trim().Replace(",", "")))
-            {
-                errorProvider.SetError(txtAmount, "Entered " + txtAmount.Text + " is Invalid.");
-                txtAmount.Focus();
-                return false;
-            }
-            return true;
-        }
-
-        private void Clear()
-        {
-            this.cboPaymentType.SelectedIndex = 0;
-            txtLastFourDigit.Text = String.Empty;
-            txtRemark.Text = String.Empty;
-            txtAmount.Text = String.Empty;
+            //BinAff.Facade.Library.Server facade = new Facade.Server(formDto);
+            //facade.LoadForm();
         }
 
     }

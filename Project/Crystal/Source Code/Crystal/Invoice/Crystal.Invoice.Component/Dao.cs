@@ -209,9 +209,17 @@ namespace Crystal.Invoice.Component
 
             foreach (Invoice.Component.Payment.Data paymentData in data.Payment)
             {
-                this.CreateCommand("[Invoice].[InvoicePaymentLinkInsert]");
+                //this.CreateCommand("[Invoice].[InvoicePaymentLinkInsert]");
+                //this.AddInParameter("@InvoiceId", DbType.Int64, data.Id);
+                //this.AddInParameter("@PaymentId", DbType.Int64, paymentData.Id);
+                //this.AddInParameter("@Id", DbType.Int64, InvoicePaymentId);
+
+                this.CreateCommand("[Invoice].[InvoicePaymentInsert]");
                 this.AddInParameter("@InvoiceId", DbType.Int64, data.Id);
-                this.AddInParameter("@PaymentId", DbType.Int64, paymentData.Id);
+                this.AddInParameter("@PaymentTypeId", DbType.Int64, paymentData.Type.Id);
+                this.AddInParameter("@CardNumber", DbType.String, paymentData.CardNumber);
+                this.AddInParameter("@Remark", DbType.String, paymentData.Remark);
+                this.AddInParameter("@Amount", DbType.Currency, paymentData.Amount);
                 this.AddInParameter("@Id", DbType.Int64, InvoicePaymentId);
 
                 Int32 ret = this.ExecuteNonQuery();
