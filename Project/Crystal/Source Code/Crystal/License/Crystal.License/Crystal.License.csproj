@@ -36,6 +36,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\Dao.cs" />
+    <Compile Include="Component\Data.cs" />
+    <Compile Include="Component\Server.cs" />
+    <Compile Include="Component\Validator.cs" />
     <Compile Include="Dao.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="ILicense.cs" />

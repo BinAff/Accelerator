@@ -291,11 +291,11 @@ namespace BinAff.Tool.SecurityHandler
                     {
                         EncryptionKey = "B1n@ry@ff@1r5",
                     }.Decrypt(reader.ReadString());
-                    if (licenseNo.Length != 11) return null;
+                    if (licenseNo == null || licenseNo.Length != 11) return null;
                 }
             }
             return licenseNo;
-        }        
+        }
 
     }
 

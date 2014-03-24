@@ -61,7 +61,7 @@ namespace Crystal.Navigator.Component.Artifact
             //TO DO :: Need to add validation later
             Data data = this.Data as Data;
             data.Style = Artifact.Type.Directory;
-            data.FileName = data.ModuleDefinition.Name;
+            data.FileName = data.ComponentDefinition.Name;
             this.FormTree(ret.Value);
             return new ReturnObject<Data>
             {

@@ -105,8 +105,16 @@ namespace Vanilla.Navigator.WinForm
         {
             if ((sender as Vanilla.Guardian.WinForm.Login).IsAuthenticated)
             {
+                this.lblLoading.Location = new System.Drawing.Point
+                {
+                    X = this.Width / 2 - 5,
+                    Y = this.Height / 2,
+                };
+                this.lblLoading.Visible = true;
+                Application.DoEvents(); //Forcefully all pending events are processed
                 this.pnlLoginFormContainer.Hide();
                 this.LoadForm();
+                this.lblLoading.Visible = false;
                 VanAcc.Dto loggedInUser = (Server.Current.Cache["User"] as VanAcc.Dto);
                 String heading = this.Text + " : " + loggedInUser.Profile.Name + " - ";
                 if (loggedInUser.RoleList != null)

@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using CrystalArtifact = Crystal.Navigator.Component.Artifact;
 
-
 namespace Vanilla.Utility.Facade.Module
 {
+
     public class Helper
     {
+
         Module.Dto moduleDef;
         public Helper(Module.Dto moduleDef)
         {
@@ -165,5 +163,7 @@ namespace Vanilla.Utility.Facade.Module
             }
             return this;
         }
+
     }
+
 }

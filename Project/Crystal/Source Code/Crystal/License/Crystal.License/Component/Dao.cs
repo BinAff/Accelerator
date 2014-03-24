@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Crystal.License.Module
+namespace Crystal.License.Component
 {
 
     internal class Dao : BinAff.Core.Dao
@@ -15,13 +15,13 @@ namespace Crystal.License.Module
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "License.ModuleInsert";
+            base.CreateStoredProcedure = "License.ComponentInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "License.ModuleRead";
-            base.ReadAllStoredProcedure = "License.ModuleReadAll";
-            base.UpdateStoredProcedure = "License.ModuleUpdate";
+            base.ReadStoredProcedure = "License.ComponentRead";
+            base.ReadAllStoredProcedure = "License.ComponentReadAll";
+            base.UpdateStoredProcedure = "License.ComponentUpdate";
             base.NumberOfRowsAffectedInUpdate = 1;
-            base.DeleteStoredProcedure = "License.ModuleDelete";
+            base.DeleteStoredProcedure = "License.ComponentDelete";
             base.NumberOfRowsAffectedInDelete = 1;
         }
 
@@ -40,7 +40,9 @@ namespace Crystal.License.Module
             dt.Code = Convert.IsDBNull(dr["Code"]) ? String.Empty : Convert.ToString(dr["Code"]);
             dt.Name = Convert.IsDBNull(dr["Name"]) ? String.Empty : Convert.ToString(dr["Name"]);
             dt.Description = Convert.IsDBNull(dr["Description"]) ? String.Empty : Convert.ToString(dr["Description"]);
-            dt.IsMandatory = Convert.IsDBNull(dr["IsMandatory"]) ? false : Convert.ToBoolean(dr["IsMandatory"]);
+            dt.IsForm = Convert.IsDBNull(dr["IsForm"]) ? false : Convert.ToBoolean(dr["IsForm"]);
+            dt.IsReport = Convert.IsDBNull(dr["IsReport"]) ? false : Convert.ToBoolean(dr["IsReport"]);
+            dt.IsCatalogue = Convert.IsDBNull(dr["IsCatalogue"]) ? false : Convert.ToBoolean(dr["IsCatalogue"]);
             return data;
         }
         

@@ -168,7 +168,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void trvArtifact_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            this.facade.LoadForm();
+            //this.facade.LoadForm(); Commented by Arpan, looks unnecessary.
             this.facade.LoadArtifacts(e.Node.Text);
         }
 
@@ -643,7 +643,8 @@ namespace Vanilla.Navigator.WinForm
                 if (this.addressList.Count == 0)
                 {
                     this.btnBack.Enabled = false;
-                    this.LoadForm();
+                    this.txtAddress.Text = "Form" + this.formDto.Rule.ModuleSeperator;
+                    this.btnUp.Enabled = false;
                 }
                 else
                 {
@@ -679,7 +680,7 @@ namespace Vanilla.Navigator.WinForm
             this.txtAddress.Text = selectedNodePath;
             if (String.IsNullOrEmpty(selectedNodePath))
             {
-                this.LoadForm();
+                //this.LoadForm();
                 return;
             }
             this.currentArtifact = null;
@@ -710,7 +711,7 @@ namespace Vanilla.Navigator.WinForm
                     DialogueType = PresLib.MessageBox.Type.Error,
                     Heading = "Navigator",
                 }.Show(new List<BinAff.Core.Message> { { new BinAff.Core.Message("Path not found.", BinAff.Core.Message.Type.Error) } });
-                this.LoadForm();
+                //this.LoadForm();
             }
             else
             {

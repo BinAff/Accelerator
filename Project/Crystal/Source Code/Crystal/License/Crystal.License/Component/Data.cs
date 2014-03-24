@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Crystal.License.Module
+namespace Crystal.License.Component
 {
 
     public class Data : BinAff.Core.Data
@@ -22,9 +22,19 @@ namespace Crystal.License.Module
         internal String Description { get; set; }
 
         /// <summary>
-        /// Is the module is mandatory
+        /// Is there any form for module
         /// </summary>
-        internal Boolean IsMandatory { get; set; }
+        internal Boolean IsForm { get; set; }
+
+        /// <summary>
+        /// Is there any report for module
+        /// </summary>
+        internal Boolean IsReport { get; set; }
+
+        /// <summary>
+        /// Is there any catalogue for module
+        /// </summary>
+        internal Boolean IsCatalogue { get; set; }
 
     }
 
