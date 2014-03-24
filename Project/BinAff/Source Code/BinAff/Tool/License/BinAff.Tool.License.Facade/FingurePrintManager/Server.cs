@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using BinAff.SqlServerUtil;
 using BinAff.Tool.SecurityHandler;
+using System.IO;
 
 namespace BinAff.Tool.License.Facade.FingurePrintManager
 {
@@ -38,19 +39,25 @@ namespace BinAff.Tool.License.Facade.FingurePrintManager
             lic.FingurePrint = FingurePrintHandler.Generate(); //Assign fingure print
             lic.RegistrationDate = DateTime.Today;
 
-            if (!isForceOverwrite && System.IO.File.Exists(this.ApplicationFolder + "\\" + this.LicenseFileName))
-            {
+            if (!isForceOverwrite && File.Exists(this.ApplicationFolder + "\\" + this.LicenseFileName))
+            {                
                 return 1; //Ask for overwrite
             }
-            System.IO.File.Copy(this.SourceLicenseFolder + "\\" + this.LicenseFileName, this.ApplicationFolder + "\\" + this.LicenseFileName, isForceOverwrite);
+            if (String.Compare(this.SourceLicenseFolder, this.ApplicationFolder, true) != 0)
+            {
+                File.Copy(this.SourceLicenseFolder + "\\" + this.LicenseFileName, this.ApplicationFolder + "\\" + this.LicenseFileName, isForceOverwrite);
+            }
             LicenseFileHandler.Append(lic.LicenseNumber, lic.RegistrationDate, this.ApplicationFolder + "\\" + this.LicenseFileName);
 
             //License file in System folder
-            if (!isForceOverwrite && System.IO.File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\" + this.LicenseFileName))
+            if (!isForceOverwrite && File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\" + this.LicenseFileName))
             {
                 return 1; //Ask for overwrite
             }
-            System.IO.File.Copy(this.SourceLicenseFolder + "\\" + this.LicenseFileName, Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\" + this.LicenseFileName, isForceOverwrite);
+            if (String.Compare(this.SourceLicenseFolder, Environment.GetFolderPath(Environment.SpecialFolder.System), true) != 0)
+            {
+                File.Copy(this.SourceLicenseFolder + "\\" + this.LicenseFileName, Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\" + this.LicenseFileName, isForceOverwrite);
+            }
             LicenseFileHandler.Append(lic.LicenseNumber, lic.RegistrationDate, Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\" + this.LicenseFileName);
 
             RegistryHandler.Write(lic);

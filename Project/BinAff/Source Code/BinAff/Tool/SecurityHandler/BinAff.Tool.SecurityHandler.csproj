@@ -36,6 +36,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\Dao.cs" />
+    <Compile Include="Component\Data.cs" />
+    <Compile Include="Component\Server.cs" />
     <Compile Include="DatabaseCredential.cs" />
     <Compile Include="DateTimeHandler.cs" />
     <Compile Include="FingurePrintHandler.cs" />

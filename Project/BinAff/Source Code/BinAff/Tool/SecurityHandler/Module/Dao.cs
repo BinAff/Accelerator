@@ -62,7 +62,6 @@ namespace BinAff.Tool.SecurityHandler.Module
                     ((Product.Data)this.ParentData).ModuleList.Add((Data)data);
                 }
             }
-
         }
 
     }
