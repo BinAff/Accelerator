@@ -151,6 +151,10 @@ namespace BinAff.Tool.SecurityHandler
                 codeList.Add(new KeyValuePair<String, String>("Code", "'" + tokens[0] + "'"));
             }
             Handler.DeleteOther(trans, "License", "Module", codeList);
+
+            //Manage SPs
+            //Handler.DropSp(
+            //
             return 0;
         }
 

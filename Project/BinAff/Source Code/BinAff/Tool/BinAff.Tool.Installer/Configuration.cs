@@ -127,6 +127,11 @@ namespace BinAff.Tool.Installer
             this.txtLicsFilePath.Text = this.dlgOpenLicenseFile.FileName;
             //Read license file
             SecurityHandler.License lic = LicenseFileHandler.Read(this.dlgOpenLicenseFile.FileName);
+            if (lic == null)
+            {
+                MessageBox.Show("License file corrupted.", "Hold...", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
             this.Credential.ProductName = lic.ProductName;
             this.Credential.CompanyName = ConfigurationManager.AppSettings["CompanyName"];
             this.Credential.licenseFilePath = this.txtLicsFilePath.Text;

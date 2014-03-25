@@ -169,7 +169,7 @@ namespace BinAff.SqlServerUtil
             if (isOpenHere && trans.Connection.State == ConnectionState.Open) trans.Connection.Close();
             return status;
         }
-                
+           
         public static Boolean CreateDatabase(String serverInstance, String databaseName, String userName, String password, String path)
         {
             Server svr = new Server(new ServerConnection(serverInstance, userName, password));
@@ -521,6 +521,60 @@ namespace BinAff.SqlServerUtil
         //{
 
         //}
+
+        public static Boolean CreateSp(Server svr, String databaseName, String schemaName, String name, List<StoredProcedureParameter> parameters, String statement)
+        {
+            Database db = svr.Databases[databaseName];
+            StoredProcedure sp = new StoredProcedure(db, name)
+            {
+                TextMode = false,
+                AnsiNullsStatus = false,
+                QuotedIdentifierStatus = false,
+                Schema = schemaName,
+            };
+            foreach (StoredProcedureParameter param in parameters)
+            {
+                sp.Parameters.Add(param);
+            }
+            sp.TextBody = statement;
+            sp.Create();
+            ////Modify a property and run the Alter method to make the change on the instance of SQL Server. 
+            //sp.QuotedIdentifierStatus = true;
+            //sp.Alter();
+            ////Remove the stored procedure. 
+            //sp.Drop();
+            return true;
+        }
+
+        public static Boolean ModifySp(Server svr, String databaseName, String schemaName, String name, List<StoredProcedureParameter> parameters, String statement)
+        {
+            Database db = svr.Databases[databaseName];
+            StoredProcedure sp = new StoredProcedure(db, name)
+            {
+                TextMode = false,
+                AnsiNullsStatus = false,
+                QuotedIdentifierStatus = false,
+                Schema = schemaName,
+            };
+            foreach (StoredProcedureParameter param in parameters)
+            {
+                sp.Parameters.Add(param);
+            }
+            sp.TextBody = statement;
+            sp.QuotedIdentifierStatus = true;
+            sp.Alter();
+            return true;
+        }
+
+        public static Boolean DropSp(Server svr, String schemaName, String databaseName, String name)
+        {
+            StoredProcedure sp = new StoredProcedure(svr.Databases[databaseName], name)
+            {
+                Schema = schemaName,
+            };
+            sp.Drop();
+            return true;
+        }
 
         public class InstanceInfo
         {
