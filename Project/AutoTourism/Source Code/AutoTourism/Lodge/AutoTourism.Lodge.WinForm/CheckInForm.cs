@@ -932,12 +932,37 @@ namespace AutoTourism.Lodge.WinForm
             this.SetRoomDetail(roomList);
             invoiceDto.productList = this.GroupRoomList(roomList);
             this.AttachTariff(invoiceDto.productList);
-            invoiceDto.taxationList = this.ConvertToInvoiceTaxationDto(taxationList);
-
-            this.Close();            
+            invoiceDto.taxationList = this.ConvertToInvoiceTaxationDto(taxationList);                    
            
             Form form = new Vanilla.Invoice.WinForm.Payment(invoiceDto, this.dto.trvForm);
             form.ShowDialog(this);
+
+            if (invoiceDto.paymentList != null && invoiceDto.paymentList.Count > 0)
+            {
+                LodgeFacade.CheckIn.ICheckIn checkIn = new LodgeFacade.CheckIn.CheckInServer(this.formDto);
+                ReturnObject<Boolean> ret = checkIn.PaymentInsert(invoiceDto);
+
+                //if (!ret.Value)
+                //{                    
+                //    new PresentationLibrary.MessageBox
+                //    {
+                //        DialogueType = !ret.Value ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
+                //        Heading = "Splash",
+                //    }.Show(facade.DisplayMessageList);
+                //}
+                
+            }
+            //if (form.Tag != null)
+            //{
+            //    Vanilla.Invoice.Facade.Dto dto = form.Tag as Vanilla.Invoice.Facade.Dto;
+            //    if (dto.Id > 0)
+            //    {
+            //        LodgeFacade.CheckIn.ICheckIn checkIn = new LodgeFacade.CheckIn.CheckInServer(this.formDto);
+            //        checkIn.UpdateInvoiceNumber(dto.invoiceNumber);
+            //    }
+            //}
+
+            this.Close();    
         }
 
         private List<Vanilla.Invoice.Facade.Taxation.Dto> ConvertToInvoiceTaxationDto(List<Facade.Taxation.Dto> taxationList)
@@ -976,7 +1001,7 @@ namespace AutoTourism.Lodge.WinForm
                         roomCategoryId = dtoRoom.Category == null ? 0 : dtoRoom.Category.Id,
                         roomTypeId = dtoRoom.Type == null ? 0 : dtoRoom.Type.Id,
                         roomIsAC = dtoRoom.IsAirconditioned,
-                        description = dtoRoom.Description,
+                        description = dtoRoom.Description == null ? String.Empty : dtoRoom.Description,
                         count = 1, //count is basically rooms of same type [i.e. same typeid, categoryId, and Ac] 
                         endDate = this.dto.reservationDto.BookingFrom.AddDays(this.dto.reservationDto.NoOfDays)
                     };

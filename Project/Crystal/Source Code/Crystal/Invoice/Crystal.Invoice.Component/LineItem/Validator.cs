@@ -31,9 +31,11 @@ namespace Crystal.Invoice.Component.LineItem
                     retMsg.Add(new Message("End date cannot be less than start date.", Message.Type.Error));
             }
             
-            if (ValidationRule.IsNullOrEmpty(data.Description))
-                retMsg.Add(new Message("Item description cannot be empty.", Message.Type.Error));
-            else  if(data.Description.Length > 250)
+            //if (ValidationRule.IsNullOrEmpty(data.Description))
+            //    retMsg.Add(new Message("Item description cannot be empty.", Message.Type.Error));
+            //else  
+
+            if(!ValidationRule.IsNullOrEmpty(data.Description) && data.Description.Length > 250)
                 retMsg.Add(new Message("Item description length cannot be more than 250 characters.", Message.Type.Error));
 
             if (data.UnitRate <= 0)

@@ -45,11 +45,11 @@ namespace Crystal.Invoice.Component
                 Type = ChildType.Independent,
                 IsReadOnly = true,
             }, ((Data)base.Data).Taxation);
-            base.AddChildren(new Payment.Server(null)
-            {
-                Type = ChildType.Independent,
-                IsReadOnly = true,
-            }, ((Data)base.Data).Payment);            
+            //base.AddChildren(new Payment.Server(null)
+            //{
+            //    Type = ChildType.Independent,
+            //    IsReadOnly = true,
+            //}, ((Data)base.Data).Payment);            
            
         }
 

@@ -154,8 +154,8 @@ namespace Crystal.Invoice.Component
         protected override bool CreateAfter()
         {
             Boolean retVal = false;
-            retVal = this.InsertInvoiceTaxationLink();
-            if (retVal) retVal = this.InsertInvoicePaymentLink();
+            retVal = this.InsertInvoiceTaxation();
+            if (retVal) retVal = this.InsertInvoicePayment();
            
             return retVal;
         }
@@ -177,7 +177,7 @@ namespace Crystal.Invoice.Component
             return retVal;
         }
 
-        private Boolean InsertInvoiceTaxationLink()
+        private Boolean InsertInvoiceTaxation()
         {
             Data data = this.Data as Data;
             Boolean retVal = true;
@@ -185,9 +185,11 @@ namespace Crystal.Invoice.Component
 
             foreach (Invoice.Component.Taxation.Data taxationData in data.Taxation)
             {
-                this.CreateCommand("[Invoice].[InvoiceTaxationLinkInsert]");
+                this.CreateCommand("[Invoice].[InvoiceTaxationInsert]");
                 this.AddInParameter("@InvoiceId", DbType.Int64, data.Id);
-                this.AddInParameter("@TaxationId", DbType.Int64, taxationData.Id);
+                this.AddInParameter("@TaxName", DbType.String, taxationData.Name);
+                this.AddInParameter("@TaxAmount", DbType.Currency, taxationData.Amount);
+                this.AddInParameter("@IsPercentage", DbType.Boolean, taxationData.isPercentage);
                 this.AddInParameter("@Id", DbType.Int64, InvoiceTaxationId);
 
                 Int32 ret = this.ExecuteNonQuery();
@@ -201,7 +203,7 @@ namespace Crystal.Invoice.Component
             return retVal;
         }
 
-        private Boolean InsertInvoicePaymentLink()
+        private Boolean InsertInvoicePayment()
         {
             Data data = this.Data as Data;
             Boolean retVal = true;
@@ -209,12 +211,7 @@ namespace Crystal.Invoice.Component
 
             foreach (Invoice.Component.Payment.Data paymentData in data.Payment)
             {
-                //this.CreateCommand("[Invoice].[InvoicePaymentLinkInsert]");
-                //this.AddInParameter("@InvoiceId", DbType.Int64, data.Id);
-                //this.AddInParameter("@PaymentId", DbType.Int64, paymentData.Id);
-                //this.AddInParameter("@Id", DbType.Int64, InvoicePaymentId);
-
-                this.CreateCommand("[Invoice].[InvoicePaymentInsert]");
+                this.CreateCommand("[Invoice].[PaymentInsert]");
                 this.AddInParameter("@InvoiceId", DbType.Int64, data.Id);
                 this.AddInParameter("@PaymentTypeId", DbType.Int64, paymentData.Type.Id);
                 this.AddInParameter("@CardNumber", DbType.String, paymentData.CardNumber);
