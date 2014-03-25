@@ -109,6 +109,12 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         {            
             return ((Dao)this.dataAccess).ModifyCheckInStatus(statusId);
         }
+
+
+        ReturnObject<bool> ICheckIn.UpdateInvoiceNumber(string invoiceNumber)
+        {
+            return ((Dao)this.dataAccess).UpdateInvoiceNumber(invoiceNumber);
+        }
     }
 
 }

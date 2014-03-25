@@ -220,6 +220,26 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             return retVal;
         }
 
+        internal ReturnObject<Boolean> UpdateInvoiceNumber(String invoiceNumber)
+        {
+            ReturnObject<Boolean> retVal = new ReturnObject<Boolean>();
+            Data data = this.Data as Data;
+
+            this.CreateConnection();
+            this.CreateCommand("[Lodge].[UpdateInvoiceNumber]");
+            this.AddInParameter("@Id", DbType.Int64, data.Id);
+            this.AddInParameter("@InvoiceNumber", DbType.Int64, invoiceNumber);
+            Int32 ret = this.ExecuteNonQuery();
+
+            if (ret == -2146232060)
+                retVal.Value = false;//Foreign key violation
+            else
+                retVal.Value = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+
+            this.CloseConnection();
+            return retVal;
+        }
+
     }
 
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.Text.RegularExpressions;
 using BinAff.Utility;
-using PresLib = BinAff.Presentation.Library;
+using PresentationLibrary = BinAff.Presentation.Library;
 
 namespace Vanilla.Invoice.WinForm
 {
@@ -339,12 +339,28 @@ namespace Vanilla.Invoice.WinForm
                 this.invoiceDto.invoiceNumber = Common.GenerateInvoiceNumber();
                 this.invoiceDto.paymentList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
                 this.invoiceDto.discount = txtDiscount.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtDiscount.Text);
-                Facade.Server server = new Facade.Server(new Facade.FormDto { dto = invoiceDto });
-                server.Add();
+                               
+                //Facade.Server facade = new Facade.Server(new Facade.FormDto { dto = invoiceDto });
+                //facade.Add();
 
-                // display Invoice
-                new Vanilla.Invoice.WinForm.Invoice(this.invoiceDto).ShowDialog();
+                this.Tag = this.invoiceDto;
                 this.Close();
+
+
+                //if (facade.IsError)
+                //{
+                //    //retVal = false;
+                //    new PresentationLibrary.MessageBox
+                //    {
+                //        DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
+                //        Heading = "Splash",
+                //    }.Show(facade.DisplayMessageList);
+                //}
+                //else
+                //{   
+                //    this.Tag = this.invoiceDto;
+                //    this.Close();                    
+                //}
             }
         }
 
@@ -352,9 +368,9 @@ namespace Vanilla.Invoice.WinForm
         {
             if (dgvPayment.DataSource == null)
             {
-                new PresLib.MessageBox
+                new PresentationLibrary.MessageBox
                 {
-                    DialogueType = PresLib.MessageBox.Type.Error,
+                    DialogueType = PresentationLibrary.MessageBox.Type.Error,
                     Heading = "Splash",
                 }.Show(new List<String> { "No payment data exists." });
 
