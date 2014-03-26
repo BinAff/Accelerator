@@ -167,8 +167,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         {
             return new LodgeConfigurationFacade.Room.Server(null).ReadAllRoom();
         }
-                      
-
+                    
         //private List<AutoTourism.Facade.Configuration.Room.Dto> GetRoomDtoList(List<Crystal.Lodge.Configuration.Room.Data> RoomDataList)
         //{
         //    List<AutoTourism.Facade.Configuration.Room.Dto> retVal = null;
@@ -370,23 +369,17 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = ((this.FormDto) as FormDto).dto.Id });
             checkIn.ModifyCheckInStatus(System.Convert.ToInt64(CheckInStatus.CheckOut));
         }
-        
-        //ReturnObject<bool> ICheckIn.UpdateInvoiceNumber(string invoiceNumber)
-        //{            
-        //    CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = ((this.FormDto) as FormDto).dto.Id });
-        //    return checkIn.UpdateInvoiceNumber(invoiceNumber);
-        //}
 
-
-        ReturnObject<bool> ICheckIn.PaymentInsert(Vanilla.Invoice.Facade.Dto invoiceDto)
+        ReturnObject<bool> ICheckIn.PaymentInsert(Vanilla.Invoice.Facade.FormDto invoiceFormDto, Table currentUser)
         {
-            ReturnObject<Boolean>  ret = this.MakePayment(invoiceDto);
+            ReturnObject<Boolean> ret = this.MakePayment(invoiceFormDto, currentUser);
             return ret;
 
         }
 
-        private ReturnObject<Boolean> MakePayment(Vanilla.Invoice.Facade.Dto invoiceDto)
+        private ReturnObject<Boolean> MakePayment(Vanilla.Invoice.Facade.FormDto invoiceFormDto, Table currentUser)
         {
+            Vanilla.Invoice.Facade.Dto invoiceDto = invoiceFormDto.dto;
             AutoTourism.Component.Customer.Data autoCustomer = new AutoTourism.Component.Customer.Data
             {
                 Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
@@ -394,21 +387,37 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                     Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
                 }
             };
-                        
+
+            //Save Invoice Data
             CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
             ReturnObject<Boolean> ret = customer.GenerateInvoice();
+
+            //Update invoice number to CheckIn table
             if (ret.Value)
             {
                 Crystal.Invoice.Component.Data invoiceData = (autoCustomer.Invoice as Crystal.Invoice.Component.InvoiceContainer.Data).Active as Crystal.Invoice.Component.Data;
                 if (invoiceData.Id > 0)
                 {
                     ret = this.UpdateInvoiceNumber(invoiceData.InvoiceNumber);
+
+                    if (ret.Value)
+                    {
+                        invoiceFormDto.dto.Id = invoiceData.Id;
+                        this.SaveArtifact(invoiceFormDto, currentUser);
+                    }
                 }
             }
 
-            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+            //Save to Artifact
+            //invoiceFormDto.dto.Id = 22;
 
-            return ret;
+            //this.SaveArtifact(invoiceFormDto, currentUser);
+
+            //this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+
+            //return ret;
+
+            return new ReturnObject<bool>();
         }
 
         private BinAff.Core.Data ConvertToInvoiceData(BinAff.Facade.Library.Dto dto)
@@ -516,6 +525,28 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         {
             CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = ((this.FormDto) as FormDto).dto.Id });
             return checkIn.UpdateInvoiceNumber(invoiceNumber);
+        }
+
+        private Boolean SaveArtifact(Vanilla.Invoice.Facade.FormDto invoiceFormDto, Table currentUser)
+        {
+            Vanilla.Invoice.Facade.Dto invoiceDto = invoiceFormDto.dto;
+            Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto
+            {
+                Module = invoiceDto,
+                Style = Vanilla.Utility.Facade.Artifact.Type.Document,
+                Version = 1,
+                CreatedBy = new Table
+                {
+                    Id = currentUser.Id,
+                    Name = currentUser.Name
+                },
+                CreatedAt = DateTime.Now,
+                Category = Vanilla.Utility.Facade.Artifact.Category.Form,
+                Path = invoiceDto.artifactPath
+            };
+            
+            new Vanilla.Invoice.Facade.Server(invoiceFormDto).SaveArtifactForReservation(artifactDto);
+            return true;
         }
     }
 }

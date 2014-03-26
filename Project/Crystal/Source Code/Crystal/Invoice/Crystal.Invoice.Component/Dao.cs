@@ -162,8 +162,8 @@ namespace Crystal.Invoice.Component
 
         protected override bool ReadAfter()
         {
-            this.ReadInvoiceTaxationLink();
-            this.ReadInvoicePaymentLink();
+            this.ReadInvoiceTaxation();
+            this.ReadInvoicePayment();
 
             return true;
         }
@@ -230,9 +230,9 @@ namespace Crystal.Invoice.Component
             return retVal;
         }
 
-        private void ReadInvoiceTaxationLink()
+        private void ReadInvoiceTaxation()
         {
-            this.CreateCommand("[Invoice].[InvoiceTaxationLinkRead]");
+            this.CreateCommand("[Invoice].[InvoiceTaxationRead]");
             this.AddInParameter("@InvoiceId", DbType.Int64, this.Data.Id);
 
             DataSet ds = this.ExecuteDataSet();
@@ -242,17 +242,20 @@ namespace Crystal.Invoice.Component
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
                     Invoice.Component.Taxation.Data data = new Taxation.Data {
-                        Id = Convert.IsDBNull(row["TaxationId"]) ? 0 : Convert.ToInt64(row["TaxationId"]),
+                        Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"]),
+                        Name = Convert.IsDBNull(row["TaxName"]) ? String.Empty : Convert.ToString(row["TaxName"]),
+                        Amount = Convert.IsDBNull(row["TaxAmount"]) ? 0 : Convert.ToDouble(row["TaxAmount"]),
+                        isPercentage = Convert.IsDBNull(row["IsPercentage"]) ? true : Convert.ToBoolean(row["IsPercentage"])
                     };
 
                     (this.Data as Data).Taxation.Add(data);
                 }
             }
-        }
+        }         
 
-        private void ReadInvoicePaymentLink()
+        private void ReadInvoicePayment()
         {
-            this.CreateCommand("[Invoice].[InvoicePaymentLinkRead]");
+            this.CreateCommand("[Invoice].[InvoicePaymentRead]");
             this.AddInParameter("@InvoiceId", DbType.Int64, this.Data.Id);
 
             DataSet ds = this.ExecuteDataSet();
@@ -263,7 +266,15 @@ namespace Crystal.Invoice.Component
                 {
                     Invoice.Component.Payment.Data data = new Payment.Data
                     {
-                        Id = Convert.IsDBNull(row["PaymentId"]) ? 0 : Convert.ToInt64(row["PaymentId"]),
+                        Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"]),
+                        Type = new Payment.Type.Data
+                        {
+                            Id = Convert.IsDBNull(row["PaymentTypeId"]) ? 0 : Convert.ToInt64(row["PaymentTypeId"])
+                        },
+                        CardNumber = Convert.IsDBNull(row["CardNumber"]) ? String.Empty : Convert.ToString(row["CardNumber"]),
+                        Remark =  Convert.IsDBNull(row["Remark"]) ? String.Empty : Convert.ToString(row["Remark"]),
+                        Amount =  Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]),
+                        Date =  Convert.IsDBNull(row["Amount"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"])
                     };
 
                     (this.Data as Data).Payment.Add(data);

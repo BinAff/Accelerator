@@ -22,7 +22,19 @@ namespace Vanilla.Invoice.Facade
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            throw new NotImplementedException();
+            Crystal.Invoice.Component.Data invoiceData = data as Crystal.Invoice.Component.Data;
+            return new Dto 
+            {
+                invoiceNumber = invoiceData.InvoiceNumber,
+                advance = invoiceData.Advance,
+                discount = invoiceData.Discount,
+                date = invoiceData.Date,
+                seller = this.GetSeller(invoiceData.Seller),
+                buyer = this.GetBuyer(invoiceData.Buyer),
+                productList = this.GetProductList(invoiceData.LineItem),
+                taxationList = this.GetTaxation(invoiceData.Taxation),
+                paymentList = this.GetPayments(invoiceData.ProductList)
+            };
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
@@ -79,88 +91,108 @@ namespace Vanilla.Invoice.Facade
             }
             return paymentList;
         }
+               
+        public void SaveArtifactForReservation(Vanilla.Utility.Facade.Artifact.Dto artifactDto)
+        {
+            Vanilla.Utility.Facade.Module.Dto invoiceModuleDto = new Vanilla.Utility.Facade.Module.Server(null).GetModule("INVO", (this.FormDto as FormDto).ModuleFormDto.FormModuleList);
+            String fileName = new Vanilla.Utility.Facade.Artifact.Server(null).GetArtifactName(invoiceModuleDto.Artifact, Vanilla.Utility.Facade.Artifact.Type.Document, "Form");
+            artifactDto.FileName = fileName;
 
-        //private Crystal.Invoice.Component.Seller GetSeller(Seller.Dto seller)
-        //{
-        //    return new Crystal.Invoice.Component.Seller 
-        //    {
-        //        Name = seller.Name,
-        //        Address = seller.Address,
-        //        Liscence = seller.Liscence,
-        //        Email = seller.Email,
-        //        ContactNumber = seller.ContactNumber
-        //    }; 
-        //}
+            if (invoiceModuleDto != null)
+                invoiceModuleDto.Artifact.Children.Add(artifactDto);
 
-        //private Crystal.Invoice.Component.Buyer GetBuyer(Buyer.Dto buyer)
-        //{
-        //    return new Crystal.Invoice.Component.Buyer 
-        //    { 
-        //        Name = buyer.Name,
-        //        Address = buyer.Address,
-        //        Email = buyer.Email,
-        //        ContactNumber = buyer.ContactNumber
-        //    };
-        //}
+            (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact = new Vanilla.Utility.Facade.Artifact.FormDto
+            {
+                Dto = artifactDto
+            };
 
-        //private List<BinAff.Core.Data> GetLineItem(List<LineItem.Dto> roomList)
-        //{
-        //    List<BinAff.Core.Data> lineItemList = new List<Data>();
-        //    if (roomList != null && roomList.Count > 0)
-        //    {
-        //        foreach (LineItem.Dto lineItem in roomList)
-        //        {
-        //            lineItemList.Add(new Crystal.Invoice.Component.LineItem.Data 
-        //            {
-        //                Start = lineItem.startDate,
-        //                End = lineItem.endDate,
-        //                Description = lineItem.description,
-        //                UnitRate = lineItem.unitRate,
-        //                Count = lineItem.count,
-        //                Total = lineItem.total
-        //            });
-        //        }
-        //    }
-        //    return lineItemList;
-        //}
-        
-        //private List<BinAff.Core.Data> GetTaxation(List<Taxation.Dto> taxationList)
-        //{
-        //    List<BinAff.Core.Data> taxationDataList = new List<Data>();
-        //    if (taxationList != null && taxationList.Count > 0)
-        //    {
-        //        foreach (Taxation.Dto dto in taxationList)
-        //        {
-        //            taxationDataList.Add(new Crystal.Invoice.Component.Taxation.Data 
-        //            {
-        //                Id = dto.Id,
-        //                Name = dto.Name,
-        //                Amount = dto.Amount,
-        //                isPercentage = dto.isPercentage
-        //            });
-        //        }
-        //    }
-        //    return taxationDataList;
-        //}
+            (this.FormDto as FormDto).ModuleFormDto.Dto = invoiceModuleDto;
+            Vanilla.Utility.Facade.Module.Server moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto);
+            moduleFacade.Add();
 
-        //private List<BinAff.Core.Data> GetPayments(List<Payment.Dto> paymentList)
-        //{
-        //    List<BinAff.Core.Data> paymentDataList = new List<Data>();
-        //    if (paymentList != null && paymentList.Count > 0)
-        //    {
-        //        foreach (Payment.Dto dto in paymentList)
-        //        {
-        //            paymentDataList.Add(new Crystal.Invoice.Component.Payment.Data 
-        //            { 
-        //                Id = dto.Id,
-        //                Type = new Crystal.Invoice.Component.Payment.Type.Data{ Id = dto.Type.Id },
-        //                CardNumber = dto.cardNumber,
-        //                Remark = dto.remark,
-        //                Amount = dto.amount,
-        //            });
-        //        }
-        //    }
-        //    return paymentDataList;
-        //}
+        }
+
+        private Vanilla.Invoice.Facade.Seller.Dto GetSeller(Crystal.Invoice.Component.Seller seller)
+        {
+            return new Vanilla.Invoice.Facade.Seller.Dto
+            {
+                Name = seller.Name,
+                Address = seller.Address,
+                Liscence = seller.Liscence,
+                Email = seller.Email,
+                ContactNumber = seller.ContactNumber
+            };
+        }
+
+        private Vanilla.Invoice.Facade.Buyer.Dto GetBuyer(Crystal.Invoice.Component.Buyer buyer)
+        {
+            return new Vanilla.Invoice.Facade.Buyer.Dto
+            {
+                Name = buyer.Name,
+                Address = buyer.Address,
+                Email = buyer.Email,
+                ContactNumber = buyer.ContactNumber
+            };
+        }
+
+        private List<Vanilla.Invoice.Facade.LineItem.Dto> GetProductList(List<BinAff.Core.Data> lineItemList)
+        {
+            List<Vanilla.Invoice.Facade.LineItem.Dto> productList = new List<Vanilla.Invoice.Facade.LineItem.Dto>();
+            if (lineItemList != null && lineItemList.Count > 0)
+            {
+                foreach (Crystal.Invoice.Component.LineItem.Data lineItem in lineItemList)
+                {
+                    productList.Add(new Vanilla.Invoice.Facade.LineItem.Dto
+                    {
+                        startDate = lineItem.Start,
+                        endDate = lineItem.End,
+                        description = lineItem.Description,
+                        unitRate = lineItem.UnitRate,
+                        count = lineItem.Count,
+                        total = lineItem.Total
+                    });
+                }
+            }
+            return productList;
+        }
+
+        private List<Vanilla.Invoice.Facade.Taxation.Dto> GetTaxation(List<BinAff.Core.Data> taxationList)
+        {
+            List<Vanilla.Invoice.Facade.Taxation.Dto> taxationDtoList = new List<Vanilla.Invoice.Facade.Taxation.Dto>();
+            if (taxationList != null && taxationList.Count > 0)
+            {
+                foreach (Crystal.Invoice.Component.Taxation.Data taxData in taxationList)
+                {
+                    taxationDtoList.Add(new Vanilla.Invoice.Facade.Taxation.Dto
+                    {
+                        Id = taxData.Id,
+                        Name = taxData.Name,
+                        Amount = taxData.Amount,
+                        isPercentage = taxData.isPercentage
+                    });
+                }
+            }
+            return taxationDtoList;
+        }
+
+        private List<Vanilla.Invoice.Facade.Payment.Dto> GetPayments(List<BinAff.Core.Data> paymentList)
+        {
+            List<Vanilla.Invoice.Facade.Payment.Dto> paymentDtoList = new List<Vanilla.Invoice.Facade.Payment.Dto>();
+            if (paymentList != null && paymentList.Count > 0)
+            {
+                foreach (Crystal.Invoice.Component.Payment.Data paymentData in paymentList)
+                {
+                    paymentDtoList.Add(new Vanilla.Invoice.Facade.Payment.Dto
+                    {
+                        Id = paymentData.Id,
+                        Type = new Payment.Type.Dto { Id = paymentData.Type.Id },
+                        cardNumber = paymentData.CardNumber,
+                        remark = paymentData.Remark,
+                        amount = paymentData.Amount,
+                    });
+                }
+            }
+            return paymentDtoList;
+        }
     }
 }

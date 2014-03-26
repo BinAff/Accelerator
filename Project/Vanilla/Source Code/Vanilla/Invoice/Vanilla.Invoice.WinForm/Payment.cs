@@ -342,8 +342,13 @@ namespace Vanilla.Invoice.WinForm
                                
                 //Facade.Server facade = new Facade.Server(new Facade.FormDto { dto = invoiceDto });
                 //facade.Add();
-
-                this.Tag = this.invoiceDto;
+                this.invoiceDto.artifactPath = this.txtArtifactPath.Text;
+                Facade.FormDto invoiceFormDto = new Facade.FormDto
+                {
+                    dto = this.invoiceDto,
+                    ModuleFormDto = this.formDto.ModuleFormDto
+                };
+                this.Tag = invoiceFormDto;
                 this.Close();
 
 
