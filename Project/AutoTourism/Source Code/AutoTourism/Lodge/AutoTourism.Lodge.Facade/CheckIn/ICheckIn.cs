@@ -7,6 +7,6 @@ namespace AutoTourism.Lodge.Facade.CheckIn
     {   
         void CheckOut();
         //ReturnObject<Boolean> UpdateInvoiceNumber(String invoiceNumber);
-        ReturnObject<Boolean> PaymentInsert(Vanilla.Invoice.Facade.Dto invoiceDto);
+        ReturnObject<Boolean> PaymentInsert(Vanilla.Invoice.Facade.FormDto invoiceFormDto, Table currentUser);
     }
 }

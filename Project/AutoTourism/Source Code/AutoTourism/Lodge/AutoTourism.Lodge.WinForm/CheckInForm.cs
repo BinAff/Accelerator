@@ -939,8 +939,17 @@ namespace AutoTourism.Lodge.WinForm
 
             if (invoiceDto.paymentList != null && invoiceDto.paymentList.Count > 0)
             {
+                Vanilla.Invoice.Facade.FormDto invoiceFormDto = form.Tag as Vanilla.Invoice.Facade.FormDto;
                 LodgeFacade.CheckIn.ICheckIn checkIn = new LodgeFacade.CheckIn.CheckInServer(this.formDto);
-                ReturnObject<Boolean> ret = checkIn.PaymentInsert(invoiceDto);
+
+                Table currentUser = new Table
+                {
+                    Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                    Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
+                };
+                ReturnObject<Boolean> ret = checkIn.PaymentInsert(invoiceFormDto, currentUser);
+
+                //ReturnObject<Boolean> ret = checkIn.PaymentInsert(invoiceDto);
 
                 //if (!ret.Value)
                 //{                    
@@ -962,6 +971,7 @@ namespace AutoTourism.Lodge.WinForm
             //    }
             //}
 
+            //this.SaveArtifact(invoiceDto);
             this.Close();    
         }
 
@@ -1099,6 +1109,6 @@ namespace AutoTourism.Lodge.WinForm
                 }
             }
         }
-        
+
     }
 }
