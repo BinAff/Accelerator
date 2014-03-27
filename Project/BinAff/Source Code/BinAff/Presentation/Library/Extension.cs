@@ -10,9 +10,12 @@ namespace BinAff.Presentation.Library.Extension
         public static void Bind<T>(this ListBox control, List<T> list)
         {
             control.Items.Clear();
-            foreach (T t in list)
+            if (list != null)
             {
-                control.Items.Add(t);
+                foreach (T t in list)
+                {
+                    control.Items.Add(t);
+                }
             }
         }
 
@@ -34,9 +37,12 @@ namespace BinAff.Presentation.Library.Extension
         public static void Bind<T>(this ComboBox control, List<T> list)
         {
             control.Items.Clear();
-            foreach (T t in list)
+            if (list != null)
             {
-                control.Items.Add(t);
+                foreach (T t in list)
+                {
+                    control.Items.Add(t);
+                }
             }
         }
 
