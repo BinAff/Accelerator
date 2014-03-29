@@ -19,15 +19,15 @@ namespace AutoTourism
         {
             try
             {
-                Application.ApplicationExit += Application_ApplicationExit;
+                //Application.ApplicationExit += Application_ApplicationExit;
 
-                DateTimeHandler dateTimeManipulationHandler = new DateTimeHandler();
-                dateTimeManipulationHandler.SystemDateChanged += handler_SystemDateChanged;
-                if (!dateTimeManipulationHandler.Start("Splash"))
-                {
-                    Quit("System date got changed after application is shutdown last time. Restore the date to continue.");
-                    return;
-                }
+                //DateTimeHandler dateTimeManipulationHandler = new DateTimeHandler();
+                //dateTimeManipulationHandler.SystemDateChanged += handler_SystemDateChanged;
+                //if (!dateTimeManipulationHandler.Start("Splash"))
+                //{
+                //    Quit("System date got changed after application is shutdown last time. Restore the date to continue.");
+                //    return;
+                //}
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
