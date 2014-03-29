@@ -7,6 +7,7 @@ namespace Crystal.Lodge.Component.Room.CheckIn
     public class Data : Crystal.Activity.Component.Data
     {   
         public Double Advance { get; set; }
+        public String invoiceNumber { get; set; }
         public Crystal.Lodge.Component.Room.Reservation.Data Reservation { get; set; }
     }
 

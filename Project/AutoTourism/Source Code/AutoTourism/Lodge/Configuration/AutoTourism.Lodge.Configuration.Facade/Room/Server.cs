@@ -181,10 +181,12 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
                     Category = new Room.Category.Dto()
                     {
                         Id = ((ComponentRoom.Data)data).Category.Id,
+                        Name = ((ComponentRoom.Data)data).Category.Name
                     },
                     Type = new Room.Type.Dto()
                     {
                         Id = ((ComponentRoom.Data)data).Type.Id,
+                        Name = ((ComponentRoom.Data)data).Type.Name
                     },
                     IsAirconditioned = ((ComponentRoom.Data)data).IsAirConditioned,
                     ImageList = ((ComponentRoom.Data)data).ImageList == null ? null : GetImageList(((ComponentRoom.Data)data).ImageList),

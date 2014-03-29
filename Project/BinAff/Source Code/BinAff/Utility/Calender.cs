@@ -12,7 +12,7 @@ namespace BinAff.Utility
 
         public int DaysBetweenTwoDays(DateTime fromDate, DateTime toDate)
         {
-            return (toDate - fromDate).Days;
+            return (toDate.Date - fromDate.Date).Days;
         }
 
     }

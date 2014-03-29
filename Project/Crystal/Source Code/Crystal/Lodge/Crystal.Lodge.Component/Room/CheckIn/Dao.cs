@@ -40,6 +40,7 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             Data dt = (Data)data;
             
             dt.Advance = Convert.IsDBNull(dr["Advance"]) ? 0 : Convert.ToDouble(dr["Advance"]);
+            dt.invoiceNumber = Convert.IsDBNull(dr["InvoiceNumber"]) ? String.Empty : Convert.ToString(dr["InvoiceNumber"]);
             dt.Reservation = Convert.IsDBNull(dr["ReservationId"]) ? null : new Crystal.Lodge.Component.Room.Reservation.Data() 
             { 
                 Id = Convert.ToInt64(dr["ReservationId"]) 
@@ -238,6 +239,25 @@ namespace Crystal.Lodge.Component.Room.CheckIn
 
             this.CloseConnection();
             return retVal;
+        }
+
+        internal List<Room.Data> ReadCheckedInRoomList()
+        {
+            List<Room.Data> roomDataList = new List<Room.Data>();
+            this.CreateCommand("[Lodge].[ReadAllCheckInRooms]");
+            DataSet ds = this.ExecuteDataSet();
+
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {                
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    roomDataList.Add(new Room.Data 
+                    {
+                        Id = Convert.IsDBNull(dr["RoomId"]) ? 0 : Convert.ToInt64(dr["RoomId"])
+                    });                    
+                }
+            }
+            return roomDataList;
         }
 
     }

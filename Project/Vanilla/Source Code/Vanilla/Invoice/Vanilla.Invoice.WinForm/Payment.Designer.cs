@@ -65,6 +65,8 @@
             this.txtLastFourDigit = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtAdvance = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTax)).BeginInit();
             this.panel1.SuspendLayout();
@@ -123,7 +125,7 @@
             // 
             // txtDiscount
             // 
-            this.txtDiscount.Location = new System.Drawing.Point(748, 186);
+            this.txtDiscount.Location = new System.Drawing.Point(748, 298);
             this.txtDiscount.Name = "txtDiscount";
             this.txtDiscount.Size = new System.Drawing.Size(118, 20);
             this.txtDiscount.TabIndex = 142;
@@ -131,7 +133,7 @@
             // 
             // txtTotal
             // 
-            this.txtTotal.Location = new System.Drawing.Point(748, 161);
+            this.txtTotal.Location = new System.Drawing.Point(747, 246);
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
             this.txtTotal.Size = new System.Drawing.Size(118, 20);
@@ -140,7 +142,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(693, 189);
+            this.label3.Location = new System.Drawing.Point(693, 301);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 13);
             this.label3.TabIndex = 140;
@@ -149,7 +151,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(711, 164);
+            this.label1.Location = new System.Drawing.Point(710, 249);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(31, 13);
             this.label1.TabIndex = 139;
@@ -161,7 +163,7 @@
             this.dgvTax.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.name,
             this.value});
-            this.dgvTax.Location = new System.Drawing.Point(579, 221);
+            this.dgvTax.Location = new System.Drawing.Point(588, 154);
             this.dgvTax.Name = "dgvTax";
             this.dgvTax.Size = new System.Drawing.Size(287, 86);
             this.dgvTax.TabIndex = 143;
@@ -178,7 +180,7 @@
             // 
             // txtGrandTotal
             // 
-            this.txtGrandTotal.Location = new System.Drawing.Point(748, 322);
+            this.txtGrandTotal.Location = new System.Drawing.Point(747, 324);
             this.txtGrandTotal.Name = "txtGrandTotal";
             this.txtGrandTotal.ReadOnly = true;
             this.txtGrandTotal.Size = new System.Drawing.Size(118, 20);
@@ -187,7 +189,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(679, 325);
+            this.label4.Location = new System.Drawing.Point(678, 327);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(63, 13);
             this.label4.TabIndex = 144;
@@ -211,7 +213,7 @@
             this.panel1.Controls.Add(this.txtLastFourDigit);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 348);
+            this.panel1.Location = new System.Drawing.Point(0, 350);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(878, 241);
             this.panel1.TabIndex = 146;
@@ -370,11 +372,30 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(692, 272);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(50, 13);
+            this.label7.TabIndex = 147;
+            this.label7.Text = "Advance";
+            // 
+            // txtAdvance
+            // 
+            this.txtAdvance.Location = new System.Drawing.Point(748, 272);
+            this.txtAdvance.Name = "txtAdvance";
+            this.txtAdvance.ReadOnly = true;
+            this.txtAdvance.Size = new System.Drawing.Size(118, 20);
+            this.txtAdvance.TabIndex = 148;
+            // 
             // Payment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(878, 589);
+            this.ClientSize = new System.Drawing.Size(878, 591);
+            this.Controls.Add(this.txtAdvance);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.txtGrandTotal);
             this.Controls.Add(this.label4);
@@ -438,5 +459,7 @@
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.TextBox txtArtifactPath;
         private System.Windows.Forms.Label lblFilePath;
+        private System.Windows.Forms.TextBox txtAdvance;
+        private System.Windows.Forms.Label label7;
     }
 }

@@ -30,6 +30,14 @@ namespace AutoTourism.Lodge.WinForm
         private Int32 totalBookings = 0;
         private Int32 availableRooms = 0;
 
+        public enum Status
+        {
+            Open = 10001,
+            Closed = 10002,
+            Canceled = 10003
+        }
+
+
         public RoomReservationForm(TreeView trvForm)
         {
             InitializeComponent();
@@ -1003,13 +1011,7 @@ namespace AutoTourism.Lodge.WinForm
             }
         }
 
-        public enum Status
-        {
-            Open = 10001,
-            Closed = 10002,
-            Canceled = 10003
-        }
-
+       
     }
 
 }

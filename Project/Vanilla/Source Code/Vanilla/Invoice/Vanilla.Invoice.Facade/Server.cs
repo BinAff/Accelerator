@@ -6,7 +6,7 @@ using CrystalCustomer = Crystal.Customer.Component;
 
 namespace Vanilla.Invoice.Facade
 {
-    public class Server : BinAff.Facade.Library.Server
+    public class Server : BinAff.Facade.Library.Server, IInvoice
     {
         public Server(FormDto formDto)
             : base(formDto)
@@ -193,6 +193,35 @@ namespace Vanilla.Invoice.Facade
                 }
             }
             return paymentDtoList;
+        }
+
+        List<Table> IInvoice.CalulateTaxList(double total, List<Taxation.Dto> taxationList)
+        {
+            List<Table> taxList = new List<Table>();
+            String taxName = String.Empty;
+            Double taxValue = 0;
+
+            if (taxationList != null && taxationList.Count > 0)
+            {
+                foreach (Facade.Taxation.Dto dto in taxationList)
+                {
+                    taxName = dto.Name;
+                    if (dto.isPercentage)
+                    {
+                        taxName += " (" + dto.Amount + " %)";
+                        taxValue = total * (dto.Amount / 100);
+                    }
+                    else                    
+                        taxValue = dto.Amount;
+
+                    taxList.Add(new Table
+                    {
+                        Name = taxName,
+                        Value = taxValue
+                    });
+                }
+            }
+            return taxList;
         }
     }
 }

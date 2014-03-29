@@ -13,6 +13,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
     {
         public DateTime Date { get; set; }
         public Int64 statusId { get; set; }
+        public String invoiceNumber { get; set; }
         public LodgeFacade.RoomReservation.Dto reservationDto { get; set; }
         public String customerDisplayName { get; set; }
         

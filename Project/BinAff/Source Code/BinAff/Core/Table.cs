@@ -6,5 +6,6 @@ namespace BinAff.Core
     {
         public Int64 Id { get; set; }
         public String Name { get; set; }
+        public Double Value { get; set; }
     }
 }
