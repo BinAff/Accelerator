@@ -51,12 +51,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(988, 639);
             this.Controls.Add(this.rvInvoice);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "Invoice";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Invoice";
+            this.TransparencyKey = System.Drawing.Color.Empty;
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
 

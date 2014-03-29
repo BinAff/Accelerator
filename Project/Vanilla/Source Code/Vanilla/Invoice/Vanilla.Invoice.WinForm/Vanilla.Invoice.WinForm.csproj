@@ -105,6 +105,7 @@
       <Name>Vanilla.Invoice.Facade</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Properties\DataSources\Data.datasource" />
   </ItemGroup>

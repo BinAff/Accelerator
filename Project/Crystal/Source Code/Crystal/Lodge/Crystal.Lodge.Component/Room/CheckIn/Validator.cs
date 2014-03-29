@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using BinAff.Core;
-using BinAff.Utility;
-using System;
-using Crystal.Reservation.Component;
 
 namespace Crystal.Lodge.Component.Room.CheckIn
 {
@@ -21,9 +19,23 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         {            
             List<Message> retMsg = base.Validate();
             Data data = (Data)base.Data;
-
-            //if (this.IsReservationCheckedIn(data))
-            //    retMsg.Add(new Message("Reservation is already checked in.", Message.Type.Error));
+           
+            //check whether any room is already checked In
+            List<Room.Data> checkInRoomList = new Dao(null).ReadCheckedInRoomList();
+            if(checkInRoomList != null && checkInRoomList.Count > 0)
+            {
+                foreach (Room.Data room in ((Crystal.Customer.Component.Action.Data)(data.Reservation)).ProductList)
+                { 
+                    foreach(Room.Data checkInRoom in checkInRoomList)
+                    {
+                        if (room.Id == checkInRoom.Id)
+                        {
+                            retMsg.Add(new Message("Room : " + room.Number + " is already checked in.", Message.Type.Error));
+                            break;
+                        }
+                    }
+                }
+            }
 
             return retMsg;
         }

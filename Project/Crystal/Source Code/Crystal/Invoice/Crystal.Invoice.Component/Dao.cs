@@ -316,6 +316,18 @@ namespace Crystal.Invoice.Component
             return retVal;
         }
 
+        public Int64 ReadInvoiceId(String invoiceNumber)
+        {            
+            this.CreateCommand("[Invoice].[ReadForInvoiceNumber]");
+            this.AddInParameter("@InvoiceNumber", DbType.String, invoiceNumber);
+            DataSet ds = this.ExecuteDataSet();
+                        
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                this.Data.Id = Convert.ToInt64(ds.Tables[0].Rows[0]["Id"]);
+
+            return this.Data.Id;            
+        }
+
     }
 
 }

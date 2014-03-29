@@ -34,23 +34,12 @@ namespace Crystal.Invoice.Component
         
         protected override void CreateChildren()
         {
-            base.CreateChildren();
+            //base.CreateChildren();
             base.AddChildren(new LineItem.Server(null)
             {
                 Type = ChildType.Dependent,
                 IsReadOnly = false,
             }, ((Data)base.Data).LineItem);
-            //base.AddChildren(new Taxation.Server(null)
-            //{
-            //    Type = ChildType.Independent,
-            //    IsReadOnly = true,
-            //}, ((Data)base.Data).Taxation);
-            //base.AddChildren(new Payment.Server(null)
-            //{
-            //    Type = ChildType.Independent,
-            //    IsReadOnly = true,
-            //}, ((Data)base.Data).Payment);            
-           
         }
 
         protected override ReturnObject<Boolean> IsSubjectDeletable(BinAff.Core.Data subject)
@@ -62,10 +51,10 @@ namespace Crystal.Invoice.Component
             
         }
 
-        ReturnObject<List<BinAff.Core.Data>> IInvoice.GetList(DateTime startDate, DateTime endDate)
-        {
-            throw new NotImplementedException();
-        }
+        //ReturnObject<List<BinAff.Core.Data>> IInvoice.GetList(DateTime startDate, DateTime endDate)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
 
         //private ReturnObject<List<BinAff.Core.Data>> GetSalesData(DateTime startDate, DateTime endDate)
@@ -77,6 +66,20 @@ namespace Crystal.Invoice.Component
 
         //    return retList;
         //}
+
+        //ReturnObject<List<Data>> IInvoice.GetList(DateTime startDate, DateTime endDate)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        ReturnObject<Data> IInvoice.GetInvoice(string invoiceNumber)
+        {   
+            base.Data.Id = new Dao((Data)this.Data).ReadInvoiceId(invoiceNumber);
+            return new ReturnObject<Data> 
+            {
+                Value = base.Read().Value as Data
+            };
+        }
     }
 
 }

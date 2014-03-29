@@ -5,6 +5,7 @@ using System;
 using System.Text.RegularExpressions;
 using BinAff.Utility;
 using PresentationLibrary = BinAff.Presentation.Library;
+using BinAff.Core;
 
 namespace Vanilla.Invoice.WinForm
 {
@@ -29,11 +30,13 @@ namespace Vanilla.Invoice.WinForm
             };
 
             new Vanilla.Utility.Facade.Module.Server(this.formDto.ModuleFormDto).LoadForm();
-            
+
+            this.dgvProduct.AutoGenerateColumns = false;
+            this.dgvTax.AutoGenerateColumns = false;
 
             this.SetPaymentGridViewSettings();
             this.LoadProductData();
-            this.LoadTax();
+            //this.LoadTax();
             this.LoadForm();
         }
 
@@ -58,7 +61,7 @@ namespace Vanilla.Invoice.WinForm
                 {
                     Start = lineItem.startDate.ToShortDateString(),
                     End = lineItem.endDate.ToShortDateString(),
-                    Description = String.Empty,
+                    Description = lineItem.description,
                     UnitRate = lineItem.unitRate.ToString(),
                     Count = lineItem.count.ToString(),
                     Total = lineItem.total.ToString()
@@ -67,64 +70,48 @@ namespace Vanilla.Invoice.WinForm
             }
 
             dgvProduct.DataSource = invoiceList;
-            txtTotal.Text = lineItemTotal.ToString();
+
+            this.LoadTax(lineItemTotal);
+            //txtAdvance.Text = this.invoiceDto.advance.ToString();
+            //txtTotal.Text = (lineItemTotal - this.invoiceDto.advance).ToString();
         }
 
-        private void LoadTax()
+        private void LoadTax(Double total)
         {
-            List<Tax> taxList = new List<Tax>();
-            String taxName = String.Empty;
-            Double taxValue = 0;
-            Double grandTotal = 0;
-
-            Double total = Convert.ToDouble(txtTotal.Text);
-            Double discount = txtDiscount.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtDiscount.Text);
-            Double totalToCalculate = total - discount;
-            grandTotal = totalToCalculate;
-
-            if (this.invoiceDto.taxationList != null && this.invoiceDto.taxationList.Count > 0)
-            {
-                foreach (Facade.Taxation.Dto dto in this.invoiceDto.taxationList)
-                {
-                    taxName = dto.Name;
-                    if (dto.isPercentage)
-                    {
-                        taxName += " (" + dto.Amount + " %)";
-                        taxValue = totalToCalculate * (dto.Amount / 100);
-
-                        grandTotal += taxValue;
-                    }
-                    else
-                    {
-                        taxValue = dto.Amount;
-                        grandTotal += taxValue;
-                    }
-
-                    taxList.Add(new Tax 
-                    {
-                        name = taxName,
-                        value = taxValue
-                    });                    
-                }
-            }
-
+            Facade.IInvoice invoiceServer = new Facade.Server(null);
+            List<Table> taxList = invoiceServer.CalulateTaxList(total, this.invoiceDto.taxationList);
 
             dgvTax.ColumnHeadersVisible = false;
             for (int i = 0; i < dgvTax.Columns.Count; i++)
                 dgvTax.Columns[i].ReadOnly = true;
 
-            dgvTax.Columns[0].DataPropertyName = "name";
-            dgvTax.Columns[1].DataPropertyName = "value";
+            dgvTax.Columns[0].DataPropertyName = "Name";
+            dgvTax.Columns[1].DataPropertyName = "Value";
                                   
             dgvProduct.MultiSelect = false;
             dgvTax.DataSource = taxList;
 
-            txtGrandTotal.Text = grandTotal.ToString();
+            Double totalAfterTax = total;
+            if (taxList != null && taxList.Count > 0)
+            {
+                foreach (Table tax in taxList)                
+                    totalAfterTax += tax.Value;
+            }
+            txtTotal.Text = totalAfterTax.ToString();
+            txtAdvance.Text = this.invoiceDto.advance.ToString();
+            txtGrandTotal.Text = (totalAfterTax - this.invoiceDto.advance).ToString();
         }
 
         private void txtDiscount_TextChanged(object sender, EventArgs e)
         {
-            this.LoadTax();
+            Double discount = 0;
+
+            if (ValidationRule.IsDouble(txtDiscount.Text))
+                discount = Convert.ToDouble(txtDiscount.Text);            
+            
+            if (ValidationRule.IsDouble(txtDiscount.Text))
+                txtGrandTotal.Text = (Convert.ToDouble(txtTotal.Text) - this.invoiceDto.advance - discount).ToString();
+            
         }
 
         private void LoadForm()
@@ -143,7 +130,7 @@ namespace Vanilla.Invoice.WinForm
             }
 
             this.txtArtifactPath.ReadOnly = true;
-            this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("INVO", this.formDto.ModuleFormDto.FormModuleList, "Form");
+            this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("INVO", this.formDto.ModuleFormDto.FormModuleList, "Form");            
 
         }
 
@@ -249,7 +236,7 @@ namespace Vanilla.Invoice.WinForm
             dgvPayment.Columns[0].DataPropertyName = "paymentType";
             dgvPayment.Columns[1].DataPropertyName = "amount";
             dgvPayment.Columns[2].DataPropertyName = "cardNumber";
-            dgvPayment.Columns[3].DataPropertyName = "remark"; ;
+            dgvPayment.Columns[3].DataPropertyName = "remark";
             dgvPayment.AutoGenerateColumns = false;
 
             DataGridViewLinkColumn Editlink = new DataGridViewLinkColumn();
@@ -403,9 +390,9 @@ namespace Vanilla.Invoice.WinForm
 
     }
 
-    public class Tax
-    {
-        public String name { get; set; }
-        public Double value { get; set; }
-    }
+    //public class Tax
+    //{
+    //    public String name { get; set; }
+    //    public Double value { get; set; }
+    //}
 }

@@ -39,6 +39,7 @@
     <Compile Include="Buyer\Dto.cs" />
     <Compile Include="Dto.cs" />
     <Compile Include="FormDto.cs" />
+    <Compile Include="IInvoice.cs" />
     <Compile Include="LineItem\Dto.cs" />
     <Compile Include="Payment\Dto.cs" />
     <Compile Include="Payment\FormDto.cs" />

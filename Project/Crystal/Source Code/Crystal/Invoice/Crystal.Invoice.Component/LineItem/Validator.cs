@@ -19,11 +19,12 @@ namespace Crystal.Invoice.Component.LineItem
             Data data = (Data)base.Data;
                         
 
-            if (!ValidationRule.IsNullOrEmpty(data.Start) && ValidationRule.IsDateGreaterThanToday(data.Start))
+            if (!ValidationRule.IsNullOrEmpty(data.Start) && ValidationRule.IsDateGreaterThanToday(data.Start.Date))
                 retMsg.Add(new Message("Start date cannot be greater than today.", Message.Type.Error));
 
-            if (!ValidationRule.IsNullOrEmpty(data.End) && ValidationRule.IsDateGreaterThanToday(data.End))
-                retMsg.Add(new Message("End date cannot be greater than today.", Message.Type.Error));
+            //need to discuss
+            //if (!ValidationRule.IsNullOrEmpty(data.End) && ValidationRule.IsDateGreaterThanToday(data.End.Date))
+            //    retMsg.Add(new Message("End date cannot be greater than today.", Message.Type.Error));
 
             if (!ValidationRule.IsNullOrEmpty(data.Start) && !ValidationRule.IsNullOrEmpty(data.End))
             {

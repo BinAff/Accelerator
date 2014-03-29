@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Microsoft.Reporting.WinForms;
+using PresentationLibrary = BinAff.Presentation.Library;
+using BinAff.Core;
 
 namespace Vanilla.Invoice.WinForm
 {
-    public partial class Invoice : Form
+    public partial class Invoice : PresentationLibrary.Form
     {
         private Facade.Dto dto;
         private Facade.FormDto formDto;
@@ -42,22 +44,7 @@ namespace Vanilla.Invoice.WinForm
 
         private void LoadReport()
         {
-            List<Data> invoiceList = new List<Data>();
-
-            Double lineItemTotal = 0;
-            foreach (Facade.LineItem.Dto lineItem in this.dto.productList)
-            {
-                invoiceList.Add(new Data
-                {
-                    Start = lineItem.startDate.ToShortDateString(),
-                    End = lineItem.endDate.ToShortDateString(),
-                    Description = String.Empty,
-                    UnitRate = lineItem.unitRate.ToString(),
-                    Count = lineItem.count.ToString(),
-                    Total = lineItem.total.ToString()
-                });
-                lineItemTotal += lineItem.total;
-            }
+            List<Data> invoiceList = this.PopulateReportData();
            
             this.rvInvoice.DocumentMapCollapsed = true;
             this.rvInvoice.ShowPrintButton = false;
@@ -68,8 +55,9 @@ namespace Vanilla.Invoice.WinForm
             this.rvInvoice.LocalReport.ReportPath = path;
             string sDataSourceName = "Invoice";
 
+            String lineItemTotal = "122";
             ReportParameter[] p = new ReportParameter[13];
-            p[0] = new ReportParameter("InvoiceNumber", "Inv1001");
+            p[0] = new ReportParameter("InvoiceNumber", this.dto.invoiceNumber);
             p[1] = new ReportParameter("SellerName", this.dto.seller.Name);
             p[2] = new ReportParameter("SellerAddress", this.dto.seller.Address);
             p[3] = new ReportParameter("SellerContactNo", this.dto.seller.ContactNumber);
@@ -99,6 +87,86 @@ namespace Vanilla.Invoice.WinForm
         {
             //BinAff.Facade.Library.Server facade = new Facade.Server(formDto);
             //facade.LoadForm();
+        }
+
+        private List<Data> PopulateReportData()
+        {
+            List<Data> invoiceList = new List<Data>();
+
+            Double lineItemTotal = 0;
+            foreach (Facade.LineItem.Dto lineItem in this.dto.productList)
+            {
+                invoiceList.Add(new Data
+                {
+                    colId = "L",
+                    Start = lineItem.startDate.ToShortDateString(),
+                    End = lineItem.endDate.ToShortDateString(),
+                    Description = lineItem.description,
+                    UnitRate = lineItem.unitRate.ToString(),
+                    Count = lineItem.count.ToString(),
+                    Total = (lineItem.unitRate * lineItem.count).ToString()
+                });
+                lineItemTotal += (lineItem.unitRate * lineItem.count);
+            }
+
+            //add tax
+            Facade.IInvoice invoiceServer = new Facade.Server(null);
+            Double total = lineItemTotal;
+            List<Table> taxList = invoiceServer.CalulateTaxList(lineItemTotal, this.dto.taxationList);
+            if (taxList != null && taxList.Count > 0)
+            {
+                foreach (Table tax in taxList)
+                {
+                    total += tax.Value;
+
+                    invoiceList.Add(new Data
+                    {
+                        colId = "Tx",
+                        name = tax.Name,
+                        value = tax.Value.ToString()
+                    });
+                }
+            }
+
+            invoiceList.Add(new Data
+            {
+                colId = "T",
+                name = "Total",
+                value = total.ToString()
+            });
+
+            Double grandTotal = total;
+            if (this.dto.advance > 0)
+            {
+                grandTotal = grandTotal - this.dto.advance;
+                invoiceList.Add(new Data
+                {
+                    colId = "A",
+                    name = "Advance",
+                    value = this.dto.advance.ToString()
+                });
+            }
+
+            if (this.dto.discount > 0)
+            {
+                grandTotal = grandTotal - this.dto.discount;
+                invoiceList.Add(new Data
+                {
+                    colId = "D",
+                    name = "Discount",
+                    value = this.dto.discount.ToString()
+                });
+            }
+
+            invoiceList.Add(new Data
+            {
+                colId = "Gt",
+                name = "Grand Total",
+                value = grandTotal.ToString()
+            });
+            
+
+            return invoiceList;
         }
 
     }
