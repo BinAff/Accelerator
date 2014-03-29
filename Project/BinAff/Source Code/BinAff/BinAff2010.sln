@@ -1,0 +1,101 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.Utility", "Utility\BinAff.Utility.csproj", "{ED04BF0C-B4F1-4E9C-80C5-799027EBE260}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.Core", "Core\BinAff.Core.csproj", "{D25DF173-3451-49AA-9570-269B2880C393}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ED04BF0C-B4F1-4E9C-80C5-799027EBE260} = {ED04BF0C-B4F1-4E9C-80C5-799027EBE260}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{83DC5F53-602D-49B5-AB78-0E8C71061246}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Facade", "Facade", "{103482AA-836D-4652-A1D8-D7E18204F514}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.Presentation.Library", "Presentation\Library\BinAff.Presentation.Library.csproj", "{1EE9A9DD-9151-437A-B1A3-28015975EF52}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D25DF173-3451-49AA-9570-269B2880C393} = {D25DF173-3451-49AA-9570-269B2880C393}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.Facade.Library", "Facade\Library\BinAff.Facade.Library.csproj", "{F6AB9943-F271-4293-B13E-DC58DEF3F59D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D25DF173-3451-49AA-9570-269B2880C393} = {D25DF173-3451-49AA-9570-269B2880C393}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tool", "Tool", "{CD7F5CCD-7BC8-482A-8D47-977B61F6EA17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.Tool.License.WinForm", "Tool\License\BinAff.Tool.License.WinForm\BinAff.Tool.License.WinForm.csproj", "{BD50ACB9-051E-4EA6-B151-C025C11DFBF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.SqlServerUtil", "SqlServerUtil\BinAff.SqlServerUtil.csproj", "{EC64CD55-4D60-45A3-BA72-900EFD400F4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.Tool.SecurityHandler", "Tool\SecurityHandler\BinAff.Tool.SecurityHandler.csproj", "{234E829D-E7F0-4EE9-BCB7-238F12BE25AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "License", "License", "{D5AB7DB5-9295-4FAF-AA75-5F2E9DB8B1DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.Tool.License.Facade", "Tool\License\BinAff.Tool.License.Facade\BinAff.Tool.License.Facade.csproj", "{6B04490F-CD93-434D-BC21-7865286F4039}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{FCB176E2-C146-4C17-A303-168B3CC2306C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinAff.Tool.Installer", "Tool\BinAff.Tool.Installer\BinAff.Tool.Installer.csproj", "{65D49690-BB9B-4DAE-B5BD-AB2D28F50994}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED04BF0C-B4F1-4E9C-80C5-799027EBE260}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED04BF0C-B4F1-4E9C-80C5-799027EBE260}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED04BF0C-B4F1-4E9C-80C5-799027EBE260}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED04BF0C-B4F1-4E9C-80C5-799027EBE260}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D25DF173-3451-49AA-9570-269B2880C393}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D25DF173-3451-49AA-9570-269B2880C393}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D25DF173-3451-49AA-9570-269B2880C393}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D25DF173-3451-49AA-9570-269B2880C393}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EE9A9DD-9151-437A-B1A3-28015975EF52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EE9A9DD-9151-437A-B1A3-28015975EF52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EE9A9DD-9151-437A-B1A3-28015975EF52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EE9A9DD-9151-437A-B1A3-28015975EF52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6AB9943-F271-4293-B13E-DC58DEF3F59D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6AB9943-F271-4293-B13E-DC58DEF3F59D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6AB9943-F271-4293-B13E-DC58DEF3F59D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6AB9943-F271-4293-B13E-DC58DEF3F59D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD50ACB9-051E-4EA6-B151-C025C11DFBF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD50ACB9-051E-4EA6-B151-C025C11DFBF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD50ACB9-051E-4EA6-B151-C025C11DFBF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD50ACB9-051E-4EA6-B151-C025C11DFBF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC64CD55-4D60-45A3-BA72-900EFD400F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC64CD55-4D60-45A3-BA72-900EFD400F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC64CD55-4D60-45A3-BA72-900EFD400F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC64CD55-4D60-45A3-BA72-900EFD400F4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{234E829D-E7F0-4EE9-BCB7-238F12BE25AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{234E829D-E7F0-4EE9-BCB7-238F12BE25AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{234E829D-E7F0-4EE9-BCB7-238F12BE25AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{234E829D-E7F0-4EE9-BCB7-238F12BE25AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B04490F-CD93-434D-BC21-7865286F4039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B04490F-CD93-434D-BC21-7865286F4039}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B04490F-CD93-434D-BC21-7865286F4039}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B04490F-CD93-434D-BC21-7865286F4039}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65D49690-BB9B-4DAE-B5BD-AB2D28F50994}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65D49690-BB9B-4DAE-B5BD-AB2D28F50994}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65D49690-BB9B-4DAE-B5BD-AB2D28F50994}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65D49690-BB9B-4DAE-B5BD-AB2D28F50994}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1EE9A9DD-9151-437A-B1A3-28015975EF52} = {83DC5F53-602D-49B5-AB78-0E8C71061246}
+		{F6AB9943-F271-4293-B13E-DC58DEF3F59D} = {103482AA-836D-4652-A1D8-D7E18204F514}
+		{D5AB7DB5-9295-4FAF-AA75-5F2E9DB8B1DB} = {CD7F5CCD-7BC8-482A-8D47-977B61F6EA17}
+		{234E829D-E7F0-4EE9-BCB7-238F12BE25AD} = {CD7F5CCD-7BC8-482A-8D47-977B61F6EA17}
+		{FCB176E2-C146-4C17-A303-168B3CC2306C} = {CD7F5CCD-7BC8-482A-8D47-977B61F6EA17}
+		{BD50ACB9-051E-4EA6-B151-C025C11DFBF8} = {D5AB7DB5-9295-4FAF-AA75-5F2E9DB8B1DB}
+		{6B04490F-CD93-434D-BC21-7865286F4039} = {D5AB7DB5-9295-4FAF-AA75-5F2E9DB8B1DB}
+		{65D49690-BB9B-4DAE-B5BD-AB2D28F50994} = {FCB176E2-C146-4C17-A303-168B3CC2306C}
+	EndGlobalSection
+EndGlobal
