@@ -34,13 +34,15 @@
             this.tbcCategory = new System.Windows.Forms.TabControl();
             this.tbpForm = new System.Windows.Forms.TabPage();
             this.trvForm = new System.Windows.Forms.TreeView();
-            this.imglIcons = new System.Windows.Forms.ImageList(this.components);
+            this.imgMediumIcons = new System.Windows.Forms.ImageList(this.components);
             this.tbpCatalogue = new System.Windows.Forms.TabPage();
             this.trvCatalogue = new System.Windows.Forms.TreeView();
             this.tbpReport = new System.Windows.Forms.TabPage();
             this.trvReport = new System.Windows.Forms.TreeView();
+            this.ucSearchResult = new Vanilla.Navigator.WinForm.SearchResult();
             this.lsvContainer = new System.Windows.Forms.ListView();
             this.imgLargeIcon = new System.Windows.Forms.ImageList(this.components);
+            this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblModification = new System.Windows.Forms.Label();
             this.lblFileName = new System.Windows.Forms.Label();
@@ -87,14 +89,12 @@
             this.cmnuCatalog = new System.Windows.Forms.ToolStripMenuItem();
             this.cmnuReport = new System.Windows.Forms.ToolStripMenuItem();
             this.imgMisc = new System.Windows.Forms.ImageList(this.components);
-            this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
             this.pnlAddress = new System.Windows.Forms.Panel();
             this.txtAddress = new System.Windows.Forms.TextBox();
             this.btnEnter = new System.Windows.Forms.Button();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.ucSearchResult = new Vanilla.Navigator.WinForm.SearchResult();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
             this.pnlArtifact.Panel2.SuspendLayout();
@@ -157,14 +157,15 @@
             // 
             this.trvForm.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.trvForm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trvForm.ImageKey = "Folder-32X32.png";
-            this.trvForm.ImageList = this.imglIcons;
+            this.trvForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.trvForm.ImageKey = "Folder";
+            this.trvForm.ImageList = this.imgMediumIcons;
             this.trvForm.Location = new System.Drawing.Point(3, 3);
             this.trvForm.Name = "trvForm";
-            this.trvForm.SelectedImageKey = "Open Folder-32X32.png";
+            this.trvForm.SelectedImageKey = "Open Folder";
             this.trvForm.ShowRootLines = false;
             this.trvForm.Size = new System.Drawing.Size(203, 378);
-            this.trvForm.StateImageList = this.imglIcons;
+            this.trvForm.StateImageList = this.imgMediumIcons;
             this.trvForm.TabIndex = 6;
             this.trvForm.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvArtifact_AfterLabelEdit);
             this.trvForm.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvArtifact_AfterSelect);
@@ -172,24 +173,15 @@
             this.trvForm.KeyUp += new System.Windows.Forms.KeyEventHandler(this.trvArtifact_KeyUp);
             this.trvForm.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvArtifact_MouseDown);
             // 
-            // imglIcons
+            // imgMediumIcons
             // 
-            this.imglIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imglIcons.ImageStream")));
-            this.imglIcons.TransparentColor = System.Drawing.Color.White;
-            this.imglIcons.Images.SetKeyName(0, "Folder-32X32.png");
-            this.imglIcons.Images.SetKeyName(1, "Open Folder-32X32.png");
-            this.imglIcons.Images.SetKeyName(2, "Document-32X32.png");
-            this.imglIcons.Images.SetKeyName(3, "Directory.gif");
-            this.imglIcons.Images.SetKeyName(4, "DirectoryOpen.gif");
-            this.imglIcons.Images.SetKeyName(5, "Document.gif");
-            this.imglIcons.Images.SetKeyName(6, "Directory.png");
-            this.imglIcons.Images.SetKeyName(7, "DirectoryOpen.png");
-            this.imglIcons.Images.SetKeyName(8, "Document.png");
-            this.imglIcons.Images.SetKeyName(9, "Down.gif");
-            this.imglIcons.Images.SetKeyName(10, "Up.gif");
-            this.imglIcons.Images.SetKeyName(11, "Document-16X16.png");
-            this.imglIcons.Images.SetKeyName(12, "Folder-16X16.png");
-            this.imglIcons.Images.SetKeyName(13, "Open Folder-16X16.png");
+            this.imgMediumIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgMediumIcons.ImageStream")));
+            this.imgMediumIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgMediumIcons.Images.SetKeyName(0, "Folder");
+            this.imgMediumIcons.Images.SetKeyName(1, "Document");
+            this.imgMediumIcons.Images.SetKeyName(2, "Open Folder");
+            this.imgMediumIcons.Images.SetKeyName(3, "Down.gif");
+            this.imgMediumIcons.Images.SetKeyName(4, "Up.gif");
             // 
             // tbpCatalogue
             // 
@@ -233,6 +225,14 @@
             this.trvReport.TabIndex = 0;
             this.trvReport.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvReport_AfterSelect);
             // 
+            // ucSearchResult
+            // 
+            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
+            this.ucSearchResult.Name = "ucSearchResult";
+            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
+            this.ucSearchResult.TabIndex = 16;
+            this.ucSearchResult.Visible = false;
+            // 
             // lsvContainer
             // 
             this.lsvContainer.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -241,9 +241,8 @@
             this.lsvContainer.Location = new System.Drawing.Point(111, 165);
             this.lsvContainer.Name = "lsvContainer";
             this.lsvContainer.Size = new System.Drawing.Size(176, 101);
-            this.lsvContainer.SmallImageList = this.imglIcons;
+            this.lsvContainer.SmallImageList = this.imgSmallIcon;
             this.lsvContainer.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lsvContainer.StateImageList = this.imglIcons;
             this.lsvContainer.TabIndex = 2;
             this.lsvContainer.UseCompatibleStateImageBehavior = false;
             this.lsvContainer.View = System.Windows.Forms.View.Details;
@@ -257,18 +256,19 @@
             // 
             this.imgLargeIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgLargeIcon.ImageStream")));
             this.imgLargeIcon.TransparentColor = System.Drawing.Color.Transparent;
-            this.imgLargeIcon.Images.SetKeyName(0, "Folder-64X64.png");
-            this.imgLargeIcon.Images.SetKeyName(1, "Open Folder-64X64.png");
-            this.imgLargeIcon.Images.SetKeyName(2, "Document-64X64.png");
-            this.imgLargeIcon.Images.SetKeyName(3, "Directory.gif");
-            this.imgLargeIcon.Images.SetKeyName(4, "DirectoryOpen.gif");
-            this.imgLargeIcon.Images.SetKeyName(5, "Document.gif");
-            this.imgLargeIcon.Images.SetKeyName(6, "Directory.png");
-            this.imgLargeIcon.Images.SetKeyName(7, "DirectoryOpen.png");
-            this.imgLargeIcon.Images.SetKeyName(8, "Document.png");
-            this.imgLargeIcon.Images.SetKeyName(9, "Document-48X48.png");
-            this.imgLargeIcon.Images.SetKeyName(10, "Folder-48X48.png");
-            this.imgLargeIcon.Images.SetKeyName(11, "Open Folder-48X48.png");
+            this.imgLargeIcon.Images.SetKeyName(0, "Folder");
+            this.imgLargeIcon.Images.SetKeyName(1, "Document");
+            this.imgLargeIcon.Images.SetKeyName(2, "Open Folder");
+            // 
+            // imgSmallIcon
+            // 
+            this.imgSmallIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgSmallIcon.ImageStream")));
+            this.imgSmallIcon.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgSmallIcon.Images.SetKeyName(0, "Folder");
+            this.imgSmallIcon.Images.SetKeyName(1, "Document");
+            this.imgSmallIcon.Images.SetKeyName(2, "Open Folder");
+            this.imgSmallIcon.Images.SetKeyName(3, "Down.gif");
+            this.imgSmallIcon.Images.SetKeyName(4, "Up.gif");
             // 
             // tableLayoutPanel1
             // 
@@ -640,22 +640,8 @@
             // imgMisc
             // 
             this.imgMisc.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgMisc.ImageStream")));
-            this.imgMisc.TransparentColor = System.Drawing.Color.White;
+            this.imgMisc.TransparentColor = System.Drawing.Color.Transparent;
             this.imgMisc.Images.SetKeyName(0, "Dot.gif");
-            // 
-            // imgSmallIcon
-            // 
-            this.imgSmallIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgSmallIcon.ImageStream")));
-            this.imgSmallIcon.TransparentColor = System.Drawing.Color.Transparent;
-            this.imgSmallIcon.Images.SetKeyName(0, "Folder-16X16.png");
-            this.imgSmallIcon.Images.SetKeyName(1, "Open Folder-16X16.png");
-            this.imgSmallIcon.Images.SetKeyName(2, "Document-16X16.png");
-            this.imgSmallIcon.Images.SetKeyName(3, "Directory.gif");
-            this.imgSmallIcon.Images.SetKeyName(4, "DirectoryOpen.gif");
-            this.imgSmallIcon.Images.SetKeyName(5, "Document.gif");
-            this.imgSmallIcon.Images.SetKeyName(6, "Document-32X32.png");
-            this.imgSmallIcon.Images.SetKeyName(7, "Folder-32X32.png");
-            this.imgSmallIcon.Images.SetKeyName(8, "Open Folder-32X32.png");
             // 
             // pnlAddress
             // 
@@ -726,14 +712,6 @@
             this.txtSearch.Text = "Search...";
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
-            // ucSearchResult
-            // 
-            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
-            this.ucSearchResult.Name = "ucSearchResult";
-            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
-            this.ucSearchResult.TabIndex = 16;
-            this.ucSearchResult.Visible = false;
-            // 
             // Register
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -797,7 +775,7 @@
         private System.Windows.Forms.ToolStripMenuItem cmnuForm;
         private System.Windows.Forms.ToolStripMenuItem cmnuCatalog;
         private System.Windows.Forms.ToolStripMenuItem cmnuReport;
-        private System.Windows.Forms.ImageList imglIcons;
+        private System.Windows.Forms.ImageList imgMediumIcons;
         private System.Windows.Forms.ImageList imgLargeIcon;
         private System.Windows.Forms.ImageList imgMisc;
         private System.Windows.Forms.TabControl tbcCategory;

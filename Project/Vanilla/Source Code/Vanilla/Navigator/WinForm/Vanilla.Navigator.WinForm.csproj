@@ -172,20 +172,28 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Pics\Directory.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Pics\Document.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Pics\DirectoryOpen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Pics\Directory.gif" />
-    <Content Include="Pics\DirectoryOpen.gif" />
-    <Content Include="Pics\Document.gif" />
+    <Content Include="Pics\Document 128 X 128.png" />
+    <Content Include="Pics\Document 16 X 16.png" />
+    <Content Include="Pics\Document 32 X 32.png" />
+    <Content Include="Pics\Document 48 X 48.png" />
+    <Content Include="Pics\Document 64 X 64.png" />
     <Content Include="Pics\Dot.gif" />
     <Content Include="Pics\Down.gif" />
+    <Content Include="Pics\Folder 128 X 128.png" />
+    <Content Include="Pics\Folder 16 X 16.png" />
+    <Content Include="Pics\Folder 32 X 32.png" />
+    <Content Include="Pics\Folder 48 X 48.png" />
+    <Content Include="Pics\Folder 64 X 64.png" />
+    <Content Include="Pics\Navigator 16 X 16.png" />
+    <Content Include="Pics\Navigator 32 X 32.png" />
+    <Content Include="Pics\Navigator White 16 X 16.png" />
+    <Content Include="Pics\Navigator White 32 X 32.png" />
+    <Content Include="Pics\Navigator White.ico" />
+    <Content Include="Pics\Open Folder 128 X 128.png" />
+    <Content Include="Pics\Open Folder 16 X 16.png" />
+    <Content Include="Pics\Open Folder 32 X 32.png" />
+    <Content Include="Pics\Open Folder 48 X 48.png" />
+    <Content Include="Pics\Open Folder 64 X 64.png" />
     <Content Include="Pics\Up.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

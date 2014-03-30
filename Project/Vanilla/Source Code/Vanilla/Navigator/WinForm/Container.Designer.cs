@@ -1189,6 +1189,7 @@
             this.Controls.Add(this.pnlLoginFormContainer);
             this.Controls.Add(this.ucRegister);
             this.Controls.Add(this.pnlMenuContainer);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mnuMain;
             this.Name = "Container";
             this.Text = "Navigator";

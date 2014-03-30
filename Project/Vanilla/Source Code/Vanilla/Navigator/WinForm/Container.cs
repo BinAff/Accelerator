@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 using BinAff.Facade.Cache;
 
-using Vanilla.Tool.WinfForm;
+using Vanilla.Tool.WinForm;
 using VanAcc = Vanilla.Guardian.Facade.Account;
 
 namespace Vanilla.Navigator.WinForm
@@ -673,7 +673,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowCalender()
         {
-
+            new Tool.WinForm.Appointment().ShowDialog(this);
         }
 
         private void ShowEmail()
