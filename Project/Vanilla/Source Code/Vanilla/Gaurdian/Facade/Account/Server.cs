@@ -275,12 +275,15 @@ namespace Vanilla.Guardian.Facade.Account
 
         public void Logout()
         {
-            Dto dto = BinAff.Facade.Cache.Server.Current.Cache["User"] as Dto;
-            CrysAcc.Data data = this.Convert(dto) as CrysAcc.Data;
-            ReturnObject<Boolean> ret = (new CrysAcc.Server(data) as CrysAcc.IUser).Logout();
-            if (this.IsError = ret.HasError())
+            if (BinAff.Facade.Cache.Server.Current.Cache["User"] != null)
             {
-                this.DisplayMessageList = ret.GetMessage(Message.Type.Error);
+                Dto dto = BinAff.Facade.Cache.Server.Current.Cache["User"] as Dto;
+                CrysAcc.Data data = this.Convert(dto) as CrysAcc.Data;
+                ReturnObject<Boolean> ret = (new CrysAcc.Server(data) as CrysAcc.IUser).Logout();
+                if (this.IsError = ret.HasError())
+                {
+                    this.DisplayMessageList = ret.GetMessage(Message.Type.Error);
+                }
             }
         }
 
