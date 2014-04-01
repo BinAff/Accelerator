@@ -150,9 +150,9 @@
             this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
             this.imgMisc = new System.Windows.Forms.ImageList(this.components);
             this.pnlMenuContainer = new System.Windows.Forms.Panel();
+            this.lblLoading = new System.Windows.Forms.Label();
             this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
             this.ucRegister = new Vanilla.Navigator.WinForm.Register();
-            this.lblLoading = new System.Windows.Forms.Label();
             this.cmsExplorer.SuspendLayout();
             this.mnuMain.SuspendLayout();
             this.pnlTool.SuspendLayout();
@@ -1151,6 +1151,16 @@
             this.pnlMenuContainer.Size = new System.Drawing.Size(827, 25);
             this.pnlMenuContainer.TabIndex = 14;
             // 
+            // lblLoading
+            // 
+            this.lblLoading.AutoSize = true;
+            this.lblLoading.Location = new System.Drawing.Point(226, 136);
+            this.lblLoading.Name = "lblLoading";
+            this.lblLoading.Size = new System.Drawing.Size(45, 13);
+            this.lblLoading.TabIndex = 15;
+            this.lblLoading.Text = "Loading";
+            this.lblLoading.Visible = false;
+            // 
             // ucConfiguration
             // 
             this.ucConfiguration.Location = new System.Drawing.Point(0, 50);
@@ -1167,16 +1177,6 @@
             this.ucRegister.Size = new System.Drawing.Size(13, 12);
             this.ucRegister.TabIndex = 13;
             this.ucRegister.Visible = false;
-            // 
-            // lblLoading
-            // 
-            this.lblLoading.AutoSize = true;
-            this.lblLoading.Location = new System.Drawing.Point(226, 136);
-            this.lblLoading.Name = "lblLoading";
-            this.lblLoading.Size = new System.Drawing.Size(45, 13);
-            this.lblLoading.TabIndex = 15;
-            this.lblLoading.Text = "Loading";
-            this.lblLoading.Visible = false;
             // 
             // Container
             // 

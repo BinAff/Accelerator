@@ -39,10 +39,8 @@
             this.trvCatalogue = new System.Windows.Forms.TreeView();
             this.tbpReport = new System.Windows.Forms.TabPage();
             this.trvReport = new System.Windows.Forms.TreeView();
-            this.ucSearchResult = new Vanilla.Navigator.WinForm.SearchResult();
             this.lsvContainer = new System.Windows.Forms.ListView();
             this.imgLargeIcon = new System.Windows.Forms.ImageList(this.components);
-            this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblModification = new System.Windows.Forms.Label();
             this.lblFileName = new System.Windows.Forms.Label();
@@ -53,6 +51,7 @@
             this.lblCreatedAt = new System.Windows.Forms.Label();
             this.lblModifiedBy = new System.Windows.Forms.Label();
             this.lblModifiedAt = new System.Windows.Forms.Label();
+            this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.cmsExplorer = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmnuOpen = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,6 +94,7 @@
             this.btnBack = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
+            this.ucSearchResult = new Vanilla.Navigator.WinForm.SearchResult();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
             this.pnlArtifact.Panel2.SuspendLayout();
@@ -178,10 +178,10 @@
             this.imgMediumIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgMediumIcons.ImageStream")));
             this.imgMediumIcons.TransparentColor = System.Drawing.Color.Transparent;
             this.imgMediumIcons.Images.SetKeyName(0, "Folder");
-            this.imgMediumIcons.Images.SetKeyName(1, "Document");
-            this.imgMediumIcons.Images.SetKeyName(2, "Open Folder");
-            this.imgMediumIcons.Images.SetKeyName(3, "Down.gif");
-            this.imgMediumIcons.Images.SetKeyName(4, "Up.gif");
+            this.imgMediumIcons.Images.SetKeyName(1, "Open Folder");
+            this.imgMediumIcons.Images.SetKeyName(2, "Document");
+            this.imgMediumIcons.Images.SetKeyName(3, "Down");
+            this.imgMediumIcons.Images.SetKeyName(4, "Up");
             // 
             // tbpCatalogue
             // 
@@ -225,14 +225,6 @@
             this.trvReport.TabIndex = 0;
             this.trvReport.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvReport_AfterSelect);
             // 
-            // ucSearchResult
-            // 
-            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
-            this.ucSearchResult.Name = "ucSearchResult";
-            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
-            this.ucSearchResult.TabIndex = 16;
-            this.ucSearchResult.Visible = false;
-            // 
             // lsvContainer
             // 
             this.lsvContainer.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -241,7 +233,7 @@
             this.lsvContainer.Location = new System.Drawing.Point(111, 165);
             this.lsvContainer.Name = "lsvContainer";
             this.lsvContainer.Size = new System.Drawing.Size(176, 101);
-            this.lsvContainer.SmallImageList = this.imgSmallIcon;
+            this.lsvContainer.SmallImageList = this.imgMediumIcons;
             this.lsvContainer.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lsvContainer.TabIndex = 2;
             this.lsvContainer.UseCompatibleStateImageBehavior = false;
@@ -257,18 +249,10 @@
             this.imgLargeIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgLargeIcon.ImageStream")));
             this.imgLargeIcon.TransparentColor = System.Drawing.Color.Transparent;
             this.imgLargeIcon.Images.SetKeyName(0, "Folder");
-            this.imgLargeIcon.Images.SetKeyName(1, "Document");
-            this.imgLargeIcon.Images.SetKeyName(2, "Open Folder");
-            // 
-            // imgSmallIcon
-            // 
-            this.imgSmallIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgSmallIcon.ImageStream")));
-            this.imgSmallIcon.TransparentColor = System.Drawing.Color.Transparent;
-            this.imgSmallIcon.Images.SetKeyName(0, "Folder");
-            this.imgSmallIcon.Images.SetKeyName(1, "Document");
-            this.imgSmallIcon.Images.SetKeyName(2, "Open Folder");
-            this.imgSmallIcon.Images.SetKeyName(3, "Down.gif");
-            this.imgSmallIcon.Images.SetKeyName(4, "Up.gif");
+            this.imgLargeIcon.Images.SetKeyName(1, "Open Folder");
+            this.imgLargeIcon.Images.SetKeyName(2, "Document");
+            this.imgLargeIcon.Images.SetKeyName(3, "Down");
+            this.imgLargeIcon.Images.SetKeyName(4, "Up");
             // 
             // tableLayoutPanel1
             // 
@@ -370,6 +354,16 @@
             this.lblModifiedAt.Name = "lblModifiedAt";
             this.lblModifiedAt.Size = new System.Drawing.Size(0, 13);
             this.lblModifiedAt.TabIndex = 8;
+            // 
+            // imgSmallIcon
+            // 
+            this.imgSmallIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgSmallIcon.ImageStream")));
+            this.imgSmallIcon.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgSmallIcon.Images.SetKeyName(0, "Folder");
+            this.imgSmallIcon.Images.SetKeyName(1, "Open Folder");
+            this.imgSmallIcon.Images.SetKeyName(2, "Document");
+            this.imgSmallIcon.Images.SetKeyName(3, "Down");
+            this.imgSmallIcon.Images.SetKeyName(4, "Up");
             // 
             // cmsExplorer
             // 
@@ -711,6 +705,14 @@
             this.txtSearch.TabIndex = 5;
             this.txtSearch.Text = "Search...";
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            // 
+            // ucSearchResult
+            // 
+            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
+            this.ucSearchResult.Name = "ucSearchResult";
+            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
+            this.ucSearchResult.TabIndex = 16;
+            this.ucSearchResult.Visible = false;
             // 
             // Register
             // 
