@@ -12,27 +12,51 @@ namespace Vanilla.Navigator.WinForm
     public partial class Container : Form
     {
 
+        //[System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        //static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, int wParam, IntPtr lParam);
+
+        //private const uint WM_SETICON = 0x80u;
+        //private const int ICON_SMALL = 0;
+        //private const int ICON_BIG = 1;
+
+        [System.Runtime.InteropServices.DllImport("User32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+        [System.Runtime.InteropServices.DllImport("User32.dll")]
+        private static extern IntPtr GetWindowDC(IntPtr hWnd);
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+            const int WM_NCPAINT = 0x85;
+            if (m.Msg == WM_NCPAINT)
+            {
+                IntPtr hdc = GetWindowDC(m.HWnd);
+                //if ((int)hdc != 0)
+                //{
+                //    System.Drawing.Graphics g = System.Drawing.Graphics.FromHdc(hdc);
+                    
+                //    //g.FillRectangle(System.Drawing.Brushes.Green, new System.Drawing.Rectangle(0, 0, this.Width, 23));
+                //    //g.Flush();
+                //    g.FillRectangle(System.Drawing.Brushes.White, new System.Drawing.Rectangle(0, 0, 40, 40));
+                //    g.Flush();
+                //    ReleaseDC(m.HWnd, hdc);
+                //}
+            }
+        }
+
         private Vanilla.Guardian.WinForm.Login loginForm;
         private Boolean isLoggedIn;
         private String selectedNodePath;
-
-        //TyronM.MinTrayBtn mybutton;
-
+        
         public Container()
         {
             InitializeComponent();
-            //mybutton = new TyronM.MinTrayBtn(this);
-            //mybutton.MinTrayBtnClicked += mybutton_MinTrayBtnClicked;
+
+            //SendMessage(this.Handle, WM_SETICON, ICON_SMALL, Properties.Resources.SmallIcon.Handle);
+            //SendMessage(this.Handle, WM_SETICON, ICON_BIG, Properties.Resources.BigIcon.Handle);
         }
-
-        //void mybutton_MinTrayBtnClicked(object sender, EventArgs e)
-        //{
-        //    this.HideControl();
-        //    this.ShowLoginForm();
-
-        //    this.Text = this.Text.Split(new Char[]{' ', ':', ' '})[0];
-        //}
-
+        
         public Container(String selectedNodePath)
             : this()
         {
@@ -1607,6 +1631,80 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion
 
+    }
+
+    internal class DwmApi 
+    { 
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll", PreserveSig = false)]
+        public static extern void DwmEnableBlurBehindWindow(IntPtr hWnd, DWM_BLURBEHIND pBlurBehind);
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll", PreserveSig = false)]
+        public static extern void DwmExtendFrameIntoClientArea(IntPtr hWnd, MARGINS pMargins);
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll", PreserveSig = false)]
+        public static extern bool DwmIsCompositionEnabled();
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll", PreserveSig = false)]
+        public static extern void DwmEnableComposition(bool bEnable);
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll", PreserveSig = false)]
+        public static extern void DwmGetColorizationColor(out int pcrColorization, [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]out bool pfOpaqueBlend);
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll", PreserveSig = false)]
+        public static extern IntPtr DwmRegisterThumbnail(IntPtr dest, IntPtr source);
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll", PreserveSig = false)]
+        public static extern void DwmUnregisterThumbnail(IntPtr hThumbnail);
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll", PreserveSig = false)]
+        public static extern void DwmUpdateThumbnailProperties(IntPtr hThumbnail, DWM_THUMBNAIL_PROPERTIES props);
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll", PreserveSig = false)]
+        public static extern void DwmQueryThumbnailSourceSize(IntPtr hThumbnail, out System.Drawing.Size size);
+        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+        public class DWM_THUMBNAIL_PROPERTIES
+        {
+            public uint dwFlags;
+            public RECT rcDestination;
+            public RECT rcSource;
+            public byte opacity;
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
+            public bool fVisible; [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
+            public bool fSourceClientAreaOnly;
+            public const uint DWM_TNP_RECTDESTINATION = 0x00000001;
+            public const uint DWM_TNP_RECTSOURCE = 0x00000002;
+            public const uint DWM_TNP_OPACITY = 0x00000004;
+            public const uint DWM_TNP_VISIBLE = 0x00000008;
+            public const uint DWM_TNP_SOURCECLIENTAREAONLY = 0x00000010;
+        }
+        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+        public class MARGINS
+        {
+            public int cxLeftWidth, cxRightWidth, cyTopHeight, cyBottomHeight;
+            public MARGINS(int left, int top, int right, int bottom)
+            {
+                cxLeftWidth = left;
+                cyTopHeight = top;
+                cxRightWidth = right;
+                cyBottomHeight = bottom;
+            }
+        }
+        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+        public class DWM_BLURBEHIND
+        {
+            public uint dwFlags;
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
+            public bool fEnable; public IntPtr hRegionBlur;
+            [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
+            public bool fTransitionOnMaximized;
+            public const uint DWM_BB_ENABLE = 0x00000001;
+            public const uint DWM_BB_BLURREGION = 0x00000002;
+            public const uint DWM_BB_TRANSITIONONMAXIMIZED = 0x00000004;
+        }
+        [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int left, top, right, bottom;
+            public RECT(int left, int top, int right, int bottom)
+            {
+                this.left = left;
+                this.top = top;
+                this.right = right;
+                this.bottom = bottom;
+            }
+        }
     }
 
 }
