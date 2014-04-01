@@ -9,7 +9,7 @@ namespace BinAff.Facade.Cache
 
         static Cache()
         {
-            cache = new Dictionary<string, object>();
+            cache = new Dictionary<String, Object>();
         }
 
         private static Dictionary<String, Object> cache;
@@ -18,7 +18,14 @@ namespace BinAff.Facade.Cache
         {
             get
             {
-                return cache[key];
+                if (cache.ContainsKey(key))
+                {
+                    return cache[key];
+                }
+                else
+                {
+                    return null;
+                }
             }
             set
             {
