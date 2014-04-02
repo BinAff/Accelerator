@@ -19,31 +19,31 @@ namespace Vanilla.Navigator.WinForm
         //private const int ICON_SMALL = 0;
         //private const int ICON_BIG = 1;
 
-        [System.Runtime.InteropServices.DllImport("User32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
-        public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+        //[System.Runtime.InteropServices.DllImport("User32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        //public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
 
-        [System.Runtime.InteropServices.DllImport("User32.dll")]
-        private static extern IntPtr GetWindowDC(IntPtr hWnd);
+        //[System.Runtime.InteropServices.DllImport("User32.dll")]
+        //private static extern IntPtr GetWindowDC(IntPtr hWnd);
 
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            const int WM_NCPAINT = 0x85;
-            if (m.Msg == WM_NCPAINT)
-            {
-                IntPtr hdc = GetWindowDC(m.HWnd);
-                //if ((int)hdc != 0)
-                //{
-                //    System.Drawing.Graphics g = System.Drawing.Graphics.FromHdc(hdc);
+        //protected override void WndProc(ref Message m)
+        //{
+        //    base.WndProc(ref m);
+        //    const int WM_NCPAINT = 0x85;
+        //    if (m.Msg == WM_NCPAINT)
+        //    {
+        //        IntPtr hdc = GetWindowDC(m.HWnd);
+        //        //if ((int)hdc != 0)
+        //        //{
+        //        //    System.Drawing.Graphics g = System.Drawing.Graphics.FromHdc(hdc);
                     
-                //    //g.FillRectangle(System.Drawing.Brushes.Green, new System.Drawing.Rectangle(0, 0, this.Width, 23));
-                //    //g.Flush();
-                //    g.FillRectangle(System.Drawing.Brushes.White, new System.Drawing.Rectangle(0, 0, 40, 40));
-                //    g.Flush();
-                //    ReleaseDC(m.HWnd, hdc);
-                //}
-            }
-        }
+        //        //    //g.FillRectangle(System.Drawing.Brushes.Green, new System.Drawing.Rectangle(0, 0, this.Width, 23));
+        //        //    //g.Flush();
+        //        //    g.FillRectangle(System.Drawing.Brushes.White, new System.Drawing.Rectangle(0, 0, 40, 40));
+        //        //    g.Flush();
+        //        //    ReleaseDC(m.HWnd, hdc);
+        //        //}
+        //    }
+        //}
 
         private Vanilla.Guardian.WinForm.Login loginForm;
         private Boolean isLoggedIn;
@@ -697,7 +697,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowCalender()
         {
-            new Tool.WinForm.Appointment().ShowDialog(this);
+            new Tool.WinForm.Calender().ShowDialog(this);
         }
 
         private void ShowEmail()
