@@ -1,4 +1,4 @@
-﻿namespace Vanilla.Tool.WinfForm
+﻿namespace Vanilla.Tool.WinForm
 {
     partial class StickyNote
     {
