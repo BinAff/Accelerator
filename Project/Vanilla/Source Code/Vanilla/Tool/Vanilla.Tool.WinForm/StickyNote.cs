@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
-namespace Vanilla.Tool.WinfForm
+namespace Vanilla.Tool.WinForm
 {
     public partial class StickyNote : Form
     {
