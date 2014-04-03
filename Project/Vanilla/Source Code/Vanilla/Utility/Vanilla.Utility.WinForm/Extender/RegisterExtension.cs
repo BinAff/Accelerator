@@ -245,11 +245,11 @@ namespace Vanilla.Utility.WinForm.Extender
                     // Reverse the current sort direction for this column.
                     if (columnSorter.Order == SortOrder.Ascending)
                     {
-                        listView.Columns[columnSorter.SortColumn].ImageKey = "Down.gif";
+                        listView.Columns[columnSorter.SortColumn].ImageKey = "Down";
                     }
                     else
                     {
-                        listView.Columns[columnSorter.SortColumn].ImageKey = "Up.gif";
+                        listView.Columns[columnSorter.SortColumn].ImageKey = "Up";
                     }
 
                     // Perform the sort with these new sort options.
