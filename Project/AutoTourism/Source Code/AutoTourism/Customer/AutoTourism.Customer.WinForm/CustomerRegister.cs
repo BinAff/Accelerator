@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 
-using BinAff.Core;
-
-//using AutoTourism.Facade.CustomerManagement;
-//using AutoTourism.Facade.LodgeManagement.Reservation;
-
-//using AutoTourism.Presentation.Library;
 using PresentationLibrary = BinAff.Presentation.Library;
+
 using CustomerFacade = AutoTourism.Customer.Facade;
 
 namespace AutoTourism.Customer.WinForm
@@ -16,6 +9,7 @@ namespace AutoTourism.Customer.WinForm
 
     public partial class CustomerRegister : PresentationLibrary.Form
     {
+
         private CustomerFacade.FormDto formDto;
         
         //private List<Facade.LodgeManagement.Reservation.Dto> reservationDtoList;
@@ -231,8 +225,7 @@ namespace AutoTourism.Customer.WinForm
                 this.cboCustomer.DisplayMember = "FirstName";
                 this.cboCustomer.ValueMember = "Id";
                 this.cboCustomer.SelectedIndex = -1;
-            }            
-
+            }
         }
 
         private void Clear()

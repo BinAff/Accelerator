@@ -1,5 +1,4 @@
-﻿
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -15,8 +14,10 @@ using PresentationLibrary = BinAff.Presentation.Library;
 
 namespace AutoTourism.Lodge.WinForm
 {
+
     public partial class CheckInForm : PresentationLibrary.Form
     {
+
         private LodgeFacade.CheckIn.Dto dto;
         private LodgeFacade.CheckIn.Dto refreshDto;
         private LodgeFacade.CheckIn.FormDto formDto;
@@ -47,14 +48,14 @@ namespace AutoTourism.Lodge.WinForm
                 this.btnCheckOut.Enabled = false;
                 this.btnGenerateInvoice.Enabled = false;
             }
-            if (this.dto != null && this.dto.statusId == Convert.ToInt64(CheckInStatus.CheckIn)) //edit in checkIn mode
+            if (this.dto != null && this.dto.StatusId == Convert.ToInt64(CheckInStatus.CheckIn)) //edit in checkIn mode
             {
                 this.btnOk.Enabled = false;
                 this.btnRefresh.Enabled = false;
                 this.btnGenerateInvoice.Enabled = false;
                 this.DisableFormControls();
             }
-            if (this.dto != null && this.dto.statusId == Convert.ToInt64(CheckInStatus.CheckOut)) //edit in check out mode
+            if (this.dto != null && this.dto.StatusId == Convert.ToInt64(CheckInStatus.CheckOut)) //edit in check out mode
             {
                 this.btnOk.Enabled = false;
                 this.btnRefresh.Enabled = false;
@@ -92,21 +93,21 @@ namespace AutoTourism.Lodge.WinForm
                 //this.formDto.dto.Date = new DateTime(dtCheckIn.Value.Year, dtCheckIn.Value.Month, dtCheckIn.Value.Day, dtCheckIn.Value.Hour, dtCheckIn.Value.Minute, dtCheckIn.Value.Second);
                 this.formDto.dto.Date = DateTime.Now;
 
-                if (this.formDto.dto.reservationDto == null) this.formDto.dto.reservationDto = new LodgeFacade.RoomReservation.Dto();
-                this.formDto.dto.reservationDto.Id = this.formDto.dto.reservationDto == null ? 0 : this.formDto.dto.reservationDto.Id;
+                if (this.formDto.dto.Reservation == null) this.formDto.dto.Reservation = new LodgeFacade.RoomReservation.Dto();
+                this.formDto.dto.Reservation.Id = this.formDto.dto.Reservation == null ? 0 : this.formDto.dto.Reservation.Id;
 
-                this.formDto.dto.reservationDto.isCheckedIn = true;
-                this.formDto.dto.reservationDto.BookingFrom = new DateTime(dtFrom.Value.Year, dtFrom.Value.Month, dtFrom.Value.Day, dtFrom.Value.Hour, dtFrom.Value.Minute, dtFrom.Value.Second);
-                this.formDto.dto.reservationDto.BookingFrom = DateTime.Now;
+                this.formDto.dto.Reservation.isCheckedIn = true;
+                this.formDto.dto.Reservation.BookingFrom = new DateTime(dtFrom.Value.Year, dtFrom.Value.Month, dtFrom.Value.Day, dtFrom.Value.Hour, dtFrom.Value.Minute, dtFrom.Value.Second);
+                this.formDto.dto.Reservation.BookingFrom = DateTime.Now;
 
-                this.formDto.dto.reservationDto.NoOfDays = Convert.ToInt16(txtDays.Text);
-                this.formDto.dto.reservationDto.NoOfPersons = Convert.ToInt16(txtPersons.Text);
-                this.formDto.dto.reservationDto.NoOfRooms = Convert.ToInt16(txtRooms.Text);
-                this.formDto.dto.reservationDto.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));
-                this.formDto.dto.reservationDto.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
-                this.formDto.dto.reservationDto.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>)[this.cboType.SelectedIndex].Id };
-                this.formDto.dto.reservationDto.ACPreference = this.cboAC.SelectedIndex;
-                this.formDto.dto.reservationDto.RoomList = (List<LodgeConfigurationFacade.Room.Dto>)cmbCheckInRoom.DataSource;
+                this.formDto.dto.Reservation.NoOfDays = Convert.ToInt16(txtDays.Text);
+                this.formDto.dto.Reservation.NoOfPersons = Convert.ToInt16(txtPersons.Text);
+                this.formDto.dto.Reservation.NoOfRooms = Convert.ToInt16(txtRooms.Text);
+                this.formDto.dto.Reservation.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));
+                this.formDto.dto.Reservation.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
+                this.formDto.dto.Reservation.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>)[this.cboType.SelectedIndex].Id };
+                this.formDto.dto.Reservation.ACPreference = this.cboAC.SelectedIndex;
+                this.formDto.dto.Reservation.RoomList = (List<LodgeConfigurationFacade.Room.Dto>)cmbCheckInRoom.DataSource;
 
                 BinAff.Facade.Library.Server facade = new LodgeFacade.CheckIn.CheckInServer(formDto);
 
@@ -118,10 +119,10 @@ namespace AutoTourism.Lodge.WinForm
                 //checkIn Id passs back to register
                 this.dto.Id = this.formDto.dto.Id;
                 this.dto.Date = this.formDto.dto.Date;
-                this.dto.reservationDto = this.formDto.dto.reservationDto;
+                this.dto.Reservation = this.formDto.dto.Reservation;
 
                 //Update reservation tree node
-                this.UpdateRoomReservationNodeInTree(this.formDto.dto.reservationDto);
+                this.UpdateRoomReservationNodeInTree(this.formDto.dto.Reservation);
 
                 if (facade.IsError)
                 {
@@ -190,7 +191,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             if (this.SaveCheckInData())
             {
-                this.dto.statusId = Convert.ToInt64(CheckInStatus.CheckIn);
+                this.dto.StatusId = Convert.ToInt64(CheckInStatus.CheckIn);
                 base.IsModified = true;
                 this.Close();
             }
@@ -214,7 +215,7 @@ namespace AutoTourism.Lodge.WinForm
             //    return false;
             //}
 
-            if (this.formDto == null || this.formDto.dto == null || this.formDto.dto.reservationDto == null || this.formDto.dto.reservationDto.Customer == null)
+            if (this.formDto == null || this.formDto.dto == null || this.formDto.dto.Reservation == null || this.formDto.dto.Reservation.Customer == null)
             {
                 errorProvider.SetError(btnPickReservation, "Reservation is available for check in.");
                 btnPickReservation.Focus();
@@ -353,14 +354,14 @@ namespace AutoTourism.Lodge.WinForm
             if (this.formDto.dto.Id > 0)
             {
 
-                CustomerFacade.Dto customerDto = this.formDto.dto.reservationDto.Customer;
+                CustomerFacade.Dto customerDto = this.formDto.dto.Reservation.Customer;
 
                 String Name = (customerDto.Initial == null ? String.Empty : customerDto.Initial.Name);
                 Name += (Name == String.Empty) ? (customerDto.FirstName == null ? String.Empty : customerDto.FirstName) : " " + (customerDto.FirstName == null ? String.Empty : customerDto.FirstName);
                 Name += (Name == String.Empty) ? (customerDto.MiddleName == null ? String.Empty : customerDto.MiddleName) : " " + (customerDto.MiddleName == null ? String.Empty : customerDto.MiddleName);
                 Name += (Name == String.Empty) ? (customerDto.LastName == null ? String.Empty : customerDto.LastName) : " " + (customerDto.LastName == null ? String.Empty : customerDto.LastName);
 
-                this.formDto.dto.customerDisplayName = Name;
+                this.formDto.dto.CustomerDisplayName = Name;
 
                 this.LoadCheckInData();
 
@@ -372,10 +373,10 @@ namespace AutoTourism.Lodge.WinForm
                 this.refreshDto = new LodgeFacade.CheckIn.Dto
                 {
                     Date = this.formDto.dto.Date,
-                    customerDisplayName = this.formDto.dto.customerDisplayName,
-                    reservationDto = reservation.CloneReservaion(this.formDto.dto.reservationDto)
+                    CustomerDisplayName = this.formDto.dto.CustomerDisplayName,
+                    Reservation = reservation.CloneReservaion(this.formDto.dto.Reservation)
                 };
-                this.refreshDto.reservationDto.Customer = reservation.CloneCustomer(this.formDto.dto.reservationDto.Customer);
+                this.refreshDto.Reservation.Customer = reservation.CloneCustomer(this.formDto.dto.Reservation.Customer);
             }
 
             this.txtArtifactPath.ReadOnly = true;
@@ -470,22 +471,22 @@ namespace AutoTourism.Lodge.WinForm
         private void LoadCheckInData()
         {
             //populate reservation data
-            if (!ValidationRule.IsMinimumDate(this.formDto.dto.reservationDto.BookingFrom))
+            if (!ValidationRule.IsMinimumDate(this.formDto.dto.Reservation.BookingFrom))
             {
-                dtFrom.Value = this.formDto.dto.reservationDto.BookingFrom;
-                dtFromTime.Value = this.formDto.dto.reservationDto.BookingFrom;
+                dtFrom.Value = this.formDto.dto.Reservation.BookingFrom;
+                dtFromTime.Value = this.formDto.dto.Reservation.BookingFrom;
             }
 
-            txtDays.Text = this.formDto.dto.reservationDto.NoOfDays.ToString();
-            txtPersons.Text = this.formDto.dto.reservationDto.NoOfPersons.ToString();
-            txtRooms.Text = this.formDto.dto.reservationDto.NoOfRooms.ToString();
-            txtAdvance.Text = this.formDto.dto.reservationDto.Advance == 0 ? String.Empty : this.formDto.dto.reservationDto.Advance.ToString();
+            txtDays.Text = this.formDto.dto.Reservation.NoOfDays.ToString();
+            txtPersons.Text = this.formDto.dto.Reservation.NoOfPersons.ToString();
+            txtRooms.Text = this.formDto.dto.Reservation.NoOfRooms.ToString();
+            txtAdvance.Text = this.formDto.dto.Reservation.Advance == 0 ? String.Empty : this.formDto.dto.Reservation.Advance.ToString();
 
-            if (this.formDto.dto.reservationDto.RoomCategory != null && this.formDto.dto.reservationDto.RoomCategory.Id > 0)
+            if (this.formDto.dto.Reservation.RoomCategory != null && this.formDto.dto.Reservation.RoomCategory.Id > 0)
             {
                 for (int i = 0; i < cboCategory.Items.Count; i++)
                 {
-                    if (this.formDto.dto.reservationDto.RoomCategory.Id == ((LodgeConfigurationFacade.Room.Category.Dto)cboCategory.Items[i]).Id)
+                    if (this.formDto.dto.Reservation.RoomCategory.Id == ((LodgeConfigurationFacade.Room.Category.Dto)cboCategory.Items[i]).Id)
                     {
                         cboCategory.SelectedIndex = i;
                         break;
@@ -494,11 +495,11 @@ namespace AutoTourism.Lodge.WinForm
             }
             else cboCategory.SelectedIndex = 0;
 
-            if (this.formDto.dto.reservationDto.RoomType != null && this.formDto.dto.reservationDto.RoomType.Id > 0)
+            if (this.formDto.dto.Reservation.RoomType != null && this.formDto.dto.Reservation.RoomType.Id > 0)
             {
                 for (int i = 0; i < cboType.Items.Count; i++)
                 {
-                    if (this.formDto.dto.reservationDto.RoomType.Id == ((LodgeConfigurationFacade.Room.Type.Dto)cboType.Items[i]).Id)
+                    if (this.formDto.dto.Reservation.RoomType.Id == ((LodgeConfigurationFacade.Room.Type.Dto)cboType.Items[i]).Id)
                     {
                         cboType.SelectedIndex = i;
                         break;
@@ -507,16 +508,16 @@ namespace AutoTourism.Lodge.WinForm
             }
             else cboType.SelectedIndex = 0;
 
-            cboAC.SelectedIndex = this.formDto.dto.reservationDto.ACPreference;
+            cboAC.SelectedIndex = this.formDto.dto.Reservation.ACPreference;
 
             //populate customer data
-            txtName.Text = this.formDto.dto.customerDisplayName;
-            lstContact.DataSource = this.formDto.dto.reservationDto.Customer.ContactNumberList;
+            txtName.Text = this.formDto.dto.CustomerDisplayName;
+            lstContact.DataSource = this.formDto.dto.Reservation.Customer.ContactNumberList;
             lstContact.DisplayMember = "Name";
             lstContact.ValueMember = "Id";
             lstContact.SelectedIndex = -1;
-            txtAdds.Text = this.formDto.dto.reservationDto.Customer.Address;
-            txtEmail.Text = this.formDto.dto.reservationDto.Customer.Email;
+            txtAdds.Text = this.formDto.dto.Reservation.Customer.Address;
+            txtEmail.Text = this.formDto.dto.Reservation.Customer.Email;
         }
 
         private void cboCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -558,7 +559,7 @@ namespace AutoTourism.Lodge.WinForm
 
             if (RoomList != null && RoomList.Count > 0)
             {
-                if (this.formDto.dto.reservationDto == null || this.formDto.dto.reservationDto.RoomList == null || this.formDto.dto.reservationDto.RoomList.Count == 0)
+                if (this.formDto.dto.Reservation == null || this.formDto.dto.Reservation.RoomList == null || this.formDto.dto.Reservation.RoomList.Count == 0)
                 {
                     SelectedRoomList = null;
                     AvailableRoomList = RoomList;
@@ -569,7 +570,7 @@ namespace AutoTourism.Lodge.WinForm
                     foreach (LodgeConfigurationFacade.Room.Dto roomDto in RoomList)
                     {
                         isSelected = false;
-                        foreach (LodgeConfigurationFacade.Room.Dto validRoomDto in this.formDto.dto.reservationDto.RoomList)
+                        foreach (LodgeConfigurationFacade.Room.Dto validRoomDto in this.formDto.dto.Reservation.RoomList)
                         {
                             if (roomDto.Id == validRoomDto.Id)
                             {
@@ -664,10 +665,10 @@ namespace AutoTourism.Lodge.WinForm
 
         private Boolean isBookedRoomBelongsToCurrentReservation(LodgeConfigurationFacade.Room.Dto bookedRoom)
         {
-            if (this.formDto.dto == null || this.formDto.dto.reservationDto == null || this.formDto.dto.reservationDto.RoomList == null)
+            if (this.formDto.dto == null || this.formDto.dto.Reservation == null || this.formDto.dto.Reservation.RoomList == null)
                 return false;
 
-            foreach (LodgeConfigurationFacade.Room.Dto room in this.formDto.dto.reservationDto.RoomList)
+            foreach (LodgeConfigurationFacade.Room.Dto room in this.formDto.dto.Reservation.RoomList)
             {
                 if (bookedRoom.Id == room.Id)
                     return true;
@@ -681,9 +682,9 @@ namespace AutoTourism.Lodge.WinForm
             LodgeFacade.RoomReservationRegister.Dto roomReservationRegisterDto = form.Tag as LodgeFacade.RoomReservationRegister.Dto;
             this.formDto.dto = new LodgeFacade.CheckIn.Dto
             {
-                customerDisplayName = roomReservationRegisterDto.Name,
+                CustomerDisplayName = roomReservationRegisterDto.Name,
                 Date = roomReservationRegisterDto.BookingFrom,
-                reservationDto = new LodgeFacade.RoomReservation.Dto
+                Reservation = new LodgeFacade.RoomReservation.Dto
                 {
                     Id = roomReservationRegisterDto.Id,
                     NoOfDays = roomReservationRegisterDto.NoOfDays,
@@ -783,7 +784,7 @@ namespace AutoTourism.Lodge.WinForm
 
             if (isNoOfDaysExists())
             {
-                Int64 reservationId = (this.formDto.dto == null || this.formDto.dto.reservationDto == null) ? 0 : this.formDto.dto.reservationDto.Id;
+                Int64 reservationId = (this.formDto.dto == null || this.formDto.dto.Reservation == null) ? 0 : this.formDto.dto.Reservation.Id;
                 this.totalBookings = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId);
                 //lblTotalBooking.Text = "Total Bookings between selected dates : = " + this.totalBookings.ToString();
                 txtTotalBooked.Text = this.totalBookings.ToString();
@@ -831,9 +832,9 @@ namespace AutoTourism.Lodge.WinForm
         {
             LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
             this.formDto.dto.Date = this.refreshDto.Date;
-            this.formDto.dto.customerDisplayName = this.refreshDto.customerDisplayName;
-            this.formDto.dto.reservationDto = reservation.CloneReservaion(this.refreshDto.reservationDto);
-            this.formDto.dto.reservationDto.Customer = reservation.CloneCustomer(this.refreshDto.reservationDto.Customer);
+            this.formDto.dto.CustomerDisplayName = this.refreshDto.CustomerDisplayName;
+            this.formDto.dto.Reservation = reservation.CloneReservaion(this.refreshDto.Reservation);
+            this.formDto.dto.Reservation.Customer = reservation.CloneCustomer(this.refreshDto.Reservation.Customer);
 
             this.LoadCheckInData();
         }
@@ -887,12 +888,12 @@ namespace AutoTourism.Lodge.WinForm
         {
             Int32 noOfDays = new Calender().DaysBetweenTwoDays(this.formDto.dto.Date, DateTime.Today);
 
-            if (noOfDays != this.formDto.dto.reservationDto.NoOfDays)
+            if (noOfDays != this.formDto.dto.Reservation.NoOfDays)
             {
                 if (noOfDays == 0)
-                    this.formDto.dto.reservationDto.NoOfDays = 1;
+                    this.formDto.dto.Reservation.NoOfDays = 1;
                 else
-                    this.formDto.dto.reservationDto.NoOfDays = noOfDays;                
+                    this.formDto.dto.Reservation.NoOfDays = noOfDays;                
 
                 new PresentationLibrary.MessageBox
                 {
@@ -901,18 +902,18 @@ namespace AutoTourism.Lodge.WinForm
                 }.Show("CheckOut date is not matching with reservation end date. Reservation end date will be changed with checkout.");
             }
 
-            this.formDto.dto.reservationDto.BookingStatusId = Convert.ToInt64(CheckInStatus.CheckOut);
+            this.formDto.dto.Reservation.BookingStatusId = Convert.ToInt64(CheckInStatus.CheckOut);
             LodgeFacade.CheckIn.ICheckIn checkIn = new LodgeFacade.CheckIn.CheckInServer(this.formDto);
             checkIn.CheckOut();
 
-            this.dto.statusId = Convert.ToInt64(CheckInStatus.CheckOut);
+            this.dto.StatusId = Convert.ToInt64(CheckInStatus.CheckOut);
             base.IsModified = true;
             this.Close();
         }
 
         private void btnGenerateInvoice_Click(object sender, EventArgs e)
         {
-            if (this.dto.invoiceNumber == null || this.dto.invoiceNumber == String.Empty)
+            if (this.dto.InvoiceNumber == null || this.dto.InvoiceNumber == String.Empty)
             {
                 Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto();
                 ReturnObject<Boolean> ret = this.GenerateInvoice(artifactDto);
@@ -926,11 +927,11 @@ namespace AutoTourism.Lodge.WinForm
                     return;
                 }
 
-                if (this.dto.invoiceNumber != null && this.dto.invoiceNumber != String.Empty)
+                if (this.dto.InvoiceNumber != null && this.dto.InvoiceNumber != String.Empty)
                     this.AddInvoiceNodeToTree(artifactDto);
             }
 
-            if (this.dto.invoiceNumber != null && this.dto.invoiceNumber != String.Empty)
+            if (this.dto.InvoiceNumber != null && this.dto.InvoiceNumber != String.Empty)
                 this.DisplayInvoice();
 
             this.Close();
@@ -944,16 +945,16 @@ namespace AutoTourism.Lodge.WinForm
             List<Facade.Taxation.Dto> taxationList = taxation.ReadLodgeTaxation();
 
             Vanilla.Invoice.Facade.Dto invoiceDto = new Vanilla.Invoice.Facade.Dto();            
-            invoiceDto.advance = this.dto.reservationDto.Advance;
-            invoiceDto.buyer = this.dto.reservationDto.Customer == null ? null : new Vanilla.Invoice.Facade.Buyer.Dto 
+            invoiceDto.advance = this.dto.Reservation.Advance;
+            invoiceDto.buyer = this.dto.Reservation.Customer == null ? null : new Vanilla.Invoice.Facade.Buyer.Dto 
             {
-                Name = GetCustomerDisplayName(this.dto.reservationDto.Customer),
-                Address = this.dto.reservationDto.Customer.Address,
-                Email = this.dto.reservationDto.Customer.Email,
-                ContactNumber = this.dto.reservationDto.Customer.ContactNumberList == null ? null : this.dto.reservationDto.Customer.ContactNumberList[0].Name
+                Name = GetCustomerDisplayName(this.dto.Reservation.Customer),
+                Address = this.dto.Reservation.Customer.Address,
+                Email = this.dto.Reservation.Customer.Email,
+                ContactNumber = this.dto.Reservation.Customer.ContactNumberList == null ? null : this.dto.Reservation.Customer.ContactNumberList[0].Name
             };
             this.PopulateSellerInfo(invoiceDto);
-            List<LodgeConfigurationFacade.Room.Dto> roomList = this.dto.reservationDto.RoomList;
+            List<LodgeConfigurationFacade.Room.Dto> roomList = this.dto.Reservation.RoomList;
             this.SetRoomDetail(roomList);
             invoiceDto.productList = this.GroupRoomList(roomList);
             this.AttachTariff(invoiceDto.productList);
@@ -976,7 +977,7 @@ namespace AutoTourism.Lodge.WinForm
                 ret = checkIn.PaymentInsert(invoiceFormDto, currentUser, artifactDto);
 
                 if (ret.Value)
-                    this.dto.invoiceNumber = invoiceFormDto.dto.invoiceNumber;
+                    this.dto.InvoiceNumber = invoiceFormDto.dto.invoiceNumber;
             }
 
             return ret;
@@ -1014,13 +1015,13 @@ namespace AutoTourism.Lodge.WinForm
                     Vanilla.Invoice.Facade.LineItem.Dto productDto = new Vanilla.Invoice.Facade.LineItem.Dto()
                     {
                         Id = dtoRoom.Id,
-                        startDate = this.dto.reservationDto.BookingFrom,
+                        startDate = this.dto.Reservation.BookingFrom,
                         roomCategoryId = dtoRoom.Category == null ? 0 : dtoRoom.Category.Id,
                         roomTypeId = dtoRoom.Type == null ? 0 : dtoRoom.Type.Id,
                         roomIsAC = dtoRoom.IsAirconditioned,                        
                         description = this.GetRoomDescription(dtoRoom.Id),
                         count = 1, //count is basically rooms of same type [i.e. same typeid, categoryId, and Ac] 
-                        endDate = this.dto.reservationDto.BookingFrom.AddDays(this.dto.reservationDto.NoOfDays)
+                        endDate = this.dto.Reservation.BookingFrom.AddDays(this.dto.Reservation.NoOfDays)
                     };
 
                     if (productList.Count == 0)
@@ -1119,7 +1120,7 @@ namespace AutoTourism.Lodge.WinForm
 
         private void DisplayInvoice()
         {
-            String invoiceNumber = this.dto.invoiceNumber;
+            String invoiceNumber = this.dto.InvoiceNumber;
             Facade.CheckIn.ICheckIn checkInServer = new Facade.CheckIn.CheckInServer(null);
             Vanilla.Invoice.Facade.Dto invoiceDto = checkInServer.ReadInvoice(invoiceNumber);
 
@@ -1164,4 +1165,5 @@ namespace AutoTourism.Lodge.WinForm
         }
 
     }
+
 }

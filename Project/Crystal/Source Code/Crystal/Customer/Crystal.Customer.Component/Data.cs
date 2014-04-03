@@ -25,4 +25,5 @@ namespace Crystal.Customer.Component
         public List<Characteristic.Data> CharacteristicList { get; set; }
         
     }
+
 }

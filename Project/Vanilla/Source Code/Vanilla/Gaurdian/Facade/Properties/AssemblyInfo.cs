@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Vanilla.Guardian.Facade")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Vanilla : Guardian Facade")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Binary Affairs")]
-[assembly: AssemblyProduct("Vanilla: Guardian")]
+[assembly: AssemblyProduct("Vanilla")]
 [assembly: AssemblyCopyright("Copyright © Binary Affairs 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

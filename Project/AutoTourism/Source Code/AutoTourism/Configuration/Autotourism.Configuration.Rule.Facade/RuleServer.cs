@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Transactions;
 
 using BinAff.Core;
@@ -8,18 +7,19 @@ using CrystalCustomerRule = Crystal.Customer.Rule;
 using CrystalConfigurationRule = Crystal.Configuration.Rule;
 using CrystalGuardianRule = Crystal.Guardian.Rule;
 
-
 namespace AutoTourism.Configuration.Rule.Facade
 {
+
     public class RuleServer : IRule
     {
+
         ReturnObject<FormDto> IRule.LoadForm()
         {
-            BinAff.Core.ReturnObject<FormDto> ret = new BinAff.Core.ReturnObject<FormDto>()
+            return new BinAff.Core.ReturnObject<FormDto>
             {
-                Value = new FormDto()
+                Value = new FormDto
                 {
-                    RuleDto = new Dto()
+                    RuleDto = new Dto
                     {
                         CustomerRule = this.ReadCustomerRule().Value,
                         UserRule = this.ReadUserRule().Value,
@@ -28,8 +28,6 @@ namespace AutoTourism.Configuration.Rule.Facade
                     }
                 }
             };
-
-            return ret;
         }
 
         ReturnObject<Boolean> IRule.Save(Dto dto)
@@ -50,9 +48,9 @@ namespace AutoTourism.Configuration.Rule.Facade
                 };
             }
 
-            return new ReturnObject<CustomerRuleDto>()
+            return new ReturnObject<CustomerRuleDto>
             {
-                Value = new CustomerRuleDto()
+                Value = new CustomerRuleDto
                 {
                     IsAlternateContactNumber = ((CrystalCustomerRule.Data)CustomerData.Value).IsAlternateContactNumber,
                     IsEmail = ((CrystalCustomerRule.Data)CustomerData.Value).IsEmail,
@@ -75,9 +73,9 @@ namespace AutoTourism.Configuration.Rule.Facade
                 };
             }
 
-            return new ReturnObject<UserRuleDto>()
+            return new ReturnObject<UserRuleDto>
             {
-                Value = new UserRuleDto()
+                Value = new UserRuleDto
                 {
                     DefaultUserPassword = ((CrystalGuardianRule.Data)UserData.Value).DefaultPassword,
                 }
@@ -123,9 +121,9 @@ namespace AutoTourism.Configuration.Rule.Facade
                 };
             }
 
-            return new ReturnObject<ConfigurationRuleDto>()
+            return new ReturnObject<ConfigurationRuleDto>
             {
-                Value = new ConfigurationRuleDto()
+                Value = new ConfigurationRuleDto
                 {
                     DateFormat = ((Crystal.Configuration.Rule.Data)RuleData.Value).DateFormat
                 }
@@ -139,7 +137,7 @@ namespace AutoTourism.Configuration.Rule.Facade
             using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
             {
                 //save customer rule
-                ICrud Crud = new CrystalCustomerRule.Server(new CrystalCustomerRule.Data()
+                ICrud Crud = new CrystalCustomerRule.Server(new CrystalCustomerRule.Data
                 {
                     IsPinNumber = dto.CustomerRule.IsPinNumber,
                     IsAlternateContactNumber = dto.CustomerRule.IsAlternateContactNumber,
@@ -150,7 +148,7 @@ namespace AutoTourism.Configuration.Rule.Facade
                 if (!ret.Value || ret.HasError()) return ret;
 
                 //save user rule
-                Crud = new CrystalGuardianRule.Server(new CrystalGuardianRule.Data()
+                Crud = new CrystalGuardianRule.Server(new CrystalGuardianRule.Data
                 {
                     DefaultPassword = dto.UserRule.DefaultUserPassword,
                 });
@@ -166,7 +164,7 @@ namespace AutoTourism.Configuration.Rule.Facade
             //    ret = Crud.Save();
             //    if (!ret.Value || ret.HasError()) return ret;
 
-                Crud = new CrystalConfigurationRule.Server(new CrystalConfigurationRule.Data()
+                Crud = new CrystalConfigurationRule.Server(new CrystalConfigurationRule.Data
                 {
                     DateFormat = dto.ConfigurationRule.DateFormat
                 });
@@ -178,5 +176,7 @@ namespace AutoTourism.Configuration.Rule.Facade
 
             return ret;
         }
+
     }
+
 }

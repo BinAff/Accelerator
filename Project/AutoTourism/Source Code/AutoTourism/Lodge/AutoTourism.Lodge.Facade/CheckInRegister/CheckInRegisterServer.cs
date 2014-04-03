@@ -1,19 +1,19 @@
 ﻿using BinAff.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 using CrystalLodge = Crystal.Lodge.Component;
 using CrystalAction = Crystal.Customer.Component.Action;
 using LodgeFacade = AutoTourism.Lodge.Facade;
-using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
-
+using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
 
 namespace AutoTourism.Lodge.Facade.CheckInRegister
 {
+
     public class CheckInRegisterServer : ICheckInRegister
     {
+
         ReturnObject<FormDto> ICheckInRegister.LoadCheckInRegisterForm(Int64 reservationStatusId, DateTime startDate, DateTime endDate)
         {
             ReturnObject<FormDto> ret = new BinAff.Core.ReturnObject<FormDto>()
@@ -94,16 +94,18 @@ namespace AutoTourism.Lodge.Facade.CheckInRegister
             //return dto;
         }
 
-        private String GetRooms(List<LodgeConfigurationFacade.Room.Dto> roomList)
+        private String GetRooms(List<LodgeConfFac.Room.Dto> roomList)
         {
             if (roomList == null || roomList.Count == 0)
                 return String.Empty;
 
             StringBuilder strbRoom = new StringBuilder();
-            foreach (LodgeConfigurationFacade.Room.Dto room in roomList)
+            foreach (LodgeConfFac.Room.Dto room in roomList)
                 strbRoom.Append(", " + room.Number.ToString());
 
             return strbRoom.ToString().Substring(1);
         }
+
     }
+
 }

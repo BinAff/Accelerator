@@ -1,8 +1,13 @@
-﻿
+﻿using System;
+
 namespace AutoTourism.Configuration.Rule.Facade
 {
+
     public class UserRuleDto
     {
-        public string DefaultUserPassword { get; set; }
+
+        public String DefaultUserPassword { get; set; }
+
     }
+
 }

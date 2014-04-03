@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Vanilla.Navigator.Facade")]
-[assembly: AssemblyDescription("Vanilla : Navigator")]
+[assembly: AssemblyDescription("Vanilla : Navigator Facade")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Binary Affairs")]
 [assembly: AssemblyProduct("Vanilla")]

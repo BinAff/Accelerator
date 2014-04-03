@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using BinAff.Core;
 
 namespace Crystal.Invoice.Component.Payment
 {
+
     public class Server : BinAff.Core.Observer.ObserverSubjectCrud
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -85,5 +88,7 @@ namespace Crystal.Invoice.Component.Payment
             }
             return ret;
         }
+
     }
+
 }

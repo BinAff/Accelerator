@@ -2,7 +2,6 @@
 
 using BinAff.Core;
 
-
 namespace AutoTourism.Lodge.Configuration.Facade.Building
 {
 

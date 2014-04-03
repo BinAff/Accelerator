@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Crystal.Configuration.Rule")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Crystal : Configuration Rule")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Binary Affairs")]
-[assembly: AssemblyProduct("Crystal Framework: Configuration")]
+[assembly: AssemblyProduct("Crystal")]
 [assembly: AssemblyCopyright("Copyright © Binary Affairs 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

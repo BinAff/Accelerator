@@ -4,8 +4,10 @@ using System.Data;
 
 namespace Crystal.Invoice.Component.LineItem
 {
+
     public class Dao : BinAff.Core.Dao
     {
+
         public Dao(Data data)
             : base(data)
         {
@@ -92,5 +94,7 @@ namespace Crystal.Invoice.Component.LineItem
             }
 
         }
+
     }
+
 }

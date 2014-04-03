@@ -22,11 +22,17 @@ namespace Crystal.Configuration.Component.Initial
             Data data = (Data)base.Data;
 
             if (ValidationRule.IsNullOrEmpty(data.Name))
-                retMsg.Add(new Message("Initial cannot be empty.", Message.Type.Error));            
+            {
+                retMsg.Add(new Message("Initial cannot be empty.", Message.Type.Error));
+            }
             else if (data.Name.Length > 10)
+            {
                 retMsg.Add(new Message("Initial cannot be more than 10 characters.", Message.Type.Error));
+            }
             else if (this.IsExist(data))
+            {
                 retMsg.Add(new Message("Same initial already exists.", Message.Type.Error));
+            }
 
             return retMsg;
         }

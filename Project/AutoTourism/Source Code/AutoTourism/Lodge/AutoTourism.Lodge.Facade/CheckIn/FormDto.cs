@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
-using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
-using RuleFacade = AutoTourism.Configuration.Rule.Facade;
-using LodgeFacade = AutoTourism.Lodge.Facade;
+using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
+using RuleFac = AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
+
     public class FormDto : BinAff.Facade.Library.FormDto
     {
+
         public Dto dto { get; set; }
-        //public LodgeFacade.RoomReservationRegister.Dto roomReservationRegisterDto { get; set; } 
-        public RuleFacade.ConfigurationRuleDto configurationRuleDto { get; set; }
-        public List<LodgeConfigurationFacade.Room.Dto> roomList { get; set; }
-        public List<LodgeConfigurationFacade.Room.Category.Dto> CategoryList { get; set; }
-        public List<LodgeConfigurationFacade.Room.Type.Dto> TypeList { get; set; }
+        //public LodgeFac.RoomReservationRegister.Dto roomReservationRegisterDto { get; set; } 
+        public RuleFac.ConfigurationRuleDto configurationRuleDto { get; set; }
+        public List<LodgeConfFac.Room.Dto> roomList { get; set; }
+        public List<LodgeConfFac.Room.Category.Dto> CategoryList { get; set; }
+        public List<LodgeConfFac.Room.Type.Dto> TypeList { get; set; }
+
     }
+
 }

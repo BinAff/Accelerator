@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using BinAff.Core;
+
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using CustomerFacade = AutoTourism.Customer.Facade;
-using BinAff.Core;
 
 namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 {
+
     public class Dto : BinAff.Facade.Library.Dto
     {
+
         public DateTime BookingDate { get; set; }
         public DateTime BookingFrom { get; set; }
         public DateTime BookingTo { get; set; }
@@ -30,5 +33,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 
         public List<LodgeConfigurationFacade.Room.Dto> RoomList { get; set; }
         public CustomerFacade.Dto Customer { get; set; }
+
     }
+
 }

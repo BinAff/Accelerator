@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+
 using BinAff.Core;
 
 namespace AutoTourism.Component.Customer
 {
+
     public class Validator : Crystal.Customer.Component.Validator
     {
+
         public Validator(Data data)
             : base(data)
         {
@@ -15,5 +18,7 @@ namespace AutoTourism.Component.Customer
         {
             return base.Validate();            
         }
+
     }
+
 }

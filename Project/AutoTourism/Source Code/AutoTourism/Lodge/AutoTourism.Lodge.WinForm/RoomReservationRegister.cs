@@ -5,9 +5,7 @@ using System.Collections.Generic;
 using BinAff.Core;
 using BinAff.Utility;
 
-using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using LodgeFacade = AutoTourism.Lodge.Facade;
-
 
 namespace AutoTourism.Lodge.WinForm
 {  
@@ -259,8 +257,6 @@ namespace AutoTourism.Lodge.WinForm
             Cancel = 10003,
             CheckIn = 10004
         }
-
-       
                
     }
 

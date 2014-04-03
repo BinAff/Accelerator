@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+
 using BinAff.Core;
 using BinAff.Utility;
-using System;
 
 namespace Crystal.Invoice.Component.LineItem
 {
+
     public class Validator : BinAff.Core.Validator
     {
+
         public Validator(Data data)
             : base(data)
         {
@@ -49,4 +52,5 @@ namespace Crystal.Invoice.Component.LineItem
         }
         
     }
+
 }

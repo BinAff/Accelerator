@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 
 using BinAff.Core;
-using PresentationLibrary = BinAff.Presentation.Library;
 
 using FacadeAccount = Vanilla.Guardian.Facade.Account;
 
@@ -14,6 +13,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
     public partial class ReasonDialog : Form
     {
+
         private String FormName;        
         private BinAff.Facade.Library.Dto dto;
         private FacadeAccount.Dto userDto;
@@ -82,5 +82,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
             return true;
         }
+
     }
+
 }
