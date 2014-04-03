@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
 using BinAff.Core;
 using BinAff.Utility;
-
-using CustomerFacade = AutoTourism.Customer.Facade;
 using PresentationLibrary = BinAff.Presentation.Library;
-using ConfigurationRuleFacade = AutoTourism.Configuration.Rule.Facade;
 
+using CustFac = AutoTourism.Customer.Facade;
+using ConfRuleFac = AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Customer.WinForm
 {
@@ -19,70 +17,80 @@ namespace AutoTourism.Customer.WinForm
 
         private System.Drawing.Color MandatoryColor = System.Drawing.Color.FromArgb(255, 255, 240, 240);
 
-        private CustomerFacade.Dto dto;
-        private CustomerFacade.FormDto formDto;
-        private ConfigurationRuleFacade.CustomerRuleDto customerRule;
+        private CustFac.Dto dto;
+        private CustFac.FormDto formDto;
+        private ConfRuleFac.CustomerRuleDto customerRule;
         private Boolean isLoadedFromRoomReservationForm = false;
         private System.Windows.Forms.TreeView trvForm;
-        private CustomerFacade.Dto refreshDto;
+        private CustFac.Dto refreshDto;
 
         #region Rule property
 
-        private Boolean _IsPinNumberMandatory = false;
+        private Boolean isPinNumberMandatory = false;
         public Boolean IsPinNumberMandatory
         {
-            get {
-                return this._IsPinNumberMandatory;
+            get
+            {
+                return this.isPinNumberMandatory;
             }
-            set {
-                this._IsPinNumberMandatory = value;
-                if (this._IsPinNumberMandatory)
-                    txtPin.BackColor = MandatoryColor;
+            set
+            {
+                this.isPinNumberMandatory = value;
+                if (this.isPinNumberMandatory)
+                {
+                    this.txtPin.BackColor = MandatoryColor;
+                }
             }
         }
 
-        private Boolean _IsEmailMandatory = false;
+        private Boolean isEmailMandatory = false;
         public Boolean IsEmailMandatory
         {
             get
             {
-                return this._IsEmailMandatory;
+                return this.isEmailMandatory;
             }
             set
             {
-                this._IsEmailMandatory = value;
-                if (this._IsEmailMandatory)
-                    txtEmail.BackColor = MandatoryColor;
+                this.isEmailMandatory = value;
+                if (this.isEmailMandatory)
+                {
+                    this.txtEmail.BackColor = MandatoryColor;
+                }
             }
         }
 
-        private Boolean _IsIdentityMandatory = false;
+        private Boolean isIdentityMandatory = false;
         public Boolean IsIdentityMandatory
         {
             get
             {
-                return this._IsIdentityMandatory;
+                return this.isIdentityMandatory;
             }
             set
             {
-                this._IsIdentityMandatory = value;
-                if (this._IsIdentityMandatory)
-                    txtIdentityProofName.BackColor = MandatoryColor;
+                this.isIdentityMandatory = value;
+                if (this.isIdentityMandatory)
+                {
+                    this.txtIdentityProofName.BackColor = MandatoryColor;
+                }
             }
         }
 
-        private Boolean _IsAlternateContactNoMandatory = false;
+        private Boolean isAlternateContactNoMandatory = false;
         public Boolean IsAlternateContactNoMandatory
         {
             get
             {
-                return this._IsAlternateContactNoMandatory;
+                return this.isAlternateContactNoMandatory;
             }
             set
             {
-                this._IsAlternateContactNoMandatory = value;
-                if (this._IsAlternateContactNoMandatory)                    
-                    lstContact.BackColor = MandatoryColor;
+                this.isAlternateContactNoMandatory = value;
+                if (this.isAlternateContactNoMandatory)
+                {
+                    this.lstContact.BackColor = MandatoryColor;
+                }
             }
         }
 
@@ -97,14 +105,14 @@ namespace AutoTourism.Customer.WinForm
             this.trvForm = trvForm;
         }
       
-        public CustomerForm(CustomerFacade.Dto dto)
+        public CustomerForm(CustFac.Dto dto)
         {
             InitializeComponent();
             this.dto = dto;
 
             if (this.dto.Id > 0)
             {
-                this.refreshDto = new CustomerFacade.Dto
+                this.refreshDto = new CustFac.Dto
                 {
                     Initial = this.dto.Initial == null ? null : new Table
                     {
@@ -136,7 +144,6 @@ namespace AutoTourism.Customer.WinForm
 
         #endregion
 
-
         private void SetMandatoryRule()
         {
             this.IsPinNumberMandatory = this.customerRule.IsPinNumber;
@@ -147,7 +154,7 @@ namespace AutoTourism.Customer.WinForm
 
         private void CustomerForm_Load(object sender, System.EventArgs e)
         {
-            this.formDto = new CustomerFacade.FormDto()
+            this.formDto = new CustFac.FormDto()
             {
                 Dto = this.dto,
                 ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
@@ -155,12 +162,16 @@ namespace AutoTourism.Customer.WinForm
 
             //if loaded form room reservation form , then populate the modules
             if (this.isLoadedFromRoomReservationForm)
+            {
                 new Vanilla.Utility.Facade.Module.Server(this.formDto.ModuleFormDto).LoadForm();
+            }
 
             this.LoadForm();
 
             if (this.dto != null)
+            {
                 this.LoadCustomerData();
+            }
         }
 
         private void btnAddContact_Click(object sender, System.EventArgs e)
@@ -241,9 +252,11 @@ namespace AutoTourism.Customer.WinForm
                 else
                 {
                     retObj = GetContactNumberList(txtMobilePrefix.Text + "-" + txtMobile.Text, (List<Table>)lstContact.DataSource);
-                    
+
                     if (retObj.HasError())
+                    {
                         errorProvider.SetError(txtLandLine, "Entered contact already exists.");
+                    }
                     else
                     {
                         lstContact.DataSource = null;
@@ -278,7 +291,6 @@ namespace AutoTourism.Customer.WinForm
                             break;
                         }
                     }
-
                     if (!blnExists) contactNumberList.Add(dto);
                 }
             }
@@ -294,8 +306,8 @@ namespace AutoTourism.Customer.WinForm
         
         private void LoadForm()
         {
-            CustomerFacade.FormDto formDto = new CustomerFacade.FormDto();
-            BinAff.Facade.Library.Server facade = new CustomerFacade.Server(formDto);
+            CustFac.FormDto formDto = new CustFac.FormDto();
+            BinAff.Facade.Library.Server facade = new CustFac.Server(formDto);
             facade.LoadForm();
 
             this.customerRule = formDto.customerRuleDto;
@@ -303,7 +315,6 @@ namespace AutoTourism.Customer.WinForm
 
             if (formDto.IdentityProofTypeList != null && formDto.IdentityProofTypeList.Count > 0)
             {
-                //Populate IdentityProof List
                 this.cboProofType.DataSource = formDto.IdentityProofTypeList;
                 this.cboProofType.DisplayMember = "Name";
                 this.cboProofType.ValueMember = "Id";
@@ -311,37 +322,34 @@ namespace AutoTourism.Customer.WinForm
             }
             if (formDto.InitialList != null && formDto.InitialList.Count > 0)
             {
-                //Populate Initial List
                 this.cboInitial.DataSource = formDto.InitialList;
                 this.cboInitial.DisplayMember = "Name";
                 this.cboInitial.ValueMember = "Id";
                 this.cboInitial.SelectedIndex = -1;
             }
-
             if (formDto.StateList != null && formDto.StateList.Count > 0)
             {
-                //Populate State List
                 this.cboState.DataSource = formDto.StateList;
                 this.cboState.DisplayMember = "Name";
                 this.cboState.ValueMember = "Id";
                 this.cboState.SelectedIndex = -1;
             }
-
             if (formDto.IdentityProofTypeList != null && formDto.IdentityProofTypeList.Count > 0)
             {
-                //Populate IdentityProof List
                 this.cboProofType.DataSource = formDto.IdentityProofTypeList;
                 this.cboProofType.DisplayMember = "Name";
                 this.cboProofType.ValueMember = "Id";
                 this.cboProofType.SelectedIndex = -1;
             }
-
             this.txtArtifactPath.ReadOnly = true;
-          
             if (this.isLoadedFromRoomReservationForm)
+            {
                 this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("CUST", this.formDto.ModuleFormDto.FormModuleList, "Form");
+            }
             else
+            {
                 this.txtArtifactPath.Text = this.dto.artifactPath;
+            }
         }
         
         private void LoadCustomerData()
@@ -357,12 +365,10 @@ namespace AutoTourism.Customer.WinForm
                     }
                 }
             }
-
             txtFName.Text = this.dto.FirstName;
             txtMName.Text = this.dto.MiddleName;
             txtLName.Text = this.dto.LastName;
             txtAdds.Text = this.dto.Address;
-
             if (this.dto.State != null && this.dto.State.Id > 0)
             {
                 for (int i = 0; i < cboState.Items.Count; i++)
@@ -374,10 +380,8 @@ namespace AutoTourism.Customer.WinForm
                     }
                 }
             }
-
             txtCity.Text = this.dto.City;
             txtPin.Text = this.dto.Pin == 0 ? String.Empty : this.dto.Pin.ToString();
-
             if (this.dto.ContactNumberList != null && this.dto.ContactNumberList.Count > 0)
             {
                 this.lstContact.DataSource = this.dto.ContactNumberList;
@@ -386,7 +390,6 @@ namespace AutoTourism.Customer.WinForm
                 this.lstContact.SelectedIndex = -1;
             }
             txtEmail.Text = this.dto.Email;
-
             if (this.dto.IdentityProofType != null && this.dto.IdentityProofType.Id > 0)
             {
                 for (int i = 0; i < cboProofType.Items.Count; i++)
@@ -398,7 +401,6 @@ namespace AutoTourism.Customer.WinForm
                     }
                 }
             }
-
             txtIdentityProofName.Text = this.dto.IdentityProofName;
         }
 
@@ -410,10 +412,12 @@ namespace AutoTourism.Customer.WinForm
             };
 
             if (ContactNumberList == null || ContactNumberList.Count == 0)
-                retObj.Value.Add(new Table()
+            {
+                retObj.Value.Add(new Table
                 {
                     Name = val
                 });
+            }
             else
             {
                 foreach (Table dto in ContactNumberList)
@@ -431,13 +435,12 @@ namespace AutoTourism.Customer.WinForm
                         return retObj;
                     }
                 }
-                ContactNumberList.Add(new Table()
+                ContactNumberList.Add(new Table
                 {
                     Name = val
                 });
                 retObj.Value = ContactNumberList;
             }
-
             return retObj;
         }
 
@@ -449,7 +452,9 @@ namespace AutoTourism.Customer.WinForm
             {
                 contactNumberList = new List<Table>();
                 foreach (Table dto in lstContact.Items)
+                {
                     contactNumberList.Add(dto);
+                }
             }
             return contactNumberList;
         }
@@ -460,7 +465,7 @@ namespace AutoTourism.Customer.WinForm
 
             if (retVal)
             {
-                if (this.dto == null) this.dto = new CustomerFacade.Dto();
+                if (this.dto == null) this.dto = new CustFac.Dto();
                 this.dto.Id = this.dto == null ? 0 : this.dto.Id;
                 this.dto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
                 {
@@ -483,12 +488,12 @@ namespace AutoTourism.Customer.WinForm
                     Id = ((Table)cboProofType.SelectedItem).Id,
                 };
                 this.dto.IdentityProofName = txtIdentityProofName.Text.Trim();
-                CustomerFacade.FormDto formDto = new CustomerFacade.FormDto()
+                CustFac.FormDto formDto = new CustFac.FormDto()
                 {
                     Dto = this.dto,
                 };
 
-                BinAff.Facade.Library.Server facade = new CustomerFacade.Server(formDto);
+                BinAff.Facade.Library.Server facade = new CustFac.Server(formDto);
                 if (formDto.Dto.Id == 0)
                 {
                     facade.Add();
@@ -499,7 +504,9 @@ namespace AutoTourism.Customer.WinForm
                 }
 
                 if (this.isLoadedFromRoomReservationForm)
-                    this.Tag = this.dto;                
+                {
+                    this.Tag = this.dto;
+                }
 
                 if (facade.IsError)
                 {
@@ -531,8 +538,7 @@ namespace AutoTourism.Customer.WinForm
                 Category = Vanilla.Utility.Facade.Artifact.Category.Form,
                 Path = this.dto.ArtifactPath
             };
-
-            new CustomerFacade.Server(this.formDto).SaveArtifactForCustomer(artifactDto);
+            new CustFac.Server(this.formDto).SaveArtifactForCustomer(artifactDto);
 
             //-Add artifact to customer node
             Int16 customerNodePosition = 0;
@@ -543,18 +549,14 @@ namespace AutoTourism.Customer.WinForm
 
                 customerNodePosition++;
             }
-
             (this.trvForm.Nodes[customerNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children.Add(artifactDto);
             artifactDto.Parent = this.trvForm.Nodes[customerNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto;
-
             return true;
         }
 
         private Boolean ValidateCustomer()
         {
-
             errorProvider.Clear();
-
             //validate mandatory
             if (String.IsNullOrEmpty(txtFName.Text.Trim()))
             {
@@ -655,7 +657,6 @@ namespace AutoTourism.Customer.WinForm
                     return false;
                 }
             }
-
             return true;
         }
 
@@ -666,14 +667,18 @@ namespace AutoTourism.Customer.WinForm
             this.txtMobile.Text = String.Empty;
 
             if (this.dto.Id > 0)
+            {
                 this.ResetLoad();
+            }
             else
+            {
                 this.Clear();
+            }
         }
 
         private void Clear()
         {
-            this.dto = new CustomerFacade.Dto();
+            this.dto = new CustFac.Dto();
             
             this.cboInitial.SelectedIndex = -1;
             this.txtFName.Text = String.Empty;
@@ -714,8 +719,7 @@ namespace AutoTourism.Customer.WinForm
                 Id = this.refreshDto.IdentityProofType.Id,
                 Name = this.refreshDto.IdentityProofType.Name
             };
-            this.dto.IdentityProofName = this.refreshDto.IdentityProofName;            
-
+            this.dto.IdentityProofName = this.refreshDto.IdentityProofName;
             this.LoadCustomerData();
         }
 
@@ -738,12 +742,14 @@ namespace AutoTourism.Customer.WinForm
             if (this.SaveCustomerData())
             {
                 if (this.isLoadedFromRoomReservationForm)
+                {
                     this.SaveArtifact();
-
+                }
                 base.IsModified = true;
                 this.Close();
             }
         }
+
     }
 
 }

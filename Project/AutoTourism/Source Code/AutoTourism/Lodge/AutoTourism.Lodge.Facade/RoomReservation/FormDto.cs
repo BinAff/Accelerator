@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using BinAff.Core;
 
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
+
     public class FormDto : BinAff.Facade.Library.FormDto
     {
 
@@ -18,4 +18,5 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public Vanilla.Utility.Facade.Module.FormDto ModuleFormDto { get; set; }
 
     }
+
 }

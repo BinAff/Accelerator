@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using BinAff.Core;
+
 using CrystalInvoice = Crystal.Invoice.Component;
 
 namespace AutoTourism.Lodge.Facade.Taxation
 {
+
     public class TaxationServer : ITaxation
     {
+
         List<Dto> ITaxation.ReadLodgeTaxation()
         {
             List<Dto> taxationDtoList = new List<Dto>();
@@ -28,5 +31,7 @@ namespace AutoTourism.Lodge.Facade.Taxation
             }
             return taxationDtoList;
         }
+
     }
+
 }

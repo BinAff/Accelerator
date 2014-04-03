@@ -4,8 +4,10 @@ using System.Data;
 
 namespace Crystal.Invoice.Component.Taxation
 {
+
     public class Dao : BinAff.Core.Dao
     {
+
         public Dao(Data data)
             : base(data)
         {
@@ -87,4 +89,5 @@ namespace Crystal.Invoice.Component.Taxation
             return false;
         }
     }
+
 }

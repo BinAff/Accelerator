@@ -5,8 +5,10 @@ using BinAff.Core;
 
 namespace Crystal.Invoice.Component.Navigator.Artifact
 {
+
     public class Validator : CrystalNavigator.Artifact.Validator
     {
+
         public Validator(Data data)
             : base(data)
         {
@@ -19,4 +21,5 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
         }
 
     }
+
 }

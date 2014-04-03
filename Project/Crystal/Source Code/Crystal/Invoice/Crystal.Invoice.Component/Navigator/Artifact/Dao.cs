@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using CrystalNavigator = Crystal.Navigator.Component;
 using System.Data;
+
+using CrysNav = Crystal.Navigator.Component;
 
 namespace Crystal.Invoice.Component.Navigator.Artifact
 {
-    public class Dao : CrystalNavigator.Artifact.Dao
+
+    public class Dao : CrysNav.Artifact.Dao
     {
+
         private String DeleteArtifactLinkSPName;
 
         public Dao(Data data)
@@ -44,7 +44,7 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
             return true;
         }
 
-        protected override BinAff.Core.Data CreateDataObject(long id, CrystalNavigator.Artifact.Category category)
+        protected override BinAff.Core.Data CreateDataObject(long id, CrysNav.Artifact.Category category)
         {
             return new Data
             {
@@ -94,5 +94,7 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
             return status;
 
         }
+
     }
+
 }

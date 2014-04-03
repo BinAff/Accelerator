@@ -294,8 +294,6 @@ namespace AutoTourism.Lodge.WinForm
             Cancel = 10003,
             CheckIn = 10004
         }
-
-        
         
     }
 

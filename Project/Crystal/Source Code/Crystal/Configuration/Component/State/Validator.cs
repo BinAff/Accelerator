@@ -22,11 +22,17 @@ namespace Crystal.Configuration.Component.State
             Data data = (Data)base.Data;
 
             if (ValidationRule.IsNullOrEmpty(data.Name))
+            {
                 retMsg.Add(new Message("State name cannot be empty.", Message.Type.Error));
+            }
             else if (data.Name.Length > 50)
+            {
                 retMsg.Add(new Message("State name cannot be more than 50 characters.", Message.Type.Error));
+            }
             else if (this.IsExist(data))
+            {
                 retMsg.Add(new Message("Same State already exists.", Message.Type.Error));
+            }
 
             return retMsg;
         }

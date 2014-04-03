@@ -28,6 +28,7 @@ namespace Crystal.Configuration.Component.IdentityProofType
         {
             return new Server((Data)data);
         }
+
     }
 
 }

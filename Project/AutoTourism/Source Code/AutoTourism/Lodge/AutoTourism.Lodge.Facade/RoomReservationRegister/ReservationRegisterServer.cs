@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,15 +6,18 @@ using BinAff.Core;
 
 using CrystalLodge = Crystal.Lodge.Component;
 using CrystalAction = Crystal.Customer.Component.Action;
-using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using CrystalReservation = Crystal.Reservation.Component;
+
+using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
 using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using AutoCustomer = AutoTourism.Component.Customer;
 
 namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 {
+
     public class ReservationRegisterServer : IReservationRegister
     {
+
         ReturnObject<FormDto> IReservationRegister.LoadRegisterForm(Int64 bookingStatusId, DateTime startDate, DateTime endDate)
         {
             ReturnObject<FormDto> ret = new BinAff.Core.ReturnObject<FormDto>()
@@ -113,22 +115,22 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
             };
         }
 
-        private List<LodgeConfigurationFacade.Room.Dto> GetRoomDtoList(List<Data> RoomDataList)
+        private List<LodgeConfFac.Room.Dto> GetRoomDtoList(List<Data> RoomDataList)
         {
-            List<LodgeConfigurationFacade.Room.Dto> retVal = null;
+            List<LodgeConfFac.Room.Dto> retVal = null;
             if (RoomDataList != null)
             {
-                retVal = new List<LodgeConfigurationFacade.Room.Dto>();
+                retVal = new List<LodgeConfFac.Room.Dto>();
                 foreach (Data data in RoomDataList)
                 {
 
-                    retVal.Add(new LodgeConfigurationFacade.Room.Dto()
+                    retVal.Add(new LodgeConfFac.Room.Dto()
                     {
                         Id = data.Id,
                         Number = ((CrystalLodge.Room.Data)data).Number,
                         Name = ((CrystalLodge.Room.Data)data).Name,
                         Description = ((CrystalLodge.Room.Data)data).Description,
-                        Building = new LodgeConfigurationFacade.Building.Dto()
+                        Building = new LodgeConfFac.Building.Dto()
                         {
                             Id = ((CrystalLodge.Room.Data)data).Building.Id,                            
                         },
@@ -139,13 +141,13 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
             return retVal;
         }
 
-        private String GetRooms(List<LodgeConfigurationFacade.Room.Dto> roomList)
+        private String GetRooms(List<LodgeConfFac.Room.Dto> roomList)
         {
             if (roomList == null || roomList.Count == 0)
                 return String.Empty;
 
             StringBuilder strbRoom = new StringBuilder();
-            foreach (LodgeConfigurationFacade.Room.Dto room in roomList)
+            foreach (LodgeConfFac.Room.Dto room in roomList)
             {
                 if (room.Number != null)
                     strbRoom.Append(", " + room.Number.ToString());

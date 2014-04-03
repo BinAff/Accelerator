@@ -5,6 +5,7 @@ using BinAff.Core;
 
 namespace Crystal.Customer.Component
 {
+
     public abstract class Server : ObserverSubjectCrud, ICustomer
     {
 
@@ -149,5 +150,7 @@ namespace Crystal.Customer.Component
         {
             return new ReturnObject<bool>();
         }
+
     }
+
 }

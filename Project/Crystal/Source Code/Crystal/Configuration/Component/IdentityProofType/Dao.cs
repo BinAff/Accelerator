@@ -82,6 +82,7 @@ namespace Crystal.Configuration.Component.IdentityProofType
 
             return false;
         }
+
     }
 
 }

@@ -4,8 +4,10 @@ using BinAff.Utility;
 
 namespace Crystal.Invoice.Component.Payment
 {
+
     public class Validator : BinAff.Core.Validator
     {
+
         public Validator(Data data)
             : base(data)
         {
@@ -22,5 +24,7 @@ namespace Crystal.Invoice.Component.Payment
 
             return retMsg;
         }
+
     }
+
 }

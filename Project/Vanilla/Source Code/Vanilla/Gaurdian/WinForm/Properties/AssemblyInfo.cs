@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Vanilla flavour of Guardian in WinForm presentation")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Binary Affairs")]
-[assembly: AssemblyProduct("Vanilla: Guardian")]
+[assembly: AssemblyProduct("Vanilla")]
 [assembly: AssemblyCopyright("Copyright © Binary Affairs 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

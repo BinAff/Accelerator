@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 
 using BinAff.Core;
+
 using CustomerFacade = AutoTourism.Customer.Facade;
-using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
+using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
+
     public class Dto : BinAff.Facade.Library.Dto
     {        
+
         public DateTime BookingDate { get; set; }
         public DateTime BookingFrom { get; set; }
         public Int32 NoOfDays { get; set; }
@@ -23,9 +26,11 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public Boolean isCheckedIn { get; set; }
         public Int32 ACPreference { get; set; } //-- will use hard coded values 0- No Preference, 1- AC, 2- Non AC
 
-        public List<LodgeConfigurationFacade.Room.Dto> RoomList { get; set; }
+        public List<LodgeConfFac.Room.Dto> RoomList { get; set; }
         public CustomerFacade.Dto Customer { get; set; }
 
         public String ArtifactPath { get; set; }
+
     }
+
 }

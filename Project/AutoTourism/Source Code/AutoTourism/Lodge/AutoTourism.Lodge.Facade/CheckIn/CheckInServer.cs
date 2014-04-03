@@ -1,27 +1,21 @@
-﻿
-using System;
-using System.Text;
+﻿using System;
 using System.Collections.Generic;
+using System.Transactions;
 
 using BinAff.Core;
 
 using CrystalLodge = Crystal.Lodge.Component;
 using CrystalCustomer = Crystal.Customer.Component;
-using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
+
+using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
 using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using LodgeFacade = AutoTourism.Lodge.Facade;
-using System.Transactions;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
+
     public class CheckInServer : BinAff.Facade.Library.Server, ICheckIn
     {
-        
-        public enum CheckInStatus
-        {
-            CheckIn = 10001,
-            CheckOut = 10002
-        }
 
         public CheckInServer(FormDto formDto)
             : base(formDto)
@@ -34,8 +28,8 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             FormDto formDto = this.FormDto as FormDto;
             formDto.roomList = this.ReadAllRoom().Value;
             formDto.configurationRuleDto = this.ReadConfigurationRule().Value;
-            formDto.CategoryList = new LodgeConfigurationFacade.Room.Server(null).ReadAllCategory().Value;
-            formDto.TypeList = new LodgeConfigurationFacade.Room.Server(null).ReadAllType().Value;           
+            formDto.CategoryList = new LodgeConfFac.Room.Server(null).ReadAllCategory().Value;
+            formDto.TypeList = new LodgeConfFac.Room.Server(null).ReadAllType().Value;           
         }
 
         private ReturnObject<RuleFacade.ConfigurationRuleDto> ReadConfigurationRule()
@@ -43,9 +37,9 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return new RuleFacade.RuleServer().ReadConfigurationRule();
         }
         
-        private ReturnObject<List<LodgeConfigurationFacade.Room.Dto>> ReadAllRoom()
+        private ReturnObject<List<LodgeConfFac.Room.Dto>> ReadAllRoom()
         {
-            return new LodgeConfigurationFacade.Room.Server(null).ReadAllRoom();
+            return new LodgeConfFac.Room.Server(null).ReadAllRoom();
         }
         
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
@@ -54,8 +48,8 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return new CrystalLodge.Room.CheckIn.Data
             {
                 Id = dto.Id,
-                Advance = checkIn.reservationDto.Advance,
-                Reservation = new RoomReservation.ReservationServer(null).Convert(checkIn.reservationDto) as CrystalLodge.Room.Reservation.Data,
+                Advance = checkIn.Reservation.Advance,
+                Reservation = new RoomReservation.ReservationServer(null).Convert(checkIn.Reservation) as CrystalLodge.Room.Reservation.Data,
                 ActivityDate = checkIn.Date,
                 Status = new CrystalCustomer.Action.Status.Data
                 {
@@ -72,9 +66,9 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 Id = data.Id,
                 Date = checkIn.ActivityDate,
-                statusId = (checkIn.Status == null || checkIn.Status.Id == 0 ) ? 0 : checkIn.Status.Id,
-                invoiceNumber = checkIn.invoiceNumber,
-                reservationDto = new RoomReservation.Dto 
+                StatusId = (checkIn.Status == null || checkIn.Status.Id == 0 ) ? 0 : checkIn.Status.Id,
+                InvoiceNumber = checkIn.invoiceNumber,
+                Reservation = new RoomReservation.Dto 
                 {
                     Id = reservation.Id,
                     NoOfDays = reservation.NoOfDays,
@@ -107,7 +101,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         {
             Dto checkInDto = (this.FormDto as FormDto).dto;
            
-            LodgeFacade.RoomReservation.Dto reservationDto = checkInDto.reservationDto;
+            LodgeFacade.RoomReservation.Dto reservationDto = checkInDto.Reservation;
 
             AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data()
             {
@@ -159,7 +153,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             //updating reservation
             LodgeFacade.RoomReservation.FormDto reservationFormDto = new LodgeFacade.RoomReservation.FormDto
             {
-                Dto = ((this.FormDto) as FormDto).dto.reservationDto
+                Dto = ((this.FormDto) as FormDto).dto.Reservation
             };
             new LodgeFacade.RoomReservation.ReservationServer(reservationFormDto).Change();
 
@@ -373,5 +367,13 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         {
             return this.ReadInvoice(invoiceNumber);
         }
+
+        public enum CheckInStatus
+        {
+            CheckIn = 10001,
+            CheckOut = 10002
+        }
+
     }
+
 }

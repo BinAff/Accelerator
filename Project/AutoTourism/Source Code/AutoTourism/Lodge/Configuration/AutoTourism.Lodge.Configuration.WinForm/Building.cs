@@ -491,6 +491,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             Open = 10001,
             Close = 10002
         }
+
     }
 
 }

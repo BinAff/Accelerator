@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using BinAff.Core;
 
@@ -80,6 +79,7 @@ namespace Crystal.Invoice.Component
                 Value = base.Read().Value as Data
             };
         }
+
     }
 
 }

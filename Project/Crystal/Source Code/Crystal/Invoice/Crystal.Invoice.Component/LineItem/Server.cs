@@ -1,8 +1,9 @@
-﻿
-namespace Crystal.Invoice.Component.LineItem
+﻿namespace Crystal.Invoice.Component.LineItem
 {
+
     public class Server : BinAff.Core.Observer.SubjectCrud
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -25,5 +26,7 @@ namespace Crystal.Invoice.Component.LineItem
         {
             return new Server((Data)data);
         }
+
     }
+
 }

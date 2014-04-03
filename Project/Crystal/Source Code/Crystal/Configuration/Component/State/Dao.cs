@@ -82,6 +82,7 @@ namespace Crystal.Configuration.Component.State
 
             return false;
         }
+
     }
 
 }

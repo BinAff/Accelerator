@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("BinAff.Facade.Cache")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Binary Affairs Global Cache for Facade")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("BinAff.Facade.Cache")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2013")]
+[assembly: AssemblyCompany("Binary Affairs")]
+[assembly: AssemblyProduct("BinAff Affairs : Cache Library")]
+[assembly: AssemblyCopyright("Copyright © Binary Affairs 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

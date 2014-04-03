@@ -4,8 +4,10 @@ using BinAff.Core;
 
 namespace Crystal.Invoice.Component.Navigator.Artifact
 {
+
     public class Server : CrystalNavigator.Artifact.Server
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -26,7 +28,6 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
                 Category = (this.Data as Data).Category
             };
         }
-
 
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
@@ -51,5 +52,7 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
 
             return base.DeleteAfter();
         }
+
     }
+
 }

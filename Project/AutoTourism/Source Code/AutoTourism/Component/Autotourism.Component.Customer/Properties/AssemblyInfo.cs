@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AutoTourism.Component.Customer")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("AutoTourism : Customer Component")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("AutoTourism.Component.Customer")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2013")]
+[assembly: AssemblyCompany("Binary Affairs")]
+[assembly: AssemblyProduct("AutoTourism")]
+[assembly: AssemblyCopyright("Copyright © Binary Affairs 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

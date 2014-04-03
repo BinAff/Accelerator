@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
@@ -10,10 +9,6 @@ using BinAff.Core;
 
 using FacadeRoom = AutoTourism.Lodge.Configuration.Facade.Room;
 using FacadeBuilding = AutoTourism.Lodge.Configuration.Facade.Building;
-using PresentationLibrary = BinAff.Presentation.Library;
-
-
-
 
 namespace AutoTourism.Lodge.Configuration.WinForm
 {

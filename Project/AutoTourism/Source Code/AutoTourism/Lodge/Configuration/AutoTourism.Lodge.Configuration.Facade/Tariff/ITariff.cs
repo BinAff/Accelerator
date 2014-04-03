@@ -1,11 +1,14 @@
-﻿using BinAff.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
+
+using BinAff.Core;
 
 namespace AutoTourism.Lodge.Configuration.Facade.Tariff
 {
+
     public interface ITariff
     {
+
         //ReturnObject<FormDto> LoadForm();
         //ReturnObject<Boolean> Add(Dto dto);
         //ReturnObject<Boolean> UpdateAndInsert(Dto dto);
@@ -13,5 +16,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
         ReturnObject<List<Dto>> ReadAllTariff();
         ReturnObject<List<Dto>> ReadAllCurrentTariff();
         ReturnObject<List<Dto>> ReadAllFutureTariff();
+
     }
+
 }

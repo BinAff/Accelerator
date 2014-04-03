@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Vanilla.Tool.Facade")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Vanilla : Tool Facade")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Vanilla.Tool.Facade")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
+[assembly: AssemblyCompany("Binary Affairs")]
+[assembly: AssemblyProduct("Vanilla")]
+[assembly: AssemblyCopyright("Copyright © Binary Affairs 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

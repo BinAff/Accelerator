@@ -1,7 +1,7 @@
-﻿
-using System;
+﻿using System;
 
 using BinAff.Core;
+
 using Lodge = Crystal.Lodge.Component;
 using Customer = Crystal.Customer.Component;
 
@@ -36,18 +36,15 @@ namespace AutoTourism.Component.Customer
 
         protected override void CreateChildren()
         {
-            base.CreateChildren();
-            
+            base.CreateChildren();            
             base.AddChild(new Lodge.Room.Reservation.Server((this.Data as Data).RoomReserver.Active as Lodge.Room.Reservation.Data)
             {
                 Type = ChildType.Independent,
             });
-
             base.AddChild(new Lodge.Room.CheckIn.Server((Lodge.Room.CheckIn.Data)(this.Data as Data).Checkin.Active)
             {
                 Type = ChildType.Independent,
             });
-
         }
 
         Crystal.Customer.Component.Data ICustomer.GetCustomerForReservation(long reservationId)

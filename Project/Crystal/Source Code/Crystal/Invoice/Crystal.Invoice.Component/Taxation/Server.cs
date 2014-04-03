@@ -1,8 +1,9 @@
-﻿
-namespace Crystal.Invoice.Component.Taxation
+﻿namespace Crystal.Invoice.Component.Taxation
 {
+
     public class Server : BinAff.Core.Observer.SubjectCrud
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -25,5 +26,7 @@ namespace Crystal.Invoice.Component.Taxation
         {
             return new Server((Data)data);
         }
+
     }
+
 }

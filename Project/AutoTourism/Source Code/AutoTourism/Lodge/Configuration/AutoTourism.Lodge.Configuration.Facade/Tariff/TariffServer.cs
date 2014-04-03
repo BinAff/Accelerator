@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+
 using BinAff.Core;
-using System;
 using BinAff.Utility;
 
 using CrystalLodge = Crystal.Lodge.Component;
 
 namespace AutoTourism.Lodge.Configuration.Facade.Tariff
 {
+
     public class TariffServer : BinAff.Facade.Library.Server, ITariff
     {
+
         public TariffServer(FormDto formDto)
             : base(formDto)
         {
@@ -84,17 +87,19 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
                     crud.Save();
 
                     ret.Value = true;
-                    ret.MessageList = new List<Message> { 
-                            new Message("Tariff added successfully.", Message.Type.Information)
-                        };
+                    ret.MessageList = new List<Message>
+                    { 
+                        new Message("Tariff added successfully.", Message.Type.Information)
+                    };
                 }
                 else
                 {
                     this.IsError = true;
                     ret.Value = false;
-                    ret.MessageList = new List<Message> { 
-                            new Message("Tariff conflicts for the period selected. Please update the existing tariff.", Message.Type.Error)
-                        };
+                    ret.MessageList = new List<Message> 
+                    { 
+                        new Message("Tariff conflicts for the period selected. Please update the existing tariff.", Message.Type.Error)
+                    };
                 }
             }
 
@@ -140,13 +145,14 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
             ReturnObject<List<BinAff.Core.Data>> lstData = iTariff.ReadAllCurrentTariff();
 
             if (lstData.HasError())
+            {
                 return new ReturnObject<List<Dto>>
                 {
                     MessageList = lstData.MessageList
                 };
+            }
 
             return GetTariff(lstData.Value);
-
         }
 
         private ReturnObject<List<Dto>> ReadAllFutureTariff()
@@ -155,13 +161,14 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
             ReturnObject<List<BinAff.Core.Data>> lstData = iTariff.ReadAllFutureTariff();
 
             if (lstData.HasError())
+            {
                 return new ReturnObject<List<Dto>>
                 {
                     MessageList = lstData.MessageList
                 };
+            }
 
             return GetTariff(lstData.Value);
-
         }
         
         private ReturnObject<List<Dto>> GetTariff(List<BinAff.Core.Data> TariffList)
@@ -246,5 +253,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
         {
             throw new NotImplementedException();
         }
+
     }
+
 }

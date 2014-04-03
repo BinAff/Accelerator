@@ -6,8 +6,10 @@ using BinAff.Utility;
 
 namespace Crystal.Invoice.Component.Taxation
 {
+
     public class Validator : BinAff.Core.Validator
     {
+
         public Validator(Data data)
             : base(data)
         {
@@ -37,5 +39,7 @@ namespace Crystal.Invoice.Component.Taxation
         {
             return new Dao(data).ReadDuplicate();
         }
+
     }
+
 }

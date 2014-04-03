@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Crystal.Guardian.Rule")]
-[assembly: AssemblyDescription("Crystal Framework: Guardian")]
+[assembly: AssemblyDescription("Crystal : Guardian Rule")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Binary Affairs")]
-[assembly: AssemblyProduct("Crystal Framework")]
+[assembly: AssemblyProduct("Crystal")]
 [assembly: AssemblyCopyright("Copyright © Binary Affairs 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

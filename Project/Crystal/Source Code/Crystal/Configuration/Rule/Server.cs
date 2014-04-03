@@ -1,8 +1,9 @@
-﻿
-namespace Crystal.Configuration.Rule
+﻿namespace Crystal.Configuration.Rule
 {
+
     public class Server : BinAff.Core.Crud 
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -25,5 +26,7 @@ namespace Crystal.Configuration.Rule
         {
             return new Server((Data)data);
         }
+
     }
+
 }

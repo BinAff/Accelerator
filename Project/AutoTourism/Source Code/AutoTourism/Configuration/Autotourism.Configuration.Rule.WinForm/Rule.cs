@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Windows.Forms;
 
+using BinAff.Core;
 using BinAff.Utility;
 
-using RuleFacade = AutoTourism.Configuration.Rule.Facade;
-using BinAff.Core;
+using AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Configuration.Rule.WinForm
 {
+
     public partial class Rule : Form
     {
+
         public Rule()
         {
             InitializeComponent();
-
             LoadForm();
             //Clear();
         }
@@ -22,8 +23,8 @@ namespace AutoTourism.Configuration.Rule.WinForm
         {
             cmbDateFormat.SelectedIndex = 0;
 
-            RuleFacade.IRule rule = new RuleFacade.RuleServer();
-            ReturnObject<RuleFacade.FormDto> ret = rule.LoadForm();
+            IRule rule = new RuleServer();
+            ReturnObject<FormDto> ret = rule.LoadForm();
 
             //Populate Customer rule
             if (ret.Value.RuleDto != null && ret.Value.RuleDto.CustomerRule != null)
@@ -65,7 +66,6 @@ namespace AutoTourism.Configuration.Rule.WinForm
         {
             
         }        
-
        
         private Boolean ValidateRule()
         {
@@ -95,8 +95,6 @@ namespace AutoTourism.Configuration.Rule.WinForm
                 txtLuxuryTax.Focus();
                 return false;
             }
-           
-
             return true;
         }
 
@@ -104,38 +102,38 @@ namespace AutoTourism.Configuration.Rule.WinForm
         {
             if (!ValidateRule()) return;
 
-            RuleFacade.Dto RuleDto = new RuleFacade.Dto()
+            Dto RuleDto = new Dto
             {
-                CustomerRule = new RuleFacade.CustomerRuleDto
+                CustomerRule = new CustomerRuleDto
                 {
                     IsPinNumber = this.chkIsPin.Checked,
                     IsAlternateContactNumber = this.chkIsAltContactNo.Checked,
                     IsEmail = this.chkIsEmail.Checked,
                     IsIdentityProof = this.chkIsIdProof.Checked
                 },
-                UserRule = new RuleFacade.UserRuleDto
+                UserRule = new UserRuleDto
                 {
                     DefaultUserPassword = this.txtPassword.Text.Trim()
                 },
-                TaxRule = new RuleFacade.TaxRuleDto
+                TaxRule = new TaxRuleDto
                 {
                     LuxuryTax = Convert.ToDouble(this.txtLuxuryTax.Text),
                     ServiceTax = Convert.ToDouble(this.txtServiceTax.Text),
                 },
-                ConfigurationRule = new RuleFacade.ConfigurationRuleDto
+                ConfigurationRule = new ConfigurationRuleDto
                 {
                     DateFormat = cmbDateFormat.SelectedItem.ToString()
                 }
             };
 
-            RuleFacade.IRule rule = new RuleFacade.RuleServer();
+            IRule rule = new RuleServer();
             ReturnObject<Boolean> retVal = rule.Save(RuleDto);
 
             MessageBox.Show("Rule data saved successfully.");
             //base.ShowMessage(rule.Save(RuleDto));//Show message  
             //this.Close();
         }
-
-     
+        
     }
+
 }

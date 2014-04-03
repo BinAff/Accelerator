@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Crystal.Activity.Component")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Crystal : Activity Component")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Crystal.Activity.Component")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2013")]
+[assembly: AssemblyCompany("Binary Affairs")]
+[assembly: AssemblyProduct("Crystal")]
+[assembly: AssemblyCopyright("Copyright © Binary Affairs 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

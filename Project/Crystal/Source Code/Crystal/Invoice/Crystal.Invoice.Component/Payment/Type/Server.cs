@@ -1,8 +1,9 @@
-﻿
-namespace Crystal.Invoice.Component.Payment.Type
+﻿namespace Crystal.Invoice.Component.Payment.Type
 {
+
     public class Server : BinAff.Core.Observer.SubjectCrud
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -25,5 +26,7 @@ namespace Crystal.Invoice.Component.Payment.Type
         {
             return new Server((Data)data);
         }
+
     }
+
 }

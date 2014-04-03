@@ -3,14 +3,15 @@ using System.Windows.Forms;
 
 using BinAff.Core;
 
-using CustomerFacade = AutoTourism.Customer.Facade;
+using CustFac = AutoTourism.Customer.Facade;
 
 namespace AutoTourism.Customer.WinForm
 {
+
     public partial class PersonalInformation : Form
     {
 
-        public CustomerFacade.Dto CurrentItem { get; private set; }
+        public CustFac.Dto CurrentItem { get; private set; }
 
         public PersonalInformation()
         {
@@ -25,8 +26,8 @@ namespace AutoTourism.Customer.WinForm
 
         private void LoadForm()
         {
-            //CustomerFacade.ICustomer customer = new CustomerFacade.CustomerServer();
-            //ReturnObject<CustomerFacade.FormDto> ret = customer.LoadCustomerRegisterForm();
+            //CustFac.ICustomer customer = new CustFac.CustomerServer();
+            //ReturnObject<CustFac.FormDto> ret = customer.LoadCustomerRegisterForm();
 
             //if (ret.Value.DtoList != null && ret.Value.DtoList.Count > 0)
             //{
@@ -36,8 +37,8 @@ namespace AutoTourism.Customer.WinForm
             //    this.cboCustomer.ValueMember = "Id";
             //    this.cboCustomer.SelectedIndex = -1;
             //}
-            CustomerFacade.FormDto formDto = new CustomerFacade.FormDto();
-            BinAff.Facade.Library.Server facade = new CustomerFacade.Server(formDto);
+            CustFac.FormDto formDto = new CustFac.FormDto();
+            BinAff.Facade.Library.Server facade = new CustFac.Server(formDto);
             facade.LoadForm();
             if (formDto.DtoList != null && formDto.DtoList.Count > 0)
             {
@@ -53,7 +54,7 @@ namespace AutoTourism.Customer.WinForm
         {
             if (cboCustomer.SelectedIndex != -1)
             {
-                CustomerFacade.Dto dto = (CustomerFacade.Dto)cboCustomer.SelectedItem;
+                CustFac.Dto dto = (CustFac.Dto)cboCustomer.SelectedItem;
                 this.CurrentItem = dto;
                 String Name = (dto.Initial == null ? String.Empty : dto.Initial.Name);
                 Name += (Name == String.Empty) ? (dto.FirstName == null ? String.Empty : dto.FirstName) : " " + (dto.FirstName == null ? String.Empty : dto.FirstName);
@@ -74,9 +75,7 @@ namespace AutoTourism.Customer.WinForm
                     lstContact.ValueMember = "Id";
                     lstContact.SelectedIndex = -1;
                 }
-
             }
-
         }
 
         private void Clear()
@@ -89,4 +88,5 @@ namespace AutoTourism.Customer.WinForm
         }
 
     }
+
 }
