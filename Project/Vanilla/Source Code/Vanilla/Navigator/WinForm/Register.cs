@@ -50,6 +50,15 @@ namespace Vanilla.Navigator.WinForm
         public delegate void ChangePath();
         public event ChangePath PathChanged;
 
+        public enum ReportCategory
+        {
+            Daily = 1,
+            Weekly = 2,
+            Monthly = 3,
+            Quarterly = 4,
+            Yearly = 5
+        }
+
         public Register()
         {
             InitializeComponent();
