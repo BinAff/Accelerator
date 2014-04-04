@@ -13,6 +13,12 @@ namespace Vanilla.Utility.Facade.Module
     {
         private Artifact.Category currentCategory;
 
+        public Artifact.Category Category
+        {
+            set { this.currentCategory = value; }
+            get { return this.currentCategory; }
+        }
+
         public Server(FormDto formDto)
             : base(formDto)
         {
@@ -51,12 +57,13 @@ namespace Vanilla.Utility.Facade.Module
             {
                 Id = data.Id,
                 Code = (data as Crystal.License.Component.Data).Code,
-                Name = (data as Crystal.License.Component.Data).Name,                
+                Name = (data as Crystal.License.Component.Data).Name,
             };
 
             dto.Artifact = this.GetTree(dto, this.currentCategory);//mistake
-            dto.ComponentFormType = new Helper(dto).ModuleFormType;
-             
+            //dto.ComponentFormType = new Helper(dto).ModuleFormType;
+            dto.ComponentFormType = new Helper(dto, this.currentCategory).ModuleFormType;
+
             return dto;
         }
 
@@ -73,7 +80,7 @@ namespace Vanilla.Utility.Facade.Module
         public Artifact.Dto GetTree(Dto module, Artifact.Category category)
         {
             Artifact.Server artifactServer = new Artifact.Server(null);
-            Helper helper = new Helper(module);
+            Helper helper = new Helper(module, category);
             artifactServer.ModuleFacade = helper.ModuleFacade;
             CrystalArtifact.Data artifactData = (helper.Artifact as CrystalArtifact.Server).Data as CrystalArtifact.Data;
             artifactData.Category = (CrystalArtifact.Category)category;
@@ -138,7 +145,10 @@ namespace Vanilla.Utility.Facade.Module
 
         public BinAff.Facade.Library.Dto InstantiateDto(Module.Dto dto)
         {
-            Type typeDto = Type.GetType(new Helper(dto).ModuleFormDtoType, true);
+            //if (this.currentCategory == null)
+            //    throw ;
+
+            Type typeDto = Type.GetType(new Helper(dto, this.currentCategory).ModuleFormDtoType, true);
             return Activator.CreateInstance(typeDto) as BinAff.Facade.Library.Dto;
         }
 
@@ -147,7 +157,7 @@ namespace Vanilla.Utility.Facade.Module
             Facade.Artifact.Dto currentArtifact = (this.FormDto as FormDto).CurrentArtifact.Dto;
             currentArtifact.Action = type;
 
-            Helper helper = new Helper((this.FormDto as FormDto).Dto);
+            Helper helper = new Helper((this.FormDto as FormDto).Dto, this.currentCategory);
 
             Artifact.Server artifactServer = new Artifact.Server((this.FormDto as FormDto).CurrentArtifact);
             artifactServer.ModuleComponentDataType = helper.ArtifactDataType + ", " + helper.ArtifacComponentAssembly;
@@ -177,17 +187,17 @@ namespace Vanilla.Utility.Facade.Module
                         moduleDto = dto;
                         break;
                     }
-                }            
+                }
             }
 
             return moduleDto;
         }
 
-        public String GetRootLevelModulePath(String moduleCode, List<Dto> moduleList,String documentType)
+        public String GetRootLevelModulePath(String moduleCode, List<Dto> moduleList, String documentType)
         {
             Dto dto = this.GetModule(moduleCode, moduleList);
-            String fileName = new Artifact.Server(null).GetArtifactName(dto.Artifact, Artifact.Type.Document, documentType);            
-            return dto.Artifact.Path + fileName ;
+            String fileName = new Artifact.Server(null).GetArtifactName(dto.Artifact, Artifact.Type.Document, documentType);
+            return dto.Artifact.Path + fileName;
         }
     }
 }

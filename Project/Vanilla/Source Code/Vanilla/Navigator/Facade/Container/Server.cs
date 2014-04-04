@@ -28,7 +28,7 @@ namespace Vanilla.Navigator.Facade.Container
         {
             this.LoadRule();
 
-            new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto).LoadForm();
+            new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto) { Category = Utility.Facade.Artifact.Category.Form }.LoadForm();
 
             this.GetCurrentModules(Vanilla.Utility.Facade.Artifact.Category.Form);
         }

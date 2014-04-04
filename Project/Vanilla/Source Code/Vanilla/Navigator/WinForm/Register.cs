@@ -17,7 +17,7 @@ namespace Vanilla.Navigator.WinForm
         
         private Facade.Register.FormDto formDto;
         private Facade.Register.Server facade;
-
+        
         private PresLib.ListViewColumnSorter lvwColumnSorter;
 
         private TreeNode editNode;
@@ -206,6 +206,58 @@ namespace Vanilla.Navigator.WinForm
             this.ShowAuditInfo(selectedNode);
         }
 
+        private void trvReport_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Select the clicked node
+            TreeView current = sender as TreeView;
+            current.SelectedNode = current.GetNodeAt(e.X, e.Y);
+
+            if (e.Button == MouseButtons.Right)
+            {
+                ToolStripMenuItem menuItem = cmsExplorer.Items[0] as ToolStripMenuItem;
+                //check whether right click is done on tree node
+                //Avoiding operations for the Modules
+                if (current.SelectedNode != null)
+                {
+                    this.ShowHideContextMenuItems(current.SelectedNode);
+                    this.cmsExplorer.Show(current, e.Location);
+                }
+            }
+        }
+
+        private void trvReport_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            //this.facade.LoadArtifacts(e.Node.Text);
+        }
+
+        private void trvReport_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            this.ucSearchResult.Hide();
+            this.lsvContainer.Show();
+            UtilFac.Artifact.Dto selectedNode = (sender as TreeView).SelectedNode.Tag.GetType().ToString() == "Vanilla.Utility.Facade.Module.Dto" ?
+                ((sender as TreeView).SelectedNode.Tag as UtilFac.Module.Dto).Artifact :
+                (sender as TreeView).SelectedNode.Tag as UtilFac.Artifact.Dto;
+            this.currentArtifact = selectedNode;
+            this.lsvContainer.AttachChildren(this.currentArtifact);
+            
+            this.txtAddress.Text = selectedNode.Path;
+            this.btnUp.Enabled = true;
+            if (this.addressList.Count == 0)
+            {
+                this.btnBack.Enabled = true;
+            }
+
+            if (this.addressList.Count == 0 || this.addressList[this.addressList.Count - 1] != selectedNode.Path)
+            {
+                this.addressList.Add(selectedNode.Path);
+            }
+            //this.formDto1.ModuleFormDto.Dto = this.FindRootNode((sender as TreeView).SelectedNode).Tag as Vanilla.Utility.Facade.Module.Dto;
+            this.formDto.ModuleFormDto.Dto = (sender as TreeView).FindRootNode().Tag as UtilFac.Module.Dto;
+            this.ShowAuditInfo(selectedNode);
+        }
+
+        
+
         #endregion
 
         private void PopulateNewArtifact(String fileName, UtilFac.Artifact.Type type, UtilFac.Artifact.Dto currentArtifact)
@@ -364,6 +416,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void lsvContainer_AfterLabelEdit(object sender, LabelEditEventArgs e)
         {
+            TreeView trv = this.GetActiveTreeView();
             (sender as ListView).LabelEdit = false;
 
             ListViewItem selectedItem = (sender as ListView).FocusedItem;
@@ -412,19 +465,10 @@ namespace Vanilla.Navigator.WinForm
                 }
             }
 
-            TreeNode selectedNode = this.trvForm.FindNode(selectedArtifact.Style == Vanilla.Utility.Facade.Artifact.Type.Document ?
+            TreeNode selectedNode = trv.FindNode(selectedArtifact.Style == Vanilla.Utility.Facade.Artifact.Type.Document ?
                 this.currentArtifact :
                 selectedArtifact);
-
-            //TreeNode selectedNode = null;
-            //if (selectedItemArtifactDto.Style == Vanilla.Utility.Facade.Artifact.Type.Document)
-            //{
-            //    selectedNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, selectedNode);
-            //}
-            //else
-            //{
-            //    selectedNode = this.FindTreeNodeFromTag(selectedItemArtifactDto, this.trvForm.Nodes, selectedNode);
-            //}
+         
 
             //Update TreeNode Text
             if ((selectedArtifact.Style == Vanilla.Utility.Facade.Artifact.Type.Directory) && (defaultFileName != artifactFileName))
@@ -839,7 +883,22 @@ namespace Vanilla.Navigator.WinForm
             //starting from 2nd item, since the 1st item directory will always be visible
             for (int i = 1; i < newItems.Count; i++)
             {
-                newItems[i].Visible = newItems[i].Text == tbcCategory.SelectedTab.Text;
+                switch (tbcCategory.SelectedTab.Text)
+                {
+                    case "Form":
+                        newItems[i].Visible = newItems[i].Text == tbcCategory.SelectedTab.Text;
+                        break;
+                    case "Report":
+                        newItems[i].Visible = (newItems[i].Text == "Catalogue" || newItems[i].Text == "Form") ? false : true;
+                        break;
+                    case "Catalogue":
+                        newItems[i].Visible = newItems[i].Text == tbcCategory.SelectedTab.Text;
+                        break;
+                    default:
+                        newItems[i].Visible = false;
+                        break;
+                } 
+           
             }
         }
 
@@ -1329,7 +1388,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void cmnuForm_Click(object sender, EventArgs e)
         {
-            this.AddDocument();
+            this.AddDocument(null);
         }
 
         #endregion
@@ -1473,32 +1532,38 @@ namespace Vanilla.Navigator.WinForm
             this.AddArtifact(Vanilla.Utility.Facade.Artifact.Type.Directory, null);
         }
 
-        private void AddDocument()
+        private void AddDocument(Type typ)
         {
+            TreeView trv = this.GetActiveTreeView();
+            Vanilla.Utility.Facade.Artifact.Category category = this.GetActiveCategory();
             TreeNode selectedNode = null;
 
             if ((this.menuClickSource == MenuClickSource.ListView) && (this.currentArtifact != null))
             {
-                //selectedNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, selectedNode);
-                selectedNode = this.trvForm.FindNode(this.currentArtifact);
+                selectedNode = trv.FindNode(this.currentArtifact);
             }
             else if (this.menuClickSource == MenuClickSource.TreeView)
             {
-                selectedNode = this.trvForm.SelectedNode;
+                selectedNode = trv.SelectedNode;
             }
 
             if (selectedNode != null)
             {
-                //TreeNode rootNode = this.FindRootNode((this.trvForm.SelectedNode as TreeNode));
-                TreeNode rootNode = this.trvForm.FindRootNode();
+                TreeNode rootNode = trv.FindRootNode();
+                
+
                 //Show Dialogue to capture module data
-                BinAff.Facade.Library.Dto moduleFormDto = new Vanilla.Utility.Facade.Module.Server(null).InstantiateDto(rootNode.Tag as Vanilla.Utility.Facade.Module.Dto);
+                BinAff.Facade.Library.Dto moduleFormDto = new Vanilla.Utility.Facade.Module.Server(null) { Category = category }.InstantiateDto(rootNode.Tag as Vanilla.Utility.Facade.Module.Dto);
+
+                (rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType = "Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm";
                 Type type = Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true);
+
+                //Type type = typ == null ? Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true) : typ;
 
                 String fileName = this.GetDirectoryName(selectedNode, UtilFac.Artifact.Type.Document);
                 moduleFormDto.artifactPath = this.currentArtifact.Path + fileName;
                 moduleFormDto.fileName = fileName;
-                moduleFormDto.trvForm = this.trvForm;
+                moduleFormDto.trvForm = trv;
 
                 Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
                 form.ShowDialog(this);
@@ -1513,25 +1578,26 @@ namespace Vanilla.Navigator.WinForm
         
         private void SaveArtifact(Vanilla.Utility.Facade.Artifact.Dto artifactDto, String fileName, Boolean isModify)
         {
+            TreeView trv = this.GetActiveTreeView();
+            Vanilla.Utility.Facade.Artifact.Category category = this.GetActiveCategory();
+
             this.formDto.ModuleFormDto.CurrentArtifact = new Vanilla.Utility.Facade.Artifact.FormDto
             {
                 Dto = artifactDto,
             };
 
             this.PopulateNewArtifact(fileName, artifactDto.Style, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
-            this.facade = new Facade.Register.Server(this.formDto);
+            this.facade = new Facade.Register.Server(this.formDto) { Category = category };
 
             TreeNode parentNode = null;
             if (artifactDto.Style == Vanilla.Utility.Facade.Artifact.Type.Document)
-            {
-                //parentNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, parentNode);
-                parentNode = this.trvForm.FindNode(this.currentArtifact);
+            {                
+                parentNode = trv.FindNode(this.currentArtifact);
             }
             else
             {
-                TreeNode selectedNode = null;
-                //selectedNode = this.FindTreeNodeFromTag(artifactDto, this.trvForm.Nodes, selectedNode);
-                selectedNode = this.trvForm.FindNode(artifactDto);
+                TreeNode selectedNode = null;                
+                selectedNode = trv.FindNode(artifactDto);
                 parentNode = selectedNode != null ? selectedNode.Parent : null;
             }
 
@@ -1585,12 +1651,12 @@ namespace Vanilla.Navigator.WinForm
 
         private void AddArtifact(Vanilla.Utility.Facade.Artifact.Type type, BinAff.Facade.Library.Dto moduleFormDto)
         {
+            TreeView trv = this.GetActiveTreeView();
             TreeNode selectedNode = null;
 
             if ((this.menuClickSource.ToString() == MenuClickSource.ListView.ToString()) && (this.currentArtifact != null))
-            {
-                //selectedNode = this.FindTreeNodeFromTag(this.currentArtifact, this.trvForm.Nodes, selectedNode);
-                selectedNode = this.trvForm.FindNode(this.currentArtifact);
+            {                
+                selectedNode = trv.FindNode(this.currentArtifact);
             }
             else if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
             {
@@ -1629,13 +1695,7 @@ namespace Vanilla.Navigator.WinForm
 
                 this.AttachNodes(selectedNode.Tag as BinAff.Facade.Library.Dto, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
                 if (type.ToString() == Vanilla.Utility.Facade.Artifact.Type.Directory.ToString())
-                    selectedNode.Nodes.Add(newNode);
-
-                ////Adding items to listView for the selected node
-                //if (selectedNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
-                //    this.SelectNode((selectedNode.Tag as Vanilla.Utility.Facade.Module.Dto).Artifact);
-                //else
-                //    this.SelectNode(selectedNode.Tag as Vanilla.Utility.Facade.Artifact.Dto);
+                    selectedNode.Nodes.Add(newNode);               
 
                 this.currentArtifact = selectedNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto" ?
                     (selectedNode.Tag as UtilFac.Module.Dto).Artifact :
@@ -1644,10 +1704,10 @@ namespace Vanilla.Navigator.WinForm
 
                 if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
                 {
-                    this.trvForm.LabelEdit = true;
+                    trv.LabelEdit = true;
 
                     newNode.Parent.Expand();
-                    this.trvForm.SelectedNode = null;
+                    trv.SelectedNode = null;
                     newNode.BeginEdit();
                 }
                 else
@@ -1722,10 +1782,7 @@ namespace Vanilla.Navigator.WinForm
 
         }
 
-        private void trvReport_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-
-        }
+       
 
         private void Modification_Click(object sender, EventArgs e)
         {
@@ -1742,9 +1799,50 @@ namespace Vanilla.Navigator.WinForm
 
         }
 
-        private void cmnuReport_Click(object sender, EventArgs e)
-        {
+        //private void cmnuReport_Click(object sender, EventArgs e)
+        //{
 
+        //}
+
+        private TreeView GetActiveTreeView()
+        {
+            TreeView trv = new TreeView();
+            switch (this.tbcCategory.SelectedTab.Text)
+            {
+                case "Form":
+                    trv = this.trvForm;
+                    break;
+                case "Catalogue":
+                    trv = this.trvCatalogue;
+                    break;
+                case "Report":
+                    trv = this.trvReport;
+                    break;
+                default:
+                    break;
+            }
+            return trv;
+        }
+
+        private Vanilla.Utility.Facade.Artifact.Category GetActiveCategory()
+        {
+            Vanilla.Utility.Facade.Artifact.Category category = Vanilla.Utility.Facade.Artifact.Category.Form;
+            switch (this.tbcCategory.SelectedTab.Text)
+            {
+                case "Form":
+                    category = Vanilla.Utility.Facade.Artifact.Category.Form;
+                    break;
+                case "Catalogue":
+                    category = Vanilla.Utility.Facade.Artifact.Category.Catalogue;
+                    break;
+                case "Report":
+                    category = Vanilla.Utility.Facade.Artifact.Category.Report;
+                    break;
+                default:
+                    break;
+            }
+            return category;
+        
         }
 
         #region Need to Remove
@@ -1878,6 +1976,22 @@ namespace Vanilla.Navigator.WinForm
         {
             internal UtilFac.Artifact.Category Category { get; set; }
             internal Boolean IsAlreadyLoaded { get; set; }
+        }
+
+        private void cmnuDailyReport_Click(object sender, EventArgs e)
+        {
+            Type type = Type.GetType("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm", true);
+            this.AddDocument(type);
+        }
+
+        private void cmnuWeeklyReport_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmnuMonthlyReport_Click(object sender, EventArgs e)
+        {
+
         }
         
     }
