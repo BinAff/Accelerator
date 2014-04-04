@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Linq;
 
 using BinAff.Core;
 using BinAff.Presentation.Library.Extension;
@@ -19,19 +20,34 @@ namespace Vanilla.Tool.WinForm
             InitializeComponent();
         }
 
+        public Appointment(Facade.Diary.Appointment.FormDto formDto)
+            : this()
+        {
+            this.formDto = formDto;
+        }
+
         private void Appointment_Load(object sender, EventArgs e)
         {
-            this.formDto = new Facade.Diary.Appointment.FormDto
-            {
-                Dto = new Facade.Diary.Appointment.Dto(),
-                TypeList = new List<Table>(),
-            };
             this.LoadForm();
-            this.Clear();
         }
 
         private void LoadForm()
         {
+            Boolean isPopulationOfDataRequired = false;
+            if (this.formDto == null)
+            {
+                this.formDto = new Facade.Diary.Appointment.FormDto
+                {
+                    TypeList = new List<Table>(),
+                };
+            }
+            else
+            {
+                if (this.formDto.Dto != null)
+                {
+                    isPopulationOfDataRequired = true;
+                }                
+            }
             new Facade.Diary.Appointment.Server(this.formDto).LoadForm();
 
             this.cboType.DisplayMember = "Name";
@@ -39,6 +55,44 @@ namespace Vanilla.Tool.WinForm
 
             this.cboImportance.DisplayMember = "Name";
             this.cboImportance.Bind(this.formDto.ImportanceList);
+            if (isPopulationOfDataRequired)
+            {
+                this.PopulateForm();
+            }
+            else
+            {
+                this.Clear();
+            }
+        }
+
+        private void PopulateForm()
+        {
+            this.txtTitle.Text = this.formDto.Dto.Title;
+            if (this.formDto.Dto.Type != null)
+            {
+                this.cboType.SelectedIndex = this.cboType.FindStringExact(this.formDto.Dto.Type.Name);
+            }
+            this.txtDescription.Text = this.formDto.Dto.Description;
+            this.txtLocation.Text = this.formDto.Dto.Location;
+            this.SetDate(this.formDto.Dto.Start, this.dtpStart, this.cboStartTime);
+            this.SetDate(this.formDto.Dto.End, this.dtpEnd, this.cboEndTime);
+
+            if (this.formDto.Dto.Importance != null)
+            {
+                this.cboImportance.SelectedIndex = this.cboImportance.FindStringExact(this.formDto.Dto.Importance.Name);
+            }
+
+            if(this.formDto.Dto.Reminder == null)
+            {
+                this.dtpReminder.Value = DateTime.Today;
+                this.cboReminderTime.SelectedIndex = -1;
+            }
+            else
+            {
+                this.SetDate((DateTime)this.formDto.Dto.Reminder, this.dtpReminder, this.cboReminderTime);
+                //this.dtpReminder.Value = (DateTime)this.formDto.Dto.Reminder;
+                //this.cboReminderTime.SelectedIndex = this.cboReminderTime.FindStringExact(((DateTime)this.formDto.Dto.Reminder).ToShortTimeString());
+            }   
         }
 
         private void Clear()
@@ -57,7 +111,7 @@ namespace Vanilla.Tool.WinForm
         {
             if (this.ValidateForm())
             {
-                if (this.formDto.Dto != null) this.formDto.Dto = new Facade.Diary.Appointment.Dto();
+                if (this.formDto.Dto == null) this.formDto.Dto = new Facade.Diary.Appointment.Dto();
                 this.formDto.Dto.Title = this.txtTitle.Text.Trim();
                 this.formDto.Dto.Start = this.GetDate(this.dtpStart.Value, this.cboStartTime.Text);
                 this.formDto.Dto.End = this.GetDate(this.dtpEnd.Value, this.cboEndTime.Text);
@@ -90,10 +144,16 @@ namespace Vanilla.Tool.WinForm
         private DateTime GetDate(DateTime date, String time)
         {
             return new DateTime(date.Year, date.Month, date.Day,
-                Convert.ToInt32(time.Split(':')[0])  + Convert.ToInt32(String.Compare(time.Split(':')[1].Split(' ')[1], "PM") == 0 ? 12 : 0),
+                Convert.ToInt32(time.Split(':')[0]) + Convert.ToInt32(String.Compare(time.Split(':')[1].Split(' ')[1], "PM") == 0 ? 12 : 0),
                 Convert.ToInt32(time.Split(':')[1].Split(' ')[0]),
                 0);
         }
+
+        private void SetDate(DateTime dateTime, DateTimePicker dtp, ComboBox time)
+        {
+            dtp.Value = dateTime;
+            time.SelectedIndex = time.FindStringExact(dateTime.ToString("h:mm tt"));
+        }        
 
         private Boolean ValidateForm()
         {
@@ -150,7 +210,7 @@ namespace Vanilla.Tool.WinForm
                 this.dtpReminder.Focus();
                 return false;
             }
-            
+
             return true;
         }
 

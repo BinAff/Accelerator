@@ -10,6 +10,7 @@ namespace Vanilla.Tool.Facade.Diary.Calender
     {
 
         public String Time { get; set; }
+        public String Message { get; set; }
         public List<Appointment.Dto> AppointmentList { get; set; }
 
     }

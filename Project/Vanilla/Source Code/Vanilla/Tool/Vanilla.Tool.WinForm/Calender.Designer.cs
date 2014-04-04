@@ -44,6 +44,7 @@
             this.dgvAppointmentList.Name = "dgvAppointmentList";
             this.dgvAppointmentList.Size = new System.Drawing.Size(878, 460);
             this.dgvAppointmentList.TabIndex = 0;
+            this.dgvAppointmentList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointmentList_CellDoubleClick);
             this.dgvAppointmentList.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvAppointmentList_CellFormatting);
             // 
             // dtpDate

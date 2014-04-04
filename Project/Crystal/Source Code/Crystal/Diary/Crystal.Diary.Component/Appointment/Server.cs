@@ -57,6 +57,13 @@ namespace Crystal.Diary.Component.Appointment
                     new BinAff.Core.Message("Cannot find any data.", BinAff.Core.Message.Type.Information)
                 };
             }
+            else
+            {
+                foreach (Data data in ret.Value)
+                {
+                    (this.CreateInstance(data) as BinAff.Core.ICrud).Read();
+                }
+            }
 
             return ret;
         }
