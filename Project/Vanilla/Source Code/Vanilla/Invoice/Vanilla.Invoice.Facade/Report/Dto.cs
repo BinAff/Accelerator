@@ -7,5 +7,7 @@ namespace Vanilla.Invoice.Facade.Report
         public DateTime date { get; set; }
         public DateTime fromDate { get; set; }
         public DateTime toDate { get; set; }
+
+        public Vanilla.Report.Facade.Category.Dto category { get; set; }
     }
 }
