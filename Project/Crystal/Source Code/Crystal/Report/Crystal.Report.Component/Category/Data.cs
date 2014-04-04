@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Crystal.Report.Component.Category
 {
-    class Data
+    public class Data : BinAff.Core.Data
     {
+        public String extension { get; set; }
+        public String name { get; set; }
     }
 }

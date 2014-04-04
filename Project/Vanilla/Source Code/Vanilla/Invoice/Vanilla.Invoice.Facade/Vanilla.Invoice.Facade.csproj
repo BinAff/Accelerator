@@ -80,6 +80,10 @@
       <Project>{CD06572D-594D-4B5C-A786-41CF7AAA74D8}</Project>
       <Name>Crystal.Report.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Report\Vanilla.Report.Facade\Vanilla.Report.Facade.csproj">
+      <Project>{B5E1E4CB-76A8-479E-940B-CC8B99BA86FE}</Project>
+      <Name>Vanilla.Report.Facade</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
       <Project>{A10719AF-5C9F-4903-AB83-089EC502EEA2}</Project>
       <Name>Vanilla.Utility.Facade</Name>

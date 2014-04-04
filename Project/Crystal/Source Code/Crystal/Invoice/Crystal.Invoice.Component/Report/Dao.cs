@@ -24,6 +24,7 @@ namespace Crystal.Invoice.Component.Report
         {   
             base.AddInParameter("@From", DbType.DateTime, ((Data)this.Data).FromDate);
             base.AddInParameter("@To", DbType.DateTime, ((Data)this.Data).ToDate);
+
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
@@ -37,7 +38,9 @@ namespace Crystal.Invoice.Component.Report
                 dt.Id = data.Id;
                 dt.FromDate = Convert.IsDBNull(row["Start"]) ? DateTime.MinValue : Convert.ToDateTime(row["Start"]);
                 dt.ToDate = Convert.IsDBNull(row["End"]) ? DateTime.MinValue : Convert.ToDateTime(row["End"]);
+                dt.category = Convert.IsDBNull(row["ReportCategoryId"]) ? null : new Crystal.Report.Component.Category.Data { Id = Convert.ToInt64(row["ReportCategoryId"]) };
             }
+
             return dt;
         }
 
