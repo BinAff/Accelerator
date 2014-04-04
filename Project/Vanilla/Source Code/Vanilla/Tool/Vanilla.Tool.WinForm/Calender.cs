@@ -22,13 +22,14 @@ namespace Vanilla.Tool.WinForm
                 AppointmentList = new List<Facade.Diary.Calender.Dto>()
             };
             this.dgvAppointmentList.ColumnAdded += dgvAppointmentList_ColumnAdded;
+            this.RefreshGrid();
         }
 
         void dgvAppointmentList_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
             if (e.Column.Name == "Message")
             {
-                e.Column.Width = this.dgvAppointmentList.Width - 150;
+                e.Column.Width = this.dgvAppointmentList.Width - 160;
             }
         }
 
@@ -46,7 +47,7 @@ namespace Vanilla.Tool.WinForm
         {
             if (e.ColumnIndex == 1 && !String.IsNullOrEmpty(Convert.ToString(e.Value)) )
             {
-                e.CellStyle.BackColor = System.Drawing.Color.Gray;
+                e.CellStyle.BackColor = System.Drawing.Color.LightGray;
             }
         }
 

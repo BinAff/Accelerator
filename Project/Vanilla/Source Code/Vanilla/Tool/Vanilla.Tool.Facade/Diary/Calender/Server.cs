@@ -37,7 +37,7 @@ namespace Vanilla.Tool.Facade.Diary.Calender
                 foreach (CrysApp.Data app in calData.AppointmentList)
                 {
                     Appointment.Dto appointment = new Appointment.Server(null).Convert(app) as Appointment.Dto;
-                    dto.Message += appointment.Description + Environment.NewLine;
+                    dto.Message += String.Format("{0}(up to {1}) : {2}", appointment.Title, appointment.End.ToString("hh:mm tt"), appointment.Description) + Environment.NewLine;
                     dto.AppointmentList.Add(appointment);
                 }
             }

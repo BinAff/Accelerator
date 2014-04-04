@@ -81,13 +81,14 @@
             this.ClientSize = new System.Drawing.Size(878, 504);
             this.Controls.Add(this.dgvAppointmentList);
             this.Controls.Add(this.pnlTop);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Calender";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Calender";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Calender_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppointmentList)).EndInit();
             this.pnlTop.ResumeLayout(false);
