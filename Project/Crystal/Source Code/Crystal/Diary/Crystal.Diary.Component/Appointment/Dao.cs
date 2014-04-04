@@ -36,7 +36,10 @@ namespace Crystal.Diary.Component.Appointment
             base.AddInParameter("@End", DbType.DateTime, data.End);
             base.AddInParameter("@Location", DbType.String, data.Location);
             base.AddInParameter("@Description", DbType.String, data.Description);
-            base.AddInParameter("@ImportanceId", DbType.Int64, data.Importance.Id);
+            if (data.Importance != null)
+            {
+                base.AddInParameter("@ImportanceId", DbType.Int64, data.Importance.Id);
+            }
             base.AddInParameter("@Reminder", DbType.DateTime, data.Reminder);
         }
 
@@ -50,9 +53,10 @@ namespace Crystal.Diary.Component.Appointment
                 dt.Id = data.Id;
                 if(!Convert.IsDBNull(row["ActorId"]))
                 {
-                    System.Type type = (data as Data).Actor.GetType();
-                    dt.Actor = Activator.CreateInstance(type) as BinAff.Core.Data;
-                    type.GetProperty("Id").SetValue(dt.Actor, Convert.ToInt64(row["ActorId"]), null);
+                    dt.Actor = new BinAff.Core.Data
+                    {
+                        Id = Convert.ToInt64(row["ActorId"]),
+                    };
                 }
                 dt.Title = Convert.IsDBNull(row["Title"]) ? String.Empty : Convert.ToString(row["Title"]);
                 dt.Type = new Type.Data
@@ -104,9 +108,6 @@ namespace Crystal.Diary.Component.Appointment
                         {
                             Id = Convert.ToInt64(row["ActorId"]),
                         };
-                        //System.Type type = (dt as Data).Actor.GetType();
-                        //dt.Actor = Activator.CreateInstance(type) as BinAff.Core.Data;
-                        //type.GetProperty("Id").SetValue(dt.Actor, Convert.ToInt64(row["ActorId"]), null);
                     }
                     if (!Convert.IsDBNull(row["ImportanceId"]))
                     {
