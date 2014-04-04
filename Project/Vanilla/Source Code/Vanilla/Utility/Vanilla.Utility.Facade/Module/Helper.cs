@@ -9,10 +9,15 @@ namespace Vanilla.Utility.Facade.Module
     {
 
         Module.Dto moduleDef;
-        public Helper(Module.Dto moduleDef)
+        public Helper(Module.Dto moduleDef, Artifact.Category artifactCategory)
         {
             this.moduleDef = moduleDef;
-            this.GetObjects();
+            //if (artifactCategory == Facade.Artifact.Category.Form)
+            //    this.GetObjects();
+            if (artifactCategory == Facade.Artifact.Category.Report)
+                this.GetObjectsForReport();
+            else
+                this.GetObjects();
         }
 
         public CrystalArtifact.IArtifact Artifact
@@ -159,6 +164,74 @@ namespace Vanilla.Utility.Facade.Module
                     //    ModuleData = this.Convert(module),
                     //} as AutotourismCustomerArtifact.Data);
                     //helper.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
+                    break;
+            }
+            return this;
+        }
+
+        internal Helper GetObjectsForReport()
+        {
+            switch (this.moduleDef.Code)
+            {
+                case "CUST":
+                    this.ModuleFormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
+                    this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Dto, AutoTourism.Customer.Facade";
+                    this.ArtifacComponentAssembly = "AutoTourism.Component.Customer";
+                    this.ArtifactDataType = "AutoTourism.Component.Customer.Navigator.Artifact.Data";
+                    this.ArtifacComponentType = "AutoTourism.Component.Customer.Navigator.Artifact.Server";
+                    this.ModuleDataType = "AutoTourism.Component.Customer.Data, AutoTourism.Component.Customer";
+
+                    Type typeCustomerServer = Type.GetType("AutoTourism.Customer.Facade.Server,AutoTourism.Customer.Facade", true);
+                    Type typeCustomerDto = Type.GetType("AutoTourism.Customer.Facade.FormDto,AutoTourism.Customer.Facade", true);
+                    BinAff.Facade.Library.FormDto customerDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeCustomerDto);
+                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeCustomerServer, customerDto);
+
+
+                    break;
+
+                case "LRSV"://Need to change
+                    this.ModuleFormType = "AutoTourism.Lodge.WinForm.RoomReservationForm, AutoTourism.Lodge.WinForm";
+                    this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.RoomReservation.Dto, AutoTourism.Lodge.Facade";
+                    this.ArtifacComponentAssembly = "Crystal.Lodge.Component";
+                    this.ArtifactDataType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data";
+                    this.ArtifacComponentType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Lodge.Component.Room.Reservation.Data, Crystal.Lodge.Component";
+
+                    Type typeReservationServer = Type.GetType("AutoTourism.Lodge.Facade.RoomReservation.ReservationServer,AutoTourism.Lodge.Facade", true);
+                    Type typeReservationDto = Type.GetType("AutoTourism.Lodge.Facade.RoomReservation.FormDto,AutoTourism.Lodge.Facade", true);
+                    BinAff.Facade.Library.FormDto reservationDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeReservationDto);
+                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeReservationServer, reservationDto);
+
+                    break;
+
+                case "LCHK"://Need to change
+                    this.ModuleFormType = "AutoTourism.Lodge.WinForm.CheckInForm, AutoTourism.Lodge.WinForm";
+                    this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.CheckIn.Dto, AutoTourism.Lodge.Facade";
+                    this.ArtifacComponentAssembly = "Crystal.Lodge.Component";
+                    this.ArtifactDataType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data";
+                    this.ArtifacComponentType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Lodge.Component.Room.CheckIn.Data, Crystal.Lodge.Component";
+
+                    Type typeCheckInServer = Type.GetType("AutoTourism.Lodge.Facade.CheckIn.CheckInServer,AutoTourism.Lodge.Facade", true);
+                    Type typeCheckInDto = Type.GetType("AutoTourism.Lodge.Facade.CheckIn.FormDto,AutoTourism.Lodge.Facade", true);
+                    BinAff.Facade.Library.FormDto checkInDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeCheckInDto);
+                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeCheckInServer, checkInDto);
+                    break;
+
+                case "INVO":
+                    //this.ModuleFormType = "Vanilla.Invoice.WinForm.Invoice, Vanilla.Invoice.WinForm";
+                    this.ModuleFormDtoType = "Vanilla.Invoice.Facade.Report.Dto, Vanilla.Invoice.Facade";
+                    this.ArtifacComponentAssembly = "Crystal.Invoice.Component";
+                    this.ArtifactDataType = "Crystal.Invoice.Component.Report.Navigator.Artifact.Data";
+                    this.ArtifacComponentType = "Crystal.Invoice.Component.Report.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Invoice.Component.Report.Data, Crystal.Invoice.Component";
+
+                    Type typeInvoiceReportServer = Type.GetType("Vanilla.Invoice.Facade.Report.Server,Vanilla.Invoice.Facade", true);
+                    Type typeInvoiceReportDto = Type.GetType("Vanilla.Invoice.Facade.Report.FormDto,Vanilla.Invoice.Facade", true);
+                    BinAff.Facade.Library.FormDto invoiceReportDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeInvoiceReportDto);
+                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeInvoiceReportServer, invoiceReportDto);
+                    break;
+                default:                  
                     break;
             }
             return this;

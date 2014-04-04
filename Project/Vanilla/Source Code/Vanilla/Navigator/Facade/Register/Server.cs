@@ -11,6 +11,13 @@ namespace Vanilla.Navigator.Facade.Register
 
     public class Server : BinAff.Facade.Library.Server
     {
+        private Vanilla.Utility.Facade.Artifact.Category currentCategory;
+
+        public Vanilla.Utility.Facade.Artifact.Category Category
+        {
+            set { this.currentCategory = value; }
+            get { return this.currentCategory; }
+        }
 
         public Server(FormDto formDto)
             : base(formDto)
@@ -27,7 +34,7 @@ namespace Vanilla.Navigator.Facade.Register
         {
             this.LoadRule();
 
-            new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto).LoadForm();
+            new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto) { Category = this.currentCategory }.LoadForm();
 
             this.GetCurrentModules(Vanilla.Utility.Facade.Artifact.Category.Form);
         }
@@ -64,7 +71,7 @@ namespace Vanilla.Navigator.Facade.Register
 
         public override void Add()
         {
-            UtilFac.Module.Server moduleFacade = new UtilFac.Module.Server((this.FormDto as FormDto).ModuleFormDto);
+            UtilFac.Module.Server moduleFacade = new UtilFac.Module.Server((this.FormDto as FormDto).ModuleFormDto) { Category = this.currentCategory };
             moduleFacade.Add();
             this.DisplayMessageList = moduleFacade.DisplayMessageList;
             this.IsError = moduleFacade.IsError;
@@ -72,7 +79,7 @@ namespace Vanilla.Navigator.Facade.Register
 
         public override void Change()
         {
-            UtilFac.Module.Server moduleFacade = new UtilFac.Module.Server((this.FormDto as FormDto).ModuleFormDto);
+            UtilFac.Module.Server moduleFacade = new UtilFac.Module.Server((this.FormDto as FormDto).ModuleFormDto) { Category = this.currentCategory };
             moduleFacade.Change();
             this.DisplayMessageList = moduleFacade.DisplayMessageList;
             this.IsError = moduleFacade.IsError;
