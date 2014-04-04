@@ -153,6 +153,7 @@
             this.lblLoading = new System.Windows.Forms.Label();
             this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
             this.ucRegister = new Vanilla.Navigator.WinForm.Register();
+            this.pnlCalender = new System.Windows.Forms.Panel();
             this.cmsExplorer.SuspendLayout();
             this.mnuMain.SuspendLayout();
             this.pnlTool.SuspendLayout();
@@ -1178,11 +1179,19 @@
             this.ucRegister.TabIndex = 13;
             this.ucRegister.Visible = false;
             // 
+            // pnlCalender
+            // 
+            this.pnlCalender.Location = new System.Drawing.Point(401, 238);
+            this.pnlCalender.Name = "pnlCalender";
+            this.pnlCalender.Size = new System.Drawing.Size(55, 46);
+            this.pnlCalender.TabIndex = 16;
+            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(827, 394);
+            this.Controls.Add(this.pnlCalender);
             this.Controls.Add(this.lblLoading);
             this.Controls.Add(this.ucConfiguration);
             this.Controls.Add(this.pnlNote);
@@ -1333,6 +1342,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuTile;
         private System.Windows.Forms.Panel pnlMenuContainer;
         private System.Windows.Forms.Label lblLoading;
+        private System.Windows.Forms.Panel pnlCalender;
 
     }
 }

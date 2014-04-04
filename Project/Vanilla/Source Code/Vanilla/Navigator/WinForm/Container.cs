@@ -90,6 +90,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void DockContainers()
         {
+            this.pnlCalender.Dock = DockStyle.Fill;
             this.pnlNote.Dock = DockStyle.Fill;
             this.ucConfiguration.Dock = DockStyle.Fill;
             this.ucRegister.Dock = DockStyle.Fill;
@@ -534,6 +535,7 @@ namespace Vanilla.Navigator.WinForm
             this.ucRegister.Hide();
             this.pnlNote.Hide();
             this.ucConfiguration.Hide();
+            this.pnlCalender.Hide();
 
             this.mnuLogin.Visible = true;
             this.mnuLogOut.Visible = false;
@@ -672,12 +674,14 @@ namespace Vanilla.Navigator.WinForm
             this.ucRegister.Show();
             this.ucConfiguration.Hide();
             this.pnlNote.Hide();
+            this.pnlCalender.Hide();
         }
 
         private void ShowConfiguration()
         {
             this.ucRegister.Hide();
             this.pnlNote.Hide();
+            this.pnlCalender.Hide();
             this.ucConfiguration.Show();
             this.ucConfiguration.PopulateModuleForConfiguration();
         }
@@ -686,6 +690,7 @@ namespace Vanilla.Navigator.WinForm
         {
             this.ucRegister.Hide();
             this.ucConfiguration.Hide();
+            this.pnlCalender.Hide();
             this.pnlNote.Show();
             if (this.pnlNote.Controls.Count == 0)
             {
@@ -697,7 +702,18 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowCalender()
         {
-            new Tool.WinForm.Calender().ShowDialog(this);
+            this.ucRegister.Hide();
+            this.ucConfiguration.Hide();
+            this.pnlNote.Hide();
+            this.pnlCalender.Show();
+            this.pnlCalender.Controls.Clear();
+            Tool.WinForm.Calender calender = new Tool.WinForm.Calender
+            {
+                TopLevel = false,
+                Dock = DockStyle.Fill,
+            };
+            this.pnlCalender.Controls.Add(calender);
+            calender.Show();
         }
 
         private void ShowEmail()
