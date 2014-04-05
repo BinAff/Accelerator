@@ -70,7 +70,6 @@ namespace Vanilla.Navigator.WinForm
         {
             this.lsvContainer.Dock = DockStyle.Fill;
             this.ucSearchResult.Dock = DockStyle.Fill;
-            this.LoadForm();
         }
 
         public void LoadForm()

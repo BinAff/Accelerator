@@ -39,6 +39,7 @@
             this.trvCatalogue = new System.Windows.Forms.TreeView();
             this.tbpReport = new System.Windows.Forms.TabPage();
             this.trvReport = new System.Windows.Forms.TreeView();
+            this.ucSearchResult = new Vanilla.Navigator.WinForm.SearchResult();
             this.lsvContainer = new System.Windows.Forms.ListView();
             this.imgLargeIcon = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -98,7 +99,6 @@
             this.btnBack = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.ucSearchResult = new Vanilla.Navigator.WinForm.SearchResult();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
             this.pnlArtifact.Panel2.SuspendLayout();
@@ -230,6 +230,14 @@
             this.trvReport.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvReport_AfterSelect);
             this.trvReport.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvReport_NodeMouseClick);
             this.trvReport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvReport_MouseDown);
+            // 
+            // ucSearchResult
+            // 
+            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
+            this.ucSearchResult.Name = "ucSearchResult";
+            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
+            this.ucSearchResult.TabIndex = 16;
+            this.ucSearchResult.Visible = false;
             // 
             // lsvContainer
             // 
@@ -389,7 +397,7 @@
             this.cmnuSeparator3,
             this.newToolStripMenuItem});
             this.cmsExplorer.Name = "cmsExplorer";
-            this.cmsExplorer.Size = new System.Drawing.Size(200, 286);
+            this.cmsExplorer.Size = new System.Drawing.Size(200, 264);
             // 
             // cmnuOpen
             // 
@@ -616,55 +624,55 @@
             // cmnuDirectory
             // 
             this.cmnuDirectory.Name = "cmnuDirectory";
-            this.cmnuDirectory.Size = new System.Drawing.Size(152, 22);
+            this.cmnuDirectory.Size = new System.Drawing.Size(128, 22);
             this.cmnuDirectory.Text = "Directory";
             this.cmnuDirectory.Click += new System.EventHandler(this.cmnuDirectory_Click);
             // 
             // cmnuForm
             // 
             this.cmnuForm.Name = "cmnuForm";
-            this.cmnuForm.Size = new System.Drawing.Size(152, 22);
+            this.cmnuForm.Size = new System.Drawing.Size(128, 22);
             this.cmnuForm.Text = "Form";
             this.cmnuForm.Click += new System.EventHandler(this.cmnuForm_Click);
             // 
             // cmnuCatalog
             // 
             this.cmnuCatalog.Name = "cmnuCatalog";
-            this.cmnuCatalog.Size = new System.Drawing.Size(152, 22);
+            this.cmnuCatalog.Size = new System.Drawing.Size(128, 22);
             this.cmnuCatalog.Text = "Catalogue";
             this.cmnuCatalog.Click += new System.EventHandler(this.cmnuCatalog_Click);
             // 
             // cmnuDailyReport
             // 
             this.cmnuDailyReport.Name = "cmnuDailyReport";
-            this.cmnuDailyReport.Size = new System.Drawing.Size(152, 22);
+            this.cmnuDailyReport.Size = new System.Drawing.Size(128, 22);
             this.cmnuDailyReport.Text = "Daily";
             this.cmnuDailyReport.Click += new System.EventHandler(this.cmnuDailyReport_Click);
             // 
             // cmnuWeeklyReport
             // 
             this.cmnuWeeklyReport.Name = "cmnuWeeklyReport";
-            this.cmnuWeeklyReport.Size = new System.Drawing.Size(152, 22);
+            this.cmnuWeeklyReport.Size = new System.Drawing.Size(128, 22);
             this.cmnuWeeklyReport.Text = "Weekly";
             this.cmnuWeeklyReport.Click += new System.EventHandler(this.cmnuWeeklyReport_Click);
             // 
             // cmnuMonthlyReport
             // 
             this.cmnuMonthlyReport.Name = "cmnuMonthlyReport";
-            this.cmnuMonthlyReport.Size = new System.Drawing.Size(152, 22);
+            this.cmnuMonthlyReport.Size = new System.Drawing.Size(128, 22);
             this.cmnuMonthlyReport.Text = "Monthly";
             this.cmnuMonthlyReport.Click += new System.EventHandler(this.cmnuMonthlyReport_Click);
             // 
             // cmnuQuarterlyReport
             // 
             this.cmnuQuarterlyReport.Name = "cmnuQuarterlyReport";
-            this.cmnuQuarterlyReport.Size = new System.Drawing.Size(152, 22);
+            this.cmnuQuarterlyReport.Size = new System.Drawing.Size(128, 22);
             this.cmnuQuarterlyReport.Text = "Quarterly";
             // 
             // cmnuYearlyReport
             // 
             this.cmnuYearlyReport.Name = "cmnuYearlyReport";
-            this.cmnuYearlyReport.Size = new System.Drawing.Size(152, 22);
+            this.cmnuYearlyReport.Size = new System.Drawing.Size(128, 22);
             this.cmnuYearlyReport.Text = "Yearly";
             // 
             // imgMisc
@@ -741,14 +749,6 @@
             this.txtSearch.TabIndex = 5;
             this.txtSearch.Text = "Search...";
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
-            // 
-            // ucSearchResult
-            // 
-            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
-            this.ucSearchResult.Name = "ucSearchResult";
-            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
-            this.ucSearchResult.TabIndex = 16;
-            this.ucSearchResult.Visible = false;
             // 
             // Register
             // 
