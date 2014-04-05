@@ -470,6 +470,20 @@ namespace Vanilla.Navigator.WinForm
 
             ListViewItem selectedItem = (sender as ListView).FocusedItem;
             UtilFac.Artifact.Dto selectedArtifact = selectedItem.Tag as UtilFac.Artifact.Dto;
+
+            List<Table> ReportExtension = new List<Table>();
+            String documentName = String.Empty;
+            if (selectedArtifact.Category == UtilFac.Artifact.Category.Report && selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+            {
+                ReportExtension = this.PopulateReportExtension();
+                foreach (Table tbl in ReportExtension)
+                {
+                    if (tbl.Id == selectedArtifact.Id)
+                        documentName =  selectedArtifact.FileName + "." + tbl.Name;
+
+                    break;
+                }
+            }
           
             String defaultFileName = selectedArtifact.FileName;
             String artifactFileName = String.Empty;
@@ -482,7 +496,12 @@ namespace Vanilla.Navigator.WinForm
                 if (selectedArtifact.Id == 0)
                     artifactFileName = selectedArtifact.FileName;
                 else
+                {
+                    if (selectedArtifact.Category == UtilFac.Artifact.Category.Report && selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+                        selectedItem.Text = documentName;
+
                     return;
+                }
             }
 
             if (artifactFileName == String.Empty)
@@ -507,7 +526,12 @@ namespace Vanilla.Navigator.WinForm
                         e.CancelEdit = true;
 
                         if (selectedArtifact.Id != 0)
+                        {
+                            if (selectedArtifact.Category == UtilFac.Artifact.Category.Report && selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+                                selectedItem.Text = documentName;
+
                             return;
+                        }
                         else
                             artifactFileName = selectedArtifact.FileName;
                     }
@@ -538,6 +562,9 @@ namespace Vanilla.Navigator.WinForm
                     (selectedItem.Tag as Vanilla.Utility.Facade.Artifact.Dto).Parent = selectedNode.Tag as Vanilla.Utility.Facade.Module.Dto;
                 }
             }
+
+            //if (ReportExtension != null && ReportExtension.Count > 0)
+            //    this.lsvContainer.AttachChildren(this.currentArtifact, ReportExtension);
         }
 
         private void lsvContainer_MouseDown(object sender, MouseEventArgs e)
@@ -564,7 +591,18 @@ namespace Vanilla.Navigator.WinForm
         {
             if (e.KeyCode == Keys.F2)
             {
-                this.lsvContainer.EditListViewSelectedItem();
+                String artifactFileName = String.Empty;
+                foreach (ListViewItem item in lsvContainer.SelectedItems)
+                {                    
+                    Vanilla.Utility.Facade.Artifact.Dto dto = item.Tag as Vanilla.Utility.Facade.Artifact.Dto;
+                    if (dto.Category == UtilFac.Artifact.Category.Report && dto.Style == UtilFac.Artifact.Type.Document)                    
+                        artifactFileName = dto.FileName;
+                }
+
+                if (artifactFileName == String.Empty)
+                    this.lsvContainer.EditListViewSelectedItem();
+                else
+                    this.lsvContainer.EditListViewSelectedItem(artifactFileName);
             }
             else
             {

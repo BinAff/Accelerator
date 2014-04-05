@@ -139,6 +139,17 @@ namespace Vanilla.Utility.WinForm.Extender
             foreach (ListViewItem item in listView.SelectedItems)
             {
                 item.BeginEdit();
+                break;
+            }
+        }
+
+        public static void EditListViewSelectedItem(this ListView listView, String artifactFileName)
+        {
+            listView.LabelEdit = true;
+            foreach (ListViewItem item in listView.SelectedItems)
+            {
+                item.Text = artifactFileName;                
+                item.BeginEdit();              
             }
         }
 
@@ -181,6 +192,19 @@ namespace Vanilla.Utility.WinForm.Extender
                         Tag = artifact,
                         ImageIndex = artifact.Style == Facade.Artifact.Type.Directory ? 0 : 2,
                     };
+
+                    //append extension to document 
+                    if (artifact.Style == Facade.Artifact.Type.Document)
+                    {
+                        foreach (BinAff.Core.Table tbl in reportCategory)
+                        {
+                            if (tbl.Id == artifact.Id)
+                                current.Text += "." + tbl.Name;
+
+                            break;
+                        }
+                    }
+
                     current.SubItems.AddRange(AddListViewSubItems(current, artifact));
                     listView.Items.Add(current);
                 }
