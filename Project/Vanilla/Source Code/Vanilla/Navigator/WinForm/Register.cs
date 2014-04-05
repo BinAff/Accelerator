@@ -50,14 +50,16 @@ namespace Vanilla.Navigator.WinForm
         public delegate void ChangePath();
         public event ChangePath PathChanged;
 
-        public enum ReportCategory
-        {
-            Daily = 1,
-            Weekly = 2,
-            Monthly = 3,
-            Quarterly = 4,
-            Yearly = 5
-        }
+        public List<Table> reportCategory = new List<Table>();
+
+        //public enum ReportCategory
+        //{
+        //    Daily = 1,
+        //    Weekly = 2,
+        //    Monthly = 3,
+        //    Quarterly = 4,
+        //    Yearly = 5
+        //}
 
         public Register()
         {
@@ -92,6 +94,15 @@ namespace Vanilla.Navigator.WinForm
             this.lsvContainer.Items.Clear();
             this.btnBack.Enabled = false;
             this.btnUp.Enabled = false;
+
+            //populate reportCategory -- need to code later            
+            reportCategory.Add(new Table { Id = 1, Name = "drpt"});
+            reportCategory.Add(new Table { Id = 2, Name = "wrpt" });
+            reportCategory.Add(new Table { Id = 3, Name = "mrpt" });
+            reportCategory.Add(new Table { Id = 4, Name = "qrpt" });
+            reportCategory.Add(new Table { Id = 5, Name = "yrpt" });
+            //--------------
+
         }
 
         private void LoadModules(String currentTab)
@@ -246,7 +257,9 @@ namespace Vanilla.Navigator.WinForm
                 ((sender as TreeView).SelectedNode.Tag as UtilFac.Module.Dto).Artifact :
                 (sender as TreeView).SelectedNode.Tag as UtilFac.Artifact.Dto;
             this.currentArtifact = selectedNode;
-            this.lsvContainer.AttachChildren(this.currentArtifact);
+
+            List<Table> ReportExtension = this.PopulateReportExtension();
+            this.lsvContainer.AttachChildren(this.currentArtifact, ReportExtension);
             
             this.txtAddress.Text = selectedNode.Path;
             this.btnUp.Enabled = true;
@@ -264,7 +277,35 @@ namespace Vanilla.Navigator.WinForm
             this.ShowAuditInfo(selectedNode);
         }
 
-        
+
+        private List<Table> PopulateReportExtension()
+        {
+            List<Table> reportExtension = new List<Table>();
+            UtilFac.Artifact.Dto selectedNode = this.currentArtifact;
+            if (selectedNode.Children != null && selectedNode.Children.Count > 0)
+            {
+                foreach (UtilFac.Artifact.Dto artifact in selectedNode.Children)
+                {
+                    if (artifact.Style == UtilFac.Artifact.Type.Document)
+                    {
+                        Int64 reportCategoryId = (artifact.Module as Vanilla.Invoice.Facade.Report.Dto).category.Id;
+                        foreach (Table tbl in this.reportCategory)
+                        {
+                            if (tbl.Id == reportCategoryId)
+                            {
+                                reportExtension.Add(new Table 
+                                {
+                                    Id = artifact.Id,
+                                    Name = tbl.Name
+                                });
+                            }
+                        }
+                    }                    
+                }
+            }
+
+            return reportExtension;
+        }
 
         #endregion
 

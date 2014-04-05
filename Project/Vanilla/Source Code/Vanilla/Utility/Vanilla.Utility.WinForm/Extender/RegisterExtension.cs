@@ -168,6 +168,32 @@ namespace Vanilla.Utility.WinForm.Extender
             }
         }
 
+        public static void AttachChildren(this ListView listView, Facade.Artifact.Dto selectedNode, List<BinAff.Core.Table> reportCategory)
+        {
+            listView.Items.Clear();
+            if (selectedNode.Children != null && selectedNode.Children.Count > 0)
+            {
+                foreach (Facade.Artifact.Dto artifact in selectedNode.Children)
+                {
+                    ListViewItem current = new ListViewItem
+                    {
+                        Text = artifact.FileName,
+                        Tag = artifact,
+                        ImageIndex = artifact.Style == Facade.Artifact.Type.Directory ? 0 : 2,
+                    };
+                    current.SubItems.AddRange(AddListViewSubItems(current, artifact));
+                    listView.Items.Add(current);
+                }
+
+                //Sort
+                listView.ResetColumnOrder();
+                listView.Sort("Name", new PresLib.ListViewColumnSorter
+                {
+                    Order = SortOrder.Ascending
+                });
+            }
+        }
+
         public static void AttachChildren(this ListView listView, List<Facade.Artifact.Dto> nodeList)
         {
             listView.Items.Clear();
