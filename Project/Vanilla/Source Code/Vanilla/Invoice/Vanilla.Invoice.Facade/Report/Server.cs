@@ -24,7 +24,8 @@ namespace Vanilla.Invoice.Facade.Report
             {
                 Id = invoiceReportData.Id,
                 fromDate = invoiceReportData.FromDate,
-                toDate = invoiceReportData.ToDate
+                toDate = invoiceReportData.ToDate,
+                category = invoiceReportData.category == null ? null : new Vanilla.Report.Facade.Category.Dto{ Id = invoiceReportData.category.Id }
             };
         }
 
