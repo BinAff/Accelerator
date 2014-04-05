@@ -514,8 +514,8 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowControls()
         {
-            this.ucRegister.Show();
             this.ucRegister.LoadForm();
+            this.ucRegister.Show();
             this.pnlTool.Show();
 
             this.mnuLogin.Visible = false;
