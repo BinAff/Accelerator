@@ -153,31 +153,31 @@ namespace Vanilla.Utility.WinForm.Extender
             }
         }
 
-        public static void AttachChildren(this ListView listView, Facade.Artifact.Dto selectedNode)
-        {
-            listView.Items.Clear();
-            if (selectedNode.Children != null && selectedNode.Children.Count > 0)
-            {
-                foreach (Facade.Artifact.Dto artifact in selectedNode.Children)
-                {
-                    ListViewItem current = new ListViewItem
-                    {
-                        Text = artifact.FileName,
-                        Tag = artifact,
-                        ImageIndex = artifact.Style == Facade.Artifact.Type.Directory ? 0 : 2,
-                    };
-                    current.SubItems.AddRange(AddListViewSubItems(current, artifact));
-                    listView.Items.Add(current);
-                }
+        //public static void AttachChildren(this ListView listView, Facade.Artifact.Dto selectedNode)
+        //{
+        //    listView.Items.Clear();
+        //    if (selectedNode.Children != null && selectedNode.Children.Count > 0)
+        //    {
+        //        foreach (Facade.Artifact.Dto artifact in selectedNode.Children)
+        //        {
+        //            ListViewItem current = new ListViewItem
+        //            {
+        //                Text = artifact.FileName,
+        //                Tag = artifact,
+        //                ImageIndex = artifact.Style == Facade.Artifact.Type.Directory ? 0 : 2,
+        //            };
+        //            current.SubItems.AddRange(AddListViewSubItems(current, artifact));
+        //            listView.Items.Add(current);
+        //        }
 
-                //Sort
-                listView.ResetColumnOrder();
-                listView.Sort("Name", new PresLib.ListViewColumnSorter
-                {
-                    Order = SortOrder.Ascending
-                });
-            }
-        }
+        //        //Sort
+        //        listView.ResetColumnOrder();
+        //        listView.Sort("Name", new PresLib.ListViewColumnSorter
+        //        {
+        //            Order = SortOrder.Ascending
+        //        });
+        //    }
+        //}
 
         public static void AttachChildren(this ListView listView, Facade.Artifact.Dto selectedNode, List<BinAff.Core.Table> reportCategory)
         {
@@ -199,9 +199,10 @@ namespace Vanilla.Utility.WinForm.Extender
                         foreach (BinAff.Core.Table tbl in reportCategory)
                         {
                             if (tbl.Id == artifact.Id)
+                            {
                                 current.Text += "." + tbl.Name;
-
-                            break;
+                                break;
+                            }
                         }
                     }
 

@@ -24,7 +24,7 @@ namespace Crystal.Invoice.Component.Report
         {   
             base.AddInParameter("@From", DbType.DateTime, ((Data)this.Data).FromDate);
             base.AddInParameter("@To", DbType.DateTime, ((Data)this.Data).ToDate);
-
+            base.AddInParameter("@CategoryId", DbType.Int64, ((Data)this.Data).category.Id);
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)

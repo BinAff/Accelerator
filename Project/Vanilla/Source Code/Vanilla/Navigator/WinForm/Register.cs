@@ -207,7 +207,10 @@ namespace Vanilla.Navigator.WinForm
                 ((sender as TreeView).SelectedNode.Tag as UtilFac.Module.Dto).Artifact :
                 (sender as TreeView).SelectedNode.Tag as UtilFac.Artifact.Dto;
             this.currentArtifact = selectedNode;
-            this.lsvContainer.AttachChildren(this.currentArtifact);
+
+            List<Table> ReportExtension = this.PopulateReportExtension();
+            this.lsvContainer.AttachChildren(this.currentArtifact, ReportExtension);
+            //this.lsvContainer.AttachChildren(this.currentArtifact);
             //this.SelectNode(selectedNode);
             this.txtAddress.Text = selectedNode.Path;
             this.btnUp.Enabled = true;
@@ -465,22 +468,27 @@ namespace Vanilla.Navigator.WinForm
 
         private void lsvContainer_AfterLabelEdit(object sender, LabelEditEventArgs e)
         {
-            TreeView trv = this.GetActiveTreeView();
+            e.CancelEdit = true;
             (sender as ListView).LabelEdit = false;
+
+            TreeView trv = this.GetActiveTreeView();
 
             ListViewItem selectedItem = (sender as ListView).FocusedItem;
             UtilFac.Artifact.Dto selectedArtifact = selectedItem.Tag as UtilFac.Artifact.Dto;
 
             List<Table> ReportExtension = new List<Table>();
             String documentName = String.Empty;
+            String artifactExtension = String.Empty;
             if (selectedArtifact.Category == UtilFac.Artifact.Category.Report && selectedArtifact.Style == UtilFac.Artifact.Type.Document)
             {
                 ReportExtension = this.PopulateReportExtension();
                 foreach (Table tbl in ReportExtension)
                 {
                     if (tbl.Id == selectedArtifact.Id)
-                        documentName =  selectedArtifact.FileName + "." + tbl.Name;
-
+                    {
+                        documentName = selectedArtifact.FileName + "." + tbl.Name;
+                        artifactExtension = tbl.Name;
+                    }
                     break;
                 }
             }
@@ -491,7 +499,7 @@ namespace Vanilla.Navigator.WinForm
             //if the selected item text is empty then no operations will be done
             if (e.Label == null || e.Label.Trim().Length == 0)
             {
-                e.CancelEdit = true;
+                //e.CancelEdit = true;
 
                 if (selectedArtifact.Id == 0)
                     artifactFileName = selectedArtifact.FileName;
@@ -502,12 +510,13 @@ namespace Vanilla.Navigator.WinForm
 
                     return;
                 }
-            }
+            }          
 
             if (artifactFileName == String.Empty)
             {
                 artifactFileName = (e.Label == null || e.Label.Trim().Length == 0) ? selectedItem.Text.Trim() : e.Label.Trim();
             }
+           
 
             //loop through the list to check for duplicate
             foreach (ListViewItem item in this.lsvContainer.Items)
@@ -523,7 +532,7 @@ namespace Vanilla.Navigator.WinForm
                             Heading = "Splash",
                         }.Show("Name already exists. Please assign a different name.");
 
-                        e.CancelEdit = true;
+                        //e.CancelEdit = true;
 
                         if (selectedArtifact.Id != 0)
                         {
@@ -537,7 +546,7 @@ namespace Vanilla.Navigator.WinForm
                     }
                 }
             }
-
+            
             TreeNode selectedNode = trv.FindNode(selectedArtifact.Style == Vanilla.Utility.Facade.Artifact.Type.Document ?
                 this.currentArtifact :
                 selectedArtifact);
@@ -550,8 +559,9 @@ namespace Vanilla.Navigator.WinForm
                 (selectedNode.Tag as Vanilla.Utility.Facade.Artifact.Dto).FileName = artifactFileName;
             }
 
+            //e.CancelEdit = true;
             this.SaveArtifact(selectedArtifact, artifactFileName, selectedArtifact.Id != 0);
-
+                        
             //code added to fix issue
             //issue description : if any document is created on root and then double click immediately to open the form in edit mode , was giving error
             //if this block is moved up before save, then a foreign key error will be thrown
@@ -562,9 +572,7 @@ namespace Vanilla.Navigator.WinForm
                     (selectedItem.Tag as Vanilla.Utility.Facade.Artifact.Dto).Parent = selectedNode.Tag as Vanilla.Utility.Facade.Module.Dto;
                 }
             }
-
-            //if (ReportExtension != null && ReportExtension.Count > 0)
-            //    this.lsvContainer.AttachChildren(this.currentArtifact, ReportExtension);
+          
         }
 
         private void lsvContainer_MouseDown(object sender, MouseEventArgs e)
@@ -616,7 +624,10 @@ namespace Vanilla.Navigator.WinForm
             if (currentArtifact.Style == Vanilla.Utility.Facade.Artifact.Type.Directory)
             {
                 this.currentArtifact = currentArtifact;
-                this.lsvContainer.AttachChildren(this.currentArtifact);
+
+                List<Table> ReportExtension = this.PopulateReportExtension();
+                this.lsvContainer.AttachChildren(this.currentArtifact, ReportExtension);
+                //this.lsvContainer.AttachChildren(this.currentArtifact);
                 //this.SelectNode(currentArtifact);
                 this.txtAddress.Text = currentArtifact.Path;
                 this.addressList.Add(this.currentArtifact.Path);
@@ -1198,7 +1209,11 @@ namespace Vanilla.Navigator.WinForm
                     this.currentArtifact = selectedNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto" ?
                         (selectedNode.Tag as UtilFac.Module.Dto).Artifact :
                         selectedNode.Tag as UtilFac.Artifact.Dto;
-                    this.lsvContainer.AttachChildren(this.currentArtifact);
+
+                    List<Table> ReportExtension = this.PopulateReportExtension();
+                    this.lsvContainer.AttachChildren(this.currentArtifact, ReportExtension);
+
+                    //this.lsvContainer.AttachChildren(this.currentArtifact);
                 }
             }
             this.editNode = null;
@@ -1246,7 +1261,10 @@ namespace Vanilla.Navigator.WinForm
                 this.currentArtifact = node.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto" ?
                     (node.Tag as Vanilla.Utility.Facade.Module.Dto).Artifact :
                     node.Tag as Vanilla.Utility.Facade.Artifact.Dto;
-                this.lsvContainer.AttachChildren(this.currentArtifact);
+
+                List<Table> ReportExtension = this.PopulateReportExtension();
+                this.lsvContainer.AttachChildren(this.currentArtifact, ReportExtension);
+                //this.lsvContainer.AttachChildren(this.currentArtifact);
 
                 if (selectedNode != null)
                 {
@@ -1724,7 +1742,10 @@ namespace Vanilla.Navigator.WinForm
             this.currentArtifact = parentNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto" ?
                     (parentNode.Tag as UtilFac.Module.Dto).Artifact :
                     parentNode.Tag as UtilFac.Artifact.Dto;
-            this.lsvContainer.AttachChildren(this.currentArtifact);
+
+            List<Table> ReportExtension = this.PopulateReportExtension();
+            this.lsvContainer.AttachChildren(this.currentArtifact, ReportExtension);
+            //this.lsvContainer.AttachChildren(this.currentArtifact);
 
             if (this.facade.IsError)
             {
@@ -1787,7 +1808,10 @@ namespace Vanilla.Navigator.WinForm
                 this.currentArtifact = selectedNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto" ?
                     (selectedNode.Tag as UtilFac.Module.Dto).Artifact :
                     selectedNode.Tag as UtilFac.Artifact.Dto;
-                this.lsvContainer.AttachChildren(this.currentArtifact);
+
+                List<Table> ReportExtension = this.PopulateReportExtension();
+                this.lsvContainer.AttachChildren(this.currentArtifact, ReportExtension);
+                //this.lsvContainer.AttachChildren(this.currentArtifact);
 
                 if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
                 {
