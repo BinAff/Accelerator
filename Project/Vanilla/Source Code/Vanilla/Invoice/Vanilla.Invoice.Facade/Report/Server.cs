@@ -31,19 +31,25 @@ namespace Vanilla.Invoice.Facade.Report
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            //throw new NotImplementedException();
-            return new BinAff.Core.Data();
+            Dto reportDto = dto as Dto;
+            return new CrystalInvoiceReport.Data
+            {
+                FromDate = reportDto.fromDate,
+                ToDate = reportDto.toDate,
+                category = new Crystal.Report.Component.Category.Data { Id = reportDto.category.Id }
+            };
         }
 
         public override void Add()
         {            
             FormDto formDto = this.FormDto as FormDto;
 
-            CrystalInvoiceReport.Data invoiceReportData = new CrystalInvoiceReport.Data 
-            {
-                FromDate = formDto.dto.fromDate,
-                ToDate = formDto.dto.toDate 
-            };
+            CrystalInvoiceReport.Data invoiceReportData = this.Convert(formDto.dto) as CrystalInvoiceReport.Data;
+            //CrystalInvoiceReport.Data invoiceReportData = new CrystalInvoiceReport.Data 
+            //{
+            //    FromDate = formDto.dto.fromDate,
+            //    ToDate = formDto.dto.toDate 
+            //};
             ICrud crud = new CrystalInvoiceReport.Server(invoiceReportData);
             ReturnObject<bool> retVal = crud.Save();
 

@@ -11,6 +11,15 @@ namespace Vanilla.Invoice.WinForm.Report
         private Facade.Report.Dto dto;        
         private Facade.Report.FormDto formDto;
 
+        public enum ReportCategory
+        {
+            Daily = 1,
+            //Weekly = 2,
+            //Monthly = 3,
+            //Quarterly = 4,
+            //Yearly = 5
+        }
+
         public Daily()
         {
             InitializeComponent();
@@ -102,6 +111,7 @@ namespace Vanilla.Invoice.WinForm.Report
             Facade.Report.Dto dto = this.dto as Facade.Report.Dto;
             dto.fromDate = dpSearchDate.Value.Date;
             dto.toDate = dpSearchDate.Value.Date;
+            dto.category = new Vanilla.Report.Facade.Category.Dto { Id = Convert.ToInt64(ReportCategory.Daily) };
             
             BinAff.Facade.Library.Server facade = new Facade.Report.Server(this.formDto);
             facade.Add();
