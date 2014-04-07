@@ -31,7 +31,6 @@
             this.rvReport = new Microsoft.Reporting.WinForms.ReportViewer();
             this.pnlSearch = new System.Windows.Forms.Panel();
             this.btnSave = new System.Windows.Forms.Button();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dpSearchDate = new System.Windows.Forms.DateTimePicker();
             this.pnlSearch.SuspendLayout();
@@ -48,7 +47,6 @@
             // pnlSearch
             // 
             this.pnlSearch.Controls.Add(this.btnSave);
-            this.pnlSearch.Controls.Add(this.btnSearch);
             this.pnlSearch.Controls.Add(this.label1);
             this.pnlSearch.Controls.Add(this.dpSearchDate);
             this.pnlSearch.Dock = System.Windows.Forms.DockStyle.Top;
@@ -59,23 +57,13 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(433, 4);
+            this.btnSave.Location = new System.Drawing.Point(352, 4);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Location = new System.Drawing.Point(352, 4);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(75, 23);
-            this.btnSearch.TabIndex = 4;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // label1
             // 
@@ -93,6 +81,7 @@
             this.dpSearchDate.Name = "dpSearchDate";
             this.dpSearchDate.Size = new System.Drawing.Size(200, 20);
             this.dpSearchDate.TabIndex = 0;
+            this.dpSearchDate.ValueChanged += new System.EventHandler(this.dpSearchDate_ValueChanged);
             // 
             // Daily
             // 
@@ -117,7 +106,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dpSearchDate;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button btnSearch;
         //private AutoTourism.Presentation.Library.Button.Search btnSearch;
     }
 }

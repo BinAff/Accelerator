@@ -28,12 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Monthly));
             this.rvReport = new Microsoft.Reporting.WinForms.ReportViewer();
             this.pnlSearch = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            //this.btnSearch = new AutoTourism.Presentation.Library.Button.Search();
             this.dpSearchDate = new System.Windows.Forms.DateTimePicker();
+            this.btnSave = new System.Windows.Forms.Button();
             this.pnlSearch.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,8 +46,8 @@
             // 
             // pnlSearch
             // 
+            this.pnlSearch.Controls.Add(this.btnSave);
             this.pnlSearch.Controls.Add(this.label1);
-            //this.pnlSearch.Controls.Add(this.btnSearch);
             this.pnlSearch.Controls.Add(this.dpSearchDate);
             this.pnlSearch.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlSearch.Location = new System.Drawing.Point(0, 0);
@@ -65,18 +64,6 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Choose the date for Month:";
             // 
-            // btnSearch
-            // 
-            //this.btnSearch.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            //this.btnSearch.BackColor = System.Drawing.Color.White;
-            //this.btnSearch.Image = ((System.Drawing.Image)(resources.GetObject("btnSearch.Image")));
-            //this.btnSearch.Location = new System.Drawing.Point(351, 4);
-            //this.btnSearch.Name = "btnSearch";
-            //this.btnSearch.Size = new System.Drawing.Size(26, 26);
-            //this.btnSearch.TabIndex = 1;
-            //this.btnSearch.UseVisualStyleBackColor = false;
-            //this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
             // dpSearchDate
             // 
             this.dpSearchDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
@@ -84,6 +71,16 @@
             this.dpSearchDate.Name = "dpSearchDate";
             this.dpSearchDate.Size = new System.Drawing.Size(200, 20);
             this.dpSearchDate.TabIndex = 0;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(364, 3);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 4;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // Monthly
             // 
@@ -108,5 +105,6 @@
         private System.Windows.Forms.Label label1;
         //private AutoTourism.Presentation.Library.Button.Search btnSearch;
         private System.Windows.Forms.DateTimePicker dpSearchDate;
+        private System.Windows.Forms.Button btnSave;
     }
 }
