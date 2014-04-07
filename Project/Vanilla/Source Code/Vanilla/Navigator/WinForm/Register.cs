@@ -96,11 +96,11 @@ namespace Vanilla.Navigator.WinForm
             this.btnUp.Enabled = false;
 
             //populate reportCategory -- need to code later            
-            reportCategory.Add(new Table { Id = 1, Name = "drpt"});
-            reportCategory.Add(new Table { Id = 2, Name = "wrpt" });
-            reportCategory.Add(new Table { Id = 3, Name = "mrpt" });
-            reportCategory.Add(new Table { Id = 4, Name = "qrpt" });
-            reportCategory.Add(new Table { Id = 5, Name = "yrpt" });
+            reportCategory.Add(new Table { Id = 10001, Name = "drpt"});
+            reportCategory.Add(new Table { Id = 10002, Name = "wrpt" });
+            reportCategory.Add(new Table { Id = 10003, Name = "mrpt" });
+            reportCategory.Add(new Table { Id = 10004, Name = "qrpt" });
+            reportCategory.Add(new Table { Id = 10005, Name = "yrpt" });
             //--------------
 
         }

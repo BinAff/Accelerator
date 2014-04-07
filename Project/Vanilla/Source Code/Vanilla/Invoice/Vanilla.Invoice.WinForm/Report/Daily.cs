@@ -13,7 +13,7 @@ namespace Vanilla.Invoice.WinForm.Report
 
         public enum ReportCategory
         {
-            Daily = 1,
+            Daily = 10001,
             //Weekly = 2,
             //Monthly = 3,
             //Quarterly = 4,
