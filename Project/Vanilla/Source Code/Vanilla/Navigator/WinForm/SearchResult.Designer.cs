@@ -31,9 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchResult));
             this.lsvSearchResult = new System.Windows.Forms.ListView();
-            this.imglIcons = new System.Windows.Forms.ImageList(this.components);
-            this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
             this.imgLargeIcon = new System.Windows.Forms.ImageList(this.components);
+            this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
+            this.imglIcons = new System.Windows.Forms.ImageList(this.components);
             this.imgMisc = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
             // 
@@ -50,6 +50,26 @@
             this.lsvSearchResult.TabIndex = 0;
             this.lsvSearchResult.UseCompatibleStateImageBehavior = false;
             this.lsvSearchResult.View = System.Windows.Forms.View.Details;
+            this.lsvSearchResult.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lsvSearchResult_MouseDoubleClick);
+            // 
+            // imgLargeIcon
+            // 
+            this.imgLargeIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgLargeIcon.ImageStream")));
+            this.imgLargeIcon.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgLargeIcon.Images.SetKeyName(0, "Directory.gif");
+            this.imgLargeIcon.Images.SetKeyName(1, "DirectoryOpen.gif");
+            this.imgLargeIcon.Images.SetKeyName(2, "Document.gif");
+            this.imgLargeIcon.Images.SetKeyName(3, "Directory.png");
+            this.imgLargeIcon.Images.SetKeyName(4, "DirectoryOpen.png");
+            this.imgLargeIcon.Images.SetKeyName(5, "Document.png");
+            // 
+            // imgSmallIcon
+            // 
+            this.imgSmallIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgSmallIcon.ImageStream")));
+            this.imgSmallIcon.TransparentColor = System.Drawing.Color.Transparent;
+            this.imgSmallIcon.Images.SetKeyName(0, "Directory.gif");
+            this.imgSmallIcon.Images.SetKeyName(1, "DirectoryOpen.gif");
+            this.imgSmallIcon.Images.SetKeyName(2, "Document.gif");
             // 
             // imglIcons
             // 
@@ -63,25 +83,6 @@
             this.imglIcons.Images.SetKeyName(5, "Document.png");
             this.imglIcons.Images.SetKeyName(6, "Down.gif");
             this.imglIcons.Images.SetKeyName(7, "Up.gif");
-            // 
-            // imgSmallIcon
-            // 
-            this.imgSmallIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgSmallIcon.ImageStream")));
-            this.imgSmallIcon.TransparentColor = System.Drawing.Color.Transparent;
-            this.imgSmallIcon.Images.SetKeyName(0, "Directory.gif");
-            this.imgSmallIcon.Images.SetKeyName(1, "DirectoryOpen.gif");
-            this.imgSmallIcon.Images.SetKeyName(2, "Document.gif");
-            // 
-            // imgLargeIcon
-            // 
-            this.imgLargeIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgLargeIcon.ImageStream")));
-            this.imgLargeIcon.TransparentColor = System.Drawing.Color.Transparent;
-            this.imgLargeIcon.Images.SetKeyName(0, "Directory.gif");
-            this.imgLargeIcon.Images.SetKeyName(1, "DirectoryOpen.gif");
-            this.imgLargeIcon.Images.SetKeyName(2, "Document.gif");
-            this.imgLargeIcon.Images.SetKeyName(3, "Directory.png");
-            this.imgLargeIcon.Images.SetKeyName(4, "DirectoryOpen.png");
-            this.imgLargeIcon.Images.SetKeyName(5, "Document.png");
             // 
             // imgMisc
             // 
