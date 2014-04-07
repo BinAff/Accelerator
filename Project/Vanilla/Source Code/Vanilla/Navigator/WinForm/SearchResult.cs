@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 using UtilFac = Vanilla.Utility.Facade;
@@ -10,7 +11,7 @@ namespace Vanilla.Navigator.WinForm
     public partial class SearchResult : UserControl
     {
 
-        internal List<UtilFac.Artifact.Dto> artifactList { get; set; }
+        private Facade.SearchResult.FormDto formDto;
 
         public SearchResult()
         {
@@ -22,9 +23,22 @@ namespace Vanilla.Navigator.WinForm
             this.lsvSearchResult.Initialize();
         }
 
-        public void Bind()
+        public void LoadResult(String artifactName)
         {
-            this.lsvSearchResult.AttachChildren(this.artifactList);
+            this.formDto = new Facade.SearchResult.FormDto
+            {
+                Dto = new Facade.SearchResult.Dto
+                {
+                    ArtifactName = artifactName,
+                },
+            };
+            new Facade.SearchResult.Server(this.formDto).LoadForm();
+            this.lsvSearchResult.AttachChildren(this.formDto.ArtifactList);
+        }
+
+        private void lsvSearchResult_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
         }
 
     }

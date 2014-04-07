@@ -44,6 +44,9 @@
     <Compile Include="Register\Dto.cs" />
     <Compile Include="Register\FormDto.cs" />
     <Compile Include="Register\Server.cs" />
+    <Compile Include="SearchResult\Dto.cs" />
+    <Compile Include="SearchResult\FormDto.cs" />
+    <Compile Include="SearchResult\Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">

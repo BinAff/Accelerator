@@ -85,11 +85,6 @@ namespace Vanilla.Navigator.Facade.Register
             this.IsError = moduleFacade.IsError;
         }
 
-        public List<UtilFac.Artifact.Dto> Search(String artifactName)
-        {
-            return new UtilFac.Artifact.Server(null).Search(artifactName);
-        }
-
         public void Paste(Boolean isCut)
         {
             UtilFac.Artifact.Dto originalArtifactDto = this.CloneArtifact((this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto);

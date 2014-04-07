@@ -743,12 +743,10 @@ namespace Vanilla.Navigator.WinForm
         {
             if (e.KeyCode == Keys.Enter)
             {
+                this.pnlArtifact.Panel2.Controls.Add(this.ucSearchResult);
                 this.ucSearchResult.Show();
                 this.lsvContainer.Hide();
-
-                this.ucSearchResult.artifactList = this.facade.Search(this.txtSearch.Text.Trim());
-                this.pnlArtifact.Panel2.Controls.Add(this.ucSearchResult);
-                this.ucSearchResult.Bind();
+                this.ucSearchResult.LoadResult(this.txtSearch.Text.Trim());
             }
         }
 
@@ -1891,9 +1889,7 @@ namespace Vanilla.Navigator.WinForm
         private void tbpReport_Click(object sender, EventArgs e)
         {
 
-        }
-
-       
+        }       
 
         private void Modification_Click(object sender, EventArgs e)
         {
