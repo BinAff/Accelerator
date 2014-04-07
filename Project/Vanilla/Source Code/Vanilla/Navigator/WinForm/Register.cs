@@ -288,22 +288,25 @@ namespace Vanilla.Navigator.WinForm
             if (selectedNode.Children != null && selectedNode.Children.Count > 0)
             {
                 foreach (UtilFac.Artifact.Dto artifact in selectedNode.Children)
-                {
+                {                   
                     if (artifact.Style == UtilFac.Artifact.Type.Document)
                     {
-                        Int64 reportCategoryId = (artifact.Module as Vanilla.Invoice.Facade.Report.Dto).category.Id;
-                        foreach (Table tbl in this.reportCategory)
+                        if (artifact.Module.GetType().FullName == "Vanilla.Invoice.Facade.Report.Dto")
                         {
-                            if (tbl.Id == reportCategoryId)
+                            Int64 reportCategoryId = (artifact.Module as Vanilla.Invoice.Facade.Report.Dto).category.Id;
+                            foreach (Table tbl in this.reportCategory)
                             {
-                                reportExtension.Add(new Table 
+                                if (tbl.Id == reportCategoryId)
                                 {
-                                    Id = artifact.Id,
-                                    Name = tbl.Name
-                                });
+                                    reportExtension.Add(new Table
+                                    {
+                                        Id = artifact.Id,
+                                        Name = tbl.Name
+                                    });
+                                }
                             }
                         }
-                    }                    
+                    }
                 }
             }
 
@@ -488,8 +491,9 @@ namespace Vanilla.Navigator.WinForm
                     {
                         documentName = selectedArtifact.FileName + "." + tbl.Name;
                         artifactExtension = tbl.Name;
+
+                        break;
                     }
-                    break;
                 }
             }
           
@@ -620,6 +624,8 @@ namespace Vanilla.Navigator.WinForm
 
         private void lsvContainer_DoubleClick(object sender, EventArgs e)
         {
+            TreeView trv = this.GetActiveTreeView();
+
             Vanilla.Utility.Facade.Artifact.Dto currentArtifact = ((sender as ListView).SelectedItems[0].Tag as Vanilla.Utility.Facade.Artifact.Dto);
             if (currentArtifact.Style == Vanilla.Utility.Facade.Artifact.Type.Directory)
             {
@@ -640,10 +646,15 @@ namespace Vanilla.Navigator.WinForm
                     (currentArtifact.Parent as Vanilla.Utility.Facade.Module.Dto).Artifact : currentArtifact.Parent as Vanilla.Utility.Facade.Artifact.Dto;
                 TreeNode parentNode = null;                
                 //parentNode = this.FindTreeNodeFromTag(artifactDto, this.trvForm.Nodes, parentNode);
-                parentNode = this.trvForm.FindNode(artifactDto);
+                parentNode = trv.FindNode(artifactDto);
                 //TreeNode rootNode = FindRootNode(parentNode); //to check the logic [currently entire tree is getting compared]
-                TreeNode rootNode = this.trvForm.FindRootNode(parentNode);
-                Type type = Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true);
+                TreeNode rootNode = trv.FindRootNode(parentNode);
+                
+                Type type;
+                if (currentArtifact.Module != null && currentArtifact.Module.GetType().FullName == "Vanilla.Invoice.Facade.Report.Dto")
+                    type = this.GetInvoiceType(currentArtifact);
+                else
+                    type = Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true);
 
                 currentArtifact.Module.artifactPath = currentArtifact.Path;                
                 PresLib.Form form = (PresLib.Form)Activator.CreateInstance(type, currentArtifact.Module);
@@ -1635,7 +1646,7 @@ namespace Vanilla.Navigator.WinForm
             this.AddArtifact(Vanilla.Utility.Facade.Artifact.Type.Directory, null);
         }
 
-        private void AddDocument(Type typ)
+        private void AddDocument(String componentType)
         {
             TreeView trv = this.GetActiveTreeView();
             Vanilla.Utility.Facade.Artifact.Category category = this.GetActiveCategory();
@@ -1649,7 +1660,7 @@ namespace Vanilla.Navigator.WinForm
             {
                 selectedNode = trv.SelectedNode;
             }
-
+            
             if (selectedNode != null)
             {
                 TreeNode rootNode = trv.FindRootNode();
@@ -1658,7 +1669,7 @@ namespace Vanilla.Navigator.WinForm
                 //Show Dialogue to capture module data
                 BinAff.Facade.Library.Dto moduleFormDto = new Vanilla.Utility.Facade.Module.Server(null) { Category = category }.InstantiateDto(rootNode.Tag as Vanilla.Utility.Facade.Module.Dto);
 
-                (rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType = "Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm";
+                (rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType = componentType;
                 Type type = Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true);
 
                 //Type type = typ == null ? Type.GetType((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).ComponentFormType, true) : typ;
@@ -1824,7 +1835,8 @@ namespace Vanilla.Navigator.WinForm
                     this.lsvContainer.LabelEdit = true;
                     foreach (ListViewItem item in this.lsvContainer.Items)
                     {
-                        if (((item.Tag as Vanilla.Utility.Facade.Artifact.Dto).Style.ToString() == type.ToString()) && item.Text == fileName)
+                        UtilFac.Artifact.Dto dto = item.Tag as UtilFac.Artifact.Dto;
+                        if (dto.Style == type && dto.FileName == fileName)
                         {
                             item.BeginEdit();
                             break;
@@ -2087,18 +2099,34 @@ namespace Vanilla.Navigator.WinForm
 
         private void cmnuDailyReport_Click(object sender, EventArgs e)
         {
-            Type type = Type.GetType("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm", true);
-            this.AddDocument(type);
+            //Type type = Type.GetType("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm", true);
+            this.AddDocument("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm");
         }
 
         private void cmnuWeeklyReport_Click(object sender, EventArgs e)
         {
-
+            //Type type = Type.GetType("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm", true);
+            this.AddDocument("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm");
         }
 
         private void cmnuMonthlyReport_Click(object sender, EventArgs e)
         {
+            //Type type = Type.GetType("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm", true);
+            this.AddDocument("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm");
+        }
 
+        private Type GetInvoiceType(UtilFac.Artifact.Dto artifactDto)
+        {            
+            Int64 reportCategoryId = (artifactDto.Module as Vanilla.Invoice.Facade.Report.Dto).category.Id;
+
+            if (reportCategoryId == 10001)
+                return Type.GetType("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm", true);
+            else if(reportCategoryId == 10002)
+                return Type.GetType("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm", true);
+            else if(reportCategoryId == 10003)
+                return Type.GetType("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm", true);
+
+            return null;
         }
         
     }

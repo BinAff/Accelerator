@@ -1,23 +1,53 @@
 ﻿using System;
 using System.Windows.Forms;
-using Microsoft.Reporting.WinForms;
-using System.Collections.Generic;
 
-using BinAff.Core;
+using PresentationLibrary = BinAff.Presentation.Library;
+using System.Collections.Generic;
 
 namespace Vanilla.Invoice.WinForm.Report
 {
 
-    public partial class Monthly : Form
+    public partial class Monthly : PresentationLibrary.Form
     {
+        private Facade.Report.Dto dto;
+        private Facade.Report.FormDto formDto;
 
-        public Monthly()
+        public enum ReportCategory
+        {
+            //Daily = 10001,
+            //Weekly = 2,
+            Monthly = 10003,
+            //Quarterly = 4,
+            //Yearly = 5
+        }
+
+        //public Monthly()
+        //{
+        //    InitializeComponent();
+
+        //    dpSearchDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+        //    DateTime dtFirstDayOfMonth = GetFirstDayOfMonth(DateTime.Today);
+        //    //LoadData(dtFirstDayOfMonth);
+        //}
+
+        public Monthly(Facade.Report.Dto dto)
         {
             InitializeComponent();
 
             dpSearchDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            DateTime dtFirstDayOfMonth = GetFirstDayOfMonth(DateTime.Today);
-            //LoadData(dtFirstDayOfMonth);
+
+            this.dto = dto;
+            this.formDto = new Facade.Report.FormDto { dto = this.dto };
+
+            //if (dto.Id > 0)
+            //{
+            //    dpSearchDate.Enabled = false;
+            //    btnSave.Enabled = false;
+            //    dpSearchDate.Value = (dto as Facade.Report.Dto).fromDate;
+            //    this.LoadData(dpSearchDate.Value.Date, dpSearchDate.Value.Date);
+            //}
+            //else
+            //    this.LoadData(DateTime.Today, DateTime.Today);
         }
 
         public DateTime GetFirstDayOfMonth(DateTime givenDate)
@@ -275,6 +305,28 @@ namespace Vanilla.Invoice.WinForm.Report
                 WeekNo = "6";
 
             return WeekNo;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Facade.Report.Dto dto = this.dto as Facade.Report.Dto;
+            dto.fromDate = GetFirstDayOfMonth(dpSearchDate.Value);
+            dto.toDate = GetLastDayOfMonth(dpSearchDate.Value);
+            dto.category = new Vanilla.Report.Facade.Category.Dto { Id = Convert.ToInt64(ReportCategory.Monthly) };
+
+            //BinAff.Facade.Library.Server facade = new Facade.Report.Server(this.formDto);
+            //facade.Add();
+
+            //if (facade.IsError)
+            //{
+            //    new PresentationLibrary.MessageBox
+            //    {
+            //        DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
+            //        Heading = "Splash",
+            //    }.Show(facade.DisplayMessageList);
+            //}
+            //else
+            //    this.Close();
         }
 
     }

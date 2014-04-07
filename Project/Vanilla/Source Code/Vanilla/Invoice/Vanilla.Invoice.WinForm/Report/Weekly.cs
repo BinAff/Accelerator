@@ -1,23 +1,53 @@
 ﻿using System;
 using System.Windows.Forms;
-using Microsoft.Reporting.WinForms;
-using System.Collections.Generic;
 
-using BinAff.Core;
+using PresentationLibrary = BinAff.Presentation.Library;
+using System.Collections.Generic;
 
 namespace Vanilla.Invoice.WinForm.Report
 {
 
-    public partial class Weekly : Form
+    public partial class Weekly : PresentationLibrary.Form
     {
+        private Facade.Report.Dto dto;
+        private Facade.Report.FormDto formDto;
 
-        public Weekly()
+        public enum ReportCategory
+        {
+            //Daily = 10001,
+            Weekly = 10002,
+            //Monthly = 3,
+            //Quarterly = 4,
+            //Yearly = 5
+        }
+
+        //public Weekly()
+        //{
+        //    InitializeComponent();
+
+        //    this.dpSearchDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+        //    DateTime dtPrevMonday = GetPreviousMonday(DateTime.Today);
+        //    //this.LoadData(dtPrevMonday);
+        //}
+
+        public Weekly(Facade.Report.Dto dto)
         {
             InitializeComponent();
 
-            this.dpSearchDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            DateTime dtPrevMonday = GetPreviousMonday(DateTime.Today);
-            //this.LoadData(dtPrevMonday);
+            dpSearchDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+
+            this.dto = dto;
+            this.formDto = new Facade.Report.FormDto { dto = this.dto };
+
+            //if (dto.Id > 0)
+            //{
+            //    dpSearchDate.Enabled = false;
+            //    btnSave.Enabled = false;
+            //    dpSearchDate.Value = (dto as Facade.Report.Dto).fromDate;
+            //    this.LoadData(dpSearchDate.Value.Date, dpSearchDate.Value.Date);
+            //}
+            //else
+            //    this.LoadData(DateTime.Today, DateTime.Today);
         }
 
         private DateTime GetPreviousMonday(DateTime dt)
@@ -95,16 +125,38 @@ namespace Vanilla.Invoice.WinForm.Report
         private void Weekly_Load(object sender, EventArgs e)
         {
             this.rvReport.RefreshReport();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Facade.Report.Dto dto = this.dto as Facade.Report.Dto;
+            dto.fromDate = GetPreviousMonday(dpSearchDate.Value);
+            dto.toDate = dto.fromDate.AddDays(6);
+            dto.category = new Vanilla.Report.Facade.Category.Dto { Id = Convert.ToInt64(ReportCategory.Weekly) };
+
+            //BinAff.Facade.Library.Server facade = new Facade.Report.Server(this.formDto);
+            //facade.Add();
+
+            //if (facade.IsError)
+            //{
+            //    new PresentationLibrary.MessageBox
+            //    {
+            //        DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
+            //        Heading = "Splash",
+            //    }.Show(facade.DisplayMessageList);
+            //}
+            //else
+            //    this.Close();
         }        
 
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            DateTime dtPrevMonday = GetPreviousMonday(this.dpSearchDate.Value);
+        //private void btnSearch_Click(object sender, EventArgs e)
+        //{
+        //    DateTime dtPrevMonday = GetPreviousMonday(this.dpSearchDate.Value);
 
-            //if previous monday is less than today 
-            //if (Convert.ToDateTime(dtPrevMonday).Subtract(Convert.ToDateTime(DateTime.Today)).Days <= 0)
-            //    this.LoadData(dtPrevMonday);
-        }
+        //    //if previous monday is less than today 
+        //    //if (Convert.ToDateTime(dtPrevMonday).Subtract(Convert.ToDateTime(DateTime.Today)).Days <= 0)
+        //    //    this.LoadData(dtPrevMonday);
+        //}
 
     }
 

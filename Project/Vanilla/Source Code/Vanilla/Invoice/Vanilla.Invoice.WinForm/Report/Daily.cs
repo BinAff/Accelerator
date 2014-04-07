@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 
 using PresentationLibrary = BinAff.Presentation.Library;
+using System.Collections.Generic;
 
 namespace Vanilla.Invoice.WinForm.Report
 {
@@ -20,13 +21,10 @@ namespace Vanilla.Invoice.WinForm.Report
             //Yearly = 5
         }
 
-        public Daily()
-        {
-            InitializeComponent();
-
-            dpSearchDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            //this.LoadData(DateTime.Today, DateTime.Today);
-        }
+        //public Daily()
+        //{
+        //    InitializeComponent();
+        //}
 
         public Daily(Facade.Report.Dto dto)
         {
@@ -36,14 +34,23 @@ namespace Vanilla.Invoice.WinForm.Report
 
             this.dto = dto;
             this.formDto = new Facade.Report.FormDto { dto = this.dto };
-            
+
+            if (dto.Id > 0)
+            {
+                dpSearchDate.Enabled = false;
+                btnSave.Enabled = false;
+                dpSearchDate.Value = (dto as Facade.Report.Dto).fromDate;
+                this.LoadData(dpSearchDate.Value.Date, dpSearchDate.Value.Date);
+            }
+            else
+                this.LoadData(DateTime.Today, DateTime.Today);
         }
 
 
 
-        //private void LoadData(DateTime startDate, DateTime endDate)
-        //{
-        //    List<Data> salesList = new List<Data>();
+        private void LoadData(DateTime startDate, DateTime endDate)
+        {
+            List<Data> salesList = new List<Data>();
         //    Crystal.Invoice.Facade.IReport sales = new Crystal.Invoice.Facade.ReportServer();
         //    ReturnObject<List<Crystal.Invoice.Facade.Dto>> retVal = sales.GetList(startDate, endDate);
 
@@ -89,22 +96,12 @@ namespace Vanilla.Invoice.WinForm.Report
         //        this.rvReport.RefreshReport();
         //    }
 
-        //}
+        }
 
         private void Daily_Load(object sender, EventArgs e)
         {
             this.rvReport.RefreshReport();
         }
-
-        //private void btnSearch_Click(object sender, EventArgs e)
-        //{
-        //    //LoadData(dpSearchDate.Value, dpSearchDate.Value);   
-        //}
-
-        //private void btnSearch_Click_1(object sender, EventArgs e)
-        //{
-
-        //}
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -115,8 +112,6 @@ namespace Vanilla.Invoice.WinForm.Report
             
             BinAff.Facade.Library.Server facade = new Facade.Report.Server(this.formDto);
             facade.Add();
-
-            //this.dto.Id = this.formDto.dto.Id;
 
             if (facade.IsError)
             {
@@ -129,10 +124,10 @@ namespace Vanilla.Invoice.WinForm.Report
             else
                 this.Close();
         }
-
-        private void btnSearch_Click(object sender, EventArgs e)
+     
+        private void dpSearchDate_ValueChanged(object sender, EventArgs e)
         {
-
+            this.LoadData(dpSearchDate.Value.Date, dpSearchDate.Value.Date);
         }
 
     }
