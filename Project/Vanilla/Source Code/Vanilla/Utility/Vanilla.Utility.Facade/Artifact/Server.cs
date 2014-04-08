@@ -81,6 +81,10 @@ namespace Vanilla.Utility.Facade.Artifact
                 artifact.Module = this.ModuleFacade.Convert((data as CrysArtf.Data).ModuleData);
             }
 
+            if ((data as CrysArtf.Data).ComponentDefinition != null)
+            {
+                artifact.ComponentDefinition = new Module.Definition.Server(null).Convert((data as CrysArtf.Data).ComponentDefinition) as Module.Definition.Dto;
+            }
             return artifact;
         }
 
@@ -231,6 +235,19 @@ namespace Vanilla.Utility.Facade.Artifact
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
+        public override void Read()
+        {
+            FormDto formDto = this.FormDto as FormDto;
+            ReturnObject<BinAff.Core.Data> ret = this.ModuleArtifactComponent.Read();
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+            if (!this.IsError)
+            {
+                Module.Definition.Dto moduleDef = formDto.Dto.ComponentDefinition;
+                formDto.Dto = this.Convert(ret.Value) as Dto;
+                formDto.Dto.ComponentDefinition = moduleDef;
+            }
+        }
+
         //GetDirectoryName :  this method needs to be updated in register.cs 
         public String GetArtifactName(Vanilla.Utility.Facade.Artifact.Dto artifactDto, Type type, String document)
         {
@@ -272,6 +289,13 @@ namespace Vanilla.Utility.Facade.Artifact
                 FileName = artifactName,
             }) as Crystal.Navigator.Component.SearchAgent.ISearchAgent).Search());
         }
+
+        //public override void Read()
+        //{
+        //    FormDto formDto = this.FormDto as FormDto;
+        //    ReturnObject<BinAff.Core.Data> ret = this.ModuleArtifactComponent.Read();
+        //    this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+        //}
 
     }
 }

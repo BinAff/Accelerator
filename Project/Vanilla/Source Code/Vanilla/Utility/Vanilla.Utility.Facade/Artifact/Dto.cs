@@ -208,6 +208,25 @@ namespace Vanilla.Utility.Facade.Artifact
             }
         }
 
+        private Vanilla.Utility.Facade.Module.Definition.Dto componentDef;
+        /// <summary>
+        /// Attached module data
+        /// </summary>
+        public Vanilla.Utility.Facade.Module.Definition.Dto ComponentDefinition
+        {
+            get
+            {
+                return this.componentDef;
+            }
+            set
+            {
+                if (value != null && this.componentDef != value)
+                {
+                    this.componentDef = value;
+                }
+            }
+        }
+
         private BinAff.Facade.Library.Dto parent;
         public BinAff.Facade.Library.Dto Parent
         {

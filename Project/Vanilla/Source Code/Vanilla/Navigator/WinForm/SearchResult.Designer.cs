@@ -46,7 +46,6 @@
             this.lsvSearchResult.Size = new System.Drawing.Size(613, 491);
             this.lsvSearchResult.SmallImageList = this.imgSmallIcon;
             this.lsvSearchResult.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lsvSearchResult.StateImageList = this.imglIcons;
             this.lsvSearchResult.TabIndex = 0;
             this.lsvSearchResult.UseCompatibleStateImageBehavior = false;
             this.lsvSearchResult.View = System.Windows.Forms.View.Details;
@@ -56,20 +55,17 @@
             // 
             this.imgLargeIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgLargeIcon.ImageStream")));
             this.imgLargeIcon.TransparentColor = System.Drawing.Color.Transparent;
-            this.imgLargeIcon.Images.SetKeyName(0, "Directory.gif");
-            this.imgLargeIcon.Images.SetKeyName(1, "DirectoryOpen.gif");
-            this.imgLargeIcon.Images.SetKeyName(2, "Document.gif");
-            this.imgLargeIcon.Images.SetKeyName(3, "Directory.png");
-            this.imgLargeIcon.Images.SetKeyName(4, "DirectoryOpen.png");
-            this.imgLargeIcon.Images.SetKeyName(5, "Document.png");
+            this.imgLargeIcon.Images.SetKeyName(0, "Folder 64 X 64.png");
+            this.imgLargeIcon.Images.SetKeyName(1, "Open Folder 64 X 64.png");
+            this.imgLargeIcon.Images.SetKeyName(2, "Document 64 X 64.png");
             // 
             // imgSmallIcon
             // 
             this.imgSmallIcon.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgSmallIcon.ImageStream")));
             this.imgSmallIcon.TransparentColor = System.Drawing.Color.Transparent;
-            this.imgSmallIcon.Images.SetKeyName(0, "Directory.gif");
-            this.imgSmallIcon.Images.SetKeyName(1, "DirectoryOpen.gif");
-            this.imgSmallIcon.Images.SetKeyName(2, "Document.gif");
+            this.imgSmallIcon.Images.SetKeyName(0, "Folder");
+            this.imgSmallIcon.Images.SetKeyName(1, "Open Folder");
+            this.imgSmallIcon.Images.SetKeyName(2, "Document");
             // 
             // imglIcons
             // 

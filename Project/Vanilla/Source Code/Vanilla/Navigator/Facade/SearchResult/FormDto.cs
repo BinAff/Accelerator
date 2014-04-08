@@ -10,6 +10,8 @@ namespace Vanilla.Navigator.Facade.SearchResult
 
         public Dto Dto { get; set; }
 
+        public UtilFac.Artifact.Dto CurrentArtifact { get; set; }
+
         public List<UtilFac.Artifact.Dto> ArtifactList { get; set; }
 
     }
