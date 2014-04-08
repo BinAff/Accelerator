@@ -40,6 +40,9 @@
     <Compile Include="Artifact\FormDto.cs" />
     <Compile Include="Artifact\Server.cs" />
     <Compile Include="Artifact\Type.cs" />
+    <Compile Include="Module\Definition\Dto.cs" />
+    <Compile Include="Module\Definition\FormDto.cs" />
+    <Compile Include="Module\Definition\Server.cs" />
     <Compile Include="Module\Dto.cs" />
     <Compile Include="Module\FormDto.cs" />
     <Compile Include="Module\Helper.cs" />

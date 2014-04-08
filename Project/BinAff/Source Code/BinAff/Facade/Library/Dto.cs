@@ -25,7 +25,8 @@ namespace BinAff.Facade.Library
         {
             Create,
             Update,
-            Delete
+            Delete,
+            Read
         }
 
     }

@@ -161,6 +161,7 @@ namespace Vanilla.Utility.Facade.Module
 
             Artifact.Server artifactServer = new Artifact.Server((this.FormDto as FormDto).CurrentArtifact);
             artifactServer.ModuleComponentDataType = helper.ArtifactDataType + ", " + helper.ArtifacComponentAssembly;
+            if(currentArtifact.ComponentDefinition != null) currentArtifact.ComponentDefinition.ComponentFormType = helper.ModuleFormType;
             helper.ArtifactData = artifactServer.ConvertTree(currentArtifact);
 
             //moduleDefDto.Artifact.Module == null when folder gets added 
@@ -199,5 +200,14 @@ namespace Vanilla.Utility.Facade.Module
             String fileName = new Artifact.Server(null).GetArtifactName(dto.Artifact, Artifact.Type.Document, documentType);
             return dto.Artifact.Path + fileName;
         }
+
+        public void ReadArtifact()
+        {
+            Artifact.Server artf = this.GetArtifactFacade(BinAff.Facade.Library.Dto.ActionType.Read);
+            artf.Read();
+            if(this.IsError = artf.IsError) this.DisplayMessageList = artf.DisplayMessageList;
+        }
+
     }
+
 }

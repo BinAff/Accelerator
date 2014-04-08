@@ -30,6 +30,29 @@ namespace Vanilla.Navigator.Facade.SearchResult
             throw new NotImplementedException();
         }
 
+        public override void Read()
+        {
+            UtilFac.Artifact.Dto artifact = (this.FormDto as FormDto).CurrentArtifact as UtilFac.Artifact.Dto;
+            UtilFac.Module.FormDto moduleFormDto = new UtilFac.Module.FormDto
+            {
+                Dto = new UtilFac.Module.Dto
+                {
+                    Code = artifact.ComponentDefinition.Code,
+                },
+                CurrentArtifact = new UtilFac.Artifact.FormDto
+                {
+                    Dto = artifact,
+                },
+            };
+            UtilFac.Module.Server module = new UtilFac.Module.Server(moduleFormDto)
+            {
+                Category = artifact.Category
+            };
+            module.ReadArtifact();
+            if (this.IsError = module.IsError) this.DisplayMessageList = module.DisplayMessageList;
+            (this.FormDto as FormDto).CurrentArtifact =  moduleFormDto.CurrentArtifact.Dto;
+        }
+
     }
 
 }
