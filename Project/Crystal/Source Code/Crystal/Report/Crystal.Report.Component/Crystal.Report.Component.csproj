@@ -43,6 +43,7 @@
     <Compile Include="Category\Validator.cs" />
     <Compile Include="Dao.cs" />
     <Compile Include="Data.cs" />
+    <Compile Include="IReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Validator.cs" />

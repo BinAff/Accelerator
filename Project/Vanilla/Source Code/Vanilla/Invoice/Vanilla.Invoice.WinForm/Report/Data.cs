@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Crystal.Invoice.Presentation.Report
+namespace Vanilla.Invoice.WinForm.Report
 {
-    class Data
+    public class Data
     {
         public String Group { get; set; }
         public String GroupDisplay { get; set; }

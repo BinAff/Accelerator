@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 using PresentationLibrary = BinAff.Presentation.Library;
-using System.Collections.Generic;
+using FacadeReport = Vanilla.Invoice.Facade.Report;
 
 namespace Vanilla.Invoice.WinForm.Report
 {
@@ -40,61 +41,57 @@ namespace Vanilla.Invoice.WinForm.Report
                 dpSearchDate.Enabled = false;
                 btnSave.Enabled = false;
                 dpSearchDate.Value = (dto as Facade.Report.Dto).fromDate;
-                this.LoadData(dpSearchDate.Value.Date, dpSearchDate.Value.Date);
+                this.LoadData(dpSearchDate.Value.Date);
             }
             else
-                this.LoadData(DateTime.Today, DateTime.Today);
+                this.LoadData(DateTime.Today);
         }
 
 
 
-        private void LoadData(DateTime startDate, DateTime endDate)
+        private void LoadData(DateTime date)
         {
+            FacadeReport.IReport report = new FacadeReport.Server(null);
+            List<Facade.Dto> invoiceList = report.GetDailyReport(date);
+
             List<Data> salesList = new List<Data>();
-        //    Crystal.Invoice.Facade.IReport sales = new Crystal.Invoice.Facade.ReportServer();
-        //    ReturnObject<List<Crystal.Invoice.Facade.Dto>> retVal = sales.GetList(startDate, endDate);
+            if (invoiceList != null && invoiceList.Count > 0)
+            {
+                foreach (Facade.Dto invoiceData in invoiceList)
+                {
+                    salesList.Add(new Data
+                    {
+                        InvoiceNumber = invoiceData.invoiceNumber,
+                        Date = invoiceData.date.ToShortDateString(),
+                        SellerName = invoiceData.seller.Name,
+                        SellerAddress = invoiceData.seller.Address,
+                        SellerContactNo = invoiceData.seller.ContactNumber,
+                        SellerEmail = invoiceData.seller.Email,
+                        SellerLicence = invoiceData.seller.Liscence,
+                        BuyerName = invoiceData.buyer.Name,
+                        BuyerAddress = invoiceData.buyer.Address,
+                        BuyerContactNo = invoiceData.buyer.ContactNumber
+                    });
+                }
 
-        //    if (retVal.Value != null)
-        //    {
-        //        List<Crystal.Invoice.Facade.Dto> salesDtoList = retVal.Value;
+                this.rvReport.Reset();
+                this.rvReport.DocumentMapCollapsed = true;
+                String path = System.IO.Directory.GetCurrentDirectory();
+                path = path.Remove(path.IndexOf("AutoTourism"));
+                path += @"Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.WinForm\Report\Daily.rdlc";
+               
 
-        //        foreach (Crystal.Invoice.Facade.Dto salesData in salesDtoList)
-        //        {
-        //            Data data = new Data()
-        //            {
-        //                InvoiceNumber = salesData.Id.ToString(),
-        //                Date = salesData.Date.ToShortDateString(),
-        //                SellerName = salesData.SellerName,
-        //                SellerAddress = salesData.SellerAddress,
-        //                SellerContactNo = salesData.SellerContactNo,
-        //                SellerEmail = salesData.SellerEmail,
-        //                SellerLicence = salesData.SellerLicence,
-        //                BuyerName = salesData.BuyerName,
-        //                BuyerAddress = salesData.BuyerAddress,
-        //                BuyerContactNo = salesData.BuyerContactNo
-        //            };
+                this.rvReport.LocalReport.ReportPath = path;               
+                string sDataSourceName = "Sales";
 
-        //            salesList.Add(data);
-        //        }
+                Microsoft.Reporting.WinForms.ReportDataSource rptDataSoruce = new Microsoft.Reporting.WinForms.ReportDataSource();
+                rptDataSoruce.Name = sDataSourceName;
+                rptDataSoruce.Value = salesList;
 
-        //        this.rvReport.Reset();
-        //        this.rvReport.DocumentMapCollapsed = true;
-        //        String path = System.IO.Directory.GetCurrentDirectory();
-        //        path += @"\Report\Invoice Management System\Daily.rdlc";
-        //        //path = path.Remove(path.IndexOf("Reference"));                
-        //        //path += @"BinAff\Crystal Framework\Invoice Management System\Presentation\Report\Daily.rdlc";
-
-        //        this.rvReport.LocalReport.ReportPath = path;               
-        //        string sDataSourceName = "Sales";
-
-        //        Microsoft.Reporting.WinForms.ReportDataSource rptDataSoruce = new Microsoft.Reporting.WinForms.ReportDataSource();
-        //        rptDataSoruce.Name = sDataSourceName;
-        //        rptDataSoruce.Value = salesList;
-
-        //        this.rvReport.Visible = true;
-        //        this.rvReport.LocalReport.DataSources.Add(rptDataSoruce);
-        //        this.rvReport.RefreshReport();
-        //    }
+                this.rvReport.Visible = true;
+                this.rvReport.LocalReport.DataSources.Add(rptDataSoruce);
+                this.rvReport.RefreshReport();
+            }
 
         }
 
@@ -127,7 +124,7 @@ namespace Vanilla.Invoice.WinForm.Report
      
         private void dpSearchDate_ValueChanged(object sender, EventArgs e)
         {
-            this.LoadData(dpSearchDate.Value.Date, dpSearchDate.Value.Date);
+            this.LoadData(dpSearchDate.Value.Date);
         }
 
     }
