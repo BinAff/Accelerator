@@ -1,10 +1,12 @@
-﻿
+﻿using System.Collections.Generic;
 using BinAff.Core;
 using CrystalInvoiceReport = Crystal.Invoice.Component.Report;
+using CrystalReport = Crystal.Report.Component;
+
 
 namespace Vanilla.Invoice.Facade.Report
 {
-    public class Server : BinAff.Facade.Library.Server
+    public class Server : BinAff.Facade.Library.Server, IReport
     {
         public Server(FormDto formDto)
             : base(formDto)
@@ -57,6 +59,41 @@ namespace Vanilla.Invoice.Facade.Report
                 formDto.dto.Id = invoiceReportData.Id;
 
             this.DisplayMessageList = retVal.GetMessage((this.IsError = retVal.HasError()) ? Message.Type.Error : Message.Type.Information);           
+        }
+
+        List<Facade.Dto> IReport.GetDailyReport(System.DateTime date)
+        {
+            List<Facade.Dto> invoiceList = new List<Facade.Dto>();
+            CrystalReport.IReport report = new CrystalInvoiceReport.Server(null);
+            List<BinAff.Core.Data> reportDataList = report.GetDailyReport(date);
+            if (reportDataList != null && reportDataList.Count > 0)
+            {
+                foreach (Crystal.Invoice.Component.Data data in reportDataList)
+                {
+                    invoiceList.Add(new Facade.Dto
+                    {
+                        Id = data.Id,
+                        date = data.Date,
+                        invoiceNumber = data.InvoiceNumber,
+                        seller = data.Seller == null ? null : new Facade.Seller.Dto
+                        {
+                            Name = data.Seller.Name,
+                            Address = data.Seller.Address,
+                            ContactNumber = data.Seller.ContactNumber,
+                            Email = data.Seller.Email,
+                            Liscence = data.Seller.Liscence
+                        },
+                        buyer = data.Buyer == null ? null : new Facade.Buyer.Dto 
+                        {
+                            Name = data.Buyer.Name,
+                            Address = data.Buyer.Address,
+                            ContactNumber = data.Buyer.ContactNumber,
+                            Email = data.Buyer.Email
+                        }
+                    });
+                }
+            }
+            return invoiceList;
         }
     }
 }
