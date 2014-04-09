@@ -59,10 +59,29 @@ namespace Vanilla.Invoice.Facade.Report
         }
 
         List<Facade.Dto> IReport.GetDailyReport(System.DateTime date)
-        {
-            List<Facade.Dto> invoiceList = new List<Facade.Dto>();
+        {            
             CrystalReport.IReport report = new CrystalInvoiceReport.Server(null);
             List<BinAff.Core.Data> reportDataList = report.GetDailyReport(date);
+            return this.GetSalesData(reportDataList);
+        }
+
+        List<Facade.Dto> IReport.GetWeeklyReport(System.DateTime date)
+        {
+            CrystalReport.IReport report = new CrystalInvoiceReport.Server(null);
+            List<BinAff.Core.Data> reportDataList = report.GetWeeklyReport(date);
+            return this.GetSalesData(reportDataList);
+        }
+                
+        List<Facade.Dto> IReport.GetMonthlyReport(System.DateTime date)
+        {
+            CrystalReport.IReport report = new CrystalInvoiceReport.Server(null);
+            List<BinAff.Core.Data> reportDataList = report.GetMonthlyReport(date);
+            return this.GetSalesData(reportDataList);
+        }
+                
+        private List<Facade.Dto> GetSalesData(List<BinAff.Core.Data> reportDataList)
+        {
+            List<Facade.Dto> invoiceList = new List<Facade.Dto>();
             if (reportDataList != null && reportDataList.Count > 0)
             {
                 foreach (Crystal.Invoice.Component.Data data in reportDataList)
@@ -80,7 +99,7 @@ namespace Vanilla.Invoice.Facade.Report
                             Email = data.Seller.Email,
                             Liscence = data.Seller.Liscence
                         },
-                        buyer = data.Buyer == null ? null : new Facade.Buyer.Dto 
+                        buyer = data.Buyer == null ? null : new Facade.Buyer.Dto
                         {
                             Name = data.Buyer.Name,
                             Address = data.Buyer.Address,
@@ -92,5 +111,8 @@ namespace Vanilla.Invoice.Facade.Report
             }
             return invoiceList;
         }
+
+
+       
     }
 }

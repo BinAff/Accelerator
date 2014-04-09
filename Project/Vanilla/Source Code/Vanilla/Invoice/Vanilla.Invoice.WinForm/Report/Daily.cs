@@ -15,17 +15,8 @@ namespace Vanilla.Invoice.WinForm.Report
 
         public enum ReportCategory
         {
-            Daily = 10001,
-            //Weekly = 2,
-            //Monthly = 3,
-            //Quarterly = 4,
-            //Yearly = 5
-        }
-
-        //public Daily()
-        //{
-        //    InitializeComponent();
-        //}
+            Daily = 10001
+        }       
 
         public Daily(Facade.Report.Dto dto)
         {
@@ -46,9 +37,7 @@ namespace Vanilla.Invoice.WinForm.Report
             else
                 this.LoadData(DateTime.Today);
         }
-
-
-
+        
         private void LoadData(DateTime date)
         {
             FacadeReport.IReport report = new FacadeReport.Server(null);
@@ -102,9 +91,7 @@ namespace Vanilla.Invoice.WinForm.Report
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            Facade.Report.Dto dto = this.dto as Facade.Report.Dto;
-            //dto.fromDate = dpSearchDate.Value.Date;
-            //dto.toDate = dpSearchDate.Value.Date;
+            Facade.Report.Dto dto = this.dto as Facade.Report.Dto;           
             dto.date = dpSearchDate.Value.Date;
             dto.category = new Vanilla.Report.Facade.Category.Dto { Id = Convert.ToInt64(ReportCategory.Daily) };
             

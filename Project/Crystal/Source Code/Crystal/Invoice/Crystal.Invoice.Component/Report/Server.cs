@@ -36,12 +36,17 @@ namespace Crystal.Invoice.Component.Report
 
         public override List<BinAff.Core.Data> GetWeeklyReport(System.DateTime date)
         {
-            throw new System.NotImplementedException();
+            DateTime firstDayOfWeek = this.GetPreviousMonday(date);
+            DateTime lastDayOfWeek = firstDayOfWeek.AddDays(6);
+
+            return ((Dao)this.DataAccess).GetSalesData(firstDayOfWeek, lastDayOfWeek);
         }
 
         public override List<BinAff.Core.Data> GetMonthlyReport(System.DateTime date)
         {
-            throw new System.NotImplementedException();
+            DateTime firstDayOfMonth = this.GetFirstDayOfMonth(date);
+            DateTime lastDayOfMonth = this.GetLastDayOfMonth(date);
+            return ((Dao)this.DataAccess).GetSalesData(firstDayOfMonth, lastDayOfMonth);
         }
 
         public override List<BinAff.Core.Data> GetQuarterlyReport(System.DateTime date)
@@ -52,6 +57,27 @@ namespace Crystal.Invoice.Component.Report
         public override List<BinAff.Core.Data> GetYearlyReport(System.DateTime date)
         {
             throw new System.NotImplementedException();
+        }
+
+        private DateTime GetPreviousMonday(DateTime dt)
+        {
+            var dateDayOfWeek = (int)dt.DayOfWeek;
+            if (dateDayOfWeek == 0)
+                dateDayOfWeek = dateDayOfWeek + 7;
+
+            var alterNumber = dateDayOfWeek - ((dateDayOfWeek * 2) - 1);
+            return dt.AddDays(alterNumber);
+        }
+
+        private DateTime GetFirstDayOfMonth(DateTime givenDate)
+        {
+            return new DateTime(givenDate.Year, givenDate.Month, 1);
+        }
+
+        private DateTime GetLastDayOfMonth(DateTime givenDate)
+        {
+            DateTime firstDayOfTheMonth = new DateTime(givenDate.Year, givenDate.Month, 1);
+            return firstDayOfTheMonth.AddMonths(1).AddDays(-1);
         }
     }
 }

@@ -30,9 +30,9 @@
         {
             this.rvReport = new Microsoft.Reporting.WinForms.ReportViewer();
             this.pnlSearch = new System.Windows.Forms.Panel();
+            this.btnSave = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dpSearchDate = new System.Windows.Forms.DateTimePicker();
-            this.btnSave = new System.Windows.Forms.Button();
             this.pnlSearch.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,6 +55,16 @@
             this.pnlSearch.Size = new System.Drawing.Size(819, 33);
             this.pnlSearch.TabIndex = 4;
             // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(364, 3);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 4;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -71,16 +81,7 @@
             this.dpSearchDate.Name = "dpSearchDate";
             this.dpSearchDate.Size = new System.Drawing.Size(200, 20);
             this.dpSearchDate.TabIndex = 0;
-            // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(364, 3);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 4;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.dpSearchDate.ValueChanged += new System.EventHandler(this.dpSearchDate_ValueChanged);
             // 
             // Monthly
             // 
@@ -91,7 +92,6 @@
             this.Controls.Add(this.pnlSearch);
             this.Name = "Monthly";
             this.Text = "Sales Report : Monthly";
-            this.Load += new System.EventHandler(this.Monthly_Load);
             this.pnlSearch.ResumeLayout(false);
             this.pnlSearch.PerformLayout();
             this.ResumeLayout(false);
