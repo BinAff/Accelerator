@@ -130,8 +130,8 @@ namespace Vanilla.Invoice.WinForm.Report
         private void btnSave_Click(object sender, EventArgs e)
         {
             Facade.Report.Dto dto = this.dto as Facade.Report.Dto;
-            dto.fromDate = GetPreviousMonday(dpSearchDate.Value);
-            dto.toDate = dto.fromDate.AddDays(6);
+            //dto.fromDate = GetPreviousMonday(dpSearchDate.Value);
+            //dto.toDate = dto.fromDate.AddDays(6);
             dto.category = new Vanilla.Report.Facade.Category.Dto { Id = Convert.ToInt64(ReportCategory.Weekly) };
 
             //BinAff.Facade.Library.Server facade = new Facade.Report.Server(this.formDto);

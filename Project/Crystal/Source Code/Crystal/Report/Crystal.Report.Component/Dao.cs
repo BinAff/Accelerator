@@ -16,8 +16,8 @@ namespace Crystal.Report.Component
 
         protected override void AssignParameter(string procedureName)
         {
-            base.AddInParameter("@From", DbType.DateTime, ((Data)this.Data).FromDate);
-            base.AddInParameter("@To", DbType.DateTime, ((Data)this.Data).ToDate);
+            base.AddInParameter("@Date", DbType.DateTime, ((Data)this.Data).Date);
+            base.AddInParameter("@CategoryId", DbType.Int64, ((Data)this.Data).category.Id);
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
@@ -29,8 +29,8 @@ namespace Crystal.Report.Component
                 row = ds.Tables[0].Rows[0];
 
                 dt.Id = data.Id;
-                dt.FromDate = Convert.IsDBNull(row["Start"]) ? DateTime.MinValue : Convert.ToDateTime(row["Start"]);
-                dt.ToDate = Convert.IsDBNull(row["End"]) ? DateTime.MinValue : Convert.ToDateTime(row["End"]);
+                dt.Date = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]);
+                dt.category = Convert.IsDBNull(row["ReportCategoryId"]) ? null : new Crystal.Report.Component.Category.Data { Id = Convert.ToInt64(row["ReportCategoryId"]) };                
             }
             return dt;
         }

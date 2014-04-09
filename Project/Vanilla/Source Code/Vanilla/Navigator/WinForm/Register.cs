@@ -293,16 +293,20 @@ namespace Vanilla.Navigator.WinForm
                     {
                         if (artifact.Module.GetType().FullName == "Vanilla.Invoice.Facade.Report.Dto")
                         {
-                            Int64 reportCategoryId = (artifact.Module as Vanilla.Invoice.Facade.Report.Dto).category.Id;
-                            foreach (Table tbl in this.reportCategory)
+                            Vanilla.Invoice.Facade.Report.Dto reportDto = artifact.Module as Vanilla.Invoice.Facade.Report.Dto;
+                            Int64 reportCategoryId = reportDto.category == null ? 0 : reportDto.category.Id;
+                            if (reportCategoryId > 0)
                             {
-                                if (tbl.Id == reportCategoryId)
+                                foreach (Table tbl in this.reportCategory)
                                 {
-                                    reportExtension.Add(new Table
+                                    if (tbl.Id == reportCategoryId)
                                     {
-                                        Id = artifact.Id,
-                                        Name = tbl.Name
-                                    });
+                                        reportExtension.Add(new Table
+                                        {
+                                            Id = artifact.Id,
+                                            Name = tbl.Name
+                                        });
+                                    }
                                 }
                             }
                         }
