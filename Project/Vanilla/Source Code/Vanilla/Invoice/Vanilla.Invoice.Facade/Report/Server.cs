@@ -25,8 +25,9 @@ namespace Vanilla.Invoice.Facade.Report
             return new Dto
             {
                 Id = invoiceReportData.Id,
-                fromDate = invoiceReportData.FromDate,
-                toDate = invoiceReportData.ToDate,
+                date = invoiceReportData.Date,
+                //fromDate = invoiceReportData.FromDate,
+                //toDate = invoiceReportData.ToDate,
                 category = invoiceReportData.category == null ? null : new Vanilla.Report.Facade.Category.Dto{ Id = invoiceReportData.category.Id }
             };
         }
@@ -36,8 +37,9 @@ namespace Vanilla.Invoice.Facade.Report
             Dto reportDto = dto as Dto;
             return new CrystalInvoiceReport.Data
             {
-                FromDate = reportDto.fromDate,
-                ToDate = reportDto.toDate,
+                Date = reportDto.date,
+                //FromDate = reportDto.fromDate,
+                //ToDate = reportDto.toDate,
                 category = new Crystal.Report.Component.Category.Data { Id = reportDto.category.Id }
             };
         }
@@ -46,12 +48,7 @@ namespace Vanilla.Invoice.Facade.Report
         {            
             FormDto formDto = this.FormDto as FormDto;
 
-            CrystalInvoiceReport.Data invoiceReportData = this.Convert(formDto.dto) as CrystalInvoiceReport.Data;
-            //CrystalInvoiceReport.Data invoiceReportData = new CrystalInvoiceReport.Data 
-            //{
-            //    FromDate = formDto.dto.fromDate,
-            //    ToDate = formDto.dto.toDate 
-            //};
+            CrystalInvoiceReport.Data invoiceReportData = this.Convert(formDto.dto) as CrystalInvoiceReport.Data;           
             ICrud crud = new CrystalInvoiceReport.Server(invoiceReportData);
             ReturnObject<bool> retVal = crud.Save();
 

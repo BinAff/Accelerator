@@ -310,8 +310,8 @@ namespace Vanilla.Invoice.WinForm.Report
         private void btnSave_Click(object sender, EventArgs e)
         {
             Facade.Report.Dto dto = this.dto as Facade.Report.Dto;
-            dto.fromDate = GetFirstDayOfMonth(dpSearchDate.Value);
-            dto.toDate = GetLastDayOfMonth(dpSearchDate.Value);
+            //dto.fromDate = GetFirstDayOfMonth(dpSearchDate.Value);
+            //dto.toDate = GetLastDayOfMonth(dpSearchDate.Value);
             dto.category = new Vanilla.Report.Facade.Category.Dto { Id = Convert.ToInt64(ReportCategory.Monthly) };
 
             //BinAff.Facade.Library.Server facade = new Facade.Report.Server(this.formDto);

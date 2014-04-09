@@ -40,7 +40,7 @@ namespace Vanilla.Invoice.WinForm.Report
             {
                 dpSearchDate.Enabled = false;
                 btnSave.Enabled = false;
-                dpSearchDate.Value = (dto as Facade.Report.Dto).fromDate;
+                dpSearchDate.Value = dto.date;
                 this.LoadData(dpSearchDate.Value.Date);
             }
             else
@@ -103,8 +103,9 @@ namespace Vanilla.Invoice.WinForm.Report
         private void btnSave_Click(object sender, EventArgs e)
         {
             Facade.Report.Dto dto = this.dto as Facade.Report.Dto;
-            dto.fromDate = dpSearchDate.Value.Date;
-            dto.toDate = dpSearchDate.Value.Date;
+            //dto.fromDate = dpSearchDate.Value.Date;
+            //dto.toDate = dpSearchDate.Value.Date;
+            dto.date = dpSearchDate.Value.Date;
             dto.category = new Vanilla.Report.Facade.Category.Dto { Id = Convert.ToInt64(ReportCategory.Daily) };
             
             BinAff.Facade.Library.Server facade = new Facade.Report.Server(this.formDto);
