@@ -75,11 +75,23 @@
     <Compile Include="Report\Monthly.Designer.cs">
       <DependentUpon>Monthly.cs</DependentUpon>
     </Compile>
+    <Compile Include="Report\Quarterly.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\Quarterly.Designer.cs">
+      <DependentUpon>Quarterly.cs</DependentUpon>
+    </Compile>
     <Compile Include="Report\Weekly.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\Weekly.Designer.cs">
       <DependentUpon>Weekly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\Yearly.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\Yearly.Designer.cs">
+      <DependentUpon>Yearly.cs</DependentUpon>
     </Compile>
     <Compile Include="Taxation.cs">
       <SubType>Form</SubType>
@@ -102,10 +114,12 @@
     <EmbeddedResource Include="Report\Monthly.resx">
       <DependentUpon>Monthly.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\Quarterly.rdlc" />
     <EmbeddedResource Include="Report\Weekly.rdlc" />
     <EmbeddedResource Include="Report\Weekly.resx">
       <DependentUpon>Weekly.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\Yearly.rdlc" />
     <EmbeddedResource Include="Taxation.resx">
       <DependentUpon>Taxation.cs</DependentUpon>
     </EmbeddedResource>
