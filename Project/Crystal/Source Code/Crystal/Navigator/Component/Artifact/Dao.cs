@@ -83,7 +83,6 @@ namespace Crystal.Navigator.Component.Artifact
             dt.CreatedAt = Convert.IsDBNull(dr["CreatedAt"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CreatedAt"]);
             dt.ModifiedAt = Convert.IsDBNull(dr["ModifiedAt"]) ? DateTime.MinValue : Convert.ToDateTime(dr["ModifiedAt"]);
             dt.ParentId = Convert.IsDBNull(dr["ParentId"]) ? 0 : Convert.ToInt64(dr["ParentId"]);
-
             return dt;
         }
 
@@ -99,9 +98,37 @@ namespace Crystal.Navigator.Component.Artifact
             {
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    if (!Convert.IsDBNull(row["ArtifactId"]))
+                    if (!Convert.IsDBNull(row["Id"]))
                     {
-                        artifactList.Add(this.CreateDataObject(Convert.ToInt64(row["ArtifactId"]), (this.Data as Data).Category));
+                        Data artf = this.CreateDataObject(row, this.CreateDataObject(Convert.ToInt64(row["Id"]), (this.Data as Data).Category)) as Data;
+                        artf.CreatedBy = new GuardianAcc.Data
+                        {
+                            Id = Convert.ToInt64(row["CreatedByUserId"]),
+                            Profile = new GuardianAcc.Profile.Data
+                            {
+                                FirstName = Convert.ToString(row["CreatedByFirstName"]),
+                                MiddleName = Convert.ToString(row["CreatedByMiddleName"]),
+                                LastName = Convert.ToString(row["CreatedByLastName"])
+                            }
+                        };
+                        if (!Convert.IsDBNull(row["ModifiedByUserId"]))
+                        {
+                            artf.ModifiedBy = new GuardianAcc.Data
+                            {
+                                Id = Convert.ToInt64(row["ModifiedByUserId"]),
+                                Profile = new GuardianAcc.Profile.Data
+                                {
+                                    FirstName = Convert.ToString(row["ModifiedByFirstName"]),
+                                    MiddleName = Convert.ToString(row["ModifiedByMiddleName"]),
+                                    LastName = Convert.ToString(row["ModifiedByLastName"])
+                                }
+                            };
+                        }
+                        artf.ComponentDefinition = new License.Component.Data
+                        {
+                            Code = Convert.IsDBNull(row["ComponentCode"]) ? String.Empty : Convert.ToString(row["ComponentCode"]),
+                        };
+                        artifactList.Add(artf);
                     }
                 }
             }

@@ -141,7 +141,7 @@ namespace Vanilla.Navigator.Facade.Register
             {
                 UtilFac.Artifact.Dto artf = artifactDto.Children[i] as UtilFac.Artifact.Dto;
 
-                if (artf.Style == UtilFac.Artifact.Type.Directory)
+                if (artf.Style == UtilFac.Artifact.Type.Folder)
                 {
                     UtilFac.Artifact.Dto childArtifactDto = this.GetArtifactDtoByValueForCopy(artf);
                     childArtifactDto.CreatedAt = artifactDto.CreatedAt;

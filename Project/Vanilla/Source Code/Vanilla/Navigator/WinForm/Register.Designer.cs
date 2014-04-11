@@ -626,7 +626,7 @@
             this.cmnuDirectory.Name = "cmnuDirectory";
             this.cmnuDirectory.Size = new System.Drawing.Size(128, 22);
             this.cmnuDirectory.Text = "Directory";
-            this.cmnuDirectory.Click += new System.EventHandler(this.cmnuDirectory_Click);
+            this.cmnuDirectory.Click += new System.EventHandler(this.cmnuFolder_Click);
             // 
             // cmnuForm
             // 
