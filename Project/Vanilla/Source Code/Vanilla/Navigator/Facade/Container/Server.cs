@@ -295,6 +295,11 @@ namespace Vanilla.Navigator.Facade.Container
             return document;
         }
 
+        public Boolean IsConnected()
+        {
+            return BinAff.Utility.Connectivity.IsConnected();
+        }
+
         #region "Menu Handle"
 
         public void Login()

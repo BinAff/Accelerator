@@ -30,6 +30,11 @@ namespace Vanilla.Navigator.WinForm
 
         List<String> addressList; //This is for back button. This will hold all navigations
 
+        /// <summary>
+        /// This is for progress bar
+        /// </summary>
+        private Int16 loadPercentage;
+
         private String address;
         public String Address
         {
@@ -76,6 +81,9 @@ namespace Vanilla.Navigator.WinForm
 
         public void LoadForm()
         {
+            this.loadPercentage = 0;
+            Timer t = new Timer { Interval = 10 };
+            t.Tick += t_Tick;
             this.cmsExplorer.ImageList = this.imgSmallIcon;
             this.lvwColumnSorter = new PresLib.ListViewColumnSorter();
             this.sortColumn = this.lsvContainer.Initialize();
@@ -88,7 +96,11 @@ namespace Vanilla.Navigator.WinForm
                     Dto = new UtilFac.Module.Dto()
                 },
             });
+            this.loadPercentage = 10;
+            t.Start();
             this.facade.LoadForm();
+            t.Stop();
+            this.loadPercentage = 90;
             this.LoadModules(tbcCategory.TabPages[0].Text);
             this.txtAddress.Text = "Form" + this.formDto.Rule.ModuleSeperator;
             this.lsvContainer.Items.Clear();
@@ -102,7 +114,17 @@ namespace Vanilla.Navigator.WinForm
             reportCategory.Add(new Table { Id = 10004, Name = "qrpt" });
             reportCategory.Add(new Table { Id = 10005, Name = "yrpt" });
             //--------------
+            this.loadPercentage = 100;
+        }
 
+        public Int16 GetStatus()
+        {
+            return (Int16)Math.Abs(this.loadPercentage * 0.8);
+        }
+
+        void t_Tick(object sender, EventArgs e)
+        {
+            this.loadPercentage = this.facade.GetStatus();
         }
 
         private void LoadModules(String currentTab)

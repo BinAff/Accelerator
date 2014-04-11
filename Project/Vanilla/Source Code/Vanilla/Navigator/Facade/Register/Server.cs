@@ -5,6 +5,7 @@ using BinAff.Core;
 
 using UtilFac = Vanilla.Utility.Facade;
 using VanAcc = Vanilla.Guardian.Facade.Account;
+using System.Timers;
 
 namespace Vanilla.Navigator.Facade.Register
 {
@@ -12,12 +13,18 @@ namespace Vanilla.Navigator.Facade.Register
     public class Server : BinAff.Facade.Library.Server
     {
         private Vanilla.Utility.Facade.Artifact.Category currentCategory;
-
         public Vanilla.Utility.Facade.Artifact.Category Category
         {
             set { this.currentCategory = value; }
             get { return this.currentCategory; }
         }
+
+        private Int16 loadPercentage;
+
+        /// <summary>
+        /// This is just required to give progress bar status
+        /// </summary>
+        private Vanilla.Utility.Facade.Module.Server moduleFacade;
 
         public Server(FormDto formDto)
             : base(formDto)
@@ -32,11 +39,30 @@ namespace Vanilla.Navigator.Facade.Register
 
         public override void LoadForm()
         {
+            this.loadPercentage = 0;
+            Timer t = new Timer { Interval = 10 };
+            t.Elapsed += t_Elapsed;
+
             this.LoadRule();
-
-            new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto) { Category = this.currentCategory }.LoadForm();
-
+            this.loadPercentage = 10;
+            t.Start();
+            this.moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto) { Category = this.currentCategory };
+            this.moduleFacade.LoadForm();
+            t.Stop();
+            this.loadPercentage = 90;
             this.GetCurrentModules(Vanilla.Utility.Facade.Artifact.Category.Form);
+            this.loadPercentage = 100;
+        }
+
+        private void t_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            //Since this loading of modle is 80% of ccomplete loading
+            this.loadPercentage = (Int16)Math.Abs(this.moduleFacade.GetStatus() * 0.8);
+        }
+
+        public Int16 GetStatus()
+        {
+            return this.loadPercentage;
         }
 
         public override BinAff.Facade.Library.Dto Convert(Data data)
