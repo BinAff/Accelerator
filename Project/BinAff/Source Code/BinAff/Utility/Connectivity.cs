@@ -9,7 +9,26 @@ namespace BinAff.Utility
 
         public static Boolean IsConnected()
         {
-            WebRequest WebReq = WebRequest.Create(new System.Uri("http://www.binaryaffairs.com"));
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    using (var stream = client.OpenRead("http://www.binaryaffairs.com"))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static Boolean IsConnected(String url)
+        {
+            if (String.IsNullOrEmpty(url)) url = "http://www.binaryaffairs.com";
+            WebRequest WebReq = WebRequest.Create(new System.Uri(url));
             WebResponse Resp;
             try
             {
@@ -24,7 +43,6 @@ namespace BinAff.Utility
                 return false;
             }
         }
-
     }
 
 }
