@@ -15,5 +15,11 @@ namespace Vanilla.Invoice.WinForm.Report
         {
             InitializeComponent();
         }
+
+        private void Yearly_Load(object sender, EventArgs e)
+        {
+
+            //this.reportViewer1.RefreshReport();
+        }
     }
 }
