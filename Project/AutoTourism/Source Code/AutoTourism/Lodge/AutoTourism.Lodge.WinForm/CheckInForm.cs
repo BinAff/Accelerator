@@ -178,7 +178,7 @@ namespace AutoTourism.Lodge.WinForm
             {
                 foreach (Vanilla.Utility.Facade.Artifact.Dto dto in artifactList)
                 {
-                    if (dto.Style == Vanilla.Utility.Facade.Artifact.Type.Directory && dto.Children != null)
+                    if (dto.Style == Vanilla.Utility.Facade.Artifact.Type.Folder && dto.Children != null)
                     {
                         this.UpdateTreeNode(isNodeUpdated, reservationDto, dto.Children);
                         if (isNodeUpdated) break;

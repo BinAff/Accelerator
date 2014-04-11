@@ -201,11 +201,12 @@ namespace Vanilla.Utility.Facade.Module
             return dto.Artifact.Path + fileName;
         }
 
-        public void ReadArtifact()
+        public Artifact.Dto ReadArtifact()
         {
             Artifact.Server artf = this.GetArtifactFacade(BinAff.Facade.Library.Dto.ActionType.Read);
             artf.Read();
             if(this.IsError = artf.IsError) this.DisplayMessageList = artf.DisplayMessageList;
+            return (this.FormDto as FormDto).CurrentArtifact.Dto;
         }
 
     }

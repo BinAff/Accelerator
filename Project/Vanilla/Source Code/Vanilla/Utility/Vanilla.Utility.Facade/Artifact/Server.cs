@@ -59,7 +59,7 @@ namespace Vanilla.Utility.Facade.Artifact
                 Id = artifactData.Id,
                 FileName = artifactData.FileName,
                 Path = artifactData.Path,
-                Style = (artifactData.Style == CrysArtf.Type.Directory) ? Type.Directory : Type.Document,
+                Style = (artifactData.Style == CrysArtf.Type.Directory) ? Type.Folder : Type.Document,
                 Version = artifactData.Version,
                 CreatedBy = artifactData.CreatedBy == null ? null : new Table
                 {
@@ -98,7 +98,7 @@ namespace Vanilla.Utility.Facade.Artifact
             dataType.GetProperty("FileName").SetValue(tree, artifactDto.FileName, null);
             dataType.GetProperty("Path").SetValue(tree, artifactDto.Path, null);
             dataType.GetProperty("Category").SetValue(tree, (CrysArtf.Category)artifactDto.Category, null);
-            dataType.GetProperty("Style").SetValue(tree, (artifactDto.Style == Type.Directory) ? CrysArtf.Type.Directory : CrysArtf.Type.Document, null);
+            dataType.GetProperty("Style").SetValue(tree, (artifactDto.Style == Type.Folder) ? CrysArtf.Type.Directory : CrysArtf.Type.Document, null);
             dataType.GetProperty("CreatedBy").SetValue(tree, new Crystal.Guardian.Component.Account.Data
             {
                 Id = artifactDto.CreatedBy.Id,
@@ -120,7 +120,7 @@ namespace Vanilla.Utility.Facade.Artifact
             data.Id = artifactDto.Id;
             data.FileName = artifactDto.FileName;
             data.Path = artifactDto.Path;
-            data.Style = (artifactDto.Style == Type.Directory) ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
+            data.Style = (artifactDto.Style == Type.Folder) ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
             data.CreatedBy = new Crystal.Guardian.Component.Account.Data
             {
                 Id = artifactDto.CreatedBy.Id,
@@ -188,7 +188,7 @@ namespace Vanilla.Utility.Facade.Artifact
                 dataType.GetProperty("ModifiedAt").SetValue(tree, dto.ModifiedAt, null);
             }
 
-            dataType.GetProperty("Style").SetValue(tree, dto.Style == Type.Directory ? CrysArtf.Type.Directory : CrysArtf.Type.Document, null);
+            dataType.GetProperty("Style").SetValue(tree, dto.Style == Type.Folder ? CrysArtf.Type.Directory : CrysArtf.Type.Document, null);
 
 
             tree.IsDeletable = dto.Action == BinAff.Facade.Library.Dto.ActionType.Delete;
