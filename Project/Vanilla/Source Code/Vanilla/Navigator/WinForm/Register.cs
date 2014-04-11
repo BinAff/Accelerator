@@ -1533,6 +1533,8 @@ namespace Vanilla.Navigator.WinForm
 
         private void SelectNode(String selectedNodePath)
         {
+            TreeView trv = this.GetActiveTreeView();
+
             this.txtAddress.Text = selectedNodePath;
             if (String.IsNullOrEmpty(selectedNodePath))
             {
@@ -1559,7 +1561,8 @@ namespace Vanilla.Navigator.WinForm
             if (!selectedNodePath.EndsWith("\\")) selectedNodePath += "\\";
             this.txtAddress.Text = selectedNodePath;
             selectedNodePath = selectedNodePath.Substring(selectedNodePath.IndexOf(this.formDto.Rule.ModuleSeperator) + 3);
-            TreeNode currentNode = this.FindTreeNodeFromPath(selectedNodePath, this.trvForm.Nodes);
+            //TreeNode currentNode = this.FindTreeNodeFromPath(selectedNodePath, this.trvForm.Nodes);
+            TreeNode currentNode = this.FindTreeNodeFromPath(selectedNodePath, trv.Nodes);
             if (currentNode == null)
             {
                 new PresLib.MessageBox
@@ -1571,10 +1574,12 @@ namespace Vanilla.Navigator.WinForm
             }
             else
             {
-                this.trvForm.SelectedNode = currentNode;
+                //this.trvForm.SelectedNode = currentNode;
+                trv.SelectedNode = currentNode;
                 currentNode.Expand();
                 this.currentArtifact = currentNode.Tag as UtilFac.Artifact.Dto;
-                this.trvArtifact_NodeMouseClick(this.trvForm, new TreeNodeMouseClickEventArgs(currentNode, MouseButtons.Left, 1, 0, 0));
+                //this.trvArtifact_NodeMouseClick(this.trvForm, new TreeNodeMouseClickEventArgs(currentNode, MouseButtons.Left, 1, 0, 0));
+                this.trvArtifact_NodeMouseClick(trv, new TreeNodeMouseClickEventArgs(currentNode, MouseButtons.Left, 1, 0, 0));
             }
         }
 

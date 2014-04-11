@@ -37,11 +37,13 @@
             this.ClientSize = new System.Drawing.Size(292, 273);
             this.Name = "Yearly";
             this.Text = "Yearly";
+            this.Load += new System.EventHandler(this.Yearly_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
 
     }
 }

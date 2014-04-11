@@ -167,6 +167,8 @@ namespace Vanilla.Utility.Facade.Module
         {
             Facade.Artifact.Dto currentArtifact = (this.FormDto as FormDto).CurrentArtifact.Dto;
             currentArtifact.Action = type;
+            
+            this.currentCategory = currentArtifact.Category; //line added by Biraj to add the current category
 
             Helper helper = new Helper((this.FormDto as FormDto).Dto, this.currentCategory);
 
