@@ -13,6 +13,8 @@ namespace Vanilla.Utility.Facade.Module
     {
         private Artifact.Category currentCategory;
 
+        private Int16 loadPercentage;
+
         public Artifact.Category Category
         {
             set { this.currentCategory = value; }
@@ -27,17 +29,26 @@ namespace Vanilla.Utility.Facade.Module
 
         public override void LoadForm()
         {
+            this.loadPercentage = 0;
             Crystal.License.Data data = new Crystal.License.Data();
             (new Crystal.License.Server(data) as Crystal.License.ILicense).Get();
 
+            this.loadPercentage = 10;
             FormDto formDto = this.FormDto as FormDto;
-
             this.currentCategory = Artifact.Category.Form;
             formDto.FormModuleList = this.Convert(data.FormList);
+            this.loadPercentage = 50;
             this.currentCategory = Artifact.Category.Catalogue;
             formDto.CatalogueModuleList = this.Convert(data.CatalogueList);
+            this.loadPercentage = 60;
             this.currentCategory = Artifact.Category.Report;
             formDto.ReportModuleList = this.Convert(data.ReportList);
+            this.loadPercentage = 100;
+        }
+
+        public Int16 GetStatus()
+        {
+            return this.loadPercentage;
         }
 
         private List<Module.Dto> Convert(List<Data> dataList)
