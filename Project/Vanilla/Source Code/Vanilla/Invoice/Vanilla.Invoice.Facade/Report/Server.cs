@@ -78,6 +78,20 @@ namespace Vanilla.Invoice.Facade.Report
             List<BinAff.Core.Data> reportDataList = report.GetMonthlyReport(date);
             return this.GetSalesData(reportDataList);
         }
+
+        List<Facade.Dto> IReport.GetQuarterlyReport(System.DateTime date)
+        {
+            CrystalReport.IReport report = new CrystalInvoiceReport.Server(null);
+            List<BinAff.Core.Data> reportDataList = report.GetQuarterlyReport(date);
+            return this.GetSalesData(reportDataList);
+        }
+
+        List<Facade.Dto> IReport.GetYearlyReport(System.DateTime date)
+        {
+            CrystalReport.IReport report = new CrystalInvoiceReport.Server(null);
+            List<BinAff.Core.Data> reportDataList = report.GetYearlyReport(date);
+            return this.GetSalesData(reportDataList);
+        }
                 
         private List<Facade.Dto> GetSalesData(List<BinAff.Core.Data> reportDataList)
         {
@@ -113,6 +127,9 @@ namespace Vanilla.Invoice.Facade.Report
         }
 
 
-       
+
+
+
+        
     }
 }

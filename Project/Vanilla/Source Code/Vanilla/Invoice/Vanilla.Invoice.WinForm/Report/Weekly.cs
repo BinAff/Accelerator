@@ -41,7 +41,8 @@ namespace Vanilla.Invoice.WinForm.Report
         {
             FacadeReport.IReport report = new FacadeReport.Server(null);
             List<Facade.Dto> invoiceList = report.GetWeeklyReport(date);
-
+            
+            this.rvReport.Reset();
             List<Data> salesList = new List<Data>();
 
             if (invoiceList != null && invoiceList.Count > 0)
@@ -63,7 +64,7 @@ namespace Vanilla.Invoice.WinForm.Report
                     });
                 }
 
-                this.rvReport.Reset();
+                //this.rvReport.Reset();
                 this.rvReport.DocumentMapCollapsed = true;
                 String path = System.IO.Directory.GetCurrentDirectory();
                 path = path.Remove(path.IndexOf("AutoTourism"));

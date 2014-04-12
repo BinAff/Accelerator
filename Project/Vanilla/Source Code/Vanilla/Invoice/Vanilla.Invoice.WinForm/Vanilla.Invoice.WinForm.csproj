@@ -115,6 +115,9 @@
       <DependentUpon>Monthly.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\Quarterly.rdlc" />
+    <EmbeddedResource Include="Report\Quarterly.resx">
+      <DependentUpon>Quarterly.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\Weekly.rdlc" />
     <EmbeddedResource Include="Report\Weekly.resx">
       <DependentUpon>Weekly.cs</DependentUpon>
@@ -159,7 +162,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="Properties\DataSources\Data.datasource" />
+    <None Include="Properties\DataSources\Vanilla.Invoice.WinForm.Report.Data.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
