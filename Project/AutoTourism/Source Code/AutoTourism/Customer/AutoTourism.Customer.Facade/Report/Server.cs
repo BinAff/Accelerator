@@ -21,12 +21,12 @@ namespace AutoTourism.Customer.Facade.Report
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            CrystalCustomerReport.Data invoiceReportData = data as CrystalCustomerReport.Data;
+            CrystalCustomerReport.Data customerReportData = data as CrystalCustomerReport.Data;
             return new Dto
             {
-                Id = invoiceReportData.Id,
-                date = invoiceReportData.Date,               
-                category = invoiceReportData.category == null ? null : new Vanilla.Report.Facade.Category.Dto{ Id = invoiceReportData.category.Id }
+                Id = customerReportData.Id,
+                date = customerReportData.Date,
+                category = customerReportData.category == null ? null : new Vanilla.Utility.Facade.Report.Category.Dto{ Id = customerReportData.category.Id }                               
             };
         }
 
