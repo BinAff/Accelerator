@@ -48,6 +48,8 @@
     <Compile Include="Module\Helper.cs" />
     <Compile Include="Module\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\Category\Dto.cs" />
+    <Compile Include="Report\Dto.cs" />
     <Compile Include="Rule\Dto.cs" />
     <Compile Include="Rule\Server.cs" />
   </ItemGroup>
