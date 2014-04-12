@@ -50,13 +50,40 @@ namespace Crystal.Invoice.Component.Report
         }
 
         public override List<BinAff.Core.Data> GetQuarterlyReport(System.DateTime date)
-        {
-            throw new System.NotImplementedException();
+        {          
+            DateTime firstDayOfQuarter = new DateTime();
+            DateTime lastDayOfQuarter = new DateTime();
+
+            if (date.Month <= 3) //first quarter
+            {
+                firstDayOfQuarter = new DateTime(date.Year, 1, 1);
+                lastDayOfQuarter = new DateTime(date.Year, 3, 31);
+            }
+            else if (date.Month <= 6) // Second Quarter
+            {
+                firstDayOfQuarter = new DateTime(date.Year, 4, 1);
+                lastDayOfQuarter = new DateTime(date.Year, 6, 30);
+            }
+            else if (date.Month <= 9) // third Quarter
+            {
+                firstDayOfQuarter = new DateTime(date.Year, 7, 1);
+                lastDayOfQuarter = new DateTime(date.Year, 9, 30);
+            }
+            else //last quarter
+            {
+                firstDayOfQuarter = new DateTime(date.Year, 10, 1);
+                lastDayOfQuarter = new DateTime(date.Year, 12, 31);
+            }
+
+            return ((Dao)this.DataAccess).GetSalesData(firstDayOfQuarter, lastDayOfQuarter);
         }
 
         public override List<BinAff.Core.Data> GetYearlyReport(System.DateTime date)
         {
-            throw new System.NotImplementedException();
+            DateTime firstDayOfYear = new DateTime(date.Year, 1, 1);
+            DateTime lastDayOfYear = new DateTime(date.Year, 12, 31);
+
+            return ((Dao)this.DataAccess).GetSalesData(firstDayOfYear, lastDayOfYear);
         }
 
         private DateTime GetPreviousMonday(DateTime dt)

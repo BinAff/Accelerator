@@ -2089,21 +2089,28 @@ namespace Vanilla.Navigator.WinForm
         }
 
         private void cmnuDailyReport_Click(object sender, EventArgs e)
-        {
-            //Type type = Type.GetType("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm", true);
+        {            
             this.AddDocument("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm");
         }
 
         private void cmnuWeeklyReport_Click(object sender, EventArgs e)
-        {
-            //Type type = Type.GetType("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm", true);
+        {           
             this.AddDocument("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm");
         }
 
         private void cmnuMonthlyReport_Click(object sender, EventArgs e)
-        {
-            //Type type = Type.GetType("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm", true);
+        {           
             this.AddDocument("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm");
+        }
+
+        private void cmnuQuarterlyReport_Click(object sender, EventArgs e)
+        {
+            this.AddDocument("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm");
+        }
+
+        private void cmnuYearlyReport_Click(object sender, EventArgs e)
+        {
+            this.AddDocument("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm");
         }
 
         private Type GetInvoiceType(UtilFac.Artifact.Dto artifactDto)
