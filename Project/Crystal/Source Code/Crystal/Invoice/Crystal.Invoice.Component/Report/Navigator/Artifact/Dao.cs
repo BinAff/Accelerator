@@ -17,7 +17,7 @@ namespace Crystal.Invoice.Component.Report.Navigator.Artifact
         protected override void Compose()
         {
             base.Compose();
-            this.DeleteArtifactLinkSPName = "[Invoice].[DeleteInvoiceReportFormForArtifact]";
+            this.DeleteArtifactLinkSPName = "[Invoice].[DeleteInvoiceReportForArtifact]";
         }
 
         protected override Boolean ReadBefore()
