@@ -2089,28 +2089,89 @@ namespace Vanilla.Navigator.WinForm
         }
 
         private void cmnuDailyReport_Click(object sender, EventArgs e)
-        {            
-            this.AddDocument("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm");
+        {
+            TreeNode rootNode = this.GetRootNode();
+            if (rootNode != null)
+            {
+                if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
+                    this.AddDocument("AutoTourism.Customer.WinForm.Report.Daily,AutoTourism.Customer.WinForm");
+                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
+                    this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Daily,AutoTourism.Lodge.WinForm");
+                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
+                    this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Daily,AutoTourism.Lodge.WinForm");
+                else
+                    this.AddDocument("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm");
+            }
+            
         }
 
         private void cmnuWeeklyReport_Click(object sender, EventArgs e)
         {           
-            this.AddDocument("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm");
+            //this.AddDocument("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm");
+
+            TreeNode rootNode = this.GetRootNode();
+            if (rootNode != null)
+            {
+                if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
+                    this.AddDocument("AutoTourism.Customer.WinForm.Report.Weekly,AutoTourism.Customer.WinForm");
+                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
+                    this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Weekly,AutoTourism.Lodge.WinForm");
+                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
+                    this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Weekly,AutoTourism.Lodge.WinForm");
+                else
+                    this.AddDocument("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm");
+            }
         }
 
         private void cmnuMonthlyReport_Click(object sender, EventArgs e)
         {           
-            this.AddDocument("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm");
+            //this.AddDocument("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm");
+            TreeNode rootNode = this.GetRootNode();
+            if (rootNode != null)
+            {
+                if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
+                    this.AddDocument("AutoTourism.Customer.WinForm.Report.Monthly,AutoTourism.Customer.WinForm");
+                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
+                    this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Monthly,AutoTourism.Lodge.WinForm");
+                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
+                    this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Monthly,AutoTourism.Lodge.WinForm");
+                else
+                    this.AddDocument("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm");
+            }
         }
 
         private void cmnuQuarterlyReport_Click(object sender, EventArgs e)
         {
-            this.AddDocument("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm");
+            //this.AddDocument("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm");
+            TreeNode rootNode = this.GetRootNode();
+            if (rootNode != null)
+            {
+                if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
+                    this.AddDocument("AutoTourism.Customer.WinForm.Report.Quarterly,AutoTourism.Customer.WinForm");
+                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
+                    this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Quarterly,AutoTourism.Lodge.WinForm");
+                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
+                    this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Quarterly,AutoTourism.Lodge.WinForm");
+                else
+                    this.AddDocument("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm");
+            }
         }
 
         private void cmnuYearlyReport_Click(object sender, EventArgs e)
         {
-            this.AddDocument("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm");
+            //this.AddDocument("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm");
+            TreeNode rootNode = this.GetRootNode();
+            if (rootNode != null)
+            {
+                if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
+                    this.AddDocument("AutoTourism.Customer.WinForm.Report.Yearly,AutoTourism.Customer.WinForm");
+                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
+                    this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Yearly,AutoTourism.Lodge.WinForm");
+                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
+                    this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Yearly,AutoTourism.Lodge.WinForm");
+                else
+                    this.AddDocument("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm");
+            }
         }
 
         private Type GetInvoiceType(UtilFac.Artifact.Dto artifactDto)
@@ -2123,8 +2184,29 @@ namespace Vanilla.Navigator.WinForm
                 return Type.GetType("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm", true);
             else if(reportCategoryId == 10003)
                 return Type.GetType("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm", true);
+            else if (reportCategoryId == 10004)
+                return Type.GetType("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm", true);
+            else if (reportCategoryId == 10005)
+                return Type.GetType("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm", true);
 
             return null;
+        }
+
+        private TreeNode GetRootNode()
+        { 
+            TreeView trv = this.GetActiveTreeView();            
+            TreeNode selectedNode = null;
+            TreeNode rootNode = null;
+
+            if ((this.menuClickSource == MenuClickSource.ListView) && (this.currentArtifact != null))            
+                selectedNode = trv.FindNode(this.currentArtifact);            
+            else if (this.menuClickSource == MenuClickSource.TreeView)            
+                selectedNode = trv.SelectedNode;            
+
+            if (selectedNode != null)            
+                 rootNode = trv.FindRootNode();            
+
+            return rootNode;
         }
         
     }
