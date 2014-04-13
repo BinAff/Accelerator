@@ -188,32 +188,32 @@ namespace Vanilla.Utility.Facade.Module
                     break;
 
                 case "LRSV"://Need to change
-                    this.ModuleFormType = "AutoTourism.Lodge.WinForm.RoomReservationForm, AutoTourism.Lodge.WinForm";
-                    this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.RoomReservation.Dto, AutoTourism.Lodge.Facade";
+                    //this.ModuleFormType = "AutoTourism.Lodge.WinForm.RoomReservationForm, AutoTourism.Lodge.WinForm";
+                    this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.RoomReservationReport.Dto, AutoTourism.Lodge.Facade";
                     this.ArtifacComponentAssembly = "Crystal.Lodge.Component";
-                    this.ArtifactDataType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Crystal.Lodge.Component.Room.Reservation.Data, Crystal.Lodge.Component";
+                    this.ArtifactDataType = "Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact.Data";
+                    this.ArtifacComponentType = "Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Lodge.Component.RoomReservationReport.Data, Crystal.Lodge.Component";
 
-                    Type typeReservationServer = Type.GetType("AutoTourism.Lodge.Facade.RoomReservation.ReservationServer,AutoTourism.Lodge.Facade", true);
-                    Type typeReservationDto = Type.GetType("AutoTourism.Lodge.Facade.RoomReservation.FormDto,AutoTourism.Lodge.Facade", true);
-                    BinAff.Facade.Library.FormDto reservationDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeReservationDto);
-                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeReservationServer, reservationDto);
+                    Type typeReservationReportServer = Type.GetType("AutoTourism.Lodge.Facade.RoomReservationReport.Server,AutoTourism.Lodge.Facade", true);
+                    Type typeReservationReportDto = Type.GetType("AutoTourism.Lodge.Facade.RoomReservationReport.FormDto,AutoTourism.Lodge.Facade", true);
+                    BinAff.Facade.Library.FormDto reservationReportDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeReservationReportDto);
+                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeReservationReportServer, reservationReportDto);
 
                     break;
 
                 case "LCHK"://Need to change
-                    this.ModuleFormType = "AutoTourism.Lodge.WinForm.CheckInForm, AutoTourism.Lodge.WinForm";
-                    this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.CheckIn.Dto, AutoTourism.Lodge.Facade";
+                    //this.ModuleFormType = "AutoTourism.Lodge.WinForm.CheckInForm, AutoTourism.Lodge.WinForm";
+                    this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.CheckInReport.Dto, AutoTourism.Lodge.Facade";
                     this.ArtifacComponentAssembly = "Crystal.Lodge.Component";
-                    this.ArtifactDataType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Crystal.Lodge.Component.Room.CheckIn.Data, Crystal.Lodge.Component";
+                    this.ArtifactDataType = "Crystal.Lodge.Component.CheckInReport.Navigator.Artifact.Data";
+                    this.ArtifacComponentType = "Crystal.Lodge.Component.CheckInReport.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Lodge.Component.CheckInReport.Data, Crystal.Lodge.Component";
 
-                    Type typeCheckInServer = Type.GetType("AutoTourism.Lodge.Facade.CheckIn.CheckInServer,AutoTourism.Lodge.Facade", true);
-                    Type typeCheckInDto = Type.GetType("AutoTourism.Lodge.Facade.CheckIn.FormDto,AutoTourism.Lodge.Facade", true);
-                    BinAff.Facade.Library.FormDto checkInDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeCheckInDto);
-                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeCheckInServer, checkInDto);
+                    Type typeCheckInReportServer = Type.GetType("AutoTourism.Lodge.Facade.CheckInReport.Server,AutoTourism.Lodge.Facade", true);
+                    Type typeCheckInReportDto = Type.GetType("AutoTourism.Lodge.Facade.CheckInReport.FormDto,AutoTourism.Lodge.Facade", true);
+                    BinAff.Facade.Library.FormDto checkInReportDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeCheckInReportDto);
+                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeCheckInReportServer, checkInReportDto);
                     break;
 
                 case "INVO":
