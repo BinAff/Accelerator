@@ -79,7 +79,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dpSearchDate);
             this.Name = "Yearly";
-            this.Text = "Yearly";
+            this.Text = "Customer Report : Yearly";
             this.TransparencyKey = System.Drawing.Color.Empty;
             this.Load += new System.EventHandler(this.Yearly_Load);
             this.ResumeLayout(false);
