@@ -44,7 +44,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report\Dto.cs" />
     <Compile Include="Report\FormDto.cs" />
-    <Compile Include="Report\IReport.cs" />
     <Compile Include="Report\Server.cs" />
     <Compile Include="Rule\Dto.cs" />
     <Compile Include="Rule\FormDto.cs" />
