@@ -109,7 +109,6 @@
     <Compile Include="RoomReservationRegister.Designer.cs">
       <DependentUpon>RoomReservationRegister.cs</DependentUpon>
     </Compile>
-    <Compile Include="RoomReservationReport\Class1.cs" />
     <Compile Include="RoomReservationReport\Daily.cs">
       <SubType>Form</SubType>
     </Compile>
