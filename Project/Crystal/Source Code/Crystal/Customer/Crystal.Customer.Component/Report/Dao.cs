@@ -39,7 +39,7 @@ namespace Crystal.Customer.Component.Report
         {
             List<BinAff.Core.Data> customerList = new List<BinAff.Core.Data>();
 
-            base.CreateCommand("[Customer].[ReportSales]");
+            base.CreateCommand("[Customer].[ReportCustomer]");
             base.AddInParameter("@StartDate", DbType.DateTime, fromDate.Date);
             base.AddInParameter("@EndDate", DbType.DateTime, toDate.Date);
             DataSet ds = base.ExecuteDataSet();

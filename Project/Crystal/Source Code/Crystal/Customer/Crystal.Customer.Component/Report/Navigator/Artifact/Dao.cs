@@ -17,7 +17,7 @@ namespace Crystal.Customer.Component.Report.Navigator.Artifact
         protected override void Compose()
         {
             base.Compose();
-            this.DeleteArtifactLinkSPName = "[Customer].[DeleteCustomerReportFormForArtifact]";
+            this.DeleteArtifactLinkSPName = "[Customer].[DeleteCustomerReportForArtifact]";
         }
 
         protected override Boolean ReadBefore()
