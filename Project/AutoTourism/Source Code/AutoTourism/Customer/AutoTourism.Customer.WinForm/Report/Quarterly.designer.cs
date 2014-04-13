@@ -79,7 +79,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dpSearchDate);
             this.Name = "Quarterly";
-            this.Text = "Quarterly";
+            this.Text = "Customer Report : Quarterly";
             this.TransparencyKey = System.Drawing.Color.Empty;
             this.Load += new System.EventHandler(this.Quarterly_Load);
             this.ResumeLayout(false);

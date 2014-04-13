@@ -91,7 +91,7 @@
             this.Controls.Add(this.rvReport);
             this.Controls.Add(this.pnlSearch);
             this.Name = "Daily";
-            this.Text = "Sales Report : Daily";
+            this.Text = "Customer Report : Daily";
             this.TransparencyKey = System.Drawing.Color.Empty;
             this.Load += new System.EventHandler(this.Daily_Load);
             this.pnlSearch.ResumeLayout(false);

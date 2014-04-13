@@ -91,7 +91,7 @@
             this.Controls.Add(this.rvReport);
             this.Controls.Add(this.pnlSearch);
             this.Name = "Monthly";
-            this.Text = "Sales Report : Monthly";
+            this.Text = "Customer Report : Monthly";
             this.pnlSearch.ResumeLayout(false);
             this.pnlSearch.PerformLayout();
             this.ResumeLayout(false);
