@@ -174,18 +174,16 @@ namespace Vanilla.Utility.Facade.Module
             switch (this.moduleDef.Code)
             {
                 case "CUST":
-                    this.ModuleFormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
-                    this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Dto, AutoTourism.Customer.Facade";
-                    this.ArtifacComponentAssembly = "AutoTourism.Component.Customer";
-                    this.ArtifactDataType = "AutoTourism.Component.Customer.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "AutoTourism.Component.Customer.Navigator.Artifact.Server";
-                    this.ModuleDataType = "AutoTourism.Component.Customer.Data, AutoTourism.Component.Customer";
+                    this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Report.Dto, AutoTourism.Customer.Facade";
+                    this.ArtifacComponentAssembly = "Crystal.Customer.Component";
+                    this.ArtifactDataType = "Crystal.Customer.Component.Report.Navigator.Artifact.Data";
+                    this.ArtifacComponentType = "Crystal.Customer.Component.Report.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Customer.Component.Report.Data, Crystal.Customer.Component";
 
-                    Type typeCustomerServer = Type.GetType("AutoTourism.Customer.Facade.Server,AutoTourism.Customer.Facade", true);
-                    Type typeCustomerDto = Type.GetType("AutoTourism.Customer.Facade.FormDto,AutoTourism.Customer.Facade", true);
-                    BinAff.Facade.Library.FormDto customerDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeCustomerDto);
-                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeCustomerServer, customerDto);
-
+                    Type typeCustomerReportServer = Type.GetType("AutoTourism.Customer.Facade.Report.Server,AutoTourism.Customer.Facade", true);
+                    Type typeCustomerReportDto = Type.GetType("AutoTourism.Customer.Facade.Report.FormDto,AutoTourism.Customer.Facade", true);
+                    BinAff.Facade.Library.FormDto customerReportDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeCustomerReportDto);
+                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeCustomerReportServer, customerReportDto);
 
                     break;
 
