@@ -136,13 +136,13 @@ namespace Vanilla.Navigator.WinForm
             {
                 switch (currentTab)
                 {
-                    case "Form": current = trvForm;
+                    case "Form": current = this.trvForm;
                         break;
-                    case "Catalogue": current = trvCatalogue;
+                    case "Catalogue": current = this.trvCatalogue;
                         break;
-                    case "Report": current = trvReport;
+                    case "Report": current = this.trvReport;
                         break;
-                    default: current = trvForm;
+                    default: current = this.trvForm;
                         break;
                 }
                 //tree[i] = this.CreateTreeNodes(module.Artifact);
@@ -2200,6 +2200,28 @@ namespace Vanilla.Navigator.WinForm
                  rootNode = trv.FindRootNode();            
 
             return rootNode;
+        }
+
+        private void ucSearchResult_DoubleClick(object sender, EventArgs e)
+        {
+            //this.ucSearchResult.Hide();
+            //this.pnlArtifact.Show();
+            //this.SelectNode(this.ucSearchResult.FormDto.CurrentArtifact.Style == UtilFac.Artifact.Type.Document ?
+            //    this.GetParent(this.ucSearchResult.FormDto.CurrentArtifact).Path :
+            //    this.ucSearchResult.FormDto.CurrentArtifact.Path);
+            if (this.ucSearchResult.FormDto.CurrentArtifact.Style == UtilFac.Artifact.Type.Document)
+            {
+                PresLib.Form form = (PresLib.Form)Activator.CreateInstance(Type.GetType(this.ucSearchResult.FormDto.CurrentArtifact.ComponentDefinition.ComponentFormType, true), this.ucSearchResult.FormDto.CurrentArtifact.Module);
+                form.ShowDialog(this);
+            }
+            else
+            {
+                this.ucSearchResult.Hide();
+                this.pnlArtifact.Show();
+                this.SelectNode(this.ucSearchResult.FormDto.CurrentArtifact.Style == UtilFac.Artifact.Type.Document ?
+                       this.GetParent(this.ucSearchResult.FormDto.CurrentArtifact).Path :
+                       this.ucSearchResult.FormDto.CurrentArtifact.Path);
+            }
         }
         
     }
