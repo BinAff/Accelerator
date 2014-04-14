@@ -41,6 +41,7 @@ namespace Vanilla.Utility.Facade.Module
             this.currentCategory = Artifact.Category.Catalogue;
             formDto.CatalogueModuleList = this.Convert(data.CatalogueList);
             this.loadPercentage = 60;
+            List<Category.Dto> reportCategoryList = new Category.Server(null).ReadAll(Artifact.Category.Report);
             this.currentCategory = Artifact.Category.Report;
             formDto.ReportModuleList = this.Convert(data.ReportList);
             this.loadPercentage = 100;

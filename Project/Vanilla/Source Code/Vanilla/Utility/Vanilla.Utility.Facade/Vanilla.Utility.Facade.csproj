@@ -41,6 +41,8 @@
     <Compile Include="Artifact\Server.cs" />
     <Compile Include="Artifact\Type.cs" />
     <Compile Include="Module\Category\Dto.cs" />
+    <Compile Include="Module\Category\FormDto.cs" />
+    <Compile Include="Module\Category\Server.cs" />
     <Compile Include="Module\Definition\Dto.cs" />
     <Compile Include="Module\Definition\FormDto.cs" />
     <Compile Include="Module\Definition\Server.cs" />
@@ -81,6 +83,10 @@
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Navigator\Rule\Crystal.Navigator.Rule.csproj">
       <Project>{A42C45CD-FFBB-425E-A5D8-540B365D97BB}</Project>
       <Name>Crystal.Navigator.Rule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Report\Crystal.Report.Component\Crystal.Report.Component.csproj">
+      <Project>{cd06572d-594d-4b5c-a786-41cf7aaa74d8}</Project>
+      <Name>Crystal.Report.Component</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

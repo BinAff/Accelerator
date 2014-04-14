@@ -26,7 +26,7 @@ namespace AutoTourism.Customer.Facade.Report
             {
                 Id = customerReportData.Id,
                 date = customerReportData.Date,
-                category = customerReportData.category == null ? null : new Vanilla.Utility.Facade.Report.Category.Dto{ Id = customerReportData.category.Id }                               
+                category = customerReportData.Category == null ? null : new Vanilla.Utility.Facade.Report.Category.Dto{ Id = customerReportData.Category.Id }                               
             };
         }
 
@@ -36,7 +36,7 @@ namespace AutoTourism.Customer.Facade.Report
             return new CrystalCustomerReport.Data
             {
                 Date = reportDto.date,               
-                category = new Crystal.Report.Component.Category.Data { Id = reportDto.category.Id }
+                Category = new Crystal.Report.Component.Category.Data { Id = reportDto.category.Id }
             };
         }
 

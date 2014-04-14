@@ -28,7 +28,7 @@ namespace Vanilla.Invoice.Facade.Report
                 date = invoiceReportData.Date,
                 //fromDate = invoiceReportData.FromDate,
                 //toDate = invoiceReportData.ToDate,
-                category = invoiceReportData.category == null ? null : new Vanilla.Report.Facade.Category.Dto{ Id = invoiceReportData.category.Id }
+                category = invoiceReportData.Category == null ? null : new Vanilla.Report.Facade.Category.Dto{ Id = invoiceReportData.Category.Id }
             };
         }
 
@@ -40,7 +40,7 @@ namespace Vanilla.Invoice.Facade.Report
                 Date = reportDto.date,
                 //FromDate = reportDto.fromDate,
                 //ToDate = reportDto.toDate,
-                category = new Crystal.Report.Component.Category.Data { Id = reportDto.category.Id }
+                Category = new Crystal.Report.Component.Category.Data { Id = reportDto.category.Id }
             };
         }
 

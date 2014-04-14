@@ -69,6 +69,7 @@ namespace Crystal.Navigator.Component.Artifact
             //dt.Path = Convert.IsDBNull(dr["Path"]) ? String.Empty : Convert.ToString(dr["Path"]);
             dt.Style = Convert.IsDBNull(dr["Style"]) ? Artifact.Type.Directory : (Artifact.Type)(Convert.ToInt32(dr["Style"]));
             dt.Version = Convert.IsDBNull(dr["Version"]) ? 0 : Convert.ToInt32(dr["Version"]);
+            dt.Path = Convert.IsDBNull(dr["Path"]) ? String.Empty : Convert.ToString(dr["Path"]);
             dt.CreatedBy = new GuardianAcc.Data
             {
                 Id = Convert.IsDBNull(dr["CreatedByUserId"]) ? 0 : Convert.ToInt64(dr["CreatedByUserId"])
