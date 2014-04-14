@@ -1179,7 +1179,7 @@ namespace Vanilla.Navigator.WinForm
                 if (this.currentArtifact.Style == UtilFac.Artifact.Type.Document)
                 {
                     //node = this.FindTreeNodeFromTag(this.currentArtifact.Parent as UtilFac.Artifact.Dto, this.trvForm.Nodes, node);
-                    node = this.trvForm.FindNode(this.currentArtifact.Parent as UtilFac.Artifact.Dto);
+                    node = this.trvForm.FindNode(this.GetParent(this.currentArtifact));
                 }
                 else
                 {
@@ -1218,10 +1218,7 @@ namespace Vanilla.Navigator.WinForm
         private Boolean DeleteDocument(UtilFac.Artifact.Dto artifact)
         {
             Boolean retVal = true;
-            UtilFac.Artifact.Dto parentArtifact = artifact.Parent as UtilFac.Artifact.Dto;
-            //TreeNode parentNode = null;
-            //parentNode = this.FindTreeNodeFromTag(parentArtifact, this.trvForm.Nodes, parentNode);
-            TreeNode parentNode = this.trvForm.FindNode(parentArtifact);
+            TreeNode parentNode = this.trvForm.FindNode(this.GetParent(artifact));
 
             if (parentNode != null)
             {
@@ -1271,13 +1268,9 @@ namespace Vanilla.Navigator.WinForm
             this.facade = new Facade.Register.Server(this.formDto);
             this.facade.Delete();
 
-            //if deleted successfully
             if (!this.facade.IsError)
             {
-                if (parentNode.Tag.GetType().ToString() == "Vanilla.Utility.Facade.Module.Dto")
-                    (parentNode.Tag as UtilFac.Module.Dto).Artifact.Children.Remove(artifact);
-                else
-                    (parentNode.Tag as UtilFac.Artifact.Dto).Children.Remove(artifact);
+                this.GetParent(artifact).Children.Remove(artifact);
             }
             else
             {

@@ -49,6 +49,8 @@ namespace Vanilla.Navigator.WinForm
         private Vanilla.Guardian.WinForm.Login loginForm;
         private Boolean isLoggedIn;
         private String selectedNodePath;
+
+        private Timer connectionTimer;
         
         public Container()
         {
@@ -71,7 +73,6 @@ namespace Vanilla.Navigator.WinForm
         {
             this.DockContainers();
             this.HideControl();
-            this.ShowConnectionStatus();
             if (this.isLoggedIn)
             {
                 this.LoadForm();
@@ -82,6 +83,17 @@ namespace Vanilla.Navigator.WinForm
                 this.ShowLoginForm();
             }
             this.Resize += Container_Resize;
+            this.connectionTimer = new Timer
+            {
+                Interval = 2000,
+            };
+            this.connectionTimer.Tick += connectionTimer_Tick;
+            this.connectionTimer.Start();
+        }
+
+        void connectionTimer_Tick(object sender, EventArgs e)
+        {
+            this.ShowConnectionStatus();
         }
 
         private void Container_Resize(object sender, EventArgs e)
@@ -483,6 +495,7 @@ namespace Vanilla.Navigator.WinForm
             {
                 this.shapeOnlineStatus.BackColor = this.shapeOnlineStatus.BorderColor = Color.Green;
                 this.btnConnect.Hide();
+                this.connectionTimer.Stop();
             }
             else
             {
