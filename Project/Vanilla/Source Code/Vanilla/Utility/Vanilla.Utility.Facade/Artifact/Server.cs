@@ -170,27 +170,22 @@ namespace Vanilla.Utility.Facade.Artifact
 
         public CrysArtf.Data ConvertTree(Dto dto)
         {
-            System.Type dataType = System.Type.GetType(this.ModuleComponentDataType);
-            CrysArtf.Data tree = Activator.CreateInstance(dataType) as CrysArtf.Data;
-            dataType.GetProperty("Id").SetValue(tree, dto.Id, null);
-            dataType.GetProperty("FileName").SetValue(tree, dto.FileName, null);
-            dataType.GetProperty("Children").SetValue(tree, new List<Data>(), null);
-            dataType.GetProperty("Path").SetValue(tree, dto.Path, null);
-            dataType.GetProperty("Category").SetValue(tree, (CrysArtf.Category)dto.Category, null);
-            dataType.GetProperty("ParentId").SetValue(tree, dto.Parent == null ? 0 : dto.Parent.Id, null);
-            dataType.GetProperty("CreatedBy").SetValue(tree, new GuardianAcc.Data { Id = dto.CreatedBy.Id }, null);
-            dataType.GetProperty("CreatedAt").SetValue(tree, dto.CreatedAt, null);
-
-
+            CrysArtf.Data tree = Activator.CreateInstance(System.Type.GetType(this.ModuleComponentDataType)) as CrysArtf.Data;
+            tree.Id = dto.Id;
+            tree.FileName = dto.FileName;
+            tree.Children = new List<Data>();
+            tree.Path = dto.Path;
+            tree.Category = (CrysArtf.Category)dto.Category;
+            tree.ParentId = dto.Parent == null ? 0 : dto.Parent.Id;
+            tree.CreatedBy = new GuardianAcc.Data { Id = dto.CreatedBy.Id };
+            tree.CreatedAt = dto.CreatedAt;
             if (dto.ModifiedBy != null)
             {
-                dataType.GetProperty("ModifiedBy").SetValue(tree, new GuardianAcc.Data { Id = dto.ModifiedBy.Id }, null);
-                dataType.GetProperty("ModifiedAt").SetValue(tree, dto.ModifiedAt, null);
+                tree.ModifiedBy = new GuardianAcc.Data { Id = dto.ModifiedBy.Id };
+                tree.ModifiedAt = dto.ModifiedAt;
             }
 
-            dataType.GetProperty("Style").SetValue(tree, dto.Style == Type.Folder ? CrysArtf.Type.Directory : CrysArtf.Type.Document, null);
-
-
+            tree.Style = dto.Style == Type.Folder ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
             tree.IsDeletable = dto.Action == BinAff.Facade.Library.Dto.ActionType.Delete;
 
             if (dto.Children != null && dto.Children.Count > 0)
