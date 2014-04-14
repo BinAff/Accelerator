@@ -4,8 +4,10 @@ using System.Data;
 
 namespace Crystal.Report.Component
 {
+
     public abstract class Dao : BinAff.Core.Dao
     {
+
         public Dao(Data data)
             : base(data)
         {
@@ -17,7 +19,7 @@ namespace Crystal.Report.Component
         protected override void AssignParameter(string procedureName)
         {
             base.AddInParameter("@Date", DbType.DateTime, ((Data)this.Data).Date);
-            base.AddInParameter("@CategoryId", DbType.Int64, ((Data)this.Data).category.Id);
+            base.AddInParameter("@CategoryId", DbType.Int64, ((Data)this.Data).Category.Id);
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
@@ -30,7 +32,7 @@ namespace Crystal.Report.Component
 
                 dt.Id = data.Id;
                 dt.Date = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]);
-                dt.category = Convert.IsDBNull(row["ReportCategoryId"]) ? null : new Crystal.Report.Component.Category.Data { Id = Convert.ToInt64(row["ReportCategoryId"]) };                
+                dt.Category = Convert.IsDBNull(row["ReportCategoryId"]) ? null : new Crystal.Report.Component.Category.Data { Id = Convert.ToInt64(row["ReportCategoryId"]) };                
             }
             return dt;
         }
@@ -40,5 +42,7 @@ namespace Crystal.Report.Component
             List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
             return ret;
         }
+
     }
+
 }

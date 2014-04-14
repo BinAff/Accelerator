@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Crystal.Report.Component
 {
+
     public abstract class Server : BinAff.Core.Crud, IReport
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -45,4 +45,5 @@ namespace Crystal.Report.Component
         public abstract List<BinAff.Core.Data> GetYearlyReport(DateTime date);
         
     }
+
 }
