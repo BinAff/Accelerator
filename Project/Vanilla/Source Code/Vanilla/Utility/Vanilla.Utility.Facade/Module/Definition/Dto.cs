@@ -14,7 +14,7 @@ namespace Vanilla.Utility.Facade.Module.Definition
 
         public BinAff.Facade.Library.Dto ComponentFormDto { get; set; }
 
-        public String Extension { get; set; }
+        public Category.Dto Category { get; set; }
 
     }
 
