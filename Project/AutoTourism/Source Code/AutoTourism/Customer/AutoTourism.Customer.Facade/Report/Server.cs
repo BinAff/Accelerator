@@ -94,29 +94,23 @@ namespace AutoTourism.Customer.Facade.Report
             List<UtilityReport.Dto> customerList = new List<UtilityReport.Dto>();
             if (reportDataList != null && reportDataList.Count > 0)
             {
-                foreach (Crystal.Customer.Component.Data data in reportDataList)
-                {
-                    customerList.Add(new UtilityReport.Dto
+                foreach (CrystalCustomerReport.Data data in reportDataList)
+                {                    
+                    customerList.Add(new Dto
                     {
                         Id = data.Id,
-                     
-                        //date = data.Date,
-                        //invoiceNumber = data.InvoiceNumber,
-                        //seller = data.Seller == null ? null : new Facade.Seller.Dto
-                        //{
-                        //    Name = data.Seller.Name,
-                        //    Address = data.Seller.Address,
-                        //    ContactNumber = data.Seller.ContactNumber,
-                        //    Email = data.Seller.Email,
-                        //    Liscence = data.Seller.Liscence
-                        //},
-                        //buyer = data.Buyer == null ? null : new Facade.Buyer.Dto
-                        //{
-                        //    Name = data.Buyer.Name,
-                        //    Address = data.Buyer.Address,
-                        //    ContactNumber = data.Buyer.ContactNumber,
-                        //    Email = data.Buyer.Email
-                        //}
+                        Initial = data.Initial,
+                        FirstName = data.FirstName,
+                        MiddleName = data.MiddleName,
+                        LastName = data.LastName,
+                        Address = data.Address,
+                        State = data.State,
+                        City = data.City,
+                        Pin = data.Pin,
+                        Email = data.Email,
+                        IdentityProofType = data.IdentityProofType,
+                        IdentityProofName = data.IdentityProofName,
+                        ContactNumber= data.ContactNumber
                     });
                 }
             }
