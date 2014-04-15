@@ -16,12 +16,32 @@
           <DataField>Address</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Advance">
+          <DataField>Advance</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BookingFrom">
+          <DataField>BookingFrom</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CheckInDate">
+          <DataField>CheckInDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CheckOutDate">
+          <DataField>CheckOutDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="City">
           <DataField>City</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ContactNumber">
           <DataField>ContactNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Email">
@@ -44,13 +64,29 @@
           <DataField>IdentityProofType</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="InvoiceNumber">
+          <DataField>InvoiceNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="Name">
           <DataField>Name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="NoOfDays">
+          <DataField>NoOfDays</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NoOfPersons">
+          <DataField>NoOfPersons</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NoOfRooms">
+          <DataField>NoOfRooms</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="Pin">
           <DataField>Pin</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="State">
           <DataField>State</DataField>
@@ -389,7 +425,7 @@
         <DataSetName>Customer</DataSetName>
         <Top>0.80917in</Top>
         <Height>0.5in</Height>
-        <Width>8.19792in</Width>
+        <Width>8.19791in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
