@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using PresentationLibrary = BinAff.Presentation.Library;
 using FacadeReport = AutoTourism.Customer.Facade.Report;
+using UtilityReport = Vanilla.Utility.Facade.Report;
 
 namespace AutoTourism.Customer.WinForm.Report
 {
@@ -40,40 +41,46 @@ namespace AutoTourism.Customer.WinForm.Report
         
         private void LoadData(DateTime date)
         {
-            //FacadeReport.IReport report = new FacadeReport.Server(null);
-            //List<Facade.Dto> customerDataList = report.GetDailyReport(date);
+            UtilityReport.IReport report = new FacadeReport.Server(null);
+            List<UtilityReport.Dto> customerDataList = report.GetDailyReport(date);
 
-            //this.rvReport.Reset();
-            //List<Data> customerList = new List<Data>();
-            //if (customerDataList != null && customerDataList.Count > 0)
-            //{
-            //    foreach (Facade.Dto customerData in customerDataList)
-            //    {
-            //        customerList.Add(new Data
-            //        {
-            //            Name = customerData.FirstName
-            //        });
-            //    }
+            this.rvReport.Reset();
+            List<Data> customerList = new List<Data>();
+            if (customerDataList != null && customerDataList.Count > 0)
+            {
+                foreach (FacadeReport.Dto customerData in customerDataList)
+                {
+                    customerList.Add(new Data
+                    {
+                        Name = GetCustomerDisplayName(customerData),
+                        Address = customerData.Address,
+                        State = customerData.State,
+                        City = customerData.City,
+                        Pin = customerData.Pin,
+                        Email = customerData.Email,
+                        IdentityProofType = customerData.IdentityProofType,
+                        IdentityProofName = customerData.IdentityProofName,
+                        ContactNumber = customerData.ContactNumber
+                    });
+                }
 
-            //    //this.rvReport.Reset();
-            //    this.rvReport.DocumentMapCollapsed = true;
-            //    String path = System.IO.Directory.GetCurrentDirectory();
-            //    path = path.Remove(path.IndexOf("AutoTourism"));
-            //    path += @"Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.WinForm\Report\Daily.rdlc";
-               
 
-            //    this.rvReport.LocalReport.ReportPath = path;               
-            //    string sDataSourceName = "Customer";
+                this.rvReport.DocumentMapCollapsed = true;
+                String path = System.IO.Directory.GetCurrentDirectory();
+                path = path.Remove(path.IndexOf("AutoTourism"));
+                path += @"AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.WinForm\Report\Daily.rdlc";
 
-            //    Microsoft.Reporting.WinForms.ReportDataSource rptDataSoruce = new Microsoft.Reporting.WinForms.ReportDataSource();
-            //    rptDataSoruce.Name = sDataSourceName;
-            //    rptDataSoruce.Value = customerList;
+                this.rvReport.LocalReport.ReportPath = path;
+                string sDataSourceName = "Customer";
 
-            //    this.rvReport.Visible = true;
-            //    this.rvReport.LocalReport.DataSources.Add(rptDataSoruce);
-            //    this.rvReport.RefreshReport();
-            //}
+                Microsoft.Reporting.WinForms.ReportDataSource rptDataSoruce = new Microsoft.Reporting.WinForms.ReportDataSource();
+                rptDataSoruce.Name = sDataSourceName;
+                rptDataSoruce.Value = customerList;
 
+                this.rvReport.Visible = true;
+                this.rvReport.LocalReport.DataSources.Add(rptDataSoruce);
+                this.rvReport.RefreshReport();
+            }
         }
 
         private void Daily_Load(object sender, EventArgs e)
@@ -81,6 +88,16 @@ namespace AutoTourism.Customer.WinForm.Report
             this.rvReport.RefreshReport();
         }
 
+        private String GetCustomerDisplayName(FacadeReport.Dto customer)
+        {
+            String Name = customer.Initial == null ? String.Empty : customer.Initial;
+            Name += (Name == String.Empty) ? (customer.FirstName == null ? String.Empty : customer.FirstName) : " " + (customer.FirstName == null ? String.Empty : customer.FirstName);
+            Name += (Name == String.Empty) ? (customer.MiddleName == null ? String.Empty : customer.MiddleName) : " " + (customer.MiddleName == null ? String.Empty : customer.MiddleName);
+            Name += (Name == String.Empty) ? (customer.LastName == null ? String.Empty : customer.LastName) : " " + (customer.LastName == null ? String.Empty : customer.LastName);
+
+            return Name;
+        }
+     
         private void btnSave_Click(object sender, EventArgs e)
         {
             Facade.Report.Dto dto = this.dto as Facade.Report.Dto;           

@@ -66,14 +66,14 @@
             // 
             this.rvReport.Location = new System.Drawing.Point(1, 29);
             this.rvReport.Name = "rvReport";
-            this.rvReport.Size = new System.Drawing.Size(707, 339);
+            this.rvReport.Size = new System.Drawing.Size(850, 339);
             this.rvReport.TabIndex = 9;
             // 
             // Yearly
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(709, 368);
+            this.ClientSize = new System.Drawing.Size(846, 368);
             this.Controls.Add(this.rvReport);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.label1);
