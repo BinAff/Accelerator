@@ -3,7 +3,7 @@
 namespace Vanilla.Utility.Facade.Module.Category
 {
 
-    public class Dto
+    public class Dto : BinAff.Facade.Library.Dto
     {
 
         public String Name { get; set; }

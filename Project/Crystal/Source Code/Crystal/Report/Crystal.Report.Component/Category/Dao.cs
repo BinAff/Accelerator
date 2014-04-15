@@ -16,6 +16,7 @@ namespace Crystal.Report.Component.Category
 
         protected override void Compose()
         {
+            //base.ReadStoredProcedure = "Report.CategoryRead";
             base.ReadAllStoredProcedure = "Report.CategoryReadAll";
         }
 
