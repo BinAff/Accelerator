@@ -647,7 +647,7 @@ namespace Vanilla.Navigator.WinForm
 
                 this.currentArtifact = this.ReadDocument(this.currentArtifact);
                 Type type;
-                if (this.currentArtifact.Module != null && this.currentArtifact.Module.GetType().FullName == "Vanilla.Invoice.Facade.Report.Dto")
+                if(this.currentArtifact.Category == UtilFac.Artifact.Category.Report)                
                 {
                     type = this.GetInvoiceType(this.currentArtifact);
                 }
@@ -1631,7 +1631,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void AddFolder()
         {
-            this.AddArtifact(UtilFac.Artifact.Type.Folder, null);
+            this.AddArtifact(UtilFac.Artifact.Type.Folder, null, null);
         }
 
         private void AddDocument(String componentType)
@@ -1659,6 +1659,7 @@ namespace Vanilla.Navigator.WinForm
                 if (componentType != null)
                 {
                     (rootNode.Tag as UtilFac.Module.Dto).ComponentFormType = componentType;
+                    
                 }
                 Type type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
 
@@ -1672,8 +1673,9 @@ namespace Vanilla.Navigator.WinForm
 
                 if (moduleFormDto != null && moduleFormDto.Id > 0)
                 {
-                    this.menuClickSource = MenuClickSource.ListView;
-                    AddArtifact(UtilFac.Artifact.Type.Document, moduleFormDto);
+                    this.menuClickSource = MenuClickSource.ListView;                    
+                    //AddArtifact(UtilFac.Artifact.Type.Document, moduleFormDto);
+                    AddArtifact(UtilFac.Artifact.Type.Document, moduleFormDto, new UtilFac.Module.Definition.Dto { Code = (rootNode.Tag as UtilFac.Module.Dto).Code });
                 }
             }
         }
@@ -1693,7 +1695,14 @@ namespace Vanilla.Navigator.WinForm
 
             TreeNode parentNode = null;
             if (artifactDto.Style == UtilFac.Artifact.Type.Document)
-            {                
+            {
+                //if (this.currentArtifact.ComponentDefinition == null)
+                //{
+                //    this.currentArtifact.ComponentDefinition = new UtilFac.Module.Definition.Dto 
+                //    {
+                //        Code = 
+                //    };
+                //}
                 parentNode = trv.FindNode(this.currentArtifact);
             }
             else
@@ -1752,7 +1761,7 @@ namespace Vanilla.Navigator.WinForm
             }
         }
 
-        private void AddArtifact(UtilFac.Artifact.Type type, BinAff.Facade.Library.Dto moduleFormDto)
+        private void AddArtifact(UtilFac.Artifact.Type type, BinAff.Facade.Library.Dto moduleFormDto, UtilFac.Module.Definition.Dto moduleDefinationDto)
         {
             TreeView trv = this.GetActiveTreeView();
             TreeNode selectedNode = null;
@@ -1786,7 +1795,8 @@ namespace Vanilla.Navigator.WinForm
                         Style = type,
                         CreatedBy = currentLoggedInUser,
                         CreatedAt = DateTime.Now,
-                        Module = moduleFormDto
+                        Module = moduleFormDto,
+                        ComponentDefinition = moduleDefinationDto == null ? null : new UtilFac.Module.Definition.Dto { Code = moduleDefinationDto.Code }
                     }
                 };
 
@@ -2168,19 +2178,38 @@ namespace Vanilla.Navigator.WinForm
         }
 
         private Type GetInvoiceType(UtilFac.Artifact.Dto artifactDto)
-        {            
-            Int64 reportCategoryId = (artifactDto.Module as Vanilla.Invoice.Facade.Report.Dto).category.Id;
+        {
+            Int64 reportCategoryId = 0;
+            if (artifactDto.ComponentDefinition.Code == "CUST")
+            {
+                reportCategoryId = (artifactDto.Module as AutoTourism.Customer.Facade.Report.Dto).category.Id;
 
-            if (reportCategoryId == 10001)
-                return Type.GetType("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm", true);
-            else if(reportCategoryId == 10002)
-                return Type.GetType("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm", true);
-            else if(reportCategoryId == 10003)
-                return Type.GetType("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm", true);
-            else if (reportCategoryId == 10004)
-                return Type.GetType("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm", true);
-            else if (reportCategoryId == 10005)
-                return Type.GetType("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm", true);
+                if (reportCategoryId == 10001)
+                    return Type.GetType("AutoTourism.Customer.WinForm.Report.Daily,AutoTourism.Customer.WinForm", true);
+                else if (reportCategoryId == 10002)
+                    return Type.GetType("AutoTourism.Customer.WinForm.Report.Weekly,AutoTourism.Customer.WinForm", true);
+                else if (reportCategoryId == 10003)
+                    return Type.GetType("AutoTourism.Customer.WinForm.Report.Monthly,AutoTourism.Customer.WinForm", true);
+                else if (reportCategoryId == 10004)
+                    return Type.GetType("AutoTourism.Customer.WinForm.Report.Quarterly,AutoTourism.Customer.WinForm", true);
+                else if (reportCategoryId == 10005)
+                    return Type.GetType("AutoTourism.Customer.WinForm.Report.Yearly,AutoTourism.Customer.WinForm", true);
+            }
+            else
+            {
+                reportCategoryId = (artifactDto.Module as Vanilla.Invoice.Facade.Report.Dto).category.Id;
+
+                if (reportCategoryId == 10001)
+                    return Type.GetType("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm", true);
+                else if (reportCategoryId == 10002)
+                    return Type.GetType("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm", true);
+                else if (reportCategoryId == 10003)
+                    return Type.GetType("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm", true);
+                else if (reportCategoryId == 10004)
+                    return Type.GetType("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm", true);
+                else if (reportCategoryId == 10005)
+                    return Type.GetType("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm", true);
+            }
 
             return null;
         }

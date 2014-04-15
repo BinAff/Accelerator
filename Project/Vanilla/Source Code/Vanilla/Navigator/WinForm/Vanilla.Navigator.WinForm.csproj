@@ -79,6 +79,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">
+      <Project>{2099FB59-6194-4BC7-8AB2-6CABE513082A}</Project>
+      <Name>AutoTourism.Customer.Facade</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Lodge\AutoTourism.Lodge.Facade\AutoTourism.Lodge.Facade.csproj">
       <Project>{87b249d1-5284-4376-9c8f-990025c3aedd}</Project>
       <Name>AutoTourism.Lodge.Facade</Name>
