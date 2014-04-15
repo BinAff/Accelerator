@@ -99,6 +99,20 @@ namespace AutoTourism.Customer.Facade.Report
                     customerList.Add(new Dto
                     {
                         Id = data.Id,
+                        CheckInDate = data.CheckInDate,
+                        RoomCheckInId = data.RoomCheckInId,
+                        ReservationId = data.ReservationId,
+                        CheckInStatusId = data.CheckInStatusId,
+                        InvoiceNumber = data.InvoiceNumber,
+                        BookingFrom = data.BookingFrom,
+                        NoOfDays = data.NoOfDays,
+                        NoOfPersons = data.NoOfPersons,
+                        NoOfRooms = data.NoOfRooms,
+                        Description = data.Description,
+                        RoomCategoryId = data.RoomCategoryId,
+                        RoomTypeId = data.RoomTypeId,
+                        Advance = data.Advance,
+
                         Initial = data.Initial,
                         FirstName = data.FirstName,
                         MiddleName = data.MiddleName,

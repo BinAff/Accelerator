@@ -51,11 +51,22 @@ namespace AutoTourism.Customer.WinForm.Report
                 {
                     customerList.Add(new Data
                     {
+                        Group = customerData.Id.ToString(),
+                        CheckInDate = customerData.CheckInDate.ToShortDateString(),
+                        CheckOutDate = customerData.CheckInStatusId == 10001 ? String.Empty : customerData.CheckInDate.AddDays(customerData.NoOfDays).ToShortDateString(),
+                        InvoiceNumber = customerData.InvoiceNumber,
+                        BookingFrom = customerData.BookingFrom.ToShortDateString(),
+                        NoOfDays = customerData.NoOfDays.ToString(),
+                        NoOfPersons = customerData.NoOfPersons.ToString(),
+                        NoOfRooms = customerData.NoOfRooms.ToString(),
+                        Description = customerData.Description,
+                        Advance = customerData.Advance.ToString(),
+
                         Name = GetCustomerDisplayName(customerData),
                         Address = customerData.Address,
                         State = customerData.State,
                         City = customerData.City,
-                        Pin = customerData.Pin,
+                        Pin = customerData.Pin.ToString(),
                         Email = customerData.Email,
                         IdentityProofType = customerData.IdentityProofType,
                         IdentityProofName = customerData.IdentityProofName,
