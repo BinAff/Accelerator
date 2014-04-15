@@ -41,7 +41,7 @@
             this.rvReport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rvReport.Location = new System.Drawing.Point(0, 33);
             this.rvReport.Name = "rvReport";
-            this.rvReport.Size = new System.Drawing.Size(819, 329);
+            this.rvReport.Size = new System.Drawing.Size(844, 329);
             this.rvReport.TabIndex = 1;
             // 
             // pnlSearch
@@ -52,7 +52,7 @@
             this.pnlSearch.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlSearch.Location = new System.Drawing.Point(0, 0);
             this.pnlSearch.Name = "pnlSearch";
-            this.pnlSearch.Size = new System.Drawing.Size(819, 33);
+            this.pnlSearch.Size = new System.Drawing.Size(844, 33);
             this.pnlSearch.TabIndex = 4;
             // 
             // btnSave
@@ -87,7 +87,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(819, 362);
+            this.ClientSize = new System.Drawing.Size(844, 362);
             this.Controls.Add(this.rvReport);
             this.Controls.Add(this.pnlSearch);
             this.Name = "Monthly";

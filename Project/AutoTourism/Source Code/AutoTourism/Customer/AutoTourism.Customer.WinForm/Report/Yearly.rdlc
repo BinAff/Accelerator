@@ -10,22 +10,22 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="Sales">
+    <DataSet Name="Customer">
       <Fields>
-        <Field Name="BuyerAddress">
-          <DataField>BuyerAddress</DataField>
+        <Field Name="Address">
+          <DataField>Address</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="BuyerContactNo">
-          <DataField>BuyerContactNo</DataField>
+        <Field Name="City">
+          <DataField>City</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="BuyerName">
-          <DataField>BuyerName</DataField>
+        <Field Name="ContactNumber">
+          <DataField>ContactNumber</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="Date">
-          <DataField>Date</DataField>
+        <Field Name="Email">
+          <DataField>Email</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="Group">
@@ -36,28 +36,24 @@
           <DataField>GroupDisplay</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="InvoiceNumber">
-          <DataField>InvoiceNumber</DataField>
+        <Field Name="IdentityProofName">
+          <DataField>IdentityProofName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="SellerAddress">
-          <DataField>SellerAddress</DataField>
+        <Field Name="IdentityProofType">
+          <DataField>IdentityProofType</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="SellerContactNo">
-          <DataField>SellerContactNo</DataField>
+        <Field Name="Name">
+          <DataField>Name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="SellerEmail">
-          <DataField>SellerEmail</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="Pin">
+          <DataField>Pin</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="SellerLicence">
-          <DataField>SellerLicence</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="SellerName">
-          <DataField>SellerName</DataField>
+        <Field Name="State">
+          <DataField>State</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -66,9 +62,9 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <rd:DataSetInfo>
-        <rd:DataSetName>Vanilla.Invoice.WinForm.Report</rd:DataSetName>
+        <rd:DataSetName>AutoTourism.Customer.WinForm.Report</rd:DataSetName>
         <rd:TableName>Data</rd:TableName>
-        <rd:ObjectDataSourceType>Vanilla.Invoice.WinForm.Report.Data, Vanilla.Invoice.WinForm, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>AutoTourism.Customer.WinForm.Report.Data, AutoTourism.Customer.WinForm, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
@@ -106,16 +102,16 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.64583in</Width>
+              <Width>2.80208in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.51042in</Width>
+              <Width>1.89583in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.55208in</Width>
+              <Width>1.52083in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.34375in</Width>
+              <Width>2.25in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -131,7 +127,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Date</Value>
+                              <Value>Contact Number</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -161,7 +157,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Buyer Name</Value>
+                              <Value>Email</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -191,7 +187,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Buyer Address</Value>
+                              <Value>Address</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -214,21 +210,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox8">
+                    <Textbox Name="Textbox3">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Seller Name</Value>
+                              <Value>Name</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox8</rd:DefaultName>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -249,21 +245,21 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Date">
+                    <Textbox Name="ContactNumber">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Date.Value</Value>
+                              <Value>=Fields!ContactNumber.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Date</rd:DefaultName>
+                      <rd:DefaultName>ContactNumber</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -279,21 +275,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="BuyerName">
+                    <Textbox Name="Email">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!BuyerName.Value</Value>
+                              <Value>=Fields!Email.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>BuyerName</rd:DefaultName>
+                      <rd:DefaultName>Email</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -309,21 +305,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="BuyerAddress">
+                    <Textbox Name="Address">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!BuyerAddress.Value</Value>
+                              <Value>=Fields!Address.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>BuyerAddress</rd:DefaultName>
+                      <rd:DefaultName>Address</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -339,21 +335,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="SellerName">
+                    <Textbox Name="Name">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!SellerName.Value</Value>
+                              <Value>=Fields!Name.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>SellerName</rd:DefaultName>
+                      <rd:DefaultName>Name</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -389,11 +385,11 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>Sales</DataSetName>
-        <Top>0.60083in</Top>
+        <DataSetName>Customer</DataSetName>
+        <Top>0.78833in</Top>
         <Left>0.13208in</Left>
         <Height>0.5in</Height>
-        <Width>6.05208in</Width>
+        <Width>8.46875in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -405,7 +401,7 @@
     <Height>2in</Height>
     <Style />
   </Body>
-  <Width>6.5in</Width>
+  <Width>8.60083in</Width>
   <Page>
     <LeftMargin>1in</LeftMargin>
     <RightMargin>1in</RightMargin>
