@@ -50,7 +50,21 @@ namespace Crystal.Customer.Component.Report
                 {
                     customerList.Add(new Data
                     {
-                        Id = Convert.IsDBNull(row["id"]) ? 0 : Convert.ToInt64(row["id"]),
+                        Id = Convert.IsDBNull(row["CustomerId"]) ? 0 : Convert.ToInt64(row["CustomerId"]),
+                        CheckInDate = Convert.IsDBNull(row["CheckInDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["CheckInDate"]),
+                        RoomCheckInId = Convert.IsDBNull(row["RoomCheckInId"]) ? 0 : Convert.ToInt32(row["RoomCheckInId"]),
+                        ReservationId = Convert.IsDBNull(row["ReservationId"]) ? 0 : Convert.ToInt32(row["ReservationId"]),
+                        CheckInStatusId = Convert.IsDBNull(row["CheckInStatusId"]) ? 0 : Convert.ToInt32(row["CheckInStatusId"]),
+                        InvoiceNumber = Convert.IsDBNull(row["InvoiceNumber"]) ? String.Empty : Convert.ToString(row["InvoiceNumber"]),
+                        BookingFrom = Convert.IsDBNull(row["BookingFrom"]) ? DateTime.MinValue : Convert.ToDateTime(row["BookingFrom"]),
+                        NoOfDays = Convert.IsDBNull(row["NoOfDays"]) ? 0 : Convert.ToInt32(row["NoOfDays"]),
+                        NoOfPersons = Convert.IsDBNull(row["NoOfPersons"]) ? 0 : Convert.ToInt32(row["NoOfPersons"]),
+                        NoOfRooms = Convert.IsDBNull(row["NoOfRooms"]) ? 0 : Convert.ToInt32(row["NoOfRooms"]),
+                        Description = Convert.IsDBNull(row["Description"]) ? String.Empty : Convert.ToString(row["Description"]),
+                        RoomCategoryId = Convert.IsDBNull(row["RoomCategoryId"]) ? 0 : Convert.ToInt64(row["RoomCategoryId"]),
+                        RoomTypeId = Convert.IsDBNull(row["RoomTypeId"]) ? 0 : Convert.ToInt64(row["RoomTypeId"]),
+                        Advance = Convert.IsDBNull(row["Advance"]) ? 0 : Convert.ToDouble(row["Advance"]),
+
                         Initial = Convert.IsDBNull(row["InitialName"]) ? String.Empty : Convert.ToString(row["InitialName"]),
                         FirstName = Convert.IsDBNull(row["FirstName"]) ? String.Empty : Convert.ToString(row["FirstName"]),
                         MiddleName = Convert.IsDBNull(row["MiddleName"]) ? String.Empty : Convert.ToString(row["MiddleName"]),

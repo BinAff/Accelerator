@@ -4,6 +4,20 @@ namespace Crystal.Customer.Component.Report
 {
     public class Data : Crystal.Report.Component.Data
     {
+        public DateTime CheckInDate { get; set; }
+		public Int64 RoomCheckInId { get; set; }
+		public Int64 ReservationId { get; set; }
+		public Int64 CheckInStatusId { get; set; }	
+		public String InvoiceNumber { get; set; }
+		public DateTime BookingFrom { get; set; }
+		public Int32 NoOfDays { get; set; }
+		public Int32 NoOfPersons { get; set; }
+	    public Int32 NoOfRooms { get; set; }
+		public String Description { get; set; }
+		public Int64 RoomCategoryId { get; set; }
+		public Int64 RoomTypeId { get; set; }
+		public Double Advance { get; set; }		
+        
         public String Initial { get; set; }
         public String FirstName { get; set; }
         public String MiddleName { get; set; }
