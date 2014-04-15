@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Vanilla.Utility.Facade.Module
 {
@@ -10,7 +11,9 @@ namespace Vanilla.Utility.Facade.Module
 
         public String ComponentFormType { get; set; }
 
-        public BinAff.Facade.Library.Dto ComponentFormDto { get; set; }
+        public List<Category.Dto> CategoryList { get; set; }
+
+        //public BinAff.Facade.Library.Dto ComponentFormDto { get; set; }
 
         public Artifact.Dto Artifact { get; set; }
     }

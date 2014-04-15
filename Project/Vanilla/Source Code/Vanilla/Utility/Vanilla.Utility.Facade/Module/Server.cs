@@ -41,7 +41,6 @@ namespace Vanilla.Utility.Facade.Module
             this.currentCategory = Artifact.Category.Catalogue;
             formDto.CatalogueModuleList = this.Convert(data.CatalogueList);
             this.loadPercentage = 60;
-            List<Category.Dto> reportCategoryList = new Category.Server(null).ReadAll(Artifact.Category.Report);
             this.currentCategory = Artifact.Category.Report;
             formDto.ReportModuleList = this.Convert(data.ReportList);
             this.loadPercentage = 100;
@@ -55,9 +54,12 @@ namespace Vanilla.Utility.Facade.Module
         private List<Module.Dto> Convert(List<Data> dataList)
         {
             List<Module.Dto> ret = new List<Module.Dto>();
+            List<Category.Dto> categoryList = new Category.Server(null).ReadAll(this.currentCategory);
             foreach (Crystal.License.Component.Data module in dataList)
             {
-                ret.Add(this.Convert(module) as Dto);
+                Dto moduleDto = this.Convert(module) as Dto;
+                moduleDto.CategoryList = categoryList;
+                ret.Add(moduleDto);
             }
 
             return ret;
@@ -71,7 +73,6 @@ namespace Vanilla.Utility.Facade.Module
                 Code = (data as Crystal.License.Component.Data).Code,
                 Name = (data as Crystal.License.Component.Data).Name,
             };
-
             dto.Artifact = this.GetTree(dto, this.currentCategory);//mistake
             //dto.ComponentFormType = new Helper(dto).ModuleFormType;
             dto.ComponentFormType = new Helper(dto, this.currentCategory).ModuleFormType;
