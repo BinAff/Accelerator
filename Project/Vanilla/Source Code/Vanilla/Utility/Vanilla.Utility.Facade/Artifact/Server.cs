@@ -58,6 +58,7 @@ namespace Vanilla.Utility.Facade.Artifact
             {
                 Id = artifactData.Id,
                 FileName = artifactData.FileName,
+                Extension = artifactData.Extension,
                 Path = artifactData.Path,
                 Style = (artifactData.Style == CrysArtf.Type.Directory) ? Type.Folder : Type.Document,
                 Version = artifactData.Version,
@@ -94,23 +95,25 @@ namespace Vanilla.Utility.Facade.Artifact
 
             System.Type dataType = System.Type.GetType(this.ModuleComponentDataType);
             CrysArtf.Data tree = Activator.CreateInstance(dataType) as CrysArtf.Data;
-            dataType.GetProperty("Id").SetValue(tree, artifactDto.Id, null);
-            dataType.GetProperty("FileName").SetValue(tree, artifactDto.FileName, null);
-            dataType.GetProperty("Path").SetValue(tree, artifactDto.Path, null);
-            dataType.GetProperty("Category").SetValue(tree, (CrysArtf.Category)artifactDto.Category, null);
-            dataType.GetProperty("Style").SetValue(tree, (artifactDto.Style == Type.Folder) ? CrysArtf.Type.Directory : CrysArtf.Type.Document, null);
-            dataType.GetProperty("CreatedBy").SetValue(tree, new Crystal.Guardian.Component.Account.Data
+            tree.Id = artifactDto.Id;
+            tree.FileName =  artifactDto.FileName;
+            tree.Extension = artifactDto.Extension;
+            tree.Path = artifactDto.Path;
+            tree.Category = (CrysArtf.Category)artifactDto.Category;
+            tree.Style = (artifactDto.Style == Type.Folder) ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
+            tree.CreatedBy = new Crystal.Guardian.Component.Account.Data
             {
                 Id = artifactDto.CreatedBy.Id,
-            }, null);
-            dataType.GetProperty("CreatedAt").SetValue(tree, artifactDto.CreatedAt, null);
-
-            dataType.GetProperty("ModifiedBy").SetValue(tree, artifactDto.ModifiedBy == null ? null : new Crystal.Guardian.Component.Account.Data
+            };
+            tree.CreatedAt = artifactDto.CreatedAt;
+            if (artifactDto.ModifiedBy != null)
             {
-                Id = artifactDto.ModifiedBy.Id,
-            }, null);
-            dataType.GetProperty("ModifiedAt").SetValue(tree, artifactDto.ModifiedAt, null);
-
+                tree.ModifiedBy = new Crystal.Guardian.Component.Account.Data
+                {
+                    Id = artifactDto.ModifiedBy.Id,
+                };
+                tree.ModifiedAt = artifactDto.ModifiedAt;
+            }
             return tree;
         }
 
@@ -119,6 +122,7 @@ namespace Vanilla.Utility.Facade.Artifact
             Facade.Artifact.Dto artifactDto = dto as Facade.Artifact.Dto;
             data.Id = artifactDto.Id;
             data.FileName = artifactDto.FileName;
+            data.Extension = artifactDto.Extension;
             data.Path = artifactDto.Path;
             data.Style = (artifactDto.Style == Type.Folder) ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
             data.CreatedBy = new Crystal.Guardian.Component.Account.Data
@@ -150,6 +154,7 @@ namespace Vanilla.Utility.Facade.Artifact
                 FileName = String.IsNullOrEmpty(data.FileName) ? "." : data.FileName,
                 Children = new List<Dto>(),
                 Path = data.Path,
+                Extension = data.Extension,
                 Category = (Category)data.Category,
             };
             if (data.Children != null && data.Children.Count > 0)
@@ -175,6 +180,7 @@ namespace Vanilla.Utility.Facade.Artifact
             tree.FileName = dto.FileName;
             tree.Children = new List<Data>();
             tree.Path = dto.Path;
+            tree.Extension = dto.Extension;
             tree.Category = (CrysArtf.Category)dto.Category;
             tree.ParentId = dto.Parent == null ? 0 : dto.Parent.Id;
             tree.CreatedBy = new GuardianAcc.Data { Id = dto.CreatedBy.Id };
@@ -247,7 +253,7 @@ namespace Vanilla.Utility.Facade.Artifact
         public String GetArtifactName(Vanilla.Utility.Facade.Artifact.Dto artifactDto, Type type, String document)
         {
             String fileName = String.Empty;
-            String appendText = "New Directory";
+            String appendText = "New Folder";
 
             if (type.ToString() == Type.Document.ToString())
                 appendText = "New " + document;

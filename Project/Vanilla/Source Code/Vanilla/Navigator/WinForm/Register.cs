@@ -227,9 +227,6 @@ namespace Vanilla.Navigator.WinForm
             this.lsvContainer.Show();
             UtilFac.Artifact.Dto selectedNode = this.GetArtifact((sender as TreeView).SelectedNode.Tag);
             this.currentArtifact = selectedNode;
-
-            //List<Table> extension = this.PopulateExtension();
-            //this.lsvContainer.AttachChildren(this.currentArtifact, extension);
             this.lsvContainer.AttachChildren(this.currentArtifact);
             this.txtAddress.Text = selectedNode.Path;
             this.btnUp.Enabled = true;
@@ -242,7 +239,6 @@ namespace Vanilla.Navigator.WinForm
             {
                 this.addressList.Add(selectedNode.Path);
             }
-            //this.formDto1.ModuleFormDto.Dto = this.FindRootNode((sender as TreeView).SelectedNode).Tag as UtilFac.Module.Dto;
             this.formDto.ModuleFormDto.Dto = (sender as TreeView).FindRootNode().Tag as UtilFac.Module.Dto;
             this.ShowAuditInfo(selectedNode);
         }
@@ -278,8 +274,7 @@ namespace Vanilla.Navigator.WinForm
             UtilFac.Artifact.Dto selectedNode = this.GetArtifact((sender as TreeView).SelectedNode.Tag);
             this.currentArtifact = selectedNode;
 
-            List<Table> extension = this.AttachExtension();
-            this.lsvContainer.AttachChildren(this.currentArtifact, extension);
+            this.lsvContainer.AttachChildren(this.currentArtifact);
             
             this.txtAddress.Text = selectedNode.Path;
             this.btnUp.Enabled = true;
@@ -472,30 +467,12 @@ namespace Vanilla.Navigator.WinForm
         {
             e.CancelEdit = true;
             (sender as ListView).LabelEdit = false;
-
             TreeView trv = this.GetActiveTreeView();
 
             ListViewItem selectedItem = (sender as ListView).FocusedItem;
             UtilFac.Artifact.Dto selectedArtifact = selectedItem.Tag as UtilFac.Artifact.Dto;
 
-            List<Table> extension = new List<Table>();
-            String documentName = String.Empty;
-            String artifactExtension = String.Empty;
-            if (selectedArtifact.Category == UtilFac.Artifact.Category.Report && selectedArtifact.Style == UtilFac.Artifact.Type.Document)
-            {
-                extension = this.AttachExtension();
-                foreach (Table tbl in extension)
-                {
-                    if (tbl.Id == selectedArtifact.Id)
-                    {
-                        documentName = selectedArtifact.FileName + "." + tbl.Name;
-                        artifactExtension = tbl.Name;
-
-                        break;
-                    }
-                }
-            }
-          
+            String documentName = selectedArtifact.FileName + "." + selectedArtifact.Extension;          
             String defaultFileName = selectedArtifact.FileName;
             String artifactFileName = String.Empty;
 
@@ -505,15 +482,18 @@ namespace Vanilla.Navigator.WinForm
                 //e.CancelEdit = true;
 
                 if (selectedArtifact.Id == 0)
+                {
                     artifactFileName = selectedArtifact.FileName;
+                }
                 else
                 {
-                    if (selectedArtifact.Category == UtilFac.Artifact.Category.Report && selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+                    if (selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+                    {
                         selectedItem.Text = documentName;
-
+                    }
                     return;
                 }
-            }          
+            }
 
             if (artifactFileName == String.Empty)
             {
@@ -532,7 +512,7 @@ namespace Vanilla.Navigator.WinForm
                         new PresLib.MessageBox
                         {
                             DialogueType = PresLib.MessageBox.Type.Information,
-                            Heading = "Splash",
+                            Heading = "Navigator",
                         }.Show("Name already exists. Please assign a different name.");
 
                         //e.CancelEdit = true;
@@ -602,18 +582,19 @@ namespace Vanilla.Navigator.WinForm
         {
             if (e.KeyCode == Keys.F2)
             {
-                String artifactFileName = String.Empty;
-                foreach (ListViewItem item in lsvContainer.SelectedItems)
-                {                    
-                    UtilFac.Artifact.Dto dto = item.Tag as UtilFac.Artifact.Dto;
-                    if (dto.Category == UtilFac.Artifact.Category.Report && dto.Style == UtilFac.Artifact.Type.Document)                    
-                        artifactFileName = dto.FileName;
-                }
+                this.lsvContainer.EditListViewSelectedItem();
+                //String artifactFileName = String.Empty;
+                //foreach (ListViewItem item in lsvContainer.SelectedItems)
+                //{                    
+                //    UtilFac.Artifact.Dto dto = item.Tag as UtilFac.Artifact.Dto;
+                //    if (dto.Category == UtilFac.Artifact.Category.Report && dto.Style == UtilFac.Artifact.Type.Document)                    
+                //        artifactFileName = dto.FileName;
+                //}
 
-                if (artifactFileName == String.Empty)
-                    this.lsvContainer.EditListViewSelectedItem();
-                else
-                    this.lsvContainer.EditListViewSelectedItem(artifactFileName);
+                //if (artifactFileName == String.Empty)
+                //    this.lsvContainer.EditListViewSelectedItem();
+                //else
+                //    this.lsvContainer.EditListViewSelectedItem(artifactFileName);
             }
             else
             {
@@ -628,7 +609,6 @@ namespace Vanilla.Navigator.WinForm
             this.currentArtifact = ((sender as ListView).SelectedItems[0].Tag as UtilFac.Artifact.Dto);
             if (currentArtifact.Style == UtilFac.Artifact.Type.Folder)
             {
-                //this.lsvContainer.AttachChildren(this.currentArtifact, extension);
                 this.lsvContainer.AttachChildren(this.currentArtifact);
                 this.SelectNode(this.currentArtifact.Path);
                 this.txtAddress.Text = this.currentArtifact.Path;
@@ -1160,9 +1140,7 @@ namespace Vanilla.Navigator.WinForm
 
                     this.currentArtifact = this.GetArtifact(selectedNode.Tag);
 
-                    List<Table> extension = this.AttachExtension();
-                    this.lsvContainer.AttachChildren(this.currentArtifact, extension);
-                    //this.lsvContainer.AttachChildren(this.currentArtifact);
+                    this.lsvContainer.AttachChildren(this.currentArtifact);
                 }
             }
             this.editNode = null;
@@ -1199,9 +1177,7 @@ namespace Vanilla.Navigator.WinForm
                 }
                 this.currentArtifact = this.GetArtifact(node.Tag);
 
-                List<Table> extension = this.AttachExtension();
-                this.lsvContainer.AttachChildren(this.currentArtifact, extension);
-                //this.lsvContainer.AttachChildren(this.currentArtifact);
+                this.lsvContainer.AttachChildren(this.currentArtifact);
 
                 if (selectedNode != null)
                 {
@@ -1629,9 +1605,14 @@ namespace Vanilla.Navigator.WinForm
             return fileName;
         }
 
-        private void AddFolder()
+        public void AddFolder()
         {
             this.AddArtifact(UtilFac.Artifact.Type.Folder, null, null);
+        }
+
+        public void AddDocument()
+        {
+            this.AddDocument(null);
         }
 
         private void AddDocument(String componentType)
@@ -1747,9 +1728,7 @@ namespace Vanilla.Navigator.WinForm
 
             this.currentArtifact = this.GetArtifact(parentNode.Tag);
 
-            List<Table> extension = this.AttachExtension();
-            this.lsvContainer.AttachChildren(this.currentArtifact, extension);
-            //this.lsvContainer.AttachChildren(this.currentArtifact);
+            this.lsvContainer.AttachChildren(this.currentArtifact);
 
             if (this.facade.IsError)
             {
@@ -1811,10 +1790,7 @@ namespace Vanilla.Navigator.WinForm
                     selectedNode.Nodes.Add(newNode);               
 
                 this.currentArtifact = this.GetArtifact(selectedNode.Tag);
-
-                List<Table> extension = this.AttachExtension();
-                this.lsvContainer.AttachChildren(this.currentArtifact, extension);
-                //this.lsvContainer.AttachChildren(this.currentArtifact);
+                this.lsvContainer.AttachChildren(this.currentArtifact);
 
                 if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
                 {

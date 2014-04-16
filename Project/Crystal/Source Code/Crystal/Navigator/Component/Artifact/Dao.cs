@@ -33,6 +33,14 @@ namespace Crystal.Navigator.Component.Artifact
             Data data = this.Data as Data;
             base.AssignParameter(procedureName);
             base.AddInParameter("@FileName", DbType.String, data.FileName);
+            if (data.Extension == null)
+            {
+                base.AddInParameter("@Extension", DbType.String, DBNull.Value);
+            }
+            else
+            {
+                base.AddInParameter("@Extension", DbType.String, data.Extension);
+            }
             if (data.Path == null)
             {
                 base.AddInParameter("@Path", DbType.String, DBNull.Value);
@@ -66,7 +74,8 @@ namespace Crystal.Navigator.Component.Artifact
             Data dt = (Data)data;
             dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
             dt.FileName = Convert.IsDBNull(dr["FileName"]) ? String.Empty : Convert.ToString(dr["FileName"]);
-            //dt.Path = Convert.IsDBNull(dr["Path"]) ? String.Empty : Convert.ToString(dr["Path"]);
+            dt.Extension = Convert.IsDBNull(dr["Extension"]) ? String.Empty : Convert.ToString(dr["Extension"]);
+            dt.Path = Convert.IsDBNull(dr["Path"]) ? String.Empty : Convert.ToString(dr["Path"]);
             dt.Style = Convert.IsDBNull(dr["Style"]) ? Artifact.Type.Directory : (Artifact.Type)(Convert.ToInt32(dr["Style"]));
             dt.Version = Convert.IsDBNull(dr["Version"]) ? 0 : Convert.ToInt32(dr["Version"]);
             dt.Path = Convert.IsDBNull(dr["Path"]) ? String.Empty : Convert.ToString(dr["Path"]);

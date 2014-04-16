@@ -194,23 +194,14 @@ namespace Vanilla.Navigator.WinForm
             this.Text = this.Text.Split(new Char[] { ' ', ':', ' ' })[0];
         }
 
-        private void mnuNewWindow_Click(object sender, EventArgs e)
+        private void mnuNewFolder_Click(object sender, EventArgs e)
         {
-            //TreeNode selectedNode = this.trvForm.SelectedNode;
+            this.ucRegister.AddFolder();
+        }
 
-            //Facade.Artifact.Dto currentDto;
-            //if (selectedNode.Tag.GetType().ToString() == "Vanilla.Navigator.Facade.Module.Dto")
-            //{
-            //    currentDto = (selectedNode.Tag as Facade.Module.Dto).Artifact;
-            //}
-            //else
-            //{
-            //    currentDto = selectedNode.Tag as Facade.Artifact.Dto;
-            //}
-            //new System.Threading.Thread(new System.Threading.ThreadStart(delegate()
-            //{
-            //    Application.Run(new Container(currentDto.Path));
-            //})).Start();
+        private void mnuNewForm_Click(object sender, EventArgs e)
+        {
+            this.ucRegister.AddDocument();
         }
 
         private void mnuClear_Click(object sender, EventArgs e)
@@ -404,7 +395,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void mnuAbout_Click(object sender, EventArgs e)
         {
-
+            new About().ShowDialog(this);
         }
 
         private void mnuViewHelp_Click(object sender, EventArgs e)
@@ -413,6 +404,30 @@ namespace Vanilla.Navigator.WinForm
         }
 
         #endregion
+
+        #endregion
+
+        #region Context Menu
+
+        private void mnuNewWindow_Click(object sender, EventArgs e)
+        {
+
+            //TreeNode selectedNode = this.trvForm.SelectedNode;
+
+            //Facade.Artifact.Dto currentDto;
+            //if (selectedNode.Tag.GetType().ToString() == "Vanilla.Navigator.Facade.Module.Dto")
+            //{
+            //    currentDto = (selectedNode.Tag as Facade.Module.Dto).Artifact;
+            //}
+            //else
+            //{
+            //    currentDto = selectedNode.Tag as Facade.Artifact.Dto;
+            //}
+            //new System.Threading.Thread(new System.Threading.ThreadStart(delegate()
+            //{
+            //    Application.Run(new Container(currentDto.Path));
+            //})).Start();
+        }
 
         #endregion
 

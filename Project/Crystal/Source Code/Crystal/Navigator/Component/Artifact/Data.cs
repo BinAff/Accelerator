@@ -15,6 +15,11 @@ namespace Crystal.Navigator.Component.Artifact
         public String FileName { get; set; }
 
         /// <summary>
+        /// Extension of document
+        /// </summary>
+        public String Extension { get; set; }
+
+        /// <summary>
         /// Virtual path of Artifact
         /// </summary>
         public String Path { get; set; }

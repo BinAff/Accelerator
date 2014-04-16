@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 namespace Vanilla.Utility.Facade.Artifact
 {
+
     public class Dto : BinAff.Facade.Library.Dto
     {
+
         private String fileName;
         /// <summary>
         /// File name associaated with Artifact
@@ -42,6 +44,25 @@ namespace Vanilla.Utility.Facade.Artifact
                 }
             }
         }
+
+        private String extension;
+        /// <summary>
+        /// Virtual extension of Artifact
+        /// </summary>
+        public String Extension
+        {
+            get
+            {
+                return this.extension;
+            }
+            set
+            {
+                if (value != null && this.extension != value)
+                {
+                    this.extension = value;
+                }
+            }
+        }        
 
         private Type style;
         /// <summary>
@@ -242,5 +263,7 @@ namespace Vanilla.Utility.Facade.Artifact
                 }
             }
         }
+
     }
+
 }

@@ -79,7 +79,7 @@
             this.mnuLogOut = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileSeperator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuNew = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuNewDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuNewFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNewForm = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOpenDirectory = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,10 +153,10 @@
             this.lblLoading = new System.Windows.Forms.Label();
             this.pnlCalender = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.btnConnect = new System.Windows.Forms.Button();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.shapeOnlineStatus = new Microsoft.VisualBasic.PowerPacks.OvalShape();
-            this.btnConnect = new System.Windows.Forms.Button();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
             this.ucRegister = new Vanilla.Navigator.WinForm.Register();
             this.cmsExplorer.SuspendLayout();
@@ -530,25 +530,25 @@
             // folderToolStripMenuItem
             // 
             this.folderToolStripMenuItem.Name = "folderToolStripMenuItem";
-            this.folderToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
-            this.folderToolStripMenuItem.Text = "Directory";
+            this.folderToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.folderToolStripMenuItem.Text = "Folder";
             // 
             // cmnuForm
             // 
             this.cmnuForm.Name = "cmnuForm";
-            this.cmnuForm.Size = new System.Drawing.Size(118, 22);
+            this.cmnuForm.Size = new System.Drawing.Size(111, 22);
             this.cmnuForm.Text = "Form";
             // 
             // cmnuCatalog
             // 
             this.cmnuCatalog.Name = "cmnuCatalog";
-            this.cmnuCatalog.Size = new System.Drawing.Size(118, 22);
+            this.cmnuCatalog.Size = new System.Drawing.Size(111, 22);
             this.cmnuCatalog.Text = "Catalog";
             // 
             // cmnuReport
             // 
             this.cmnuReport.Name = "cmnuReport";
-            this.cmnuReport.Size = new System.Drawing.Size(118, 22);
+            this.cmnuReport.Size = new System.Drawing.Size(111, 22);
             this.cmnuReport.Text = "Report";
             // 
             // mnuMain
@@ -585,42 +585,44 @@
             // mnuLogin
             // 
             this.mnuLogin.Name = "mnuLogin";
-            this.mnuLogin.Size = new System.Drawing.Size(127, 22);
+            this.mnuLogin.Size = new System.Drawing.Size(152, 22);
             this.mnuLogin.Text = "Login";
             this.mnuLogin.Click += new System.EventHandler(this.mnuLogin_Click);
             // 
             // mnuLogOut
             // 
             this.mnuLogOut.Name = "mnuLogOut";
-            this.mnuLogOut.Size = new System.Drawing.Size(127, 22);
+            this.mnuLogOut.Size = new System.Drawing.Size(152, 22);
             this.mnuLogOut.Text = "Log Out";
             this.mnuLogOut.Click += new System.EventHandler(this.mnuLogOut_Click);
             // 
             // mnuFileSeperator1
             // 
             this.mnuFileSeperator1.Name = "mnuFileSeperator1";
-            this.mnuFileSeperator1.Size = new System.Drawing.Size(124, 6);
+            this.mnuFileSeperator1.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuNew
             // 
             this.mnuNew.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuNewDirectory,
+            this.mnuNewFolder,
             this.mnuNewForm});
             this.mnuNew.Name = "mnuNew";
-            this.mnuNew.Size = new System.Drawing.Size(127, 22);
+            this.mnuNew.Size = new System.Drawing.Size(152, 22);
             this.mnuNew.Text = "New";
             // 
-            // mnuNewDirectory
+            // mnuNewFolder
             // 
-            this.mnuNewDirectory.Name = "mnuNewDirectory";
-            this.mnuNewDirectory.Size = new System.Drawing.Size(118, 22);
-            this.mnuNewDirectory.Text = "Directory";
+            this.mnuNewFolder.Name = "mnuNewFolder";
+            this.mnuNewFolder.Size = new System.Drawing.Size(152, 22);
+            this.mnuNewFolder.Text = "Folder";
+            this.mnuNewFolder.Click += new System.EventHandler(this.mnuNewFolder_Click);
             // 
             // mnuNewForm
             // 
             this.mnuNewForm.Name = "mnuNewForm";
-            this.mnuNewForm.Size = new System.Drawing.Size(118, 22);
+            this.mnuNewForm.Size = new System.Drawing.Size(152, 22);
             this.mnuNewForm.Text = "Form";
+            this.mnuNewForm.Click += new System.EventHandler(this.mnuNewForm_Click);
             // 
             // mnuOpen
             // 
@@ -628,7 +630,7 @@
             this.mnuOpenDirectory,
             this.mnuOpenForm});
             this.mnuOpen.Name = "mnuOpen";
-            this.mnuOpen.Size = new System.Drawing.Size(127, 22);
+            this.mnuOpen.Size = new System.Drawing.Size(152, 22);
             this.mnuOpen.Text = "Open";
             // 
             // mnuOpenDirectory
@@ -646,7 +648,7 @@
             // mnuFileSeperator2
             // 
             this.mnuFileSeperator2.Name = "mnuFileSeperator2";
-            this.mnuFileSeperator2.Size = new System.Drawing.Size(124, 6);
+            this.mnuFileSeperator2.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuRecentFile
             // 
@@ -654,7 +656,7 @@
             this.toolStripSeparator7,
             this.mnuClear});
             this.mnuRecentFile.Name = "mnuRecentFile";
-            this.mnuRecentFile.Size = new System.Drawing.Size(127, 22);
+            this.mnuRecentFile.Size = new System.Drawing.Size(152, 22);
             this.mnuRecentFile.Text = "Recent File";
             // 
             // toolStripSeparator7
@@ -672,12 +674,12 @@
             // mnuFileSeperator3
             // 
             this.mnuFileSeperator3.Name = "mnuFileSeperator3";
-            this.mnuFileSeperator3.Size = new System.Drawing.Size(124, 6);
+            this.mnuFileSeperator3.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(127, 22);
+            this.mnuExit.Size = new System.Drawing.Size(152, 22);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
@@ -1180,6 +1182,26 @@
             this.panel1.Size = new System.Drawing.Size(827, 31);
             this.panel1.TabIndex = 18;
             // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(3, 3);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(200, 23);
+            this.progressBar.TabIndex = 3;
+            this.progressBar.Visible = false;
+            // 
+            // btnConnect
+            // 
+            this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnConnect.Location = new System.Drawing.Point(742, 2);
+            this.btnConnect.Name = "btnConnect";
+            this.btnConnect.Size = new System.Drawing.Size(55, 23);
+            this.btnConnect.TabIndex = 2;
+            this.btnConnect.Text = "Connect";
+            this.btnConnect.UseVisualStyleBackColor = true;
+            this.btnConnect.Visible = false;
+            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            // 
             // shapeContainer1
             // 
             this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
@@ -1200,26 +1222,6 @@
             this.shapeOnlineStatus.Location = new System.Drawing.Point(801, 2);
             this.shapeOnlineStatus.Name = "shapeOnlineStatus";
             this.shapeOnlineStatus.Size = new System.Drawing.Size(19, 20);
-            // 
-            // btnConnect
-            // 
-            this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConnect.Location = new System.Drawing.Point(742, 2);
-            this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(55, 23);
-            this.btnConnect.TabIndex = 2;
-            this.btnConnect.Text = "Connect";
-            this.btnConnect.UseVisualStyleBackColor = true;
-            this.btnConnect.Visible = false;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
-            // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(3, 3);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(200, 23);
-            this.progressBar.TabIndex = 3;
-            this.progressBar.Visible = false;
             // 
             // ucConfiguration
             // 
@@ -1284,7 +1286,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuLogOut;
         private System.Windows.Forms.ToolStripSeparator mnuFileSeperator1;
         private System.Windows.Forms.ToolStripMenuItem mnuNew;
-        private System.Windows.Forms.ToolStripMenuItem mnuNewDirectory;
+        private System.Windows.Forms.ToolStripMenuItem mnuNewFolder;
         private System.Windows.Forms.ToolStripMenuItem mnuNewForm;
         private System.Windows.Forms.ToolStripMenuItem mnuOpen;
         private System.Windows.Forms.ToolStripMenuItem mnuOpenDirectory;
