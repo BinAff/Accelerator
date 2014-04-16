@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -97,12 +97,6 @@
       <DependentUpon>Lodge.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoomCatalogue.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RoomCatalogue.Designer.cs">
-      <DependentUpon>RoomCatalogue.cs</DependentUpon>
-    </Compile>
     <Compile Include="RoomReservationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,9 +173,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Lodge.resx">
       <DependentUpon>Lodge.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RoomCatalogue.resx">
-      <DependentUpon>RoomCatalogue.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RoomReservationForm.resx">
       <DependentUpon>RoomReservationForm.cs</DependentUpon>
