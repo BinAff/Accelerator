@@ -121,12 +121,12 @@ namespace Vanilla.Utility.WinForm.Extender
 
         public static String Initialize(this ListView listView)
         {
-            listView.Columns.Add("Name", 300);
+            listView.Columns.Add("Name", 150);
             listView.Columns.Add("Type", 70);
             listView.Columns.Add("Version", 50);
-            listView.Columns.Add("Created By", 200);
+            listView.Columns.Add("Created By", 100);
             listView.Columns.Add("Created At", 115);
-            listView.Columns.Add("Modified By", 200);
+            listView.Columns.Add("Modified By", 100);
             listView.Columns.Add("Modified At", 115);
 
             listView.ListViewItemSorter = new PresLib.ListViewColumnSorter();
@@ -138,6 +138,7 @@ namespace Vanilla.Utility.WinForm.Extender
             listView.LabelEdit = true;
             foreach (ListViewItem item in listView.SelectedItems)
             {
+                item.Text = (item.Tag as Vanilla.Utility.Facade.Artifact.Dto).FileName;
                 item.BeginEdit();
                 break;
             }
@@ -153,7 +154,6 @@ namespace Vanilla.Utility.WinForm.Extender
             }
         }
 
-        //Duplicate code... Need to recheck
         public static void AttachChildren(this ListView listView, Facade.Artifact.Dto selectedNode)
         {
             listView.Items.Clear();
@@ -167,46 +167,7 @@ namespace Vanilla.Utility.WinForm.Extender
                         Tag = artifact,
                         ImageIndex = artifact.Style == Facade.Artifact.Type.Folder ? 0 : 2,
                     };
-                    current.SubItems.AddRange(AddListViewSubItems(current, artifact));
-                    listView.Items.Add(current);
-                }
-
-                //Sort
-                listView.ResetColumnOrder();
-                listView.Sort("Name", new PresLib.ListViewColumnSorter
-                {
-                    Order = SortOrder.Ascending
-                });
-            }
-        }
-        //Duplicate code... Need to recheck
-        public static void AttachChildren(this ListView listView, Facade.Artifact.Dto selectedNode, List<BinAff.Core.Table> category)
-        {
-            listView.Items.Clear();
-            if (selectedNode.Children != null && selectedNode.Children.Count > 0)
-            {
-                foreach (Facade.Artifact.Dto artifact in selectedNode.Children)
-                {
-                    ListViewItem current = new ListViewItem
-                    {
-                        Text = artifact.FileName,
-                        Tag = artifact,
-                        ImageIndex = artifact.Style == Facade.Artifact.Type.Folder ? 0 : 2,
-                    };
-
-                    //append extension to document 
-                    if (artifact.Style == Facade.Artifact.Type.Document)
-                    {
-                        foreach (BinAff.Core.Table tbl in category)
-                        {
-                            if (tbl.Id == artifact.Id)
-                            {
-                                current.Text += "." + tbl.Name;
-                                break;
-                            }
-                        }
-                    }
-
+                    if (artifact.Style == Facade.Artifact.Type.Document) current.Text += "." + artifact.Extension;
                     current.SubItems.AddRange(AddListViewSubItems(current, artifact));
                     listView.Items.Add(current);
                 }
@@ -233,6 +194,7 @@ namespace Vanilla.Utility.WinForm.Extender
                         Tag = artifact,
                         ImageIndex = artifact.Style == Facade.Artifact.Type.Folder ? 0 : 2,
                     };
+                    if (artifact.Style == Facade.Artifact.Type.Document) current.Text += "." + artifact.Extension;
                     current.SubItems.AddRange(AddListViewSubItems(current, artifact));
                     listView.Items.Add(current);
                 }
