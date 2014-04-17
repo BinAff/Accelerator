@@ -84,13 +84,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 
             reservationDto.ContactNumber = (reservationDto.Customer == null || reservationDto.Customer.ContactNumberList == null) ? String.Empty : this.GetCustomerContactNumber(reservationDto.Customer.ContactNumberList);
 
-            //--every reservation must have a customer
-            String Name = (reservationDto.Customer.Initial == null ? String.Empty : reservationDto.Customer.Initial.Name);
-            Name += (Name == String.Empty) ? (reservationDto.Customer.FirstName == null ? String.Empty : reservationDto.Customer.FirstName) : " " + (reservationDto.Customer.FirstName == null ? String.Empty : reservationDto.Customer.FirstName);
-            Name += (Name == String.Empty) ? (reservationDto.Customer.MiddleName == null ? String.Empty : reservationDto.Customer.MiddleName) : " " + (reservationDto.Customer.MiddleName == null ? String.Empty : reservationDto.Customer.MiddleName);
-            Name += (Name == String.Empty) ? (reservationDto.Customer.LastName == null ? String.Empty : reservationDto.Customer.LastName) : " " + (reservationDto.Customer.LastName == null ? String.Empty : reservationDto.Customer.LastName);
-
-            reservationDto.Name = Name;
+            //--every reservation must have a customer            
+            reservationDto.Name = reservationDto.Customer.Name;
 
             return reservationDto;
         }

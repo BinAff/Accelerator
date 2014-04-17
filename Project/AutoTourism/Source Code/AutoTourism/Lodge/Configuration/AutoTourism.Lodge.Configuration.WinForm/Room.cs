@@ -545,8 +545,15 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 StatusId = Convert.ToInt64(RoomStatus.Open)             
             };
 
-            if (!ValidateUnique(this.formDto.Room))
-            {               
+            if (ValidateUnique(this.formDto.Room))
+            {
+                new BinAff.Presentation.Library.MessageBox
+                {
+                    DialogueType = BinAff.Presentation.Library.MessageBox.Type.Error,
+                    Heading = "Lodge",
+                }.Show("Duplicate room entry!!");
+            }
+            else {               
                 FacadeRoom.Server facade = new FacadeRoom.Server(this.formDto);                
                 if (this.formDto.Room.Id == 0)                
                     facade.Add();
@@ -574,7 +581,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             List<FacadeRoom.Dto> list = (List<FacadeRoom.Dto>)this.cboRoomList.DataSource;
             foreach (FacadeRoom.Dto dto in list)
             {
-                if (dto.Number == txtNumber.Text.Trim() && dto.Id != roomDto.Id)
+                if (dto.Number == txtNumber.Text.Trim() && dto.Id != roomDto.Id && dto.Building.Id == roomDto.Building.Id)
                 {
                     //Show message                    
                     //new PresentationLibrary.MessageBox("Room already exists.", PresentationLibrary.MessageBox.Type.Information).ShowDialog(this);

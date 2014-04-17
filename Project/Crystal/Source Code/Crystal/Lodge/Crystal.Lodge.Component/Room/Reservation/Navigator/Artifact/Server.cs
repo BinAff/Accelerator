@@ -16,7 +16,8 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
 
         protected override void Compose()
         {
-            this.Name = "Lodge Reservation Form";
+            this.Name = "Lodge Reservation " + (this.Data as Data).Category.ToString();
+            (this.Data as Data).Extension = "frm";
             this.DataAccess = new Dao((Data)this.Data);
             this.Validator = new Validator((Data)this.Data);
         }
@@ -42,11 +43,11 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
 
         protected override ReturnObject<Boolean> DeleteAfter()
         {
-            if ((this.Data as Data).ModuleData != null && (this.Data as Data).ModuleData.Id > 0)
+            if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)
             {
                 ICrud crud = new Room.Reservation.Server(new Room.Reservation.Data
                 { 
-                    Id = (this.Data as Data).ModuleData.Id 
+                    Id = (this.Data as Data).ComponentData.Id 
                 });
                 return crud.Delete();
             }

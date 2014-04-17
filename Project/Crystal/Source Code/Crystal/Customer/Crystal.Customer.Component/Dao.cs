@@ -28,7 +28,7 @@ namespace Crystal.Customer.Component
 
         protected override void AssignParameter(String procedureName)
         {
-            base.AddInParameter("@InitialId", DbType.Int64, ((Data)this.Data).Initial == null ? 0 : ((Data)this.Data).Initial.Id);
+            //base.AddInParameter("@InitialId", DbType.Int64, ((Data)this.Data).Initial == null ? 0 : ((Data)this.Data).Initial.Id);
             base.AddInParameter("@FirstName", DbType.String, ((Data)this.Data).FirstName);
             base.AddInParameter("@MiddleName", DbType.String, ((Data)this.Data).MiddleName == null ? String.Empty : ((Data)this.Data).MiddleName);
             base.AddInParameter("@LastName", DbType.String, ((Data)this.Data).LastName == null ? String.Empty : ((Data)this.Data).LastName);
@@ -45,10 +45,10 @@ namespace Crystal.Customer.Component
         {
             Data dt = data as Data;
             dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
-            dt.Initial = Convert.IsDBNull(dr["InitialId"]) ? null : new Configuration.Component.Initial.Data()
-            {
-                Id = Convert.ToInt64(dr["InitialId"]),
-            };
+            //dt.Initial = Convert.IsDBNull(dr["InitialId"]) ? null : new Configuration.Component.Initial.Data()
+            //{
+            //    Id = Convert.ToInt64(dr["InitialId"]),
+            //};
             dt.FirstName = Convert.IsDBNull(dr["FirstName"]) ? String.Empty : Convert.ToString(dr["FirstName"]);
             dt.MiddleName = Convert.IsDBNull(dr["MiddleName"]) ? String.Empty : Convert.ToString(dr["MiddleName"]);
             dt.LastName = Convert.IsDBNull(dr["LastName"]) ? String.Empty : Convert.ToString(dr["LastName"]);

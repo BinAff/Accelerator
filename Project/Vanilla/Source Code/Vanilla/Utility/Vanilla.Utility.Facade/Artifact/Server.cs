@@ -8,8 +8,10 @@ using GuardianAcc = Crystal.Guardian.Component.Account;
 
 namespace Vanilla.Utility.Facade.Artifact
 {
+
     public class Server : BinAff.Facade.Library.Server
     {
+
         public BinAff.Facade.Library.Server ModuleFacade { get; set; }
         internal BinAff.Core.ICrud ModuleArtifactComponent { get; set; }
         internal String ModuleComponentDataType { get; set; }
@@ -77,9 +79,9 @@ namespace Vanilla.Utility.Facade.Artifact
                 Category = (Category)artifactData.Category
             };
 
-            if ((data as CrysArtf.Data).ModuleData != null)
+            if ((data as CrysArtf.Data).ComponentData != null)
             {
-                artifact.Module = this.ModuleFacade.Convert((data as CrysArtf.Data).ModuleData);
+                artifact.Module = this.ModuleFacade.Convert((data as CrysArtf.Data).ComponentData);
             }
 
             if ((data as CrysArtf.Data).ComponentDefinition != null)
@@ -253,7 +255,7 @@ namespace Vanilla.Utility.Facade.Artifact
         public String GetArtifactName(Vanilla.Utility.Facade.Artifact.Dto artifactDto, Type type, String document)
         {
             String fileName = String.Empty;
-            String appendText = "New Folder";
+            String appendText = "New Document";
 
             if (type.ToString() == Type.Document.ToString())
                 appendText = "New " + document;

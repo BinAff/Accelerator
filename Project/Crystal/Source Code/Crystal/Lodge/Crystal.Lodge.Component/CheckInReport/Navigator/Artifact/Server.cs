@@ -40,11 +40,11 @@ namespace Crystal.Lodge.Component.CheckInReport.Navigator.Artifact
 
         protected override ReturnObject<Boolean> DeleteAfter()
         {
-            if ((this.Data as Data).ModuleData != null && (this.Data as Data).ModuleData.Id > 0)
+            if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)
             {
                 ICrud crud = new CheckInReport.Server(new CheckInReport.Data
                 {
-                    Id = (this.Data as Data).ModuleData.Id
+                    Id = (this.Data as Data).ComponentData.Id
                 });
                 return crud.Delete();
             }

@@ -28,11 +28,11 @@ namespace Crystal.Customer.Component
 
         protected override void CreateChildren()
         {
-            base.AddChild(new Crystal.Configuration.Component.Initial.Server(((Data)Data).Initial)
-            {
-                Type = ChildType.Independent,
-                IsReadOnly = true,
-            });
+            //base.AddChild(new Crystal.Configuration.Component.Initial.Server(((Data)Data).Initial)
+            //{
+            //    Type = ChildType.Independent,
+            //    IsReadOnly = true,
+            //});
 
             base.AddChild(new Crystal.Configuration.Component.State.Server(((Data)Data).State)
             {

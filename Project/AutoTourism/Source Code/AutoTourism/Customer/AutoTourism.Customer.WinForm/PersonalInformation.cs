@@ -56,12 +56,12 @@ namespace AutoTourism.Customer.WinForm
             {
                 CustFac.Dto dto = (CustFac.Dto)cboCustomer.SelectedItem;
                 this.CurrentItem = dto;
-                String Name = (dto.Initial == null ? String.Empty : dto.Initial.Name);
-                Name += (Name == String.Empty) ? (dto.FirstName == null ? String.Empty : dto.FirstName) : " " + (dto.FirstName == null ? String.Empty : dto.FirstName);
-                Name += (Name == String.Empty) ? (dto.MiddleName == null ? String.Empty : dto.MiddleName) : " " + (dto.MiddleName == null ? String.Empty : dto.MiddleName);
-                Name += (Name == String.Empty) ? (dto.LastName == null ? String.Empty : dto.LastName) : " " + (dto.LastName == null ? String.Empty : dto.LastName);
-                
-                txtName.Text = Name;
+                //String Name = (dto.Initial == null ? String.Empty : dto.Initial.Name);
+                //Name += (Name == String.Empty) ? (dto.FirstName == null ? String.Empty : dto.FirstName) : " " + (dto.FirstName == null ? String.Empty : dto.FirstName);
+                //Name += (Name == String.Empty) ? (dto.MiddleName == null ? String.Empty : dto.MiddleName) : " " + (dto.MiddleName == null ? String.Empty : dto.MiddleName);
+                //Name += (Name == String.Empty) ? (dto.LastName == null ? String.Empty : dto.LastName) : " " + (dto.LastName == null ? String.Empty : dto.LastName);
+
+                txtName.Text = dto.Name;
                 txtAdds.Text = dto.Address;
                 txtEmail.Text = dto.Email;
                 this.lblIdProofTypeName.Text = dto.IdentityProofType.Name;

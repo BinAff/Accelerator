@@ -34,7 +34,7 @@ namespace Crystal.Lodge.Component.CheckInReport.Navigator.Artifact
                 Int64 reportId = Convert.IsDBNull(ds.Tables[0].Rows[0]["ReportId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["ReportId"]);
                 if (reportId > 0)
                 {
-                    (this.Data as Data).ModuleData = new Customer.Component.Report.Data
+                    (this.Data as Data).ComponentData = new Customer.Component.Report.Data
                     {
                         Id = reportId
                     };
@@ -58,13 +58,13 @@ namespace Crystal.Lodge.Component.CheckInReport.Navigator.Artifact
 
             Data artifactData = Data as Data;
             base.CreateCommand("[Lodge].[InsertCheckInReportForArtifact]");
-            if (artifactData.ModuleData.Id == 0)
+            if (artifactData.ComponentData.Id == 0)
             {
                 base.AddInParameter("@ReportId", DbType.Int64, DBNull.Value);
             }
             else
             {
-                base.AddInParameter("@ReportId", DbType.Int64, artifactData.ModuleData.Id);
+                base.AddInParameter("@ReportId", DbType.Int64, artifactData.ComponentData.Id);
             }
             base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
             base.AddInParameter("@Category", DbType.Int64, artifactData.Category);

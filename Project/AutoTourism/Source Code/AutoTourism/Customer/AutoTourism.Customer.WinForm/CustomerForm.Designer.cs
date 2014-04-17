@@ -54,7 +54,6 @@
             this.txtLName = new System.Windows.Forms.TextBox();
             this.txtMName = new System.Windows.Forms.TextBox();
             this.txtFName = new System.Windows.Forms.TextBox();
-            this.cboInitial = new System.Windows.Forms.ComboBox();
             this.lblName = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnOK = new System.Windows.Forms.Button();
@@ -283,20 +282,11 @@
             // txtFName
             // 
             this.txtFName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.txtFName.Location = new System.Drawing.Point(160, 12);
+            this.txtFName.Location = new System.Drawing.Point(106, 12);
             this.txtFName.MaxLength = 20;
             this.txtFName.Name = "txtFName";
-            this.txtFName.Size = new System.Drawing.Size(106, 20);
+            this.txtFName.Size = new System.Drawing.Size(160, 20);
             this.txtFName.TabIndex = 1;
-            // 
-            // cboInitial
-            // 
-            this.cboInitial.BackColor = System.Drawing.SystemColors.Window;
-            this.cboInitial.FormattingEnabled = true;
-            this.cboInitial.Location = new System.Drawing.Point(106, 12);
-            this.cboInitial.Name = "cboInitial";
-            this.cboInitial.Size = new System.Drawing.Size(48, 21);
-            this.cboInitial.TabIndex = 0;
             // 
             // lblName
             // 
@@ -368,7 +358,6 @@
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtAdds);
             this.Controls.Add(this.lblName);
-            this.Controls.Add(this.cboInitial);
             this.Controls.Add(this.txtFName);
             this.Controls.Add(this.txtMName);
             this.Controls.Add(this.txtLName);
@@ -430,7 +419,6 @@
         private System.Windows.Forms.TextBox txtLName;
         private System.Windows.Forms.TextBox txtMName;
         private System.Windows.Forms.TextBox txtFName;
-        private System.Windows.Forms.ComboBox cboInitial;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.Button btnRefresh;

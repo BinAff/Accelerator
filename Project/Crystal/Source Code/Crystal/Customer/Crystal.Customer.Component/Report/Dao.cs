@@ -65,7 +65,7 @@ namespace Crystal.Customer.Component.Report
                         RoomTypeId = Convert.IsDBNull(row["RoomTypeId"]) ? 0 : Convert.ToInt64(row["RoomTypeId"]),
                         Advance = Convert.IsDBNull(row["Advance"]) ? 0 : Convert.ToDouble(row["Advance"]),
 
-                        Initial = Convert.IsDBNull(row["InitialName"]) ? String.Empty : Convert.ToString(row["InitialName"]),
+                        //Initial = Convert.IsDBNull(row["InitialName"]) ? String.Empty : Convert.ToString(row["InitialName"]),
                         FirstName = Convert.IsDBNull(row["FirstName"]) ? String.Empty : Convert.ToString(row["FirstName"]),
                         MiddleName = Convert.IsDBNull(row["MiddleName"]) ? String.Empty : Convert.ToString(row["MiddleName"]),
                         LastName = Convert.IsDBNull(row["LastName"]) ? String.Empty : Convert.ToString(row["LastName"]),

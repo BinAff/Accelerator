@@ -147,11 +147,11 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                     Name = reservationDto.Customer.State.Name
                 },
                 ContactNumberList = this.ConvertToContactNumberData(reservationDto.Customer.ContactNumberList),
-                Initial = new Crystal.Configuration.Component.Initial.Data
-                {
-                    Id = reservationDto.Customer.Initial.Id,
-                    Name = reservationDto.Customer.Initial.Name
-                },
+                //Initial = new Crystal.Configuration.Component.Initial.Data
+                //{
+                //    Id = reservationDto.Customer.Initial.Id,
+                //    Name = reservationDto.Customer.Initial.Name
+                //},
                 IdentityProofType = new Crystal.Configuration.Component.IdentityProofType.Data
                 {
                     Id = reservationDto.Customer.IdentityProofType.Id,
@@ -484,11 +484,11 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return new CustomerFacade.Dto
             {
                 Id = customerDto.Id,
-                Initial = customerDto.Initial == null ? null : new Table
-                {
-                    Id = customerDto.Initial.Id,
-                    Name = customerDto.Initial.Name
-                },
+                //Initial = customerDto.Initial == null ? null : new Table
+                //{
+                //    Id = customerDto.Initial.Id,
+                //    Name = customerDto.Initial.Name
+                //},
                 FirstName = customerDto.FirstName,
                 MiddleName = customerDto.MiddleName,
                 LastName = customerDto.LastName,

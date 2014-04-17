@@ -40,11 +40,11 @@ namespace Crystal.Invoice.Component.Report.Navigator.Artifact
 
         protected override ReturnObject<Boolean> DeleteAfter()
         {
-            if ((this.Data as Data).ModuleData != null && (this.Data as Data).ModuleData.Id > 0)
+            if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)
             {
                 ICrud crud = new Invoice.Component.Report.Server(new Invoice.Component.Report.Data
                 {
-                    Id = (this.Data as Data).ModuleData.Id
+                    Id = (this.Data as Data).ComponentData.Id
                 });
                 return crud.Delete();
             }

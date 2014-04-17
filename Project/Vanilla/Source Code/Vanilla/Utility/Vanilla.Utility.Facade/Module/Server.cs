@@ -54,11 +54,11 @@ namespace Vanilla.Utility.Facade.Module
         private List<Module.Dto> Convert(List<Data> dataList)
         {
             List<Module.Dto> ret = new List<Module.Dto>();
-            List<Category.Dto> categoryList = new Category.Server(null).ReadAll(this.currentCategory);
+            //List<Category.Dto> categoryList = new Category.Server(null).ReadAll(this.currentCategory);
             foreach (Crystal.License.Component.Data module in dataList)
             {
                 Dto moduleDto = this.Convert(module) as Dto;
-                moduleDto.CategoryList = categoryList;
+                //moduleDto.CategoryList = categoryList;
                 ret.Add(moduleDto);
             }
 
@@ -111,10 +111,24 @@ namespace Vanilla.Utility.Facade.Module
         public override void Add()
         {
             Artifact.Server artifactServer = GetArtifactFacade(Dto.ActionType.Create);
+            (this.FormDto as FormDto).CurrentArtifact.Dto.Extension = GetExtension();
             artifactServer.Add();
 
             this.DisplayMessageList = artifactServer.DisplayMessageList;
             this.IsError = artifactServer.IsError;
+        }
+
+        private string GetExtension()
+        {
+            switch ((this.FormDto as FormDto).CurrentArtifact.Dto.Category)
+            {
+                case Artifact.Category.Form:
+                    return "frm";
+                case Artifact.Category.Catalogue:
+                    return "ctl";
+                default:
+                    return "binaff";
+            }
         }
 
         public override void Change()
@@ -175,7 +189,7 @@ namespace Vanilla.Utility.Facade.Module
             Helper helper = new Helper((this.FormDto as FormDto).Dto, this.currentCategory);
 
             Artifact.Server artifactServer = new Artifact.Server((this.FormDto as FormDto).CurrentArtifact);
-            artifactServer.ModuleComponentDataType = helper.ArtifactDataType + ", " + helper.ArtifacComponentAssembly;
+            artifactServer.ModuleComponentDataType = helper.ArtifactDataType + ", " + helper.ArtifactComponentAssembly;
             if(currentArtifact.ComponentDefinition != null) currentArtifact.ComponentDefinition.ComponentFormType = helper.ModuleFormType;
             helper.ArtifactData = artifactServer.ConvertTree(currentArtifact);
 

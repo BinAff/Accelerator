@@ -14,7 +14,8 @@ namespace Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact
 
         protected override void Compose()
         {
-            this.Name = "Lodge CheckIn Form";
+            this.Name = "Lodge CheckIn " + (this.Data as Data).Category.ToString();
+            (this.Data as Data).Extension = "frm";
             this.DataAccess = new Dao((Data)this.Data);
             this.Validator = new Validator((Data)this.Data);
         }
@@ -40,9 +41,9 @@ namespace Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact
 
         protected override ReturnObject<bool> DeleteAfter()
         {
-            if ((this.Data as Data).ModuleData != null && (this.Data as Data).ModuleData.Id > 0)
+            if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)
             {
-                ICrud crud = new Crystal.Lodge.Component.Room.CheckIn.Server(new Crystal.Lodge.Component.Room.CheckIn.Data() { Id = (this.Data as Data).ModuleData.Id });
+                ICrud crud = new Crystal.Lodge.Component.Room.CheckIn.Server(new Crystal.Lodge.Component.Room.CheckIn.Data() { Id = (this.Data as Data).ComponentData.Id });
                 return crud.Delete();
             }
 

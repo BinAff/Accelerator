@@ -32,7 +32,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -44,6 +43,10 @@
     <Compile Include="Dao.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="IReport.cs" />
+    <Compile Include="Navigator\Artifact\Dao.cs" />
+    <Compile Include="Navigator\Artifact\Data.cs" />
+    <Compile Include="Navigator\Artifact\Server.cs" />
+    <Compile Include="Navigator\Artifact\Validator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Validator.cs" />
@@ -52,6 +55,10 @@
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
       <Project>{D25DF173-3451-49AA-9570-269B2880C393}</Project>
       <Name>BinAff.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Navigator\Component\Crystal.Navigator.Component.csproj">
+      <Project>{3e089798-771d-44f3-8a99-c990ab47a0b4}</Project>
+      <Name>Crystal.Navigator.Component</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

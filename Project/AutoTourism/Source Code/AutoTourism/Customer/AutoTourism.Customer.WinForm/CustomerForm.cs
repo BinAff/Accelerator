@@ -114,11 +114,11 @@ namespace AutoTourism.Customer.WinForm
             {
                 this.refreshDto = new CustFac.Dto
                 {
-                    Initial = this.dto.Initial == null ? null : new Table
-                    {
-                        Id = this.dto.Initial.Id,
-                        Name = this.dto.Initial.Name
-                    },
+                    //Initial = this.dto.Initial == null ? null : new Table
+                    //{
+                    //    Id = this.dto.Initial.Id,
+                    //    Name = this.dto.Initial.Name
+                    //},
                     FirstName = this.dto.FirstName,
                     MiddleName = this.dto.MiddleName,
                     LastName = this.dto.LastName,
@@ -320,13 +320,13 @@ namespace AutoTourism.Customer.WinForm
                 this.cboProofType.ValueMember = "Id";
                 this.cboProofType.SelectedIndex = -1;
             }
-            if (formDto.InitialList != null && formDto.InitialList.Count > 0)
-            {
-                this.cboInitial.DataSource = formDto.InitialList;
-                this.cboInitial.DisplayMember = "Name";
-                this.cboInitial.ValueMember = "Id";
-                this.cboInitial.SelectedIndex = -1;
-            }
+            //if (formDto.InitialList != null && formDto.InitialList.Count > 0)
+            //{
+            //    this.cboInitial.DataSource = formDto.InitialList;
+            //    this.cboInitial.DisplayMember = "Name";
+            //    this.cboInitial.ValueMember = "Id";
+            //    this.cboInitial.SelectedIndex = -1;
+            //}
             if (formDto.StateList != null && formDto.StateList.Count > 0)
             {
                 this.cboState.DataSource = formDto.StateList;
@@ -354,17 +354,17 @@ namespace AutoTourism.Customer.WinForm
         
         private void LoadCustomerData()
         {
-            if (this.dto.Initial != null && this.dto.Initial.Id > 0)
-            {
-                for (int i = 0; i < cboInitial.Items.Count; i++)
-                {
-                    if (this.dto.Initial.Id == ((Table)cboInitial.Items[i]).Id)
-                    {
-                        cboInitial.SelectedIndex = i;
-                        break;
-                    }
-                }
-            }
+            //if (this.dto.Initial != null && this.dto.Initial.Id > 0)
+            //{
+            //    for (int i = 0; i < cboInitial.Items.Count; i++)
+            //    {
+            //        if (this.dto.Initial.Id == ((Table)cboInitial.Items[i]).Id)
+            //        {
+            //            cboInitial.SelectedIndex = i;
+            //            break;
+            //        }
+            //    }
+            //}
             txtFName.Text = this.dto.FirstName;
             txtMName.Text = this.dto.MiddleName;
             txtLName.Text = this.dto.LastName;
@@ -467,10 +467,10 @@ namespace AutoTourism.Customer.WinForm
             {
                 if (this.dto == null) this.dto = new CustFac.Dto();
                 this.dto.Id = this.dto == null ? 0 : this.dto.Id;
-                this.dto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
-                {
-                    Id = ((Table)cboInitial.SelectedItem).Id,
-                };
+                //this.dto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
+                //{
+                //    Id = ((Table)cboInitial.SelectedItem).Id,
+                //};
                 this.dto.FirstName = txtFName.Text.Trim();
                 this.dto.MiddleName = txtMName.Text.Trim();
                 this.dto.LastName = txtLName.Text.Trim();
@@ -680,7 +680,7 @@ namespace AutoTourism.Customer.WinForm
         {
             this.dto = new CustFac.Dto();
             
-            this.cboInitial.SelectedIndex = -1;
+            //this.cboInitial.SelectedIndex = -1;
             this.txtFName.Text = String.Empty;
             this.txtMName.Text = String.Empty;
             this.txtLName.Text = String.Empty;
@@ -696,11 +696,11 @@ namespace AutoTourism.Customer.WinForm
 
         private void ResetLoad()
         {            
-            this.dto.Initial = this.refreshDto.Initial == null ? null : new Table
-            {
-                Id = this.dto.Initial.Id,
-                Name = this.dto.Initial.Name
-            };
+            //this.dto.Initial = this.refreshDto.Initial == null ? null : new Table
+            //{
+            //    Id = this.dto.Initial.Id,
+            //    Name = this.dto.Initial.Name
+            //};
             this.dto.FirstName = this.refreshDto.FirstName;
             this.dto.MiddleName = this.refreshDto.MiddleName;
             this.dto.LastName = this.refreshDto.LastName;

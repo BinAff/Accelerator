@@ -19,7 +19,6 @@ namespace AutoTourism.Component.Customer
 
         protected override void Compose()
         {
-            this.Name = "Customer";
             this.DataAccess = new Dao((Data)this.Data);
             this.Validator = new Validator((Data)this.Data);
         }

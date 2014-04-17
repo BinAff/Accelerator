@@ -16,7 +16,7 @@ namespace Crystal.Customer.Component
         public String Email { get; set; }        
         public String IdentityProof { get; set; }
 
-        public Configuration.Component.Initial.Data Initial { get; set; }
+        //public Configuration.Component.Initial.Data Initial { get; set; }
         public Configuration.Component.State.Data State { get; set; }
         public Configuration.Component.IdentityProofType.Data IdentityProofType { get; set; }
 

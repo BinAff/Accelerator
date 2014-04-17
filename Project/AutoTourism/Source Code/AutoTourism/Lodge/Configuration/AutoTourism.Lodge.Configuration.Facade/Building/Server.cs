@@ -55,12 +55,14 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
             }
 
             //Populate building type list
-            Type.Server typeFacade = new Type.Server(new Type.FormDto
+            Type.FormDto typeList = new Type.FormDto
             {
                 DtoList = formDto.TypeList
-            });
+            };
+            Type.Server typeFacade = new Type.Server(typeList);
             typeFacade.LoadForm();
             this.DisplayMessageList.AddRange(typeFacade.DisplayMessageList);
+            formDto.TypeList = typeList.DtoList;
         }
 
         public override void Add()
