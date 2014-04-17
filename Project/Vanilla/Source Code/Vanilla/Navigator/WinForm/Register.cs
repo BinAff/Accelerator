@@ -472,6 +472,7 @@ namespace Vanilla.Navigator.WinForm
 
             ListViewItem selectedItem = (sender as ListView).FocusedItem;
             UtilFac.Artifact.Dto selectedArtifact = selectedItem.Tag as UtilFac.Artifact.Dto;
+            selectedArtifact.Extension = this.currentArtifact.Extension;
 
             String documentName = selectedArtifact.FileName + "." + selectedArtifact.Extension;          
             String defaultFileName = selectedArtifact.FileName;
@@ -621,12 +622,12 @@ namespace Vanilla.Navigator.WinForm
             {
                 UtilFac.Artifact.Dto artifactDto = this.GetParent(this.currentArtifact);
                 TreeNode parentNode = null;                
-                //parentNode = this.FindTreeNodeFromTag(artifactDto, this.trvForm.Nodes, parentNode);
                 parentNode = trv.FindNode(artifactDto);
-                //TreeNode rootNode = FindRootNode(parentNode); //to check the logic [currently entire tree is getting compared]
                 TreeNode rootNode = trv.FindRootNode(parentNode);
 
+                BinAff.Facade.Library.Dto parent = this.currentArtifact.Parent;
                 this.currentArtifact = this.ReadDocument(this.currentArtifact);
+                this.currentArtifact.Parent = parent;
                 Type type;
                 if(this.currentArtifact.Category == UtilFac.Artifact.Category.Report)                
                 {
@@ -1678,32 +1679,23 @@ namespace Vanilla.Navigator.WinForm
             TreeNode parentNode = null;
             if (artifactDto.Style == UtilFac.Artifact.Type.Document)
             {
-                //if (this.currentArtifact.ComponentDefinition == null)
-                //{
-                //    this.currentArtifact.ComponentDefinition = new UtilFac.Module.Definition.Dto 
-                //    {
-                //        Code = 
-                //    };
-                //}
-                parentNode = trv.FindNode(this.currentArtifact);
+                parentNode = trv.FindNode(this.GetParent(this.currentArtifact));
             }
             else
             {
-                TreeNode selectedNode = null;                
-                selectedNode = trv.FindNode(artifactDto);
+                TreeNode selectedNode = trv.FindNode(artifactDto);
                 parentNode = selectedNode != null ? selectedNode.Parent : null;
             }
             String pathOfParent = this.GetArtifact(parentNode.Tag).Path;
-            //if (parentNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
-            //    pathOfParent = (parentNode.Tag as UtilFac.Module.Dto).Artifact.Path;
-            //else            
-            //    pathOfParent = (parentNode.Tag as UtilFac.Artifact.Dto).Path;
-
             //-- document should not contain the path separator
             if (artifactDto.Style == UtilFac.Artifact.Type.Document)
+            {
                 artifactDto.Path = pathOfParent + fileName;
+            }
             else
+            {
                 artifactDto.Path = pathOfParent + fileName + this.formDto.Rule.PathSeperator;
+            }
 
             if (isModify)
             {
@@ -1722,7 +1714,7 @@ namespace Vanilla.Navigator.WinForm
 
                 this.facade.Change();
             }
-            else    // new insert
+            else // new insert
             {
                 this.facade.Add();
             }
@@ -1736,7 +1728,7 @@ namespace Vanilla.Navigator.WinForm
                 new PresLib.MessageBox
                 {
                     DialogueType = PresLib.MessageBox.Type.Error,
-                    Heading = "Splash",
+                    Heading = "Navigator",
                 }.Show(this.facade.DisplayMessageList);
             }
         }
@@ -1768,9 +1760,10 @@ namespace Vanilla.Navigator.WinForm
                 TreeNode newNode = new TreeNode
                 {
                     Text = fileName,
-                    Tag = new UtilFac.Artifact.Dto()
+                    Tag = new UtilFac.Artifact.Dto
                     {
                         FileName = fileName,
+                        Extension = this.currentArtifact.Extension,
                         Version = 1,
                         Style = type,
                         CreatedBy = currentLoggedInUser,
@@ -1796,7 +1789,6 @@ namespace Vanilla.Navigator.WinForm
                 if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
                 {
                     trv.LabelEdit = true;
-
                     newNode.Parent.Expand();
                     trv.SelectedNode = null;
                     newNode.BeginEdit();
@@ -1809,6 +1801,8 @@ namespace Vanilla.Navigator.WinForm
                         UtilFac.Artifact.Dto dto = item.Tag as UtilFac.Artifact.Dto;
                         if (dto.Style == type && dto.FileName == fileName)
                         {
+                            //Remove extension for document
+                            if(dto.Style == UtilFac.Artifact.Type.Document) item.Text = item.Text.Remove(item.Text.LastIndexOf('.'));
                             item.BeginEdit();
                             break;
                         }
@@ -2071,6 +2065,7 @@ namespace Vanilla.Navigator.WinForm
         private void cmnuDailyReport_Click(object sender, EventArgs e)
         {
             TreeNode rootNode = this.GetRootNode();
+            this.currentArtifact.Extension = "drpt";
             if (rootNode != null)
             {
                 if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
@@ -2089,6 +2084,7 @@ namespace Vanilla.Navigator.WinForm
         {           
             //this.AddDocument("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm");
 
+            this.currentArtifact.Extension = "wrpt";
             TreeNode rootNode = this.GetRootNode();
             if (rootNode != null)
             {
@@ -2104,8 +2100,8 @@ namespace Vanilla.Navigator.WinForm
         }
 
         private void cmnuMonthlyReport_Click(object sender, EventArgs e)
-        {           
-            //this.AddDocument("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm");
+        {
+            this.currentArtifact.Extension = "mrpt";
             TreeNode rootNode = this.GetRootNode();
             if (rootNode != null)
             {
@@ -2122,7 +2118,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void cmnuQuarterlyReport_Click(object sender, EventArgs e)
         {
-            //this.AddDocument("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm");
+            this.currentArtifact.Extension = "qrpt";
             TreeNode rootNode = this.GetRootNode();
             if (rootNode != null)
             {
@@ -2139,7 +2135,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void cmnuYearlyReport_Click(object sender, EventArgs e)
         {
-            //this.AddDocument("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm");
+            this.currentArtifact.Extension = "yrpt";
             TreeNode rootNode = this.GetRootNode();
             if (rootNode != null)
             {

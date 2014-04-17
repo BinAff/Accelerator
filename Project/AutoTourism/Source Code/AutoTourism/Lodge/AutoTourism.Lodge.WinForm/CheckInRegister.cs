@@ -200,10 +200,11 @@ namespace AutoTourism.Lodge.WinForm
             if (dto.Reservation.Customer != null)
             {
                 //populate customer data
-                txtName.Text = (dto.Reservation.Customer.Initial == null ? String.Empty : dto.Reservation.Customer.Initial.Name) + " "
-                    + dto.Reservation.Customer.FirstName + " "
-                    + dto.Reservation.Customer.MiddleName + " "
-                    + dto.Reservation.Customer.LastName;
+                txtName.Text = dto.Reservation.Customer.Name;
+                //txtName.Text = (dto.Reservation.Customer.Initial == null ? String.Empty : dto.Reservation.Customer.Initial.Name) + " "
+                //    + dto.Reservation.Customer.FirstName + " "
+                //    + dto.Reservation.Customer.MiddleName + " "
+                //    + dto.Reservation.Customer.LastName;
                 lstContact.DataSource = dto.Reservation.Customer.ContactNumberList;
                 lstContact.DisplayMember = "Name";
                 lstContact.ValueMember = "Id";

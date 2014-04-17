@@ -1,11 +1,11 @@
-﻿using System;
-using CrystalNavigator = Crystal.Navigator.Component;
-using BinAff.Core;
+﻿using BinAff.Core;
 
 namespace Crystal.Customer.Component.Report.Navigator.Artifact
 {
-    public class Server : CrystalNavigator.Artifact.Server
+
+    public class Server : Crystal.Report.Component.Navigator.Artifact.Server
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -14,7 +14,7 @@ namespace Crystal.Customer.Component.Report.Navigator.Artifact
 
         protected override void Compose()
         {
-            this.Name = "Invoice Report";
+            this.Name = "Customer Report";
             this.DataAccess = new Dao((Data)this.Data);
             this.Validator = new Validator((Data)this.Data);
         }
@@ -27,7 +27,6 @@ namespace Crystal.Customer.Component.Report.Navigator.Artifact
             };
         }
 
-
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
             return new Server(data as Data);
@@ -38,18 +37,14 @@ namespace Crystal.Customer.Component.Report.Navigator.Artifact
             return new Customer.Component.Report.Server(moduleData as Customer.Component.Report.Data);
         }
 
-        protected override ReturnObject<Boolean> DeleteAfter()
+        protected override ICrud GetComponentServer()
         {
-            if ((this.Data as Data).ModuleData != null && (this.Data as Data).ModuleData.Id > 0)
+            return new Customer.Component.Report.Server(new Customer.Component.Report.Data
             {
-                ICrud crud = new Customer.Component.Report.Server(new Customer.Component.Report.Data
-                {
-                    Id = (this.Data as Data).ModuleData.Id
-                });
-                return crud.Delete();
-            }
-
-            return base.DeleteAfter();
+                Id = (this.Data as Data).ComponentData.Id
+            });
         }
+
     }
+
 }

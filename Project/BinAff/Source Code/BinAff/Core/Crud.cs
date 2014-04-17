@@ -686,15 +686,10 @@ namespace BinAff.Core
             {
                 Value = ((Dao)this.DataAccess).ReadAll()
             };
-
-            if ((this.dependentChildren != null && this.dependentChildren.Count > 0)
-                || (this.independentChildren != null && this.independentChildren.Count > 0))
+            foreach (BinAff.Core.Data data in retList.Value)
             {
-                foreach (BinAff.Core.Data data in retList.Value)
-                {
-                    ICrud crud = this.CreateInstance(data);
-                    crud.Read();
-                }
+                ICrud crud = this.CreateInstance(data);
+                crud.Read();
             }
 
             return retList;

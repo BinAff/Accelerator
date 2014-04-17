@@ -24,9 +24,9 @@ namespace Vanilla.Utility.Facade.Module
         {
             get
             {
-                Type type = Type.GetType(this.ArtifacComponentType + ", " + this.ArtifacComponentAssembly, true);
+                Type type = Type.GetType(this.ArtifactComponentType + ", " + this.ArtifactComponentAssembly, true);
                 CrystalArtifact.Server artifact = Activator.CreateInstance(type, this.ArtifactData) as CrystalArtifact.Server;
-                (artifact.Data as CrystalArtifact.Data).ModuleData = this.ModuleData;
+                (artifact.Data as CrystalArtifact.Data).ComponentData = this.ModuleData;
                 return artifact;
             }
         }
@@ -35,9 +35,9 @@ namespace Vanilla.Utility.Facade.Module
         {
             get
             {
-                Type type = Type.GetType(this.ArtifacComponentType + ", " + this.ArtifacComponentAssembly, true);
+                Type type = Type.GetType(this.ArtifactComponentType + ", " + this.ArtifactComponentAssembly, true);
                 CrystalArtifact.Server artifact = Activator.CreateInstance(type, this.ArtifactData) as CrystalArtifact.Server;
-                (artifact.Data as CrystalArtifact.Data).ModuleData = this.ModuleData;
+                (artifact.Data as CrystalArtifact.Data).ComponentData = this.ModuleData;
                 return artifact;
             }
         }
@@ -49,7 +49,7 @@ namespace Vanilla.Utility.Facade.Module
             {
                 if (this.artfactData == null)
                 {
-                    Type type = Type.GetType(this.ArtifactDataType + ", " + this.ArtifacComponentAssembly, true);
+                    Type type = Type.GetType(this.ArtifactDataType + ", " + this.ArtifactComponentAssembly, true);
                     this.artfactData = Activator.CreateInstance(type) as CrystalArtifact.Data;
                     if (this.artfactData == null)
                     {
@@ -86,8 +86,8 @@ namespace Vanilla.Utility.Facade.Module
         public String ModuleFormType { get; set; }
         public String ModuleFormDtoType { get; set; }
         public String ArtifactDataType { get; set; }
-        public String ArtifacComponentType { get; set; }
-        public String ArtifacComponentAssembly { get; set; }
+        public String ArtifactComponentType { get; set; }
+        public String ArtifactComponentAssembly { get; set; }
         public String ModuleDataType { get; set; }
 
 
@@ -98,9 +98,9 @@ namespace Vanilla.Utility.Facade.Module
                 case "CUST":
                     this.ModuleFormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
                     this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Dto, AutoTourism.Customer.Facade";
-                    this.ArtifacComponentAssembly = "AutoTourism.Component.Customer";
+                    this.ArtifactComponentAssembly = "AutoTourism.Component.Customer";
                     this.ArtifactDataType = "AutoTourism.Component.Customer.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "AutoTourism.Component.Customer.Navigator.Artifact.Server";
+                    this.ArtifactComponentType = "AutoTourism.Component.Customer.Navigator.Artifact.Server";
                     this.ModuleDataType = "AutoTourism.Component.Customer.Data, AutoTourism.Component.Customer";
                     //this.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
 
@@ -115,9 +115,9 @@ namespace Vanilla.Utility.Facade.Module
                 case "LRSV"://Need to change
                     this.ModuleFormType = "AutoTourism.Lodge.WinForm.RoomReservationForm, AutoTourism.Lodge.WinForm";
                     this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.RoomReservation.Dto, AutoTourism.Lodge.Facade";
-                    this.ArtifacComponentAssembly = "Crystal.Lodge.Component";
+                    this.ArtifactComponentAssembly = "Crystal.Lodge.Component";
                     this.ArtifactDataType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Server";
+                    this.ArtifactComponentType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Lodge.Component.Room.Reservation.Data, Crystal.Lodge.Component";
                     //this.ModuleFacade = new AutoTourism.Lodge.Facade.RoomReservation.ReservationServer(null);                  
 
@@ -131,9 +131,9 @@ namespace Vanilla.Utility.Facade.Module
                 case "LCHK"://Need to change
                     this.ModuleFormType = "AutoTourism.Lodge.WinForm.CheckInForm, AutoTourism.Lodge.WinForm";
                     this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.CheckIn.Dto, AutoTourism.Lodge.Facade";
-                    this.ArtifacComponentAssembly = "Crystal.Lodge.Component";
+                    this.ArtifactComponentAssembly = "Crystal.Lodge.Component";
                     this.ArtifactDataType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Server";
+                    this.ArtifactComponentType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Lodge.Component.Room.CheckIn.Data, Crystal.Lodge.Component";
                     //this.ModuleFacade = new AutoTourism.Lodge.Facade.CheckIn.CheckInServer(null);
 
@@ -146,9 +146,9 @@ namespace Vanilla.Utility.Facade.Module
                 case "INVO":                   
                     this.ModuleFormType = "Vanilla.Invoice.WinForm.Invoice, Vanilla.Invoice.WinForm";
                     this.ModuleFormDtoType = "Vanilla.Invoice.Facade.Dto, Vanilla.Invoice.Facade";
-                    this.ArtifacComponentAssembly = "Crystal.Invoice.Component";
+                    this.ArtifactComponentAssembly = "Crystal.Invoice.Component";
                     this.ArtifactDataType = "Crystal.Invoice.Component.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Crystal.Invoice.Component.Navigator.Artifact.Server";
+                    this.ArtifactComponentType = "Crystal.Invoice.Component.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Invoice.Component.Data, Crystal.Invoice.Component";
                     
                     Type typeInvoiceServer = Type.GetType("Vanilla.Invoice.Facade.Server,Vanilla.Invoice.Facade", true);
@@ -175,9 +175,9 @@ namespace Vanilla.Utility.Facade.Module
             {
                 case "CUST":
                     this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Report.Dto, AutoTourism.Customer.Facade";
-                    this.ArtifacComponentAssembly = "Crystal.Customer.Component";
+                    this.ArtifactComponentAssembly = "Crystal.Customer.Component";
                     this.ArtifactDataType = "Crystal.Customer.Component.Report.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Crystal.Customer.Component.Report.Navigator.Artifact.Server";
+                    this.ArtifactComponentType = "Crystal.Customer.Component.Report.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Customer.Component.Report.Data, Crystal.Customer.Component";
 
                     Type typeCustomerReportServer = Type.GetType("AutoTourism.Customer.Facade.Report.Server,AutoTourism.Customer.Facade", true);
@@ -190,9 +190,9 @@ namespace Vanilla.Utility.Facade.Module
                 case "LRSV"://Need to change
                     //this.ModuleFormType = "AutoTourism.Lodge.WinForm.RoomReservationForm, AutoTourism.Lodge.WinForm";
                     this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.RoomReservationReport.Dto, AutoTourism.Lodge.Facade";
-                    this.ArtifacComponentAssembly = "Crystal.Lodge.Component";
+                    this.ArtifactComponentAssembly = "Crystal.Lodge.Component";
                     this.ArtifactDataType = "Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact.Server";
+                    this.ArtifactComponentType = "Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Lodge.Component.RoomReservationReport.Data, Crystal.Lodge.Component";
 
                     Type typeReservationReportServer = Type.GetType("AutoTourism.Lodge.Facade.RoomReservationReport.Server,AutoTourism.Lodge.Facade", true);
@@ -205,9 +205,9 @@ namespace Vanilla.Utility.Facade.Module
                 case "LCHK"://Need to change
                     //this.ModuleFormType = "AutoTourism.Lodge.WinForm.CheckInForm, AutoTourism.Lodge.WinForm";
                     this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.CheckInReport.Dto, AutoTourism.Lodge.Facade";
-                    this.ArtifacComponentAssembly = "Crystal.Lodge.Component";
+                    this.ArtifactComponentAssembly = "Crystal.Lodge.Component";
                     this.ArtifactDataType = "Crystal.Lodge.Component.CheckInReport.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Crystal.Lodge.Component.CheckInReport.Navigator.Artifact.Server";
+                    this.ArtifactComponentType = "Crystal.Lodge.Component.CheckInReport.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Lodge.Component.CheckInReport.Data, Crystal.Lodge.Component";
 
                     Type typeCheckInReportServer = Type.GetType("AutoTourism.Lodge.Facade.CheckInReport.Server,AutoTourism.Lodge.Facade", true);
@@ -219,9 +219,9 @@ namespace Vanilla.Utility.Facade.Module
                 case "INVO":
                     //this.ModuleFormType = "Vanilla.Invoice.WinForm.Invoice, Vanilla.Invoice.WinForm";
                     this.ModuleFormDtoType = "Vanilla.Invoice.Facade.Report.Dto, Vanilla.Invoice.Facade";
-                    this.ArtifacComponentAssembly = "Crystal.Invoice.Component";
+                    this.ArtifactComponentAssembly = "Crystal.Invoice.Component";
                     this.ArtifactDataType = "Crystal.Invoice.Component.Report.Navigator.Artifact.Data";
-                    this.ArtifacComponentType = "Crystal.Invoice.Component.Report.Navigator.Artifact.Server";
+                    this.ArtifactComponentType = "Crystal.Invoice.Component.Report.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Invoice.Component.Report.Data, Crystal.Invoice.Component";
 
                     Type typeInvoiceReportServer = Type.GetType("Vanilla.Invoice.Facade.Report.Server,Vanilla.Invoice.Facade", true);

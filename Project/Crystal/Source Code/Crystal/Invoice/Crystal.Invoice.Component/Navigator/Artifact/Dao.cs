@@ -36,7 +36,7 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
             Int64 invoiceId = Convert.IsDBNull(ds.Tables[0].Rows[0]["InvoiceId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["InvoiceId"]);
             if (invoiceId > 0)
             {
-                (this.Data as Data).ModuleData = new Invoice.Component.Data
+                (this.Data as Data).ComponentData = new Invoice.Component.Data
                 {
                     Id = invoiceId
                 };
@@ -59,13 +59,13 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
 
             Data artifactData = Data as Data;
             base.CreateCommand("[Invoice].[InsertInvoiceFormForArtifact]");
-            if (artifactData.ModuleData.Id == 0)
+            if (artifactData.ComponentData.Id == 0)
             {
                 base.AddInParameter("@InvoiceId", DbType.Int64, DBNull.Value);
             }
             else
             {
-                base.AddInParameter("@InvoiceId", DbType.Int64, artifactData.ModuleData.Id);
+                base.AddInParameter("@InvoiceId", DbType.Int64, artifactData.ComponentData.Id);
             }
             base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
             base.AddInParameter("@Category", DbType.Int64, artifactData.Category);

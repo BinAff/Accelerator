@@ -9,10 +9,14 @@ namespace Crystal.Customer.Component.Navigator.Artifact
         public Server(Data data)
             : base(data)
         {
-
+            
         }
 
-        protected abstract override void Compose();
+        protected override void Compose()
+        {
+            this.Name = "Customer " + (this.Data as Data).Category.ToString();
+            (this.Data as Data).Extension = "frm";
+        }
 
         protected abstract override BinAff.Core.Data CreateDataObject();
 

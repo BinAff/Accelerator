@@ -39,7 +39,7 @@ namespace Crystal.Navigator.Component.Artifact
                 IsReadOnly = true,
             });
 
-            BinAff.Core.Crud module = this.CreateModuleServerInstance((this.Data as Data).ModuleData);
+            BinAff.Core.Crud module = this.CreateModuleServerInstance((this.Data as Data).ComponentData);
             module.Type = ChildType.Independent;
             module.IsReadOnly = true;
             base.AddChild(module);
@@ -47,9 +47,9 @@ namespace Crystal.Navigator.Component.Artifact
 
         protected override ReturnObject<bool> DeleteBefore()
         {
-            Crud child = this.CreateInstance(null);
+            Crud child = this.CreateInstance(this.Data);
             child.Type = ChildType.Dependent;
-            base.AddChildren(child, ((Data)Data).Children);
+            base.AddChildren(child, (this.Data as Data).Children);
             return base.DeleteBefore();
         }
 
@@ -83,12 +83,12 @@ namespace Crystal.Navigator.Component.Artifact
             //Create root
             List<BinAff.Core.Data> rootList = this.FindRoot(artifactList);
             Data data = this.Data as Data;
-            data.Path = data.Path + moduleSeperator + pathSeperator + pathSeperator + data.FileName + pathSeperator;
+            //data.Path = data.Path + moduleSeperator + pathSeperator + pathSeperator + data.FileName + pathSeperator;
             data.Children = new List<BinAff.Core.Data>();
             foreach (Data root in rootList)
             {
                 Int64 currentId = root.Id;
-                root.Path = data.Path + root.FileName + pathSeperator;
+                //root.Path = data.Path + root.FileName + pathSeperator;
                 root.ParentId = this.Data.Id;
                 artifactList.Remove(root);
                 //
@@ -106,7 +106,7 @@ namespace Crystal.Navigator.Component.Artifact
                         parent.Children = new List<BinAff.Core.Data>();
                         foreach (Data node in children)
                         {
-                            node.Path += parent.Path + node.FileName + pathSeperator;
+                            //node.Path += parent.Path + node.FileName + pathSeperator;
                             parent.Children.Add(node);
                             artifactList.Remove(node);
                             dumpList.Add(node);

@@ -51,8 +51,9 @@ namespace AutoTourism.Lodge.Facade.CheckInRegister
 
                 };
 
-                regDto.Name = regDto.Reservation.Customer == null ? String.Empty : regDto.Reservation.Customer.Initial.Name + " " +
-                    regDto.Reservation.Customer.FirstName + " " + regDto.Reservation.Customer.MiddleName + " " + regDto.Reservation.Customer.LastName;
+                regDto.Name = regDto.Reservation.Customer == null ? String.Empty : regDto.Reservation.Customer.Name;
+                //regDto.Name = regDto.Reservation.Customer == null ? String.Empty : regDto.Reservation.Customer.Initial.Name + " " +
+                //    regDto.Reservation.Customer.FirstName + " " + regDto.Reservation.Customer.MiddleName + " " + regDto.Reservation.Customer.LastName;
                 regDto.ContactNumber = regDto.Reservation.Customer == null ? String.Empty : regDto.Reservation.Customer.ContactNumberList[0].Name;
                 regDto.StartDate = regDto.Reservation.BookingFrom;
                 regDto.EndDate = regDto.Reservation.BookingFrom.AddDays(regDto.Reservation.NoOfDays);

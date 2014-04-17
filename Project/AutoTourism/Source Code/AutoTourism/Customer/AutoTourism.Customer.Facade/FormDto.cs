@@ -13,7 +13,7 @@ namespace AutoTourism.Customer.Facade
         public RuleFacade.CustomerRuleDto customerRuleDto { get; set; }
         public List<Dto> DtoList { get; set; }
 
-        public List<Table> InitialList { get; set; }
+        //public List<Table> InitialList { get; set; }
         public List<Table> StateList { get; set; }
         public List<Table> IdentityProofTypeList { get; set; }
 

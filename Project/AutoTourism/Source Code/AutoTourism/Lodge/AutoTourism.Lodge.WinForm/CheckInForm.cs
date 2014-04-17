@@ -63,10 +63,6 @@ namespace AutoTourism.Lodge.WinForm
                 //this.btnGenerateInvoice.Enabled = false;
                 this.DisableFormControls();
             }
-
-            //dtCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            //dtCheckIn.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
-
             this.LoadForm();
 
             //dtCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
@@ -112,9 +108,13 @@ namespace AutoTourism.Lodge.WinForm
                 BinAff.Facade.Library.Server facade = new LodgeFacade.CheckIn.CheckInServer(formDto);
 
                 if (this.formDto.dto.Id == 0)
+                {
                     facade.Add();
+                }
                 else
+                {
                     facade.Change();
+                }
 
                 //checkIn Id passs back to register
                 this.dto.Id = this.formDto.dto.Id;
@@ -122,7 +122,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.dto.Reservation = this.formDto.dto.Reservation;
 
                 //Update reservation tree node
-                this.UpdateRoomReservationNodeInTree(this.formDto.dto.Reservation);
+                //this.UpdateRoomReservationNodeInTree(this.formDto.dto.Reservation);
 
                 if (facade.IsError)
                 {
@@ -138,54 +138,52 @@ namespace AutoTourism.Lodge.WinForm
             return retVal;
         }
 
-        private void UpdateRoomReservationNodeInTree(LodgeFacade.RoomReservation.Dto reservationDto)
-        {
-            //-Add artifact to customer node
-            Int16 reservationNodePosition = 0;
-            for (int i = 0; i < this.dto.trvForm.Nodes.Count; i++)
-            {
-                if (this.dto.trvForm.Nodes[i].Text == "Room Reservation")
-                    break;
+        //private void UpdateRoomReservationNodeInTree(LodgeFacade.RoomReservation.Dto reservationDto)
+        //{
+        //    //-Add artifact to customer node
+        //    Int16 reservationNodePosition = 0;
+        //    for (int i = 0; i < this.dto.trvForm.Nodes.Count; i++)
+        //    {
+        //        if (this.dto.trvForm.Nodes[i].Text == "Room Reservation")
+        //            break;
 
-                reservationNodePosition++;
-            }
+        //        reservationNodePosition++;
+        //    }
 
-            Boolean isNodeUpdated = false;
-            List<Vanilla.Utility.Facade.Artifact.Dto> artifactList = (this.dto.trvForm.Nodes[reservationNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children;
-            this.UpdateTreeNode(isNodeUpdated, reservationDto, artifactList);
+        //    //Boolean isNodeUpdated = false;
+        //    //List<Vanilla.Utility.Facade.Artifact.Dto> artifactList = (this.dto.trvForm.Nodes[reservationNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children;
+        //    //this.UpdateTreeNode(isNodeUpdated, reservationDto, artifactList);
+        //}
 
+        //private void UpdateTreeNode(Boolean isNodeUpdated, LodgeFacade.RoomReservation.Dto reservationDto, List<Vanilla.Utility.Facade.Artifact.Dto> artifactList)
+        //{
+        //    if (isNodeUpdated) return;
 
-        }
+        //    foreach (Vanilla.Utility.Facade.Artifact.Dto dto in artifactList)
+        //    {
+        //        if (dto.Style == Vanilla.Utility.Facade.Artifact.Type.Document)
+        //        {
+        //            if (dto.Module.Id == reservationDto.Id)
+        //            {
+        //                dto.Module = reservationDto;
+        //                isNodeUpdated = true;
+        //                break;
+        //            }
+        //        }
+        //    }
 
-        private void UpdateTreeNode(Boolean isNodeUpdated, LodgeFacade.RoomReservation.Dto reservationDto, List<Vanilla.Utility.Facade.Artifact.Dto> artifactList)
-        {
-            if (isNodeUpdated) return;
-
-            foreach (Vanilla.Utility.Facade.Artifact.Dto dto in artifactList)
-            {
-                if (dto.Style == Vanilla.Utility.Facade.Artifact.Type.Document)
-                {
-                    if (dto.Module.Id == reservationDto.Id)
-                    {
-                        dto.Module = reservationDto;
-                        isNodeUpdated = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!isNodeUpdated)
-            {
-                foreach (Vanilla.Utility.Facade.Artifact.Dto dto in artifactList)
-                {
-                    if (dto.Style == Vanilla.Utility.Facade.Artifact.Type.Folder && dto.Children != null)
-                    {
-                        this.UpdateTreeNode(isNodeUpdated, reservationDto, dto.Children);
-                        if (isNodeUpdated) break;
-                    }
-                }
-            }
-        }
+        //    if (!isNodeUpdated)
+        //    {
+        //        foreach (Vanilla.Utility.Facade.Artifact.Dto dto in artifactList)
+        //        {
+        //            if (dto.Style == Vanilla.Utility.Facade.Artifact.Type.Folder && dto.Children != null)
+        //            {
+        //                this.UpdateTreeNode(isNodeUpdated, reservationDto, dto.Children);
+        //                if (isNodeUpdated) break;
+        //            }
+        //        }
+        //    }
+        //}
 
         private void btnOk_Click(object sender, EventArgs e)
         {
@@ -201,19 +199,6 @@ namespace AutoTourism.Lodge.WinForm
         {
             Boolean retVal = true;
             errorProvider.Clear();
-
-            //if (this.dto == null)
-            //{
-            //    errorProvider.SetError(btnPickReservation, "Select a reservation for check in.");
-            //    btnPickReservation.Focus();
-            //    return false;
-            //}
-            //if (txtName.Text.Trim() == String.Empty)
-            //{
-            //    errorProvider.SetError(btnPickReservation, "Select a customer for reservation.");
-            //    btnPickReservation.Focus();
-            //    return false;
-            //}
 
             if (this.formDto == null || this.formDto.dto == null || this.formDto.dto.Reservation == null || this.formDto.dto.Reservation.Customer == null)
             {
@@ -309,8 +294,6 @@ namespace AutoTourism.Lodge.WinForm
             facade.LoadForm();
 
             this.configurationRuleDto = formDto.configurationRuleDto;
-            //if (this.configurationRuleDto.DateFormat != null)
-            //    dtCheckIn.CustomFormat = this.configurationRuleDto.DateFormat;
 
             //--populate room category
             this.cboCategory.DataSource = null;
@@ -355,13 +338,7 @@ namespace AutoTourism.Lodge.WinForm
             {
 
                 CustomerFacade.Dto customerDto = this.formDto.dto.Reservation.Customer;
-
-                String Name = (customerDto.Initial == null ? String.Empty : customerDto.Initial.Name);
-                Name += (Name == String.Empty) ? (customerDto.FirstName == null ? String.Empty : customerDto.FirstName) : " " + (customerDto.FirstName == null ? String.Empty : customerDto.FirstName);
-                Name += (Name == String.Empty) ? (customerDto.MiddleName == null ? String.Empty : customerDto.MiddleName) : " " + (customerDto.MiddleName == null ? String.Empty : customerDto.MiddleName);
-                Name += (Name == String.Empty) ? (customerDto.LastName == null ? String.Empty : customerDto.LastName) : " " + (customerDto.LastName == null ? String.Empty : customerDto.LastName);
-
-                this.formDto.dto.CustomerDisplayName = Name;
+                this.formDto.dto.CustomerDisplayName = customerDto.Name;
 
                 this.LoadCheckInData();
 
@@ -948,7 +925,7 @@ namespace AutoTourism.Lodge.WinForm
             invoiceDto.advance = this.dto.Reservation.Advance;
             invoiceDto.buyer = this.dto.Reservation.Customer == null ? null : new Vanilla.Invoice.Facade.Buyer.Dto 
             {
-                Name = GetCustomerDisplayName(this.dto.Reservation.Customer),
+                Name = this.dto.Reservation.Customer.Name,
                 Address = this.dto.Reservation.Customer.Address,
                 Email = this.dto.Reservation.Customer.Email,
                 ContactNumber = this.dto.Reservation.Customer.ContactNumberList == null ? null : this.dto.Reservation.Customer.ContactNumberList[0].Name
@@ -1025,38 +1002,30 @@ namespace AutoTourism.Lodge.WinForm
                     };
 
                     if (productList.Count == 0)
+                    {
                         productList.Add(productDto);
+                    }
                     else
                     {
                         blnAdd = true;
                         foreach (Vanilla.Invoice.Facade.LineItem.Dto roomDto in productList)
                         {
-
                             if (productDto.roomCategoryId == roomDto.roomCategoryId && productDto.roomTypeId == roomDto.roomTypeId && productDto.roomIsAC == roomDto.roomIsAC)
                             {
-                                roomDto.count += 1;
+                                roomDto.count++;
                                 blnAdd = false;
                                 break;
                             }
                         }
                         if (blnAdd)
+                        {
                             productList.Add(productDto);
+                        }
                     }
                 }
             }
 
             return productList;
-
-        }
-
-        private String GetCustomerDisplayName(CustomerFacade.Dto customer)
-        {
-            String Name = customer.Initial == null ? String.Empty : customer.Initial.Name;
-            Name += (Name == String.Empty) ? (customer.FirstName == null ? String.Empty : customer.FirstName) : " " + (customer.FirstName == null ? String.Empty : customer.FirstName);
-            Name += (Name == String.Empty) ? (customer.MiddleName == null ? String.Empty : customer.MiddleName) : " " + (customer.MiddleName == null ? String.Empty : customer.MiddleName);
-            Name += (Name == String.Empty) ? (customer.LastName == null ? String.Empty : customer.LastName) : " " + (customer.LastName == null ? String.Empty : customer.LastName);
-            
-            return Name;
         }
 
         private void AttachTariff(List<Vanilla.Invoice.Facade.LineItem.Dto> roomList)

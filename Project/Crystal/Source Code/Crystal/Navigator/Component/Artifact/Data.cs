@@ -61,7 +61,7 @@ namespace Crystal.Navigator.Component.Artifact
 
         public Int64? ParentId { get; set; }
 
-        public BinAff.Core.Data ModuleData { get; set; }
+        public BinAff.Core.Data ComponentData { get; set; }
 
         public Crystal.License.Component.Data ComponentDefinition { get; set; }
 

@@ -288,12 +288,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.dto = new Facade.RoomReservation.Dto();
             }
             this.dto.Customer = form.Tag as CustomerFacade.Dto;
-
-            String Name = this.dto.Customer.Initial == null ? String.Empty : this.dto.Customer.Initial.Name;
-            Name += (Name == String.Empty) ? (this.dto.Customer.FirstName == null ? String.Empty : this.dto.Customer.FirstName) : " " + (this.dto.Customer.FirstName == null ? String.Empty : this.dto.Customer.FirstName);
-            Name += (Name == String.Empty) ? (this.dto.Customer.MiddleName == null ? String.Empty : this.dto.Customer.MiddleName) : " " + (this.dto.Customer.MiddleName == null ? String.Empty : this.dto.Customer.MiddleName);
-            Name += (Name == String.Empty) ? (this.dto.Customer.LastName == null ? String.Empty : this.dto.Customer.LastName) : " " + (this.dto.Customer.LastName == null ? String.Empty : this.dto.Customer.LastName);
-            this.txtName.Text = Name;
+            this.txtName.Text = this.dto.Customer.Name;
 
             this.lstContact.DataSource = this.dto.Customer.ContactNumberList;
             this.lstContact.DisplayMember = "Name";
@@ -311,12 +306,7 @@ namespace AutoTourism.Lodge.WinForm
             {
                 if (this.dto.Customer != null)
                 {
-                    String Name = (this.dto.Customer.Initial == null ? String.Empty : this.dto.Customer.Initial.Name);
-                    Name += (Name == String.Empty) ? (this.dto.Customer.FirstName == null ? String.Empty : this.dto.Customer.FirstName) : " " + (this.dto.Customer.FirstName == null ? String.Empty : this.dto.Customer.FirstName);
-                    Name += (Name == String.Empty) ? (this.dto.Customer.MiddleName == null ? String.Empty : this.dto.Customer.MiddleName) : " " + (this.dto.Customer.MiddleName == null ? String.Empty : this.dto.Customer.MiddleName);
-                    Name += (Name == String.Empty) ? (this.dto.Customer.LastName == null ? String.Empty : this.dto.Customer.LastName) : " " + (this.dto.Customer.LastName == null ? String.Empty : this.dto.Customer.LastName);
-
-                    this.txtName.Text = Name;
+                    this.txtName.Text = this.dto.Customer.Name;
                     this.lstContact.DataSource = this.dto.Customer.ContactNumberList;
                     this.lstContact.DisplayMember = "Name";
                     this.lstContact.ValueMember = "Id";
@@ -539,11 +529,11 @@ namespace AutoTourism.Lodge.WinForm
                         Name = this.dto.Customer.State.Name
                     },
                     ContactNumberList = this.dto.Customer.ContactNumberList,
-                    Initial = new Table 
-                    {
-                        Id = this.dto.Customer.Initial.Id,
-                        Name = this.dto.Customer.Initial.Name
-                    }                        
+                    //Initial = new Table 
+                    //{
+                    //    Id = this.dto.Customer.Initial.Id,
+                    //    Name = this.dto.Customer.Initial.Name
+                    //}                        
                 };
                 this.dto.RoomList = this.cboSelectedRoom.Items.Count == 0 ? null : (List<ConfigFacade.Room.Dto>)this.cboSelectedRoom.DataSource;
 

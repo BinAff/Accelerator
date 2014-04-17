@@ -23,7 +23,7 @@ namespace AutoTourism.Customer.Facade
         public override void LoadForm()
         {
             FormDto formDto = this.FormDto as FormDto;
-            formDto.InitialList = this.ReadAllInitial();
+            //formDto.InitialList = this.ReadAllInitial();
             formDto.StateList = this.ReadAllState().Value;
             formDto.IdentityProofTypeList = this.ReadAllIdentityProof().Value;
             formDto.DtoList = this.ReadAllCustomer().Value;
@@ -36,11 +36,11 @@ namespace AutoTourism.Customer.Facade
             return new Dto
             {
                 Id = data.Id,
-                Initial = customer.Initial == null ? null : new Table
-                {
-                    Id = customer.Initial.Id,
-                    Name = customer.Initial.Name,
-                },
+                //Initial = customer.Initial == null ? null : new Table
+                //{
+                //    Id = customer.Initial.Id,
+                //    Name = customer.Initial.Name,
+                //},
                 FirstName = customer.FirstName,
                 MiddleName = customer.MiddleName,
                 LastName = customer.LastName,
@@ -69,10 +69,10 @@ namespace AutoTourism.Customer.Facade
             return new AutotourismComponent.Data
             {
                 Id = dto.Id,
-                Initial = customer.Initial == null ? null : new ConfigurationComponent.Initial.Data()
-                {
-                    Id = customer.Initial.Id,
-                },
+                //Initial = customer.Initial == null ? null : new ConfigurationComponent.Initial.Data()
+                //{
+                //    Id = customer.Initial.Id,
+                //},
                 FirstName = customer.FirstName,
                 MiddleName = customer.MiddleName,
                 LastName = customer.LastName,
@@ -112,30 +112,30 @@ namespace AutoTourism.Customer.Facade
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
-        private List<Table> ReadAllInitial()
-        {
-            //Building.FormDto buildingFormDto = new FacadeBuilding.FormDto();
-            //Building.Server buildFacade = new FacadeBuilding.Server(buildingFormDto);
-            //buildFacade.LoadForm();
-            //this.DisplayMessageList.AddRange(buildFacade.DisplayMessageList);
+        //private List<Table> ReadAllInitial()
+        //{
+        //    //Building.FormDto buildingFormDto = new FacadeBuilding.FormDto();
+        //    //Building.Server buildFacade = new FacadeBuilding.Server(buildingFormDto);
+        //    //buildFacade.LoadForm();
+        //    //this.DisplayMessageList.AddRange(buildFacade.DisplayMessageList);
 
-            ICrud crud = new ConfigurationComponent.Initial.Server(null);
-            ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
+        //    ICrud crud = new ConfigurationComponent.Initial.Server(null);
+        //    ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
 
-            List<Table> ret = new List<Table>();
+        //    List<Table> ret = new List<Table>();
 
-            //Populate data in dto from business entity
-            foreach (ConfigurationComponent.Initial.Data data in dataList.Value)
-            {
-                ret.Add(new Table
-                {
-                    Id = data.Id,
-                    Name = data.Name
-                });
-            }
+        //    //Populate data in dto from business entity
+        //    foreach (ConfigurationComponent.Initial.Data data in dataList.Value)
+        //    {
+        //        ret.Add(new Table
+        //        {
+        //            Id = data.Id,
+        //            Name = data.Name
+        //        });
+        //    }
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
         private ReturnObject<List<Table>> ReadAllState()
         {
@@ -288,11 +288,11 @@ namespace AutoTourism.Customer.Facade
                 ret.Value.Add(new Dto
                 {
                     Id = data.Id,
-                    Initial = ((CustomerComponent.Data)data).Initial == null ? null : new Table
-                    {
-                        Id = ((CustomerComponent.Data)data).Initial.Id,
-                        Name = ((CustomerComponent.Data)data).Initial.Name,
-                    },
+                    //Initial = ((CustomerComponent.Data)data).Initial == null ? null : new Table
+                    //{
+                    //    Id = ((CustomerComponent.Data)data).Initial.Id,
+                    //    Name = ((CustomerComponent.Data)data).Initial.Name,
+                    //},
                     FirstName = ((CustomerComponent.Data)data).FirstName,
                     MiddleName = ((CustomerComponent.Data)data).MiddleName,
                     LastName = ((CustomerComponent.Data)data).LastName,

@@ -103,7 +103,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
            
             LodgeFacade.RoomReservation.Dto reservationDto = checkInDto.Reservation;
 
-            AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data()
+            AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data
             {
                 Id = reservationDto.Customer.Id,
                 FirstName = reservationDto.Customer.FirstName,
@@ -120,11 +120,11 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                     Name = reservationDto.Customer.State.Name
                 },
                 ContactNumberList = new RoomReservation.ReservationServer(null).ConvertToContactNumberData(reservationDto.Customer.ContactNumberList),
-                Initial = new Crystal.Configuration.Component.Initial.Data
-                {
-                    Id = reservationDto.Customer.Initial.Id,
-                    Name = reservationDto.Customer.Initial.Name
-                },
+                //Initial = new Crystal.Configuration.Component.Initial.Data
+                //{
+                //    Id = reservationDto.Customer.Initial.Id,
+                //    Name = reservationDto.Customer.Initial.Name
+                //},
                 IdentityProofType = new Crystal.Configuration.Component.IdentityProofType.Data
                 {
                     Id = reservationDto.Customer.IdentityProofType.Id,
