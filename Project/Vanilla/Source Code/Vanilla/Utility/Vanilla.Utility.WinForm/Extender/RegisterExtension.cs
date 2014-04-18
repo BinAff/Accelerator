@@ -250,6 +250,10 @@ namespace Vanilla.Utility.WinForm.Extender
         public static void Sort(this ListView listView, String columnHeaderCaption, PresLib.ListViewColumnSorter columnSorter)
         {
             listView.ResetColumnHeader();
+            listView.ListViewItemSorter = new PresLib.ListViewColumnSorter
+            {
+                Order = columnSorter.Order
+            };
             for (int i = 0; i < listView.Columns.Count; i++)
             {
                 if (listView.Columns[i].Text == columnHeaderCaption)

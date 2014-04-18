@@ -666,9 +666,13 @@ namespace Vanilla.Navigator.WinForm
                     this.lvwColumnSorter.Order = SortOrder.Ascending;
                 }
             }
+            else
+            {
+                this.lvwColumnSorter.SortColumn = e.Column;
+                this.lvwColumnSorter.Order = SortOrder.Ascending;
+            }
 
             this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter);
-            //this.SortListView(this.sortColumn);
         }
 
         #endregion
