@@ -24,6 +24,7 @@ namespace Vanilla.Navigator.WinForm
         private String sortColumn;
         private SortOrder sortOrder;
         private Boolean isCutAction;
+        private Boolean isDocumentFirst;       
 
         private UtilFac.Artifact.Dto currentArtifact;
         private MenuClickSource menuClickSource;
@@ -228,7 +229,7 @@ namespace Vanilla.Navigator.WinForm
             this.lsvContainer.Show();
             UtilFac.Artifact.Dto selectedNode = this.GetArtifact((sender as TreeView).SelectedNode.Tag);
             this.currentArtifact = selectedNode;
-            this.lsvContainer.AttachChildren(this.currentArtifact);
+            this.lsvContainer.AttachChildren(this.currentArtifact, isDocumentFirst);
             this.txtAddress.Text = selectedNode.Path;
             this.btnUp.Enabled = true;
             if (this.addressList.Count == 0)
@@ -275,7 +276,7 @@ namespace Vanilla.Navigator.WinForm
             UtilFac.Artifact.Dto selectedNode = this.GetArtifact((sender as TreeView).SelectedNode.Tag);
             this.currentArtifact = selectedNode;
 
-            this.lsvContainer.AttachChildren(this.currentArtifact);
+            this.lsvContainer.AttachChildren(this.currentArtifact, isDocumentFirst);
             
             this.txtAddress.Text = selectedNode.Path;
             this.btnUp.Enabled = true;
@@ -611,7 +612,7 @@ namespace Vanilla.Navigator.WinForm
             this.currentArtifact = ((sender as ListView).SelectedItems[0].Tag as UtilFac.Artifact.Dto);
             if (currentArtifact.Style == UtilFac.Artifact.Type.Folder)
             {
-                this.lsvContainer.AttachChildren(this.currentArtifact);
+                this.lsvContainer.AttachChildren(this.currentArtifact,isDocumentFirst);
                 this.SelectNode(this.currentArtifact.Path);
                 this.txtAddress.Text = this.currentArtifact.Path;
                 this.addressList.Add(this.currentArtifact.Path);
@@ -651,13 +652,16 @@ namespace Vanilla.Navigator.WinForm
 
         private void lsvContainer_ColumnClick(object sender, ColumnClickEventArgs e)
         {
+            if (this.lsvContainer.Items.Count > 0)
+                isDocumentFirst = ((this.lsvContainer.Items[0].Tag as UtilFac.Artifact.Dto).Style == UtilFac.Artifact.Type.Document) ? false : true;
+
             this.lsvContainer.ResetColumnHeader();
             this.sortColumn = this.lsvContainer.Columns[e.Column].Text;
 
             //Determine if clicked column is already the column that is being sorted.   
             if (e.Column == this.lvwColumnSorter.SortColumn)
             {
-                if (this.lvwColumnSorter.Order == SortOrder.Ascending)
+                if (this.lvwColumnSorter.Order == SortOrder.Ascending || this.lvwColumnSorter.Order == SortOrder.None)
                 {
                     this.lvwColumnSorter.Order = SortOrder.Descending;
                 }
@@ -672,7 +676,7 @@ namespace Vanilla.Navigator.WinForm
                 this.lvwColumnSorter.Order = SortOrder.Ascending;
             }
 
-            this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter);
+            this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter, isDocumentFirst);
         }
 
         #endregion
@@ -1146,7 +1150,7 @@ namespace Vanilla.Navigator.WinForm
 
                     this.currentArtifact = this.GetArtifact(selectedNode.Tag);
 
-                    this.lsvContainer.AttachChildren(this.currentArtifact);
+                    this.lsvContainer.AttachChildren(this.currentArtifact,isDocumentFirst);
                 }
             }
             this.editNode = null;
@@ -1183,7 +1187,7 @@ namespace Vanilla.Navigator.WinForm
                 }
                 this.currentArtifact = this.GetArtifact(node.Tag);
 
-                this.lsvContainer.AttachChildren(this.currentArtifact);
+                this.lsvContainer.AttachChildren(this.currentArtifact,isDocumentFirst);
 
                 if (selectedNode != null)
                 {
@@ -1337,7 +1341,7 @@ namespace Vanilla.Navigator.WinForm
             this.sortColumn = sortColumn;
             this.lvwColumnSorter.Order = this.sortOrder;
 
-            this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter);
+            this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter, isDocumentFirst);
             //this.SortListView(this.sortColumn);
         }
 
@@ -1346,7 +1350,7 @@ namespace Vanilla.Navigator.WinForm
             this.sortOrder = sortOrder;
             this.lvwColumnSorter.Order = this.sortOrder;
 
-            this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter);
+            this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter, isDocumentFirst);
             //this.SortListView(this.sortColumn);
         }
 
@@ -1356,7 +1360,7 @@ namespace Vanilla.Navigator.WinForm
             this.sortOrder = sortOrder;
             this.lvwColumnSorter.Order = this.sortOrder;
 
-            this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter);
+            this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter, isDocumentFirst);
             //this.SortListView(this.sortColumn);
         }
 
@@ -1725,7 +1729,7 @@ namespace Vanilla.Navigator.WinForm
 
             this.currentArtifact = this.GetArtifact(parentNode.Tag);
 
-            this.lsvContainer.AttachChildren(this.currentArtifact);
+            this.lsvContainer.AttachChildren(this.currentArtifact,isDocumentFirst);
 
             if (this.facade.IsError)
             {
@@ -1788,7 +1792,7 @@ namespace Vanilla.Navigator.WinForm
                     selectedNode.Nodes.Add(newNode);               
 
                 this.currentArtifact = this.GetArtifact(selectedNode.Tag);
-                this.lsvContainer.AttachChildren(this.currentArtifact);
+                this.lsvContainer.AttachChildren(this.currentArtifact, isDocumentFirst);
 
                 if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
                 {
