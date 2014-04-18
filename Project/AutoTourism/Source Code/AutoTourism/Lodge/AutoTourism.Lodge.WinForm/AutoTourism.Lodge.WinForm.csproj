@@ -229,7 +229,7 @@
       <Name>Vanilla.Invoice.Facade</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.WinForm\Vanilla.Invoice.WinForm.csproj">
-      <Project>{D6E90D37-D34E-46A7-8AC4-7DDD3F5C6BB8}</Project>
+      <Project>{d6e90d37-d34e-46a7-8ac4-7ddd3f5c6bb8}</Project>
       <Name>Vanilla.Invoice.WinForm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
