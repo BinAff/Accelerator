@@ -143,7 +143,11 @@ namespace Vanilla.Navigator.Facade.Register
                 artf.Version = artf.Version + 1;
                 artf.ModifiedAt = artifactDto.ModifiedAt;
                 artf.ModifiedBy = artifactDto.ModifiedBy;
-                artf.Path = artifactDto.Path + artf.FileName + "\\";
+
+                if (artf.Style == UtilFac.Artifact.Type.Folder)
+                    artf.Path = artifactDto.Path + artf.FileName + "\\";
+                else
+                    artf.Path = artifactDto.Path + artf.FileName;
 
                 UtilFac.Artifact.Dto childArtifactDto = this.CloneArtifact(artf);
                 childArtifactDto.Children = new List<UtilFac.Artifact.Dto>();
