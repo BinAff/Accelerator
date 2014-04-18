@@ -208,6 +208,45 @@ namespace Vanilla.Tool.WinForm
                 System.IO.File.Delete(stickyFileName);
             }
         }
+        public static void LoadStickyFromFileSystem(Control.ControlCollection controlCollection)
+        {
+            containerControl = controlCollection;
+            String directoryName = "Sticky";
+            String fileName = "sticky.xml";
+            String stickyPath = Application.StartupPath + "\\" + directoryName;
+            String stickyFileName = stickyPath + "\\" + fileName;
+
+            if (System.IO.File.Exists(stickyFileName))
+            {
+                XmlTextReader reader = new XmlTextReader(stickyFileName);
+                while (reader.Read())
+                {
+                    if (reader.Name == "notecontent")
+                    {
+                        StickyNote note = new StickyNote
+                        {
+                            ShowInTaskbar = false,
+                            TopLevel = false,
+                            Top = reader.GetAttribute("NoteTop") == null ? 50 : Convert.ToInt32(reader.GetAttribute("NoteTop")),
+                            Left = reader.GetAttribute("NoteLeft") == null ? 50 : Convert.ToInt32(reader.GetAttribute("NoteLeft")),
+                            StartPosition = FormStartPosition.Manual,
+                        };
+                        note.txtMsg.Text = reader.GetAttribute("NoteText") == null ? String.Empty : reader.GetAttribute("NoteText");
+
+                        if (reader.GetAttribute("NoteHide") == "Y")
+                        {
+                            note.HideSticky();
+                        }
+
+                        notes.Add(note);
+                        controlCollection.Add(note);
+                        note.Show();
+                    }
+                }
+                reader.Close();
+                System.IO.File.Delete(stickyFileName);
+            }
+        }
 
         private String GetNoteXMLData(StickyNote note)
         {
@@ -218,14 +257,16 @@ namespace Vanilla.Tool.WinForm
         private void SaveNoteXMLData(String NoteXMLData)
         {
             //String path = Application.ExecutablePath;
-            String DirectoryName = "Sticky";
-            String FileName = "sticky.xml";
-            String stickyPath = Application.StartupPath + "\\" + DirectoryName;
-            String stickyFileName = stickyPath + "\\" + FileName;
+            String directoryName = "Sticky";
+            String fileName = "sticky.xml";
+            String stickyPath = Application.StartupPath + "\\" + directoryName;
+            String stickyFileName = stickyPath + "\\" + fileName;
 
             //create directory if does not exists
             if (!System.IO.Directory.Exists(stickyPath))
+            {
                 System.IO.Directory.CreateDirectory(stickyPath);
+            }
 
             //Hide the sticky folder
             System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(stickyPath);
@@ -233,7 +274,9 @@ namespace Vanilla.Tool.WinForm
 
             //delete the xml file if exists
             if (System.IO.File.Exists(stickyFileName))
+            {
                 System.IO.File.Delete(stickyFileName);
+            }
 
             XmlDocument xmlDoc = new XmlDocument();
             XmlNode rootNode = xmlDoc.CreateElement("Sticky");
