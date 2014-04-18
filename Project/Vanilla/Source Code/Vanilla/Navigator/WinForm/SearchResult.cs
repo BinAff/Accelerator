@@ -35,7 +35,7 @@ namespace Vanilla.Navigator.WinForm
                 },
             };
             new Facade.SearchResult.Server(this.FormDto).LoadForm();
-            this.lsvSearchResult.AttachChildren(this.FormDto.ArtifactList);
+            this.lsvSearchResult.AttachChildren(this.FormDto.ArtifactList,false);
         }
 
         private void lsvSearchResult_MouseDoubleClick(object sender, MouseEventArgs e)
