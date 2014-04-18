@@ -88,7 +88,7 @@ namespace Vanilla.Navigator.WinForm
                 Interval = 2000,
             };
             this.connectionTimer.Tick += connectionTimer_Tick;
-            this.connectionTimer.Start();
+            this.connectionTimer.Start();            
         }
 
         void connectionTimer_Tick(object sender, EventArgs e)
@@ -103,6 +103,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void Container_FormClosed(object sender, FormClosedEventArgs e)
         {
+            StickyNote.Quit();
             new Facade.Container.Server(null).Logout();
         }
 
@@ -607,9 +608,10 @@ namespace Vanilla.Navigator.WinForm
             this.ucConfiguration.Hide();
             this.pnlCalender.Hide();
             this.pnlNote.Show();
+            StickyNote.LoadStickyFromFileSystem(this.pnlNote.Controls);
             if (this.pnlNote.Controls.Count == 0)
             {
-                StickyNote stickyNote = StickyNote.Create(this.pnlNote.Controls);
+                StickyNote stickyNote = StickyNote.Create(this.pnlNote.Controls);                
                 stickyNote.TopLevel = false;
                 stickyNote.Show();
             }

@@ -59,37 +59,6 @@
     <Compile Include="CheckInRegister.Designer.cs">
       <DependentUpon>CheckInRegister.cs</DependentUpon>
     </Compile>
-    <Compile Include="CheckInReport\Daily.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CheckInReport\Daily.designer.cs">
-      <DependentUpon>Daily.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CheckInReport\Data.cs" />
-    <Compile Include="CheckInReport\Monthly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CheckInReport\Monthly.designer.cs">
-      <DependentUpon>Monthly.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CheckInReport\Quarterly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CheckInReport\Quarterly.designer.cs">
-      <DependentUpon>Quarterly.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CheckInReport\Weekly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CheckInReport\Weekly.designer.cs">
-      <DependentUpon>Weekly.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CheckInReport\Yearly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CheckInReport\Yearly.designer.cs">
-      <DependentUpon>Yearly.cs</DependentUpon>
-    </Compile>
     <Compile Include="Lodge.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,37 +78,6 @@
     <Compile Include="RoomReservationRegister.Designer.cs">
       <DependentUpon>RoomReservationRegister.cs</DependentUpon>
     </Compile>
-    <Compile Include="RoomReservationReport\Daily.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RoomReservationReport\Daily.designer.cs">
-      <DependentUpon>Daily.cs</DependentUpon>
-    </Compile>
-    <Compile Include="RoomReservationReport\Data.cs" />
-    <Compile Include="RoomReservationReport\Monthly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RoomReservationReport\Monthly.designer.cs">
-      <DependentUpon>Monthly.cs</DependentUpon>
-    </Compile>
-    <Compile Include="RoomReservationReport\Quarterly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RoomReservationReport\Quarterly.designer.cs">
-      <DependentUpon>Quarterly.cs</DependentUpon>
-    </Compile>
-    <Compile Include="RoomReservationReport\Weekly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RoomReservationReport\Weekly.designer.cs">
-      <DependentUpon>Weekly.cs</DependentUpon>
-    </Compile>
-    <Compile Include="RoomReservationReport\Yearly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RoomReservationReport\Yearly.designer.cs">
-      <DependentUpon>Yearly.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BookingDetails.resx">
@@ -151,26 +89,6 @@
     <EmbeddedResource Include="CheckInRegister.resx">
       <DependentUpon>CheckInRegister.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CheckInReport\Daily.rdlc" />
-    <EmbeddedResource Include="CheckInReport\Daily.resx">
-      <DependentUpon>Daily.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CheckInReport\Monthly.rdlc" />
-    <EmbeddedResource Include="CheckInReport\Monthly.resx">
-      <DependentUpon>Monthly.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CheckInReport\Quarterly.rdlc" />
-    <EmbeddedResource Include="CheckInReport\Quarterly.resx">
-      <DependentUpon>Quarterly.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CheckInReport\Weekly.rdlc" />
-    <EmbeddedResource Include="CheckInReport\Weekly.resx">
-      <DependentUpon>Weekly.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CheckInReport\Yearly.rdlc" />
-    <EmbeddedResource Include="CheckInReport\Yearly.resx">
-      <DependentUpon>Yearly.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Lodge.resx">
       <DependentUpon>Lodge.cs</DependentUpon>
     </EmbeddedResource>
@@ -179,26 +97,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RoomReservationRegister.resx">
       <DependentUpon>RoomReservationRegister.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RoomReservationReport\Daily.rdlc" />
-    <EmbeddedResource Include="RoomReservationReport\Daily.resx">
-      <DependentUpon>Daily.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RoomReservationReport\Monthly.rdlc" />
-    <EmbeddedResource Include="RoomReservationReport\Monthly.resx">
-      <DependentUpon>Monthly.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RoomReservationReport\Quarterly.rdlc" />
-    <EmbeddedResource Include="RoomReservationReport\Quarterly.resx">
-      <DependentUpon>Quarterly.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RoomReservationReport\Weekly.rdlc" />
-    <EmbeddedResource Include="RoomReservationReport\Weekly.resx">
-      <DependentUpon>Weekly.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RoomReservationReport\Yearly.rdlc" />
-    <EmbeddedResource Include="RoomReservationReport\Yearly.resx">
-      <DependentUpon>Yearly.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
