@@ -148,25 +148,8 @@ namespace Vanilla.Navigator.WinForm
             }
             current.Nodes.Clear();
             current.Nodes.AddRange(tree);
-            
-            //current.Nodes[0].TreeView.Sort();
-            //SortTreeNode(current, current.Nodes[0]);
-        }
 
-        private void SortTreeNode(TreeView treeView1, TreeNode nonStaticNode)
-        {
-            treeView1.BeginUpdate();
-
-            //TreeNode nonStaticNode = treeView1.Nodes[1];
-            TreeNode[] childNodes = new TreeNode[nonStaticNode.Nodes.Count];
-            nonStaticNode.Nodes.CopyTo(childNodes, 0);
-            Array.Sort(childNodes);
-
-            nonStaticNode.Nodes.Clear();
-            nonStaticNode.Nodes.AddRange(childNodes);
-
-            treeView1.EndUpdate();
-        }
+        }       
 
         #region TreeView
 
@@ -177,6 +160,7 @@ namespace Vanilla.Navigator.WinForm
             // Select the clicked node
             TreeView current = sender as TreeView;
             current.SelectedNode = current.GetNodeAt(e.X, e.Y);
+            current.Sort(current.SelectedNode);
 
             if (e.Button == MouseButtons.Right)
             {
