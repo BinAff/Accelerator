@@ -114,6 +114,44 @@ namespace Vanilla.Utility.WinForm.Extender
             return selectedNode;
         }
 
+        public static void Sort(this TreeView treeView, TreeNode treeNode)
+        {
+            treeView.BeginUpdate();
+            
+            TreeNode[] childNodes = new TreeNode[treeNode.Nodes.Count];
+            treeNode.Nodes.CopyTo(childNodes, 0);       
+
+            List<BinAff.Core.Table> lstTableSortText = new List<BinAff.Core.Table>();
+            for (int i = 0; i < childNodes.Length; i++)
+            {
+                lstTableSortText.Add(new BinAff.Core.Table
+                {
+                    Id = (childNodes[i].Tag as Vanilla.Utility.Facade.Artifact.Dto).Id,
+                    Name = (childNodes[i].Tag as Vanilla.Utility.Facade.Artifact.Dto).FileName
+                });
+            }
+            lstTableSortText = Common.SortTable(lstTableSortText, true);
+
+            TreeNode[] sortNodes = new TreeNode[treeNode.Nodes.Count];
+            int Index = 0;
+            foreach (BinAff.Core.Table table in lstTableSortText)
+            {
+                for (int i = 0; i < childNodes.Length; i++)
+                {
+                    if (table.Id == (childNodes[i].Tag as Vanilla.Utility.Facade.Artifact.Dto).Id)
+                    {
+                        sortNodes[Index] = childNodes[i];
+                        Index++;
+                        break;
+                    }
+                }
+            }
+
+            treeNode.Nodes.Clear();
+            treeNode.Nodes.AddRange(sortNodes);
+
+            treeView.EndUpdate();
+        }
     }
 
     public static class ListViewExtender
@@ -326,73 +364,25 @@ namespace Vanilla.Utility.WinForm.Extender
                     Name = item.SubItems[sortIndex].Text
                 });
 
-
-            List<String> lstStringSortText = new List<string>();
+            lstTableSortText = Common.SortTable(lstTableSortText, sortOrderAsc);
+           
+            List<ListViewItem> lstSortItems = new List<ListViewItem>();    
             foreach (BinAff.Core.Table table in lstTableSortText)
-                lstStringSortText.Add(table.Name);
-
-            lstStringSortText.Sort(); // sort in ascending
-            
-            List<BinAff.Core.Table> sortTableAsc = new List<BinAff.Core.Table>();
-            foreach (string text in lstStringSortText)
             {
-                for (int i = 0; i < lstTableSortText.Count; i++)
+                for (int i = 0; i < lstItems.Count; i++)
                 {
-                    if (text == lstTableSortText[i].Name && !isExists(lstTableSortText[i], sortTableAsc))
+                    if (table.Id == (lstItems[i].Tag as Vanilla.Utility.Facade.Artifact.Dto).Id)
                     {
-                        sortTableAsc.Add(lstTableSortText[i]);
+                        lstSortItems.Add(lstItems[i]);                       
                         break;
                     }
                 }
             }
 
-
-            List<ListViewItem> lstSortItems = new List<ListViewItem>();
-            if (sortOrderAsc)
-            {
-                for (int i = 0; i < sortTableAsc.Count; i++)
-                {
-                    for (int j = 0; j < lstItems.Count; j++)
-                    {
-                        if (sortTableAsc[i].Id == (lstItems[j].Tag as Facade.Artifact.Dto).Id)
-                        {
-                            lstSortItems.Add(lstItems[j]);
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for (int i = sortTableAsc.Count-1; i >= 0; i--)
-                {
-                    for (int j = 0; j < lstItems.Count; j++)
-                    {
-                        if (sortTableAsc[i].Id == (lstItems[j].Tag as Facade.Artifact.Dto).Id)
-                        {
-                            lstSortItems.Add(lstItems[j]);
-                            break;
-                        }
-                    }
-                }
-            }
-
-
             return lstSortItems;
 
         }
-
-        private static Boolean isExists(BinAff.Core.Table item, List<BinAff.Core.Table> lstItem)
-        {
-            foreach (BinAff.Core.Table table in lstItem)
-            {
-                if (table.Id == item.Id)
-                    return true;
-            }
-
-            return false;
-        }
-
+             
         public static void ResetColumnHeader(this ListView listView)
         {
             //clear sort character from column caption
@@ -406,4 +396,61 @@ namespace Vanilla.Utility.WinForm.Extender
 
     }
 
+    public static class Common
+    {
+        public static List<BinAff.Core.Table> SortTable(List<BinAff.Core.Table> lstTableSortText, Boolean isAscending)
+        {
+            List<BinAff.Core.Table> sortTable = new List<BinAff.Core.Table>();
+
+            List<String> lstStringSortText = new List<string>();
+            foreach (BinAff.Core.Table table in lstTableSortText)
+                lstStringSortText.Add(table.Name);
+
+            lstStringSortText.Sort(); // sort ascending [default behaviour]
+            
+            if (isAscending)
+            {
+                foreach (string text in lstStringSortText)
+                {
+                    for (int i = 0; i < lstTableSortText.Count; i++)
+                    {
+                        if (text == lstTableSortText[i].Name && !isExists(lstTableSortText[i], sortTable))
+                        {
+                            sortTable.Add(lstTableSortText[i]);
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int j = lstStringSortText.Count - 1; j >= 0; j--)
+                {
+                    for (int i = 0; i < lstTableSortText.Count; i++)
+                    {
+                        if (lstStringSortText[j] == lstTableSortText[i].Name && !isExists(lstTableSortText[i], sortTable))
+                        {
+                            sortTable.Add(lstTableSortText[i]);
+                            break;
+                        }
+                    }
+                }              
+            }
+            
+
+            return sortTable;
+
+        }
+
+        private static Boolean isExists(BinAff.Core.Table item, List<BinAff.Core.Table> lstItem)
+        {
+            foreach (BinAff.Core.Table table in lstItem)
+            {
+                if (table.Id == item.Id)
+                    return true;
+            }
+
+            return false;
+        }
+    }
 }
