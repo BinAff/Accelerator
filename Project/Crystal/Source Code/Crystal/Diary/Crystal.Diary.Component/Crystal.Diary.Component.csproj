@@ -68,6 +68,27 @@
       <Name>BinAff.Utility</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Appointment\DB Script\AppointmentDelete.sql" />
+    <Content Include="Appointment\DB Script\AppointmentInsert.sql" />
+    <Content Include="Appointment\DB Script\AppointmentRead.sql" />
+    <Content Include="Appointment\DB Script\AppointmentReadAll.sql" />
+    <Content Include="Appointment\DB Script\AppointmentSearch.sql" />
+    <Content Include="Appointment\DB Script\AppointmentSearchWithImportance.sql" />
+    <Content Include="Appointment\DB Script\AppointmentUpdate.sql" />
+    <Content Include="Appointment\Importance\DB Script\ImportanceDelete.sql" />
+    <Content Include="Appointment\Importance\DB Script\ImportanceInsert.sql" />
+    <Content Include="Appointment\Importance\DB Script\ImportanceRead.sql" />
+    <Content Include="Appointment\Importance\DB Script\ImportanceReadAll.sql" />
+    <Content Include="Appointment\Importance\DB Script\ImportanceReadDuplicate.sql" />
+    <Content Include="Appointment\Importance\DB Script\ImportanceUpdate.sql" />
+    <Content Include="Appointment\Type\DB Script\AppointmentTypeDelete.sql" />
+    <Content Include="Appointment\Type\DB Script\AppointmentTypeInsert.sql" />
+    <Content Include="Appointment\Type\DB Script\AppointmentTypeRead.sql" />
+    <Content Include="Appointment\Type\DB Script\AppointmentTypeReadAll.sql" />
+    <Content Include="Appointment\Type\DB Script\AppointmentTypeReadDuplicate.sql" />
+    <Content Include="Appointment\Type\DB Script\AppointmentTypeUpdate.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
