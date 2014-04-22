@@ -631,7 +631,8 @@ namespace Vanilla.Navigator.WinForm
             if (currentArtifact.Style == UtilFac.Artifact.Type.Folder)
             {
                 this.lsvContainer.AttachChildren(this.currentArtifact,isDocumentFirst);
-                this.SelectNode(this.currentArtifact.Path);
+                //this.SelectNode(this.currentArtifact.Path);
+                this.SelectNode(this.currentArtifact);
                 this.txtAddress.Text = this.currentArtifact.Path;
                 this.addressList.Add(this.currentArtifact.Path);
 
@@ -1301,7 +1302,8 @@ namespace Vanilla.Navigator.WinForm
                 else
                     pasteArtifact = pasteNode.Tag as UtilFac.Artifact.Dto;
 
-                this.AddChildDtoToParentDto(pasteArtifact, this.cutArtifact);
+                //this.AddChildDtoToParentDto(pasteArtifact, this.cutArtifact);
+                this.AddChildDtoToParentDto(pasteArtifact, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
 
                 //add child node from parent node                
                 TreeNode parentNode = trv.FindNode(pasteArtifact);                
@@ -1721,6 +1723,29 @@ namespace Vanilla.Navigator.WinForm
                 this.trvArtifact_NodeMouseClick(trv, new TreeNodeMouseClickEventArgs(currentNode, MouseButtons.Left, 1, 0, 0));
             }
         }
+
+        private void SelectNode(UtilFac.Artifact.Dto dto)
+        {
+            TreeView trv = this.GetActiveTreeView();
+            TreeNode currentNode = trv.FindNode(dto);
+            if (currentNode == null)
+            {
+                new PresLib.MessageBox
+                {
+                    DialogueType = PresLib.MessageBox.Type.Error,
+                    Heading = "Navigator",
+                }.Show(new List<BinAff.Core.Message> { { new BinAff.Core.Message("Path not found.", BinAff.Core.Message.Type.Error) } });                
+            }
+            else
+            {                
+                trv.SelectedNode = currentNode;
+                currentNode.Expand();
+                this.currentArtifact = currentNode.Tag as UtilFac.Artifact.Dto;                
+                this.trvArtifact_NodeMouseClick(trv, new TreeNodeMouseClickEventArgs(currentNode, MouseButtons.Left, 1, 0, 0));
+            }
+        }
+
+
 
         private UtilFac.Artifact.Dto ReadDocument(UtilFac.Artifact.Dto selectedNode)
         {
