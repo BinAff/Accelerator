@@ -150,6 +150,7 @@ namespace Vanilla.Navigator.Facade.Register
                     artf.Path = artifactDto.Path + artf.FileName;
 
                 UtilFac.Artifact.Dto childArtifactDto = this.CloneArtifact(artf);
+                childArtifactDto.Parent = actualArtifactDto;
                 childArtifactDto.Children = new List<UtilFac.Artifact.Dto>();
                 actualArtifactDto.Children.Add(childArtifactDto);
 
@@ -274,7 +275,7 @@ namespace Vanilla.Navigator.Facade.Register
                 ModifiedBy = dto.ModifiedBy,
                 CreatedAt = dto.CreatedAt,
                 ModifiedAt = dto.ModifiedAt,
-                Children = dto.Children == null ? null : this.GetChildren(dto.Children),
+                Children = dto.Children == null ? null : this.GetChildren(dto),
                 Module = dto.Module == null ? null : new BinAff.Facade.Library.Dto
                 {
                     Id = dto.Module.Id,
@@ -296,7 +297,7 @@ namespace Vanilla.Navigator.Facade.Register
                 Style = data.Style,
                 Category = data.Category,
                 Version = 1,
-                Children = data.Children == null ? null : this.GetChildren(data.Children),
+                Children = data.Children == null ? null : this.GetChildren(data),
                 Module = data.Module == null ? null : new BinAff.Facade.Library.Dto
                 {
                     Id = data.Module.Id,
@@ -305,11 +306,16 @@ namespace Vanilla.Navigator.Facade.Register
             };
         }
 
-        private List<UtilFac.Artifact.Dto> GetChildren(List<UtilFac.Artifact.Dto> children)
+        private List<UtilFac.Artifact.Dto> GetChildren(UtilFac.Artifact.Dto dto)
         {
+            List<UtilFac.Artifact.Dto> children = dto.Children;
             List<UtilFac.Artifact.Dto> childrenList = new List<UtilFac.Artifact.Dto>();
             for (int i = 0; i < children.Count; i++)
-                childrenList.Add(CloneArtifact(children[i]));
+            {                
+                UtilFac.Artifact.Dto clone = CloneArtifact(children[i]);
+                clone.Parent = dto;
+                childrenList.Add(clone);                
+            }
 
             return childrenList;
         }
