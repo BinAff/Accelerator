@@ -445,7 +445,8 @@ namespace Vanilla.Navigator.WinForm
                 parentArtifactDto.Children = new List<UtilFac.Artifact.Dto>();
             }
 
-            parentArtifactDto.Children.Add(childArtifactDto);
+            parentArtifactDto.Children.Add(childArtifactDto);          
+            childArtifactDto.Parent =  parentArtifactDto;
         }
         
         private void AttachTagToChildNodes(TreeNode node)
@@ -1115,6 +1116,7 @@ namespace Vanilla.Navigator.WinForm
 
             if (!this.facade.IsError)
             {
+                //this.cutArtifact = this.cutArtifact == null ? null : this.formDto.ModuleFormDto.CurrentArtifact.Dto;
                 this.RefreshTreeViewAfterPaste();
                 this.editNode = null;
                 this.cutArtifact = null;
@@ -1227,6 +1229,9 @@ namespace Vanilla.Navigator.WinForm
         {
             Boolean pasteDirectory = this.cutArtifact == null ? true : false;
 
+            TreeView trv = GetActiveTreeView();
+            TreeNode childNode = this.cutArtifact == null ? null : trv.FindNode(this.cutArtifact);
+
             UtilFac.Artifact.Dto editArtifactDto = new UtilFac.Artifact.Dto();
             if (!pasteDirectory) // not null when pasting a document
             {
@@ -1268,6 +1273,10 @@ namespace Vanilla.Navigator.WinForm
                 {
                     //remove child dto from tag
                     this.RemoveChildDtoFromParentDto(parentArtifact, this.cutArtifact);
+
+                    //remove child node from parent node                    
+                    TreeNode parentNode = trv.FindNode(parentArtifact);                    
+                    parentNode.Nodes.Remove(childNode);
                 }
             }
             else
@@ -1293,15 +1302,13 @@ namespace Vanilla.Navigator.WinForm
                     pasteArtifact = pasteNode.Tag as UtilFac.Artifact.Dto;
 
                 this.AddChildDtoToParentDto(pasteArtifact, this.cutArtifact);
+
+                //add child node from parent node                
+                TreeNode parentNode = trv.FindNode(pasteArtifact);                
+                parentNode.Nodes.Add(childNode);
+                trv.Sort(parentNode);
             }
-
-            //if (selectedNode != null)
-            //{
-            //    this.currentArtifact = selectedNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto" ?
-            //        (selectedNode.Tag as UtilFac.Module.Dto).Artifact :
-            //        selectedNode.Tag as UtilFac.Artifact.Dto;
-            //}
-
+                        
             this.lsvContainer.AttachChildren(this.currentArtifact, isDocumentFirst);
         }
         
