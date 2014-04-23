@@ -150,7 +150,6 @@ namespace Vanilla.Navigator.Facade.Register
                     artf.Path = artifactDto.Path + artf.FileName;
 
                 UtilFac.Artifact.Dto childArtifactDto = this.CloneArtifact(artf);
-                childArtifactDto.Parent = actualArtifactDto;
                 childArtifactDto.Children = new List<UtilFac.Artifact.Dto>();
                 actualArtifactDto.Children.Add(childArtifactDto);
 
@@ -275,7 +274,7 @@ namespace Vanilla.Navigator.Facade.Register
                 ModifiedBy = dto.ModifiedBy,
                 CreatedAt = dto.CreatedAt,
                 ModifiedAt = dto.ModifiedAt,
-                Children = dto.Children == null ? null : this.GetChildren(dto),
+                Children = dto.Children == null ? null : this.GetChildren(dto.Children),
                 Module = dto.Module == null ? null : new BinAff.Facade.Library.Dto
                 {
                     Id = dto.Module.Id,
@@ -297,7 +296,7 @@ namespace Vanilla.Navigator.Facade.Register
                 Style = data.Style,
                 Category = data.Category,
                 Version = 1,
-                Children = data.Children == null ? null : this.GetChildren(data),
+                Children = data.Children == null ? null : this.GetChildren(data.Children),
                 Module = data.Module == null ? null : new BinAff.Facade.Library.Dto
                 {
                     Id = data.Module.Id,
@@ -306,16 +305,11 @@ namespace Vanilla.Navigator.Facade.Register
             };
         }
 
-        private List<UtilFac.Artifact.Dto> GetChildren(UtilFac.Artifact.Dto dto)
+        private List<UtilFac.Artifact.Dto> GetChildren(List<UtilFac.Artifact.Dto> children)
         {
-            List<UtilFac.Artifact.Dto> children = dto.Children;
             List<UtilFac.Artifact.Dto> childrenList = new List<UtilFac.Artifact.Dto>();
             for (int i = 0; i < children.Count; i++)
-            {                
-                UtilFac.Artifact.Dto clone = CloneArtifact(children[i]);
-                clone.Parent = dto;
-                childrenList.Add(clone);                
-            }
+                childrenList.Add(CloneArtifact(children[i]));
 
             return childrenList;
         }
@@ -328,13 +322,7 @@ namespace Vanilla.Navigator.Facade.Register
         }
 
         #endregion
-
-
-        public BinAff.Facade.Library.Server GetReportFacade(UtilFac.Module.Dto dto, UtilFac.Artifact.Category category)
-        {
-            return new Vanilla.Utility.Facade.Module.Helper(dto, category).ModuleFacade;
-        }
-
+        
     }
 
 }

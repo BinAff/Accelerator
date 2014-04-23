@@ -119,7 +119,13 @@
       <Name>Crystal.Report.Component</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Report\Daily.rdlc" />
+    <EmbeddedResource Include="Report\Monthly.rdlc" />
+    <EmbeddedResource Include="Report\Quarterly.rdlc" />
+    <EmbeddedResource Include="Report\Weekly.rdlc" />
+    <EmbeddedResource Include="Report\Yearly.rdlc" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

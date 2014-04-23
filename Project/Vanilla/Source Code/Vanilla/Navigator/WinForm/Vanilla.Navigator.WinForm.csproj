@@ -144,6 +144,10 @@
       <Project>{B5E1E4CB-76A8-479E-940B-CC8B99BA86FE}</Project>
       <Name>Vanilla.Report.Facade</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Report\Vanilla.Report.WinForm\Vanilla.Report.WinForm.csproj">
+      <Project>{83f9c9c4-8626-4b88-835c-9172488f2f5c}</Project>
+      <Name>Vanilla.Report.WinForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Tool\Vanilla.Tool.WinForm\Vanilla.Tool.WinForm.csproj">
       <Project>{1292d85c-1a35-4978-9f23-2e502f1cb45f}</Project>
       <Name>Vanilla.Tool.WinForm</Name>

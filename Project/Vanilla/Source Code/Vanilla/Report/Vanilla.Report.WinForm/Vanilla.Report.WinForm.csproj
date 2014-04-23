@@ -33,9 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Vanilla.Navigator.WinForm">
@@ -49,6 +53,18 @@
     <Compile Include="Container.Designer.cs">
       <DependentUpon>Container.cs</DependentUpon>
     </Compile>
+    <Compile Include="Document.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Document.Designer.cs">
+      <DependentUpon>Document.cs</DependentUpon>
+    </Compile>
+    <Compile Include="New.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="New.Designer.cs">
+      <DependentUpon>New.cs</DependentUpon>
+    </Compile>
     <Compile Include="Open.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +75,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Container.resx">
       <DependentUpon>Container.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Document.resx">
+      <DependentUpon>Document.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="New.resx">
+      <DependentUpon>New.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Open.resx">
       <DependentUpon>Open.cs</DependentUpon>
@@ -87,6 +109,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
+      <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
+      <Name>BinAff.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\BinAff.Facade.Cache\BinAff.Facade.Cache.csproj">
       <Project>{266b4deb-d9c2-4607-a5d5-60f5124e89ae}</Project>
       <Name>BinAff.Facade.Cache</Name>
@@ -95,6 +121,10 @@
       <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
       <Name>BinAff.Facade.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Presentation\Library\BinAff.Presentation.Library.csproj">
+      <Project>{1ee9a9dd-9151-437a-b1a3-28015975ef52}</Project>
+      <Name>BinAff.Presentation.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
       <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
       <Name>Vanilla.Guardian.Facade</Name>
@@ -102,6 +132,10 @@
     <ProjectReference Include="..\..\Gaurdian\WinForm\Vanilla.Guardian.WinForm.csproj">
       <Project>{94765995-6577-4720-8f86-7cc1adbd1d5b}</Project>
       <Name>Vanilla.Guardian.WinForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
+      <Project>{a10719af-5c9f-4903-ab83-089ec502eea2}</Project>
+      <Name>Vanilla.Utility.Facade</Name>
     </ProjectReference>
     <ProjectReference Include="..\Vanilla.Report.Facade\Vanilla.Report.Facade.csproj">
       <Project>{b5e1e4cb-76a8-479e-940b-cc8b99ba86fe}</Project>

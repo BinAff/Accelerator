@@ -35,7 +35,7 @@ namespace Crystal.Customer.Component.Report
             return base.CreateDataObjectList(ds);            
         }
 
-        public List<BinAff.Core.Data> GetCustomerData(DateTime fromDate, DateTime toDate)
+        public override List<BinAff.Core.Data> GetData(DateTime fromDate, DateTime toDate)
         {
             List<BinAff.Core.Data> customerList = new List<BinAff.Core.Data>();
 

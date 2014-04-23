@@ -25,7 +25,7 @@ namespace AutoTourism.Lodge.Facade.CheckInReport
             return new Dto
             {
                 Id = checkInReportData.Id,
-                date = checkInReportData.Date,
+                Date = checkInReportData.Date,
                 category = checkInReportData.Category == null ? null : new Vanilla.Utility.Facade.Report.Category.Dto { Id = checkInReportData.Category.Id }                               
             };
         }
@@ -35,7 +35,7 @@ namespace AutoTourism.Lodge.Facade.CheckInReport
             Dto reportDto = dto as Dto;
             return new CrystalCheckInReport.Data
             {
-                Date = reportDto.date,               
+                Date = reportDto.Date,               
                 Category = new Crystal.Report.Component.Category.Data { Id = reportDto.category.Id }
             };
         }

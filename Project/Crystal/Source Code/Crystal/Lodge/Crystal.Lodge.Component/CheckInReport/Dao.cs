@@ -4,8 +4,10 @@ using System.Data;
 
 namespace Crystal.Lodge.Component.CheckInReport
 {
+
     public class Dao : Crystal.Report.Component.Dao
     {
+
         public Dao(Data data)
             : base(data)
         {
@@ -35,7 +37,7 @@ namespace Crystal.Lodge.Component.CheckInReport
             return base.CreateDataObjectList(ds);            
         }
 
-        public List<BinAff.Core.Data> GetCheckInData(DateTime fromDate, DateTime toDate)
+        public override List<BinAff.Core.Data> GetData(DateTime fromDate, DateTime toDate)
         {
             List<BinAff.Core.Data> checkInList = new List<BinAff.Core.Data>();
 
@@ -59,4 +61,5 @@ namespace Crystal.Lodge.Component.CheckInReport
         }
 
     }
+
 }

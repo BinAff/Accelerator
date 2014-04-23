@@ -15,6 +15,7 @@ namespace Vanilla.Report.WinForm
         {
             this.ucRegister.Show();
             this.ucRegister.LoadForm();
+            this.cboExtension.SelectedIndex = 1;
         }
 
     }
