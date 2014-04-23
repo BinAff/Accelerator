@@ -648,18 +648,21 @@ namespace Vanilla.Navigator.WinForm
                 BinAff.Facade.Library.Dto parent = this.currentArtifact.Parent;
                 this.currentArtifact = this.ReadDocument(this.currentArtifact);
                 this.currentArtifact.Parent = parent;
-                Type type;
+
+                PresLib.Form form;
                 if(this.currentArtifact.Category == UtilFac.Artifact.Category.Report)                
                 {
-                    type = this.GetInvoiceType(this.currentArtifact);
+                    form = new Vanilla.Report.WinForm.Document(currentArtifact.Module as Report.Facade.Document.Dto, this.facade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
+                    {
+                        Code = currentArtifact.ComponentDefinition.Code,
+                    }, this.currentArtifact.Category) as Report.Facade.Document.Server);
                 }
                 else
                 {
-                    type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
+                    Type type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
+                    this.currentArtifact.Module.artifactPath = currentArtifact.Path;
+                    form = (PresLib.Form)Activator.CreateInstance(type, currentArtifact.Module);
                 }
-
-                this.currentArtifact.Module.artifactPath = currentArtifact.Path;                
-                PresLib.Form form = (PresLib.Form)Activator.CreateInstance(type, currentArtifact.Module);
 
                 form.ShowDialog(this);
                 if (form.IsModified)
@@ -2350,42 +2353,42 @@ namespace Vanilla.Navigator.WinForm
             }
         }
 
-        private Type GetInvoiceType(UtilFac.Artifact.Dto artifactDto)
-        {
-            Int64 reportCategoryId = 0;
-            if (artifactDto.ComponentDefinition.Code == "CUST")
-            {
-                reportCategoryId = (artifactDto.Module as AutoTourism.Customer.Facade.Report.Dto).category.Id;
+        //private Type GetInvoiceType(UtilFac.Artifact.Dto artifactDto)
+        //{
+        //    Int64 reportCategoryId = 0;
+        //    if (artifactDto.ComponentDefinition.Code == "CUST")
+        //    {
+        //        reportCategoryId = (artifactDto.Module as AutoTourism.Customer.Facade.Report.Dto).Category.Id;
 
-                if (reportCategoryId == 10001)
-                    return Type.GetType("AutoTourism.Customer.WinForm.Report.Daily,AutoTourism.Customer.WinForm", true);
-                else if (reportCategoryId == 10002)
-                    return Type.GetType("AutoTourism.Customer.WinForm.Report.Weekly,AutoTourism.Customer.WinForm", true);
-                else if (reportCategoryId == 10003)
-                    return Type.GetType("AutoTourism.Customer.WinForm.Report.Monthly,AutoTourism.Customer.WinForm", true);
-                else if (reportCategoryId == 10004)
-                    return Type.GetType("AutoTourism.Customer.WinForm.Report.Quarterly,AutoTourism.Customer.WinForm", true);
-                else if (reportCategoryId == 10005)
-                    return Type.GetType("AutoTourism.Customer.WinForm.Report.Yearly,AutoTourism.Customer.WinForm", true);
-            }
-            else
-            {
-                reportCategoryId = (artifactDto.Module as Vanilla.Invoice.Facade.Report.Dto).category.Id;
+        //        if (reportCategoryId == 10001)
+        //            return Type.GetType("AutoTourism.Customer.WinForm.Report.Daily,AutoTourism.Customer.WinForm", true);
+        //        else if (reportCategoryId == 10002)
+        //            return Type.GetType("AutoTourism.Customer.WinForm.Report.Weekly,AutoTourism.Customer.WinForm", true);
+        //        else if (reportCategoryId == 10003)
+        //            return Type.GetType("AutoTourism.Customer.WinForm.Report.Monthly,AutoTourism.Customer.WinForm", true);
+        //        else if (reportCategoryId == 10004)
+        //            return Type.GetType("AutoTourism.Customer.WinForm.Report.Quarterly,AutoTourism.Customer.WinForm", true);
+        //        else if (reportCategoryId == 10005)
+        //            return Type.GetType("AutoTourism.Customer.WinForm.Report.Yearly,AutoTourism.Customer.WinForm", true);
+        //    }
+        //    else
+        //    {
+        //        reportCategoryId = (artifactDto.Module as Vanilla.Invoice.Facade.Report.Dto).category.Id;
 
-                if (reportCategoryId == 10001)
-                    return Type.GetType("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm", true);
-                else if (reportCategoryId == 10002)
-                    return Type.GetType("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm", true);
-                else if (reportCategoryId == 10003)
-                    return Type.GetType("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm", true);
-                else if (reportCategoryId == 10004)
-                    return Type.GetType("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm", true);
-                else if (reportCategoryId == 10005)
-                    return Type.GetType("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm", true);
-            }
+        //        if (reportCategoryId == 10001)
+        //            return Type.GetType("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm", true);
+        //        else if (reportCategoryId == 10002)
+        //            return Type.GetType("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm", true);
+        //        else if (reportCategoryId == 10003)
+        //            return Type.GetType("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm", true);
+        //        else if (reportCategoryId == 10004)
+        //            return Type.GetType("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm", true);
+        //        else if (reportCategoryId == 10005)
+        //            return Type.GetType("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm", true);
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         private TreeNode GetRootNode()
         { 

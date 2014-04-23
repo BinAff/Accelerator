@@ -43,6 +43,8 @@ namespace Crystal.Report.Component
             return ret;
         }
 
+        public abstract List<BinAff.Core.Data> GetData(DateTime fromDate, DateTime toDate);
+
     }
 
 }

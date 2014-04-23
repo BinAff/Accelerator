@@ -2,10 +2,10 @@
 
 namespace AutoTourism.Customer.Facade.Report
 {
-    public class Dto : Vanilla.Utility.Facade.Report.Dto
+
+    public class Dto : Vanilla.Report.Facade.Document.Dto
     {
-        //public DateTime date { get; set; }       
-        //public Vanilla.Report.Facade.Category.Dto category { get; set; }
+
         public DateTime CheckInDate { get; set; }
         public Int64 RoomCheckInId { get; set; }
         public Int64 ReservationId { get; set; }
@@ -32,5 +32,18 @@ namespace AutoTourism.Customer.Facade.Report
         public String IdentityProofType { get; set; }
         public String IdentityProofName { get; set; }
         public String ContactNumber { get; set; }
+
+        public String Name
+        {
+            get
+            {
+                String name = this.FirstName == null ? String.Empty : this.FirstName;
+                name += String.IsNullOrEmpty(name) ? (String.IsNullOrEmpty(this.MiddleName) ? String.Empty : this.MiddleName) : " " + (String.IsNullOrEmpty(this.MiddleName) ? String.Empty : this.MiddleName);
+                name += String.IsNullOrEmpty(name) ? (String.IsNullOrEmpty(this.LastName) ? String.Empty : this.LastName) : " " + (String.IsNullOrEmpty(this.LastName) ? String.Empty : this.LastName);
+                return name;
+            }
+        }
+
     }
+
 }

@@ -67,7 +67,7 @@ namespace Crystal.Invoice.Component.Report
             //return ret;
         }
 
-        public List<BinAff.Core.Data> GetSalesData(DateTime fromDate, DateTime toDate)
+        public override List<BinAff.Core.Data> GetData(DateTime fromDate, DateTime toDate)
         {
             List<BinAff.Core.Data> invoiceList = new List<BinAff.Core.Data>();
 

@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace Crystal.Report.Component
+namespace Vanilla.Report.Facade.Document
 {
 
-    public class Data : BinAff.Core.Data
+    public class Dto : BinAff.Facade.Library.Dto
     {
 
         public String Path { get; set; }
         public String DataSource { get; set; }
         public DateTime Date { get; set; }
-        public Category.Data Category { get; set; }
+        public Category.Dto Category { get; set; }
 
     }
 

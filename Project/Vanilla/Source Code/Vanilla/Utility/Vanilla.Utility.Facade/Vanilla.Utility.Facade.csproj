@@ -88,6 +88,10 @@
       <Project>{cd06572d-594d-4b5c-a786-41cf7aaa74d8}</Project>
       <Name>Crystal.Report.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
+      <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
+      <Name>Vanilla.Guardian.Facade</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

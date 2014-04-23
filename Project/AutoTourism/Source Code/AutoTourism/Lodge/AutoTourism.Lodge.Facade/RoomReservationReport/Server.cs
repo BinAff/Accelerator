@@ -25,7 +25,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationReport
             return new Dto
             {
                 Id = roomReservationReportData.Id,
-                date = roomReservationReportData.Date,
+                Date = roomReservationReportData.Date,
                 category = roomReservationReportData.Category == null ? null : new Vanilla.Utility.Facade.Report.Category.Dto { Id = roomReservationReportData.Category.Id }                               
             };
         }
@@ -35,7 +35,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationReport
             Dto reportDto = dto as Dto;
             return new CrystalRoomReservationReport.Data
             {
-                Date = reportDto.date,               
+                Date = reportDto.Date,               
                 Category = new Crystal.Report.Component.Category.Data { Id = reportDto.category.Id }
             };
         }
