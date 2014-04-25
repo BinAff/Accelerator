@@ -58,7 +58,7 @@ namespace Vanilla.Navigator.WinForm
         public delegate void ChangePath();
         public event ChangePath PathChanged;
 
-        public List<Table> reportCategory = new List<Table>();
+        public List<Report.Facade.Category.Dto> reportCategoryList = new List<Report.Facade.Category.Dto>();
         
         public Register()
         {
@@ -103,11 +103,11 @@ namespace Vanilla.Navigator.WinForm
             this.btnUp.Enabled = false;
 
             //populate reportCategory -- need to code later            
-            reportCategory.Add(new Table { Id = 10001, Name = "drpt"});
-            reportCategory.Add(new Table { Id = 10002, Name = "wrpt" });
-            reportCategory.Add(new Table { Id = 10003, Name = "mrpt" });
-            reportCategory.Add(new Table { Id = 10004, Name = "qrpt" });
-            reportCategory.Add(new Table { Id = 10005, Name = "yrpt" });
+            this.reportCategoryList.Add(new Report.Facade.Category.Dto { Id = 10001, Extension = "drpt", Name = "Daily" });
+            this.reportCategoryList.Add(new Report.Facade.Category.Dto { Id = 10002, Extension = "wrpt", Name = "Weekly" });
+            this.reportCategoryList.Add(new Report.Facade.Category.Dto { Id = 10003, Extension = "mrpt", Name = "Monthly" });
+            this.reportCategoryList.Add(new Report.Facade.Category.Dto { Id = 10004, Extension = "qrpt", Name = "Quarterly" });
+            this.reportCategoryList.Add(new Report.Facade.Category.Dto { Id = 10005, Extension = "yrpt", Name = "Yearly" });
             //--------------
             this.loadPercentage = 100;
         }
@@ -288,43 +288,42 @@ namespace Vanilla.Navigator.WinForm
             this.formDto.ModuleFormDto.Dto = (sender as TreeView).FindRootNode().Tag as UtilFac.Module.Dto;
             this.ShowAuditInfo(selectedNode);
         }
+        
+        //private List<Table> AttachExtension()
+        //{
+        //    List<Table> extension = new List<Table>();
+        //    UtilFac.Artifact.Dto selectedNode = this.currentArtifact;
+        //    if (selectedNode.Children != null && selectedNode.Children.Count > 0)
+        //    {
+        //        foreach (UtilFac.Artifact.Dto artifact in selectedNode.Children)
+        //        {                   
+        //            if (artifact.Style == UtilFac.Artifact.Type.Document)
+        //            {
+        //                if (artifact.Module != null && artifact.Module.GetType().FullName == "Vanilla.Invoice.Facade.Report.Dto")
+        //                {
+        //                    Vanilla.Invoice.Facade.Report.Dto reportDto = artifact.Module as Vanilla.Invoice.Facade.Report.Dto;
+        //                    Int64 reportCategoryId = reportDto.category == null ? 0 : reportDto.category.Id;
+        //                    if (reportCategoryId > 0)
+        //                    {
+        //                        foreach (Report.Facade.Category.Dto category in this.reportCategoryList)
+        //                        {
+        //                            if (category.Id == reportCategoryId)
+        //                            {
+        //                                extension.Add(new Table
+        //                                {
+        //                                    Id = artifact.Id,
+        //                                    Name = category.Extension
+        //                                });
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
 
-
-        private List<Table> AttachExtension()
-        {
-            List<Table> extension = new List<Table>();
-            UtilFac.Artifact.Dto selectedNode = this.currentArtifact;
-            if (selectedNode.Children != null && selectedNode.Children.Count > 0)
-            {
-                foreach (UtilFac.Artifact.Dto artifact in selectedNode.Children)
-                {                   
-                    if (artifact.Style == UtilFac.Artifact.Type.Document)
-                    {
-                        if (artifact.Module != null && artifact.Module.GetType().FullName == "Vanilla.Invoice.Facade.Report.Dto")
-                        {
-                            Vanilla.Invoice.Facade.Report.Dto reportDto = artifact.Module as Vanilla.Invoice.Facade.Report.Dto;
-                            Int64 reportCategoryId = reportDto.category == null ? 0 : reportDto.category.Id;
-                            if (reportCategoryId > 0)
-                            {
-                                foreach (Table tbl in this.reportCategory)
-                                {
-                                    if (tbl.Id == reportCategoryId)
-                                    {
-                                        extension.Add(new Table
-                                        {
-                                            Id = artifact.Id,
-                                            Name = tbl.Name
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return extension;
-        }
+        //    return extension;
+        //}
 
         #endregion
 
@@ -1833,17 +1832,29 @@ namespace Vanilla.Navigator.WinForm
 
                 if (componentType != null)
                 {
-                    (rootNode.Tag as UtilFac.Module.Dto).ComponentFormType = componentType;
-                    
+                    (rootNode.Tag as UtilFac.Module.Dto).ComponentFormType = componentType;                    
                 }
-                Type type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
+                
 
                 String fileName = this.GetFolderName(selectedNode, UtilFac.Artifact.Type.Document);
                 moduleFormDto.artifactPath = this.currentArtifact.Path + fileName;
                 moduleFormDto.fileName = fileName;
                 moduleFormDto.trvForm = trv;
 
-                Form form = (Form)Activator.CreateInstance(type, moduleFormDto);
+                Form form;
+                if (this.currentArtifact.Category == UtilFac.Artifact.Category.Report)
+                {   
+                    form = new Vanilla.Report.WinForm.Document(this.currentArtifact.Module as Report.Facade.Document.Dto, this.facade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
+                    {
+                        Code = currentArtifact.ComponentDefinition.Code,
+                    }, this.currentArtifact.Category) as Report.Facade.Document.Server);
+                }
+                else
+                {
+                    Type type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
+                    form = (Form)Activator.CreateInstance(type, moduleFormDto);
+                }
+                
                 form.ShowDialog(this);
 
                 if (moduleFormDto != null && moduleFormDto.Id > 0)
@@ -2264,19 +2275,11 @@ namespace Vanilla.Navigator.WinForm
         private void cmnuDailyReport_Click(object sender, EventArgs e)
         {
             TreeNode rootNode = this.GetRootNode();
-            this.currentArtifact.Extension = "drpt";
-            if (rootNode != null)
+            this.currentArtifact.Module = new Report.Facade.Document.Dto
             {
-                if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
-                    this.AddDocument("AutoTourism.Customer.WinForm.Report.Daily,AutoTourism.Customer.WinForm");
-                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
-                    this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Daily,AutoTourism.Lodge.WinForm");
-                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
-                    this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Daily,AutoTourism.Lodge.WinForm");
-                else
-                    this.AddDocument("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm");
-            }
-            
+                Category = this.reportCategoryList.Find((p) => { return p.Name == "Daily"; }),
+            };
+            this.AddDocument();
         }
 
         private void cmnuWeeklyReport_Click(object sender, EventArgs e)

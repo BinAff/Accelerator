@@ -171,6 +171,8 @@ namespace Vanilla.Utility.Facade.Module
 
         internal Helper GetObjectsForReport()
         {
+            Type typeReportServer;
+            Type typeReportDto;
             switch (this.moduleDef.Code)
             {
                 case "CUST":
@@ -180,11 +182,8 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactComponentType = "Crystal.Customer.Component.Report.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Customer.Component.Report.Data, Crystal.Customer.Component";
 
-                    Type typeCustomerReportServer = Type.GetType("AutoTourism.Customer.Facade.Report.Server,AutoTourism.Customer.Facade", true);
-                    Type typeCustomerReportDto = Type.GetType("AutoTourism.Customer.Facade.Report.FormDto,AutoTourism.Customer.Facade", true);
-                    BinAff.Facade.Library.FormDto customerReportDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeCustomerReportDto);
-                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeCustomerReportServer, customerReportDto);
-
+                    typeReportServer = Type.GetType("AutoTourism.Customer.Facade.Report.Server,AutoTourism.Customer.Facade", true);
+                    typeReportDto = Type.GetType("AutoTourism.Customer.Facade.Report.FormDto,AutoTourism.Customer.Facade", true);
                     break;
 
                 case "LRSV"://Need to change
@@ -195,11 +194,8 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactComponentType = "Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Lodge.Component.RoomReservationReport.Data, Crystal.Lodge.Component";
 
-                    Type typeReservationReportServer = Type.GetType("AutoTourism.Lodge.Facade.RoomReservationReport.Server,AutoTourism.Lodge.Facade", true);
-                    Type typeReservationReportDto = Type.GetType("AutoTourism.Lodge.Facade.RoomReservationReport.FormDto,AutoTourism.Lodge.Facade", true);
-                    BinAff.Facade.Library.FormDto reservationReportDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeReservationReportDto);
-                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeReservationReportServer, reservationReportDto);
-
+                    typeReportServer = Type.GetType("AutoTourism.Lodge.Facade.RoomReservationReport.Server,AutoTourism.Lodge.Facade", true);
+                    typeReportDto = Type.GetType("AutoTourism.Lodge.Facade.RoomReservationReport.FormDto,AutoTourism.Lodge.Facade", true);
                     break;
 
                 case "LCHK"://Need to change
@@ -210,10 +206,8 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactComponentType = "Crystal.Lodge.Component.CheckInReport.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Lodge.Component.CheckInReport.Data, Crystal.Lodge.Component";
 
-                    Type typeCheckInReportServer = Type.GetType("AutoTourism.Lodge.Facade.CheckInReport.Server,AutoTourism.Lodge.Facade", true);
-                    Type typeCheckInReportDto = Type.GetType("AutoTourism.Lodge.Facade.CheckInReport.FormDto,AutoTourism.Lodge.Facade", true);
-                    BinAff.Facade.Library.FormDto checkInReportDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeCheckInReportDto);
-                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeCheckInReportServer, checkInReportDto);
+                    typeReportServer = Type.GetType("AutoTourism.Lodge.Facade.CheckInReport.Server,AutoTourism.Lodge.Facade", true);
+                    typeReportDto = Type.GetType("AutoTourism.Lodge.Facade.CheckInReport.FormDto,AutoTourism.Lodge.Facade", true);
                     break;
 
                 case "INVO":
@@ -224,14 +218,25 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactComponentType = "Crystal.Invoice.Component.Report.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Invoice.Component.Report.Data, Crystal.Invoice.Component";
 
-                    Type typeInvoiceReportServer = Type.GetType("Vanilla.Invoice.Facade.Report.Server,Vanilla.Invoice.Facade", true);
-                    Type typeInvoiceReportDto = Type.GetType("Vanilla.Invoice.Facade.Report.FormDto,Vanilla.Invoice.Facade", true);
-                    BinAff.Facade.Library.FormDto invoiceReportDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeInvoiceReportDto);
-                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeInvoiceReportServer, invoiceReportDto);
+                    typeReportServer = Type.GetType("Vanilla.Invoice.Facade.Report.Server,Vanilla.Invoice.Facade", true);
+                    typeReportDto = Type.GetType("Vanilla.Invoice.Facade.Report.FormDto,Vanilla.Invoice.Facade", true);
                     break;
-                default:                  
+                default: //Default is customer
+                    this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Report.Dto, AutoTourism.Customer.Facade";
+                    this.ArtifactComponentAssembly = "Crystal.Customer.Component";
+                    this.ArtifactDataType = "Crystal.Customer.Component.Report.Navigator.Artifact.Data";
+                    this.ArtifactComponentType = "Crystal.Customer.Component.Report.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Customer.Component.Report.Data, Crystal.Customer.Component";
+
+                    typeReportServer = Type.GetType("AutoTourism.Customer.Facade.Report.Server,AutoTourism.Customer.Facade", true);
+                    typeReportDto = Type.GetType("AutoTourism.Customer.Facade.Report.FormDto,AutoTourism.Customer.Facade", true);
                     break;
             }
+
+            BinAff.Facade.Library.FormDto reportDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeReportDto);
+            typeReportDto.GetProperty("Dto").SetValue(reportDto, Activator.CreateInstance(Type.GetType(this.ModuleFormDtoType)), null);
+
+            this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeReportServer, reportDto);
             return this;
         }
 

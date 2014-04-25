@@ -10,7 +10,7 @@ using Util = Vanilla.Utility.Facade.Report;
 namespace Vanilla.Report.Facade.Document
 {
 
-    public class Server : BinAff.Facade.Library.Server
+    public abstract class Server : BinAff.Facade.Library.Server
     {
 
         public Server(FormDto formDto)
@@ -42,48 +42,45 @@ namespace Vanilla.Report.Facade.Document
             };
         }
 
-        public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
-        {
-            Dto reportDto = dto as Dto;
-            return new CrysRpt.Data
-            {
-                Id = reportDto.Id,
-                Date = reportDto.Date,
-                Category = new CrysRpt.Category.Data { Id = reportDto.Category.Id }
-            };
-        }
+        public abstract override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto);
 
         public override void Add()
         {
             FormDto formDto = this.FormDto as FormDto;
             CrysRpt.Data rptData = this.Convert(formDto.Dto) as CrysRpt.Data;
-            //ReturnObject<Boolean> retVal = (this.CreateInstance(rptData) as ICrud).Save();
-            //if (retVal.Value && rptData.Id > 0)
-            //{
-            //    formDto.Dto.Id = rptData.Id;
-            //}
+            ReturnObject<Boolean> retVal = (this.CreateComponentInstance(rptData) as ICrud).Save();
+            if (retVal.Value && rptData.Id > 0)
+            {
+                formDto.Dto.Id = rptData.Id;
+            }
 
-            //this.DisplayMessageList = retVal.GetMessage((this.IsError = retVal.HasError()) ? Message.Type.Error : Message.Type.Information);
+            this.DisplayMessageList = retVal.GetMessage((this.IsError = retVal.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
-        public virtual void SetReportCredential()
+        public void SetCategory(Category.Dto categoy)
         {
-            throw new NotImplementedException();
+            (this.FormDto as FormDto).Dto.Category = categoy;
         }
 
-        public void Generate(DateTime date, Category.Dto reportCategory)
+        public List<BinAff.Facade.Library.Dto> Generate(DateTime date, Category.Dto reportCategory)
         {
-            List<BinAff.Core.Data> reportDataList = this.CreateComponentInstance(new CrysRpt.Category.Data
+            CrysRpt.IReport server = this.CreateComponentInstance(new CrysRpt.Category.Data
             {
                 Id = reportCategory.Id,
-            }).GetReport(date);
-            (this.FormDto as FormDto).ReportData = this.ConvertReportDataList(reportDataList);
+            });
+            List<BinAff.Core.Data> reportDataList = server.GetReport(date);
+            (this.FormDto as FormDto).Dto.ReportName = server.GetReportName();
+            return (this.FormDto as FormDto).ReportData = this.ConvertReportDataList(reportDataList);
         }
+
+        public abstract Dto SetReportCredential();
 
         protected virtual CrysRpt.IReport CreateComponentInstance(CrysRpt.Category.Data reportCategory)
         {
             throw new NotImplementedException();
         }
+
+        protected abstract ICrud CreateComponentInstance(CrysRpt.Data rptData);
 
         private List<BinAff.Facade.Library.Dto> ConvertReportDataList(List<BinAff.Core.Data> reportDataList)
         {
@@ -98,10 +95,7 @@ namespace Vanilla.Report.Facade.Document
             return dtoList;
         }
 
-        protected virtual BinAff.Facade.Library.Dto ConvertReportData(CrysRpt.Data data)
-        {
-            throw new NotImplementedException();
-        }
+        protected abstract BinAff.Facade.Library.Dto ConvertReportData(CrysRpt.Data data);
 
     }
 
