@@ -152,7 +152,47 @@ namespace Vanilla.Utility.WinForm.Extender
 
             treeView.EndUpdate();
         }
+
+        public static void AddNode(this TreeView treeView, TreeNode parentNode, TreeNode childNode, String pathSeperator)
+        {
+            //update the path of child node artifact
+            Facade.Artifact.Dto parentNodeArtifact = new Facade.Artifact.Dto();
+            String pathOfParent = String.Empty;
+
+            if (parentNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+            {
+                parentNodeArtifact = (parentNode.Tag as Facade.Module.Dto).Artifact;
+                pathOfParent += parentNodeArtifact.Path + ":" + pathSeperator + pathSeperator + parentNode.Text + pathSeperator;
+            }
+            else
+                parentNodeArtifact = parentNode.Tag as Facade.Artifact.Dto;
+
+            Facade.Artifact.Dto childNodeArtifact = new Facade.Artifact.Dto();
+            if (childNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+                childNodeArtifact = (childNode.Tag as Facade.Module.Dto).Artifact;
+            else
+                childNodeArtifact = childNode.Tag as Facade.Artifact.Dto;
+
+            Common.UpdateArtifactPath(pathOfParent, childNodeArtifact, pathSeperator);
+
+            foreach (TreeNode node in childNode.Nodes)            
+                UpdateTagArtifact(childNodeArtifact.Path, node, pathSeperator);            
+
+        }
+
+        private static void UpdateTagArtifact(String pathOfParent, TreeNode node, String pathSeperator)
+        {
+            Facade.Artifact.Dto nodeArtifact = node.Tag as Facade.Artifact.Dto;
+            Common.UpdateArtifactPath(pathOfParent, nodeArtifact, pathSeperator);            
+
+            //update the tag object
+            foreach (TreeNode tNode in node.Nodes)
+                UpdateTagArtifact(nodeArtifact.Path, tNode, pathSeperator);                
+           
+        }
     }
+
+    
 
     public static class ListViewExtender
     {
@@ -451,6 +491,11 @@ namespace Vanilla.Utility.WinForm.Extender
             }
 
             return false;
+        }
+
+        public static void UpdateArtifactPath(String pathOfParent, Facade.Artifact.Dto artifactDto, String pathSeperator)
+        {
+        
         }
     }
 }
