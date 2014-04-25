@@ -24,7 +24,7 @@ namespace Vanilla.Invoice.WinForm.Report
             dpSearchDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 
             this.dto = dto;
-            this.formDto = new Facade.Report.FormDto { dto = this.dto };
+            this.formDto = new Facade.Report.FormDto { Dto = this.dto };
 
             if (dto.Id > 0)
             {

@@ -20,6 +20,20 @@ namespace AutoTourism.Customer.Facade.Report
             
         }
 
+        public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
+        {
+            Dto reportDto = dto as Dto;
+            return new CrysCustRpt.Data
+            {
+                Id = reportDto.Id,
+                Date = reportDto.Date,
+                Category = new CrysRpt.Category.Data
+                {
+                    Id = reportDto.Category.Id
+                },
+            };
+        }
+
         protected override CrysRpt.IReport CreateComponentInstance(CrysRpt.Category.Data reportCategory)
         {
             return new CrysCustRpt.Server(new CrysCustRpt.Data
@@ -28,13 +42,22 @@ namespace AutoTourism.Customer.Facade.Report
             });
         }
 
-        public override void SetReportCredential()
+        protected override ICrud CreateComponentInstance(CrysRpt.Data rptData)
+        {
+            return new CrysCustRpt.Server(rptData as CrysCustRpt.Data);
+        }
+
+        public override Vanilla.Report.Facade.Document.Dto SetReportCredential()
         {
             (this.FormDto as FormDto).Dto.DataSource = "Customer";
+
+            //Path is wrong
             String path = System.IO.Directory.GetCurrentDirectory();
             path = path.Remove(path.IndexOf("AutoTourism"));
-            path += @"AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.WinForm\Report\Daily.rdlc";
+            path += @"AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.WinForm\Report\" + (this.FormDto as FormDto).Dto.ReportName;
+            
             (this.FormDto as FormDto).Dto.Path = path;
+            return (this.FormDto as FormDto).Dto;
         }
 
         protected override BinAff.Facade.Library.Dto ConvertReportData(CrysRpt.Data data)

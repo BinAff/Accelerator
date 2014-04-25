@@ -44,12 +44,12 @@ namespace AutoTourism.Lodge.Facade.CheckInReport
         {            
             FormDto formDto = this.FormDto as FormDto;
 
-            CrystalCheckInReport.Data customerReportData = this.Convert(formDto.dto) as CrystalCheckInReport.Data;
+            CrystalCheckInReport.Data customerReportData = this.Convert(formDto.Dto) as CrystalCheckInReport.Data;
             ICrud crud = new CrystalCheckInReport.Server(customerReportData);
             ReturnObject<bool> retVal = crud.Save();
 
             if (retVal.Value && customerReportData.Id > 0)
-                formDto.dto.Id = customerReportData.Id;
+                formDto.Dto.Id = customerReportData.Id;
 
             this.DisplayMessageList = retVal.GetMessage((this.IsError = retVal.HasError()) ? Message.Type.Error : Message.Type.Information);           
         }
@@ -57,35 +57,35 @@ namespace AutoTourism.Lodge.Facade.CheckInReport
         List<UtilityReport.Dto> UtilityReport.IReport.GetDailyReport(System.DateTime date)
         {
             CrystalReport.IReport report = new CrystalCheckInReport.Server(null);
-            List<BinAff.Core.Data> reportDataList = report.GetDailyReport(date);
+            List<BinAff.Core.Data> reportDataList = report.GetReport(date);
             return this.GetCheckInData(reportDataList);
         }
 
         List<UtilityReport.Dto> UtilityReport.IReport.GetWeeklyReport(System.DateTime date)
         {
             CrystalReport.IReport report = new CrystalCheckInReport.Server(null);
-            List<BinAff.Core.Data> reportDataList = report.GetWeeklyReport(date);
+            List<BinAff.Core.Data> reportDataList = report.GetReport(date);
             return this.GetCheckInData(reportDataList);
         }
 
         List<UtilityReport.Dto> UtilityReport.IReport.GetMonthlyReport(System.DateTime date)
         {
             CrystalReport.IReport report = new CrystalCheckInReport.Server(null);
-            List<BinAff.Core.Data> reportDataList = report.GetMonthlyReport(date);
+            List<BinAff.Core.Data> reportDataList = report.GetReport(date);
             return this.GetCheckInData(reportDataList);
         }
 
         List<UtilityReport.Dto> UtilityReport.IReport.GetQuarterlyReport(System.DateTime date)
         {
             CrystalReport.IReport report = new CrystalCheckInReport.Server(null);
-            List<BinAff.Core.Data> reportDataList = report.GetQuarterlyReport(date);
+            List<BinAff.Core.Data> reportDataList = report.GetReport(date);
             return this.GetCheckInData(reportDataList);
         }
 
         List<UtilityReport.Dto> UtilityReport.IReport.GetYearlyReport(System.DateTime date)
         {
             CrystalReport.IReport report = new CrystalCheckInReport.Server(null);
-            List<BinAff.Core.Data> reportDataList = report.GetYearlyReport(date);
+            List<BinAff.Core.Data> reportDataList = report.GetReport(date);
             return this.GetCheckInData(reportDataList);
         }
 

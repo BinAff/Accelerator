@@ -71,7 +71,6 @@
       <DependentUpon>PersonalInformation.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Report\Data.cs" />
     <EmbeddedResource Include="CustomerForm.resx">
       <DependentUpon>CustomerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -94,7 +93,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Report\Daily.rdlc" />
     <EmbeddedResource Include="Report\Monthly.rdlc" />
+    <EmbeddedResource Include="Report\Quarterly.rdlc" />
+    <EmbeddedResource Include="Report\Weekly.rdlc" />
+    <EmbeddedResource Include="Report\Yearly.rdlc" />
     <None Include="Properties\DataSources\AutoTourism.Customer.WinForm.Report.Data.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -16,53 +16,44 @@ namespace Crystal.Report.Component
         List<BinAff.Core.Data> IReport.GetReport(DateTime date)
         {
             Data data = this.Data as Data;
-            String path = System.IO.Directory.GetCurrentDirectory();
-            path = path.Remove(path.IndexOf("AutoTourism"));
-            path += @"AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.WinForm\Report\";
             switch ((this.Data as Data).Category.Id)
             {
                 case 10001:
-                    data.Path = path + "Daily.rdlc";
+                    data.Path = "Daily.rdlc";
                     return this.GetDailyReport(date);
                 case 10002:
-                    data.Path = path + "Weekly.rdlc";
+                    data.Path = "Weekly.rdlc";
                     return this.GetWeeklyReport(date);
                 case 10003:
-                    data.Path = path + "Monthly.rdlc";
+                    data.Path = "Monthly.rdlc";
                     return this.GetMonthlyReport(date);
                 case 10004:
-                    data.Path = path + "Quarterly.rdlc";
+                    data.Path = "Quarterly.rdlc";
                     return this.GetQuarterlyReport(date);
                 case 10005:
-                    data.Path = path + "Yearly.rdlc";
+                    data.Path = "Yearly.rdlc";
                     return this.GetYearlyReport(date);
             }
             return new List<BinAff.Core.Data>();
         }
 
-        List<BinAff.Core.Data> IReport.GetDailyReport(DateTime date)
+        String IReport.GetReportName()
         {
-            return this.GetDailyReport(date);
-        }
-
-        List<BinAff.Core.Data> IReport.GetWeeklyReport(DateTime date)
-        {
-            return this.GetWeeklyReport(date);
-        }
-
-        List<BinAff.Core.Data> IReport.GetMonthlyReport(DateTime date)
-        {
-            return this.GetMonthlyReport(date);
-        }
-
-        List<BinAff.Core.Data> IReport.GetQuarterlyReport(DateTime date)
-        {
-            return this.GetQuarterlyReport(date);
-        }
-
-        List<BinAff.Core.Data> IReport.GetYearlyReport(DateTime date)
-        {
-            return this.GetYearlyReport(date);
+            switch ((this.Data as Data).Category.Id)
+            {
+                case 10001:
+                    return "Daily.rdlc";
+                case 10002:
+                    return "Weekly.rdlc";
+                case 10003:
+                    return "Monthly.rdlc";
+                case 10004:
+                    return "Quarterly.rdlc";
+                case 10005:
+                    return "Yearly.rdlc";
+                default:
+                    return String.Empty;
+            }
         }
 
         public List<BinAff.Core.Data> GetDailyReport(DateTime date)
@@ -143,6 +134,7 @@ namespace Crystal.Report.Component
             return firstDayOfTheMonth.AddMonths(1).AddDays(-1);
         }
 
+        
     }
 
 }

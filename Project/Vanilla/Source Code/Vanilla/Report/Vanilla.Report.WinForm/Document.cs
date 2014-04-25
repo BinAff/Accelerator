@@ -23,9 +23,20 @@ namespace Vanilla.Report.WinForm
         public Document(Facade.Document.Dto dto, Facade.Document.Server facade)
             : this()
         {
+            this.formDto = new Facade.Document.FormDto
+            {
+                Dto = new Facade.Document.Dto
+                {
+                    Date = dpSearchDate.Value.Date,
+                },
+            };
+            this.formDto.Dto = dto;
+            this.facade = facade;
+        }
+
+        private void Document_Load(object sender, EventArgs e)
+        {
             this.dpSearchDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.formDto = new Facade.Document.FormDto { Dto = dto };
-            this.facade = facade;            
             if (this.formDto.Dto.Id > 0)
             {
                 this.pnlReportDetail.Hide();
@@ -35,11 +46,6 @@ namespace Vanilla.Report.WinForm
             {
                 this.LoadData(DateTime.Today);
             }
-        }
-
-        private void Document_Load(object sender, EventArgs e)
-        {
-            //this.rvReport.RefreshReport();
         }
 
         private void dpSearchDate_ValueChanged(object sender, EventArgs e)
@@ -54,17 +60,15 @@ namespace Vanilla.Report.WinForm
 
         private void LoadData(DateTime date)
         {
-            this.facade.Generate(date, this.formDto.Dto.Category);
+            this.formDto.ReportData = this.facade.Generate(date, this.formDto.Dto.Category);
+            this.facade.SetCategory(this.formDto.Dto.Category);
             List<BinAff.Facade.Library.Dto> dataList = this.formDto.ReportData;
             this.rvReport.Reset();
-            List<Facade.Document.DisplayData> displayDataList = new List<Facade.Document.DisplayData>();
             if (dataList != null && dataList.Count > 0)
             {
-                //foreach (Facade.Document.Dto data in dataList)
-                //{
-                //    displayDataList.Add(this.CreateDataObject(data));
-                //}
-                this.facade.SetReportCredential();
+                Vanilla.Report.Facade.Document.Dto dto = this.facade.SetReportCredential();
+                this.formDto.Dto.Path = dto.Path;
+                this.formDto.Dto.DataSource = dto.DataSource;
                 this.rvReport.DocumentMapCollapsed = true;
                 this.rvReport.LocalReport.ReportPath = this.formDto.Dto.Path;
                 this.rvReport.Visible = true;
@@ -79,11 +83,10 @@ namespace Vanilla.Report.WinForm
 
         private void Save()
         {
-            this.formDto.Dto.Date = dpSearchDate.Value.Date;
             //this.formDto.Dto.Category = new Util.Category.Dto { Id = Convert.ToInt64(ReportCategory.Daily) };
 
-            BinAff.Facade.Library.Server facade = new Facade.Document.Server(this.formDto);
-            facade.Add();
+            //BinAff.Facade.Library.Server facade = new Facade.Document.Server(this.formDto);
+            this.facade.Add();
 
             if (facade.IsError)
             {
@@ -98,11 +101,6 @@ namespace Vanilla.Report.WinForm
                 this.Close();
             }
         }
-
-        //protected Facade.Document.DisplayData CreateDataObject(Facade.Document.Dto data)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
     }
 

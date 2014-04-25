@@ -48,12 +48,12 @@ namespace Vanilla.Invoice.Facade.Report
         {            
             FormDto formDto = this.FormDto as FormDto;
 
-            CrystalInvoiceReport.Data invoiceReportData = this.Convert(formDto.dto) as CrystalInvoiceReport.Data;           
+            CrystalInvoiceReport.Data invoiceReportData = this.Convert(formDto.Dto) as CrystalInvoiceReport.Data;           
             ICrud crud = new CrystalInvoiceReport.Server(invoiceReportData);
             ReturnObject<bool> retVal = crud.Save();
 
             if (retVal.Value && invoiceReportData.Id > 0)
-                formDto.dto.Id = invoiceReportData.Id;
+                formDto.Dto.Id = invoiceReportData.Id;
 
             this.DisplayMessageList = retVal.GetMessage((this.IsError = retVal.HasError()) ? Message.Type.Error : Message.Type.Information);           
         }
@@ -61,35 +61,35 @@ namespace Vanilla.Invoice.Facade.Report
         List<Facade.Dto> IReport.GetDailyReport(System.DateTime date)
         {            
             CrystalReport.IReport report = new CrystalInvoiceReport.Server(null);
-            List<BinAff.Core.Data> reportDataList = report.GetDailyReport(date);
+            List<BinAff.Core.Data> reportDataList = report.GetReport(date);
             return this.GetSalesData(reportDataList);
         }
 
         List<Facade.Dto> IReport.GetWeeklyReport(System.DateTime date)
         {
             CrystalReport.IReport report = new CrystalInvoiceReport.Server(null);
-            List<BinAff.Core.Data> reportDataList = report.GetWeeklyReport(date);
+            List<BinAff.Core.Data> reportDataList = report.GetReport(date);
             return this.GetSalesData(reportDataList);
         }
                 
         List<Facade.Dto> IReport.GetMonthlyReport(System.DateTime date)
         {
             CrystalReport.IReport report = new CrystalInvoiceReport.Server(null);
-            List<BinAff.Core.Data> reportDataList = report.GetMonthlyReport(date);
+            List<BinAff.Core.Data> reportDataList = report.GetReport(date);
             return this.GetSalesData(reportDataList);
         }
 
         List<Facade.Dto> IReport.GetQuarterlyReport(System.DateTime date)
         {
             CrystalReport.IReport report = new CrystalInvoiceReport.Server(null);
-            List<BinAff.Core.Data> reportDataList = report.GetQuarterlyReport(date);
+            List<BinAff.Core.Data> reportDataList = report.GetReport(date);
             return this.GetSalesData(reportDataList);
         }
 
         List<Facade.Dto> IReport.GetYearlyReport(System.DateTime date)
         {
             CrystalReport.IReport report = new CrystalInvoiceReport.Server(null);
-            List<BinAff.Core.Data> reportDataList = report.GetYearlyReport(date);
+            List<BinAff.Core.Data> reportDataList = report.GetReport(date);
             return this.GetSalesData(reportDataList);
         }
                 
