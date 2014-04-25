@@ -1050,10 +1050,11 @@ namespace Vanilla.Navigator.WinForm
         {
             if (!this.ValidatePaste())
                 return;
-            
+
+            TreeView trv = this.GetActiveTreeView();
             TreeNode pasteNode = (this.menuClickSource == MenuClickSource.TreeView) ?
-                this.trvForm.SelectedNode :
-                this.trvForm.FindNode(this.currentArtifact.Style == UtilFac.Artifact.Type.Document ?
+                trv.SelectedNode :
+                trv.FindNode(this.currentArtifact.Style == UtilFac.Artifact.Type.Document ?
                     this.currentArtifact.Parent as UtilFac.Artifact.Dto :
                     this.currentArtifact);
 
@@ -1115,12 +1116,16 @@ namespace Vanilla.Navigator.WinForm
                 Dto = artifactDto,
             };
 
-            this.facade = new Facade.Register.Server(this.formDto) { Category = this.GetActiveCategory() };
-            this.facade.Paste(this.isCutAction);
+            //this.facade = new Facade.Register.Server(this.formDto) { Category = this.GetActiveCategory() };
+            //this.facade.Paste(this.isCutAction);
+
+            if (pasteDirectory)
+                trv.AddNode(pasteNode, this.editNode, this.formDto.Rule.PathSeperator);
 
             if (!this.facade.IsError)
             {                
-                this.RefreshTreeViewAfterPaste();
+                //this.RefreshTreeViewAfterPaste();               
+
                 this.editNode = null;
                 this.cutArtifact = null;
             }
