@@ -140,10 +140,7 @@ namespace Vanilla.Navigator.WinForm
                     default: current = this.trvForm;
                         break;
                 }
-                //tree[i] = this.CreateTreeNodes(module.Artifact);
                 tree[i] = this.trvForm.CreateTreeNodes(module.Artifact);
-                
-
                 tree[i++].Tag = module;
             }
             current.Nodes.Clear();
@@ -242,7 +239,6 @@ namespace Vanilla.Navigator.WinForm
 
         private void trvReport_MouseDown(object sender, MouseEventArgs e)
         {
-            // Select the clicked node
             TreeView current = sender as TreeView;
             current.SelectedNode = current.GetNodeAt(e.X, e.Y);
 
@@ -289,78 +285,19 @@ namespace Vanilla.Navigator.WinForm
             this.ShowAuditInfo(selectedNode);
         }
         
-        //private List<Table> AttachExtension()
-        //{
-        //    List<Table> extension = new List<Table>();
-        //    UtilFac.Artifact.Dto selectedNode = this.currentArtifact;
-        //    if (selectedNode.Children != null && selectedNode.Children.Count > 0)
-        //    {
-        //        foreach (UtilFac.Artifact.Dto artifact in selectedNode.Children)
-        //        {                   
-        //            if (artifact.Style == UtilFac.Artifact.Type.Document)
-        //            {
-        //                if (artifact.Module != null && artifact.Module.GetType().FullName == "Vanilla.Invoice.Facade.Report.Dto")
-        //                {
-        //                    Vanilla.Invoice.Facade.Report.Dto reportDto = artifact.Module as Vanilla.Invoice.Facade.Report.Dto;
-        //                    Int64 reportCategoryId = reportDto.category == null ? 0 : reportDto.category.Id;
-        //                    if (reportCategoryId > 0)
-        //                    {
-        //                        foreach (Report.Facade.Category.Dto category in this.reportCategoryList)
-        //                        {
-        //                            if (category.Id == reportCategoryId)
-        //                            {
-        //                                extension.Add(new Table
-        //                                {
-        //                                    Id = artifact.Id,
-        //                                    Name = category.Extension
-        //                                });
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    return extension;
-        //}
-
         #endregion
 
-        private void PopulateNewArtifact(String fileName, UtilFac.Artifact.Type type, UtilFac.Artifact.Dto currentArtifact)
+        private void SetAuditInformationForNewRecord(UtilFac.Artifact.Dto artifact)
         {
-            currentArtifact.FileName = fileName;
-
-            //below properties are required only during insert
-            if (currentArtifact.Id == 0)
+            if (artifact.Id == 0)
             {
-                currentArtifact.Style = type;
-                currentArtifact.Version = 1;
-                currentArtifact.CreatedBy = new Table
+                artifact.Version = 1;
+                artifact.CreatedBy = new Table
                 {
                     Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
                     Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
                 };
-                currentArtifact.CreatedAt = DateTime.Now;
-                switch (this.tbcCategory.SelectedTab.Text)
-                {
-                    case "Form":
-                        currentArtifact.Category = UtilFac.Artifact.Category.Form;
-                        break;
-                    case "Catalogue":
-                        currentArtifact.Category = UtilFac.Artifact.Category.Catalogue;
-                        break;
-                    case "Report":
-                        currentArtifact.Category = UtilFac.Artifact.Category.Report;
-                        break;
-                    default:
-                        currentArtifact.Category = UtilFac.Artifact.Category.Form;
-                        break;
-                }
-                if (type == UtilFac.Artifact.Type.Folder)
-                {
-                    currentArtifact.Path += currentArtifact.FileName + this.formDto.Rule.PathSeperator;
-                }
+                artifact.CreatedAt = DateTime.Now;                
             }
         }
 
@@ -515,11 +452,10 @@ namespace Vanilla.Navigator.WinForm
                 }
             }
 
-            if (artifactFileName == String.Empty)
+            if (String.IsNullOrEmpty(artifactFileName))
             {
                 artifactFileName = (e.Label == null || e.Label.Trim().Length == 0) ? selectedItem.Text.Trim() : e.Label.Trim();
-            }
-           
+            }           
 
             //loop through the list to check for duplicate
             foreach (ListViewItem item in this.lsvContainer.Items)
@@ -540,12 +476,15 @@ namespace Vanilla.Navigator.WinForm
                         if (selectedArtifact.Id != 0)
                         {
                             if (selectedArtifact.Category == UtilFac.Artifact.Category.Report && selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+                            {
                                 selectedItem.Text = documentName;
-
+                            }
                             return;
                         }
                         else
+                        {
                             artifactFileName = selectedArtifact.FileName;
+                        }
                     }
                 }
             }
@@ -1079,7 +1018,7 @@ namespace Vanilla.Navigator.WinForm
                 path = (pasteNode.Tag as Vanilla.Utility.Facade.Artifact.Dto).Path;
 
             if(pasteNode.Parent == null)
-                path += ":" + this.formDto.Rule.PathSeperator + this.formDto.Rule.PathSeperator + pasteNode.Text + this.formDto.Rule.PathSeperator;
+                path += this.formDto.Rule.ModuleSeperator + this.formDto.Rule.PathSeperator + this.formDto.Rule.PathSeperator + pasteNode.Text + this.formDto.Rule.PathSeperator;
             
             Boolean pasteDirectory = true;
             if (this.cutArtifact != null)
@@ -1748,8 +1687,6 @@ namespace Vanilla.Navigator.WinForm
             }
         }
 
-
-
         private UtilFac.Artifact.Dto ReadDocument(UtilFac.Artifact.Dto selectedNode)
         {
             return new Facade.Container.Server(null).ReadDocument(selectedNode);
@@ -1767,7 +1704,7 @@ namespace Vanilla.Navigator.WinForm
                 (tag as UtilFac.Module.Dto).Artifact : tag as UtilFac.Artifact.Dto;
         }
 
-        private String GetFolderName(TreeNode node, UtilFac.Artifact.Type type)
+        private String GetArtifactName(TreeNode node, UtilFac.Artifact.Type type)
         {
             UtilFac.Artifact.Dto artifactDto = this.GetArtifact(node.Tag);
             
@@ -1816,24 +1753,24 @@ namespace Vanilla.Navigator.WinForm
         private void AddDocument(String componentType)
         {
             TreeView trv = this.GetActiveTreeView();
-            UtilFac.Artifact.Category category = this.GetActiveCategory();
-            TreeNode selectedNode = null;
-
-            if ((this.menuClickSource == MenuClickSource.ListView) && (this.currentArtifact != null))
-            {
-                selectedNode = trv.FindNode(this.currentArtifact);
-            }
-            else if (this.menuClickSource == MenuClickSource.TreeView)
-            {
-                selectedNode = trv.SelectedNode;
-            }
+            this.facade.SetCategory(this.tbcCategory.SelectedTab.Text);
+            TreeNode selectedNode = trv.SelectedNode;
+            //TreeNode selectedNode = null;
+            //if ((this.menuClickSource == MenuClickSource.ListView) && (this.currentArtifact != null))
+            //{
+            //    selectedNode = trv.FindNode(this.currentArtifact);
+            //}
+            //else if (this.menuClickSource == MenuClickSource.TreeView)
+            //{
+            //    selectedNode = trv.SelectedNode;
+            //}
             
             if (selectedNode != null)
             {
                 TreeNode rootNode = trv.FindRootNode();                
 
                 //Show Dialogue to capture module data
-                BinAff.Facade.Library.Dto moduleFormDto = new UtilFac.Module.Server(null) { Category = category }.InstantiateDto(rootNode.Tag as UtilFac.Module.Dto);
+                BinAff.Facade.Library.Dto moduleFormDto = new UtilFac.Module.Server(null) { Category = this.facade.Category }.InstantiateDto(rootNode.Tag as UtilFac.Module.Dto);
 
                 if (componentType != null)
                 {
@@ -1841,15 +1778,18 @@ namespace Vanilla.Navigator.WinForm
                 }
                 
 
-                String fileName = this.GetFolderName(selectedNode, UtilFac.Artifact.Type.Document);
+                String fileName = this.GetArtifactName(selectedNode, UtilFac.Artifact.Type.Document);
                 moduleFormDto.artifactPath = this.currentArtifact.Path + fileName;
                 moduleFormDto.fileName = fileName;
                 moduleFormDto.trvForm = trv;
+                
+                //this.AddArtifact(UtilFac.Artifact.Type.Document, moduleFormDto, new UtilFac.Module.Definition.Dto { Code = (rootNode.Tag as UtilFac.Module.Dto).Code });
 
-                Form form;
+                BinAff.Presentation.Library.Form form;
                 if (this.currentArtifact.Category == UtilFac.Artifact.Category.Report)
-                {   
-                    form = new Vanilla.Report.WinForm.Document(this.currentArtifact.Module as Report.Facade.Document.Dto, this.facade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
+                {
+                    (moduleFormDto as Report.Facade.Document.Dto).Category = (this.currentArtifact.Module as Report.Facade.Document.Dto).Category;
+                    form = new Vanilla.Report.WinForm.Document(moduleFormDto as Report.Facade.Document.Dto, this.facade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
                     {
                         Code = currentArtifact.ComponentDefinition.Code,
                     }, this.currentArtifact.Category) as Report.Facade.Document.Server);
@@ -1857,16 +1797,19 @@ namespace Vanilla.Navigator.WinForm
                 else
                 {
                     Type type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
-                    form = (Form)Activator.CreateInstance(type, moduleFormDto);
+                    form = (BinAff.Presentation.Library.Form)Activator.CreateInstance(type, moduleFormDto);
                 }
                 
                 form.ShowDialog(this);
 
-                if (moduleFormDto != null && moduleFormDto.Id > 0)
+                //if (moduleFormDto != null && moduleFormDto.Id > 0)
+                if(form.IsModified)
                 {
-                    this.menuClickSource = MenuClickSource.ListView;                    
-                    //AddArtifact(UtilFac.Artifact.Type.Document, moduleFormDto);
-                    AddArtifact(UtilFac.Artifact.Type.Document, moduleFormDto, new UtilFac.Module.Definition.Dto { Code = (rootNode.Tag as UtilFac.Module.Dto).Code });
+                    this.menuClickSource = MenuClickSource.ListView;
+                    AddArtifact(UtilFac.Artifact.Type.Document, moduleFormDto, new UtilFac.Module.Definition.Dto
+                    {
+                        Code = (rootNode.Tag as UtilFac.Module.Dto).Code
+                    });
                 }
             }
         }
@@ -1874,15 +1817,28 @@ namespace Vanilla.Navigator.WinForm
         private void SaveArtifact(UtilFac.Artifact.Dto artifactDto, String fileName, Boolean isModify)
         {
             TreeView trv = this.GetActiveTreeView();
-            UtilFac.Artifact.Category category = this.GetActiveCategory();
-
             this.formDto.ModuleFormDto.CurrentArtifact = new UtilFac.Artifact.FormDto
             {
                 Dto = artifactDto,
             };
+            artifactDto.FileName = fileName;
+            artifactDto.Category = this.facade.SetCategory(this.tbcCategory.SelectedTab.Text);
+            this.SetAuditInformationForNewRecord(artifactDto);
+            //Set path
+            if (artifactDto.Style == UtilFac.Artifact.Type.Folder)
+            {
+                if (artifactDto.Parent == null)
+                {
+                    artifactDto.Path += this.formDto.Rule.ModuleSeperator + this.formDto.Rule.PathSeperator + this.formDto.Rule.PathSeperator;
+                }
+                artifactDto.Path += artifactDto.FileName + this.formDto.Rule.PathSeperator;
+            }
+            if (artifactDto.Style == UtilFac.Artifact.Type.Document)
+            {
+                artifactDto.Path += artifactDto.FileName;
+            }
 
-            this.PopulateNewArtifact(fileName, artifactDto.Style, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
-            this.facade = new Facade.Register.Server(this.formDto) { Category = category };
+            //this.facade = new Facade.Register.Server(this.formDto) { Category = artifactDto.Category };
 
             TreeNode parentNode = null;
             if (artifactDto.Style == UtilFac.Artifact.Type.Document)
@@ -1894,16 +1850,17 @@ namespace Vanilla.Navigator.WinForm
                 TreeNode selectedNode = trv.FindNode(artifactDto);
                 parentNode = selectedNode != null ? selectedNode.Parent : null;
             }
-            String pathOfParent = this.GetArtifact(parentNode.Tag).Path;
+            //String pathOfParent = this.GetArtifact(parentNode.Tag).Path;
+
             //-- document should not contain the path separator
-            if (artifactDto.Style == UtilFac.Artifact.Type.Document)
-            {
-                artifactDto.Path = pathOfParent + fileName;
-            }
-            else
-            {
-                artifactDto.Path = pathOfParent + fileName + this.formDto.Rule.PathSeperator;
-            }
+            //if (artifactDto.Style == UtilFac.Artifact.Type.Document)
+            //{
+            //    artifactDto.Path = pathOfParent + fileName;
+            //}
+            //else
+            //{
+            //    artifactDto.Path = pathOfParent + fileName + this.formDto.Rule.PathSeperator;
+            //}
 
             if (isModify)
             {
@@ -1911,26 +1868,22 @@ namespace Vanilla.Navigator.WinForm
                 {
                     if (artifactDto.Parent != null) artifactDto.Parent.Id = 0;
                 }
-
-                this.formDto.ModuleFormDto.CurrentArtifact.Dto.Version = this.formDto.ModuleFormDto.CurrentArtifact.Dto.Version + 1;
-                this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedAt = DateTime.Now;
-                this.formDto.ModuleFormDto.CurrentArtifact.Dto.ModifiedBy = new Table
+                artifactDto.Version++;
+                artifactDto.ModifiedAt = DateTime.Now;
+                artifactDto.ModifiedBy = new Table
                 {
                     Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
                     Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
                 };
-
                 this.facade.Change();
             }
-            else // new insert
+            else //New record
             {
                 this.facade.Add();
             }
 
             this.currentArtifact = this.GetArtifact(parentNode.Tag);
-
             this.lsvContainer.AttachChildren(this.currentArtifact,isDocumentFirst);
-
             if (this.facade.IsError)
             {
                 new PresLib.MessageBox
@@ -1963,7 +1916,7 @@ namespace Vanilla.Navigator.WinForm
                     Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
                 };
 
-                String fileName = this.GetFolderName(selectedNode, type);
+                String fileName = this.GetArtifactName(selectedNode, type);
 
                 TreeNode newNode = new TreeNode
                 {
@@ -2123,27 +2076,6 @@ namespace Vanilla.Navigator.WinForm
             return trv;
         }
 
-        private UtilFac.Artifact.Category GetActiveCategory()
-        {
-            UtilFac.Artifact.Category category = UtilFac.Artifact.Category.Form;
-            switch (this.tbcCategory.SelectedTab.Text)
-            {
-                case "Form":
-                    category = UtilFac.Artifact.Category.Form;
-                    break;
-                case "Catalogue":
-                    category = UtilFac.Artifact.Category.Catalogue;
-                    break;
-                case "Report":
-                    category = UtilFac.Artifact.Category.Report;
-                    break;
-                default:
-                    break;
-            }
-            return category;
-        
-        }
-
         #region Need to Remove
 
         //private void SelectNode(UtilFac.Artifact.Dto selectedNode)
@@ -2271,90 +2203,99 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion
 
-        private class CategoryStatus
-        {
-            internal UtilFac.Artifact.Category Category { get; set; }
-            internal Boolean IsAlreadyLoaded { get; set; }
-        }
-
         private void cmnuDailyReport_Click(object sender, EventArgs e)
         {
-            TreeNode rootNode = this.GetRootNode();
-            this.currentArtifact.Module = new Report.Facade.Document.Dto
-            {
-                Category = this.reportCategoryList.Find((p) => { return p.Name == "Daily"; }),
-            };
-            this.AddDocument();
+            //TreeNode rootNode = this.GetRootNode();
+            //this.currentArtifact.Module = new Report.Facade.Document.Dto
+            //{
+            //    Category = this.reportCategoryList.Find((p) => { return p.Name == "Daily"; }),
+            //};
+            //this.currentArtifact.Extension = (this.currentArtifact.Module as Report.Facade.Document.Dto).Category.Extension;
+            //this.AddDocument();
+            this.CreateReport("Daily");
         }
 
         private void cmnuWeeklyReport_Click(object sender, EventArgs e)
-        {           
-            //this.AddDocument("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm");
-
-            this.currentArtifact.Extension = "wrpt";
-            TreeNode rootNode = this.GetRootNode();
-            if (rootNode != null)
-            {
-                if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
-                    this.AddDocument("AutoTourism.Customer.WinForm.Report.Weekly,AutoTourism.Customer.WinForm");
-                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
-                    this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Weekly,AutoTourism.Lodge.WinForm");
-                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
-                    this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Weekly,AutoTourism.Lodge.WinForm");
-                else
-                    this.AddDocument("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm");
-            }
+        {
+            this.CreateReport("Weekly");
+            //this.currentArtifact.Extension = "wrpt";
+            //TreeNode rootNode = this.GetRootNode();
+            //if (rootNode != null)
+            //{
+            //    if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
+            //        this.AddDocument("AutoTourism.Customer.WinForm.Report.Weekly,AutoTourism.Customer.WinForm");
+            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
+            //        this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Weekly,AutoTourism.Lodge.WinForm");
+            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
+            //        this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Weekly,AutoTourism.Lodge.WinForm");
+            //    else
+            //        this.AddDocument("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm");
+            //}
         }
 
         private void cmnuMonthlyReport_Click(object sender, EventArgs e)
         {
-            this.currentArtifact.Extension = "mrpt";
-            TreeNode rootNode = this.GetRootNode();
-            if (rootNode != null)
-            {
-                if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
-                    this.AddDocument("AutoTourism.Customer.WinForm.Report.Monthly,AutoTourism.Customer.WinForm");
-                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
-                    this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Monthly,AutoTourism.Lodge.WinForm");
-                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
-                    this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Monthly,AutoTourism.Lodge.WinForm");
-                else
-                    this.AddDocument("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm");
-            }
+            this.CreateReport("Monthly");
+            //this.currentArtifact.Extension = "mrpt";
+            //TreeNode rootNode = this.GetRootNode();
+            //if (rootNode != null)
+            //{
+            //    if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
+            //        this.AddDocument("AutoTourism.Customer.WinForm.Report.Monthly,AutoTourism.Customer.WinForm");
+            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
+            //        this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Monthly,AutoTourism.Lodge.WinForm");
+            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
+            //        this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Monthly,AutoTourism.Lodge.WinForm");
+            //    else
+            //        this.AddDocument("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm");
+            //}
         }
 
         private void cmnuQuarterlyReport_Click(object sender, EventArgs e)
         {
-            this.currentArtifact.Extension = "qrpt";
-            TreeNode rootNode = this.GetRootNode();
-            if (rootNode != null)
-            {
-                if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
-                    this.AddDocument("AutoTourism.Customer.WinForm.Report.Quarterly,AutoTourism.Customer.WinForm");
-                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
-                    this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Quarterly,AutoTourism.Lodge.WinForm");
-                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
-                    this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Quarterly,AutoTourism.Lodge.WinForm");
-                else
-                    this.AddDocument("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm");
-            }
+            this.CreateReport("Quarterly");
+            //this.currentArtifact.Extension = "qrpt";
+            //TreeNode rootNode = this.GetRootNode();
+            //if (rootNode != null)
+            //{
+            //    if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
+            //        this.AddDocument("AutoTourism.Customer.WinForm.Report.Quarterly,AutoTourism.Customer.WinForm");
+            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
+            //        this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Quarterly,AutoTourism.Lodge.WinForm");
+            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
+            //        this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Quarterly,AutoTourism.Lodge.WinForm");
+            //    else
+            //        this.AddDocument("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm");
+            //}
         }
 
         private void cmnuYearlyReport_Click(object sender, EventArgs e)
         {
-            this.currentArtifact.Extension = "yrpt";
+            this.CreateReport("Yearly");
+            //this.currentArtifact.Extension = "yrpt";
+            //TreeNode rootNode = this.GetRootNode();
+            //if (rootNode != null)
+            //{
+            //    if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
+            //        this.AddDocument("AutoTourism.Customer.WinForm.Report.Yearly,AutoTourism.Customer.WinForm");
+            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
+            //        this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Yearly,AutoTourism.Lodge.WinForm");
+            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
+            //        this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Yearly,AutoTourism.Lodge.WinForm");
+            //    else
+            //        this.AddDocument("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm");
+            //}
+        }
+
+        private void CreateReport(String categoryName)
+        {
             TreeNode rootNode = this.GetRootNode();
-            if (rootNode != null)
+            this.currentArtifact.Module = new Report.Facade.Document.Dto
             {
-                if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
-                    this.AddDocument("AutoTourism.Customer.WinForm.Report.Yearly,AutoTourism.Customer.WinForm");
-                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
-                    this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Yearly,AutoTourism.Lodge.WinForm");
-                else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
-                    this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Yearly,AutoTourism.Lodge.WinForm");
-                else
-                    this.AddDocument("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm");
-            }
+                Category = this.reportCategoryList.Find((p) => { return String.Compare(p.Name, categoryName, true) == 0; }),
+            };
+            this.currentArtifact.Extension = (this.currentArtifact.Module as Report.Facade.Document.Dto).Category.Extension;
+            this.AddDocument();
         }
 
         //private Type GetInvoiceType(UtilFac.Artifact.Dto artifactDto)
@@ -2431,6 +2372,12 @@ namespace Vanilla.Navigator.WinForm
                        this.GetParent(this.ucSearchResult.FormDto.CurrentArtifact).Path :
                        this.ucSearchResult.FormDto.CurrentArtifact.Path);
             }
+        }
+
+        private class CategoryStatus
+        {
+            internal UtilFac.Artifact.Category Category { get; set; }
+            internal Boolean IsAlreadyLoaded { get; set; }
         }
         
     }

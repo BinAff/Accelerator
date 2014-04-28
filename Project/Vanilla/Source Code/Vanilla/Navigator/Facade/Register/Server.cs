@@ -329,10 +329,29 @@ namespace Vanilla.Navigator.Facade.Register
 
         #endregion
 
-
         public BinAff.Facade.Library.Server GetReportFacade(UtilFac.Module.Dto dto, UtilFac.Artifact.Category category)
         {
             return new Vanilla.Utility.Facade.Module.Helper(dto, category).ModuleFacade;
+        }
+
+        public UtilFac.Artifact.Category SetCategory(String name)
+        {
+            switch (name)
+            {
+                case "Form":
+                    this.currentCategory = UtilFac.Artifact.Category.Form;
+                    break;
+                case "Catalogue":
+                    this.currentCategory = UtilFac.Artifact.Category.Catalogue;
+                    break;
+                case "Report":
+                    this.currentCategory = UtilFac.Artifact.Category.Report;
+                    break;
+                default:
+                    this.currentCategory = UtilFac.Artifact.Category.Form;
+                    break;
+            }
+            return this.currentCategory;
         }
 
     }

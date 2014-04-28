@@ -62,6 +62,16 @@ namespace Vanilla.Report.Facade.Document
             (this.FormDto as FormDto).Dto.Category = categoy;
         }
 
+        public void SetDate(DateTime date)
+        {
+            (this.FormDto as FormDto).Dto.Date = date;
+        }
+
+        public Dto GetModule()
+        {
+            return (this.FormDto as FormDto).Dto;
+        }
+
         public List<BinAff.Facade.Library.Dto> Generate(DateTime date, Category.Dto reportCategory)
         {
             CrysRpt.IReport server = this.CreateComponentInstance(new CrysRpt.Category.Data
