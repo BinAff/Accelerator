@@ -25,12 +25,10 @@ namespace Vanilla.Report.WinForm
         {
             this.formDto = new Facade.Document.FormDto
             {
-                Dto = new Facade.Document.Dto
-                {
-                    Date = dpSearchDate.Value.Date,
-                },
+                Dto = dto,
             };
-            this.formDto.Dto = dto;
+
+            this.formDto.Dto.Date = dpSearchDate.Value.Date;
             this.facade = facade;
         }
 
@@ -40,7 +38,7 @@ namespace Vanilla.Report.WinForm
             if (this.formDto.Dto.Id > 0)
             {
                 this.pnlReportDetail.Hide();
-                this.LoadData(dpSearchDate.Value.Date);
+                this.LoadData(this.formDto.Dto.Date);
             }
             else
             {
@@ -54,8 +52,9 @@ namespace Vanilla.Report.WinForm
         }
 
         private void btnSave_Click(object sender, EventArgs e)
-        {            
-            this.Save();
+        {
+            this.Save(this.dpSearchDate.Value.Date);
+            base.IsModified = true;
         }
 
         private void LoadData(DateTime date)
@@ -81,25 +80,20 @@ namespace Vanilla.Report.WinForm
             }
         }
 
-        private void Save()
+        private void Save(DateTime date)
         {
-            //this.formDto.Dto.Category = new Util.Category.Dto { Id = Convert.ToInt64(ReportCategory.Daily) };
-
-            //BinAff.Facade.Library.Server facade = new Facade.Document.Server(this.formDto);
+            this.facade.SetDate(date);
             this.facade.Add();
-
-            if (facade.IsError)
-            {
-                new PresLib.MessageBox
-                {
-                    DialogueType = facade.IsError ? PresLib.MessageBox.Type.Error : PresLib.MessageBox.Type.Information,
-                    Heading = "Reports",
-                }.Show(facade.DisplayMessageList);
-            }
-            else
+            this.formDto.Dto.Id = this.facade.GetModule().Id;
+            if (!facade.IsError)
             {
                 this.Close();
             }
+            new PresLib.MessageBox
+            {
+                DialogueType = facade.IsError ? PresLib.MessageBox.Type.Error : PresLib.MessageBox.Type.Information,
+                Heading = "Reports",
+            }.Show(facade.DisplayMessageList);
         }
 
     }

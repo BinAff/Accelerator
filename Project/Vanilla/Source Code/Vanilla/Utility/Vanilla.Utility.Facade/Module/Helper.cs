@@ -173,6 +173,7 @@ namespace Vanilla.Utility.Facade.Module
         {
             Type typeReportServer;
             Type typeReportDto;
+            this.ModuleFormType = "Vanilla.Report.WinForm.Document, Vanilla.Report.WinForm";
             switch (this.moduleDef.Code)
             {
                 case "CUST":

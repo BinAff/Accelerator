@@ -118,8 +118,12 @@ namespace Vanilla.Utility.Facade.Module
             this.IsError = artifactServer.IsError;
         }
 
-        private string GetExtension()
+        private String GetExtension()
         {
+            if ((this.FormDto as FormDto).CurrentArtifact.Dto.Style == Artifact.Type.Document)
+            {
+                return null;
+            }
             switch ((this.FormDto as FormDto).CurrentArtifact.Dto.Category)
             {
                 case Artifact.Category.Form:
