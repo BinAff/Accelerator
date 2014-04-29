@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Microsoft.Reporting.WinForms;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
 using PresLib = BinAff.Presentation.Library;
-
 using Util = Vanilla.Utility.Facade.Report;
 
 namespace Vanilla.Report.WinForm
@@ -70,6 +69,9 @@ namespace Vanilla.Report.WinForm
                 this.formDto.Dto.DataSource = dto.DataSource;
                 this.rvReport.DocumentMapCollapsed = true;
                 this.rvReport.LocalReport.ReportPath = this.formDto.Dto.Path;
+                this.rvReport.LocalReport.SetParameters(new ReportParameter("Start", dto.Start.ToShortDateString()));
+                this.rvReport.LocalReport.SetParameters(new ReportParameter("End", dto.End.ToShortDateString()));
+
                 this.rvReport.Visible = true;
                 this.rvReport.LocalReport.DataSources.Add(new Microsoft.Reporting.WinForms.ReportDataSource
                 {

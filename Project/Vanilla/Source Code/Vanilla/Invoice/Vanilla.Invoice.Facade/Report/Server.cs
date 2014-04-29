@@ -58,7 +58,7 @@ namespace Vanilla.Invoice.Facade.Report
             return (this.FormDto as FormDto).Dto;
         }
 
-        protected override BinAff.Facade.Library.Dto ConvertReportData(CrysRpt.Data data)
+        protected override Vanilla.Report.Facade.Document.Dto ConvertReportData(CrysRpt.Data data)
         {
             CrysInvRpt.Data reportData = data as CrysInvRpt.Data;
             return new Dto

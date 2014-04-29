@@ -7,6 +7,7 @@ namespace AutoTourism.Customer.Facade.Report
     {
 
         public DateTime CheckInDate { get; set; }
+        public DateTime CheckOutDate { get; set; }
         public Int64 RoomCheckInId { get; set; }
         public Int64 ReservationId { get; set; }
         public Int64 CheckInStatusId { get; set; }
