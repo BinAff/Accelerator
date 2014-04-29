@@ -5,7 +5,10 @@ using BinAff.Core;
 
 using UtilFac = Vanilla.Utility.Facade;
 using VanAcc = Vanilla.Guardian.Facade.Account;
+//using Extender = Vanilla.Utility.WinForm.Extender;
+
 using System.Timers;
+
 
 namespace Vanilla.Navigator.Facade.Register
 {
@@ -113,7 +116,7 @@ namespace Vanilla.Navigator.Facade.Register
 
         public void Paste(Boolean isCut)
         {
-            UtilFac.Artifact.Dto originalArtifactDto = this.CloneArtifact((this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto);
+            UtilFac.Artifact.Dto originalArtifactDto = new UtilFac.Artifact.Server(null).CloneArtifact((this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto);
             originalArtifactDto.Children = new System.Collections.Generic.List<UtilFac.Artifact.Dto>();
 
             UtilFac.Artifact.Dto artifactDto = (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto;
@@ -149,7 +152,7 @@ namespace Vanilla.Navigator.Facade.Register
                 else
                     artf.Path = artifactDto.Path + artf.FileName;
 
-                UtilFac.Artifact.Dto childArtifactDto = this.CloneArtifact(artf);
+                UtilFac.Artifact.Dto childArtifactDto = new UtilFac.Artifact.Server(null).CloneArtifact(artf);
                 childArtifactDto.Parent = actualArtifactDto;
                 childArtifactDto.Children = new List<UtilFac.Artifact.Dto>();
                 actualArtifactDto.Children.Add(childArtifactDto);
@@ -261,33 +264,33 @@ namespace Vanilla.Navigator.Facade.Register
             this.IsError = moduleFacade.IsError;
         }
 
-        public UtilFac.Artifact.Dto CloneArtifact(UtilFac.Artifact.Dto dto)
-        {
-            return new UtilFac.Artifact.Dto
-            {
-                Id = dto.Id,
-                FileName = dto.FileName,
-                Path = dto.Path,
-                Style = dto.Style,
-                Category = dto.Category,
-                Version = dto.Version,
-                CreatedBy = dto.CreatedBy,
-                ModifiedBy = dto.ModifiedBy,
-                CreatedAt = dto.CreatedAt,
-                ModifiedAt = dto.ModifiedAt,
-                Children = dto.Children == null ? null : this.GetChildren(dto),
-                Module = dto.Module == null ? null : new BinAff.Facade.Library.Dto
-                {
-                    Id = dto.Module.Id,
-                    Action = dto.Module.Action
-                },
-                Parent = dto.Parent == null ? null : new BinAff.Facade.Library.Dto
-                {
-                    Id = dto.Parent.Id,
-                    Action = dto.Parent.Action
-                }
-            };
-        }
+        //public UtilFac.Artifact.Dto CloneArtifact(UtilFac.Artifact.Dto dto)
+        //{
+        //    return new UtilFac.Artifact.Dto
+        //    {
+        //        Id = dto.Id,
+        //        FileName = dto.FileName,
+        //        Path = dto.Path,
+        //        Style = dto.Style,
+        //        Category = dto.Category,
+        //        Version = dto.Version,
+        //        CreatedBy = dto.CreatedBy,
+        //        ModifiedBy = dto.ModifiedBy,
+        //        CreatedAt = dto.CreatedAt,
+        //        ModifiedAt = dto.ModifiedAt,
+        //        Children = dto.Children == null ? null : this.GetChildren(dto),
+        //        Module = dto.Module == null ? null : new BinAff.Facade.Library.Dto
+        //        {
+        //            Id = dto.Module.Id,
+        //            Action = dto.Module.Action
+        //        },
+        //        Parent = dto.Parent == null ? null : new BinAff.Facade.Library.Dto
+        //        {
+        //            Id = dto.Parent.Id,
+        //            Action = dto.Parent.Action
+        //        }
+        //    };
+        //}
 
         public UtilFac.Artifact.Dto GetArtifactDtoByValueForCopy(UtilFac.Artifact.Dto data)
         {
@@ -297,7 +300,7 @@ namespace Vanilla.Navigator.Facade.Register
                 Style = data.Style,
                 Category = data.Category,
                 Version = 1,
-                Children = data.Children == null ? null : this.GetChildren(data),
+                Children = data.Children == null ? null : new UtilFac.Artifact.Server(null).GetChildren(data),
                 Module = data.Module == null ? null : new BinAff.Facade.Library.Dto
                 {
                     Id = data.Module.Id,
@@ -306,19 +309,19 @@ namespace Vanilla.Navigator.Facade.Register
             };
         }
 
-        private List<UtilFac.Artifact.Dto> GetChildren(UtilFac.Artifact.Dto dto)
-        {
-            List<UtilFac.Artifact.Dto> children = dto.Children;
-            List<UtilFac.Artifact.Dto> childrenList = new List<UtilFac.Artifact.Dto>();
-            for (int i = 0; i < children.Count; i++)
-            {                
-                UtilFac.Artifact.Dto clone = CloneArtifact(children[i]);
-                clone.Parent = dto;
-                childrenList.Add(clone);                
-            }
+        //private List<UtilFac.Artifact.Dto> GetChildren(UtilFac.Artifact.Dto dto)
+        //{
+        //    List<UtilFac.Artifact.Dto> children = dto.Children;
+        //    List<UtilFac.Artifact.Dto> childrenList = new List<UtilFac.Artifact.Dto>();
+        //    for (int i = 0; i < children.Count; i++)
+        //    {                
+        //        UtilFac.Artifact.Dto clone = CloneArtifact(children[i]);
+        //        clone.Parent = dto;
+        //        childrenList.Add(clone);                
+        //    }
 
-            return childrenList;
-        }
+        //    return childrenList;
+        //}
 
         #region "Menu Handle"
 
