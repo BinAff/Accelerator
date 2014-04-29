@@ -787,26 +787,26 @@ namespace Vanilla.Navigator.WinForm
             }
         }
 
-        private TreeNode FindTreeNodeFromPath(String path, TreeNodeCollection treeNodes)
-        {
-            String text = path.Substring(0, path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()));
-            path = path.Substring(path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()) + 1);
-            foreach (TreeNode node in treeNodes)
-            {
-                if (node.Text == text)
-                {
-                    if (String.IsNullOrEmpty(path))
-                    {
-                        return node;
-                    }
-                    else if (node.Nodes.Count > 0)
-                    {
-                        return this.FindTreeNodeFromPath(path, node.Nodes);
-                    }
-                }
-            }
-            return null;
-        }
+        //private TreeNode FindTreeNodeFromPath(String path, TreeNodeCollection treeNodes)
+        //{
+        //    String text = path.Substring(0, path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()));
+        //    path = path.Substring(path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()) + 1);
+        //    foreach (TreeNode node in treeNodes)
+        //    {
+        //        if (node.Text == text)
+        //        {
+        //            if (String.IsNullOrEmpty(path))
+        //            {
+        //                return node;
+        //            }
+        //            else if (node.Nodes.Count > 0)
+        //            {
+        //                return this.FindTreeNodeFromPath(path, node.Nodes);
+        //            }
+        //        }
+        //    }
+        //    return null;
+        //}
 
         #endregion
 
@@ -1055,15 +1055,12 @@ namespace Vanilla.Navigator.WinForm
                 Dto = artifactDto,
             };
 
-            //this.facade = new Facade.Register.Server(this.formDto) { Category = this.GetActiveCategory() };
-            //this.facade.Paste(this.isCutAction);
-
-            if (pasteDirectory)
-                trv.AddNode(pasteNode, this.editNode, this.formDto.Rule.PathSeperator);
+            this.facade = new Facade.Register.Server(this.formDto) { Category = this.GetActiveCategory() };
+            this.facade.Paste(this.isCutAction);          
 
             if (!this.facade.IsError)
-            {                
-                //this.RefreshTreeViewAfterPaste();               
+            {
+                this.RefreshTreeViewAfterPaste(trv, pasteNode, this.editNode ,pasteDirectory, artifactDto);              
 
                 this.editNode = null;
                 this.cutArtifact = null;
@@ -1175,82 +1172,26 @@ namespace Vanilla.Navigator.WinForm
             return true;
         }
 
-        private void RefreshTreeViewAfterPaste()
-        {            
-            Boolean pasteDirectory = true;
-            if (this.cutArtifact != null)
-                pasteDirectory = this.cutArtifact.Style == UtilFac.Artifact.Type.Folder;     
-
-            TreeView trv = GetActiveTreeView();
-            TreeNode childNode = this.cutArtifact == null ? null : trv.FindNode(this.cutArtifact);
-
-            UtilFac.Artifact.Dto editArtifactDto = new UtilFac.Artifact.Dto();
-            if (!pasteDirectory) // not null when pasting a document
-            {
-                if (this.cutArtifact.Parent.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
-                    editArtifactDto = (this.cutArtifact.Parent as Vanilla.Utility.Facade.Module.Dto).Artifact;
-                else
-                    editArtifactDto = this.cutArtifact.Parent as UtilFac.Artifact.Dto;
-            }
-
-            TreeNode selectedNode; //this node will be the focussed node
-            TreeNode actorNode;
-
-            TreeNode pasteNode = (this.menuClickSource == MenuClickSource.TreeView) ?
-               trv.SelectedNode :
-               trv.FindNode(this.currentArtifact.Style == UtilFac.Artifact.Type.Document ?
-                   this.currentArtifact.Parent as UtilFac.Artifact.Dto :
-                   this.currentArtifact);           
-
-            if (this.isCutAction)
-            {
-                UtilFac.Artifact.Dto parentArtifact = new UtilFac.Artifact.Dto();
-                if (this.cutArtifact.Parent.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
-                    parentArtifact = (this.cutArtifact.Parent as Vanilla.Utility.Facade.Module.Dto).Artifact;
-                else
-                    parentArtifact = this.cutArtifact.Parent as UtilFac.Artifact.Dto;
-
-                actorNode = pasteDirectory ? this.editNode : trv.FindNode(editArtifactDto);
-                selectedNode = actorNode.Parent;
-
-                if (pasteDirectory)
-                {
-                    //remove child dto from tag
-                    this.RemoveChildDtoFromParentDto(actorNode.Parent, actorNode);
-
-                    //remove node from tree
-                    trv.Nodes.Remove(actorNode);
-                }
-                else
-                {
-                    //remove child dto from tag
-                    this.RemoveChildDtoFromParentDto(parentArtifact, this.cutArtifact);
-                }
-            }
-            else
-            {
-                actorNode = this.editNode.Clone() as TreeNode;
-                selectedNode = trv.FindRootNode(pasteNode as TreeNode);
-            }
-
-
+        private void RefreshTreeViewAfterPaste(TreeView trv ,TreeNode pasteNode ,TreeNode editNode  ,Boolean pasteDirectory, UtilFac.Artifact.Dto artifactDto)
+        {
             if (pasteDirectory)
             {
-                pasteNode.Nodes.Add(actorNode);
-                actorNode.Tag = this.formDto.ModuleFormDto.CurrentArtifact.Dto;
-                this.AddChildDtoToParentDto(pasteNode, actorNode);                
-                trv.Sort(pasteNode);
+                TreeNode childNodeClone = editNode.Clone() as TreeNode;
+                childNodeClone.Tag = artifactDto;
+
+                //if Cut
+                if (this.isCutAction)
+                {
+                    trv.RemoveNode(editNode);
+                }
+
+                trv.AddNode(pasteNode, childNodeClone, this.formDto.Rule.PathSeperator, this.formDto.Rule.ModuleSeperator);
             }
             else
             {
-                UtilFac.Artifact.Dto pasteArtifact = new UtilFac.Artifact.Dto();
-                if (pasteNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
-                    pasteArtifact = (pasteNode.Tag as Vanilla.Utility.Facade.Module.Dto).Artifact;
-                else
-                    pasteArtifact = pasteNode.Tag as UtilFac.Artifact.Dto;
-                
-                this.AddChildDtoToParentDto(pasteArtifact, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
+                trv.AddArtifact(pasteNode, this.cutArtifact, this.formDto.Rule.PathSeperator, this.formDto.Rule.ModuleSeperator);
             }
+            
            
             this.lsvContainer.AttachChildren(this.currentArtifact, isDocumentFirst);
         }
@@ -1645,7 +1586,8 @@ namespace Vanilla.Navigator.WinForm
             this.txtAddress.Text = selectedNodePath;
             selectedNodePath = selectedNodePath.Substring(selectedNodePath.IndexOf(this.formDto.Rule.ModuleSeperator) + 3);
             //TreeNode currentNode = this.FindTreeNodeFromPath(selectedNodePath, this.trvForm.Nodes);
-            TreeNode currentNode = this.FindTreeNodeFromPath(selectedNodePath, trv.Nodes);
+            //TreeNode currentNode = trv.FindTreeNodeFromPath(selectedNodePath, trv.Nodes);
+            TreeNode currentNode = trv.FindTreeNodeFromPath(trv.Nodes, selectedNodePath, this.formDto.Rule.PathSeperator);
             if (currentNode == null)
             {
                 new PresLib.MessageBox
