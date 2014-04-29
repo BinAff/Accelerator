@@ -8,9 +8,10 @@ namespace Vanilla.Invoice.Facade.Report
 
         public String InvoiceNumber { get; set; }
         public DateTime InvoiceDate { get; set; }
-        public Double AmountPaid { get; set; }
+        public Double Amount { get; set; }
         public Double Discount { get; set; }
         public Double Tax { get; set; }
+        public Double AmountPaid { get; set; }
         
         public String SellerName { get; set; }
         public String SellerAddress { get; set; }

@@ -66,6 +66,7 @@ namespace Vanilla.Invoice.Facade.Report
                 Id = reportData.Id,
                 InvoiceNumber = reportData.InvoiceNumber,
                 InvoiceDate = reportData.InvoiceDate,
+                Amount = reportData.Amount,
                 AmountPaid = reportData.AmountPaid,
                 Discount = reportData.Discount,
                 Tax = reportData.Tax,
