@@ -55,9 +55,10 @@ namespace Crystal.Invoice.Component.Report
                         Id = Convert.IsDBNull(row["id"]) ? 0 : Convert.ToInt64(row["id"]),
                         InvoiceDate = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]),
                         InvoiceNumber = Convert.IsDBNull(row["InvoiceNumber"]) ? String.Empty : Convert.ToString(row["InvoiceNumber"]),
-                        AmountPaid = Convert.IsDBNull(row["AmountPaid"]) ? 0 : Convert.ToDouble(row["AmountPaid"]),
+                        Amount = Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]),
                         Discount = Convert.IsDBNull(row["Discount"]) ? 0 : Convert.ToDouble(row["Discount"]),
                         Tax = Convert.IsDBNull(row["Tax"]) ? 0 : Convert.ToDouble(row["Tax"]),
+                        AmountPaid = Convert.IsDBNull(row["AmountPaid"]) ? 0 : Convert.ToDouble(row["AmountPaid"]),
 
                         BuyerName = Convert.IsDBNull(row["BuyerName"]) ? String.Empty : Convert.ToString(row["BuyerName"]),
                         BuyerContactNo = Convert.IsDBNull(row["BuyerContactNo"]) ? String.Empty : Convert.ToString(row["BuyerContactNo"]),
