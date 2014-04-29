@@ -9,7 +9,7 @@ namespace Crystal.Report.Component
 
         List<BinAff.Core.Data> GetReport(DateTime date);
         String GetReportName();
-        Data SetStartEnd();
+        Data SetStartEnd(DateTime date);
 
     }
 
