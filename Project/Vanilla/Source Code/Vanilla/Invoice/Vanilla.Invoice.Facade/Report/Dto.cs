@@ -2,12 +2,26 @@
 
 namespace Vanilla.Invoice.Facade.Report
 {
-    public class Dto : BinAff.Facade.Library.Dto
-    {
-        public DateTime date { get; set; }
-        //public DateTime fromDate { get; set; }
-        //public DateTime toDate { get; set; }
 
-        public Vanilla.Report.Facade.Category.Dto category { get; set; }
+    public class Dto : Vanilla.Report.Facade.Document.Dto
+    {
+
+        public String InvoiceNumber { get; set; }
+        public DateTime InvoiceDate { get; set; }
+        public Double AmountPaid { get; set; }
+        public Double Discount { get; set; }
+        public Double Tax { get; set; }
+        
+        public String SellerName { get; set; }
+        public String SellerAddress { get; set; }
+        public String SellerContactNo { get; set; }
+        public String SellerEmail { get; set; }
+        public String SellerLicence { get; set; }
+
+        public String BuyerName { get; set; }
+        public String BuyerAddress { get; set; }
+        public String BuyerContactNo { get; set; }
+
     }
+
 }

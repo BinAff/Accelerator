@@ -2,8 +2,10 @@
 
 namespace Crystal.Customer.Component.Report
 {
+
     public class Data : Crystal.Report.Component.Data
     {
+
         public DateTime CheckInDate { get; set; }
 		public Int64 RoomCheckInId { get; set; }
 		public Int64 ReservationId { get; set; }
@@ -32,4 +34,5 @@ namespace Crystal.Customer.Component.Report
         public String ContactNumber { get; set; }
 
     }
+
 }
