@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using PresLib = BinAff.Presentation.Library;
+using FacadeArtifact = Vanilla.Utility.Facade.Artifact;
 
 namespace Vanilla.Utility.WinForm.Extender
 {
@@ -179,8 +180,8 @@ namespace Vanilla.Utility.WinForm.Extender
             else
                 childNodeArtifact = childNodeClone.Tag as Facade.Artifact.Dto;
 
-            Facade.Artifact.Dto childNodeArtifactClone = Common.CloneArtifact(childNodeArtifact);
-            Common.UpdateArtifactPath(pathOfParent, childNodeArtifactClone, pathSeperator);          
+            Facade.Artifact.Dto childNodeArtifactClone = new FacadeArtifact.Server(null).CloneArtifact(childNodeArtifact);
+            new FacadeArtifact.Server(null).UpdateArtifactPath(pathOfParent, childNodeArtifactClone, pathSeperator);          
 
             if (parentNodeArtifact.Children == null)
                 parentNodeArtifact.Children = new List<Facade.Artifact.Dto>();
@@ -218,7 +219,7 @@ namespace Vanilla.Utility.WinForm.Extender
 
         public static void AddArtifact(this TreeView treeView, TreeNode node, Facade.Artifact.Dto artifact, String pathSeperator, String moduleSeparator)
         {
-            Facade.Artifact.Dto artifactClone = Common.CloneArtifact(artifact);
+            Facade.Artifact.Dto artifactClone = new FacadeArtifact.Server(null).CloneArtifact(artifact);
             String pathOfParent = String.Empty;
 
             //remove artifact from parent
@@ -250,7 +251,7 @@ namespace Vanilla.Utility.WinForm.Extender
                 pathOfParent += nodeArtifact.Path;
             }
 
-            Common.UpdateArtifactPath(pathOfParent, artifactClone, pathSeperator);
+            new FacadeArtifact.Server(null).UpdateArtifactPath(pathOfParent, artifactClone, pathSeperator);
             artifactClone.Parent = nodeArtifact;
 
             if (nodeArtifact.Children == null)
@@ -264,7 +265,7 @@ namespace Vanilla.Utility.WinForm.Extender
         private static void UpdateTagArtifact(String pathOfParent, TreeNode node, String pathSeperator)
         {
             Facade.Artifact.Dto nodeArtifact = node.Tag as Facade.Artifact.Dto;
-            Common.UpdateArtifactPath(pathOfParent, nodeArtifact, pathSeperator);            
+            new FacadeArtifact.Server(null).UpdateArtifactPath(pathOfParent, nodeArtifact, pathSeperator);            
 
             //update the tag object
             foreach (TreeNode tNode in node.Nodes)
@@ -301,7 +302,7 @@ namespace Vanilla.Utility.WinForm.Extender
         }
 
         //need to remove the method from Register.cs
-        private static TreeNode FindTreeNodeFromPath(this TreeView treeView, TreeNodeCollection treeNodes, String path, String pathSeperator)
+        public static TreeNode FindTreeNodeFromPath(this TreeView treeView, TreeNodeCollection treeNodes, String path, String pathSeperator)
         {
 
             String text = path.Substring(0, path.IndexOfAny(pathSeperator.ToCharArray()));
@@ -323,9 +324,7 @@ namespace Vanilla.Utility.WinForm.Extender
             return null;
         }
     }
-
-    
-
+        
     public static class ListViewExtender
     {
 
@@ -625,61 +624,61 @@ namespace Vanilla.Utility.WinForm.Extender
             return false;
         }
 
-        public static void UpdateArtifactPath(String pathOfParent, Facade.Artifact.Dto artifactDto, String pathSeperator)
-        {
-            if(artifactDto.Style == Facade.Artifact.Type.Folder)
-                artifactDto.Path = pathOfParent + artifactDto.FileName + pathSeperator;
-            else
-                artifactDto.Path = pathOfParent + artifactDto.FileName;
+        //public static void UpdateArtifactPath(String pathOfParent, Facade.Artifact.Dto artifactDto, String pathSeperator)
+        //{
+        //    if(artifactDto.Style == Facade.Artifact.Type.Folder)
+        //        artifactDto.Path = pathOfParent + artifactDto.FileName + pathSeperator;
+        //    else
+        //        artifactDto.Path = pathOfParent + artifactDto.FileName;
 
-            if (artifactDto.Children != null && artifactDto.Children.Count > 0)
-            {
-                foreach (Facade.Artifact.Dto dto in artifactDto.Children)
-                    UpdateArtifactPath(artifactDto.Path, dto, pathSeperator);
-            }
-        }
+        //    if (artifactDto.Children != null && artifactDto.Children.Count > 0)
+        //    {
+        //        foreach (Facade.Artifact.Dto dto in artifactDto.Children)
+        //            UpdateArtifactPath(artifactDto.Path, dto, pathSeperator);
+        //    }
+        //}
 
-        //need to remove from Vanilla.Navigator.Facade.Register
-        public static Facade.Artifact.Dto CloneArtifact(Facade.Artifact.Dto dto)
-        {
-            return new Facade.Artifact.Dto
-            {
-                Id = dto.Id,
-                FileName = dto.FileName,
-                Path = dto.Path,
-                Style = dto.Style,
-                Category = dto.Category,
-                Version = dto.Version,
-                CreatedBy = dto.CreatedBy,
-                ModifiedBy = dto.ModifiedBy,
-                CreatedAt = dto.CreatedAt,
-                ModifiedAt = dto.ModifiedAt,
-                Children = dto.Children == null ? null : GetChildren(dto),
-                Module = dto.Module == null ? null : new BinAff.Facade.Library.Dto
-                {
-                    Id = dto.Module.Id,
-                    Action = dto.Module.Action
-                },
-                Parent = dto.Parent == null ? null : new BinAff.Facade.Library.Dto
-                {
-                    Id = dto.Parent.Id,
-                    Action = dto.Parent.Action
-                }
-            };
-        }
+        ////need to remove from Vanilla.Navigator.Facade.Register
+        //public static Facade.Artifact.Dto CloneArtifact(Facade.Artifact.Dto dto)
+        //{
+        //    return new Facade.Artifact.Dto
+        //    {
+        //        Id = dto.Id,
+        //        FileName = dto.FileName,
+        //        Path = dto.Path,
+        //        Style = dto.Style,
+        //        Category = dto.Category,
+        //        Version = dto.Version,
+        //        CreatedBy = dto.CreatedBy,
+        //        ModifiedBy = dto.ModifiedBy,
+        //        CreatedAt = dto.CreatedAt,
+        //        ModifiedAt = dto.ModifiedAt,
+        //        Children = dto.Children == null ? null : GetChildren(dto),
+        //        Module = dto.Module == null ? null : new BinAff.Facade.Library.Dto
+        //        {
+        //            Id = dto.Module.Id,
+        //            Action = dto.Module.Action
+        //        },
+        //        Parent = dto.Parent == null ? null : new BinAff.Facade.Library.Dto
+        //        {
+        //            Id = dto.Parent.Id,
+        //            Action = dto.Parent.Action
+        //        }
+        //    };
+        //}
 
-        private static List<Facade.Artifact.Dto> GetChildren(Facade.Artifact.Dto dto)
-        {
-            List<Facade.Artifact.Dto> children = dto.Children;
-            List<Facade.Artifact.Dto> childrenList = new List<Facade.Artifact.Dto>();
-            for (int i = 0; i < children.Count; i++)
-            {
-                Facade.Artifact.Dto clone = CloneArtifact(children[i]);
-                clone.Parent = dto;
-                childrenList.Add(clone);
-            }
+        //private static List<Facade.Artifact.Dto> GetChildren(Facade.Artifact.Dto dto)
+        //{
+        //    List<Facade.Artifact.Dto> children = dto.Children;
+        //    List<Facade.Artifact.Dto> childrenList = new List<Facade.Artifact.Dto>();
+        //    for (int i = 0; i < children.Count; i++)
+        //    {
+        //        Facade.Artifact.Dto clone = CloneArtifact(children[i]);
+        //        clone.Parent = dto;
+        //        childrenList.Add(clone);
+        //    }
 
-            return childrenList;
-        }
+        //    return childrenList;
+        //}
     }
 }
