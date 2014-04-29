@@ -153,31 +153,112 @@ namespace Vanilla.Utility.WinForm.Extender
             treeView.EndUpdate();
         }
 
-        public static void AddNode(this TreeView treeView, TreeNode parentNode, TreeNode childNode, String pathSeperator)
+        public static void AddNode(this TreeView treeView, TreeNode parentNode, TreeNode childNode, String pathSeperator, String moduleSeparator)
         {
+            TreeNode childNodeClone = childNode.Clone() as TreeNode;
+
             //update the path of child node artifact
             Facade.Artifact.Dto parentNodeArtifact = new Facade.Artifact.Dto();
             String pathOfParent = String.Empty;
 
+
             if (parentNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
             {
                 parentNodeArtifact = (parentNode.Tag as Facade.Module.Dto).Artifact;
-                pathOfParent += parentNodeArtifact.Path + ":" + pathSeperator + pathSeperator + parentNode.Text + pathSeperator;
+                pathOfParent += parentNodeArtifact.Path + moduleSeparator + pathSeperator + pathSeperator + parentNode.Text + pathSeperator;
             }
             else
+            {
                 parentNodeArtifact = parentNode.Tag as Facade.Artifact.Dto;
+                pathOfParent += parentNodeArtifact.Path;
+            }
 
             Facade.Artifact.Dto childNodeArtifact = new Facade.Artifact.Dto();
-            if (childNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
-                childNodeArtifact = (childNode.Tag as Facade.Module.Dto).Artifact;
+            if (childNodeClone.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+                childNodeArtifact = (childNodeClone.Tag as Facade.Module.Dto).Artifact;
             else
-                childNodeArtifact = childNode.Tag as Facade.Artifact.Dto;
+                childNodeArtifact = childNodeClone.Tag as Facade.Artifact.Dto;
 
-            Common.UpdateArtifactPath(pathOfParent, childNodeArtifact, pathSeperator);
+            Facade.Artifact.Dto childNodeArtifactClone = Common.CloneArtifact(childNodeArtifact);
+            Common.UpdateArtifactPath(pathOfParent, childNodeArtifactClone, pathSeperator);          
 
-            foreach (TreeNode node in childNode.Nodes)            
-                UpdateTagArtifact(childNodeArtifact.Path, node, pathSeperator);            
+            if (parentNodeArtifact.Children == null)
+                parentNodeArtifact.Children = new List<Facade.Artifact.Dto>();
 
+            parentNodeArtifact.Children.Add(childNodeArtifactClone);
+            childNodeArtifactClone.Parent = parentNodeArtifact;
+
+            childNodeClone.Tag = childNodeArtifactClone;
+            UpdateChildNodeTag(childNodeClone);
+
+            parentNode.Nodes.Add(childNodeClone);
+            treeView.Sort(parentNode);
+            treeView.Refresh();
+        }
+
+        public static void RemoveNode(this TreeView treeView, TreeNode node)
+        {
+            TreeNode parentNode = node.Parent;
+            Facade.Artifact.Dto parentNodeArtifact = new Facade.Artifact.Dto();
+            Facade.Artifact.Dto nodeArtifact = new Facade.Artifact.Dto();   
+
+            if (parentNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")            
+                parentNodeArtifact = (parentNode.Tag as Facade.Module.Dto).Artifact;
+            else            
+                parentNodeArtifact = parentNode.Tag as Facade.Artifact.Dto;
+
+            if (node.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+                nodeArtifact = (node.Tag as Facade.Module.Dto).Artifact;
+            else
+                nodeArtifact = node.Tag as Facade.Artifact.Dto;
+
+            parentNodeArtifact.Children.Remove(nodeArtifact);
+            treeView.Nodes.Remove(node);
+        }
+
+        public static void AddArtifact(this TreeView treeView, TreeNode node, Facade.Artifact.Dto artifact, String pathSeperator, String moduleSeparator)
+        {
+            Facade.Artifact.Dto artifactClone = Common.CloneArtifact(artifact);
+            String pathOfParent = String.Empty;
+
+            //remove artifact from parent
+            String selectedNodePath = artifact.Path.Substring(artifact.Path.IndexOf(moduleSeparator) + 3);
+
+            if (artifactClone.Style == Facade.Artifact.Type.Document)
+                selectedNodePath = selectedNodePath.Substring(0, selectedNodePath.LastIndexOf(pathSeperator)) + pathSeperator;
+            
+            TreeNode currentNode = FindTreeNodeFromPath(treeView, treeView.Nodes, selectedNodePath, pathSeperator);
+            Facade.Artifact.Dto currentNodeArtifact = new Facade.Artifact.Dto();
+            if (currentNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+                currentNodeArtifact = (currentNode.Tag as Facade.Module.Dto).Artifact;
+            else
+                currentNodeArtifact = currentNode.Tag as Facade.Artifact.Dto;
+
+            currentNodeArtifact.Children.Remove(artifact);
+
+
+            //add artifact to node
+            Facade.Artifact.Dto nodeArtifact = new Facade.Artifact.Dto();
+            if (node.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+            {
+                nodeArtifact = (node.Tag as Facade.Module.Dto).Artifact;
+                pathOfParent += nodeArtifact.Path + moduleSeparator + pathSeperator + pathSeperator + node.Text + pathSeperator;
+            }
+            else
+            {
+                nodeArtifact = node.Tag as Facade.Artifact.Dto;
+                pathOfParent += nodeArtifact.Path;
+            }
+
+            Common.UpdateArtifactPath(pathOfParent, artifactClone, pathSeperator);
+            artifactClone.Parent = nodeArtifact;
+
+            if (nodeArtifact.Children == null)
+                nodeArtifact.Children = new List<Facade.Artifact.Dto>();
+
+            nodeArtifact.Children.Add(artifactClone);
+
+            
         }
 
         private static void UpdateTagArtifact(String pathOfParent, TreeNode node, String pathSeperator)
@@ -189,6 +270,57 @@ namespace Vanilla.Utility.WinForm.Extender
             foreach (TreeNode tNode in node.Nodes)
                 UpdateTagArtifact(nodeArtifact.Path, tNode, pathSeperator);                
            
+        }
+
+        private static void UpdateChildNodeTag(TreeNode Node)
+        {
+            Facade.Artifact.Dto artifactDto;
+            if (Node.Nodes != null && Node.Nodes.Count > 0)
+            {
+                if (Node.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+                    artifactDto = (Node.Tag as Facade.Module.Dto).Artifact;
+                else
+                    artifactDto = Node.Tag as Facade.Artifact.Dto;
+
+
+                foreach (TreeNode node in Node.Nodes)
+                {
+                    foreach (Facade.Artifact.Dto childArtifact in artifactDto.Children)
+                    {
+                        if (node.Text == childArtifact.FileName)
+                        {
+                            node.Tag = childArtifact;
+                            if (node.Nodes != null && node.Nodes.Count > 0)
+                                UpdateChildNodeTag(node);
+
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        //need to remove the method from Register.cs
+        private static TreeNode FindTreeNodeFromPath(this TreeView treeView, TreeNodeCollection treeNodes, String path, String pathSeperator)
+        {
+
+            String text = path.Substring(0, path.IndexOfAny(pathSeperator.ToCharArray()));
+            path = path.Substring(path.IndexOfAny(pathSeperator.ToCharArray()) + 1);
+            foreach (TreeNode node in treeNodes)
+            {
+                if (node.Text == text)
+                {
+                    if (String.IsNullOrEmpty(path))
+                    {
+                        return node;
+                    }
+                    else if (node.Nodes.Count > 0)
+                    {
+                        return FindTreeNodeFromPath(treeView, node.Nodes, path, pathSeperator);
+                    }
+                }
+            }
+            return null;
         }
     }
 
@@ -495,7 +627,59 @@ namespace Vanilla.Utility.WinForm.Extender
 
         public static void UpdateArtifactPath(String pathOfParent, Facade.Artifact.Dto artifactDto, String pathSeperator)
         {
-        
+            if(artifactDto.Style == Facade.Artifact.Type.Folder)
+                artifactDto.Path = pathOfParent + artifactDto.FileName + pathSeperator;
+            else
+                artifactDto.Path = pathOfParent + artifactDto.FileName;
+
+            if (artifactDto.Children != null && artifactDto.Children.Count > 0)
+            {
+                foreach (Facade.Artifact.Dto dto in artifactDto.Children)
+                    UpdateArtifactPath(artifactDto.Path, dto, pathSeperator);
+            }
+        }
+
+        //need to remove from Vanilla.Navigator.Facade.Register
+        public static Facade.Artifact.Dto CloneArtifact(Facade.Artifact.Dto dto)
+        {
+            return new Facade.Artifact.Dto
+            {
+                Id = dto.Id,
+                FileName = dto.FileName,
+                Path = dto.Path,
+                Style = dto.Style,
+                Category = dto.Category,
+                Version = dto.Version,
+                CreatedBy = dto.CreatedBy,
+                ModifiedBy = dto.ModifiedBy,
+                CreatedAt = dto.CreatedAt,
+                ModifiedAt = dto.ModifiedAt,
+                Children = dto.Children == null ? null : GetChildren(dto),
+                Module = dto.Module == null ? null : new BinAff.Facade.Library.Dto
+                {
+                    Id = dto.Module.Id,
+                    Action = dto.Module.Action
+                },
+                Parent = dto.Parent == null ? null : new BinAff.Facade.Library.Dto
+                {
+                    Id = dto.Parent.Id,
+                    Action = dto.Parent.Action
+                }
+            };
+        }
+
+        private static List<Facade.Artifact.Dto> GetChildren(Facade.Artifact.Dto dto)
+        {
+            List<Facade.Artifact.Dto> children = dto.Children;
+            List<Facade.Artifact.Dto> childrenList = new List<Facade.Artifact.Dto>();
+            for (int i = 0; i < children.Count; i++)
+            {
+                Facade.Artifact.Dto clone = CloneArtifact(children[i]);
+                clone.Parent = dto;
+                childrenList.Add(clone);
+            }
+
+            return childrenList;
         }
     }
 }
