@@ -300,5 +300,61 @@ namespace Vanilla.Utility.Facade.Artifact
         //    this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         //}
 
+        public void UpdateArtifactPath(String pathOfParent, Dto artifactDto, String pathSeperator)
+        {
+            if (artifactDto.Style == Facade.Artifact.Type.Folder)
+                artifactDto.Path = pathOfParent + artifactDto.FileName + pathSeperator;
+            else
+                artifactDto.Path = pathOfParent + artifactDto.FileName;
+
+            if (artifactDto.Children != null && artifactDto.Children.Count > 0)
+            {
+                foreach (Dto dto in artifactDto.Children)
+                    UpdateArtifactPath(artifactDto.Path, dto, pathSeperator);
+            }
+        }
+                
+        public Dto CloneArtifact(Dto dto)
+        {
+            return new Dto
+            {
+                Id = dto.Id,
+                FileName = dto.FileName,
+                Path = dto.Path,
+                Style = dto.Style,
+                Category = dto.Category,
+                Version = dto.Version,
+                CreatedBy = dto.CreatedBy,
+                ModifiedBy = dto.ModifiedBy,
+                CreatedAt = dto.CreatedAt,
+                ModifiedAt = dto.ModifiedAt,
+                Children = dto.Children == null ? null : GetChildren(dto),
+                Module = dto.Module == null ? null : new BinAff.Facade.Library.Dto
+                {
+                    Id = dto.Module.Id,
+                    Action = dto.Module.Action
+                },
+                Parent = dto.Parent == null ? null : new BinAff.Facade.Library.Dto
+                {
+                    Id = dto.Parent.Id,
+                    Action = dto.Parent.Action
+                }
+            };
+        }
+
+        public List<Dto> GetChildren(Dto dto)
+        {
+            List<Dto> children = dto.Children;
+            List<Dto> childrenList = new List<Dto>();
+            for (int i = 0; i < children.Count; i++)
+            {
+                Dto clone = CloneArtifact(children[i]);
+                clone.Parent = dto;
+                childrenList.Add(clone);
+            }
+
+            return childrenList;
+        }
+
     }
 }
