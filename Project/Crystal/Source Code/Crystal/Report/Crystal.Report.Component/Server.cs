@@ -56,34 +56,34 @@ namespace Crystal.Report.Component
             }
         }
 
-        Data IReport.SetStartEnd()
+        Data IReport.SetStartEnd(DateTime date)
         {
             Data data = this.Data as Data;
-            switch ((this.Data as Data).Category.Id)
+            switch (data.Category.Id)
             {
                 case 10001:
-                    data.Start = data.Date;
-                    data.End = data.Date;
+                    data.Start = date;
+                    data.End = date;
                     break;
                 case 10002:
-                    data.Start = this.GetPreviousMonday(data.Date);
+                    data.Start = this.GetPreviousMonday(date);
                     data.End = data.Start.AddDays(6);
                     break;
                 case 10003:
-                    data.Start = this.GetFirstDayOfMonth(data.Date);
-                    data.End = this.GetLastDayOfMonth(data.Date);
+                    data.Start = this.GetFirstDayOfMonth(date);
+                    data.End = this.GetLastDayOfMonth(date);
                     break;
                 case 10004:
-                    data.Start = this.GetFirstDayOfQuarter(data.Date);
-                    data.End = this.GetLastDayOfQuarter(data.Date);
+                    data.Start = this.GetFirstDayOfQuarter(date);
+                    data.End = this.GetLastDayOfQuarter(date);
                     break;
                 case 10005:
-                    data.Start = new DateTime(data.Date.Year, 1, 1);
-                    data.End = new DateTime(data.Date.Year, 12, 31);
+                    data.Start = new DateTime(date.Year, 1, 1);
+                    data.End = new DateTime(date.Year, 12, 31);
                     break;
                 default:
-                    data.Start = data.Date;
-                    data.End = data.Date;
+                    data.Start = date;
+                    data.End = date;
                     break;
             }
 

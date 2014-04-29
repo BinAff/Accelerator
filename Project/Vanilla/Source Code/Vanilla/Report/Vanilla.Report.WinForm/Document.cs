@@ -64,7 +64,7 @@ namespace Vanilla.Report.WinForm
             this.rvReport.Reset();
             if (dataList != null && dataList.Count > 0)
             {
-                Vanilla.Report.Facade.Document.Dto dto = this.facade.SetReportCredential();
+                Vanilla.Report.Facade.Document.Dto dto = this.facade.GetDto();
                 this.formDto.Dto.Path = dto.Path;
                 this.formDto.Dto.DataSource = dto.DataSource;
                 this.rvReport.DocumentMapCollapsed = true;

@@ -81,7 +81,16 @@ namespace Vanilla.Report.Facade.Document
 
             List<BinAff.Core.Data> reportDataList = server.GetReport(date);
             (this.FormDto as FormDto).Dto.ReportName = server.GetReportName();
-            return (this.FormDto as FormDto).ReportData = this.ConvertReportDataList(reportDataList, server.SetStartEnd());
+            CrysRpt.Data parameters = server.SetStartEnd(date);
+            (this.FormDto as FormDto).Dto.Start = parameters.Start;
+            (this.FormDto as FormDto).Dto.End = parameters.End;
+            return (this.FormDto as FormDto).ReportData = this.ConvertReportDataList(reportDataList);
+        }
+
+        public Dto GetDto()
+        {
+            this.SetReportCredential();
+            return (this.FormDto as FormDto).Dto;
         }
 
         public abstract Dto SetReportCredential();
@@ -93,7 +102,7 @@ namespace Vanilla.Report.Facade.Document
 
         protected abstract ICrud CreateComponentInstance(CrysRpt.Data rptData);
 
-        private List<BinAff.Facade.Library.Dto> ConvertReportDataList(List<BinAff.Core.Data> reportDataList, CrysRpt.Data parameters)
+        private List<BinAff.Facade.Library.Dto> ConvertReportDataList(List<BinAff.Core.Data> reportDataList)
         {
             List<BinAff.Facade.Library.Dto> dtoList = new List<BinAff.Facade.Library.Dto>();
             if (reportDataList != null && reportDataList.Count > 0)
@@ -101,8 +110,6 @@ namespace Vanilla.Report.Facade.Document
                 foreach (Crystal.Report.Component.Data data in reportDataList)
                 {
                     Vanilla.Report.Facade.Document.Dto dto = this.ConvertReportData(data) as Vanilla.Report.Facade.Document.Dto;
-                    dto.Start = parameters.Start;
-                    dto.End = parameters.End;
                     dtoList.Add(dto);
                 }
             }
