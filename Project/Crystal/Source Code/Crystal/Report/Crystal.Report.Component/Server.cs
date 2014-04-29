@@ -56,6 +56,40 @@ namespace Crystal.Report.Component
             }
         }
 
+        Data IReport.SetStartEnd()
+        {
+            Data data = this.Data as Data;
+            switch ((this.Data as Data).Category.Id)
+            {
+                case 10001:
+                    data.Start = data.Date;
+                    data.End = data.Date;
+                    break;
+                case 10002:
+                    data.Start = this.GetPreviousMonday(data.Date);
+                    data.End = data.Start.AddDays(6);
+                    break;
+                case 10003:
+                    data.Start = this.GetFirstDayOfMonth(data.Date);
+                    data.End = this.GetLastDayOfMonth(data.Date);
+                    break;
+                case 10004:
+                    data.Start = this.GetFirstDayOfQuarter(data.Date);
+                    data.End = this.GetLastDayOfQuarter(data.Date);
+                    break;
+                case 10005:
+                    data.Start = new DateTime(data.Date.Year, 1, 1);
+                    data.End = new DateTime(data.Date.Year, 12, 31);
+                    break;
+                default:
+                    data.Start = data.Date;
+                    data.End = data.Date;
+                    break;
+            }
+
+            return data;
+        }
+
         public List<BinAff.Core.Data> GetDailyReport(DateTime date)
         {
             return ((Dao)this.DataAccess).GetData(date, date);
@@ -78,30 +112,8 @@ namespace Crystal.Report.Component
 
         public List<BinAff.Core.Data> GetQuarterlyReport(System.DateTime date)
         {
-            DateTime firstDayOfQuarter = new DateTime();
-            DateTime lastDayOfQuarter = new DateTime();
-
-            if (date.Month <= 3) //first quarter
-            {
-                firstDayOfQuarter = new DateTime(date.Year, 1, 1);
-                lastDayOfQuarter = new DateTime(date.Year, 3, 31);
-            }
-            else if (date.Month <= 6) // Second Quarter
-            {
-                firstDayOfQuarter = new DateTime(date.Year, 4, 1);
-                lastDayOfQuarter = new DateTime(date.Year, 6, 30);
-            }
-            else if (date.Month <= 9) // third Quarter
-            {
-                firstDayOfQuarter = new DateTime(date.Year, 7, 1);
-                lastDayOfQuarter = new DateTime(date.Year, 9, 30);
-            }
-            else //last quarter
-            {
-                firstDayOfQuarter = new DateTime(date.Year, 10, 1);
-                lastDayOfQuarter = new DateTime(date.Year, 12, 31);
-            }
-
+            DateTime firstDayOfQuarter = this.GetFirstDayOfQuarter(date);
+            DateTime lastDayOfQuarter = this.GetLastDayOfQuarter(date);
             return ((Dao)this.DataAccess).GetData(firstDayOfQuarter, lastDayOfQuarter);
         }
 
@@ -134,7 +146,52 @@ namespace Crystal.Report.Component
             return firstDayOfTheMonth.AddMonths(1).AddDays(-1);
         }
 
-        
+        private DateTime GetFirstDayOfQuarter(DateTime givenDate)
+        {
+            DateTime firstDayOfQuarter = new DateTime();
+            if (givenDate.Month <= 3) //first quarter
+            {
+                firstDayOfQuarter = new DateTime(givenDate.Year, 1, 1);
+            }
+            else if (givenDate.Month <= 6) // Second Quarter
+            {
+                firstDayOfQuarter = new DateTime(givenDate.Year, 4, 1);
+            }
+            else if (givenDate.Month <= 9) // third Quarter
+            {
+                firstDayOfQuarter = new DateTime(givenDate.Year, 7, 1);
+            }
+            else //last quarter
+            {
+                firstDayOfQuarter = new DateTime(givenDate.Year, 10, 1);
+            }
+
+            return firstDayOfQuarter;
+        }
+
+        private DateTime GetLastDayOfQuarter(DateTime givenDate)
+        {
+            DateTime lastDayOfQuarter = new DateTime();
+            if (givenDate.Month <= 3) //first quarter
+            {
+                lastDayOfQuarter = new DateTime(givenDate.Year, 3, 31);
+            }
+            else if (givenDate.Month <= 6) // Second Quarter
+            {
+                lastDayOfQuarter = new DateTime(givenDate.Year, 6, 30);
+            }
+            else if (givenDate.Month <= 9) // third Quarter
+            {
+                lastDayOfQuarter = new DateTime(givenDate.Year, 9, 30);
+            }
+            else //last quarter
+            {
+                lastDayOfQuarter = new DateTime(givenDate.Year, 12, 31);
+            }
+
+            return lastDayOfQuarter;
+        }
+
     }
 
 }

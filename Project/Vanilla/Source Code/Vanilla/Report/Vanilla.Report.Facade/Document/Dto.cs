@@ -8,6 +8,8 @@ namespace Vanilla.Report.Facade.Document
     {
 
         public String Path { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
         public String ReportName { get; set; }
         public String DataSource { get; set; }
         public DateTime Date { get; set; }

@@ -661,7 +661,7 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>50dde5f5-6d2e-41ba-b79b-35a2e6af828b</rd:DataSourceID>
+      <rd:DataSourceID>5afbf8e2-f3e3-4acf-bb1f-cdf7e81846b9</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -702,6 +702,10 @@
         <Field Name="CheckInStatusId">
           <DataField>CheckInStatusId</DataField>
           <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="CheckOutDate">
+          <DataField>CheckOutDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="City">
           <DataField>City</DataField>

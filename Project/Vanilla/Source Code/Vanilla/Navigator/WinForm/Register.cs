@@ -1055,7 +1055,7 @@ namespace Vanilla.Navigator.WinForm
                 Dto = artifactDto,
             };
 
-            this.facade = new Facade.Register.Server(this.formDto) { Category = this.GetActiveCategory() };
+            this.facade = new Facade.Register.Server(this.formDto) { Category = this.currentArtifact.Category };
             this.facade.Paste(this.isCutAction);          
 
             if (!this.facade.IsError)

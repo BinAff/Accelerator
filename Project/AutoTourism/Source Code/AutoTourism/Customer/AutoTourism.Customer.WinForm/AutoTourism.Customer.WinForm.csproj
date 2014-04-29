@@ -98,7 +98,6 @@
     <EmbeddedResource Include="Report\Quarterly.rdlc" />
     <EmbeddedResource Include="Report\Weekly.rdlc" />
     <EmbeddedResource Include="Report\Yearly.rdlc" />
-    <None Include="Properties\DataSources\AutoTourism.Customer.Facade.Report.Dto.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

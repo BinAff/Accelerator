@@ -39,6 +39,7 @@ namespace AutoTourism.Customer.Facade.Report
             return new CrysCustRpt.Server(new CrysCustRpt.Data
             {
                 Category = reportCategory,
+                Date = (this.FormDto as FormDto).Dto.Date,
             });
         }
 
@@ -60,7 +61,7 @@ namespace AutoTourism.Customer.Facade.Report
             return (this.FormDto as FormDto).Dto;
         }
 
-        protected override BinAff.Facade.Library.Dto ConvertReportData(CrysRpt.Data data)
+        protected override Vanilla.Report.Facade.Document.Dto ConvertReportData(CrysRpt.Data data)
         {
             CrysCustRpt.Data reportData = data as CrysCustRpt.Data;            
             return new Dto
