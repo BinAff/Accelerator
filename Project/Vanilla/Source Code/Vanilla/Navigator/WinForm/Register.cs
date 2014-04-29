@@ -703,8 +703,15 @@ namespace Vanilla.Navigator.WinForm
                 child.Parent = parent;
             }
             if (parentDto.Children == null) parentDto.Children = new List<UtilFac.Artifact.Dto>();
-            parentDto.Children.Add(child);
-            child.Path = parentDto.Path;
+            parentDto.Children.Add(child);           
+
+            String pathOfParent = String.Empty;
+            if (parentDto.Parent == null)            
+                pathOfParent += parentDto.Path + this.formDto.Rule.ModuleSeperator + this.formDto.Rule.PathSeperator + this.formDto.Rule.PathSeperator + parentDto.FileName + this.formDto.Rule.PathSeperator;            
+            else            
+                pathOfParent += parentDto.Path;            
+            
+            child.Path += pathOfParent;
         }
         
         #endregion
@@ -1696,16 +1703,7 @@ namespace Vanilla.Navigator.WinForm
         {
             TreeView trv = this.GetActiveTreeView();
             this.facade.SetCategory(this.tbcCategory.SelectedTab.Text);
-            TreeNode selectedNode = trv.SelectedNode;
-            //TreeNode selectedNode = null;
-            //if ((this.menuClickSource == MenuClickSource.ListView) && (this.currentArtifact != null))
-            //{
-            //    selectedNode = trv.FindNode(this.currentArtifact);
-            //}
-            //else if (this.menuClickSource == MenuClickSource.TreeView)
-            //{
-            //    selectedNode = trv.SelectedNode;
-            //}
+            TreeNode selectedNode = trv.SelectedNode;           
             
             if (selectedNode != null)
             {
@@ -1742,17 +1740,23 @@ namespace Vanilla.Navigator.WinForm
                     form = (BinAff.Presentation.Library.Form)Activator.CreateInstance(type, moduleFormDto);
                 }
                 
-                form.ShowDialog(this);
+                //form.ShowDialog(this);
 
                 //if (moduleFormDto != null && moduleFormDto.Id > 0)
-                if(form.IsModified)
+                //if(form.IsModified)
+                //{
+                //    this.menuClickSource = MenuClickSource.ListView;
+                //    AddArtifact(UtilFac.Artifact.Type.Document, moduleFormDto, new UtilFac.Module.Definition.Dto
+                //    {
+                //        Code = (rootNode.Tag as UtilFac.Module.Dto).Code
+                //    });
+                //}
+
+                this.menuClickSource = MenuClickSource.ListView;
+                AddArtifact(UtilFac.Artifact.Type.Document, moduleFormDto, new UtilFac.Module.Definition.Dto
                 {
-                    this.menuClickSource = MenuClickSource.ListView;
-                    AddArtifact(UtilFac.Artifact.Type.Document, moduleFormDto, new UtilFac.Module.Definition.Dto
-                    {
-                        Code = (rootNode.Tag as UtilFac.Module.Dto).Code
-                    });
-                }
+                    Code = (rootNode.Tag as UtilFac.Module.Dto).Code
+                });
             }
         }
         
@@ -1785,7 +1789,8 @@ namespace Vanilla.Navigator.WinForm
             TreeNode parentNode = null;
             if (artifactDto.Style == UtilFac.Artifact.Type.Document)
             {
-                parentNode = trv.FindNode(this.GetParent(this.currentArtifact));
+                //parentNode = trv.FindNode(this.GetParent(this.currentArtifact));
+                parentNode = trv.FindNode(this.currentArtifact);
             }
             else
             {
@@ -1793,6 +1798,7 @@ namespace Vanilla.Navigator.WinForm
                 parentNode = selectedNode != null ? selectedNode.Parent : null;
             }
             //String pathOfParent = this.GetArtifact(parentNode.Tag).Path;
+
 
             //-- document should not contain the path separator
             //if (artifactDto.Style == UtilFac.Artifact.Type.Document)
@@ -1839,43 +1845,12 @@ namespace Vanilla.Navigator.WinForm
         private void AddArtifact(UtilFac.Artifact.Type type, BinAff.Facade.Library.Dto moduleFormDto, UtilFac.Module.Definition.Dto moduleDefinationDto)
         {
             TreeView trv = this.GetActiveTreeView();
-            TreeNode selectedNode = null;
-
-            if ((this.menuClickSource.ToString() == MenuClickSource.ListView.ToString()) && (this.currentArtifact != null))
-            {                
-                selectedNode = trv.FindNode(this.currentArtifact);
-            }
-            else if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
-            {
-                selectedNode = this.trvForm.SelectedNode;
-            }
+            TreeNode selectedNode = ReadSelectedNode(trv);
 
             if (selectedNode != null)
             {
-                Table currentLoggedInUser = new Table
-                {
-                    Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                    Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
-                };
-
                 String fileName = this.GetArtifactName(selectedNode, type);
-
-                TreeNode newNode = new TreeNode
-                {
-                    Text = fileName,
-                    Tag = new UtilFac.Artifact.Dto
-                    {
-                        FileName = fileName,
-                        Extension = this.currentArtifact.Extension,
-                        Version = 1,
-                        Style = type,
-                        CreatedBy = currentLoggedInUser,
-                        CreatedAt = DateTime.Now,
-                        Module = moduleFormDto,
-                        ComponentDefinition = moduleDefinationDto == null ? null : new UtilFac.Module.Definition.Dto { Code = moduleDefinationDto.Code }
-                    }
-                };
-
+                TreeNode newNode = this.GetNewNode(selectedNode,fileName, type, moduleFormDto, moduleDefinationDto);
 
                 this.formDto.ModuleFormDto.CurrentArtifact = new UtilFac.Artifact.FormDto
                 {
@@ -1912,6 +1887,54 @@ namespace Vanilla.Navigator.WinForm
                     }
                 }
             }
+        }
+
+        private TreeNode ReadSelectedNode(TreeView trv)
+        {
+            TreeNode selectedNode = null;
+
+            if ((this.menuClickSource.ToString() == MenuClickSource.ListView.ToString()) && (this.currentArtifact != null))
+            {
+                selectedNode = trv.FindNode(this.currentArtifact);
+            }
+            else if (this.menuClickSource.ToString() == MenuClickSource.TreeView.ToString())
+            {
+                selectedNode = trv.SelectedNode;
+            }
+
+            return selectedNode;
+        }
+
+        private TreeNode GetNewNode(TreeNode selectedNode, String fileName, UtilFac.Artifact.Type type, BinAff.Facade.Library.Dto moduleFormDto, UtilFac.Module.Definition.Dto moduleDefinationDto)
+        {
+            Table currentLoggedInUser = new Table
+            {
+                Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
+            };
+
+            UtilFac.Artifact.Dto parentArtifact = null;
+            if (selectedNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+                parentArtifact = (selectedNode.Tag as UtilFac.Module.Dto).Artifact;
+            else
+                parentArtifact = selectedNode.Tag as UtilFac.Artifact.Dto;
+
+            return new TreeNode
+            {
+                Text = fileName,
+                Tag = new UtilFac.Artifact.Dto
+                {
+                    FileName = fileName,
+                    Extension = this.currentArtifact.Extension,
+                    Version = 1,
+                    Style = type,
+                    CreatedBy = currentLoggedInUser,
+                    CreatedAt = DateTime.Now,
+                    Module = moduleFormDto,
+                    ComponentDefinition = moduleDefinationDto == null ? null : new UtilFac.Module.Definition.Dto { Code = moduleDefinationDto.Code },
+                    Parent = parentArtifact
+                }
+            };
         }
 
         private void PopulateCutCopyNode()
