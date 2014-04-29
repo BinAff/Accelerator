@@ -1,8 +1,9 @@
-﻿
-namespace Vanilla.Invoice.Facade.Report
+﻿namespace Vanilla.Invoice.Facade.Report
 {
-    public class FormDto : BinAff.Facade.Library.FormDto
+
+    public class FormDto : Vanilla.Report.Facade.Document.FormDto
     {
-        public Dto Dto { get; set; }
+
     }
+
 }

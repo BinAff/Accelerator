@@ -4,8 +4,10 @@ using System.Data;
 
 namespace Crystal.Customer.Component.Report
 {
+
     public class Dao : Crystal.Report.Component.Dao
     {
+
         public Dao(Data data)
             : base(data)
         {
@@ -85,4 +87,5 @@ namespace Crystal.Customer.Component.Report
         }
 
     }
+
 }
