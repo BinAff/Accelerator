@@ -20,6 +20,21 @@ namespace Crystal.Report.Component.Category
             base.ReadAllStoredProcedure = "Report.CategoryReadAll";
         }
 
+        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
+        {
+            Data dt = (Data)data;
+            DataRow row;
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                row = ds.Tables[0].Rows[0];
+
+                dt.Id = data.Id;
+                dt.Extension = Convert.IsDBNull(row["Extension"]) ? String.Empty : Convert.ToString(row["Extension"]);
+                dt.Name = Convert.IsDBNull(row["Name"]) ? String.Empty : Convert.ToString(row["Name"]);
+            }
+            return dt;
+        }
+
         protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
         {
             List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();

@@ -158,6 +158,7 @@ namespace Vanilla.Utility.Facade.Artifact
                 Path = data.Path,
                 Extension = data.Extension,
                 Category = (Category)data.Category,
+                ComponentDefinition = new Module.Definition.Server(null).Convert(data.ComponentDefinition) as Module.Definition.Dto
             };
             if (data.Children != null && data.Children.Count > 0)
             {

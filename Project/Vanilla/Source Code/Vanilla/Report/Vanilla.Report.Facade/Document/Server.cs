@@ -95,10 +95,7 @@ namespace Vanilla.Report.Facade.Document
 
         public abstract Dto SetReportCredential();
 
-        protected virtual CrysRpt.IReport CreateComponentInstance(CrysRpt.Category.Data reportCategory)
-        {
-            throw new NotImplementedException();
-        }
+        protected abstract CrysRpt.IReport CreateComponentInstance(CrysRpt.Category.Data reportCategory);
 
         protected abstract ICrud CreateComponentInstance(CrysRpt.Data rptData);
 

@@ -38,6 +38,11 @@ namespace Crystal.Navigator.Component.Artifact
                 Type = ChildType.Independent,
                 IsReadOnly = true,
             });
+            base.AddChild(new Crystal.License.Component.Server(((Data)Data).ComponentDefinition)
+            {
+                Type = ChildType.Independent,
+                IsReadOnly = true,
+            });
 
             BinAff.Core.Crud module = this.CreateModuleServerInstance((this.Data as Data).ComponentData);
             module.Type = ChildType.Independent;
