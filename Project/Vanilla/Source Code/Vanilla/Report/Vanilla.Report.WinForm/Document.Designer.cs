@@ -42,7 +42,7 @@
             this.pnlReportDetail.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlReportDetail.Location = new System.Drawing.Point(0, 0);
             this.pnlReportDetail.Name = "pnlReportDetail";
-            this.pnlReportDetail.Size = new System.Drawing.Size(723, 38);
+            this.pnlReportDetail.Size = new System.Drawing.Size(892, 38);
             this.pnlReportDetail.TabIndex = 7;
             // 
             // btnSave
@@ -69,18 +69,23 @@
             this.rvReport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rvReport.Location = new System.Drawing.Point(0, 38);
             this.rvReport.Name = "rvReport";
-            this.rvReport.Size = new System.Drawing.Size(723, 358);
+            this.rvReport.Size = new System.Drawing.Size(892, 435);
             this.rvReport.TabIndex = 8;
             // 
             // Document
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(723, 396);
+            this.ClientSize = new System.Drawing.Size(892, 473);
             this.Controls.Add(this.rvReport);
             this.Controls.Add(this.pnlReportDetail);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+            this.MaximizeBox = true;
+            this.MinimizeBox = true;
             this.Name = "Document";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultLocation;
             this.Text = "Document";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Document_Load);
             this.pnlReportDetail.ResumeLayout(false);
             this.ResumeLayout(false);

@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+
 using PresLib = BinAff.Presentation.Library;
+
 using Util = Vanilla.Utility.Facade.Report;
 
 namespace Vanilla.Report.WinForm
@@ -26,7 +28,6 @@ namespace Vanilla.Report.WinForm
             {
                 Dto = dto,
             };
-
             this.formDto.Dto.Date = dpSearchDate.Value.Date;
             this.facade = facade;
         }
@@ -67,10 +68,12 @@ namespace Vanilla.Report.WinForm
                 Vanilla.Report.Facade.Document.Dto dto = this.facade.GetDto();
                 this.formDto.Dto.Path = dto.Path;
                 this.formDto.Dto.DataSource = dto.DataSource;
+                this.formDto.Dto.Start = dto.Start;
+                this.formDto.Dto.End = dto.End;
                 this.rvReport.DocumentMapCollapsed = true;
                 this.rvReport.LocalReport.ReportPath = this.formDto.Dto.Path;
-                this.rvReport.LocalReport.SetParameters(new ReportParameter("Start", dto.Start.ToShortDateString()));
-                this.rvReport.LocalReport.SetParameters(new ReportParameter("End", dto.End.ToShortDateString()));
+                this.rvReport.LocalReport.SetParameters(new ReportParameter("Start", this.formDto.Dto.Start.ToShortDateString()));
+                this.rvReport.LocalReport.SetParameters(new ReportParameter("End", this.formDto.Dto.End.ToShortDateString()));
 
                 this.rvReport.Visible = true;
                 this.rvReport.LocalReport.DataSources.Add(new Microsoft.Reporting.WinForms.ReportDataSource
@@ -80,6 +83,13 @@ namespace Vanilla.Report.WinForm
                 });
                 this.rvReport.RefreshReport();
             }
+            this.SetName();
+        }
+
+        private void SetName()
+        {
+            this.Name = this.formDto.Dto.Category.Name + " Report :: " + this.formDto.Dto.Start.ToShortDateString() +
+                " to " + this.formDto.Dto.End.ToShortDateString();
         }
 
         private void Save(DateTime date)
