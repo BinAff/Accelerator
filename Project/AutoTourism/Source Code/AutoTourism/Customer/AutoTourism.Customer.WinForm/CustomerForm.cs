@@ -8,11 +8,12 @@ using PresentationLibrary = BinAff.Presentation.Library;
 
 using CustFac = AutoTourism.Customer.Facade;
 using ConfRuleFac = AutoTourism.Configuration.Rule.Facade;
+using UtilForm = Vanilla.Utility.WinForm;
 
 namespace AutoTourism.Customer.WinForm
 {
 
-    public partial class CustomerForm : PresentationLibrary.Form
+    public partial class CustomerForm : UtilForm.Form
     {   
 
         private System.Drawing.Color MandatoryColor = System.Drawing.Color.FromArgb(255, 255, 240, 240);
