@@ -6,8 +6,11 @@ using System.Windows.Forms;
 using BinAff.Core;
 using BinAff.Facade.Cache;
 using PresLib = BinAff.Presentation.Library;
+
 using UtilFac = Vanilla.Utility.Facade;
 using Vanilla.Utility.WinForm.Extender;
+using VanAcc = Vanilla.Guardian.Facade.Account;
+using VanRpt = Vanilla.Report.Facade;
 
 namespace Vanilla.Navigator.WinForm
 {
@@ -17,6 +20,8 @@ namespace Vanilla.Navigator.WinForm
         
         private Facade.Register.FormDto formDto;
         private Facade.Register.Server facade;
+
+        private Vanilla.Report.WinForm.Container reportExecutable;
         
         private PresLib.ListViewColumnSorter lvwColumnSorter;
 
@@ -586,11 +591,26 @@ namespace Vanilla.Navigator.WinForm
 
                 if(this.currentArtifact.Category == UtilFac.Artifact.Category.Report)                
                 {
-                    PresLib.Form form = new Vanilla.Report.WinForm.Document(currentArtifact.Module as Report.Facade.Document.Dto, this.facade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
+                    if (this.reportExecutable == null)
+                    {
+                        this.reportExecutable = new Vanilla.Report.WinForm.Container(Server.Current.Cache["User"] as VanAcc.Dto);
+                        this.reportExecutable.Show();
+                        this.reportExecutable.FormClosed += reportExecutable_FormClosed;
+                    }
+                    PresLib.Form form = new Vanilla.Report.WinForm.Document(new VanRpt.Document.FormDto
+                    {
+                        Dto = this.currentArtifact.Module as Report.Facade.Document.Dto,
+                        DocumentName = this.currentArtifact.FileName + "." + this.currentArtifact.Extension,
+                        ModuleName = this.currentArtifact.ComponentDefinition.Name,
+                        Category = (this.currentArtifact.Module as VanRpt.Document.Dto).Category,
+                    }, this.facade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
                     {
                         Code = currentArtifact.ComponentDefinition.Code,
-                    }, this.currentArtifact.Category) as Report.Facade.Document.Server);
-                    new Vanilla.Report.WinForm.Container(null, form).Show();
+                    }, this.currentArtifact.Category) as Report.Facade.Document.Server)
+                    {
+                        MdiParent = this.reportExecutable
+                    };
+                    form.Show();                    
                 }
                 else
                 {
@@ -604,6 +624,11 @@ namespace Vanilla.Navigator.WinForm
                     }
                 }                
             }
+        }
+
+        void reportExecutable_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.reportExecutable = null;
         }
 
         private void lsvContainer_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -1725,7 +1750,11 @@ namespace Vanilla.Navigator.WinForm
                 if (this.currentArtifact.Category == UtilFac.Artifact.Category.Report)
                 {
                     (moduleFormDto as Report.Facade.Document.Dto).Category = (this.currentArtifact.Module as Report.Facade.Document.Dto).Category;
-                    form = new Vanilla.Report.WinForm.Document(moduleFormDto as Report.Facade.Document.Dto, this.facade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
+                    form = new Vanilla.Report.WinForm.Document(new VanRpt.Document.FormDto
+                    {
+                        Dto = moduleFormDto as Report.Facade.Document.Dto,
+                        DocumentName = this.currentArtifact.FileName,
+                    }, this.facade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
                     {
                         Code = currentArtifact.ComponentDefinition.Code,
                     }, this.currentArtifact.Category) as Report.Facade.Document.Server);

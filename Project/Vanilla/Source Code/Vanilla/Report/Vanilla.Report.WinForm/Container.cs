@@ -19,13 +19,18 @@ namespace Vanilla.Report.WinForm
             InitializeComponent();
         }
 
-        public Container(VanAcc.Dto account, Form report)
+        public Container(VanAcc.Dto account)
             : this()
         {
             if (account != null)
             {
                 Server.Current.Cache["User"] = account;
             }
+        }
+
+        public Container(VanAcc.Dto account, Form report)
+            : this(account)
+        {
             if (report != null)
             {
                 this.currentChild = report;

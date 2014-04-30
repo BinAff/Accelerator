@@ -3,10 +3,10 @@
 namespace Crystal.License.Component
 {
 
-    internal class Server : BinAff.Core.Crud 
+    public class Server : BinAff.Core.Crud 
     {
 
-        internal Server(Data data)
+        public Server(Data data)
             : base(data)
         {
 

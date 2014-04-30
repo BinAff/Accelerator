@@ -35,6 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Category\Dto.cs" />
+    <Compile Include="Category\FormDto.cs" />
+    <Compile Include="Category\Server.cs" />
     <Compile Include="Container\Dto.cs" />
     <Compile Include="Container\FormDto.cs" />
     <Compile Include="Container\Server.cs" />

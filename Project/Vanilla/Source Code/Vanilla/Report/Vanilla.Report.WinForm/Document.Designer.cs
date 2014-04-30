@@ -84,7 +84,7 @@
             this.MinimizeBox = true;
             this.Name = "Document";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultLocation;
-            this.Text = "Document";
+            this.Text = "";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Document_Load);
             this.pnlReportDetail.ResumeLayout(false);

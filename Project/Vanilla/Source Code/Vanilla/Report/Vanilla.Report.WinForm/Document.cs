@@ -21,13 +21,10 @@ namespace Vanilla.Report.WinForm
             InitializeComponent();
         }
 
-        public Document(Facade.Document.Dto dto, Facade.Document.Server facade)
+        public Document(Facade.Document.FormDto formDto, Facade.Document.Server facade)
             : this()
         {
-            this.formDto = new Facade.Document.FormDto
-            {
-                Dto = dto,
-            };
+            this.formDto = formDto;
             this.formDto.Dto.Date = dpSearchDate.Value.Date;
             this.facade = facade;
         }
@@ -63,13 +60,14 @@ namespace Vanilla.Report.WinForm
             this.facade.SetCategory(this.formDto.Dto.Category);
             List<BinAff.Facade.Library.Dto> dataList = this.formDto.ReportData;
             this.rvReport.Reset();
+            Vanilla.Report.Facade.Document.Dto dto = this.facade.GetDto();
+            this.formDto.Dto.Path = dto.Path;
+            this.formDto.Dto.DataSource = dto.DataSource;
+            this.formDto.Dto.Start = dto.Start;
+            this.formDto.Dto.End = dto.End;
             if (dataList != null && dataList.Count > 0)
             {
-                Vanilla.Report.Facade.Document.Dto dto = this.facade.GetDto();
-                this.formDto.Dto.Path = dto.Path;
-                this.formDto.Dto.DataSource = dto.DataSource;
-                this.formDto.Dto.Start = dto.Start;
-                this.formDto.Dto.End = dto.End;
+                
                 this.rvReport.DocumentMapCollapsed = true;
                 this.rvReport.LocalReport.ReportPath = this.formDto.Dto.Path;
                 this.rvReport.LocalReport.SetParameters(new ReportParameter("Start", this.formDto.Dto.Start.ToShortDateString()));
@@ -83,13 +81,22 @@ namespace Vanilla.Report.WinForm
                 });
                 this.rvReport.RefreshReport();
             }
-            this.SetName();
+            this.SetTitle();
         }
 
-        private void SetName()
+        private void SetTitle()
         {
-            this.Name = this.formDto.Dto.Category.Name + " Report :: " + this.formDto.Dto.Start.ToShortDateString() +
-                " to " + this.formDto.Dto.End.ToShortDateString();
+            this.Text = String.Format("{0} :: {1} - {2} Report", this.formDto.DocumentName, this.formDto.ModuleName,
+                this.formDto.Category.Name);
+            if (this.formDto.Category.Id == 10001)
+            {
+                this.Text = String.Format("{0} on {1}", this.Text, this.formDto.Dto.Start.ToShortDateString());
+            }
+            else
+            {
+                this.Text = String.Format("{0} from {1} to {2}", this.Text,
+                    this.formDto.Dto.Start.ToShortDateString(), this.formDto.Dto.End.ToShortDateString());
+            }
         }
 
         private void Save(DateTime date)

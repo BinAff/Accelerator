@@ -13,6 +13,15 @@ namespace Crystal.Report.Component
 
         }
 
+        protected override void CreateChildren()
+        {
+            base.AddChild(new Category.Server((this.Data as Data).Category)
+            {
+                IsReadOnly = true,
+                Type = ChildType.Independent
+            });
+        }
+
         List<BinAff.Core.Data> IReport.GetReport(DateTime date)
         {
             Data data = this.Data as Data;

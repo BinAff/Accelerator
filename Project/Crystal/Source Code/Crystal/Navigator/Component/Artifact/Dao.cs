@@ -136,7 +136,9 @@ namespace Crystal.Navigator.Component.Artifact
                         }
                         artf.ComponentDefinition = new License.Component.Data
                         {
+                            Id = Convert.ToInt64(row["ComponentId"]),
                             Code = Convert.IsDBNull(row["ComponentCode"]) ? String.Empty : Convert.ToString(row["ComponentCode"]),
+                            Name = Convert.IsDBNull(row["ComponentName"]) ? String.Empty : Convert.ToString(row["ComponentName"]),
                         };
                         artifactList.Add(artf);
                     }
