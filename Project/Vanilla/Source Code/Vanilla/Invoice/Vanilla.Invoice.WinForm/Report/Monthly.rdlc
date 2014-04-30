@@ -43,6 +43,7 @@
                               <Value>Date</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -77,6 +78,7 @@
                               <Value>Invoice Number</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -111,6 +113,7 @@
                               <Value>Buyer Name</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -145,6 +148,7 @@
                               <Value>Amount</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -179,6 +183,7 @@
                               <Value>Discount</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -213,6 +218,7 @@
                               <Value>Tax</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -247,6 +253,7 @@
                               <Value>Paid</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -671,18 +678,21 @@
                               <Value>Grand Total (</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>=Count(Fields!Date.Value)</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                             <TextRun>
                               <Value>)</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -718,6 +728,7 @@
                               <Value>=Sum(Fields!Amount.Value, "Sales")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -750,6 +761,7 @@
                               <Value>=Sum(Fields!Discount.Value, "Sales")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -782,6 +794,7 @@
                               <Value>=Sum(Fields!Tax.Value, "Sales")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -814,6 +827,7 @@
                               <Value>=Sum(Fields!AmountPaid.Value, "Sales")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -937,7 +951,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>="Month: " + MonthName(First(Fields!Date.Value, "Sales"))</Value>
+                  <Value>=="Month: " + MonthName(Month(Parameters!Start.Value), False) + ", " + Year(Parameters!Start.Value).ToString()</Value>
                   <Style />
                 </TextRun>
               </TextRuns>
