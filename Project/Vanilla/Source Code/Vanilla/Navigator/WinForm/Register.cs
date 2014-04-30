@@ -569,11 +569,9 @@ namespace Vanilla.Navigator.WinForm
             if (currentArtifact.Style == UtilFac.Artifact.Type.Folder)
             {
                 this.lsvContainer.AttachChildren(this.currentArtifact,isDocumentFirst);
-                //this.SelectNode(this.currentArtifact.Path);
                 this.SelectNode(this.currentArtifact);
                 this.txtAddress.Text = this.currentArtifact.Path;
                 this.addressList.Add(this.currentArtifact.Path);
-
                 this.btnUp.Enabled = true;
             }
             else
@@ -582,31 +580,29 @@ namespace Vanilla.Navigator.WinForm
                 TreeNode parentNode = null;                
                 parentNode = trv.FindNode(artifactDto);
                 TreeNode rootNode = trv.FindRootNode(parentNode);
-
                 BinAff.Facade.Library.Dto parent = this.currentArtifact.Parent;
                 this.currentArtifact = this.ReadDocument(this.currentArtifact);
                 this.currentArtifact.Parent = parent;
 
-                PresLib.Form form;
                 if(this.currentArtifact.Category == UtilFac.Artifact.Category.Report)                
                 {
-                    form = new Vanilla.Report.WinForm.Document(currentArtifact.Module as Report.Facade.Document.Dto, this.facade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
+                    PresLib.Form form = new Vanilla.Report.WinForm.Document(currentArtifact.Module as Report.Facade.Document.Dto, this.facade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
                     {
                         Code = currentArtifact.ComponentDefinition.Code,
                     }, this.currentArtifact.Category) as Report.Facade.Document.Server);
+                    new Vanilla.Report.WinForm.Container(null, form).Show();
                 }
                 else
                 {
                     Type type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
                     this.currentArtifact.Module.artifactPath = currentArtifact.Path;
-                    form = (PresLib.Form)Activator.CreateInstance(type, currentArtifact.Module);
-                }
-
-                form.ShowDialog(this);
-                if (form.IsModified)
-                {
-                    this.SaveArtifact(this.currentArtifact, this.currentArtifact.FileName, true);
-                }
+                    PresLib.Form form = (PresLib.Form)Activator.CreateInstance(type, currentArtifact.Module);
+                    form.ShowDialog(this);
+                    if (form.IsModified)
+                    {
+                        this.SaveArtifact(this.currentArtifact, this.currentArtifact.FileName, true);
+                    }
+                }                
             }
         }
 

@@ -49,11 +49,11 @@
             this.mnuTileHorizontal = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTileVertical = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.closeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuViewHelp = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -186,35 +186,41 @@
             // mnuArrangeIcons
             // 
             this.mnuArrangeIcons.Name = "mnuArrangeIcons";
-            this.mnuArrangeIcons.Size = new System.Drawing.Size(152, 22);
+            this.mnuArrangeIcons.Size = new System.Drawing.Size(142, 22);
             this.mnuArrangeIcons.Text = "Arrange Icons";
             this.mnuArrangeIcons.Click += new System.EventHandler(this.mnuArrangeIcons_Click);
             // 
             // mnuCascade
             // 
             this.mnuCascade.Name = "mnuCascade";
-            this.mnuCascade.Size = new System.Drawing.Size(152, 22);
+            this.mnuCascade.Size = new System.Drawing.Size(142, 22);
             this.mnuCascade.Text = "Cascade";
             this.mnuCascade.Click += new System.EventHandler(this.mnuCascade_Click);
             // 
             // mnuTileHorizontal
             // 
             this.mnuTileHorizontal.Name = "mnuTileHorizontal";
-            this.mnuTileHorizontal.Size = new System.Drawing.Size(152, 22);
+            this.mnuTileHorizontal.Size = new System.Drawing.Size(142, 22);
             this.mnuTileHorizontal.Text = "Tile Horizontal";
             this.mnuTileHorizontal.Click += new System.EventHandler(this.mnuTileHorizontal_Click);
             // 
             // mnuTileVertical
             // 
             this.mnuTileVertical.Name = "mnuTileVertical";
-            this.mnuTileVertical.Size = new System.Drawing.Size(152, 22);
+            this.mnuTileVertical.Size = new System.Drawing.Size(142, 22);
             this.mnuTileVertical.Text = "Tile Vertical";
             this.mnuTileVertical.Click += new System.EventHandler(this.mnuTileVertical_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(139, 6);
+            // 
+            // closeAllToolStripMenuItem
+            // 
+            this.closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
+            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.closeAllToolStripMenuItem.Text = "Close All";
             // 
             // mnuHelp
             // 
@@ -244,12 +250,6 @@
             this.mnuViewHelp.Size = new System.Drawing.Size(139, 22);
             this.mnuViewHelp.Text = "View Help";
             // 
-            // closeAllToolStripMenuItem
-            // 
-            this.closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
-            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.closeAllToolStripMenuItem.Text = "Close All";
-            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -260,6 +260,7 @@
             this.MainMenuStrip = this.mainMenu;
             this.Name = "Container";
             this.Text = "Reports";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Container_Load);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
