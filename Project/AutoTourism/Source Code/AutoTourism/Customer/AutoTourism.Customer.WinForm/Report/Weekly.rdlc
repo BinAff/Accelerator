@@ -29,7 +29,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Stay Detail</Value>
-                              <Style />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -59,7 +62,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Personal Information</Value>
-                              <Style />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -89,7 +95,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Booking Details</Value>
-                              <Style />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -327,7 +336,10 @@
                         <TextRuns>
                           <TextRun>
                             <Value>Name</Value>
-                            <Style />
+                            <Style>
+                              <FontWeight>Bold</FontWeight>
+                              <Color>White</Color>
+                            </Style>
                           </TextRun>
                         </TextRuns>
                         <Style />
@@ -471,7 +483,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>="Month: " + (First(Fields!CheckInDate.Value, "Customer")) + ", " + Year(First(Fields!CheckInDate.Value, "Customer"))</Value>
+                  <Value>=FormatDateTime(Parameters!Start.Value, DateFormat.ShortDate).ToString() + " to " + FormatDateTime(Parameters!End.Value, DateFormat.ShortDate).ToString()</Value>
                   <Style />
                 </TextRun>
               </TextRuns>

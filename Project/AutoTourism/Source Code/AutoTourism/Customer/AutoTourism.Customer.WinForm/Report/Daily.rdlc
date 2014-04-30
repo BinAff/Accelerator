@@ -6,13 +6,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.96941in</Width>
+              <Width>1.97826in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.28038in</Width>
+              <Width>2.28923in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.28038in</Width>
+              <Width>2.28923in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -29,7 +29,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Stay Detail</Value>
-                              <Style />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -59,7 +62,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Personal Information</Value>
-                              <Style />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -89,7 +95,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Booking Details</Value>
-                              <Style />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>White</Color>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -317,7 +326,7 @@
           <TablixMembers>
             <TablixMember>
               <TablixHeader>
-                <Size>1.39691in</Size>
+                <Size>1.40576in</Size>
                 <CellContents>
                   <Textbox Name="Textbox15">
                     <CanGrow>true</CanGrow>
@@ -327,7 +336,10 @@
                         <TextRuns>
                           <TextRun>
                             <Value>Name</Value>
-                            <Style />
+                            <Style>
+                              <FontWeight>Bold</FontWeight>
+                              <Color>White</Color>
+                            </Style>
                           </TextRun>
                         </TextRuns>
                         <Style />
@@ -363,7 +375,7 @@
                 </SortExpression>
               </SortExpressions>
               <TablixHeader>
-                <Size>1.39691in</Size>
+                <Size>1.40576in</Size>
                 <CellContents>
                   <Textbox Name="Textbox1">
                     <CanGrow>true</CanGrow>
@@ -413,7 +425,7 @@
         <Top>0.1in</Top>
         <Left>0.1in</Left>
         <Height>0.96875in</Height>
-        <Width>7.92708in</Width>
+        <Width>7.96248in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -471,7 +483,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>="Date: " + First(Fields!CheckInDate.Value, "Customer")</Value>
+                  <Value>="Date: " + FormatDateTime(Parameters!Start.Value, DateFormat.ShortDate).ToString()</Value>
                   <Style />
                 </TextRun>
               </TextRuns>
