@@ -1,6 +1,7 @@
 ﻿using BinAff.Core;
 using System;
 using System.Collections.Generic;
+using System.Transactions;
 
 using AutotourismComponent = AutoTourism.Component.Customer;
 using CustomerComponent = Crystal.Customer.Component;
@@ -12,7 +13,7 @@ namespace AutoTourism.Customer.Facade
 {
 
     public class Server : BinAff.Facade.Library.Server
-    {
+    {        
 
         public Server(FormDto formDto)
             : base(formDto)
@@ -106,7 +107,20 @@ namespace AutoTourism.Customer.Facade
         private void Save()
         {
             ICrud crud = new AutotourismComponent.Server(this.Convert((this.FormDto as FormDto).Dto) as AutotourismComponent.Data);
-            ReturnObject<Boolean> ret = crud.Save();
+            //ReturnObject<Boolean> ret = crud.Save();
+
+            ReturnObject<Boolean> ret;
+            using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
+            {
+                ret = crud.Save();
+
+                if (!ret.HasError())
+                {
+                    //save artifact
+
+                    T.Complete();
+                }
+            }
 
             (this.FormDto as FormDto).Dto.Id = (crud as Crud).Data.Id;
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
