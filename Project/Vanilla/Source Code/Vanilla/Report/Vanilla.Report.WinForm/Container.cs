@@ -12,11 +12,25 @@ namespace Vanilla.Report.WinForm
     {
 
         private Vanilla.Guardian.WinForm.Login loginForm;
-        Form currentChild;
+        private Boolean isLoginFormOpen;
+        private Boolean isAlreadyLoggedIn;
 
         public Container()
         {
             InitializeComponent();
+            this.isLoginFormOpen = false;
+            this.isAlreadyLoggedIn = false;
+            this.MdiChildActivate += Container_MdiChildActivate;
+        }
+
+        void Container_MdiChildActivate(object sender, EventArgs e)
+        {
+            //if (this.isLoginFormOpen && this.isAlreadyLoggedIn)
+            if (this.isLoginFormOpen)
+            {
+                this.Login();
+                this.loginForm.Close();
+            }
         }
 
         public Container(VanAcc.Dto account)
@@ -25,15 +39,6 @@ namespace Vanilla.Report.WinForm
             if (account != null)
             {
                 Server.Current.Cache["User"] = account;
-            }
-        }
-
-        public Container(VanAcc.Dto account, Form report)
-            : this(account)
-        {
-            if (report != null)
-            {
-                this.currentChild = report;
             }
         }
 
@@ -48,11 +53,12 @@ namespace Vanilla.Report.WinForm
             }
             else
             {
-                if (this.currentChild != null)
-                {
-                    this.currentChild.MdiParent = this;
-                    this.currentChild.Show();
-                }
+                this.mnuLogin.Visible = false;
+                //if (this.currentChild != null)
+                //{
+                //    this.currentChild.MdiParent = this;
+                //    this.currentChild.Show();
+                //}
             }
         }
 
@@ -68,10 +74,15 @@ namespace Vanilla.Report.WinForm
         private void mnuLogout_Click(object sender, EventArgs e)
         {
             new Facade.Container.Server(null).Logout();
+            foreach (Form frm in this.MdiChildren)
+            {
+                frm.Close();
+            }
             this.ShowControlBeforeLogin();
             this.ShowLoginForm();
 
             this.Text = this.Text.Split(new Char[] { ' ', ':', ' ' })[0];
+            this.isAlreadyLoggedIn = false;
         }
 
         private void mnuNew_Click(object sender, EventArgs e)
@@ -148,33 +159,54 @@ namespace Vanilla.Report.WinForm
             this.loginForm = new Guardian.WinForm.Login
             {
                 TopLevel = false,
+                WindowState = FormWindowState.Normal,
                 Dock = DockStyle.Fill,
                 MdiParent = this,
                 StartPosition = FormStartPosition.CenterScreen,
             };
             this.loginForm.FormClosed += loginForm_FormClosed;
-
             this.loginForm.Show();
+            this.isLoginFormOpen = true;
         }
 
         private void loginForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             if ((sender as Vanilla.Guardian.WinForm.Login).IsAuthenticated)
             {
-                VanAcc.Dto loggedInUser = (Server.Current.Cache["User"] as VanAcc.Dto);
-                String heading = this.Text + " : " + loggedInUser.Profile.Name + " - ";
-                if (loggedInUser.RoleList != null)
-                {
-                    Int32 i = loggedInUser.RoleList.Count - 1;
-                    while (i >= 0)
-                    {
-                        heading += loggedInUser.RoleList[i].Name;
-                        if (i-- != 0) heading += "/";
-                    }
-                }
-                this.Text = heading;
-                this.ShowControlAfterLogin();
+                this.Login();
             }
+            this.isLoginFormOpen = false;
+        }
+
+        private void Login()
+        {
+            this.isAlreadyLoggedIn = true;
+            VanAcc.Dto loggedInUser = (Server.Current.Cache["User"] as VanAcc.Dto);
+            String heading = this.Text + " : " + loggedInUser.Profile.Name + " - ";
+            if (loggedInUser.RoleList != null)
+            {
+                Int32 i = loggedInUser.RoleList.Count - 1;
+                while (i >= 0)
+                {
+                    heading += loggedInUser.RoleList[i].Name;
+                    if (i-- != 0) heading += "/";
+                }
+            }
+            this.Text = heading;
+            this.ShowControlAfterLogin();
+        }
+
+        public Boolean Login(VanAcc.Dto user)
+        {
+            VanAcc.Dto loggedInUser = (Server.Current.Cache["User"] as VanAcc.Dto);
+            if (loggedInUser == null) return false;
+            if (String.Compare(user.LoginId, loggedInUser.LoginId) == 0
+                && String.Compare(user.Password, loggedInUser.Password) == 0)
+            {
+                this.Login();
+                return true;
+            }
+            return false;
         }
 
         private void mnuOpen_Click(object sender, EventArgs e)

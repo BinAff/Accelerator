@@ -284,8 +284,8 @@ namespace Vanilla.Guardian.Facade.Account
                 {
                     this.DisplayMessageList = ret.GetMessage(Message.Type.Error);
                 }
-                BinAff.Facade.Cache.Server.Current.Cache.RemoveAll();
             }
+            BinAff.Facade.Cache.Server.Current.Cache.RemoveAll();
         }
 
         public void ChangeRoleAndLoginId()

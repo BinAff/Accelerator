@@ -188,11 +188,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void mnuLogOut_Click(object sender, EventArgs e)
         {
-            new Facade.Container.Server(null).Logout();
-            this.HideControl();
-            this.ShowLoginForm();
-
-            this.Text = this.Text.Split(new Char[] { ' ', ':', ' ' })[0];
+            this.LogOut();
         }
 
         private void mnuNewFolder_Click(object sender, EventArgs e)
@@ -438,6 +434,7 @@ namespace Vanilla.Navigator.WinForm
             t.Tick += t_Tick;
             t.Start();
             this.ucRegister.LoadForm();
+            this.ucRegister.LoggedOut += ucRegister_LoggedOut;
             t.Stop();
 
             this.progressBar.Value = (Int32)Math.Abs(this.progressBar.Maximum * 0.8);
@@ -454,6 +451,20 @@ namespace Vanilla.Navigator.WinForm
             this.mnuEdit.Visible = true;
             this.mnuView.Visible = true;
             this.mnuUserManagement.Visible = true;
+        }
+
+        void ucRegister_LoggedOut()
+        {
+            this.LogOut();
+        }
+
+        private void LogOut()
+        {
+            new Facade.Container.Server(null).Logout();
+            this.HideControl();
+            this.ShowLoginForm();
+
+            this.Text = this.Text.Split(new Char[] { ' ', ':', ' ' })[0];
         }
 
         void t_Tick(object sender, EventArgs e)

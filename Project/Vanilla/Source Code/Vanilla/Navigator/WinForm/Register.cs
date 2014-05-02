@@ -11,6 +11,7 @@ using UtilFac = Vanilla.Utility.Facade;
 using Vanilla.Utility.WinForm.Extender;
 using VanAcc = Vanilla.Guardian.Facade.Account;
 using VanRpt = Vanilla.Report.Facade;
+using System.Diagnostics;
 
 namespace Vanilla.Navigator.WinForm
 {
@@ -62,6 +63,9 @@ namespace Vanilla.Navigator.WinForm
 
         public delegate void ChangePath();
         public event ChangePath PathChanged;
+
+        public delegate void OnLogOut();
+        public event OnLogOut LoggedOut;
 
         public List<Report.Facade.Category.Dto> reportCategoryList = new List<Report.Facade.Category.Dto>();
         
@@ -593,11 +597,21 @@ namespace Vanilla.Navigator.WinForm
                 {
                     if (this.reportExecutable == null)
                     {
+                        //Process report = new Process();
+                        //report.StartInfo.FileName = "Vanilla.Report.WinForm.exe";
+                        //report.StartInfo.Arguments = (Server.Current.Cache["User"] as VanAcc.Dto).LoginId + " " + (Server.Current.Cache["User"] as VanAcc.Dto).Password;
+                        //report.Start();
+
                         this.reportExecutable = new Vanilla.Report.WinForm.Container(Server.Current.Cache["User"] as VanAcc.Dto);
-                        this.reportExecutable.Show();
                         this.reportExecutable.FormClosed += reportExecutable_FormClosed;
                     }
-                    PresLib.Form form = new Vanilla.Report.WinForm.Document(new VanRpt.Document.FormDto
+                    this.reportExecutable.Show();
+                    if (!this.reportExecutable.Login(Server.Current.Cache["User"] as VanAcc.Dto))
+                    {
+                        this.LoggedOut();
+                        return;
+                    }
+                    Vanilla.Report.WinForm.Document form = new Vanilla.Report.WinForm.Document(new VanRpt.Document.FormDto
                     {
                         Dto = this.currentArtifact.Module as Report.Facade.Document.Dto,
                         DocumentName = this.currentArtifact.FileName + "." + this.currentArtifact.Extension,
@@ -609,7 +623,7 @@ namespace Vanilla.Navigator.WinForm
                     }, this.currentArtifact.Category) as Report.Facade.Document.Server)
                     {
                         MdiParent = this.reportExecutable
-                    };
+                    };                    
                     form.Show();                    
                 }
                 else
