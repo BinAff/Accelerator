@@ -120,6 +120,10 @@
       <Project>{0b1cd68a-f3e8-4a59-a615-89b5fea46fcf}</Project>
       <Name>Vanilla.Navigator.WinForm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Vanilla\Source Code\Vanilla\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
+      <Project>{A10719AF-5C9F-4903-AB83-089EC502EEA2}</Project>
+      <Name>Vanilla.Utility.Facade</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Vanilla\Source Code\Vanilla\Utility\Vanilla.Utility.WinForm\Vanilla.Utility.WinForm.csproj">
       <Project>{49BE0D61-4BD1-42B2-B582-77094AF71728}</Project>
       <Name>Vanilla.Utility.WinForm</Name>
