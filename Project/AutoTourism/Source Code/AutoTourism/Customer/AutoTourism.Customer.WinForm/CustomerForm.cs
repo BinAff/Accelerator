@@ -9,6 +9,7 @@ using PresentationLibrary = BinAff.Presentation.Library;
 using CustFac = AutoTourism.Customer.Facade;
 using ConfRuleFac = AutoTourism.Configuration.Rule.Facade;
 using UtilForm = Vanilla.Utility.WinForm;
+using UtilFacade = Vanilla.Utility.Facade;
 
 namespace AutoTourism.Customer.WinForm
 {
@@ -494,9 +495,11 @@ namespace AutoTourism.Customer.WinForm
                     Dto = this.dto,
                 };
 
-                BinAff.Facade.Library.Server facade = new CustFac.Server(formDto);
+                //BinAff.Facade.Library.Server facade = new CustFac.Server(formDto);
+                UtilFacade.Document.Server facade = new CustFac.Server(formDto);
                 if (formDto.Dto.Id == 0)
                 {
+                    facade.ArtifactDto = this.ArtifactDto;
                     facade.Add();
                 }
                 else
