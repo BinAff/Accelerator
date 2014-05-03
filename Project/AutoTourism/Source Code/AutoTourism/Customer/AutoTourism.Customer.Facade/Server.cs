@@ -12,7 +12,7 @@ using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 namespace AutoTourism.Customer.Facade
 {
 
-    public class Server : BinAff.Facade.Library.Server
+    public class Server : Vanilla.Utility.Facade.Document.Server
     {        
 
         public Server(FormDto formDto)
@@ -117,6 +117,9 @@ namespace AutoTourism.Customer.Facade
                 if (!ret.HasError())
                 {
                     //save artifact
+                    Int64 artifactId = this.ArtifactDto.Id;
+                    base.ModuleArtifactLinkSP = "[Customer].[UpdateFormForArtifact]";
+                    base.UpdateModuleArtifactLink();
 
                     T.Complete();
                 }
@@ -126,6 +129,7 @@ namespace AutoTourism.Customer.Facade
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
+      
         //private List<Table> ReadAllInitial()
         //{
         //    //Building.FormDto buildingFormDto = new FacadeBuilding.FormDto();
