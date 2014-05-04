@@ -51,7 +51,7 @@ namespace Vanilla.Invoice.Facade.Report
 
             //Path is wrong
             String path = System.IO.Directory.GetCurrentDirectory();
-            path = path.Remove(path.IndexOf("AutoTourism"));
+            path = path.Remove(path.IndexOf("Vanilla"));
             path += @"Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.WinForm\Report\" + (this.FormDto as FormDto).Dto.ReportName;
 
             (this.FormDto as FormDto).Dto.Path = path;

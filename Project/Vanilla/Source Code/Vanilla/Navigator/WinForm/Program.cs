@@ -1,12 +1,12 @@
-﻿using System;
+﻿using BinAff.Tool.SecurityHandler;
+using System;
+using System.Diagnostics;
 using System.Windows.Forms;
-using System.Configuration;
+using VanAcc = Vanilla.Guardian.Facade.Account;
 
-using BinAff.Tool.SecurityHandler;
-
-namespace AutoTourism
+namespace Vanilla.Navigator.WinForm
 {
-
+    
     static class Program
     {
 
