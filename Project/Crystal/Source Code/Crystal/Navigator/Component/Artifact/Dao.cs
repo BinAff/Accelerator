@@ -3,6 +3,7 @@ using System.Data;
 using System.Collections.Generic;
 
 using GuardianAcc = Crystal.Guardian.Component.Account;
+using BinAff.Core;
 
 namespace Crystal.Navigator.Component.Artifact
 {
@@ -175,7 +176,12 @@ namespace Crystal.Navigator.Component.Artifact
         protected virtual bool CreateAfterModuleArtifactLink()
         {
             return true;
-        }       
+        }
+
+        protected internal virtual ReturnObject<bool> UpdateArtifactModuleLink()
+        {
+            return new ReturnObject<bool> { Value = true };
+        }
     }
 
 }

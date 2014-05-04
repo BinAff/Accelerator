@@ -151,6 +151,11 @@ namespace Crystal.Navigator.Component.Artifact
             return matchedList;
         }
 
+
+        ReturnObject<bool> IArtifact.UpdaterModuleArtifactLink()
+        {
+            return (this.DataAccess as Dao).UpdateArtifactModuleLink();
+        }
     }
 
 }

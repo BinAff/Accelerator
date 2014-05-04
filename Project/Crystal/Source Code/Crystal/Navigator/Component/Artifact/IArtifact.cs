@@ -10,7 +10,7 @@ namespace Crystal.Navigator.Component.Artifact
     {
 
         ReturnObject<Data> FormTree();
-
+        ReturnObject<Boolean> UpdaterModuleArtifactLink();
     }
 
 }
