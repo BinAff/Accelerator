@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data;
+
+using BinAff.Core;
 using CrystalArtifact = Crystal.Customer.Component.Navigator.Artifact;
 
 namespace AutoTourism.Component.Customer.Navigator.Artifact
@@ -70,8 +72,8 @@ namespace AutoTourism.Component.Customer.Navigator.Artifact
             if (ret == -2146232060) status = false;//Foreign key violation
 
             return status;
-        }              
-
+        }
+              
         protected override bool DeleteAfter()
         {
             return base.DeleteAfter();
@@ -80,6 +82,25 @@ namespace AutoTourism.Component.Customer.Navigator.Artifact
         protected override bool DeleteBefore()
         {
             return base.DeleteArtifactLink();
+        }
+
+        protected override ReturnObject<bool> UpdateArtifactModuleLink()
+        {
+            Boolean status = true;
+
+            Data artifactData = Data as Data;
+
+            base.CreateCommand("[Customer].[UpdateFormForArtifact]");
+            base.AddInParameter("@CustomerId", DbType.Int64, artifactData.ComponentData.Id);
+            base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
+
+            Int32 ret = base.ExecuteNonQuery();
+            if (ret == -2146232060) status = false;//Foreign key violation
+
+            return new ReturnObject<bool> 
+            {
+                Value = status
+            };            
         }
 
     }
