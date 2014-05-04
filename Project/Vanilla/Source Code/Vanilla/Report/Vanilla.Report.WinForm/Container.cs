@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using BinAff.Facade.Cache;
 
 using VanAcc = Vanilla.Guardian.Facade.Account;
+using UtilWin = Vanilla.Utility.WinForm;
 
 namespace Vanilla.Report.WinForm
 {
@@ -15,7 +16,21 @@ namespace Vanilla.Report.WinForm
         private Boolean isLoginFormOpen;
         private Boolean isAlreadyLoggedIn;
 
-        public Container()
+        private static Container currentInstance;
+
+        public static Container CreateInstance(VanAcc.Dto account)
+        {
+            if (currentInstance == null) currentInstance = new Container(account);
+            return currentInstance;
+        }
+
+        public static Container CreateInstance()
+        {
+            if (currentInstance == null) currentInstance = new Container();
+            return currentInstance;
+        }
+
+        private Container()
         {
             InitializeComponent();
             this.isLoginFormOpen = false;
@@ -33,7 +48,7 @@ namespace Vanilla.Report.WinForm
             }
         }
 
-        public Container(VanAcc.Dto account)
+        private Container(VanAcc.Dto account)
             : this()
         {
             if (account != null)
@@ -92,6 +107,11 @@ namespace Vanilla.Report.WinForm
                 Text = "New Form",
                 MdiParent = this,
             }.Show();
+        }
+
+        private void mnuOpen_Click(object sender, EventArgs e)
+        {
+            new Open().ShowDialog(this);
         }
 
         #endregion
@@ -207,11 +227,6 @@ namespace Vanilla.Report.WinForm
                 return true;
             }
             return false;
-        }
-
-        private void mnuOpen_Click(object sender, EventArgs e)
-        {
-            new Open().ShowDialog(this);
         }
         
     }
