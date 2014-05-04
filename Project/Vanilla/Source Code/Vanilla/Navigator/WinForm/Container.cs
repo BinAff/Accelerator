@@ -51,8 +51,22 @@ namespace Vanilla.Navigator.WinForm
         private String selectedNodePath;
 
         private Timer connectionTimer;
+
+        private static Container currentInstance;
+
+        public static Container CreateInstance(String selectedNodePath)
+        {
+            if (currentInstance == null) currentInstance = new Container(selectedNodePath);
+            return currentInstance;
+        }
+
+        public static Container CreateInstance()
+        {
+            if (currentInstance == null) currentInstance = new Container();
+            return currentInstance;
+        }
         
-        public Container()
+        private Container()
         {
             InitializeComponent();
 
@@ -60,7 +74,7 @@ namespace Vanilla.Navigator.WinForm
             //SendMessage(this.Handle, WM_SETICON, ICON_BIG, Properties.Resources.BigIcon.Handle);
         }
         
-        public Container(String selectedNodePath)
+        private Container(String selectedNodePath)
             : this()
         {
             this.isLoggedIn = true;
