@@ -106,26 +106,36 @@ namespace AutoTourism.Customer.Facade
 
         private void Save()
         {
-            ICrud crud = new AutotourismComponent.Server(this.Convert((this.FormDto as FormDto).Dto) as AutotourismComponent.Data);
-            //ReturnObject<Boolean> ret = crud.Save();
-
             ReturnObject<Boolean> ret;
-            using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
-            {
+            ICrud crud = new AutotourismComponent.Server(this.Convert((this.FormDto as FormDto).Dto) as AutotourismComponent.Data);
+
+            if ((this.FormDto as FormDto).Dto.Id > 0)
                 ret = crud.Save();
-
-                if (!ret.HasError())
+            else
+            {
+                using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
                 {
-                    //save artifact
-                    Int64 artifactId = this.ArtifactDto.Id;
-                    base.ModuleArtifactLinkSP = "[Customer].[UpdateFormForArtifact]";
-                    base.UpdateModuleArtifactLink();
+                    ret = crud.Save();
+                    Int64 customerId = (crud as Crud).Data.Id;
 
-                    T.Complete();
+                    if (!ret.HasError())
+                    {
+                        Crystal.Navigator.Component.Artifact.IArtifact artifact = new AutotourismComponent.Navigator.Artifact.Server(
+                                new AutotourismComponent.Navigator.Artifact.Data
+                                {
+                                    Id = this.ArtifactDto.Id,
+                                    ComponentData = new Data { Id = customerId }
+                                });
+                        ret = artifact.UpdaterModuleArtifactLink();
+                        if (!ret.HasError())
+                            T.Complete();
+
+                    }
+
+                    (this.FormDto as FormDto).Dto.Id = (crud as Crud).Data.Id;
                 }
             }
-
-            (this.FormDto as FormDto).Dto.Id = (crud as Crud).Data.Id;
+           
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
