@@ -28,11 +28,11 @@ namespace Vanilla.Report.WinForm
                         LoginId = args[0],
                         Password = args[1],
                     };
-                    container = new Container(account);
+                    container = Container.CreateInstance(account);
                 }
                 else
                 {
-                    container = new Container();
+                    container = Container.CreateInstance();
                 }
                 Application.Run(container);
             }

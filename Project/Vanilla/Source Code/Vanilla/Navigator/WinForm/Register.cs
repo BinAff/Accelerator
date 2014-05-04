@@ -23,8 +23,11 @@ namespace Vanilla.Navigator.WinForm
         private Facade.Register.Server facade;
 
         private Vanilla.Report.WinForm.Container reportExecutable;
+        List<String> addressList; //This is for back button. This will hold all navigations
+
+        private UtilFac.Artifact.Dto cutArtifact;
         
-        private PresLib.ListViewColumnSorter lvwColumnSorter;
+        private PresLib.ListViewColumnSorter columnSorter;
 
         private TreeNode editNode;
         private String sortColumn;
@@ -34,10 +37,6 @@ namespace Vanilla.Navigator.WinForm
 
         private UtilFac.Artifact.Dto currentArtifact;
         private MenuClickSource menuClickSource;
-
-        private UtilFac.Artifact.Dto cutArtifact;
-
-        List<String> addressList; //This is for back button. This will hold all navigations
 
         /// <summary>
         /// This is for progress bar
@@ -60,6 +59,8 @@ namespace Vanilla.Navigator.WinForm
                 }
             }
         }
+
+        public UtilFac.Artifact.Category Category { get; set; }
 
         public delegate void ChangePath();
         public event ChangePath PathChanged;
@@ -89,7 +90,7 @@ namespace Vanilla.Navigator.WinForm
             Timer t = new Timer { Interval = 10 };
             t.Tick += t_Tick;
             this.cmsExplorer.ImageList = this.imgSmallIcon;
-            this.lvwColumnSorter = new PresLib.ListViewColumnSorter();
+            this.columnSorter = new PresLib.ListViewColumnSorter();
             this.sortColumn = this.lsvContainer.Initialize();
             this.InitializeTab();
             this.RemoveAuditInfo();
@@ -602,7 +603,7 @@ namespace Vanilla.Navigator.WinForm
                         //report.StartInfo.Arguments = (Server.Current.Cache["User"] as VanAcc.Dto).LoginId + " " + (Server.Current.Cache["User"] as VanAcc.Dto).Password;
                         //report.Start();
 
-                        this.reportExecutable = new Vanilla.Report.WinForm.Container(Server.Current.Cache["User"] as VanAcc.Dto);
+                        this.reportExecutable = Vanilla.Report.WinForm.Container.CreateInstance(Server.Current.Cache["User"] as VanAcc.Dto);
                         this.reportExecutable.FormClosed += reportExecutable_FormClosed;
                     }
                     this.reportExecutable.Show();
@@ -654,24 +655,24 @@ namespace Vanilla.Navigator.WinForm
             this.sortColumn = this.lsvContainer.Columns[e.Column].Text;
 
             //Determine if clicked column is already the column that is being sorted.   
-            if (e.Column == this.lvwColumnSorter.SortColumn)
+            if (e.Column == this.columnSorter.SortColumn)
             {
-                if (this.lvwColumnSorter.Order == SortOrder.Ascending || this.lvwColumnSorter.Order == SortOrder.None)
+                if (this.columnSorter.Order == SortOrder.Ascending || this.columnSorter.Order == SortOrder.None)
                 {
-                    this.lvwColumnSorter.Order = SortOrder.Descending;
+                    this.columnSorter.Order = SortOrder.Descending;
                 }
                 else
                 {
-                    this.lvwColumnSorter.Order = SortOrder.Ascending;
+                    this.columnSorter.Order = SortOrder.Ascending;
                 }
             }
             else
             {
-                this.lvwColumnSorter.SortColumn = e.Column;
-                this.lvwColumnSorter.Order = SortOrder.Ascending;
+                this.columnSorter.SortColumn = e.Column;
+                this.columnSorter.Order = SortOrder.Ascending;
             }
 
-            this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter, isDocumentFirst);
+            this.lsvContainer.Sort(this.sortColumn, this.columnSorter, isDocumentFirst);
         }
 
         #endregion
@@ -829,27 +830,6 @@ namespace Vanilla.Navigator.WinForm
             }
         }
 
-        //private TreeNode FindTreeNodeFromPath(String path, TreeNodeCollection treeNodes)
-        //{
-        //    String text = path.Substring(0, path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()));
-        //    path = path.Substring(path.IndexOfAny(this.formDto.Rule.PathSeperator.ToCharArray()) + 1);
-        //    foreach (TreeNode node in treeNodes)
-        //    {
-        //        if (node.Text == text)
-        //        {
-        //            if (String.IsNullOrEmpty(path))
-        //            {
-        //                return node;
-        //            }
-        //            else if (node.Nodes.Count > 0)
-        //            {
-        //                return this.FindTreeNodeFromPath(path, node.Nodes);
-        //            }
-        //        }
-        //    }
-        //    return null;
-        //}
-
         #endregion
 
         #region Audit
@@ -919,7 +899,7 @@ namespace Vanilla.Navigator.WinForm
             {
                 if (menuName == "cmnuSort")
                 {
-                    if ((this.sortColumn == sortItems[i].Text) || (this.lvwColumnSorter.Order.ToString() == sortItems[i].Text))
+                    if ((this.sortColumn == sortItems[i].Text) || (this.columnSorter.Order.ToString() == sortItems[i].Text))
                     {
                         sortItems[i].Image = this.imgMisc.Images["Dot.gif"];
                     }
@@ -1422,18 +1402,18 @@ namespace Vanilla.Navigator.WinForm
         public void Sort(String sortColumn)
         {
             this.sortColumn = sortColumn;
-            this.lvwColumnSorter.Order = this.sortOrder;
+            this.columnSorter.Order = this.sortOrder;
 
-            this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter, isDocumentFirst);
+            this.lsvContainer.Sort(this.sortColumn, this.columnSorter, isDocumentFirst);
             //this.SortListView(this.sortColumn);
         }
 
         public void Sort(SortOrder sortOrder)
         {
             this.sortOrder = sortOrder;
-            this.lvwColumnSorter.Order = this.sortOrder;
+            this.columnSorter.Order = this.sortOrder;
 
-            this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter, isDocumentFirst);
+            this.lsvContainer.Sort(this.sortColumn, this.columnSorter, isDocumentFirst);
             //this.SortListView(this.sortColumn);
         }
 
@@ -1441,9 +1421,9 @@ namespace Vanilla.Navigator.WinForm
         {
             this.sortColumn = sortColumn;
             this.sortOrder = sortOrder;
-            this.lvwColumnSorter.Order = this.sortOrder;
+            this.columnSorter.Order = this.sortOrder;
 
-            this.lsvContainer.Sort(this.sortColumn, this.lvwColumnSorter, isDocumentFirst);
+            this.lsvContainer.Sort(this.sortColumn, this.columnSorter, isDocumentFirst);
             //this.SortListView(this.sortColumn);
         }
 
@@ -1497,6 +1477,46 @@ namespace Vanilla.Navigator.WinForm
 
         #endregion
 
+        #region Report
+
+        private void cmnuDailyReport_Click(object sender, EventArgs e)
+        {
+            this.CreateReport("Daily");
+        }
+
+        private void cmnuWeeklyReport_Click(object sender, EventArgs e)
+        {
+            this.CreateReport("Weekly");
+        }
+
+        private void cmnuMonthlyReport_Click(object sender, EventArgs e)
+        {
+            this.CreateReport("Monthly");
+        }
+
+        private void cmnuQuarterlyReport_Click(object sender, EventArgs e)
+        {
+            this.CreateReport("Quarterly");
+        }
+
+        private void cmnuYearlyReport_Click(object sender, EventArgs e)
+        {
+            this.CreateReport("Yearly");
+        }
+
+        private void CreateReport(String categoryName)
+        {
+            TreeNode rootNode = this.GetRootNode();
+            this.currentArtifact.Module = new Report.Facade.Document.Dto
+            {
+                Category = this.reportCategoryList.Find((p) => { return String.Compare(p.Name, categoryName, true) == 0; }),
+            };
+            this.currentArtifact.Extension = (this.currentArtifact.Module as Report.Facade.Document.Dto).Category.Extension;
+            this.AddDocument();
+        }
+
+        #endregion
+
         private void ShowHideContextMenuItems(ListViewItem listViewItem)
         {
             if (listViewItem != null)
@@ -1529,7 +1549,7 @@ namespace Vanilla.Navigator.WinForm
                     cmsExplorer.Items[i].Visible = this.IsListViewItem(cmsExplorer.Items[i].Name, listViewItem);
 
                 //attach image to context menu
-                if ((cmsExplorer.Items[i].Name == "cmnuSort" && lvwColumnSorter.Order != SortOrder.None) || (cmsExplorer.Items[i].Name == "cmnuView"))
+                if ((cmsExplorer.Items[i].Name == "cmnuSort" && columnSorter.Order != SortOrder.None) || (cmsExplorer.Items[i].Name == "cmnuView"))
                 {
                     this.SetImageInContextMenu((cmsExplorer.Items[i] as ToolStripMenuItem).DropDownItems, cmsExplorer.Items[i].Name);
                 }
@@ -2055,11 +2075,6 @@ namespace Vanilla.Navigator.WinForm
 
         }
 
-        //private void cmnuReport_Click(object sender, EventArgs e)
-        //{
-
-        //}
-
         private TreeView GetActiveTreeView()
         {
             TreeView trv = new TreeView();
@@ -2079,265 +2094,6 @@ namespace Vanilla.Navigator.WinForm
             }
             return trv;
         }
-
-        #region Need to Remove
-
-        //private void SelectNode(UtilFac.Artifact.Dto selectedNode)
-        //{
-        //    this.currentArtifact = selectedNode;
-
-        //    this.lsvContainer.Items.Clear();
-        //    if (selectedNode.Children != null && selectedNode.Children.Count > 0)
-        //    {
-        //        foreach (UtilFac.Artifact.Dto artifact in selectedNode.Children)
-        //        {
-        //            ListViewItem current = new ListViewItem
-        //            {
-        //                Text = artifact.FileName,
-        //                Tag = artifact,
-        //                ImageIndex = artifact.Style == UtilFac.Artifact.Type.Folder ? 0 : 2,
-        //            };
-        //            current.SubItems.AddRange(this.AddListViewSubItems(current, artifact));
-        //            this.lsvContainer.Items.Add(current);
-        //        }
-
-        //        //sort list view
-        //        this.sortColumn = "Name"; //this name will come from rule
-        //        this.lvwColumnSorter.Order = SortOrder.Ascending;
-        //        this.ResetColumnOrderInListView();
-
-        //        this.lsvContainer.Sort(sortColumn, this.lvwColumnSorter);
-        //        //this.SortListView(sortColumn);
-        //    }
-        //}
-
-        //private void SortListView(String columnHeaderCaption)
-        //{
-        //    this.lsvContainer.ResetColumnHeader();
-        //    for (int i = 0; i < lsvContainer.Columns.Count; i++)
-        //    {
-        //        if (this.lsvContainer.Columns[i].Text == columnHeaderCaption)
-        //        {
-        //            this.lvwColumnSorter.SortColumn = i;
-
-        //            // Reverse the current sort direction for this column.
-        //            if (lvwColumnSorter.Order == SortOrder.Ascending)
-        //            {
-        //                this.lsvContainer.Columns[lvwColumnSorter.SortColumn].ImageKey = "Down.gif";
-        //            }
-        //            else
-        //            {
-        //                this.lsvContainer.Columns[lvwColumnSorter.SortColumn].ImageKey = "Up.gif";
-        //            }
-
-        //            // Perform the sort with these new sort options.
-        //            this.lsvContainer.Sort();
-        //            break;
-        //        }
-        //    }
-        //}
-
-        //private void ResetListViewColumnHeader()
-        //{
-        //    //clear sort character from column caption
-        //    for (int i = 0; i < lsvContainer.Columns.Count; i++)
-        //    {
-        //        this.lsvContainer.Columns[i].ImageKey = String.Empty;
-        //        this.lsvContainer.Columns[i].ImageIndex = -1;
-        //        this.lsvContainer.Columns[i].TextAlign = HorizontalAlignment.Left;
-        //    }
-        //}
-
-        //private Boolean IsNodeTypeEqual(TreeNode destination, TreeNode source)
-        //{
-        //    if (destination != null && source != null)
-        //    {
-        //        TreeNode destinationRootNode = this.trvForm.FindRootNode(destination);
-        //        TreeNode sourceRootNode = this.trvForm.FindRootNode(source);
-
-        //        return ((destinationRootNode.Tag as UtilFac.Module.Dto).Code == (sourceRootNode.Tag as UtilFac.Module.Dto).Code); 
-        //    }
-
-        //    return false;
-        //}
-
-        //private TreeNode FindTreeNodeFromTag(UtilFac.Artifact.Dto artifactDto, TreeNodeCollection treeNodes, TreeNode selectedNode)
-        //{
-        //    foreach (TreeNode node in treeNodes)
-        //    {
-        //        if (selectedNode != null)
-        //            break;
-
-        //        UtilFac.Artifact.Dto tagArtifactDto;
-
-        //        if (node.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
-        //            tagArtifactDto = (node.Tag as UtilFac.Module.Dto).Artifact;
-        //        else
-        //            tagArtifactDto = node.Tag as UtilFac.Artifact.Dto;
-
-        //        if ((tagArtifactDto.Id == artifactDto.Id) && (tagArtifactDto.FileName == artifactDto.FileName))
-        //        {
-        //            selectedNode = node;
-        //            break;
-        //        }
-        //        else
-        //            selectedNode = this.FindTreeNodeFromTag(artifactDto, node.Nodes, selectedNode);
-        //    }
-
-        //    return selectedNode;
-        //}
-
-        //private ListViewItem CreateNewListViewItem(String name, Int32 imageIndex)
-        //{
-        //    return new ListViewItem
-        //    {
-        //        Text = name,
-        //        ImageIndex = imageIndex,
-        //    };
-        //}
-
-        //private TreeNode FindRootNode(TreeNode treeNode)
-        //{
-        //    while (treeNode.Parent != null)
-        //    {
-        //        treeNode = treeNode.Parent;
-        //    }
-        //    return treeNode;
-        //}
-
-        #endregion
-
-        private void cmnuDailyReport_Click(object sender, EventArgs e)
-        {
-            //TreeNode rootNode = this.GetRootNode();
-            //this.currentArtifact.Module = new Report.Facade.Document.Dto
-            //{
-            //    Category = this.reportCategoryList.Find((p) => { return p.Name == "Daily"; }),
-            //};
-            //this.currentArtifact.Extension = (this.currentArtifact.Module as Report.Facade.Document.Dto).Category.Extension;
-            //this.AddDocument();
-            this.CreateReport("Daily");
-        }
-
-        private void cmnuWeeklyReport_Click(object sender, EventArgs e)
-        {
-            this.CreateReport("Weekly");
-            //this.currentArtifact.Extension = "wrpt";
-            //TreeNode rootNode = this.GetRootNode();
-            //if (rootNode != null)
-            //{
-            //    if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
-            //        this.AddDocument("AutoTourism.Customer.WinForm.Report.Weekly,AutoTourism.Customer.WinForm");
-            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
-            //        this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Weekly,AutoTourism.Lodge.WinForm");
-            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
-            //        this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Weekly,AutoTourism.Lodge.WinForm");
-            //    else
-            //        this.AddDocument("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm");
-            //}
-        }
-
-        private void cmnuMonthlyReport_Click(object sender, EventArgs e)
-        {
-            this.CreateReport("Monthly");
-            //this.currentArtifact.Extension = "mrpt";
-            //TreeNode rootNode = this.GetRootNode();
-            //if (rootNode != null)
-            //{
-            //    if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
-            //        this.AddDocument("AutoTourism.Customer.WinForm.Report.Monthly,AutoTourism.Customer.WinForm");
-            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
-            //        this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Monthly,AutoTourism.Lodge.WinForm");
-            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
-            //        this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Monthly,AutoTourism.Lodge.WinForm");
-            //    else
-            //        this.AddDocument("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm");
-            //}
-        }
-
-        private void cmnuQuarterlyReport_Click(object sender, EventArgs e)
-        {
-            this.CreateReport("Quarterly");
-            //this.currentArtifact.Extension = "qrpt";
-            //TreeNode rootNode = this.GetRootNode();
-            //if (rootNode != null)
-            //{
-            //    if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
-            //        this.AddDocument("AutoTourism.Customer.WinForm.Report.Quarterly,AutoTourism.Customer.WinForm");
-            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
-            //        this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Quarterly,AutoTourism.Lodge.WinForm");
-            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
-            //        this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Quarterly,AutoTourism.Lodge.WinForm");
-            //    else
-            //        this.AddDocument("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm");
-            //}
-        }
-
-        private void cmnuYearlyReport_Click(object sender, EventArgs e)
-        {
-            this.CreateReport("Yearly");
-            //this.currentArtifact.Extension = "yrpt";
-            //TreeNode rootNode = this.GetRootNode();
-            //if (rootNode != null)
-            //{
-            //    if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "CUST")
-            //        this.AddDocument("AutoTourism.Customer.WinForm.Report.Yearly,AutoTourism.Customer.WinForm");
-            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LRSV")
-            //        this.AddDocument("AutoTourism.Lodge.WinForm.RoomReservationReport.Yearly,AutoTourism.Lodge.WinForm");
-            //    else if ((rootNode.Tag as Vanilla.Utility.Facade.Module.Dto).Code == "LCHK")
-            //        this.AddDocument("AutoTourism.Lodge.WinForm.CheckInReport.Yearly,AutoTourism.Lodge.WinForm");
-            //    else
-            //        this.AddDocument("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm");
-            //}
-        }
-
-        private void CreateReport(String categoryName)
-        {
-            TreeNode rootNode = this.GetRootNode();
-            this.currentArtifact.Module = new Report.Facade.Document.Dto
-            {
-                Category = this.reportCategoryList.Find((p) => { return String.Compare(p.Name, categoryName, true) == 0; }),
-            };
-            this.currentArtifact.Extension = (this.currentArtifact.Module as Report.Facade.Document.Dto).Category.Extension;
-            this.AddDocument();
-        }
-
-        //private Type GetInvoiceType(UtilFac.Artifact.Dto artifactDto)
-        //{
-        //    Int64 reportCategoryId = 0;
-        //    if (artifactDto.ComponentDefinition.Code == "CUST")
-        //    {
-        //        reportCategoryId = (artifactDto.Module as AutoTourism.Customer.Facade.Report.Dto).Category.Id;
-
-        //        if (reportCategoryId == 10001)
-        //            return Type.GetType("AutoTourism.Customer.WinForm.Report.Daily,AutoTourism.Customer.WinForm", true);
-        //        else if (reportCategoryId == 10002)
-        //            return Type.GetType("AutoTourism.Customer.WinForm.Report.Weekly,AutoTourism.Customer.WinForm", true);
-        //        else if (reportCategoryId == 10003)
-        //            return Type.GetType("AutoTourism.Customer.WinForm.Report.Monthly,AutoTourism.Customer.WinForm", true);
-        //        else if (reportCategoryId == 10004)
-        //            return Type.GetType("AutoTourism.Customer.WinForm.Report.Quarterly,AutoTourism.Customer.WinForm", true);
-        //        else if (reportCategoryId == 10005)
-        //            return Type.GetType("AutoTourism.Customer.WinForm.Report.Yearly,AutoTourism.Customer.WinForm", true);
-        //    }
-        //    else
-        //    {
-        //        reportCategoryId = (artifactDto.Module as Vanilla.Invoice.Facade.Report.Dto).category.Id;
-
-        //        if (reportCategoryId == 10001)
-        //            return Type.GetType("Vanilla.Invoice.WinForm.Report.Daily,Vanilla.Invoice.WinForm", true);
-        //        else if (reportCategoryId == 10002)
-        //            return Type.GetType("Vanilla.Invoice.WinForm.Report.Weekly,Vanilla.Invoice.WinForm", true);
-        //        else if (reportCategoryId == 10003)
-        //            return Type.GetType("Vanilla.Invoice.WinForm.Report.Monthly,Vanilla.Invoice.WinForm", true);
-        //        else if (reportCategoryId == 10004)
-        //            return Type.GetType("Vanilla.Invoice.WinForm.Report.Quarterly,Vanilla.Invoice.WinForm", true);
-        //        else if (reportCategoryId == 10005)
-        //            return Type.GetType("Vanilla.Invoice.WinForm.Report.Yearly,Vanilla.Invoice.WinForm", true);
-        //    }
-
-        //    return null;
-        //}
 
         private TreeNode GetRootNode()
         { 
@@ -2373,8 +2129,8 @@ namespace Vanilla.Navigator.WinForm
                 this.ucSearchResult.Hide();
                 this.pnlArtifact.Show();
                 this.SelectNode(this.ucSearchResult.FormDto.CurrentArtifact.Style == UtilFac.Artifact.Type.Document ?
-                       this.GetParent(this.ucSearchResult.FormDto.CurrentArtifact).Path :
-                       this.ucSearchResult.FormDto.CurrentArtifact.Path);
+                    this.GetParent(this.ucSearchResult.FormDto.CurrentArtifact).Path :
+                    this.ucSearchResult.FormDto.CurrentArtifact.Path);
             }
         }
 
