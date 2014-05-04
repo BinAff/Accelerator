@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 
+using BinAff.Core;
 using CrystalNavigator = Crystal.Navigator.Component;
 
 namespace Crystal.Customer.Component.Navigator.Artifact
@@ -29,6 +30,11 @@ namespace Crystal.Customer.Component.Navigator.Artifact
             base.CloseConnection();
 
             return status;
+        }
+
+        protected override ReturnObject<bool> UpdateArtifactModuleLink()
+        {
+            return base.UpdateArtifactModuleLink();
         }
 
     }
