@@ -11,13 +11,13 @@ namespace Vanilla.Report.WinForm
             : base()
         {
             InitializeComponent();
+            this.Text = "Reports";
         }
 
         protected Container(AccFac.Dto account)
             : base(account)
         {
-            
-
+            this.Text = "Reports";
         }
 
         private static Container currentInstance;
