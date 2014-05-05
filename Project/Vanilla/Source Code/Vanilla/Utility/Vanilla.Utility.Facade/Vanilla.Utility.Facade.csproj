@@ -54,12 +54,18 @@
     <Compile Include="Module\Helper.cs" />
     <Compile Include="Module\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Register\Dto.cs" />
+    <Compile Include="Register\FormDto.cs" />
+    <Compile Include="Register\Server.cs" />
     <Compile Include="Report\Category\Dto.cs" />
     <Compile Include="Report\Category\IReport.cs" />
     <Compile Include="Report\Dto.cs" />
     <Compile Include="Report\IReport.cs" />
     <Compile Include="Rule\Dto.cs" />
     <Compile Include="Rule\Server.cs" />
+    <Compile Include="SearchResult\Dto.cs" />
+    <Compile Include="SearchResult\FormDto.cs" />
+    <Compile Include="SearchResult\Server.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

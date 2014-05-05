@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Drawing;
 
 using BinAff.Facade.Cache;
 
 using Vanilla.Tool.WinForm;
 using VanAcc = Vanilla.Guardian.Facade.Account;
-using System.Drawing;
+using UtilFac = Vanilla.Utility.Facade;
+using RptFac = Vanilla.Report.Facade;
+using RptWin = Vanilla.Report.WinForm;
+using System.Collections.Generic;
 
 namespace Vanilla.Navigator.WinForm
 {
@@ -52,6 +56,9 @@ namespace Vanilla.Navigator.WinForm
 
         private Timer connectionTimer;
 
+        private RptWin.Container reportExecutable;
+        public List<Report.Facade.Category.Dto> reportCategoryList = new List<Report.Facade.Category.Dto>();
+
         private static Container currentInstance;
 
         public static Container CreateInstance(String selectedNodePath)
@@ -81,6 +88,9 @@ namespace Vanilla.Navigator.WinForm
             this.selectedNodePath = selectedNodePath;
         }
 
+        //public delegate void OnLogOut();
+        //public event OnLogOut LoggedOut;
+
         #region Event
 
         private void Container_Load(object sender, EventArgs e)
@@ -102,7 +112,65 @@ namespace Vanilla.Navigator.WinForm
                 Interval = 2000,
             };
             this.connectionTimer.Tick += connectionTimer_Tick;
-            this.connectionTimer.Start();            
+            this.connectionTimer.Start();
+
+            this.reportExecutable = Vanilla.Report.WinForm.Container.CreateInstance(Server.Current.Cache["User"] as VanAcc.Dto);
+            this.reportExecutable.FormClosed += reportExecutable_FormClosed;
+
+            this.ucRegister.ReportAdd += ucRegister_ReportAdd;
+            this.ucRegister.ReportLoad += ucRegister_ReportLoad;
+            this.ucRegister.ReportCategoryGet += ucRegister_ReportCategoryGet;
+        }
+
+        BinAff.Presentation.Library.Form ucRegister_ReportAdd(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto)
+        {
+            (moduleFormDto as RptFac.Document.Dto).Category = (currentArtifact.Module as Report.Facade.Document.Dto).Category;
+            return new Vanilla.Report.WinForm.Document(new RptFac.Document.FormDto
+            {
+                Dto = moduleFormDto as Report.Facade.Document.Dto,
+                DocumentName = currentArtifact.FileName,
+            }, registerFacade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
+            {
+                Code = currentArtifact.ComponentDefinition.Code,
+            }, currentArtifact.Category) as Report.Facade.Document.Server);
+        }
+
+        void ucRegister_ReportLoad(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade)
+        {
+            this.reportExecutable.Show();
+            if (!this.reportExecutable.Login(Server.Current.Cache["User"] as VanAcc.Dto))
+            {
+                this.LogOut();
+                return;
+            }
+            Vanilla.Report.WinForm.Document form = new Vanilla.Report.WinForm.Document(new RptFac.Document.FormDto
+            {
+                Dto = currentArtifact.Module as Report.Facade.Document.Dto,
+                DocumentName = currentArtifact.FileName + "." + currentArtifact.Extension,
+                ModuleName = currentArtifact.ComponentDefinition.Name,
+                Category = (currentArtifact.Module as RptFac.Document.Dto).Category,
+            }, registerFacade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
+            {
+                Code = currentArtifact.ComponentDefinition.Code,
+            }, currentArtifact.Category) as Report.Facade.Document.Server)
+            {
+                MdiParent = this.reportExecutable
+            };
+            form.Show();
+        }
+        
+        void ucRegister_ReportCategoryGet(UtilFac.Artifact.Dto currentArtifact, string categoryName)
+        {
+            currentArtifact.Module = new Report.Facade.Document.Dto
+            {
+                Category = this.reportCategoryList.Find((p) => { return String.Compare(p.Name, categoryName, true) == 0; }),
+            };
+            currentArtifact.Extension = (currentArtifact.Module as Report.Facade.Document.Dto).Category.Extension;
+        }
+
+        void reportExecutable_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.reportExecutable = null;
         }
 
         void connectionTimer_Tick(object sender, EventArgs e)
@@ -448,7 +516,7 @@ namespace Vanilla.Navigator.WinForm
             t.Tick += t_Tick;
             t.Start();
             this.ucRegister.LoadForm();
-            this.ucRegister.LoggedOut += ucRegister_LoggedOut;
+
             t.Stop();
 
             this.progressBar.Value = (Int32)Math.Abs(this.progressBar.Maximum * 0.8);
@@ -465,11 +533,6 @@ namespace Vanilla.Navigator.WinForm
             this.mnuEdit.Visible = true;
             this.mnuView.Visible = true;
             this.mnuUserManagement.Visible = true;
-        }
-
-        void ucRegister_LoggedOut()
-        {
-            this.LogOut();
         }
 
         private void LogOut()
