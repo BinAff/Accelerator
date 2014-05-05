@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Drawing;
 
 using BinAff.Facade.Cache;
+using PresLib = BinAff.Presentation.Library;
 
 using Vanilla.Tool.WinForm;
 using VanAcc = Vanilla.Guardian.Facade.Account;
@@ -114,15 +115,12 @@ namespace Vanilla.Navigator.WinForm
             this.connectionTimer.Tick += connectionTimer_Tick;
             this.connectionTimer.Start();
 
-            this.reportExecutable = Vanilla.Report.WinForm.Container.CreateInstance(Server.Current.Cache["User"] as VanAcc.Dto);
-            this.reportExecutable.FormClosed += reportExecutable_FormClosed;
-
             this.ucRegister.ReportAdd += ucRegister_ReportAdd;
             this.ucRegister.ReportLoad += ucRegister_ReportLoad;
             this.ucRegister.ReportCategoryGet += ucRegister_ReportCategoryGet;
         }
 
-        BinAff.Presentation.Library.Form ucRegister_ReportAdd(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto)
+        PresLib.Form ucRegister_ReportAdd(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto)
         {
             (moduleFormDto as RptFac.Document.Dto).Category = (currentArtifact.Module as Report.Facade.Document.Dto).Category;
             return new Vanilla.Report.WinForm.Document(new RptFac.Document.FormDto
@@ -137,6 +135,11 @@ namespace Vanilla.Navigator.WinForm
 
         void ucRegister_ReportLoad(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade)
         {
+            if (this.reportExecutable == null)
+            {
+                this.reportExecutable = Vanilla.Report.WinForm.Container.CreateInstance(Server.Current.Cache["User"] as VanAcc.Dto);
+                this.reportExecutable.FormClosed += reportExecutable_FormClosed;
+            }
             this.reportExecutable.Show();
             if (!this.reportExecutable.Login(Server.Current.Cache["User"] as VanAcc.Dto))
             {

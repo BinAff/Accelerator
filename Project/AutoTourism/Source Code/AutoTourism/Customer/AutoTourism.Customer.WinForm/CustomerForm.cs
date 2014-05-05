@@ -4,17 +4,17 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 using BinAff.Utility;
-using PresentationLibrary = BinAff.Presentation.Library;
+using PresLib = BinAff.Presentation.Library;
 
 using CustFac = AutoTourism.Customer.Facade;
 using ConfRuleFac = AutoTourism.Configuration.Rule.Facade;
-using UtilForm = Vanilla.Utility.WinForm;
-using UtilFacade = Vanilla.Utility.Facade;
+using UtilFac = Vanilla.Utility.Facade;
+using FormWin = Vanilla.Form.WinForm;
 
 namespace AutoTourism.Customer.WinForm
 {
 
-    public partial class CustomerForm : UtilForm.Form
+    public partial class CustomerForm : FormWin.Form
     {   
 
         private System.Drawing.Color MandatoryColor = System.Drawing.Color.FromArgb(255, 255, 240, 240);
@@ -496,7 +496,7 @@ namespace AutoTourism.Customer.WinForm
                 };
 
                 //BinAff.Facade.Library.Server facade = new CustFac.Server(formDto);
-                UtilFacade.Document.Server facade = new CustFac.Server(formDto);
+                UtilFac.Document.Server facade = new CustFac.Server(formDto);
                 if (formDto.Dto.Id == 0)
                 {
                     facade.ArtifactDto = this.ArtifactDto;
@@ -515,9 +515,9 @@ namespace AutoTourism.Customer.WinForm
                 if (facade.IsError)
                 {
                     retVal = false;
-                    new PresentationLibrary.MessageBox
+                    new PresLib.MessageBox
                     {
-                        DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
+                        DialogueType = facade.IsError ? PresLib.MessageBox.Type.Error : PresLib.MessageBox.Type.Information,
                         Heading = "Splash",
                     }.Show(facade.DisplayMessageList);
                 }

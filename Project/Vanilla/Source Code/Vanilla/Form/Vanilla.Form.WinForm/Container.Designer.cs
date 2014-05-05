@@ -1,4 +1,4 @@
-﻿namespace Vanilla.Report.WinForm
+﻿namespace Vanilla.Form.WinForm
 {
     partial class Container
     {
@@ -28,23 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // Container
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(789, 481);
-            this.Name = "Container";
-            this.ShowInTaskbar = true;
-            this.Text = "Reports";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            this.Text = "Container";
         }
 
         #endregion
-
     }
 }
-

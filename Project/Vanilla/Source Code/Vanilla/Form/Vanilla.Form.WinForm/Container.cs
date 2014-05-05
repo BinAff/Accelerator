@@ -1,7 +1,9 @@
-﻿using AccFac = Vanilla.Guardian.Facade.Account;
+﻿
+
+using AccFac = Vanilla.Guardian.Facade.Account;
 using UtilWin = Vanilla.Utility.WinForm;
 
-namespace Vanilla.Report.WinForm
+namespace Vanilla.Form.WinForm
 {
 
     public partial class Container : UtilWin.Container
@@ -16,7 +18,7 @@ namespace Vanilla.Report.WinForm
         protected Container(AccFac.Dto account)
             : base(account)
         {
-            
+
 
         }
 
@@ -24,7 +26,7 @@ namespace Vanilla.Report.WinForm
 
         public static Container CreateInstance(AccFac.Dto account)
         {
-            if (currentInstance == null || currentInstance.IsDisposed) currentInstance = new Container(account);
+            if (currentInstance == null) currentInstance = new Container(account);
             return currentInstance;
         }
 
@@ -33,7 +35,7 @@ namespace Vanilla.Report.WinForm
             if (currentInstance == null) currentInstance = new Container();
             return currentInstance;
         }
-        
+
     }
 
 }

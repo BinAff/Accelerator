@@ -39,18 +39,22 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form.cs">
+    <Compile Include="Container.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form.Designer.cs">
-      <DependentUpon>Form.cs</DependentUpon>
+    <Compile Include="Container.Designer.cs">
+      <DependentUpon>Container.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Document.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Document.Designer.cs">
+      <DependentUpon>Document.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form.resx">
-      <DependentUpon>Form.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -74,6 +78,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Pics\Search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\BinAff.Facade.Cache\BinAff.Facade.Cache.csproj">
+      <Project>{266b4deb-d9c2-4607-a5d5-60f5124e89ae}</Project>
+      <Name>BinAff.Facade.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
+      <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
+      <Name>BinAff.Facade.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Presentation\Library\BinAff.Presentation.Library.csproj">
+      <Project>{1ee9a9dd-9151-437a-b1a3-28015975ef52}</Project>
+      <Name>BinAff.Presentation.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
+      <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
+      <Name>Vanilla.Guardian.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gaurdian\WinForm\Vanilla.Guardian.WinForm.csproj">
+      <Project>{94765995-6577-4720-8f86-7cc1adbd1d5b}</Project>
+      <Name>Vanilla.Guardian.WinForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
+      <Project>{a10719af-5c9f-4903-ab83-089ec502eea2}</Project>
+      <Name>Vanilla.Utility.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utility\Vanilla.Utility.WinForm\Vanilla.Utility.WinForm.csproj">
+      <Project>{49be0d61-4bd1-42b2-b582-77094af71728}</Project>
+      <Name>Vanilla.Utility.WinForm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
