@@ -154,9 +154,12 @@ namespace Vanilla.Utility.WinForm
             this.LayoutMdi(MdiLayout.TileVertical);
         }
 
-        private void closeAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mnuCloseAll_Click(object sender, EventArgs e)
         {
-
+            foreach (Form frm in this.MdiChildren)
+            {
+                frm.Close();
+            }
         }
 
         #endregion
