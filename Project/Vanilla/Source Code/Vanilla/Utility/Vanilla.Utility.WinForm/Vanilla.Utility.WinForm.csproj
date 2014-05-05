@@ -44,13 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extender\RegisterExtension.cs" />
-    <Compile Include="Form.cs">
+    <Compile Include="Container.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form.Designer.cs">
-      <DependentUpon>Form.cs</DependentUpon>
+    <Compile Include="Container.Designer.cs">
+      <DependentUpon>Container.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extender\RegisterExtension.cs" />
     <Compile Include="Open.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +76,9 @@
     <Compile Include="SearchResult.Designer.cs">
       <DependentUpon>SearchResult.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Container.resx">
+      <DependentUpon>Container.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Open.resx">
       <DependentUpon>Open.cs</DependentUpon>
     </EmbeddedResource>
@@ -127,6 +130,10 @@
     <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
       <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
       <Name>Vanilla.Guardian.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gaurdian\WinForm\Vanilla.Guardian.WinForm.csproj">
+      <Project>{94765995-6577-4720-8f86-7cc1adbd1d5b}</Project>
+      <Name>Vanilla.Guardian.WinForm</Name>
     </ProjectReference>
     <ProjectReference Include="..\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
       <Project>{a10719af-5c9f-4903-ab83-089ec502eea2}</Project>

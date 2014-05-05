@@ -132,6 +132,10 @@
       <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
       <Name>BinAff.Utility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Form\Vanilla.Form.WinForm\Vanilla.Form.WinForm.csproj">
+      <Project>{6ffd4a1c-c8fc-44b6-b3c1-4a2240037154}</Project>
+      <Name>Vanilla.Form.WinForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
       <Project>{24A3CC18-9FA6-4976-8ADE-AC07EE6844FB}</Project>
       <Name>Vanilla.Guardian.Facade</Name>

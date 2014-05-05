@@ -9,7 +9,7 @@ namespace Vanilla.Report.WinForm
     static class Program
     {
 
-        static Container container;
+        static Vanilla.Report.WinForm.Container container;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
