@@ -49,7 +49,7 @@
             this.mnuTileHorizontal = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTileVertical = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.closeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCloseAll = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -178,7 +178,7 @@
             this.mnuTileHorizontal,
             this.mnuTileVertical,
             this.toolStripSeparator2,
-            this.closeAllToolStripMenuItem});
+            this.mnuCloseAll});
             this.mnuWindows.Name = "mnuWindows";
             this.mnuWindows.Size = new System.Drawing.Size(62, 20);
             this.mnuWindows.Text = "Windows";
@@ -218,10 +218,10 @@
             // 
             // closeAllToolStripMenuItem
             // 
-            this.closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
-            this.closeAllToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-            this.closeAllToolStripMenuItem.Text = "Close All";
-            this.closeAllToolStripMenuItem.Click += new System.EventHandler(this.closeAllToolStripMenuItem_Click);
+            this.mnuCloseAll.Name = "closeAllToolStripMenuItem";
+            this.mnuCloseAll.Size = new System.Drawing.Size(142, 22);
+            this.mnuCloseAll.Text = "Close All";
+            this.mnuCloseAll.Click += new System.EventHandler(this.mnuCloseAll_Click);
             // 
             // mnuHelp
             // 
@@ -298,7 +298,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuTileHorizontal;
         private System.Windows.Forms.ToolStripMenuItem mnuTileVertical;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem closeAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuCloseAll;
         private System.Windows.Forms.ToolStripMenuItem mnuHelp;
         private System.Windows.Forms.ToolStripMenuItem mnuAbout;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
