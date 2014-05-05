@@ -976,6 +976,10 @@
           <DataField>Action</DataField>
           <rd:TypeName>BinAff.Facade.Library.Dto+ActionType</rd:TypeName>
         </Field>
+        <Field Name="Amount">
+          <DataField>Amount</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
         <Field Name="AmountPaid">
           <DataField>AmountPaid</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
@@ -1011,6 +1015,10 @@
         <Field Name="Discount">
           <DataField>Discount</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="End">
+          <DataField>End</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="fileName">
           <DataField>fileName</DataField>
@@ -1055,6 +1063,10 @@
         <Field Name="SellerName">
           <DataField>SellerName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Start">
+          <DataField>Start</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
         <Field Name="Tax">
           <DataField>Tax</DataField>
