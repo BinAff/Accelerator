@@ -1,9 +1,9 @@
-﻿using System.Windows.Forms;
+﻿//using System.Windows.Forms;
 
 namespace Vanilla.Utility.WinForm
 {
 
-    public partial class Open : Form
+    public partial class Open : System.Windows.Forms.Form
     {
         
         public Vanilla.Utility.Facade.Artifact.Category Category { get; set; }
