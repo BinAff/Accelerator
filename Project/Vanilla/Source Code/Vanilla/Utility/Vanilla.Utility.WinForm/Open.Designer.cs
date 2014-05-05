@@ -1,4 +1,4 @@
-﻿namespace Vanilla.Report.WinForm
+﻿namespace Vanilla.Utility.WinForm
 {
     partial class Open
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ucRegister = new Vanilla.Navigator.WinForm.Register();
+            this.ucRegister = new Register();
             this.txtDocName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cboExtension = new System.Windows.Forms.ComboBox();
@@ -113,7 +113,7 @@
 
         #endregion
 
-        private Navigator.WinForm.Register ucRegister;
+        private Register ucRegister;
         private System.Windows.Forms.TextBox txtDocName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboExtension;

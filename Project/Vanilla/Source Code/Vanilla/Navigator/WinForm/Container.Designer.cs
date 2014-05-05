@@ -124,7 +124,7 @@
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.shapeOnlineStatus = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
-            this.ucRegister = new Vanilla.Navigator.WinForm.Register();
+            this.ucRegister = new Vanilla.Utility.WinForm.Register();
             this.mnuMain.SuspendLayout();
             this.pnlTool.SuspendLayout();
             this.pnlMenuContainer.SuspendLayout();
@@ -1062,7 +1062,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem mnuAscending;
         private System.Windows.Forms.ToolStripMenuItem mnuDescending;
-        private Register ucRegister;
+        private Vanilla.Utility.WinForm.Register ucRegister;
         private System.Windows.Forms.ToolStripMenuItem mnuTile;
         private System.Windows.Forms.Panel pnlMenuContainer;
         private System.Windows.Forms.Panel pnlCalender;

@@ -1,10 +1,12 @@
 ﻿using System.Windows.Forms;
 
-namespace Vanilla.Report.WinForm
+namespace Vanilla.Utility.WinForm
 {
 
     public partial class Open : Form
     {
+        
+        public Vanilla.Utility.Facade.Artifact.Category Category { get; set; }
 
         public Open()
         {
@@ -13,6 +15,7 @@ namespace Vanilla.Report.WinForm
 
         private void Open_Load(object sender, System.EventArgs e)
         {
+            this.ucRegister.Category = this.Category;
             this.ucRegister.Show();
             this.ucRegister.LoadForm();
             this.cboExtension.SelectedIndex = 1;

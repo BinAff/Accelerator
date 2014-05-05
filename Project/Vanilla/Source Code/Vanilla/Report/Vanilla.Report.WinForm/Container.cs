@@ -111,7 +111,7 @@ namespace Vanilla.Report.WinForm
 
         private void mnuOpen_Click(object sender, EventArgs e)
         {
-            new Open().ShowDialog(this);
+            new UtilWin.Open().ShowDialog(this);
         }
 
         #endregion
