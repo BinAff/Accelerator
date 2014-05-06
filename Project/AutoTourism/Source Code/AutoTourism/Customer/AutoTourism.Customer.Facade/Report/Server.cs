@@ -39,7 +39,7 @@ namespace AutoTourism.Customer.Facade.Report
             return new CrysCustRpt.Server(new CrysCustRpt.Data
             {
                 Category = reportCategory,
-                Date = (this.FormDto as FormDto).Dto.Date,
+                Date = ((this.FormDto as FormDto).Dto as Dto).Date,
             });
         }
 
@@ -50,15 +50,16 @@ namespace AutoTourism.Customer.Facade.Report
 
         public override Vanilla.Report.Facade.Document.Dto SetReportCredential()
         {
-            (this.FormDto as FormDto).Dto.DataSource = "Customer";
+            Dto dto = (this.FormDto as FormDto).Dto as Dto;
+            dto.DataSource = "Customer";
 
             //Path is wrong
             String path = System.IO.Directory.GetCurrentDirectory();
             path = path.Remove(path.IndexOf("Vanilla"));
-            path += @"AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.WinForm\Report\" + (this.FormDto as FormDto).Dto.ReportName;
-            
-            (this.FormDto as FormDto).Dto.Path = path;
-            return (this.FormDto as FormDto).Dto;
+            path += @"AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.WinForm\Report\" + dto.ReportName;
+
+            dto.ReportFilePath = path;
+            return dto;
         }
 
         protected override Vanilla.Report.Facade.Document.Dto ConvertReportData(CrysRpt.Data data)

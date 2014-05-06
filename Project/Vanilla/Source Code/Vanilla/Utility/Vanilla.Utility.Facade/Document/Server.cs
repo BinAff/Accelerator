@@ -48,6 +48,12 @@ namespace Vanilla.Utility.Facade.Document
             //if (ret == -2146232060) status = false;//Foreign key violation
 
             return status;
-        } 
+        }
+
+        public Dto GetModule()
+        {
+            return (this.FormDto as FormDto).Dto;
+        }
+
     }
 }

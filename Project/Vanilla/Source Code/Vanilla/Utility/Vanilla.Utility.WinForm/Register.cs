@@ -9,6 +9,7 @@ using PresLib = BinAff.Presentation.Library;
 
 using Vanilla.Utility.WinForm.Extender;
 using UtilFac = Vanilla.Utility.Facade;
+using UtilWin = Vanilla.Utility.WinForm;
 
 namespace Vanilla.Utility.WinForm
 {
@@ -64,7 +65,7 @@ namespace Vanilla.Utility.WinForm
         public delegate void OnReportLoad(UtilFac.Artifact.Dto currentArtifact, Facade.Register.Server registerFacade);
         public event OnReportLoad ReportLoad;
 
-        public delegate BinAff.Presentation.Library.Form OnReportAdd(UtilFac.Artifact.Dto currentArtifact, Facade.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto);
+        public delegate UtilWin.Document OnReportAdd(UtilFac.Artifact.Dto currentArtifact, Facade.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto);
         public event OnReportAdd ReportAdd;
 
         public delegate void OnReportCategoryGet(UtilFac.Artifact.Dto currentArtifact, String categoryName);
@@ -596,7 +597,7 @@ namespace Vanilla.Utility.WinForm
                 {   
                     Type type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
                     this.currentArtifact.Module.artifactPath = currentArtifact.Path;
-                    PresLib.Form form = (PresLib.Form)Activator.CreateInstance(type, currentArtifact.Module);
+                    UtilWin.Document form = (UtilWin.Document)Activator.CreateInstance(type, currentArtifact.Module);
                     form.ShowDialog(this);
                     if (form.IsModified)
                     {
@@ -1735,15 +1736,15 @@ namespace Vanilla.Utility.WinForm
                 
                 //this.AddArtifact(UtilFac.Artifact.Type.Document, moduleFormDto, new UtilFac.Module.Definition.Dto { Code = (rootNode.Tag as UtilFac.Module.Dto).Code });
 
-                BinAff.Presentation.Library.Form form;
+                UtilWin.Document form;
                 if (this.currentArtifact.Category == UtilFac.Artifact.Category.Report)
                 {
-                    form = this.ReportAdd(this.currentArtifact, this.facade, moduleFormDto);
+                    form = this.ReportAdd(this.currentArtifact, this.facade, moduleFormDto) as UtilWin.Document;
                 }
                 else
                 {
                     Type type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
-                    form = (BinAff.Presentation.Library.Form)Activator.CreateInstance(type, moduleFormDto);
+                    form = (UtilWin.Document)Activator.CreateInstance(type, moduleFormDto);
                 }
                 
                 //form.ShowDialog(this);

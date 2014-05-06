@@ -17,21 +17,35 @@ namespace Vanilla.Utility.WinForm
         private Boolean isLoginFormOpen;
         private Boolean isAlreadyLoggedIn;
 
+        private Int16 mdiChildrenCount;
+
         protected Container()
         {
             InitializeComponent();
             this.isLoginFormOpen = false;
             this.isAlreadyLoggedIn = false;
+            this.mdiChildrenCount = 0;
             this.MdiChildActivate += Container_MdiChildActivate;
         }
 
         void Container_MdiChildActivate(object sender, EventArgs e)
         {
-            //if (this.isLoginFormOpen && this.isAlreadyLoggedIn)
             if (this.isLoginFormOpen)
             {
                 this.Login();
                 this.loginForm.Close();
+            }
+            else
+            {
+                if (this.MdiChildren.Length == mdiChildrenCount)
+                {
+                    mdiChildrenCount--; //When the form is closing
+                }
+                else
+                {
+                    mdiChildrenCount++;
+                    this.SaveRecentFile((this.ActiveMdiChild as Document).DocumentPath);
+                }
             }
         }
 
@@ -42,37 +56,6 @@ namespace Vanilla.Utility.WinForm
             {
                 Server.Current.Cache["User"] = account;
             }
-        }
-
-        public Boolean Login(AccFac.Dto user)
-        {
-            AccFac.Dto loggedInUser = (Server.Current.Cache["User"] as AccFac.Dto);
-            if (loggedInUser == null) return false;
-            if (String.Compare(user.LoginId, loggedInUser.LoginId) == 0
-                && String.Compare(user.Password, loggedInUser.Password) == 0)
-            {
-                this.Login();
-                return true;
-            }
-            return false;
-        }
-
-        private void Login()
-        {
-            this.isAlreadyLoggedIn = true;
-            AccFac.Dto loggedInUser = (Server.Current.Cache["User"] as AccFac.Dto);
-            String heading = this.Text + " : " + loggedInUser.Profile.Name + " - ";
-            if (loggedInUser.RoleList != null)
-            {
-                Int32 i = loggedInUser.RoleList.Count - 1;
-                while (i >= 0)
-                {
-                    heading += loggedInUser.RoleList[i].Name;
-                    if (i-- != 0) heading += "/";
-                }
-            }
-            this.Text = heading;
-            this.ShowControlAfterLogin();
         }
 
         private void Container_Load(object sender, EventArgs e)
@@ -166,6 +149,37 @@ namespace Vanilla.Utility.WinForm
 
         #endregion
 
+        public Boolean Login(AccFac.Dto user)
+        {
+            AccFac.Dto loggedInUser = (Server.Current.Cache["User"] as AccFac.Dto);
+            if (loggedInUser == null) return false;
+            if (String.Compare(user.LoginId, loggedInUser.LoginId) == 0
+                && String.Compare(user.Password, loggedInUser.Password) == 0)
+            {
+                this.Login();
+                return true;
+            }
+            return false;
+        }
+
+        private void Login()
+        {
+            this.isAlreadyLoggedIn = true;
+            AccFac.Dto loggedInUser = (Server.Current.Cache["User"] as AccFac.Dto);
+            String heading = this.Text + " : " + loggedInUser.Profile.Name + " - ";
+            if (loggedInUser.RoleList != null)
+            {
+                Int32 i = loggedInUser.RoleList.Count - 1;
+                while (i >= 0)
+                {
+                    heading += loggedInUser.RoleList[i].Name;
+                    if (i-- != 0) heading += "/";
+                }
+            }
+            this.Text = heading;
+            this.ShowControlAfterLogin();
+        }
+
         private void ShowLoginForm()
         {
             this.loginForm = new Guardian.WinForm.Login
@@ -232,6 +246,11 @@ namespace Vanilla.Utility.WinForm
         protected virtual void ShowControlAfterLoginExtra()
         {
             
+        }
+
+        private void SaveRecentFile(String documentPath)
+        {
+            new Facade.Container.Server(null).SaveRecentFile(documentPath, Application.StartupPath + @"\Files\Recent.xml");
         }
 
     }

@@ -6,11 +6,12 @@ using BinAff.Core;
 using CrysRpt = Crystal.Report.Component;
 
 using Util = Vanilla.Utility.Facade.Report;
+using DocFac = Vanilla.Utility.Facade.Document;
 
 namespace Vanilla.Report.Facade.Document
 {
 
-    public abstract class Server : BinAff.Facade.Library.Server
+    public abstract class Server : DocFac.Server
     {
 
         public Server(FormDto formDto)
@@ -38,7 +39,7 @@ namespace Vanilla.Report.Facade.Document
                     Extension = rptData.Category.Extension
                 },
                 DataSource = rptData.DataSource,
-                Path = rptData.Path,
+                ReportFilePath = rptData.ReportFilePath,
             };
         }
 
@@ -59,17 +60,12 @@ namespace Vanilla.Report.Facade.Document
 
         public void SetCategory(Category.Dto categoy)
         {
-            (this.FormDto as FormDto).Dto.Category = categoy;
+            ((this.FormDto as FormDto).Dto as Dto).Category = categoy;
         }
 
         public void SetDate(DateTime date)
         {
-            (this.FormDto as FormDto).Dto.Date = date;
-        }
-
-        public Dto GetModule()
-        {
-            return (this.FormDto as FormDto).Dto;
+            ((this.FormDto as FormDto).Dto as Dto).Date = date;
         }
 
         public List<BinAff.Facade.Library.Dto> Generate(DateTime date, Category.Dto reportCategory)
@@ -80,17 +76,17 @@ namespace Vanilla.Report.Facade.Document
             });
 
             List<BinAff.Core.Data> reportDataList = server.GetReport(date);
-            (this.FormDto as FormDto).Dto.ReportName = server.GetReportName();
+            ((this.FormDto as FormDto).Dto as Dto).ReportName = server.GetReportName();
             CrysRpt.Data parameters = server.SetStartEnd(date);
-            (this.FormDto as FormDto).Dto.Start = parameters.Start;
-            (this.FormDto as FormDto).Dto.End = parameters.End;
+            ((this.FormDto as FormDto).Dto as Dto).Start = parameters.Start;
+            ((this.FormDto as FormDto).Dto as Dto).End = parameters.End;
             return (this.FormDto as FormDto).ReportData = this.ConvertReportDataList(reportDataList);
         }
 
         public Dto GetDto()
         {
             this.SetReportCredential();
-            return (this.FormDto as FormDto).Dto;
+            return (this.FormDto as FormDto).Dto as Dto;
         }
 
         public abstract Dto SetReportCredential();
@@ -113,7 +109,7 @@ namespace Vanilla.Report.Facade.Document
             return dtoList;
         }
 
-        protected abstract Vanilla.Report.Facade.Document.Dto ConvertReportData(CrysRpt.Data data);
+        protected abstract Document.Dto ConvertReportData(CrysRpt.Data data);
 
     }
 
