@@ -504,22 +504,20 @@ namespace AutoTourism.Customer.WinForm
                     Id = ((Table)cboProofType.SelectedItem).Id,
                 };
                 this.dto.IdentityProofName = txtIdentityProofName.Text.Trim();
-                CustFac.FormDto formDto = new CustFac.FormDto()
-                {
-                    //Dto = this.dto,
-                };
+               
+                CustFac.FormDto formDto = base.formDto as Facade.FormDto;
+                formDto.Dto = this.dto;
 
-                //BinAff.Facade.Library.Server facade = new CustFac.Server(formDto);
                 UtilFac.Document.Server facade = new CustFac.Server(formDto);
-                //if (formDto.Dto.Id == 0)
-                //{
-                //    facade.ArtifactDto = this.formDto.
-                //    facade.Add();
-                //}
-                //else
-                //{
-                //    facade.Change();
-                //}
+                if (formDto.Dto.Id == 0)
+                {
+                    facade.ArtifactDto = (formDto as Vanilla.Utility.Facade.Document.FormDto).Document;
+                    facade.Add();
+                }
+                else
+                {
+                    facade.Change();
+                }
 
                 if (this.isLoadedFromRoomReservationForm)
                 {
