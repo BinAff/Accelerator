@@ -32,7 +32,7 @@ namespace Crystal.Report.Component
 
                 dt.Id = data.Id;
                 dt.Date = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]);
-                dt.Category = Convert.IsDBNull(row["ReportCategoryId"]) ? null : new Crystal.Report.Component.Category.Data { Id = Convert.ToInt64(row["ReportCategoryId"]) };                
+                dt.Category = Convert.IsDBNull(row["ReportCategoryId"]) ? null : new Category.Data { Id = Convert.ToInt64(row["ReportCategoryId"]) };                
             }
             return dt;
         }

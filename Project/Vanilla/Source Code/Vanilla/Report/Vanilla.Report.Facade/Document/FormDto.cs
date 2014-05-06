@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using DocFac = Vanilla.Utility.Facade.Document;
+
 namespace Vanilla.Report.Facade.Document
 {
-    public class FormDto : BinAff.Facade.Library.FormDto
+    public class FormDto : DocFac.FormDto
     {
 
-        public Dto Dto { get; set; }
-
         public List<BinAff.Facade.Library.Dto> ReportData { get; set; }
-
-        public String DocumentName { get; set; }
 
         public String ModuleName { get; set; }
 

@@ -28,19 +28,19 @@ namespace Crystal.Report.Component
             switch ((this.Data as Data).Category.Id)
             {
                 case 10001:
-                    data.Path = "Daily.rdlc";
+                    data.ReportFilePath = "Daily.rdlc";
                     return this.GetDailyReport(date);
                 case 10002:
-                    data.Path = "Weekly.rdlc";
+                    data.ReportFilePath = "Weekly.rdlc";
                     return this.GetWeeklyReport(date);
                 case 10003:
-                    data.Path = "Monthly.rdlc";
+                    data.ReportFilePath = "Monthly.rdlc";
                     return this.GetMonthlyReport(date);
                 case 10004:
-                    data.Path = "Quarterly.rdlc";
+                    data.ReportFilePath = "Quarterly.rdlc";
                     return this.GetQuarterlyReport(date);
                 case 10005:
-                    data.Path = "Yearly.rdlc";
+                    data.ReportFilePath = "Yearly.rdlc";
                     return this.GetYearlyReport(date);
             }
             return new List<BinAff.Core.Data>();

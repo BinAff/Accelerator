@@ -115,22 +115,30 @@ namespace Vanilla.Navigator.WinForm
             this.connectionTimer.Tick += connectionTimer_Tick;
             this.connectionTimer.Start();
 
+            //Hard code :: Need to remove
+            this.reportCategoryList.Add(new Report.Facade.Category.Dto { Id = 10001, Extension = "drpt", Name = "Daily" });
+            this.reportCategoryList.Add(new Report.Facade.Category.Dto { Id = 10002, Extension = "wrpt", Name = "Weekly" });
+            this.reportCategoryList.Add(new Report.Facade.Category.Dto { Id = 10003, Extension = "mrpt", Name = "Monthly" });
+            this.reportCategoryList.Add(new Report.Facade.Category.Dto { Id = 10004, Extension = "qrpt", Name = "Quarterly" });
+            this.reportCategoryList.Add(new Report.Facade.Category.Dto { Id = 10005, Extension = "yrpt", Name = "Yearly" });
+            //
+
             this.ucRegister.ReportAdd += ucRegister_ReportAdd;
             this.ucRegister.ReportLoad += ucRegister_ReportLoad;
             this.ucRegister.ReportCategoryGet += ucRegister_ReportCategoryGet;
         }
 
-        PresLib.Form ucRegister_ReportAdd(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto)
+        RptWin.Document ucRegister_ReportAdd(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto)
         {
             (moduleFormDto as RptFac.Document.Dto).Category = (currentArtifact.Module as Report.Facade.Document.Dto).Category;
-            return new Vanilla.Report.WinForm.Document(new RptFac.Document.FormDto
+            return new RptWin.Document(new RptFac.Document.FormDto
             {
                 Dto = moduleFormDto as Report.Facade.Document.Dto,
-                DocumentName = currentArtifact.FileName,
+                Document = currentArtifact,
             }, registerFacade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
             {
                 Code = currentArtifact.ComponentDefinition.Code,
-            }, currentArtifact.Category) as Report.Facade.Document.Server);
+            }, currentArtifact.Category) as RptFac.Document.Server);
         }
 
         void ucRegister_ReportLoad(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade)
@@ -149,7 +157,7 @@ namespace Vanilla.Navigator.WinForm
             Vanilla.Report.WinForm.Document form = new Vanilla.Report.WinForm.Document(new RptFac.Document.FormDto
             {
                 Dto = currentArtifact.Module as Report.Facade.Document.Dto,
-                DocumentName = currentArtifact.FileName + "." + currentArtifact.Extension,
+                Document = currentArtifact,
                 ModuleName = currentArtifact.ComponentDefinition.Name,
                 Category = (currentArtifact.Module as RptFac.Document.Dto).Category,
             }, registerFacade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
