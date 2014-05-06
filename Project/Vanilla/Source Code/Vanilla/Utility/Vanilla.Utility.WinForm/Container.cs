@@ -6,6 +6,7 @@ using BinAff.Facade.Cache;
 using AccFac = Vanilla.Guardian.Facade.Account;
 using GuardWin = Vanilla.Guardian.WinForm;
 using UtilWin = Vanilla.Utility.WinForm;
+using System.Collections.Generic;
 
 namespace Vanilla.Utility.WinForm
 {
@@ -44,7 +45,7 @@ namespace Vanilla.Utility.WinForm
                 else
                 {
                     mdiChildrenCount++;
-                    this.SaveRecentFile((this.ActiveMdiChild as Document).DocumentPath);
+                    this.ManageRecentFile((this.ActiveMdiChild as Document).DocumentPath);
                 }
             }
         }
@@ -67,12 +68,9 @@ namespace Vanilla.Utility.WinForm
             }
             else
             {
-                this.mnuLogin.Visible = false;
-                //if (this.currentChild != null)
-                //{
-                //    this.currentChild.MdiParent = this;
-                //    this.currentChild.Show();
-                //}
+                List<String> recentItemList = new Facade.Container.Server(null).ReadRecentFile(Application.StartupPath + @"\Files\Recent.xml");
+                this.AttachRecentDocuments(recentItemList);
+                this.ShowControlAfterLogin();
             }
         }
 
@@ -248,9 +246,47 @@ namespace Vanilla.Utility.WinForm
             
         }
 
-        private void SaveRecentFile(String documentPath)
+        private void ManageRecentFile(String documentPath)
         {
-            new Facade.Container.Server(null).SaveRecentFile(documentPath, Application.StartupPath + @"\Files\Recent.xml");
+            List<String> recentItemList = new Facade.Container.Server(null).SaveRecentFile(documentPath, Application.StartupPath + @"\Files\Recent.xml");
+            this.AttachRecentDocuments(recentItemList);
+        }
+
+        private void AttachRecentDocuments(List<String> recentItemList)
+        {            
+            this.mnuRecentFiles.DropDownItems.Clear();
+            if (recentItemList != null)
+            {
+                foreach (String recentItem in recentItemList)
+                {
+                    ToolStripMenuItem recentItemMenu = new ToolStripMenuItem(recentItem);
+                    recentItemMenu.Click += recentItemMenu_Click;
+                    this.mnuRecentFiles.DropDownItems.Add(recentItemMenu);
+                }
+                if (recentItemList.Count > 0)
+                {
+                    this.mnuRecentFiles.DropDownItems.Add(new ToolStripSeparator());
+                    ToolStripMenuItem clearMenu = new ToolStripMenuItem("Clear");
+                    clearMenu.Click += clearMenu_Click;
+                    this.mnuRecentFiles.DropDownItems.Add(clearMenu);
+                }
+            }
+        }
+
+        private void recentItemMenu_Click(object sender, EventArgs e)
+        {
+            this.AddClickEvent(sender, e);
+        }
+
+        private void clearMenu_Click(object sender, EventArgs e)
+        {
+            this.mnuRecentFiles.DropDownItems.Clear();
+            new Facade.Container.Server(null).RemoveRecentFile(Application.StartupPath + @"\Files\Recent.xml");
+        }
+
+        protected virtual void AddClickEvent(object sender, EventArgs e)
+        {
+            
         }
 
     }

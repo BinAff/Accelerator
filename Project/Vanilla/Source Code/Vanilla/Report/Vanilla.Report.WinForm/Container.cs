@@ -33,6 +33,13 @@ namespace Vanilla.Report.WinForm
             if (currentInstance == null) currentInstance = new Container();
             return currentInstance;
         }
+
+        protected override void AddClickEvent(object sender, System.EventArgs e)
+        {
+            //Get artifact
+            //Create mdi child
+            //Show as mdi child
+        }
         
     }
 

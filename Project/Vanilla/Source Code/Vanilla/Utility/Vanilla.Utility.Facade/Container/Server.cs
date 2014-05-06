@@ -37,7 +37,7 @@ namespace Vanilla.Utility.Facade.Container
             new VanAcc.Server(new VanAcc.FormDto()).Logout();
         }
 
-        public void SaveRecentFile(String documentPath, String xmlFilePath)
+        public List<String> SaveRecentFile(String documentPath, String xmlFilePath)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(xmlFilePath);
@@ -61,9 +61,11 @@ namespace Vanilla.Utility.Facade.Container
             if (rootNode.ChildNodes.Count > 10) rootNode.RemoveChild(rootNode.FirstChild); //Need to remove hard coding of count
 
             xmlDoc.Save(xmlFilePath);
+            
+            return ReadRecentFile(xmlFilePath); //Need to remove IO
         }
 
-        public List<String> LoadRecentFile(String xmlFilePath)
+        public List<String> ReadRecentFile(String xmlFilePath)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(xmlFilePath);
@@ -73,10 +75,19 @@ namespace Vanilla.Utility.Facade.Container
                 List<String> fileList = new List<String>();
                 foreach (XmlNode file in rootNode.ChildNodes)
                 {
-                    fileList.Add(file.Value);
+                    fileList.Add(file.Attributes["Path"].Value);
                 }
+                return fileList;
             }
             return null;
+        }
+
+        public void RemoveRecentFile(String xmlFilePath)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xmlFilePath);
+            xmlDoc.ChildNodes[0].RemoveAll();
+            xmlDoc.Save(xmlFilePath);
         }
 
     }
