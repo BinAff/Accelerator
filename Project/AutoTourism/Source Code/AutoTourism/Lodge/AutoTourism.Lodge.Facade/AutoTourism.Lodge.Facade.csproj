@@ -117,6 +117,10 @@
       <Project>{9ad10300-505d-4b2b-8376-b6049ee47bfa}</Project>
       <Name>Crystal.Reservation.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Form\Vanilla.Form.Facade\Vanilla.Form.Facade.csproj">
+      <Project>{856d10d5-3235-41ca-8fe3-48019c9d4a39}</Project>
+      <Name>Vanilla.Form.Facade</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.Facade\Vanilla.Invoice.Facade.csproj">
       <Project>{F5351CBF-9763-43A3-9B2E-7A6C1A93FCE4}</Project>
       <Name>Vanilla.Invoice.Facade</Name>

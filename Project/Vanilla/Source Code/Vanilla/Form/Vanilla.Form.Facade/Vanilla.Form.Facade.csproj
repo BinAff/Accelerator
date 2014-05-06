@@ -35,7 +35,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Container\Dto.cs" />
+    <Compile Include="Container\FormDto.cs" />
+    <Compile Include="Container\Server.cs" />
+    <Compile Include="Document\Dto.cs" />
+    <Compile Include="Document\FormDto.cs" />
+    <Compile Include="Document\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
+      <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
+      <Name>BinAff.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
+      <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
+      <Name>BinAff.Facade.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
+      <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
+      <Name>Vanilla.Guardian.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
+      <Project>{a10719af-5c9f-4903-ab83-089ec502eea2}</Project>
+      <Name>Vanilla.Utility.Facade</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

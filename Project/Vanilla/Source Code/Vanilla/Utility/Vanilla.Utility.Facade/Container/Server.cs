@@ -8,7 +8,7 @@ using VanAcc = Vanilla.Guardian.Facade.Account;
 namespace Vanilla.Utility.Facade.Container
 {
 
-    public class Server : BinAff.Facade.Library.Server
+    public abstract class Server : BinAff.Facade.Library.Server
     {
 
         public Server(FormDto formDto)
@@ -41,9 +41,10 @@ namespace Vanilla.Utility.Facade.Container
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(xmlFilePath);
-            XmlNode rootNode = xmlDoc.ChildNodes[0];
+            String category = this.GetRecentFileNodeName();
+            XmlNode rootNode = xmlDoc.ChildNodes[0].SelectSingleNode(category);
 
-            XmlNodeList duplicateList = xmlDoc.SelectNodes("Recent/Document[@Path='" + documentPath + "']");
+            XmlNodeList duplicateList = xmlDoc.SelectNodes("Recent/" + category + "/Document[@Path='" + documentPath + "']");
             if (duplicateList != null && duplicateList.Count > 0)
             {
                 foreach (XmlNode node in duplicateList)
@@ -65,11 +66,13 @@ namespace Vanilla.Utility.Facade.Container
             return ReadRecentFile(xmlFilePath); //Need to remove IO
         }
 
+        protected abstract String GetRecentFileNodeName();
+
         public List<String> ReadRecentFile(String xmlFilePath)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(xmlFilePath);
-            XmlNode rootNode = xmlDoc.ChildNodes[0];
+            XmlNode rootNode = xmlDoc.ChildNodes[0].SelectSingleNode(this.GetRecentFileNodeName());
             if (rootNode.ChildNodes != null && rootNode.ChildNodes.Count > 0)
             {
                 List<String> fileList = new List<String>();
@@ -86,7 +89,7 @@ namespace Vanilla.Utility.Facade.Container
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(xmlFilePath);
-            xmlDoc.ChildNodes[0].RemoveAll();
+            xmlDoc.ChildNodes[0].SelectSingleNode(this.GetRecentFileNodeName()).RemoveAll();
             xmlDoc.Save(xmlFilePath);
         }
 

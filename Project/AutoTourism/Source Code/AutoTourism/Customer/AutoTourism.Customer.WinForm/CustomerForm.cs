@@ -14,13 +14,13 @@ using FormWin = Vanilla.Form.WinForm;
 namespace AutoTourism.Customer.WinForm
 {
 
-    public partial class CustomerForm : FormWin.Form
+    public partial class CustomerForm : FormWin.Document
     {   
 
         private System.Drawing.Color MandatoryColor = System.Drawing.Color.FromArgb(255, 255, 240, 240);
 
         private CustFac.Dto dto;
-        private CustFac.FormDto formDto;
+        //private CustFac.FormDto formDto;
         private ConfRuleFac.CustomerRuleDto customerRule;
         private Boolean isLoadedFromRoomReservationForm = false;
         private System.Windows.Forms.TreeView trvForm;
@@ -106,12 +106,25 @@ namespace AutoTourism.Customer.WinForm
             this.isLoadedFromRoomReservationForm = true;
             this.trvForm = trvForm;
         }
+
+        public CustomerForm(UtilFac.Artifact.Dto artifact)
+            : base(artifact)
+        {
+            InitializeComponent();
+            base.formDto = new Facade.FormDto();
+            this.dto = artifact.Module as CustFac.Dto;
+            this.AssignDto();
+        }
       
         public CustomerForm(CustFac.Dto dto)
         {
             InitializeComponent();
             this.dto = dto;
+            this.AssignDto();
+        }
 
+        private void AssignDto()
+        {
             if (this.dto.Id > 0)
             {
                 this.refreshDto = new CustFac.Dto
@@ -134,7 +147,7 @@ namespace AutoTourism.Customer.WinForm
                     Pin = this.dto.Pin,
                     ContactNumberList = this.CloneContactNumber(this.dto.ContactNumberList),
                     Email = this.dto.Email,
-                    IdentityProofType = this.dto.IdentityProofType == null ? null : new Table 
+                    IdentityProofType = this.dto.IdentityProofType == null ? null : new Table
                     {
                         Id = this.dto.IdentityProofType.Id,
                         Name = this.dto.IdentityProofType.Name
@@ -144,7 +157,7 @@ namespace AutoTourism.Customer.WinForm
             }
         }
 
-        #endregion
+        #endregion  
 
         private void SetMandatoryRule()
         {
@@ -158,14 +171,14 @@ namespace AutoTourism.Customer.WinForm
         {
             this.formDto = new CustFac.FormDto()
             {
-                Dto = this.dto,
+                //Dto = this.dto,
                 ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
             };
 
             //if loaded form room reservation form , then populate the modules
             if (this.isLoadedFromRoomReservationForm)
             {
-                new Vanilla.Utility.Facade.Module.Server(this.formDto.ModuleFormDto).LoadForm();
+                new Vanilla.Utility.Facade.Module.Server((this.formDto as Facade.FormDto).ModuleFormDto).LoadForm();
             }
 
             this.LoadForm();
@@ -308,7 +321,7 @@ namespace AutoTourism.Customer.WinForm
         
         private void LoadForm()
         {
-            CustFac.FormDto formDto = new CustFac.FormDto();
+            CustFac.FormDto formDto = base.formDto as Facade.FormDto;
             BinAff.Facade.Library.Server facade = new CustFac.Server(formDto);
             facade.LoadForm();
 
@@ -346,7 +359,7 @@ namespace AutoTourism.Customer.WinForm
             this.txtArtifactPath.ReadOnly = true;
             if (this.isLoadedFromRoomReservationForm)
             {
-                this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("CUST", this.formDto.ModuleFormDto.FormModuleList, "Form");
+                this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("CUST", (this.formDto as Facade.FormDto).ModuleFormDto.FormModuleList, "Form");
             }
             else
             {
@@ -492,20 +505,20 @@ namespace AutoTourism.Customer.WinForm
                 this.dto.IdentityProofName = txtIdentityProofName.Text.Trim();
                 CustFac.FormDto formDto = new CustFac.FormDto()
                 {
-                    Dto = this.dto,
+                    //Dto = this.dto,
                 };
 
                 //BinAff.Facade.Library.Server facade = new CustFac.Server(formDto);
                 UtilFac.Document.Server facade = new CustFac.Server(formDto);
-                if (formDto.Dto.Id == 0)
-                {
-                    facade.ArtifactDto = this.ArtifactDto;
-                    facade.Add();
-                }
-                else
-                {
-                    facade.Change();
-                }
+                //if (formDto.Dto.Id == 0)
+                //{
+                //    facade.ArtifactDto = this.formDto.
+                //    facade.Add();
+                //}
+                //else
+                //{
+                //    facade.Change();
+                //}
 
                 if (this.isLoadedFromRoomReservationForm)
                 {
@@ -542,7 +555,7 @@ namespace AutoTourism.Customer.WinForm
                 Category = Vanilla.Utility.Facade.Artifact.Category.Form,
                 Path = this.dto.ArtifactPath
             };
-            new CustFac.Server(this.formDto).SaveArtifactForCustomer(artifactDto);
+            new CustFac.Server(this.formDto as Facade.FormDto).SaveArtifactForCustomer(artifactDto);
 
             //-Add artifact to customer node
             Int16 customerNodePosition = 0;

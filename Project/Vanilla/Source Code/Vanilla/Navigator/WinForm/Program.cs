@@ -10,7 +10,7 @@ namespace Vanilla.Navigator.WinForm
     static class Program
     {
 
-        static Form currentForm;
+        static System.Windows.Forms.Form currentForm;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -63,7 +63,7 @@ namespace Vanilla.Navigator.WinForm
         private static void Quit(String message)
         {
             FormCollection formCollection = Application.OpenForms;
-            foreach (Form frm in formCollection)
+            foreach (System.Windows.Forms.Form frm in formCollection)
             {
                 frm.BeginInvoke(new Action(() => { frm.Enabled = false; }));
             }

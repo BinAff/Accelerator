@@ -81,7 +81,7 @@ namespace Vanilla.Navigator.WinForm
         {
             if ((sender as ListView).FocusedItem.Tag != null)
             {
-                ((sender as ListView).FocusedItem.Tag as Form).ShowDialog(this);
+                ((sender as ListView).FocusedItem.Tag as System.Windows.Forms.Form).ShowDialog(this);
             }
         }
 
@@ -126,10 +126,10 @@ namespace Vanilla.Navigator.WinForm
             });
         }
 
-        private Form InstantiateObject(String dataType, String assembly)
+        private System.Windows.Forms.Form InstantiateObject(String dataType, String assembly)
         {
             Type type = Type.GetType(dataType + ", " + assembly, true);
-            return Activator.CreateInstance(type) as Form;
+            return Activator.CreateInstance(type) as System.Windows.Forms.Form;
         }
 
     }

@@ -71,6 +71,8 @@ namespace Vanilla.Utility.WinForm
         public delegate void OnReportCategoryGet(UtilFac.Artifact.Dto currentArtifact, String categoryName);
         public event OnReportCategoryGet ReportCategoryGet;
 
+        public delegate void OnFormLoad(UtilFac.Artifact.Dto currentArtifact);
+        public event OnFormLoad FormLoad;
             
         public Register()
         {
@@ -594,15 +596,16 @@ namespace Vanilla.Utility.WinForm
                     this.ReportLoad(this.currentArtifact, this.facade);
                 }
                 else
-                {   
-                    Type type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
-                    this.currentArtifact.Module.artifactPath = currentArtifact.Path;
-                    UtilWin.Document form = (UtilWin.Document)Activator.CreateInstance(type, currentArtifact.Module);
-                    form.ShowDialog(this);
-                    if (form.IsModified)
-                    {
-                        this.SaveArtifact(this.currentArtifact, this.currentArtifact.FileName, true);
-                    }
+                {
+                    this.FormLoad(this.currentArtifact);
+                    //Type type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
+                    //this.currentArtifact.Module.artifactPath = currentArtifact.Path;
+                    //UtilWin.Document form = (UtilWin.Document)Activator.CreateInstance(type, currentArtifact.Module);
+                    //form.ShowDialog(this);
+                    //if (form.IsModified)
+                    //{
+                    //    this.SaveArtifact(this.currentArtifact, this.currentArtifact.FileName, true);
+                    //}
                 }                
             }
         }

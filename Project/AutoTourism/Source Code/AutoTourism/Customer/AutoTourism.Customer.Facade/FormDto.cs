@@ -6,10 +6,9 @@ using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 namespace AutoTourism.Customer.Facade
 {
 
-    public class FormDto : Vanilla.Utility.Facade.Document.FormDto
+    public class FormDto : Vanilla.Form.Facade.Document.FormDto
     {
 
-        public Dto Dto { get; set; }
         public RuleFacade.CustomerRuleDto customerRuleDto { get; set; }
         public List<Dto> DtoList { get; set; }
 

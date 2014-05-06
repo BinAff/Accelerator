@@ -18,6 +18,8 @@ namespace Vanilla.Utility.WinForm
         private Boolean isLoginFormOpen;
         private Boolean isAlreadyLoggedIn;
 
+        protected Facade.Container.Server facade;
+
         private Int16 mdiChildrenCount;
 
         protected Container()
@@ -61,6 +63,7 @@ namespace Vanilla.Utility.WinForm
 
         private void Container_Load(object sender, EventArgs e)
         {
+            this.Compose();
             if (Server.Current.Cache["User"] == null)
             {
                 this.ShowLoginForm();
@@ -68,10 +71,15 @@ namespace Vanilla.Utility.WinForm
             }
             else
             {
-                List<String> recentItemList = new Facade.Container.Server(null).ReadRecentFile(Application.StartupPath + @"\Files\Recent.xml");
+                List<String> recentItemList = this.facade.ReadRecentFile(Application.StartupPath + @"\Files\Recent.xml");
                 this.AttachRecentDocuments(recentItemList);
                 this.ShowControlAfterLogin();
             }
+        }
+
+        protected virtual void Compose()
+        {
+            throw new NotImplementedException();
         }
 
         #region Menu
@@ -85,7 +93,7 @@ namespace Vanilla.Utility.WinForm
 
         private void mnuLogout_Click(object sender, EventArgs e)
         {
-            new Facade.Container.Server(null).Logout();
+            this.facade.Logout();
             foreach (Form frm in this.MdiChildren)
             {
                 frm.Close();
@@ -248,7 +256,7 @@ namespace Vanilla.Utility.WinForm
 
         private void ManageRecentFile(String documentPath)
         {
-            List<String> recentItemList = new Facade.Container.Server(null).SaveRecentFile(documentPath, Application.StartupPath + @"\Files\Recent.xml");
+            List<String> recentItemList = this.facade.SaveRecentFile(documentPath, Application.StartupPath + @"\Files\Recent.xml");
             this.AttachRecentDocuments(recentItemList);
         }
 
@@ -281,7 +289,7 @@ namespace Vanilla.Utility.WinForm
         private void clearMenu_Click(object sender, EventArgs e)
         {
             this.mnuRecentFiles.DropDownItems.Clear();
-            new Facade.Container.Server(null).RemoveRecentFile(Application.StartupPath + @"\Files\Recent.xml");
+            this.facade.RemoveRecentFile(Application.StartupPath + @"\Files\Recent.xml");
         }
 
         protected virtual void AddClickEvent(object sender, EventArgs e)

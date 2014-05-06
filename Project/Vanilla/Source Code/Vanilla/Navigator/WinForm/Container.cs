@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Collections.Generic;
 
 using BinAff.Facade.Cache;
 using PresLib = BinAff.Presentation.Library;
@@ -10,12 +11,12 @@ using VanAcc = Vanilla.Guardian.Facade.Account;
 using UtilFac = Vanilla.Utility.Facade;
 using RptFac = Vanilla.Report.Facade;
 using RptWin = Vanilla.Report.WinForm;
-using System.Collections.Generic;
+using FrmWin = Vanilla.Form.WinForm;
 
 namespace Vanilla.Navigator.WinForm
 {
 
-    public partial class Container : Form
+    public partial class Container : System.Windows.Forms.Form
     {
 
         //[System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
@@ -57,6 +58,7 @@ namespace Vanilla.Navigator.WinForm
 
         private Timer connectionTimer;
 
+        private FrmWin.Container formExecutable;
         private RptWin.Container reportExecutable;
         public List<Report.Facade.Category.Dto> reportCategoryList = new List<Report.Facade.Category.Dto>();
 
@@ -126,9 +128,11 @@ namespace Vanilla.Navigator.WinForm
             this.ucRegister.ReportAdd += ucRegister_ReportAdd;
             this.ucRegister.ReportLoad += ucRegister_ReportLoad;
             this.ucRegister.ReportCategoryGet += ucRegister_ReportCategoryGet;
+
+            this.ucRegister.FormLoad += ucRegister_FormLoad;
         }
 
-        RptWin.Document ucRegister_ReportAdd(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto)
+        private RptWin.Document ucRegister_ReportAdd(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto)
         {
             (moduleFormDto as RptFac.Document.Dto).Category = (currentArtifact.Module as Report.Facade.Document.Dto).Category;
             return new RptWin.Document(new RptFac.Document.FormDto
@@ -141,7 +145,7 @@ namespace Vanilla.Navigator.WinForm
             }, currentArtifact.Category) as RptFac.Document.Server);
         }
 
-        void ucRegister_ReportLoad(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade)
+        private void ucRegister_ReportLoad(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade)
         {
             if (this.reportExecutable == null)
             {
@@ -154,23 +158,23 @@ namespace Vanilla.Navigator.WinForm
                 this.LogOut();
                 return;
             }
-            Vanilla.Report.WinForm.Document form = new Vanilla.Report.WinForm.Document(new RptFac.Document.FormDto
+            RptWin.Document form = new RptWin.Document(new RptFac.Document.FormDto
             {
-                Dto = currentArtifact.Module as Report.Facade.Document.Dto,
+                Dto = currentArtifact.Module as RptFac.Document.Dto,
                 Document = currentArtifact,
                 ModuleName = currentArtifact.ComponentDefinition.Name,
                 Category = (currentArtifact.Module as RptFac.Document.Dto).Category,
-            }, registerFacade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
+            }, registerFacade.GetReportFacade(new UtilFac.Module.Dto
             {
                 Code = currentArtifact.ComponentDefinition.Code,
-            }, currentArtifact.Category) as Report.Facade.Document.Server)
+            }, currentArtifact.Category) as RptFac.Document.Server)
             {
                 MdiParent = this.reportExecutable
             };
             form.Show();
         }
-        
-        void ucRegister_ReportCategoryGet(UtilFac.Artifact.Dto currentArtifact, string categoryName)
+
+        private void ucRegister_ReportCategoryGet(UtilFac.Artifact.Dto currentArtifact, string categoryName)
         {
             currentArtifact.Module = new Report.Facade.Document.Dto
             {
@@ -179,12 +183,38 @@ namespace Vanilla.Navigator.WinForm
             currentArtifact.Extension = (currentArtifact.Module as Report.Facade.Document.Dto).Category.Extension;
         }
 
-        void reportExecutable_FormClosed(object sender, FormClosedEventArgs e)
+        private void ucRegister_FormLoad(UtilFac.Artifact.Dto currentArtifact)
+        {
+            if (this.formExecutable == null)
+            {
+                this.formExecutable = FrmWin.Container.CreateInstance(Server.Current.Cache["User"] as VanAcc.Dto);
+                this.formExecutable.FormClosed += formExecutable_FormClosed;
+            }
+            this.formExecutable.Show();
+            if (!this.formExecutable.Login(Server.Current.Cache["User"] as VanAcc.Dto))
+            {
+                this.LogOut();
+                return;
+            }
+
+            Type type = Type.GetType(currentArtifact.ComponentDefinition.ComponentFormType, true);
+            currentArtifact.Module.artifactPath = currentArtifact.Path;
+            FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);
+            form.MdiParent = this.formExecutable;
+            form.Show();
+        }
+
+        private void formExecutable_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.formExecutable = null;
+        }
+
+        private void reportExecutable_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.reportExecutable = null;
         }
 
-        void connectionTimer_Tick(object sender, EventArgs e)
+        private void connectionTimer_Tick(object sender, EventArgs e)
         {
             this.ShowConnectionStatus();
         }

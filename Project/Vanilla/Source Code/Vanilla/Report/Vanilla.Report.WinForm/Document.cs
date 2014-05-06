@@ -20,11 +20,12 @@ namespace Vanilla.Report.WinForm
         {
             InitializeComponent();
         }
-
+        
         public Document(Facade.Document.FormDto formDto, Facade.Document.Server facade)
-            : base(formDto, facade)
+            : this()
         {
-            InitializeComponent();
+            this.formDto = formDto;
+            this.facade = facade;
         }
 
         private void Document_Load(object sender, EventArgs e)
