@@ -23,6 +23,12 @@ namespace Vanilla.Utility.WinForm
         public Document()
         {
             InitializeComponent();
+            this.Compose();
+        }
+
+        protected virtual void Compose()
+        {
+            throw new NotImplementedException();
         }
 
     }
