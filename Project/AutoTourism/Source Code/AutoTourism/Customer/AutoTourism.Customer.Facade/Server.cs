@@ -28,7 +28,7 @@ namespace AutoTourism.Customer.Facade
             formDto.StateList = this.ReadAllState().Value;
             formDto.IdentityProofTypeList = this.ReadAllIdentityProof().Value;
             formDto.DtoList = this.ReadAllCustomer().Value;
-            formDto.customerRuleDto = this.ReadCustomerRule().Value;
+            formDto.RuleDto = this.ReadCustomerRule().Value;
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)

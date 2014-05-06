@@ -9,7 +9,7 @@ namespace AutoTourism.Customer.Facade
     public class FormDto : Vanilla.Form.Facade.Document.FormDto
     {
 
-        public RuleFacade.CustomerRuleDto customerRuleDto { get; set; }
+        public RuleFacade.CustomerRuleDto RuleDto { get; set; }
         public List<Dto> DtoList { get; set; }
 
         //public List<Table> InitialList { get; set; }

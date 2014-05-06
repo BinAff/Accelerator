@@ -111,7 +111,6 @@ namespace AutoTourism.Customer.WinForm
             : base(artifact)
         {
             InitializeComponent();
-            base.formDto = new Facade.FormDto();
             this.dto = artifact.Module as CustFac.Dto;
             this.AssignDto();
         }
@@ -159,6 +158,15 @@ namespace AutoTourism.Customer.WinForm
 
         #endregion  
 
+        protected override void Compose()
+        {
+            base.formDto = new Facade.FormDto
+            {
+                ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
+            };
+            base.facade = new CustFac.Server(base.formDto as Facade.FormDto);
+        }
+
         private void SetMandatoryRule()
         {
             this.IsPinNumberMandatory = this.customerRule.IsPinNumber;
@@ -169,12 +177,6 @@ namespace AutoTourism.Customer.WinForm
 
         private void CustomerForm_Load(object sender, System.EventArgs e)
         {
-            this.formDto = new CustFac.FormDto()
-            {
-                //Dto = this.dto,
-                ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
-            };
-
             //if loaded form room reservation form , then populate the modules
             if (this.isLoadedFromRoomReservationForm)
             {
@@ -322,10 +324,9 @@ namespace AutoTourism.Customer.WinForm
         private void LoadForm()
         {
             CustFac.FormDto formDto = base.formDto as Facade.FormDto;
-            BinAff.Facade.Library.Server facade = new CustFac.Server(formDto);
-            facade.LoadForm();
+            base.facade.LoadForm();
 
-            this.customerRule = formDto.customerRuleDto;
+            this.customerRule = formDto.RuleDto;
             SetMandatoryRule();
 
             if (formDto.IdentityProofTypeList != null && formDto.IdentityProofTypeList.Count > 0)
