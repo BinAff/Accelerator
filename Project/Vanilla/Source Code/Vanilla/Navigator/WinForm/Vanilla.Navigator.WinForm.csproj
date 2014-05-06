@@ -121,6 +121,14 @@
       <Project>{7d4930bb-2807-4f89-8318-a42941ae70d3}</Project>
       <Name>Vanilla.Configuration.WinForm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Form\Vanilla.Form.Facade\Vanilla.Form.Facade.csproj">
+      <Project>{856d10d5-3235-41ca-8fe3-48019c9d4a39}</Project>
+      <Name>Vanilla.Form.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Form\Vanilla.Form.WinForm\Vanilla.Form.WinForm.csproj">
+      <Project>{6ffd4a1c-c8fc-44b6-b3c1-4a2240037154}</Project>
+      <Name>Vanilla.Form.WinForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
       <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
       <Name>Vanilla.Guardian.Facade</Name>

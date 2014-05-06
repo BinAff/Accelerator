@@ -1,6 +1,4 @@
-﻿
-
-using AccFac = Vanilla.Guardian.Facade.Account;
+﻿using AccFac = Vanilla.Guardian.Facade.Account;
 using UtilWin = Vanilla.Utility.WinForm;
 
 namespace Vanilla.Form.WinForm
@@ -13,27 +11,39 @@ namespace Vanilla.Form.WinForm
             : base()
         {
             InitializeComponent();
+            this.Text = "Forms";
         }
 
         protected Container(AccFac.Dto account)
             : base(account)
         {
-
-
+            this.Text = "Forms";
         }
 
         private static Container currentInstance;
 
         public static Container CreateInstance(AccFac.Dto account)
         {
-            if (currentInstance == null) currentInstance = new Container(account);
+            if (currentInstance == null || currentInstance.IsDisposed) currentInstance = new Container(account);
             return currentInstance;
         }
 
         public static Container CreateInstance()
         {
-            if (currentInstance == null) currentInstance = new Container();
+            if (currentInstance == null || currentInstance.IsDisposed) currentInstance = new Container();
             return currentInstance;
+        }
+
+        protected override void Compose()
+        {
+            base.facade = new Facade.Container.Server(null);
+        }
+
+        protected override void AddClickEvent(object sender, System.EventArgs e)
+        {
+            //Get artifact
+            //Create mdi child
+            //Show as mdi child
         }
 
     }

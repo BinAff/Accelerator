@@ -30,8 +30,13 @@ namespace Vanilla.Report.WinForm
 
         public static Container CreateInstance()
         {
-            if (currentInstance == null) currentInstance = new Container();
+            if (currentInstance == null || currentInstance.IsDisposed) currentInstance = new Container();
             return currentInstance;
+        }
+
+        protected override void Compose()
+        {
+            base.facade = new Facade.Container.Server(null);
         }
 
         protected override void AddClickEvent(object sender, System.EventArgs e)

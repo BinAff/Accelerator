@@ -1,6 +1,6 @@
 ﻿namespace Vanilla.Form.WinForm
 {
-	partial class Form
+	partial class Document
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,9 +28,19 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Text = "Form";
+            this.SuspendLayout();
+            // 
+            // Document
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(792, 573);
+            this.MaximizeBox = false;
+            this.Name = "Document";
+            this.Text = "Forms";
+            this.Load += new System.EventHandler(this.Document_Load);
+            this.ResumeLayout(false);
+
 		}
 
 		#endregion

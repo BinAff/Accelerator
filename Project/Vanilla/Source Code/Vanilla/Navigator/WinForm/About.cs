@@ -2,7 +2,7 @@
 
 namespace Vanilla.Navigator.WinForm
 {
-    public partial class About : Form
+    public partial class About : System.Windows.Forms.Form
     {
         public About()
         {

@@ -25,13 +25,6 @@ namespace Vanilla.Utility.WinForm
             InitializeComponent();
         }
 
-        public Document(Facade.Document.FormDto formDto, Facade.Document.Server facade)
-            : this()
-        {
-            this.formDto = formDto;
-            this.facade = facade;
-        }
-
     }
 
 }

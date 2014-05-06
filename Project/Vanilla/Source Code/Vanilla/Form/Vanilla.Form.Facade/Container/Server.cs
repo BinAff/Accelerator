@@ -5,7 +5,7 @@ using BinAff.Core;
 using VanAcc = Vanilla.Guardian.Facade.Account;
 using ContFac = Vanilla.Utility.Facade.Container;
 
-namespace Vanilla.Report.Facade.Container
+namespace Vanilla.Form.Facade.Container
 {
 
     public class Server : ContFac.Server
@@ -19,7 +19,7 @@ namespace Vanilla.Report.Facade.Container
 
         protected override String GetRecentFileNodeName()
         {
-            return "Report";
+            return "Form";
         }
 
     }
