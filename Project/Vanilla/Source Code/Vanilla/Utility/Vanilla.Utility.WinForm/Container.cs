@@ -45,7 +45,9 @@ namespace Vanilla.Utility.WinForm
                     mdiChildrenCount--; //When the form is closing
                     if (mdiChildrenCount == 0)
                     {
+                        this.MdiChildren[0].Close();
                         this.Close();
+                        this.Dispose();
                     }
                 }
                 else
