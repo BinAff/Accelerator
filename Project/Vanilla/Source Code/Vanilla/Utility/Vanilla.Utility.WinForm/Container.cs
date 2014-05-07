@@ -43,6 +43,10 @@ namespace Vanilla.Utility.WinForm
                 if (this.MdiChildren.Length == mdiChildrenCount)
                 {
                     mdiChildrenCount--; //When the form is closing
+                    if (mdiChildrenCount == 0)
+                    {
+                        this.Close();
+                    }
                 }
                 else
                 {
