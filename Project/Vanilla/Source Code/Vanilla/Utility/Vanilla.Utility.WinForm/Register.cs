@@ -598,10 +598,6 @@ namespace Vanilla.Utility.WinForm
                 else
                 {
                     this.FormLoad(this.currentArtifact);
-                    //Type type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
-                    //this.currentArtifact.Module.artifactPath = currentArtifact.Path;
-                    //UtilWin.Document form = (UtilWin.Document)Activator.CreateInstance(type, currentArtifact.Module);
-                    //form.ShowDialog(this);
                     //if (form.IsModified)
                     //{
                     //    this.SaveArtifact(this.currentArtifact, this.currentArtifact.FileName, true);

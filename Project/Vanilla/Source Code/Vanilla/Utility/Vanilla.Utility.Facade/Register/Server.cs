@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Timers;
 
 using BinAff.Core;
 
-using UtilFac = Vanilla.Utility.Facade;
+using RuleCrys = Crystal.Navigator.Rule;
+
 using VanAcc = Vanilla.Guardian.Facade.Account;
-//using Extender = Vanilla.Utility.WinForm.Extender;
-
-using System.Timers;
-
 
 namespace Vanilla.Utility.Facade.Register
 {
@@ -16,8 +14,8 @@ namespace Vanilla.Utility.Facade.Register
     public class Server : BinAff.Facade.Library.Server
     {
 
-        private Vanilla.Utility.Facade.Artifact.Category currentCategory;
-        public Vanilla.Utility.Facade.Artifact.Category Category
+        private Artifact.Category currentCategory;
+        public Artifact.Category Category
         {
             set { this.currentCategory = value; }
             get { return this.currentCategory; }
@@ -28,7 +26,7 @@ namespace Vanilla.Utility.Facade.Register
         /// <summary>
         /// This is just required to give progress bar status
         /// </summary>
-        private Vanilla.Utility.Facade.Module.Server moduleFacade;
+        private Module.Server moduleFacade;
 
         public Server(FormDto formDto)
             : base(formDto)
@@ -50,11 +48,15 @@ namespace Vanilla.Utility.Facade.Register
             this.LoadRule();
             this.loadPercentage = 10;
             t.Start();
-            this.moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto) { Category = this.currentCategory };
+            (this.FormDto as FormDto).ModuleFormDto.Rule = (this.FormDto as FormDto).Rule;
+            this.moduleFacade = new Module.Server((this.FormDto as FormDto).ModuleFormDto)
+            {
+                Category = this.currentCategory 
+            };
             this.moduleFacade.LoadForm();
             t.Stop();
             this.loadPercentage = 90;
-            this.GetCurrentModules(Vanilla.Utility.Facade.Artifact.Category.Form);
+            this.GetCurrentModules(Artifact.Category.Form);
             this.loadPercentage = 100;
         }
 
@@ -101,7 +103,10 @@ namespace Vanilla.Utility.Facade.Register
 
         public override void Add()
         {
-            UtilFac.Module.Server moduleFacade = new UtilFac.Module.Server((this.FormDto as FormDto).ModuleFormDto) { Category = this.currentCategory };
+            Module.Server moduleFacade = new Module.Server((this.FormDto as FormDto).ModuleFormDto)
+            {
+                Category = this.currentCategory
+            };
             moduleFacade.Add();
             this.DisplayMessageList = moduleFacade.DisplayMessageList;
             this.IsError = moduleFacade.IsError;
@@ -109,7 +114,10 @@ namespace Vanilla.Utility.Facade.Register
 
         public override void Change()
         {
-            UtilFac.Module.Server moduleFacade = new UtilFac.Module.Server((this.FormDto as FormDto).ModuleFormDto) { Category = this.currentCategory };
+            Module.Server moduleFacade = new Module.Server((this.FormDto as FormDto).ModuleFormDto)
+            {
+                Category = this.currentCategory,
+            };
             moduleFacade.Change();
             this.DisplayMessageList = moduleFacade.DisplayMessageList;
             this.IsError = moduleFacade.IsError;
@@ -117,74 +125,80 @@ namespace Vanilla.Utility.Facade.Register
 
         public void Paste(Boolean isCut)
         {
-            UtilFac.Artifact.Dto originalArtifactDto = new UtilFac.Artifact.Server(null).CloneArtifact((this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto);
-            originalArtifactDto.Children = new System.Collections.Generic.List<UtilFac.Artifact.Dto>();
+            Artifact.Dto originalArtifactDto = new Artifact.Server(null).CloneArtifact((this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto);
+            originalArtifactDto.Children = new List<Artifact.Dto>();
 
-            UtilFac.Artifact.Dto artifactDto = (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto;
+            Artifact.Dto artifactDto = (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto;
 
             if (isCut)
             {
                 this.Change();
                 if (!this.IsError && artifactDto.Children != null && artifactDto.Children.Count > 0)
+                {
                     this.PasteCutChild(artifactDto, originalArtifactDto);
+                }
             }
             else
             {
                 this.Add();
                 originalArtifactDto.Id = artifactDto.Id;
                 if (!this.IsError && artifactDto.Children != null && artifactDto.Children.Count > 0)
+                {
                     this.PasteCopyChild(artifactDto, originalArtifactDto);
+                }
             }
 
             (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto = originalArtifactDto;
-
         }
 
-        private void PasteCutChild(UtilFac.Artifact.Dto artifactDto, UtilFac.Artifact.Dto actualArtifactDto)
+        private void PasteCutChild(Artifact.Dto artifactDto, Artifact.Dto actualArtifactDto)
         {
-            foreach (UtilFac.Artifact.Dto artf in artifactDto.Children)
+            foreach (Artifact.Dto artf in artifactDto.Children)
             {
-                artf.Version = artf.Version + 1;
+                artf.Version++;
                 artf.ModifiedAt = artifactDto.ModifiedAt;
                 artf.ModifiedBy = artifactDto.ModifiedBy;
 
-                if (artf.Style == UtilFac.Artifact.Type.Folder)
-                    artf.Path = artifactDto.Path + artf.FileName + "\\";
-                else
-                    artf.Path = artifactDto.Path + artf.FileName;
+                artf.Path = artifactDto.Path + artf.FileName;
+                if (artf.Style == Artifact.Type.Folder) artf.Path += (this.FormDto as FormDto).Rule.PathSeperator;
 
-                UtilFac.Artifact.Dto childArtifactDto = new UtilFac.Artifact.Server(null).CloneArtifact(artf);
+                Artifact.Dto childArtifactDto = new Artifact.Server(null).CloneArtifact(artf);
                 childArtifactDto.Parent = actualArtifactDto;
-                childArtifactDto.Children = new List<UtilFac.Artifact.Dto>();
+                childArtifactDto.Children = new List<Artifact.Dto>();
                 actualArtifactDto.Children.Add(childArtifactDto);
 
-                (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact = new UtilFac.Artifact.FormDto { Dto = artf };
+                (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact = new Artifact.FormDto
+                {
+                    Dto = artf
+                };
                 this.Change();
 
                 if (!this.IsError)
                 {
                     if (artf.Children != null && artf.Children.Count > 0)
+                    {
                         PasteCutChild(artf, childArtifactDto);
+                    }
                 }
 
             }
         }
 
-        private void PasteCopyChild(UtilFac.Artifact.Dto artifactDto, UtilFac.Artifact.Dto actualArtifactDto)
+        private void PasteCopyChild(Artifact.Dto artifactDto, Artifact.Dto actualArtifactDto)
         {
             for (int i = 0; i < artifactDto.Children.Count; i++)
             {
-                UtilFac.Artifact.Dto artf = artifactDto.Children[i] as UtilFac.Artifact.Dto;
+                Artifact.Dto artf = artifactDto.Children[i] as Artifact.Dto;
 
-                if (artf.Style == UtilFac.Artifact.Type.Folder)
+                if (artf.Style == Artifact.Type.Folder)
                 {
-                    UtilFac.Artifact.Dto childArtifactDto = this.GetArtifactDtoByValueForCopy(artf);
+                    Artifact.Dto childArtifactDto = this.GetArtifactDtoByValueForCopy(artf);
                     childArtifactDto.CreatedAt = artifactDto.CreatedAt;
                     childArtifactDto.CreatedBy = artifactDto.CreatedBy;
                     childArtifactDto.Parent = new BinAff.Facade.Library.Dto { Id = artifactDto.Id };
-                    childArtifactDto.Path = artifactDto.Path + childArtifactDto.FileName + "\\";
+                    childArtifactDto.Path = artifactDto.Path + childArtifactDto.FileName + (this.FormDto as FormDto).Rule.PathSeperator;
 
-                    childArtifactDto.Children = new List<UtilFac.Artifact.Dto>();
+                    childArtifactDto.Children = new List<Artifact.Dto>();
                     actualArtifactDto.Children.Add(childArtifactDto);
 
                     (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact.Dto = childArtifactDto;
@@ -200,7 +214,9 @@ namespace Vanilla.Utility.Facade.Register
                     if (!this.IsError)
                     {
                         if (artf.Children != null && artf.Children.Count > 0)
+                        {
                             this.PasteCopyChild(artf, childArtifactDto);
+                        }
                     }
                 }
             }
@@ -208,37 +224,35 @@ namespace Vanilla.Utility.Facade.Register
 
         private void LoadRule()
         {
-            Crystal.Navigator.Rule.Data data = new Crystal.Navigator.Rule.Data();
-            ICrud comp = new Crystal.Navigator.Rule.Server(data);
+            RuleCrys.Data data = new RuleCrys.Data();
+            ICrud comp = new RuleCrys.Server(data);
             ReturnObject<Data> ret = comp.Read();
-            if ((this.FormDto as FormDto).Rule == null) (this.FormDto as FormDto).Rule = new UtilFac.Rule.Dto();
+            if ((this.FormDto as FormDto).Rule == null) (this.FormDto as FormDto).Rule = new Rule.Dto();
             (this.FormDto as FormDto).Rule.ModuleSeperator = data.ModuleSeperator;
             (this.FormDto as FormDto).Rule.PathSeperator = data.PathSeperator;
         }
 
-        public void GetCurrentModules(UtilFac.Artifact.Category category)
+        public void GetCurrentModules(Artifact.Category category)
         {
             Dto dto = new Dto
             {
                 Category = category,
             };
-
             FormDto formDto = this.FormDto as FormDto;
 
             switch (category)
             {
-                case UtilFac.Artifact.Category.Form:
+                case Artifact.Category.Form:
                     dto.Modules = formDto.ModuleFormDto.FormModuleList;
                     break;
-                case UtilFac.Artifact.Category.Report:
+                case Artifact.Category.Report:
                     dto.Modules = formDto.ModuleFormDto.ReportModuleList;
                     break;
-                case UtilFac.Artifact.Category.Catalogue:
+                case Artifact.Category.Catalogue:
                     dto.Modules = formDto.ModuleFormDto.CatalogueModuleList;
                     break;
             }
-            (this.FormDto as FormDto).Dto = dto;
-
+            formDto.Dto = dto;
         }
 
         public void LoadArtifacts(string selectedModule)
@@ -249,7 +263,7 @@ namespace Vanilla.Utility.Facade.Register
 
                     break;
             }
-            UtilFac.Module.Server moduleFacade = new UtilFac.Module.Server(null);
+            Module.Server moduleFacade = new Module.Server(null);
         }
 
         public void GetTreeForCurrentModuleList()
@@ -259,49 +273,21 @@ namespace Vanilla.Utility.Facade.Register
 
         public override void Delete()
         {
-            UtilFac.Module.Server moduleFacade = new UtilFac.Module.Server((this.FormDto as FormDto).ModuleFormDto);
+            Module.Server moduleFacade = new Module.Server((this.FormDto as FormDto).ModuleFormDto);
             moduleFacade.Delete();
             this.DisplayMessageList = moduleFacade.DisplayMessageList;
             this.IsError = moduleFacade.IsError;
         }
 
-        //public UtilFac.Artifact.Dto CloneArtifact(UtilFac.Artifact.Dto dto)
-        //{
-        //    return new UtilFac.Artifact.Dto
-        //    {
-        //        Id = dto.Id,
-        //        FileName = dto.FileName,
-        //        Path = dto.Path,
-        //        Style = dto.Style,
-        //        Category = dto.Category,
-        //        Version = dto.Version,
-        //        CreatedBy = dto.CreatedBy,
-        //        ModifiedBy = dto.ModifiedBy,
-        //        CreatedAt = dto.CreatedAt,
-        //        ModifiedAt = dto.ModifiedAt,
-        //        Children = dto.Children == null ? null : this.GetChildren(dto),
-        //        Module = dto.Module == null ? null : new BinAff.Facade.Library.Dto
-        //        {
-        //            Id = dto.Module.Id,
-        //            Action = dto.Module.Action
-        //        },
-        //        Parent = dto.Parent == null ? null : new BinAff.Facade.Library.Dto
-        //        {
-        //            Id = dto.Parent.Id,
-        //            Action = dto.Parent.Action
-        //        }
-        //    };
-        //}
-
-        public UtilFac.Artifact.Dto GetArtifactDtoByValueForCopy(UtilFac.Artifact.Dto data)
+        public Artifact.Dto GetArtifactDtoByValueForCopy(Artifact.Dto data)
         {
-            return new UtilFac.Artifact.Dto
+            return new Artifact.Dto
             {
                 FileName = data.FileName,
                 Style = data.Style,
                 Category = data.Category,
                 Version = 1,
-                Children = data.Children == null ? null : new UtilFac.Artifact.Server(null).GetChildren(data),
+                Children = data.Children == null ? null : new Artifact.Server(null).GetChildren(data),
                 Module = data.Module == null ? null : new BinAff.Facade.Library.Dto
                 {
                     Id = data.Module.Id,
@@ -309,20 +295,6 @@ namespace Vanilla.Utility.Facade.Register
                 }
             };
         }
-
-        //private List<UtilFac.Artifact.Dto> GetChildren(UtilFac.Artifact.Dto dto)
-        //{
-        //    List<UtilFac.Artifact.Dto> children = dto.Children;
-        //    List<UtilFac.Artifact.Dto> childrenList = new List<UtilFac.Artifact.Dto>();
-        //    for (int i = 0; i < children.Count; i++)
-        //    {                
-        //        UtilFac.Artifact.Dto clone = CloneArtifact(children[i]);
-        //        clone.Parent = dto;
-        //        childrenList.Add(clone);                
-        //    }
-
-        //    return childrenList;
-        //}
 
         #region "Menu Handle"
 
@@ -333,26 +305,26 @@ namespace Vanilla.Utility.Facade.Register
 
         #endregion
 
-        public BinAff.Facade.Library.Server GetReportFacade(UtilFac.Module.Dto dto, UtilFac.Artifact.Category category)
+        public BinAff.Facade.Library.Server GetReportFacade(Module.Dto dto, Artifact.Category category)
         {
-            return new Vanilla.Utility.Facade.Module.Helper(dto, category).ModuleFacade;
+            return new Module.Helper(dto, category).ModuleFacade;
         }
 
-        public UtilFac.Artifact.Category SetCategory(String name)
+        public Artifact.Category SetCategory(String name)
         {
             switch (name)
             {
                 case "Form":
-                    this.currentCategory = UtilFac.Artifact.Category.Form;
+                    this.currentCategory = Artifact.Category.Form;
                     break;
                 case "Catalogue":
-                    this.currentCategory = UtilFac.Artifact.Category.Catalogue;
+                    this.currentCategory = Artifact.Category.Catalogue;
                     break;
                 case "Report":
-                    this.currentCategory = UtilFac.Artifact.Category.Report;
+                    this.currentCategory = Artifact.Category.Report;
                     break;
                 default:
-                    this.currentCategory = UtilFac.Artifact.Category.Form;
+                    this.currentCategory = Artifact.Category.Form;
                     break;
             }
             return this.currentCategory;
@@ -390,7 +362,9 @@ namespace Vanilla.Utility.Facade.Register
         {
             List<Artifact.Dto> childrenList = new List<Artifact.Dto>();
             for (int i = 0; i < children.Count; i++)
+            {
                 childrenList.Add(GetArtifactDtoByValue(children[i]));
+            }
 
             return childrenList;
         }
