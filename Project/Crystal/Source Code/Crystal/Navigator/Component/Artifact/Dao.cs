@@ -34,7 +34,7 @@ namespace Crystal.Navigator.Component.Artifact
             Data data = this.Data as Data;
             base.AssignParameter(procedureName);
             base.AddInParameter("@FileName", DbType.String, data.FileName);
-            if (data.Extension == null)
+            if (data.Style == Type.Directory || data.Extension == null)
             {
                 base.AddInParameter("@Extension", DbType.String, DBNull.Value);
             }
