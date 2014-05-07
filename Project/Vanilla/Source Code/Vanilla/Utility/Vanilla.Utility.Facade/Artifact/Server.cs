@@ -330,6 +330,7 @@ namespace Vanilla.Utility.Facade.Artifact
                 CreatedAt = dto.CreatedAt,
                 ModifiedAt = dto.ModifiedAt,
                 Children = dto.Children == null ? null : GetChildren(dto),
+                Extension = dto.Extension,
                 Module = dto.Module == null ? null : new BinAff.Facade.Library.Dto
                 {
                     Id = dto.Module.Id,
@@ -339,7 +340,8 @@ namespace Vanilla.Utility.Facade.Artifact
                 {
                     Id = dto.Parent.Id,
                     Action = dto.Parent.Action
-                }
+                },
+                ComponentDefinition = dto.ComponentDefinition
             };
         }
 
