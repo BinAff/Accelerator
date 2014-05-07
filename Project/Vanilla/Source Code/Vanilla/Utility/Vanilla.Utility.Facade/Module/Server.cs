@@ -54,11 +54,9 @@ namespace Vanilla.Utility.Facade.Module
         private List<Module.Dto> Convert(List<Data> dataList)
         {
             List<Module.Dto> ret = new List<Module.Dto>();
-            //List<Category.Dto> categoryList = new Category.Server(null).ReadAll(this.currentCategory);
             foreach (Crystal.License.Component.Data module in dataList)
             {
                 Dto moduleDto = this.Convert(module) as Dto;
-                //moduleDto.CategoryList = categoryList;
                 ret.Add(moduleDto);
             }
 
@@ -97,7 +95,9 @@ namespace Vanilla.Utility.Facade.Module
             artifactServer.ModuleFacade = helper.ModuleFacade;
             CrystalArtifact.Data artifactData = (helper.Artifact as CrystalArtifact.Server).Data as CrystalArtifact.Data;
             artifactData.Category = (CrystalArtifact.Category)category;
-            artifactData.Path = category.ToString();
+            artifactData.Path = category.ToString() + (this.FormDto as FormDto).Rule.ModuleSeperator
+                + (this.FormDto as FormDto).Rule.PathSeperator + (this.FormDto as FormDto).Rule.PathSeperator
+                + module.Name + (this.FormDto as FormDto).Rule.PathSeperator;
             artifactData.ComponentDefinition = this.Convert(module) as Crystal.License.Component.Data;
             Artifact.Dto tree = artifactServer.GetTree(helper.Artifact);
             //Assign parent of root lavel artifacts, which are directly under module, to module
