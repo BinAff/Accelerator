@@ -47,7 +47,6 @@ namespace Vanilla.Utility.WinForm
                     {
                         this.MdiChildren[0].Close();
                         this.Close();
-                        this.Dispose();
                     }
                 }
                 else
