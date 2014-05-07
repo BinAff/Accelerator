@@ -248,6 +248,7 @@ namespace Vanilla.Utility.WinForm
         {
             TreeView current = sender as TreeView;
             current.SelectedNode = current.GetNodeAt(e.X, e.Y);
+            current.Sort(current.SelectedNode);
 
             if (e.Button == MouseButtons.Right)
             {
