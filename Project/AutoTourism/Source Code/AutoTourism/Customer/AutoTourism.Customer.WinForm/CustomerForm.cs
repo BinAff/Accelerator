@@ -4,13 +4,12 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 using BinAff.Utility;
-using BinAff.Facade.Cache;
-using PresLib = BinAff.Presentation.Library;
 
 using CustFac = AutoTourism.Customer.Facade;
 using ConfRuleFac = AutoTourism.Configuration.Rule.Facade;
 using UtilFac = Vanilla.Utility.Facade;
 using FormWin = Vanilla.Form.WinForm;
+using DocFac = Vanilla.Utility.Facade.Document;
 
 namespace AutoTourism.Customer.WinForm
 {
@@ -18,14 +17,9 @@ namespace AutoTourism.Customer.WinForm
     public partial class CustomerForm : FormWin.Document
     {   
 
-        private System.Drawing.Color MandatoryColor = System.Drawing.Color.FromArgb(255, 255, 240, 240);
-
-        private CustFac.Dto dto;
-        //private CustFac.FormDto formDto;
         private ConfRuleFac.CustomerRuleDto customerRule;
         private Boolean isLoadedFromRoomReservationForm = false;
         private System.Windows.Forms.TreeView trvForm;
-        private CustFac.Dto refreshDto;
 
         #region Rule property
 
@@ -112,69 +106,14 @@ namespace AutoTourism.Customer.WinForm
             : base(artifact)
         {
             InitializeComponent();
-            this.dto = artifact.Module as CustFac.Dto;
-            this.AssignDto();
         }
       
         public CustomerForm(CustFac.Dto dto)
         {
-            InitializeComponent();
-            this.dto = dto;
-            this.AssignDto();
-        }
-
-        private void AssignDto()
-        {
-            if (this.dto.Id > 0)
-            {
-                this.refreshDto = new CustFac.Dto
-                {
-                    //Initial = this.dto.Initial == null ? null : new Table
-                    //{
-                    //    Id = this.dto.Initial.Id,
-                    //    Name = this.dto.Initial.Name
-                    //},
-                    FirstName = this.dto.FirstName,
-                    MiddleName = this.dto.MiddleName,
-                    LastName = this.dto.LastName,
-                    Address = this.dto.Address,
-                    State = this.dto.State == null ? null : new Table
-                    {
-                        Id = this.dto.State.Id,
-                        Name = this.dto.State.Name
-                    },
-                    City = this.dto.City,
-                    Pin = this.dto.Pin,
-                    ContactNumberList = this.CloneContactNumber(this.dto.ContactNumberList),
-                    Email = this.dto.Email,
-                    IdentityProofType = this.dto.IdentityProofType == null ? null : new Table
-                    {
-                        Id = this.dto.IdentityProofType.Id,
-                        Name = this.dto.IdentityProofType.Name
-                    },
-                    IdentityProofName = this.dto.IdentityProofName
-                };
-            }
+            InitializeComponent();       
         }
 
         #endregion  
-
-        protected override void Compose()
-        {
-            base.formDto = new Facade.FormDto
-            {
-                ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
-            };
-            base.facade = new CustFac.Server(base.formDto as Facade.FormDto);
-        }
-
-        private void SetMandatoryRule()
-        {
-            this.IsPinNumberMandatory = this.customerRule.IsPinNumber;
-            this.IsEmailMandatory = this.customerRule.IsEmail;
-            this.IsIdentityMandatory = this.customerRule.IsIdentityProof;
-            this.IsAlternateContactNoMandatory = this.customerRule.IsAlternateContactNumber;          
-        }
 
         private void CustomerForm_Load(object sender, System.EventArgs e)
         {
@@ -184,12 +123,8 @@ namespace AutoTourism.Customer.WinForm
                 new Vanilla.Utility.Facade.Module.Server((this.formDto as Facade.FormDto).ModuleFormDto).LoadForm();
             }
 
-            this.LoadForm();
-
-            if (this.dto != null)
-            {
-                this.LoadCustomerData();
-            }
+            //DIDN'T CHECK THE IMPACT IF FORM IS OPEN FROM RESERVATION FORM
+            //this.LoadForm();
         }
 
         private void btnAddContact_Click(object sender, System.EventArgs e)
@@ -321,22 +256,45 @@ namespace AutoTourism.Customer.WinForm
                 lstContact.SelectedIndex = -1;
             }
         }
-        
-        private void LoadForm()
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            this.txtStd.Text = String.Empty;
+            this.txtLandLine.Text = String.Empty;
+            this.txtMobile.Text = String.Empty;
+            base.RefreshFrom();
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            if (base.Save())
+            {
+                if (this.isLoadedFromRoomReservationForm)
+                {
+                    this.SaveArtifact();
+                }
+                base.IsModified = true;
+                this.Close();
+            }
+        }
+
+        protected override void Compose()
+        {
+            base.formDto = new Facade.FormDto
+            {
+                ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
+            };
+            base.facade = new CustFac.Server(base.formDto as Facade.FormDto);
+        }
+
+        protected override void LoadForm()
         {
             CustFac.FormDto formDto = base.formDto as Facade.FormDto;
             base.facade.LoadForm();
 
             this.customerRule = formDto.RuleDto;
-            SetMandatoryRule();
+            this.SetMandatoryRule();
 
-            if (formDto.IdentityProofTypeList != null && formDto.IdentityProofTypeList.Count > 0)
-            {
-                this.cboProofType.DataSource = formDto.IdentityProofTypeList;
-                this.cboProofType.DisplayMember = "Name";
-                this.cboProofType.ValueMember = "Id";
-                this.cboProofType.SelectedIndex = -1;
-            }
             //if (formDto.InitialList != null && formDto.InitialList.Count > 0)
             //{
             //    this.cboInitial.DataSource = formDto.InitialList;
@@ -353,10 +311,10 @@ namespace AutoTourism.Customer.WinForm
             }
             if (formDto.IdentityProofTypeList != null && formDto.IdentityProofTypeList.Count > 0)
             {
-                this.cboProofType.DataSource = formDto.IdentityProofTypeList;
-                this.cboProofType.DisplayMember = "Name";
-                this.cboProofType.ValueMember = "Id";
-                this.cboProofType.SelectedIndex = -1;
+                this.cboIdentityProofType.DataSource = formDto.IdentityProofTypeList;
+                this.cboIdentityProofType.DisplayMember = "Name";
+                this.cboIdentityProofType.ValueMember = "Id";
+                this.cboIdentityProofType.SelectedIndex = -1;
             }
             this.txtArtifactPath.ReadOnly = true;
             if (this.isLoadedFromRoomReservationForm)
@@ -365,12 +323,13 @@ namespace AutoTourism.Customer.WinForm
             }
             else
             {
-                this.txtArtifactPath.Text = this.dto.artifactPath;
+                this.txtArtifactPath.Text = this.formDto.Dto.artifactPath;
             }
         }
-        
-        private void LoadCustomerData()
+
+        protected override void PopulateDataToForm()
         {
+            CustFac.Dto dto = this.formDto.Dto as CustFac.Dto;
             //if (this.dto.Initial != null && this.dto.Initial.Id > 0)
             //{
             //    for (int i = 0; i < cboInitial.Items.Count; i++)
@@ -382,227 +341,82 @@ namespace AutoTourism.Customer.WinForm
             //        }
             //    }
             //}
-            txtFName.Text = this.dto.FirstName;
-            txtMName.Text = this.dto.MiddleName;
-            txtLName.Text = this.dto.LastName;
-            txtAdds.Text = this.dto.Address;
-            if (this.dto.State != null && this.dto.State.Id > 0)
+            this.txtFName.Text = dto.FirstName;
+            this.txtMName.Text = dto.MiddleName;
+            this.txtLName.Text = dto.LastName;
+            this.txtAdds.Text = dto.Address;
+            if (dto.State != null && dto.State.Id > 0)
             {
                 for (int i = 0; i < cboState.Items.Count; i++)
                 {
-                    if (this.dto.State.Id == ((Table)cboState.Items[i]).Id)
+                    if (dto.State.Id == ((Table)cboState.Items[i]).Id)
                     {
-                        cboState.SelectedIndex = i;
+                        this.cboState.SelectedIndex = i;
                         break;
                     }
                 }
             }
-            txtCity.Text = this.dto.City;
-            txtPin.Text = this.dto.Pin == 0 ? String.Empty : this.dto.Pin.ToString();
-            if (this.dto.ContactNumberList != null && this.dto.ContactNumberList.Count > 0)
+            this.txtCity.Text = dto.City;
+            this.txtPin.Text = dto.Pin == 0 ? String.Empty : dto.Pin.ToString();
+            if (dto.ContactNumberList != null && dto.ContactNumberList.Count > 0)
             {
-                this.lstContact.DataSource = this.dto.ContactNumberList;
+                this.lstContact.DataSource = dto.ContactNumberList;
                 this.lstContact.DisplayMember = "Name";
                 this.lstContact.ValueMember = "Id";
                 this.lstContact.SelectedIndex = -1;
             }
-            txtEmail.Text = this.dto.Email;
-            if (this.dto.IdentityProofType != null && this.dto.IdentityProofType.Id > 0)
+            this.txtEmail.Text = dto.Email;
+            if (dto.IdentityProofType != null && dto.IdentityProofType.Id > 0)
             {
-                for (int i = 0; i < cboProofType.Items.Count; i++)
+                for (int i = 0; i < cboIdentityProofType.Items.Count; i++)
                 {
-                    if (this.dto.IdentityProofType.Id == ((Table)cboProofType.Items[i]).Id)
+                    if (dto.IdentityProofType.Id == ((Table)cboIdentityProofType.Items[i]).Id)
                     {
-                        cboProofType.SelectedIndex = i;
+                        this.cboIdentityProofType.SelectedIndex = i;
                         break;
                     }
                 }
             }
-            txtIdentityProofName.Text = this.dto.IdentityProofName;
+            this.txtIdentityProofName.Text = dto.IdentityProofName;
         }
 
-        private ReturnObject<List<Table>> GetContactNumberList(String val, List<Table> ContactNumberList)
+        protected override DocFac.Dto CloneDto(DocFac.Dto source)
         {
-            ReturnObject<List<Table>> retObj = new ReturnObject<List<Table>>()
+            CustFac.Dto dto = source as CustFac.Dto;
+            if (dto.Id > 0)
             {
-                Value = new List<Table>()
-            };
-
-            if (ContactNumberList == null || ContactNumberList.Count == 0)
-            {
-                retObj.Value.Add(new Table
+                return new CustFac.Dto
                 {
-                    Name = val
-                });
-            }
-            else
-            {
-                foreach (Table dto in ContactNumberList)
-                {
-                    if (dto.Name.ToUpper() == val.ToUpper())
+                    //Initial = dto.Initial == null ? null : new Table
+                    //{
+                    //    Id = dto.Initial.Id,
+                    //    Name = dto.Initial.Name
+                    //},
+                    FirstName = dto.FirstName,
+                    MiddleName = dto.MiddleName,
+                    LastName = dto.LastName,
+                    Address = dto.Address,
+                    State = dto.State == null ? null : new Table
                     {
-                        retObj.Value = ContactNumberList;
-
-                        retObj.MessageList = new List<BinAff.Core.Message>();
-                        retObj.MessageList.Add(new BinAff.Core.Message()
-                        {
-                            Description = "Duplicate",
-                            Category = BinAff.Core.Message.Type.Error
-                        });
-                        return retObj;
-                    }
-                }
-                ContactNumberList.Add(new Table
-                {
-                    Name = val
-                });
-                retObj.Value = ContactNumberList;
-            }
-            return retObj;
-        }
-
-        private List<Table> GetContactNumberDtoList()
-        {
-            List<Table> contactNumberList = null;
-
-            if (lstContact.DataSource != null && lstContact.Items.Count > 0)
-            {
-                contactNumberList = new List<Table>();
-                foreach (Table dto in lstContact.Items)
-                {
-                    contactNumberList.Add(dto);
-                }
-            }
-            return contactNumberList;
-        }
-
-        private Boolean SaveCustomerData()
-        {
-            Boolean retVal = this.ValidateCustomer();
-
-            if (retVal)
-            {
-                if (base.formDto.Dto == null) base.formDto.Dto = new CustFac.Dto();
-                CustFac.Dto dto = base.formDto.Dto as CustFac.Dto; 
-                
-                dto.Id = dto == null ? 0 : dto.Id;
-                //this.dto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
-                //{
-                //    Id = ((Table)cboInitial.SelectedItem).Id,
-                //};
-                dto.FirstName = txtFName.Text.Trim();
-                dto.MiddleName = txtMName.Text.Trim();
-                dto.LastName = txtLName.Text.Trim();
-                dto.Address = txtAdds.Text.Trim();
-                dto.State = cboState.SelectedIndex == -1 ? null : new Table()
-                {
-                    Id = ((Table)cboState.SelectedItem).Id,
+                        Id = dto.State.Id,
+                        Name = dto.State.Name
+                    },
+                    City = dto.City,
+                    Pin = dto.Pin,
+                    ContactNumberList = this.CloneContactNumber(dto.ContactNumberList),
+                    Email = dto.Email,
+                    IdentityProofType = dto.IdentityProofType == null ? null : new Table
+                    {
+                        Id = dto.IdentityProofType.Id,
+                        Name = dto.IdentityProofType.Name
+                    },
+                    IdentityProofName = dto.IdentityProofName
                 };
-                dto.City = txtCity.Text.Trim();
-                dto.Pin = txtPin.Text == String.Empty ? 0 : Convert.ToInt32(txtPin.Text);
-                dto.ContactNumberList = GetContactNumberDtoList();
-                dto.Email = txtEmail.Text.Trim();
-                dto.IdentityProofType = cboProofType.SelectedIndex == -1 ? null : new Table()
-                {
-                    Id = ((Table)cboProofType.SelectedItem).Id,
-                };
-                dto.IdentityProofName = txtIdentityProofName.Text.Trim();
-
-                if (base.formDto.Dto.Id == 0)
-                {
-                    base.formDto.Document.CreatedBy = new Table
-                    {
-                        Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                        Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
-                    };
-                    base.formDto.Document.CreatedAt = DateTime.Now;
-                }
-                else
-                { 
-                    base.formDto.Document.ModifiedBy = new Table
-                    {
-                        Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                        Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
-                    };
-                    base.formDto.Document.ModifiedAt = DateTime.Now;
-                }
-                base.RegisterArtifactObserver();
-                if (base.formDto.Dto.Id == 0)
-                {
-                    base.facade.Add();
-                }
-                else
-                {
-                    base.facade.Change();
-                }
-                //if (base.formDto.Dto.Id == 0)
-                //{
-                //    //base.facade.ArtifactDto = (base.formDto as UtilFac.Document.FormDto).Document;
-                //    base.facade.Add();
-                //}
-                //else
-                //{
-                //    base.formDto.Document.ModifiedBy = new Table
-                //    {
-                //        Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                //        Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
-                //    };
-                //    base.RegisterArtifactObserver();
-                //    base.facade.Change();
-                //}
-
-                if (this.isLoadedFromRoomReservationForm)
-                {
-                    this.Tag = base.formDto.Dto;
-                }
-
-                if (base.facade.IsError)
-                {
-                    retVal = false;
-                    new PresLib.MessageBox
-                    {
-                        DialogueType = facade.IsError ? PresLib.MessageBox.Type.Error : PresLib.MessageBox.Type.Information,
-                        Heading = "Forms",
-                    }.Show(base.facade.DisplayMessageList);
-                }
             }
-            return retVal;
+            return null;
         }
 
-        private Boolean SaveArtifact()
-        {
-            this.dto.ArtifactPath = this.txtArtifactPath.Text;
-            Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto
-            {                
-                Module = this.dto,
-                Style = Vanilla.Utility.Facade.Artifact.Type.Document,
-                Version = 1,
-                CreatedBy = new Table
-                {
-                    Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                    Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
-                },
-                CreatedAt = DateTime.Now,
-                Category = Vanilla.Utility.Facade.Artifact.Category.Form,
-                Path = this.dto.ArtifactPath
-            };
-            new CustFac.Server(this.formDto as Facade.FormDto).SaveArtifactForCustomer(artifactDto);
-
-            //-Add artifact to customer node
-            Int16 customerNodePosition = 0;
-            for (int i = 0; i < this.trvForm.Nodes.Count; i++)
-            {
-                if (this.trvForm.Nodes[i].Text == "Customer")
-                    break;
-
-                customerNodePosition++;
-            }
-            (this.trvForm.Nodes[customerNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children.Add(artifactDto);
-            artifactDto.Parent = this.trvForm.Nodes[customerNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto;
-            return true;
-        }
-
-        private Boolean ValidateCustomer()
+        protected override Boolean ValidateForm()
         {
             errorProvider.Clear();
             //validate mandatory
@@ -698,35 +512,57 @@ namespace AutoTourism.Customer.WinForm
                     txtIdentityProofName.Focus();
                     return false;
                 }
-                else if (cboProofType.SelectedIndex == -1)
+                else if (cboIdentityProofType.SelectedIndex == -1)
                 {
-                    errorProvider.SetError(cboProofType, "Please enter Identity Proof Type.");
-                    cboProofType.Focus();
+                    errorProvider.SetError(cboIdentityProofType, "Please enter Identity Proof Type.");
+                    cboIdentityProofType.Focus();
                     return false;
                 }
             }
             return true;
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
+        protected override void AssignDto()
         {
-            this.txtStd.Text = String.Empty;
-            this.txtLandLine.Text = String.Empty;
-            this.txtMobile.Text = String.Empty;
+            if (base.formDto.Dto == null) base.formDto.Dto = new CustFac.Dto();
+            CustFac.Dto dto = base.formDto.Dto as CustFac.Dto;
 
-            if (this.dto.Id > 0)
+            dto.Id = dto == null ? 0 : dto.Id;
+            //this.dto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
+            //{
+            //    Id = ((Table)cboInitial.SelectedItem).Id,
+            //};
+            dto.FirstName = txtFName.Text.Trim();
+            dto.MiddleName = txtMName.Text.Trim();
+            dto.LastName = txtLName.Text.Trim();
+            dto.Address = txtAdds.Text.Trim();
+            dto.State = cboState.SelectedIndex == -1 ? null : new Table()
             {
-                this.ResetLoad();
-            }
-            else
+                Id = ((Table)cboState.SelectedItem).Id,
+            };
+            dto.City = txtCity.Text.Trim();
+            dto.Pin = txtPin.Text == String.Empty ? 0 : Convert.ToInt32(txtPin.Text);
+            dto.ContactNumberList = GetContactNumberDtoList();
+            dto.Email = txtEmail.Text.Trim();
+            dto.IdentityProofType = cboIdentityProofType.SelectedIndex == -1 ? null : new Table()
             {
-                this.Clear();
-            }
+                Id = ((Table)cboIdentityProofType.SelectedItem).Id,
+            };
+            dto.IdentityProofName = txtIdentityProofName.Text.Trim();
         }
 
-        private void Clear()
+        protected override Boolean SaveAfter()
         {
-            this.dto = new CustFac.Dto();
+            if (this.isLoadedFromRoomReservationForm)
+            {
+                this.Tag = base.formDto.Dto;
+            }
+            return true;
+        }
+
+        protected override void ClearForm()
+        {
+            this.formDto.Dto = new CustFac.Dto();
             
             //this.cboInitial.SelectedIndex = -1;
             this.txtFName.Text = String.Empty;
@@ -738,37 +574,47 @@ namespace AutoTourism.Customer.WinForm
             this.txtPin.Text = String.Empty;           
             this.lstContact.DataSource = null;
             this.txtEmail.Text = String.Empty;
-            this.cboProofType.SelectedIndex = -1;
+            this.cboIdentityProofType.SelectedIndex = -1;
             this.txtIdentityProofName.Text = String.Empty;
         }
 
-        private void ResetLoad()
-        {            
+        protected override void RevertForm()
+        {
+            CustFac.Dto initialDto = base.InitialDto as CustFac.Dto;
+            CustFac.Dto dto = this.formDto.Dto as CustFac.Dto;
+            
             //this.dto.Initial = this.refreshDto.Initial == null ? null : new Table
             //{
             //    Id = this.dto.Initial.Id,
             //    Name = this.dto.Initial.Name
             //};
-            this.dto.FirstName = this.refreshDto.FirstName;
-            this.dto.MiddleName = this.refreshDto.MiddleName;
-            this.dto.LastName = this.refreshDto.LastName;
-            this.dto.Address = this.refreshDto.Address;
-            this.dto.State = this.refreshDto.State == null ? null : new Table
+            dto.FirstName = initialDto.FirstName;
+            dto.MiddleName = initialDto.MiddleName;
+            dto.LastName = initialDto.LastName;
+            dto.Address = initialDto.Address;
+            dto.State = initialDto.State == null ? null : new Table
             {
-                Id = this.refreshDto.State.Id,
-                Name = this.refreshDto.State.Name
+                Id = initialDto.State.Id,
+                Name = initialDto.State.Name
             };
-            this.dto.City = this.refreshDto.City;
-            this.dto.Pin = this.refreshDto.Pin;
-            this.dto.ContactNumberList = this.CloneContactNumber(this.refreshDto.ContactNumberList);
-            this.dto.Email = this.refreshDto.Email;
-            this.dto.IdentityProofType = this.refreshDto.IdentityProofType == null ? null : new Table
+            dto.City = initialDto.City;
+            dto.Pin = initialDto.Pin;
+            dto.ContactNumberList = this.CloneContactNumber(initialDto.ContactNumberList);
+            dto.Email = initialDto.Email;
+            dto.IdentityProofType = initialDto.IdentityProofType == null ? null : new Table
             {
-                Id = this.refreshDto.IdentityProofType.Id,
-                Name = this.refreshDto.IdentityProofType.Name
+                Id = initialDto.IdentityProofType.Id,
+                Name = initialDto.IdentityProofType.Name
             };
-            this.dto.IdentityProofName = this.refreshDto.IdentityProofName;
-            this.LoadCustomerData();
+            dto.IdentityProofName = initialDto.IdentityProofName;
+        }
+
+        private void SetMandatoryRule()
+        {
+            this.IsPinNumberMandatory = this.customerRule.IsPinNumber;
+            this.IsEmailMandatory = this.customerRule.IsEmail;
+            this.IsIdentityMandatory = this.customerRule.IsIdentityProof;
+            this.IsAlternateContactNoMandatory = this.customerRule.IsAlternateContactNumber;
         }
 
         private List<Table> CloneContactNumber(List<Table> contactNumberList)
@@ -784,18 +630,91 @@ namespace AutoTourism.Customer.WinForm
             }
             return lstContactNumber;
         }
-        
-        private void btnOK_Click(object sender, EventArgs e)
+
+        private List<Table> GetContactNumberDtoList()
         {
-            if (this.SaveCustomerData())
+            List<Table> contactNumberList = null;
+
+            if (lstContact.DataSource != null && lstContact.Items.Count > 0)
             {
-                if (this.isLoadedFromRoomReservationForm)
+                contactNumberList = new List<Table>();
+                foreach (Table dto in lstContact.Items)
                 {
-                    this.SaveArtifact();
+                    contactNumberList.Add(dto);
                 }
-                base.IsModified = true;
-                this.Close();
             }
+            return contactNumberList;
+        }
+
+        private ReturnObject<List<Table>> GetContactNumberList(String val, List<Table> ContactNumberList)
+        {
+            ReturnObject<List<Table>> retObj = new ReturnObject<List<Table>>()
+            {
+                Value = new List<Table>()
+            };
+
+            if (ContactNumberList == null || ContactNumberList.Count == 0)
+            {
+                retObj.Value.Add(new Table { Name = val });
+            }
+            else
+            {
+                foreach (Table dto in ContactNumberList)
+                {
+                    if (dto.Name.ToUpper() == val.ToUpper())
+                    {
+                        retObj.Value = ContactNumberList;
+
+                        retObj.MessageList = new List<BinAff.Core.Message>();
+                        retObj.MessageList.Add(new BinAff.Core.Message()
+                        {
+                            Description = "Duplicate",
+                            Category = BinAff.Core.Message.Type.Error
+                        });
+                        return retObj;
+                    }
+                }
+                ContactNumberList.Add(new Table
+                {
+                    Name = val
+                });
+                retObj.Value = ContactNumberList;
+            }
+            return retObj;
+        }
+
+        private Boolean SaveArtifact()
+        {
+            this.formDto.Document.Path = this.txtArtifactPath.Text;
+            Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto
+            {
+                Module = this.formDto.Dto,
+                Style = Vanilla.Utility.Facade.Artifact.Type.Document,
+                Version = 1,
+                CreatedBy = new Table
+                {
+                    Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                    Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
+                },
+                CreatedAt = DateTime.Now,
+                Category = Vanilla.Utility.Facade.Artifact.Category.Form,
+                Path = this.formDto.Document.Path
+            };
+            new CustFac.Server(this.formDto as Facade.FormDto).SaveArtifactForCustomer(artifactDto);
+
+            //-Add artifact to customer node
+            Int16 customerNodePosition = 0;
+            for (int i = 0; i < this.trvForm.Nodes.Count; i++)
+            {
+                if (this.trvForm.Nodes[i].Text == "Customer")
+                {
+                    break;
+                }
+                customerNodePosition++;
+            }
+            (this.trvForm.Nodes[customerNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children.Add(artifactDto);
+            artifactDto.Parent = this.trvForm.Nodes[customerNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto;
+            return true;
         }
 
     }

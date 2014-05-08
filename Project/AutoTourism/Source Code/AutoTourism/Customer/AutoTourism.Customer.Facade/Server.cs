@@ -96,53 +96,43 @@ namespace AutoTourism.Customer.Facade
             };
         }
 
-        public override void Add()
-        {
-            this.Save();
-        }
+        //private void Save()
+        //{
+        //    ReturnObject<Boolean> ret = this.componentServer.Save();
+        //    (this.FormDto as FormDto).Dto.Id = (this.componentServer as Crud).Data.Id;
+        //    //ReturnObject<Boolean> ret;
+        //    //if ((this.FormDto as FormDto).Dto.Id > 0)
+        //    //{
+        //    //    ret = this.componentServer.Save();
+        //    //}
+        //    //else
+        //    //{
+        //    //    using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
+        //    //    {
+        //    //        ret = componentServer.Save();
+        //    //        Int64 customerId = (componentServer as Crud).Data.Id;
 
-        public override void Change()
-        {
-            this.Save();
-        }
+        //    //        if (!ret.HasError())
+        //    //        {
+        //    //            Crystal.Navigator.Component.Artifact.IArtifact artifact = new CustAuto.Navigator.Artifact.Server(
+        //    //                new CustAuto.Navigator.Artifact.Data
+        //    //                {
+        //    //                    Id = this.ArtifactDto.Id,
+        //    //                    ComponentData = new Data { Id = customerId }
+        //    //                });
+        //    //            ret = artifact.UpdaterModuleArtifactLink();
+        //    //            if (!ret.HasError())
+        //    //            {
+        //    //                T.Complete();
+        //    //            }
+        //    //        }
 
-        private void Save()
-        {
-            ReturnObject<Boolean> ret = this.componentServer.Save();
-            (this.FormDto as FormDto).Dto.Id = (this.componentServer as Crud).Data.Id;
-            //ReturnObject<Boolean> ret;
-            //if ((this.FormDto as FormDto).Dto.Id > 0)
-            //{
-            //    ret = this.componentServer.Save();
-            //}
-            //else
-            //{
-            //    using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
-            //    {
-            //        ret = componentServer.Save();
-            //        Int64 customerId = (componentServer as Crud).Data.Id;
-
-            //        if (!ret.HasError())
-            //        {
-            //            Crystal.Navigator.Component.Artifact.IArtifact artifact = new CustAuto.Navigator.Artifact.Server(
-            //                new CustAuto.Navigator.Artifact.Data
-            //                {
-            //                    Id = this.ArtifactDto.Id,
-            //                    ComponentData = new Data { Id = customerId }
-            //                });
-            //            ret = artifact.UpdaterModuleArtifactLink();
-            //            if (!ret.HasError())
-            //            {
-            //                T.Complete();
-            //            }
-            //        }
-
-            //        (this.FormDto as FormDto).Dto.Id = (componentServer as Crud).Data.Id;
-            //    }
-            //}
+        //    //        (this.FormDto as FormDto).Dto.Id = (componentServer as Crud).Data.Id;
+        //    //    }
+        //    //}
            
-            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
-        }
+        //    this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+        //}
       
         //private List<Table> ReadAllInitial()
         //{
