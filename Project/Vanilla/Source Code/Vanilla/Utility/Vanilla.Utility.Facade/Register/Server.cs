@@ -386,6 +386,19 @@ namespace Vanilla.Utility.Facade.Register
             return document;
         }
 
+        public string GetExtension(Artifact.Category category, Artifact.Type type)
+        {
+            if (type == Artifact.Type.Folder) return null;
+            switch (category)
+            {
+                case Artifact.Category.Form:
+                    return "frm";
+                case Artifact.Category.Catalogue:
+                    return "ctl";
+                default:
+                    return "binaff";
+            }
+        }
     }
 
 }

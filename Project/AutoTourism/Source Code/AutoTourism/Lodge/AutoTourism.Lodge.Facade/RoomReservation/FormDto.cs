@@ -6,7 +6,7 @@ using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
 
-    public class FormDto : BinAff.Facade.Library.FormDto
+    public class FormDto : Vanilla.Form.Facade.Document.FormDto
     {
 
         public Dto Dto { get; set; }

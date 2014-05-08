@@ -460,7 +460,7 @@ namespace BinAff.Core
         /// Insert a new record
         /// </summary>
         /// <returns></returns>
-        protected ReturnObject<Boolean> Create()
+        protected virtual ReturnObject<Boolean> Create()
         {
             ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
             {
@@ -489,7 +489,7 @@ namespace BinAff.Core
         /// Update existing record
         /// </summary>
         /// <returns></returns>
-        protected ReturnObject<Boolean> Update()
+        protected virtual ReturnObject<Boolean> Update()
         {
             ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
             {

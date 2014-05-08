@@ -1,5 +1,7 @@
 ﻿using System;
+
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using DocFac = Vanilla.Utility.Facade.Document;
 using UtilWin = Vanilla.Utility.WinForm;
 
 namespace Vanilla.Form.WinForm
@@ -24,17 +26,22 @@ namespace Vanilla.Form.WinForm
 
         private void SetTitle()
         {
-            Facade.Document.FormDto formDto = this.formDto as Facade.Document.FormDto;
-            Facade.Document.Dto dto = this.formDto.Dto as Facade.Document.Dto;
+            DocFac.FormDto formDto = this.formDto as DocFac.FormDto;
+            DocFac.Dto dto = this.formDto.Dto as DocFac.Dto;
 
-            this.Text = String.Format("{0} :: {1} Form", this.formDto.DocumentName,
-                formDto.Document.ComponentDefinition.Name);
+            this.Text += " :: " + this.formDto.DocumentName;
         }
 
         private void Document_Load(object sender, EventArgs e)
         {
             this.formDto.Document = this.artifact;
+            this.formDto.Dto = this.artifact.Module as DocFac.Dto;
             this.SetTitle();
+        }
+
+        protected void RegisterArtifactObserver()
+        {
+            (this.facade as Facade.Document.Server).RegisterArtifactObserver();
         }
 
     }

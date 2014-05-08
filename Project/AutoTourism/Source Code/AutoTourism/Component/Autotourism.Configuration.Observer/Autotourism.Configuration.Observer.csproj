@@ -48,6 +48,10 @@
       <Project>{CF2B7682-FA1E-4CDC-8A8C-30D610D18C5E}</Project>
       <Name>Crystal.Customer.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Navigator\Component\Crystal.Navigator.Component.csproj">
+      <Project>{3e089798-771d-44f3-8a99-c990ab47a0b4}</Project>
+      <Name>Crystal.Navigator.Component</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Organization\Crystal.Organization.Component\Crystal.Organization.Component.csproj">
       <Project>{003E77D0-671D-4B79-975C-A8CB0B4B1361}</Project>
       <Name>Crystal.Organization.Component</Name>

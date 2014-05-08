@@ -1776,6 +1776,7 @@ namespace Vanilla.Utility.WinForm
             };
             artifactDto.FileName = fileName;
             artifactDto.Category = this.facade.SetCategory(this.tbcCategory.SelectedTab.Text);
+            artifactDto.Extension = this.facade.GetExtension(artifactDto.Category, artifactDto.Style);
             this.SetAuditInformationForNewRecord(artifactDto);
             //Set path
             if (artifactDto.Style == UtilFac.Artifact.Type.Folder)

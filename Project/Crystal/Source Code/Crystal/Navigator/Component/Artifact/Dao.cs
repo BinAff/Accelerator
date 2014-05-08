@@ -33,15 +33,8 @@ namespace Crystal.Navigator.Component.Artifact
         {
             Data data = this.Data as Data;
             base.AssignParameter(procedureName);
-            base.AddInParameter("@FileName", DbType.String, data.FileName);
-            if (data.Style == Type.Directory || data.Extension == null)
-            {
-                base.AddInParameter("@Extension", DbType.String, DBNull.Value);
-            }
-            else
-            {
-                base.AddInParameter("@Extension", DbType.String, data.Extension);
-            }
+            base.AddInParameter("@FileName", DbType.String, data.FileName);          
+            
             if (data.Path == null)
             {
                 base.AddInParameter("@Path", DbType.String, DBNull.Value);
@@ -62,6 +55,14 @@ namespace Crystal.Navigator.Component.Artifact
             {
                 base.AddInParameter("@CreatedByUserId", DbType.Int64, data.CreatedBy.Id);
                 base.AddInParameter("@Style", DbType.Int64, (Int32)data.Style);
+                if (data.Style == Type.Directory || data.Extension == null)
+                {
+                    base.AddInParameter("@Extension", DbType.String, DBNull.Value);
+                }
+                else
+                {
+                    base.AddInParameter("@Extension", DbType.String, data.Extension);
+                }
             }
             else //Update, so modification information
             {

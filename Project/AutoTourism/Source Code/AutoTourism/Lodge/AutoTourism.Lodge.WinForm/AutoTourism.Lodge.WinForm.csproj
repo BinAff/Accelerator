@@ -120,6 +120,14 @@
       <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
       <Name>BinAff.Utility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Form\Vanilla.Form.Facade\Vanilla.Form.Facade.csproj">
+      <Project>{856d10d5-3235-41ca-8fe3-48019c9d4a39}</Project>
+      <Name>Vanilla.Form.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Form\Vanilla.Form.WinForm\Vanilla.Form.WinForm.csproj">
+      <Project>{6ffd4a1c-c8fc-44b6-b3c1-4a2240037154}</Project>
+      <Name>Vanilla.Form.WinForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
       <Project>{24A3CC18-9FA6-4976-8ADE-AC07EE6844FB}</Project>
       <Name>Vanilla.Guardian.Facade</Name>
@@ -135,6 +143,10 @@
     <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
       <Project>{A10719AF-5C9F-4903-AB83-089EC502EEA2}</Project>
       <Name>Vanilla.Utility.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Utility\Vanilla.Utility.WinForm\Vanilla.Utility.WinForm.csproj">
+      <Project>{49be0d61-4bd1-42b2-b582-77094af71728}</Project>
+      <Name>Vanilla.Utility.WinForm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Configuration\Autotourism.Configuration.Rule.Facade\Autotourism.Configuration.Rule.Facade.csproj">
       <Project>{c8cf309d-21f1-43f7-bb6b-cf78e2b14245}</Project>

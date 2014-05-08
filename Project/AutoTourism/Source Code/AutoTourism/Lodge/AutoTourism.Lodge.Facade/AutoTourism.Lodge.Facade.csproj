@@ -101,6 +101,10 @@
       <Project>{191571fe-40d2-4095-9705-d3020445b65f}</Project>
       <Name>Crystal.Lodge.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Navigator\Component\Crystal.Navigator.Component.csproj">
+      <Project>{3e089798-771d-44f3-8a99-c990ab47a0b4}</Project>
+      <Name>Crystal.Navigator.Component</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Organization\Crystal.Organization.Component\Crystal.Organization.Component.csproj">
       <Project>{003e77d0-671d-4b79-975c-a8cb0b4b1361}</Project>
       <Name>Crystal.Organization.Component</Name>
