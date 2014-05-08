@@ -359,5 +359,18 @@ namespace Vanilla.Utility.Facade.Artifact
             return childrenList;
         }
 
+        public Dto GetParentArtifact(Dto artifactDto)
+        {
+            if (artifactDto.Parent.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+                return ((Vanilla.Utility.Facade.Module.Dto)(artifactDto.Parent)).Artifact;
+
+            return artifactDto.Parent as Dto;
+        }
+
+        public String GetParentArtifactPath(Dto artifactDto)
+        {
+            return this.GetParentArtifact(artifactDto).Path;
+        }
+
     }
 }
