@@ -623,7 +623,7 @@ namespace Vanilla.Utility.WinForm.Extender
 
             return false;
         }
-
+              
         //public static void UpdateArtifactPath(String pathOfParent, Facade.Artifact.Dto artifactDto, String pathSeperator)
         //{
         //    if(artifactDto.Style == Facade.Artifact.Type.Folder)
