@@ -435,38 +435,153 @@ namespace Vanilla.Utility.WinForm
 
             ListViewItem selectedItem = (sender as ListView).FocusedItem;
             UtilFac.Artifact.Dto selectedArtifact = selectedItem.Tag as UtilFac.Artifact.Dto;
-            selectedArtifact.Extension = this.currentArtifact.Extension;
+            //selectedArtifact.Extension = this.currentArtifact.Extension;
 
-            String documentName = selectedArtifact.FileName + "." + selectedArtifact.Extension;          
+            String documentName = selectedArtifact.FileName + "." + selectedArtifact.Extension;
             String defaultFileName = selectedArtifact.FileName;
             String artifactFileName = String.Empty;
 
-            //if the selected item text is empty then no operations will be done
+            //validate if label name is not empty
             if (e.Label == null || e.Label.Trim().Length == 0)
             {
-                //e.CancelEdit = true;
-
-                if (selectedArtifact.Id == 0)
+                artifactFileName = selectedArtifact.FileName;
+                if (selectedArtifact.Id != 0)
                 {
-                    artifactFileName = selectedArtifact.FileName;
-                }
-                else
-                {
-                    if (selectedArtifact.Style == UtilFac.Artifact.Type.Document)
-                    {
+                    if (selectedArtifact.Style == UtilFac.Artifact.Type.Document)                    
                         selectedItem.Text = documentName;
-                    }
+                    
                     return;
                 }
             }
 
-            if (String.IsNullOrEmpty(artifactFileName))
-            {
-                artifactFileName = (e.Label == null || e.Label.Trim().Length == 0) ? selectedItem.Text.Trim() : e.Label.Trim();
-            }           
+            ////if the selected item text is empty then no operations will be done
+            //if (e.Label == null || e.Label.Trim().Length == 0)
+            //{
+           
+            //    if (selectedArtifact.Id == 0)
+            //    {
+            //        artifactFileName = selectedArtifact.FileName;
+            //    }
+            //    else
+            //    {
+            //        if (selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+            //        {
+            //            selectedItem.Text = documentName;
+            //        }
+            //        return;
+            //    }
+            //}
 
+            if (String.IsNullOrEmpty(artifactFileName))            
+                artifactFileName = (e.Label == null || e.Label.Trim().Length == 0) ? selectedItem.Text.Trim() : e.Label.Trim();
+
+            //check if the name is duplicate
+            if (isListViewItemDuplicate(this.lsvContainer.Items, selectedArtifact, artifactFileName))
+            {
+                if (selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+                {
+                    selectedItem.Text = documentName;
+                }
+                return;
+            }
+
+            ////loop through the list to check for duplicate
+            //foreach (ListViewItem item in this.lsvContainer.Items)
+            //{
+            //    UtilFac.Artifact.Dto artifactDto = item.Tag as UtilFac.Artifact.Dto;
+            //    if ((artifactDto.Id != selectedArtifact.Id) && (artifactDto.Style == selectedArtifact.Style))
+            //    {
+            //        if (String.Compare(artifactDto.FileName.Trim(), artifactFileName.Trim(), true) == 0)
+            //        {
+            //            new PresLib.MessageBox
+            //            {
+            //                DialogueType = PresLib.MessageBox.Type.Information,
+            //                Heading = "Navigator",
+            //            }.Show("Name already exists. Please assign a different name.");
+
+            //            //e.CancelEdit = true;
+
+            //            if (selectedArtifact.Id != 0)
+            //            {
+            //                if (selectedArtifact.Category == UtilFac.Artifact.Category.Report && selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+            //                {
+            //                    selectedItem.Text = documentName;
+            //                }
+            //                return;
+            //            }
+            //            else
+            //            {
+            //                artifactFileName = selectedArtifact.FileName;
+            //            }
+            //        }
+            //    }
+            //}
+
+
+            //UtilFac.Artifact.Dto folderArtifactDto;
+            //if (this.currentArtifact.Style == UtilFac.Artifact.Type.Document)
+            //    folderArtifactDto = new UtilFac.Artifact.Server(null).GetParentArtifact(this.currentArtifact);
+            //else
+            //    folderArtifactDto = this.currentArtifact;
+
+            //TreeNode selectedNode = trv.FindNode(folderArtifactDto);
+
+            ////TreeNode selectedNode = trv.FindNode(selectedArtifact.Style == UtilFac.Artifact.Type.Document ?
+            ////    folderArtifactDto : selectedArtifact);
+
+
+            ////Update TreeNode Text
+            //if ((selectedArtifact.Style == UtilFac.Artifact.Type.Folder) && (defaultFileName != artifactFileName))
+            //{
+            //    selectedNode.Text = artifactFileName;
+            //    (selectedNode.Tag as UtilFac.Artifact.Dto).FileName = artifactFileName;
+            //}
+
+            //e.CancelEdit = true;
+            this.SaveArtifact(selectedArtifact, artifactFileName, selectedArtifact.Id != 0);
+
+            this.RefreshTreeAfterLabelEdit(trv, selectedArtifact);
+            //code added to fix issue
+            //issue description : if any document is created on root and then double click immediately to open the form in edit mode , was giving error
+            //if this block is moved up before save, then a foreign key error will be thrown
+            //if (selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+            //{
+            //    if ((selectedNode.Tag.GetType().ToString() == "Vanilla.Utility.Facade.Module.Dto") && (selectedArtifact.Parent == null))
+            //    {
+            //        (selectedItem.Tag as UtilFac.Artifact.Dto).Parent = selectedNode.Tag as UtilFac.Module.Dto;
+            //    }
+            //}
+          
+        }
+
+        private void RefreshTreeAfterLabelEdit(TreeView trv ,UtilFac.Artifact.Dto selectedArtifact)
+        { 
+            //Update TreeNode Text
+            if (selectedArtifact.Style == UtilFac.Artifact.Type.Folder)
+            {
+                TreeNode selectedNode = trv.FindNode(selectedArtifact);
+
+                selectedNode.Text = selectedArtifact.FileName;
+                (selectedNode.Tag as UtilFac.Artifact.Dto).FileName = selectedArtifact.FileName;
+            }
+           
+
+            //code added to fix issue
+            //issue description : if any document is created on root and then double click immediately to open the form in edit mode , was giving error
+            //if this block is moved up before save, then a foreign key error will be thrown
+            //if (selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+            //{
+            //    if ((selectedNode.Tag.GetType().ToString() == "Vanilla.Utility.Facade.Module.Dto") && (selectedArtifact.Parent == null))
+            //    {
+            //        (selectedItem.Tag as UtilFac.Artifact.Dto).Parent = selectedNode.Tag as UtilFac.Module.Dto;
+            //    }
+            //}
+        }
+
+        private Boolean isListViewItemDuplicate(ListView.ListViewItemCollection lstViewItems, UtilFac.Artifact.Dto selectedArtifact, string artifactFileName)
+        {
             //loop through the list to check for duplicate
-            foreach (ListViewItem item in this.lsvContainer.Items)
+            foreach (ListViewItem item in lstViewItems)
             {
                 UtilFac.Artifact.Dto artifactDto = item.Tag as UtilFac.Artifact.Dto;
                 if ((artifactDto.Id != selectedArtifact.Id) && (artifactDto.Style == selectedArtifact.Style))
@@ -479,51 +594,28 @@ namespace Vanilla.Utility.WinForm
                             Heading = "Navigator",
                         }.Show("Name already exists. Please assign a different name.");
 
-                        //e.CancelEdit = true;
-
                         if (selectedArtifact.Id != 0)
                         {
-                            if (selectedArtifact.Category == UtilFac.Artifact.Category.Report && selectedArtifact.Style == UtilFac.Artifact.Type.Document)
-                            {
-                                selectedItem.Text = documentName;
-                            }
-                            return;
+                            //if (selectedArtifact.Category == UtilFac.Artifact.Category.Report && selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+                            //{
+                            //    selectedItem.Text = documentName;
+                            //}
+
+                            //if (selectedArtifact.Style == UtilFac.Artifact.Type.Document)
+                            //    selectedItem.Text = selectedArtifact.FileName + "." + selectedArtifact.Extension;
+                            return true;
                         }
-                        else
-                        {
-                            artifactFileName = selectedArtifact.FileName;
-                        }
+                        //else
+                        //{
+                        //    artifactFileName = selectedArtifact.FileName;
+                        //}
                     }
                 }
             }
-            
-            TreeNode selectedNode = trv.FindNode(selectedArtifact.Style == UtilFac.Artifact.Type.Document ?
-                this.currentArtifact :
-                selectedArtifact);
-         
 
-            //Update TreeNode Text
-            if ((selectedArtifact.Style == UtilFac.Artifact.Type.Folder) && (defaultFileName != artifactFileName))
-            {
-                selectedNode.Text = artifactFileName;
-                (selectedNode.Tag as UtilFac.Artifact.Dto).FileName = artifactFileName;
-            }
-
-            //e.CancelEdit = true;
-            this.SaveArtifact(selectedArtifact, artifactFileName, selectedArtifact.Id != 0);
-                        
-            //code added to fix issue
-            //issue description : if any document is created on root and then double click immediately to open the form in edit mode , was giving error
-            //if this block is moved up before save, then a foreign key error will be thrown
-            if (selectedArtifact.Style == UtilFac.Artifact.Type.Document)
-            {
-                if ((selectedNode.Tag.GetType().ToString() == "Vanilla.Utility.Facade.Module.Dto") && (selectedArtifact.Parent == null))
-                {
-                    (selectedItem.Tag as UtilFac.Artifact.Dto).Parent = selectedNode.Tag as UtilFac.Module.Dto;
-                }
-            }
-          
+            return false;
         }
+
 
         private void lsvContainer_MouseDown(object sender, MouseEventArgs e)
         {
@@ -1787,9 +1879,10 @@ namespace Vanilla.Utility.WinForm
                 }
                 artifactDto.Path += artifactDto.FileName + this.formDto.Rule.PathSeperator;
             }
-            if (artifactDto.Style == UtilFac.Artifact.Type.Document)
+            else if (artifactDto.Style == UtilFac.Artifact.Type.Document)
             {
-                artifactDto.Path += artifactDto.FileName;
+                //artifactDto.Path += artifactDto.FileName;
+                artifactDto.Path = new UtilFac.Artifact.Server(null).GetParentArtifactPath(artifactDto) + artifactDto.FileName;
             }
 
             //this.facade = new Facade.Register.Server(this.formDto) { Category = artifactDto.Category };
@@ -1798,7 +1891,7 @@ namespace Vanilla.Utility.WinForm
             if (artifactDto.Style == UtilFac.Artifact.Type.Document)
             {
                 //parentNode = trv.FindNode(this.GetParent(this.currentArtifact));
-                parentNode = trv.FindNode(this.currentArtifact);
+                parentNode = trv.FindNode(this.currentArtifact.Style == UtilFac.Artifact.Type.Document ? new UtilFac.Artifact.Server(null).GetParentArtifact(this.currentArtifact) : this.currentArtifact);
             }
             else
             {
