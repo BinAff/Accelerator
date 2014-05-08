@@ -38,7 +38,7 @@
             this.lstContact = new System.Windows.Forms.ListBox();
             this.txtLandLine = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.cboProofType = new System.Windows.Forms.ComboBox();
+            this.cboIdentityProofType = new System.Windows.Forms.ComboBox();
             this.txtIdentityProofName = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
@@ -150,11 +150,11 @@
             // 
             // cboProofType
             // 
-            this.cboProofType.FormattingEnabled = true;
-            this.cboProofType.Location = new System.Drawing.Point(106, 188);
-            this.cboProofType.Name = "cboProofType";
-            this.cboProofType.Size = new System.Drawing.Size(168, 21);
-            this.cboProofType.TabIndex = 15;
+            this.cboIdentityProofType.FormattingEnabled = true;
+            this.cboIdentityProofType.Location = new System.Drawing.Point(106, 188);
+            this.cboIdentityProofType.Name = "cboProofType";
+            this.cboIdentityProofType.Size = new System.Drawing.Size(168, 21);
+            this.cboIdentityProofType.TabIndex = 15;
             // 
             // txtIdentityProofName
             // 
@@ -370,7 +370,7 @@
             this.Controls.Add(this.lstContact);
             this.Controls.Add(this.txtLandLine);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.cboProofType);
+            this.Controls.Add(this.cboIdentityProofType);
             this.Controls.Add(this.txtIdentityProofName);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.txtEmail);
@@ -403,7 +403,7 @@
         private System.Windows.Forms.ListBox lstContact;
         private System.Windows.Forms.TextBox txtLandLine;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox cboProofType;
+        private System.Windows.Forms.ComboBox cboIdentityProofType;
         private System.Windows.Forms.TextBox txtIdentityProofName;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtEmail;
