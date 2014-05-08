@@ -8,7 +8,7 @@ using GuardianAcc = Crystal.Guardian.Component.Account;
 namespace Crystal.Navigator.Component.Artifact
 {
 
-    public abstract class Server : BinAff.Core.Observer.SubjectCrud, IArtifact
+    public abstract class Server : BinAff.Core.Observer.SubjectCrud, IArtifact, Observer.IObserver
     {
 
         public Server(Data data)
@@ -44,13 +44,13 @@ namespace Crystal.Navigator.Component.Artifact
                 IsReadOnly = true,
             });
 
-            BinAff.Core.Crud module = this.CreateModuleServerInstance((this.Data as Data).ComponentData);
+            Crud module = this.CreateModuleServerInstance((this.Data as Data).ComponentData);
             module.Type = ChildType.Independent;
             module.IsReadOnly = true;
             base.AddChild(module);
         }
 
-        protected override ReturnObject<bool> DeleteBefore()
+        protected override ReturnObject<Boolean> DeleteBefore()
         {
             Crud child = this.CreateInstance(this.Data);
             child.Type = ChildType.Dependent;
@@ -151,11 +151,21 @@ namespace Crystal.Navigator.Component.Artifact
             return matchedList;
         }
 
-
-        ReturnObject<bool> IArtifact.UpdaterModuleArtifactLink()
+        ReturnObject<Boolean> IArtifact.UpdaterModuleArtifactLink()
         {
             return (this.DataAccess as Dao).UpdateArtifactModuleLink();
         }
+
+        BinAff.Core.ReturnObject<Boolean> Observer.IObserver.UpdateArtifactComponentLink(Data subject)
+        {
+            return (this.DataAccess as Dao).UpdateArtifactModuleLink();
+        }
+
+        BinAff.Core.ReturnObject<Boolean> Observer.IObserver.UpdateAfterComponentUpdate(Data subject)
+        {            
+            return this.Update();
+        }
+
     }
 
 }

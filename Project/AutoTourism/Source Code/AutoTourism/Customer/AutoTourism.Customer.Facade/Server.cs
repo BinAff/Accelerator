@@ -3,22 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.Transactions;
 
-using AutotourismComponent = AutoTourism.Component.Customer;
-using CustomerComponent = Crystal.Customer.Component;
-using LodgeComponent = Crystal.Lodge.Component;
-using ConfigurationComponent = Crystal.Configuration.Component;
-using RuleFacade = AutoTourism.Configuration.Rule.Facade;
+using CustCrys = Crystal.Customer.Component;
+using LodgeCrys = Crystal.Lodge.Component;
+using ConfigCrys = Crystal.Configuration.Component;
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
+
+using CustAuto = AutoTourism.Component.Customer;
+using RuleAuto = AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Customer.Facade
 {
 
-    public class Server : Vanilla.Utility.Facade.Document.Server
-    {        
+    public class Server : Vanilla.Form.Facade.Document.Server
+    {
 
         public Server(FormDto formDto)
             : base(formDto)
         {
-
+            
         }
 
         public override void LoadForm()
@@ -33,7 +35,7 @@ namespace AutoTourism.Customer.Facade
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            AutotourismComponent.Data customer = data as AutotourismComponent.Data;
+            CustAuto.Data customer = data as CustAuto.Data;
             return new Dto
             {
                 Id = data.Id,
@@ -67,10 +69,10 @@ namespace AutoTourism.Customer.Facade
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Dto customer = dto as Dto;
-            return new AutotourismComponent.Data
+            return new CustAuto.Data
             {
                 Id = dto.Id,
-                //Initial = customer.Initial == null ? null : new ConfigurationComponent.Initial.Data()
+                //Initial = customer.Initial == null ? null : new ConfigCrys.Initial.Data()
                 //{
                 //    Id = customer.Initial.Id,
                 //},
@@ -78,7 +80,7 @@ namespace AutoTourism.Customer.Facade
                 MiddleName = customer.MiddleName,
                 LastName = customer.LastName,
                 Address = customer.Address,
-                State = customer.State == null ? null : new ConfigurationComponent.State.Data()
+                State = customer.State == null ? null : new ConfigCrys.State.Data()
                 {
                     Id = customer.State.Id,
                 },
@@ -86,7 +88,7 @@ namespace AutoTourism.Customer.Facade
                 Pin = customer.Pin,
                 ContactNumberList = customer.ContactNumberList == null ? null : this.ConvertContactNumberList(customer.ContactNumberList),
                 Email = customer.Email,
-                IdentityProofType = customer.IdentityProofType == null ? null : new ConfigurationComponent.IdentityProofType.Data()
+                IdentityProofType = customer.IdentityProofType == null ? null : new ConfigCrys.IdentityProofType.Data()
                 {
                     Id = customer.IdentityProofType.Id,
                 },
@@ -106,39 +108,41 @@ namespace AutoTourism.Customer.Facade
 
         private void Save()
         {
-            ReturnObject<Boolean> ret;
-            ICrud crud = new AutotourismComponent.Server(this.Convert((this.FormDto as FormDto).Dto) as AutotourismComponent.Data);
+            ReturnObject<Boolean> ret = this.componentServer.Save();
+            (this.FormDto as FormDto).Dto.Id = (this.componentServer as Crud).Data.Id;
+            //ReturnObject<Boolean> ret;
+            //if ((this.FormDto as FormDto).Dto.Id > 0)
+            //{
+            //    ret = this.componentServer.Save();
+            //}
+            //else
+            //{
+            //    using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
+            //    {
+            //        ret = componentServer.Save();
+            //        Int64 customerId = (componentServer as Crud).Data.Id;
 
-            if ((this.FormDto as FormDto).Dto.Id > 0)
-                ret = crud.Save();
-            else
-            {
-                using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
-                {
-                    ret = crud.Save();
-                    Int64 customerId = (crud as Crud).Data.Id;
+            //        if (!ret.HasError())
+            //        {
+            //            Crystal.Navigator.Component.Artifact.IArtifact artifact = new CustAuto.Navigator.Artifact.Server(
+            //                new CustAuto.Navigator.Artifact.Data
+            //                {
+            //                    Id = this.ArtifactDto.Id,
+            //                    ComponentData = new Data { Id = customerId }
+            //                });
+            //            ret = artifact.UpdaterModuleArtifactLink();
+            //            if (!ret.HasError())
+            //            {
+            //                T.Complete();
+            //            }
+            //        }
 
-                    if (!ret.HasError())
-                    {
-                        Crystal.Navigator.Component.Artifact.IArtifact artifact = new AutotourismComponent.Navigator.Artifact.Server(
-                                new AutotourismComponent.Navigator.Artifact.Data
-                                {
-                                    Id = this.ArtifactDto.Id,
-                                    ComponentData = new Data { Id = customerId }
-                                });
-                        ret = artifact.UpdaterModuleArtifactLink();
-                        if (!ret.HasError())
-                            T.Complete();
-
-                    }
-
-                    (this.FormDto as FormDto).Dto.Id = (crud as Crud).Data.Id;
-                }
-            }
+            //        (this.FormDto as FormDto).Dto.Id = (componentServer as Crud).Data.Id;
+            //    }
+            //}
            
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
-
       
         //private List<Table> ReadAllInitial()
         //{
@@ -147,13 +151,13 @@ namespace AutoTourism.Customer.Facade
         //    //buildFacade.LoadForm();
         //    //this.DisplayMessageList.AddRange(buildFacade.DisplayMessageList);
 
-        //    ICrud crud = new ConfigurationComponent.Initial.Server(null);
+        //    ICrud crud = new ConfigCrys.Initial.Server(null);
         //    ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
 
         //    List<Table> ret = new List<Table>();
 
         //    //Populate data in dto from business entity
-        //    foreach (ConfigurationComponent.Initial.Data data in dataList.Value)
+        //    foreach (ConfigCrys.Initial.Data data in dataList.Value)
         //    {
         //        ret.Add(new Table
         //        {
@@ -167,7 +171,7 @@ namespace AutoTourism.Customer.Facade
 
         private ReturnObject<List<Table>> ReadAllState()
         {
-            ICrud crud = new ConfigurationComponent.State.Server(null);
+            ICrud crud = new ConfigCrys.State.Server(null);
             ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
 
             ReturnObject<List<Table>> ret = new ReturnObject<List<Table>>
@@ -176,7 +180,7 @@ namespace AutoTourism.Customer.Facade
             };
 
             //Populate data in dto from business entity
-            foreach (ConfigurationComponent.State.Data data in dataList.Value)
+            foreach (ConfigCrys.State.Data data in dataList.Value)
             {
                 ret.Value.Add(new Table
                 {
@@ -190,7 +194,7 @@ namespace AutoTourism.Customer.Facade
 
         private ReturnObject<List<Table>> ReadAllIdentityProof()
         {
-            ICrud crud = new ConfigurationComponent.IdentityProofType.Server(null);
+            ICrud crud = new ConfigCrys.IdentityProofType.Server(null);
             ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
 
             ReturnObject<List<Table>> ret = new ReturnObject<List<Table>>
@@ -199,7 +203,7 @@ namespace AutoTourism.Customer.Facade
             };
 
             //Populate data in dto from business entity
-            foreach (ConfigurationComponent.IdentityProofType.Data data in dataList.Value)
+            foreach (ConfigCrys.IdentityProofType.Data data in dataList.Value)
             {
                 ret.Value.Add(new Table
                 {
@@ -211,12 +215,12 @@ namespace AutoTourism.Customer.Facade
             return ret;
         }
 
-        private List<CustomerComponent.ContactNumber.Data> ConvertContactNumberList(List<Table> dtoList)
+        private List<CustCrys.ContactNumber.Data> ConvertContactNumberList(List<Table> dtoList)
         {
-            List<CustomerComponent.ContactNumber.Data> dataList = new List<CustomerComponent.ContactNumber.Data>();
+            List<CustCrys.ContactNumber.Data> dataList = new List<CustCrys.ContactNumber.Data>();
             foreach (Table dto in dtoList)
             {
-                dataList.Add(new CustomerComponent.ContactNumber.Data
+                dataList.Add(new CustCrys.ContactNumber.Data
                 {
                     Id = dto.Id,
                     ContactNumber = dto.Name,
@@ -225,10 +229,10 @@ namespace AutoTourism.Customer.Facade
             return dataList;
         }
 
-        private List<Table> ConvertContactNumberList(List<CustomerComponent.ContactNumber.Data> dataList)
+        private List<Table> ConvertContactNumberList(List<CustCrys.ContactNumber.Data> dataList)
         {
             List<Table> dtoList = new List<Table>();
-            foreach (CustomerComponent.ContactNumber.Data data in dataList)
+            foreach (CustCrys.ContactNumber.Data data in dataList)
             {
                 dtoList.Add(new Table
                 {
@@ -251,40 +255,40 @@ namespace AutoTourism.Customer.Facade
                     retVal.Add(new Lodge.Room.Dto()
                     {
                         Id = data.Id,
-                        Number = ((LodgeComponent.Room.Data)data).Number,
-                        Name = ((LodgeComponent.Room.Data)data).Name,
-                        Description = ((LodgeComponent.Room.Data)data).Description,
+                        Number = ((LodgeCrys.Room.Data)data).Number,
+                        Name = ((LodgeCrys.Room.Data)data).Name,
+                        Description = ((LodgeCrys.Room.Data)data).Description,
                         Building = new Lodge.Building.Dto
                         {
-                            Id = ((LodgeComponent.Room.Data)data).Building.Id,
-                            Name = ((LodgeComponent.Room.Data)data).Building.Name,
+                            Id = ((LodgeCrys.Room.Data)data).Building.Id,
+                            Name = ((LodgeCrys.Room.Data)data).Building.Name,
                             Status = new Table
                             {
-                                Id = ((LodgeComponent.Room.Data)data).Building.Status.Id,
-                                Name = ((LodgeComponent.Room.Data)data).Building.Status.Name,
+                                Id = ((LodgeCrys.Room.Data)data).Building.Status.Id,
+                                Name = ((LodgeCrys.Room.Data)data).Building.Status.Name,
                             },
 
                             Type = new Table
                             {
-                                Id = ((LodgeComponent.Room.Data)data).Building.Type.Id,
-                                Name = ((LodgeComponent.Room.Data)data).Building.Type.Name,
+                                Id = ((LodgeCrys.Room.Data)data).Building.Type.Id,
+                                Name = ((LodgeCrys.Room.Data)data).Building.Type.Name,
                             }
                         },
                         Status = new Table
                         {
-                            Id = ((LodgeComponent.Room.Data)data).Status.Id,
-                            Name = ((LodgeComponent.Room.Data)data).Status.Name
+                            Id = ((LodgeCrys.Room.Data)data).Status.Id,
+                            Name = ((LodgeCrys.Room.Data)data).Status.Name
                         },
                         Type = new Table
                         {
-                            Id = ((LodgeComponent.Room.Data)data).Type.Id,
-                            Name = ((LodgeComponent.Room.Data)data).Type.Name
+                            Id = ((LodgeCrys.Room.Data)data).Type.Id,
+                            Name = ((LodgeCrys.Room.Data)data).Type.Name
                         },
-                        IsAirconditioned = ((LodgeComponent.Room.Data)data).IsAirConditioned,
+                        IsAirconditioned = ((LodgeCrys.Room.Data)data).IsAirConditioned,
                         Category = new Table
                         {
-                            Id = ((LodgeComponent.Room.Data)data).Category.Id,
-                            Name = ((LodgeComponent.Room.Data)data).Category.Name
+                            Id = ((LodgeCrys.Room.Data)data).Category.Id,
+                            Name = ((LodgeCrys.Room.Data)data).Category.Name
                         }
                     });
                 }
@@ -296,7 +300,7 @@ namespace AutoTourism.Customer.Facade
         {
             ReturnObject<List<Dto>> retObj = new ReturnObject<List<Dto>>();
 
-            ICrud crud = new AutotourismComponent.Server(null);
+            ICrud crud = new CustAuto.Server(null);
             ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
 
             if (lstData.HasError())
@@ -316,28 +320,28 @@ namespace AutoTourism.Customer.Facade
                 ret.Value.Add(new Dto
                 {
                     Id = data.Id,
-                    //Initial = ((CustomerComponent.Data)data).Initial == null ? null : new Table
+                    //Initial = ((CustCrys.Data)data).Initial == null ? null : new Table
                     //{
-                    //    Id = ((CustomerComponent.Data)data).Initial.Id,
-                    //    Name = ((CustomerComponent.Data)data).Initial.Name,
+                    //    Id = ((CustCrys.Data)data).Initial.Id,
+                    //    Name = ((CustCrys.Data)data).Initial.Name,
                     //},
-                    FirstName = ((CustomerComponent.Data)data).FirstName,
-                    MiddleName = ((CustomerComponent.Data)data).MiddleName,
-                    LastName = ((CustomerComponent.Data)data).LastName,
-                    Address = ((CustomerComponent.Data)data).Address,
-                    State = ((CustomerComponent.Data)data).State == null ? null : new Table()
+                    FirstName = ((CustCrys.Data)data).FirstName,
+                    MiddleName = ((CustCrys.Data)data).MiddleName,
+                    LastName = ((CustCrys.Data)data).LastName,
+                    Address = ((CustCrys.Data)data).Address,
+                    State = ((CustCrys.Data)data).State == null ? null : new Table()
                     {
-                        Id = ((CustomerComponent.Data)data).State.Id,
-                        Name = ((CustomerComponent.Data)data).State.Name,
+                        Id = ((CustCrys.Data)data).State.Id,
+                        Name = ((CustCrys.Data)data).State.Name,
                     },
-                    City = ((CustomerComponent.Data)data).City,
-                    Pin = ((CustomerComponent.Data)data).Pin,
-                    ContactNumberList = ((CustomerComponent.Data)data).ContactNumberList == null ? null : ConvertContactNumberList(((CustomerComponent.Data)data).ContactNumberList),
-                    Email = ((CustomerComponent.Data)data).Email,
-                    IdentityProofType = ((CustomerComponent.Data)data).IdentityProofType == null ? null : new Table()
+                    City = ((CustCrys.Data)data).City,
+                    Pin = ((CustCrys.Data)data).Pin,
+                    ContactNumberList = ((CustCrys.Data)data).ContactNumberList == null ? null : ConvertContactNumberList(((CustCrys.Data)data).ContactNumberList),
+                    Email = ((CustCrys.Data)data).Email,
+                    IdentityProofType = ((CustCrys.Data)data).IdentityProofType == null ? null : new Table()
                     {
-                        Id = ((CustomerComponent.Data)data).IdentityProofType.Id,
-                        Name = ((CustomerComponent.Data)data).IdentityProofType.Name,
+                        Id = ((CustCrys.Data)data).IdentityProofType.Id,
+                        Name = ((CustCrys.Data)data).IdentityProofType.Name,
                     },
                     IdentityProofName = ((Crystal.Customer.Component.Data)data).IdentityProof,
                 });
@@ -346,9 +350,9 @@ namespace AutoTourism.Customer.Facade
             return ret;
         }
 
-        private ReturnObject<RuleFacade.CustomerRuleDto> ReadCustomerRule()
+        private ReturnObject<RuleAuto.CustomerRuleDto> ReadCustomerRule()
         {
-            return new RuleFacade.RuleServer().ReadCustomerRule();            
+            return new RuleAuto.RuleServer().ReadCustomerRule();            
         }
 
         public void SaveArtifactForCustomer(Vanilla.Utility.Facade.Artifact.Dto artifactDto)
@@ -370,6 +374,22 @@ namespace AutoTourism.Customer.Facade
             Vanilla.Utility.Facade.Module.Server moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto);
             moduleFacade.Add();
 
+        }
+
+        protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData)
+        {
+            return new CustAuto.Navigator.Artifact.Server(artifactData as CustAuto.Navigator.Artifact.Data);
+        }
+
+        protected override ArtfCrys.Observer.DocumentComponent GetComponentServer()
+        {
+            this.componentServer = new CustAuto.Server(this.Convert((this.FormDto as FormDto).Dto) as CustAuto.Data);
+            return this.componentServer as ArtfCrys.Observer.DocumentComponent;
+        }
+
+        protected override String GetComponentDataType()
+        {
+            return "AutoTourism.Component.Customer.Navigator.Artifact.Data, AutoTourism.Component.Customer";
         }
 
     }

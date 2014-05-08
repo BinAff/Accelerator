@@ -110,29 +110,11 @@ namespace Vanilla.Utility.Facade.Module
 
         public override void Add()
         {
-            Artifact.Server artifactServer = GetArtifactFacade(Dto.ActionType.Create);
-            (this.FormDto as FormDto).CurrentArtifact.Dto.Extension = GetExtension();
+            Artifact.Server artifactServer = GetArtifactFacade(Dto.ActionType.Create);;
             artifactServer.Add();
 
             this.DisplayMessageList = artifactServer.DisplayMessageList;
             this.IsError = artifactServer.IsError;
-        }
-
-        private String GetExtension()
-        {
-            if ((this.FormDto as FormDto).CurrentArtifact.Dto.Style == Artifact.Type.Document)
-            {
-                return null;
-            }
-            switch ((this.FormDto as FormDto).CurrentArtifact.Dto.Category)
-            {
-                case Artifact.Category.Form:
-                    return "frm";
-                case Artifact.Category.Catalogue:
-                    return "ctl";
-                default:
-                    return "binaff";
-            }
         }
 
         public override void Change()
@@ -194,7 +176,10 @@ namespace Vanilla.Utility.Facade.Module
 
             Artifact.Server artifactServer = new Artifact.Server((this.FormDto as FormDto).CurrentArtifact);
             artifactServer.ModuleComponentDataType = helper.ArtifactDataType + ", " + helper.ArtifactComponentAssembly;
-            if(currentArtifact.ComponentDefinition != null) currentArtifact.ComponentDefinition.ComponentFormType = helper.ModuleFormType;
+            if (currentArtifact.ComponentDefinition != null)
+            {
+                currentArtifact.ComponentDefinition.ComponentFormType = helper.ModuleFormType;
+            }
             helper.ArtifactData = artifactServer.ConvertTree(currentArtifact);
 
             //moduleDefDto.Artifact.Module == null when folder gets added 

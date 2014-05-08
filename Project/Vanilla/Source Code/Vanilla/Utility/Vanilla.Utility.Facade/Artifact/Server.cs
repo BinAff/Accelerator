@@ -14,7 +14,7 @@ namespace Vanilla.Utility.Facade.Artifact
 
         public BinAff.Facade.Library.Server ModuleFacade { get; set; }
         internal BinAff.Core.ICrud ModuleArtifactComponent { get; set; }
-        internal String ModuleComponentDataType { get; set; }
+        public String ModuleComponentDataType { get; set; }
 
         public Server(FormDto formDto)
             : base(formDto)

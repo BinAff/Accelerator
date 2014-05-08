@@ -6,7 +6,7 @@ using BinAff.Core;
 namespace Crystal.Customer.Component
 {
 
-    public abstract class Server : ObserverSubjectCrud, ICustomer
+    public abstract class Server : Crystal.Navigator.Component.Artifact.Observer.DocumentComponent, ICustomer
     {
 
         public Server(Data data)

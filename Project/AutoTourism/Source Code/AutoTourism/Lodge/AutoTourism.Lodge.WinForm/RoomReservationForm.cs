@@ -11,11 +11,13 @@ using PresLib = BinAff.Presentation.Library;
 using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using ConfigFacade = AutoTourism.Lodge.Configuration.Facade;
 using CustomerFacade = AutoTourism.Customer.Facade;
+using FormWin = Vanilla.Form.WinForm;
+using UtilFac = Vanilla.Utility.Facade;
 
 namespace AutoTourism.Lodge.WinForm
 {
 
-    public partial class RoomReservationForm : PresLib.Form
+    public partial class RoomReservationForm : FormWin.Document
     {
 
         private Facade.RoomReservation.Dto dto;
@@ -37,6 +39,25 @@ namespace AutoTourism.Lodge.WinForm
             Canceled = 10003
         }
 
+        public RoomReservationForm(UtilFac.Artifact.Dto artifact)
+            : base(artifact)
+        {
+            InitializeComponent();
+            this.dto = artifact.Module as Facade.RoomReservation.Dto;
+            this.trvForm = this.dto.trvForm;
+
+            if (this.dto.Id > 0)
+            {
+                Facade.RoomReservation.IReservation reservation = new Facade.RoomReservation.ReservationServer(null);
+                this.refreshDto = reservation.CloneReservaion(this.dto);
+            }
+        }
+
+        protected override void Compose()
+        {
+            base.formDto = new Facade.RoomReservation.FormDto();
+            base.facade = new Facade.RoomReservation.ReservationServer(base.formDto as Facade.RoomReservation.FormDto);
+        }
 
         public RoomReservationForm(TreeView trvForm)
         {

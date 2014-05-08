@@ -4,16 +4,19 @@ using System.Collections.Generic;
 using BinAff.Core;
 
 using CrystalLodge = Crystal.Lodge.Component;
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
+
 using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using CrystalReservation = Crystal.Reservation.Component;
 using CrystalCustomer = Crystal.Customer.Component;
 using AutoCustomer = AutoTourism.Component.Customer;
 using CustomerFacade = AutoTourism.Customer.Facade;
+using ResrvCrys = Crystal.Lodge.Component.Room.Reservation;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
-    public class ReservationServer : BinAff.Facade.Library.Server, IReservation
+    public class ReservationServer : Vanilla.Form.Facade.Document.Server, IReservation
     {
         //-- RoomStaus ID is mapped with database table RoomReservationStatus
         public enum RoomStatus
@@ -562,6 +565,22 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 });
 
             return lstRoom;
+        }
+        
+        protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData)
+        {
+            return new ResrvCrys.Navigator.Artifact.Server(artifactData as ResrvCrys.Navigator.Artifact.Data);
+        }
+
+        protected override ArtfCrys.Observer.DocumentComponent GetComponentServer()
+        {
+            this.componentServer = new ResrvCrys.Server(this.Convert((this.FormDto as FormDto).Dto) as ResrvCrys.Data);
+            return this.componentServer as ArtfCrys.Observer.DocumentComponent;
+        }
+
+        protected override String GetComponentDataType()
+        {
+            return "AutoTourism.Lodge.Facade.RoomReservation.Navigator.Artifact.Data, AutoTourism.Component.Lodge";
         }
 
     }

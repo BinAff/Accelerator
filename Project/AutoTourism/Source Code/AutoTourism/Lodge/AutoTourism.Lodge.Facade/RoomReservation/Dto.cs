@@ -9,7 +9,7 @@ using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
 
-    public class Dto : BinAff.Facade.Library.Dto
+    public class Dto : Vanilla.Form.Facade.Document.Dto
     {        
 
         public DateTime BookingDate { get; set; }

@@ -41,6 +41,9 @@
     <Compile Include="Artifact\Dao.cs" />
     <Compile Include="Artifact\Data.cs" />
     <Compile Include="Artifact\IArtifact.cs" />
+    <Compile Include="Artifact\Observer\IObserver.cs" />
+    <Compile Include="Artifact\Observer\ISubject.cs" />
+    <Compile Include="Artifact\Observer\DocumentComponent.cs" />
     <Compile Include="Artifact\Server.cs" />
     <Compile Include="Artifact\Type.cs" />
     <Compile Include="Artifact\Validator.cs" />

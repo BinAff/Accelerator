@@ -1,9 +1,16 @@
-﻿using DocFac = Vanilla.Utility.Facade.Document;
+﻿using System;
+
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
+
+using DocFac = Vanilla.Utility.Facade.Document;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
 
 namespace Vanilla.Form.Facade.Document
 {
-    public class Server : DocFac.Server
+
+    public abstract class Server : DocFac.Server
     {
+        protected BinAff.Core.ICrud componentServer;
 
         public Server(FormDto formDto)
             : base(formDto)
@@ -11,20 +18,19 @@ namespace Vanilla.Form.Facade.Document
 
         }
 
-        //public override void LoadForm()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public void RegisterArtifactObserver()
+        {
+            ArtfCrys.Observer.DocumentComponent module = this.GetComponentServer();
+            (module as ArtfCrys.Observer.ISubject).RegisterObserver(this.GetArtifactServer(new ArtfFac.Server(null)
+            {
+                ModuleComponentDataType = this.GetComponentDataType(),
+            }.Convert((base.FormDto as FormDto).Document)));
+        }
 
-        //public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        protected abstract ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData);
+        protected abstract ArtfCrys.Observer.DocumentComponent GetComponentServer();
+        protected abstract String GetComponentDataType();
 
     }
+
 }
