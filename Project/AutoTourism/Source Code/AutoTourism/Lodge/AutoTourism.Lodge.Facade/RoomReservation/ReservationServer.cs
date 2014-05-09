@@ -73,7 +73,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 NoOfRooms = reservation.NoOfRooms,
                 BookingFrom = reservation.ActivityDate,
                 Advance = reservation.Advance,                
-                BookingStatusId = reservation.Status.Id,
+                BookingStatusId = reservation.Status == null ? 0 : reservation.Status.Id,
                 RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList),
                 RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
                 RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id },
