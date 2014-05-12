@@ -54,7 +54,20 @@
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuViewHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblVersion = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tlsVersion = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblCreatedBy = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tlsCreatedBy = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblCreatedAt = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tlsCreatedAt = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblModifiedBy = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tlsModifiedBy = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblModifiedAt = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tlsModifiedAt = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainMenu.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenu
@@ -216,9 +229,9 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(139, 6);
             // 
-            // closeAllToolStripMenuItem
+            // mnuCloseAll
             // 
-            this.mnuCloseAll.Name = "closeAllToolStripMenuItem";
+            this.mnuCloseAll.Name = "mnuCloseAll";
             this.mnuCloseAll.Size = new System.Drawing.Size(142, 22);
             this.mnuCloseAll.Text = "Close All";
             this.mnuCloseAll.Click += new System.EventHandler(this.mnuCloseAll_Click);
@@ -251,25 +264,118 @@
             this.mnuViewHelp.Size = new System.Drawing.Size(139, 22);
             this.mnuViewHelp.Text = "View Help";
             // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar1,
+            this.lblVersion,
+            this.tlsVersion,
+            this.lblCreatedBy,
+            this.tlsCreatedBy,
+            this.lblCreatedAt,
+            this.tlsCreatedAt,
+            this.lblModifiedBy,
+            this.tlsModifiedBy,
+            this.lblModifiedAt,
+            this.tlsModifiedAt});
+            this.statusStrip.Location = new System.Drawing.Point(0, 551);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(792, 22);
+            this.statusStrip.TabIndex = 4;
+            this.statusStrip.Text = "statusStrip1";
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblVersion
+            // 
+            this.lblVersion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(52, 17);
+            this.lblVersion.Text = "Version:";
+            // 
+            // tlsVersion
+            // 
+            this.tlsVersion.AutoSize = false;
+            this.tlsVersion.Name = "tlsVersion";
+            this.tlsVersion.Size = new System.Drawing.Size(20, 17);
+            this.tlsVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCreatedBy
+            // 
+            this.lblCreatedBy.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.lblCreatedBy.Name = "lblCreatedBy";
+            this.lblCreatedBy.Size = new System.Drawing.Size(72, 17);
+            this.lblCreatedBy.Text = "Created By:";
+            // 
+            // tlsCreatedBy
+            // 
+            this.tlsCreatedBy.AutoSize = false;
+            this.tlsCreatedBy.Name = "tlsCreatedBy";
+            this.tlsCreatedBy.Size = new System.Drawing.Size(100, 17);
+            this.tlsCreatedBy.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCreatedAt
+            // 
+            this.lblCreatedAt.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.lblCreatedAt.Name = "lblCreatedAt";
+            this.lblCreatedAt.Size = new System.Drawing.Size(71, 17);
+            this.lblCreatedAt.Text = "Created At:";
+            // 
+            // tlsCreatedAt
+            // 
+            this.tlsCreatedAt.AutoSize = false;
+            this.tlsCreatedAt.Name = "tlsCreatedAt";
+            this.tlsCreatedAt.Size = new System.Drawing.Size(110, 17);
+            this.tlsCreatedAt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblModifiedBy
+            // 
+            this.lblModifiedBy.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.lblModifiedBy.Name = "lblModifiedBy";
+            this.lblModifiedBy.Size = new System.Drawing.Size(75, 17);
+            this.lblModifiedBy.Text = "Modified By:";
+            // 
+            // tlsModifiedBy
+            // 
+            this.tlsModifiedBy.AutoSize = false;
+            this.tlsModifiedBy.Name = "tlsModifiedBy";
+            this.tlsModifiedBy.Size = new System.Drawing.Size(100, 17);
+            this.tlsModifiedBy.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblModifiedAt
+            // 
+            this.lblModifiedAt.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.lblModifiedAt.Name = "lblModifiedAt";
+            this.lblModifiedAt.Size = new System.Drawing.Size(74, 17);
+            this.lblModifiedAt.Text = "Modified At:";
+            // 
+            // tlsModifiedAt
+            // 
+            this.tlsModifiedAt.AutoSize = false;
+            this.tlsModifiedAt.Name = "tlsModifiedAt";
+            this.tlsModifiedAt.Size = new System.Drawing.Size(110, 17);
+            this.tlsModifiedAt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 573);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.mainMenu);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.IsMdiContainer = true;
-            this.MaximizeBox = true;
-            this.MinimizeBox = true;
             this.Name = "Container";
-            this.ShowInTaskbar = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Container";
-            this.TransparencyKey = System.Drawing.Color.Empty;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Container_Load);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -303,5 +409,17 @@
         private System.Windows.Forms.ToolStripMenuItem mnuAbout;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem mnuViewHelp;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripStatusLabel lblCreatedBy;
+        private System.Windows.Forms.ToolStripStatusLabel tlsCreatedBy;
+        private System.Windows.Forms.ToolStripStatusLabel lblCreatedAt;
+        private System.Windows.Forms.ToolStripStatusLabel tlsCreatedAt;
+        private System.Windows.Forms.ToolStripStatusLabel lblModifiedBy;
+        private System.Windows.Forms.ToolStripStatusLabel tlsModifiedBy;
+        private System.Windows.Forms.ToolStripStatusLabel lblModifiedAt;
+        private System.Windows.Forms.ToolStripStatusLabel tlsModifiedAt;
+        private System.Windows.Forms.ToolStripStatusLabel lblVersion;
+        private System.Windows.Forms.ToolStripStatusLabel tlsVersion;
     }
 }
