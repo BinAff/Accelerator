@@ -569,7 +569,16 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         
         protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData)
         {
-            return new ResrvCrys.Navigator.Artifact.Server(artifactData as ResrvCrys.Navigator.Artifact.Data);
+            try
+            {
+                return new ResrvCrys.Navigator.Artifact.Server(artifactData as ResrvCrys.Navigator.Artifact.Data);
+            }
+            catch (Exception ex)
+            { 
+            
+            }
+
+            return null;
         }
 
         protected override ArtfCrys.Observer.DocumentComponent GetComponentServer()
@@ -580,7 +589,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         protected override String GetComponentDataType()
         {
-            return "AutoTourism.Lodge.Facade.RoomReservation.Navigator.Artifact.Data, AutoTourism.Component.Lodge";
+            //return "AutoTourism.Lodge.Facade.RoomReservation.Navigator.Artifact.Data, AutoTourism.Component.Lodge";
+            return "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data, Crystal.Lodge.Component";
         }
 
     }
