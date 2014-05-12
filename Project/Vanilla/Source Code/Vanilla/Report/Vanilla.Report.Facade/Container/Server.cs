@@ -4,6 +4,7 @@ using BinAff.Core;
 
 using VanAcc = Vanilla.Guardian.Facade.Account;
 using ContFac = Vanilla.Utility.Facade.Container;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
 
 namespace Vanilla.Report.Facade.Container
 {
@@ -20,6 +21,11 @@ namespace Vanilla.Report.Facade.Container
         protected override String GetRecentFileNodeName()
         {
             return "Report";
+        }
+
+        public override ArtfFac.Category GetCategory()
+        {
+            return ArtfFac.Category.Report;
         }
 
     }

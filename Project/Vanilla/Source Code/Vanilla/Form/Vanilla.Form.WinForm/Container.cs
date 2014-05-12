@@ -1,5 +1,8 @@
-﻿using AccFac = Vanilla.Guardian.Facade.Account;
+﻿using System;
+
+using AccFac = Vanilla.Guardian.Facade.Account;
 using UtilWin = Vanilla.Utility.WinForm;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
 
 namespace Vanilla.Form.WinForm
 {
@@ -39,11 +42,19 @@ namespace Vanilla.Form.WinForm
             base.facade = new Facade.Container.Server(null);
         }
 
-        protected override void AddClickEvent(object sender, System.EventArgs e)
+        protected override UtilWin.Container CreateExecutableInstance(AccFac.Dto dto)
         {
-            //Get artifact
-            //Create mdi child
-            //Show as mdi child
+            return Vanilla.Form.WinForm.Container.CreateInstance(dto);
+        }
+
+        protected virtual Document InstantiateForm(ArtfFac.Dto currentArtifact)
+        {
+            //Get artifact from path
+            Type type = Type.GetType(currentArtifact.ComponentDefinition.ComponentFormType, true);
+            currentArtifact.Module.artifactPath = currentArtifact.Path;
+            Document form = (Document)Activator.CreateInstance(type, currentArtifact);
+
+            return form;
         }
 
     }

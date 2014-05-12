@@ -79,14 +79,21 @@ namespace Vanilla.Utility.Facade.Artifact
                 Category = (Category)artifactData.Category
             };
 
-            if ((data as CrysArtf.Data).ComponentData != null)
-            {
-                artifact.Module = this.ModuleFacade.Convert((data as CrysArtf.Data).ComponentData);
-            }
-
             if ((data as CrysArtf.Data).ComponentDefinition != null)
             {
                 artifact.ComponentDefinition = new Module.Definition.Server(null).Convert((data as CrysArtf.Data).ComponentDefinition) as Module.Definition.Dto;
+            }
+
+            if (this.ModuleFacade == null)
+            {
+                this.ModuleFacade = new Module.Helper(new Module.Dto
+                {
+                    Code = artifact.ComponentDefinition.Code,
+                }, artifact.Category).ModuleFacade;
+            }
+            if ((data as CrysArtf.Data).ComponentData != null)
+            {
+                artifact.Module = this.ModuleFacade.Convert((data as CrysArtf.Data).ComponentData);
             }
             return artifact;
         }
@@ -252,6 +259,31 @@ namespace Vanilla.Utility.Facade.Artifact
             }
         }
 
+        public Dto Read(String path, Category category, String code)
+        {
+            Dto artf = null;
+            Module.Helper helper = new Module.Helper(new Module.Dto
+            {
+                Code = code,
+            }, category);
+            System.Type artifactComponentType = System.Type.GetType(helper.ArtifactComponentType + ", " + helper.ArtifactComponentAssembly, true);
+            CrysArtf.Data data = Activator.CreateInstance(System.Type.GetType(helper.ArtifactDataType + ", " + helper.ArtifactComponentAssembly, true)) as CrysArtf.Data;
+            data.Id = 1; //Just to call read method in data access
+            data.Path = path;
+
+            ReturnObject<BinAff.Core.Data> ret = (Activator.CreateInstance(artifactComponentType, data) as ICrud).Read();
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+            if (!this.IsError)
+            {
+                (data as CrysArtf.Data).ComponentDefinition = new Crystal.License.Component.Data
+                {
+                    Code = code,
+                };
+                artf = this.Convert(ret.Value) as Dto;
+            }
+            return artf;
+        }
+
         //GetDirectoryName :  this method needs to be updated in register.cs 
         public String GetArtifactName(Vanilla.Utility.Facade.Artifact.Dto artifactDto, Type type, String document)
         {
@@ -373,4 +405,5 @@ namespace Vanilla.Utility.Facade.Artifact
         }
 
     }
+
 }

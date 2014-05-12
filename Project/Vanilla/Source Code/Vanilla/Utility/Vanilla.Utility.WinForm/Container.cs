@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 using BinAff.Facade.Cache;
 
 using AccFac = Vanilla.Guardian.Facade.Account;
 using GuardWin = Vanilla.Guardian.WinForm;
-using UtilWin = Vanilla.Utility.WinForm;
-using System.Collections.Generic;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using ContFac = Vanilla.Utility.Facade.Container;
 
 namespace Vanilla.Utility.WinForm
 {
@@ -23,6 +24,8 @@ namespace Vanilla.Utility.WinForm
         private Int16 mdiChildrenCount;
         private Boolean isMdiChildClosing;
         private Boolean isLoginFormOpening;
+
+        private Container executable;
 
         protected Container()
         {
@@ -54,7 +57,7 @@ namespace Vanilla.Utility.WinForm
                 {
                     this.mdiChildrenCount++;
                     currentForm.FormClosed += currentForm_FormClosed;                    
-                    this.ManageRecentFile(currentForm.DocumentPath);
+                    this.ManageRecentFile(currentForm.DocumentPath, currentForm.ArtifactComponentTypeName);
                 }
                 this.tlsVersion.Text = currentForm.Version;
                 this.tlsCreatedBy.Text = currentForm.CreatedBy;
@@ -91,7 +94,7 @@ namespace Vanilla.Utility.WinForm
             }
             else
             {
-                List<String> recentItemList = this.facade.ReadRecentFile(Application.StartupPath + @"\Files\Recent.xml");
+                List<ContFac.Server.XmlBucket> recentItemList = this.facade.ReadRecentFile(Application.StartupPath + @"\Files\Recent.xml");
                 this.AttachRecentDocuments(recentItemList);
                 this.ShowControlAfterLogin();
             }
@@ -138,7 +141,7 @@ namespace Vanilla.Utility.WinForm
 
         private void mnuOpen_Click(object sender, EventArgs e)
         {
-            new UtilWin.Open().ShowDialog(this);
+            new Open().ShowDialog(this);
         }
 
         #endregion
@@ -277,20 +280,23 @@ namespace Vanilla.Utility.WinForm
             
         }
 
-        private void ManageRecentFile(String documentPath)
+        private void ManageRecentFile(String documentPath, String artifactComponentType)
         {
-            List<String> recentItemList = this.facade.SaveRecentFile(documentPath, Application.StartupPath + @"\Files\Recent.xml");
+            List<ContFac.Server.XmlBucket> recentItemList = this.facade.SaveRecentFile(documentPath, artifactComponentType, Application.StartupPath + @"\Files\Recent.xml");
             this.AttachRecentDocuments(recentItemList);
         }
 
-        private void AttachRecentDocuments(List<String> recentItemList)
+        private void AttachRecentDocuments(List<ContFac.Server.XmlBucket> recentItemList)
         {            
             this.mnuRecentFiles.DropDownItems.Clear();
             if (recentItemList != null)
             {
-                foreach (String recentItem in recentItemList)
+                foreach (ContFac.Server.XmlBucket recentItem in recentItemList)
                 {
-                    ToolStripMenuItem recentItemMenu = new ToolStripMenuItem(recentItem);
+                    ToolStripMenuItem recentItemMenu = new ToolStripMenuItem(recentItem.Path)
+                    {
+                        Tag = recentItem.Code,
+                    };
                     recentItemMenu.Click += recentItemMenu_Click;
                     this.mnuRecentFiles.DropDownItems.Add(recentItemMenu);
                 }
@@ -306,7 +312,18 @@ namespace Vanilla.Utility.WinForm
 
         private void recentItemMenu_Click(object sender, EventArgs e)
         {
-            this.AddClickEvent(sender, e);
+            String path = (sender as ToolStripMenuItem).Text;
+            String componentCode = (sender as ToolStripMenuItem).Tag as String;
+            if (this.executable == null)
+            {
+                this.executable = this.CreateExecutableInstance(Server.Current.Cache["User"] as AccFac.Dto);
+                this.executable.FormClosed += executable_FormClosed;
+            }
+            this.executable.Show();
+            ArtfFac.Dto currentArtifact = new ArtfFac.Server(null).Read(path, this.facade.GetCategory(), componentCode);
+            Document form = this.InstantiateForm(currentArtifact);
+            form.MdiParent = this.executable;
+            form.Show();
         }
 
         private void clearMenu_Click(object sender, EventArgs e)
@@ -315,9 +332,22 @@ namespace Vanilla.Utility.WinForm
             this.facade.RemoveRecentFile(Application.StartupPath + @"\Files\Recent.xml");
         }
 
-        protected virtual void AddClickEvent(object sender, EventArgs e)
+        private void executable_FormClosed(object sender, FormClosedEventArgs e)
         {
-            
+            this.executable = null;
+        }
+
+        protected virtual Container CreateExecutableInstance(AccFac.Dto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual Document InstantiateForm(ArtfFac.Dto currentArtifact)
+        {
+            currentArtifact.ComponentDefinition.ComponentFormType = this.facade.GetComponentFormType(currentArtifact.ComponentDefinition.Code); 
+            Type type = Type.GetType(currentArtifact.ComponentDefinition.ComponentFormType, true);
+            currentArtifact.Module.artifactPath = currentArtifact.Path;
+            return (Document)Activator.CreateInstance(type, currentArtifact);
         }
 
     }
