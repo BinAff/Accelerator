@@ -21,6 +21,8 @@ namespace Vanilla.Utility.WinForm
         protected Facade.Container.Server facade;
 
         private Int16 mdiChildrenCount;
+        private Boolean isMdiChildClosing;
+        private Boolean isLoginFormOpening;
 
         protected Container()
         {
@@ -31,30 +33,43 @@ namespace Vanilla.Utility.WinForm
             this.MdiChildActivate += Container_MdiChildActivate;
         }
 
-        void Container_MdiChildActivate(object sender, EventArgs e)
+        private void Container_MdiChildActivate(object sender, EventArgs e)
         {
+            Document currentForm = this.ActiveMdiChild as Document;
+            if (this.isMdiChildClosing)
+            {
+                this.isMdiChildClosing = false;
+                return;
+            }
             if (this.isLoginFormOpen)
             {
                 this.Login();
                 this.loginForm.Close();
             }
-            else
+            if (currentForm != null && currentForm.Text != "Login")
             {
-                if (this.MdiChildren.Length == mdiChildrenCount)
+                if (this.isLoginFormOpening) return;
+                                
+                if (this.MdiChildren.Length != this.mdiChildrenCount)
                 {
-                    mdiChildrenCount--; //When the form is closing
-                    if (mdiChildrenCount == 0)
-                    {
-                        this.MdiChildren[0].Close();
-                        this.Close();
-                    }
+                    this.mdiChildrenCount++;
+                    currentForm.FormClosed += currentForm_FormClosed;                    
+                    this.ManageRecentFile(currentForm.DocumentPath);
                 }
-                else
-                {
-                    mdiChildrenCount++;
-                    this.ManageRecentFile((this.ActiveMdiChild as Document).DocumentPath);
-                }
+                this.tlsVersion.Text = currentForm.Version;
+                this.tlsCreatedBy.Text = currentForm.CreatedBy;
+                this.tlsCreatedAt.Text = currentForm.CreatedAt;
+                this.tlsModifiedBy.Text = currentForm.ModifiedBy;
+                this.tlsModifiedAt.Text = currentForm.ModifiedAt;
             }
+
+        }
+
+        private void currentForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.isMdiChildClosing = true;
+            this.mdiChildrenCount--;
+            if (this.mdiChildrenCount == 0 && !this.isLoginFormOpening) this.Close();
         }
 
         protected Container(AccFac.Dto account)
@@ -84,7 +99,7 @@ namespace Vanilla.Utility.WinForm
 
         protected virtual void Compose()
         {
-            throw new NotImplementedException();
+            
         }
 
         #region Menu
@@ -99,13 +114,15 @@ namespace Vanilla.Utility.WinForm
         private void mnuLogout_Click(object sender, EventArgs e)
         {
             this.facade.Logout();
+
+            this.isLoginFormOpening = true;
             foreach (Form frm in this.MdiChildren)
             {
                 frm.Close();
             }
+            this.IsMdiContainer = true; //No clue why it is being false
             this.ShowControlBeforeLogin();
             this.ShowLoginForm();
-
             this.Text = this.Text.Split(new Char[] { ' ', ':', ' ' })[0];
             this.isAlreadyLoggedIn = false;
         }
@@ -204,6 +221,7 @@ namespace Vanilla.Utility.WinForm
             this.loginForm.FormClosed += loginForm_FormClosed;
             this.loginForm.Show();
             this.isLoginFormOpen = true;
+            this.isLoginFormOpening = false;
         }
 
         private void loginForm_FormClosed(object sender, FormClosedEventArgs e)
