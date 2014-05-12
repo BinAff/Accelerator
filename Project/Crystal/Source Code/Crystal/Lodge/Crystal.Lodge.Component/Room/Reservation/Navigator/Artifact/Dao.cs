@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using BinAff.Core;
 
 namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
 {
@@ -91,6 +92,25 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
 
             return status;
 
+        }
+
+        protected override ReturnObject<bool> UpdateArtifactModuleLink()
+        {
+            Boolean status = false;
+
+            Data artifactData = Data as Data;
+
+            base.CreateCommand("[Lodge].[UpdateReservationFormForArtifact]");
+            base.AddInParameter("@ReservationId", DbType.Int64, artifactData.ComponentData.Id);
+            base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
+
+            Int32 ret = base.ExecuteNonQuery();
+            if (ret == -2146232060) status = false;//Foreign key violation
+
+            return new ReturnObject<bool>
+            {
+                Value = status
+            };           
         }
 
     }
