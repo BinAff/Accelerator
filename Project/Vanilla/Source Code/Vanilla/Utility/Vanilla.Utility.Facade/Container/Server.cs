@@ -1,9 +1,10 @@
 ﻿using BinAff.Core;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Xml;
+
 using VanAcc = Vanilla.Guardian.Facade.Account;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
 
 namespace Vanilla.Utility.Facade.Container
 {
@@ -37,7 +38,7 @@ namespace Vanilla.Utility.Facade.Container
             new VanAcc.Server(new VanAcc.FormDto()).Logout();
         }
 
-        public List<String> SaveRecentFile(String documentPath, String xmlFilePath)
+        public List<XmlBucket> SaveRecentFile(String documentPath, String artifactComponentType, String xmlFilePath)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(xmlFilePath);
@@ -57,6 +58,9 @@ namespace Vanilla.Utility.Facade.Container
             XmlAttribute attr = xmlDoc.CreateAttribute("Path");
             attr.Value = documentPath;
             element.Attributes.Append(attr);
+            attr = xmlDoc.CreateAttribute("Code");
+            attr.Value = artifactComponentType;
+            element.Attributes.Append(attr);
 
             rootNode.AppendChild(element);
             if (rootNode.ChildNodes.Count > 10) rootNode.RemoveChild(rootNode.FirstChild); //Need to remove hard coding of count
@@ -68,17 +72,23 @@ namespace Vanilla.Utility.Facade.Container
 
         protected abstract String GetRecentFileNodeName();
 
-        public List<String> ReadRecentFile(String xmlFilePath)
+        public abstract ArtfFac.Category GetCategory();
+
+        public List<XmlBucket> ReadRecentFile(String xmlFilePath)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(xmlFilePath);
             XmlNode rootNode = xmlDoc.ChildNodes[0].SelectSingleNode(this.GetRecentFileNodeName());
             if (rootNode.ChildNodes != null && rootNode.ChildNodes.Count > 0)
             {
-                List<String> fileList = new List<String>();
+                List<XmlBucket> fileList = new List<XmlBucket>();
                 foreach (XmlNode file in rootNode.ChildNodes)
                 {
-                    fileList.Add(file.Attributes["Path"].Value);
+                    fileList.Add(new XmlBucket
+                    {
+                        Path = file.Attributes["Path"].Value,
+                        Code = file.Attributes["Code"].Value
+                    });
                 }
                 return fileList;
             }
@@ -91,6 +101,22 @@ namespace Vanilla.Utility.Facade.Container
             xmlDoc.Load(xmlFilePath);
             xmlDoc.ChildNodes[0].SelectSingleNode(this.GetRecentFileNodeName()).RemoveAll();
             xmlDoc.Save(xmlFilePath);
+        }
+
+        public class XmlBucket
+        {
+
+            public String Path { get; set; }
+            public String Code { get; set; }
+
+        }
+
+        public string GetComponentFormType(String code)
+        {
+            return new Module.Helper(new Module.Dto
+            {
+                Code = code,
+            }, this.GetCategory()).ModuleFormType;
         }
 
     }

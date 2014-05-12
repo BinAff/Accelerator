@@ -164,10 +164,7 @@ namespace Vanilla.Navigator.WinForm
                 Document = currentArtifact,
                 ModuleName = currentArtifact.ComponentDefinition.Name,
                 Category = (currentArtifact.Module as RptFac.Document.Dto).Category,
-            }, registerFacade.GetReportFacade(new UtilFac.Module.Dto
-            {
-                Code = currentArtifact.ComponentDefinition.Code,
-            }, currentArtifact.Category) as RptFac.Document.Server)
+            })
             {
                 MdiParent = this.reportExecutable
             };

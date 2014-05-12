@@ -149,7 +149,28 @@ namespace Crystal.Navigator.Component.Artifact
             return artifactList;
         }
 
-        protected abstract BinAff.Core.Data CreateDataObject(Int64 id, Category category);
+        protected abstract BinAff.Core.Data CreateDataObject(Int64 id, Category category);        
+
+        public override BinAff.Core.Data Read()
+        {
+            if (this.Data != null &&
+                !String.IsNullOrEmpty((this.Data as Data).Path) && (this.Data as Data).CreatedBy == null)
+            {
+                this.CreateConnection();
+                this.CreateCommand("Navigator.ArtifactReadForPath");
+                this.AddInParameter("@Path", DbType.String, (this.Data as Data).Path);
+
+                DataSet ds = this.ExecuteDataSet();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    this.Data.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
+                }
+                
+                this.CloseConnection();
+            }
+            return base.Read();
+        }
 
         protected override bool CreateAfter()
         {

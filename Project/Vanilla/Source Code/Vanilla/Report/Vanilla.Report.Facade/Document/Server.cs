@@ -7,6 +7,7 @@ using CrysRpt = Crystal.Report.Component;
 
 using Util = Vanilla.Utility.Facade.Report;
 using DocFac = Vanilla.Utility.Facade.Document;
+using ModFac = Vanilla.Utility.Facade.Module;
 
 namespace Vanilla.Report.Facade.Document
 {
@@ -110,6 +111,14 @@ namespace Vanilla.Report.Facade.Document
         }
 
         protected abstract Document.Dto ConvertReportData(CrysRpt.Data data);
+
+        public static DocFac.Server GetReportSpecificFacade(FormDto formDto)
+        {
+            return new Vanilla.Utility.Facade.Module.Helper(new ModFac.Dto
+            {
+                Code = (formDto as FormDto).Document.ComponentDefinition.Code,
+            }, (formDto as FormDto).Document.Category).ModuleFacade as DocFac.Server;
+        }
 
     }
 

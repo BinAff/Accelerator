@@ -27,7 +27,7 @@ namespace AutoTourism.Component.Customer.Navigator.Artifact
             base.CreateConnection();
             base.CreateCommand("Customer.ReadFormForArtifact");
             base.AddInParameter("@ArtifactId", DbType.Int64, this.Data.Id);
-            base.AddInParameter("@Category", DbType.Int64, (this.Data as Data).Category);
+            //base.AddInParameter("@Category", DbType.Int64, (this.Data as Data).Category);
 
             DataSet ds = this.ExecuteDataSet();
             this.CloseConnection();

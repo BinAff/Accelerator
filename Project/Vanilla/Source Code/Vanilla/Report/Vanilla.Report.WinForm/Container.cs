@@ -1,5 +1,10 @@
-﻿using AccFac = Vanilla.Guardian.Facade.Account;
+﻿using System;
+
+using AccFac = Vanilla.Guardian.Facade.Account;
 using UtilWin = Vanilla.Utility.WinForm;
+using UtilFac = Vanilla.Utility.Facade;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using RptFac = Vanilla.Report.Facade;
 
 namespace Vanilla.Report.WinForm
 {
@@ -39,11 +44,34 @@ namespace Vanilla.Report.WinForm
             base.facade = new Facade.Container.Server(null);
         }
 
-        protected override void AddClickEvent(object sender, System.EventArgs e)
+        protected override UtilWin.Container CreateExecutableInstance(AccFac.Dto dto)
         {
-            //Get artifact
-            //Create mdi child
-            //Show as mdi child
+            return Vanilla.Report.WinForm.Container.CreateInstance(dto);
+        }
+
+        protected virtual Document InstantiateForm(ArtfFac.Dto currentArtifact)
+        {
+            RptFac.Document.FormDto formDto = new RptFac.Document.FormDto
+            {
+                Dto = currentArtifact.Module as RptFac.Document.Dto,
+                Document = currentArtifact,
+                ModuleName = currentArtifact.ComponentDefinition.Name,
+                Category = (currentArtifact.Module as RptFac.Document.Dto).Category,
+            };
+            ////Get artifact from path
+            //Document form = new Document(new RptFac.Document.FormDto
+            //{
+            //    //Dto = currentArtifact.Module as RptFac.Document.Dto,
+            //    //Document = currentArtifact,
+            //    //ModuleName = currentArtifact.ComponentDefinition.Name,
+            //    //Category = (currentArtifact.Module as RptFac.Document.Dto).Category,
+            //}, registerFacade.GetReportFacade(new UtilFac.Module.Dto
+            //{
+            //    //Code = currentArtifact.ComponentDefinition.Code,
+            //}, currentArtifact.Category) as RptFac.Document.Server);
+            
+            //return form;
+            return null;
         }
         
     }

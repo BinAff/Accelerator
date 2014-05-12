@@ -14,7 +14,6 @@ namespace Vanilla.Report.WinForm
     public partial class Document : UtilWin.Document
     {
 
-
         public Document()
             : base()
         {
@@ -28,8 +27,15 @@ namespace Vanilla.Report.WinForm
             this.facade = facade;
         }
 
+        public Document(Facade.Document.FormDto formDto)
+            : this()
+        {
+            this.formDto = formDto;
+        }
+
         private void Document_Load(object sender, EventArgs e)
         {
+            this.facade = Facade.Document.Server.GetReportSpecificFacade(this.formDto as Facade.Document.FormDto);
             this.dpSearchDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             (this.formDto.Dto as Facade.Document.Dto).Date = dpSearchDate.Value.Date;
             if (this.formDto.Dto.Id > 0)
@@ -52,6 +58,11 @@ namespace Vanilla.Report.WinForm
         {
             this.Save(this.dpSearchDate.Value.Date);
             base.IsModified = true;
+        }
+
+        protected override void Compose()
+        {
+            
         }
 
         private void LoadData(DateTime date)

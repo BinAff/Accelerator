@@ -4,6 +4,7 @@ using ArtfCrys = Crystal.Navigator.Component.Artifact;
 
 using DocFac = Vanilla.Utility.Facade.Document;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using ModFac = Vanilla.Utility.Facade.Module;
 using BinAff.Core;
 
 namespace Vanilla.Form.Facade.Document
