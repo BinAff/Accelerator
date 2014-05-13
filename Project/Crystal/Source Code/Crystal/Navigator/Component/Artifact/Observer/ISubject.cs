@@ -5,7 +5,7 @@ using BinAff.Core;
 namespace Crystal.Navigator.Component.Artifact.Observer
 {
 
-    public interface ISubject
+    public interface ISubject : BinAff.Core.Observer.ISubject
     {
 
         /// <summary>

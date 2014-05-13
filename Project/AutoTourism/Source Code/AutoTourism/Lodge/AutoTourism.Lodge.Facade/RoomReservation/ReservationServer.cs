@@ -3,30 +3,21 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 
-using CrystalLodge = Crystal.Lodge.Component;
+using LodgeCrys = Crystal.Lodge.Component;
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
+using CustCrys = Crystal.Customer.Component;
+using RoomRsvCrys = Crystal.Lodge.Component.Room.Reservation;
 
-using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
-using RuleFacade = AutoTourism.Configuration.Rule.Facade;
-using CrystalReservation = Crystal.Reservation.Component;
-using CrystalCustomer = Crystal.Customer.Component;
-using AutoCustomer = AutoTourism.Component.Customer;
-using CustomerFacade = AutoTourism.Customer.Facade;
-using ResrvCrys = Crystal.Lodge.Component.Room.Reservation;
+using LodgeConfigFac = AutoTourism.Lodge.Configuration.Facade;
+using RuleFac = AutoTourism.Configuration.Rule.Facade;
+using CustAuto = AutoTourism.Component.Customer;
+using CustFac = AutoTourism.Customer.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
+
     public class ReservationServer : Vanilla.Form.Facade.Document.Server, IReservation
-    {
-        //-- RoomStaus ID is mapped with database table RoomReservationStatus
-        public enum RoomStatus
-        {
-            Open = 10001,
-            Close = 10002,
-            Cancel = 10003,
-            CheckIn = 10004,
-            Modify = 10005
-        }
+    {      
 
         public ReservationServer(FormDto formDto)
             : base(formDto)
@@ -39,20 +30,20 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             FormDto formDto = this.FormDto as FormDto;
             formDto.roomList = this.ReadAllRoom().Value;
             formDto.configurationRuleDto = this.ReadConfigurationRule().Value;
-            formDto.CategoryList = new LodgeConfigurationFacade.Room.Server(null).ReadAllCategory().Value;
-            formDto.TypeList = new LodgeConfigurationFacade.Room.Server(null).ReadAllType().Value;
+            formDto.CategoryList = new LodgeConfigFac.Room.Server(null).ReadAllCategory().Value;
+            formDto.TypeList = new LodgeConfigFac.Room.Server(null).ReadAllType().Value;
 
             if (formDto.Dto != null && formDto.Dto.Id > 0)
                 formDto.Dto.Customer = this.GetCustomerDtoForReservation(formDto.Dto.Id);
             //{                
-            //    //AutoCustomer.ICustomer autoCustomer = new AutoCustomer.Server(null);
+            //    //CustAuto.ICustomer autoCustomer = new CustAuto.Server(null);
             //    //formDto.Dto.Customer = ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(formDto.Dto.Id));
             //}
         }
 
         public Customer.Facade.Dto GetCustomerDtoForReservation(Int64 reservationId)
         {
-            AutoCustomer.ICustomer autoCustomer = new AutoCustomer.Server(null);
+            CustAuto.ICustomer autoCustomer = new CustAuto.Server(null);
             return ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(reservationId));
         }
 
@@ -64,7 +55,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            CrystalLodge.Room.Reservation.Data reservation = data as CrystalLodge.Room.Reservation.Data;
+            LodgeCrys.Room.Reservation.Data reservation = data as LodgeCrys.Room.Reservation.Data;
             return new Dto
             {
                 Id = data.Id,
@@ -87,7 +78,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {            
             Dto reservation = dto as Dto;
-            return new CrystalLodge.Room.Reservation.Data
+            return new LodgeCrys.Room.Reservation.Data
             {
                 Id = dto.Id,
                 NoOfDays = reservation.NoOfDays,
@@ -103,20 +94,20 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                     Id = reservation.BookingStatusId
                 },
                 Description = String.Empty,//description will be added later if required
-                RoomCategory = reservation.RoomCategory == null ? null : new CrystalLodge.Room.Category.Data { Id = reservation.RoomCategory.Id },
-                RoomType = reservation.RoomType == null ? null : new CrystalLodge.Room.Type.Data { Id = reservation.RoomType.Id },
+                RoomCategory = reservation.RoomCategory == null ? null : new LodgeCrys.Room.Category.Data { Id = reservation.RoomCategory.Id },
+                RoomType = reservation.RoomType == null ? null : new LodgeCrys.Room.Type.Data { Id = reservation.RoomType.Id },
                 ACPreference = reservation.ACPreference
             };
         }
 
-        private ReturnObject<RuleFacade.ConfigurationRuleDto> ReadConfigurationRule()
+        private ReturnObject<RuleFac.ConfigurationRuleDto> ReadConfigurationRule()
         {
-            return new RuleFacade.RuleServer().ReadConfigurationRule();
+            return new RuleFac.RuleServer().ReadConfigurationRule();
         }
         
-        private ReturnObject<List<LodgeConfigurationFacade.Room.Dto>> ReadAllRoom()
+        private ReturnObject<List<LodgeConfigFac.Room.Dto>> ReadAllRoom()
         {
-            return new LodgeConfigurationFacade.Room.Server(null).ReadAllRoom();
+            return new LodgeConfigFac.Room.Server(null).ReadAllRoom();
         }
 
         public override void Add()
@@ -131,25 +122,25 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         private void Save()
         {
-            Dto reservationDto = (this.FormDto as FormDto).Dto;
+            Dto dto = (this.FormDto as FormDto).Dto;
 
             AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data() 
             { 
-                Id = reservationDto.Customer.Id,
-                FirstName = reservationDto.Customer.FirstName,
-                MiddleName = reservationDto.Customer.MiddleName,
-                LastName = reservationDto.Customer.LastName,
-                Address = reservationDto.Customer.Address,
-                City = reservationDto.Customer.City,
-                Pin = reservationDto.Customer.Pin,
-                Email = reservationDto.Customer.Email,
-                IdentityProof = reservationDto.Customer.IdentityProofName == null ? String.Empty : reservationDto.Customer.IdentityProofName,
+                Id = dto.Customer.Id,
+                FirstName = dto.Customer.FirstName,
+                MiddleName = dto.Customer.MiddleName,
+                LastName = dto.Customer.LastName,
+                Address = dto.Customer.Address,
+                City = dto.Customer.City,
+                Pin = dto.Customer.Pin,
+                Email = dto.Customer.Email,
+                IdentityProof = dto.Customer.IdentityProofName == null ? String.Empty : dto.Customer.IdentityProofName,
                 State = new Crystal.Configuration.Component.State.Data
                 {
-                    Id = reservationDto.Customer.State.Id,
-                    Name = reservationDto.Customer.State.Name
+                    Id = dto.Customer.State.Id,
+                    Name = dto.Customer.State.Name
                 },
-                ContactNumberList = this.ConvertToContactNumberData(reservationDto.Customer.ContactNumberList),
+                ContactNumberList = this.ConvertToContactNumberData(dto.Customer.ContactNumberList),
                 //Initial = new Crystal.Configuration.Component.Initial.Data
                 //{
                 //    Id = reservationDto.Customer.Initial.Id,
@@ -157,32 +148,36 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 //},
                 IdentityProofType = new Crystal.Configuration.Component.IdentityProofType.Data
                 {
-                    Id = reservationDto.Customer.IdentityProofType.Id,
-                    Name = reservationDto.Customer.IdentityProofType.Name
+                    Id = dto.Customer.IdentityProofType.Id,
+                    Name = dto.Customer.IdentityProofType.Name
                 },
-                RoomReserver = new CrystalLodge.Room.Reserver.Data()
+                RoomReserver = new LodgeCrys.Room.Reserver.Data()
             };
 
-            autoCustomer.RoomReserver.Active = this.Convert(reservationDto) as CrystalCustomer.Action.Data;
-            autoCustomer.RoomReserver.Active.ProductList = reservationDto.RoomList == null ? null : this.GetRoomDataList(reservationDto.RoomList);
+            autoCustomer.RoomReserver.Active = this.Convert(dto) as CustCrys.Action.Data;
+            autoCustomer.RoomReserver.Active.ProductList = dto.RoomList == null ? null : this.GetRoomDataList(dto.RoomList);
 
-            ICrud crud = new AutoTourism.Component.Customer.Server(autoCustomer);
-            ReturnObject<Boolean> ret = crud.Save();
+            //This was mistake. never instanciate component server, observer will not be there.
+            //ICrud crud = new AutoTourism.Component.Customer.Server(autoCustomer);
+            //ReturnObject<Boolean> ret = crud.Save();
+            ReturnObject<Boolean> ret = base.componentServer.Save();
 
             if (autoCustomer.RoomReserver.Active != null)
+            {
                 (this.FormDto as FormDto).Dto.Id = autoCustomer.RoomReserver.Active.Id;
+            }
 
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);           
         }
 
-        public List<CrystalCustomer.ContactNumber.Data> ConvertToContactNumberData(List<Table> contactNumberList)
+        public List<CustCrys.ContactNumber.Data> ConvertToContactNumberData(List<Table> contactNumberList)
         {
-            List<CrystalCustomer.ContactNumber.Data> lstContactNumber = new List<CrystalCustomer.ContactNumber.Data>();
+            List<CustCrys.ContactNumber.Data> lstContactNumber = new List<CustCrys.ContactNumber.Data>();
             if (contactNumberList != null && contactNumberList.Count > 0)
             {
                 foreach (Table table in contactNumberList)
                 {
-                    lstContactNumber.Add(new CrystalCustomer.ContactNumber.Data 
+                    lstContactNumber.Add(new CustCrys.ContactNumber.Data 
                     { 
                         Id = table.Id,
                         ContactNumber = table.Name
@@ -193,12 +188,12 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return lstContactNumber;
         }
 
-        public List<Data> GetRoomDataList(List<LodgeConfigurationFacade.Room.Dto> RoomList)
+        public List<Data> GetRoomDataList(List<LodgeConfigFac.Room.Dto> RoomList)
         {
             List<Data> RoomDataList = new List<Data>();
-            foreach (LodgeConfigurationFacade.Room.Dto dto in RoomList)
+            foreach (LodgeConfigFac.Room.Dto dto in RoomList)
             {
-                RoomDataList.Add(new CrystalLodge.Room.Data
+                RoomDataList.Add(new LodgeCrys.Room.Data
                 {
                     Id = dto.Id,
                     Number = dto.Number,
@@ -207,12 +202,12 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return RoomDataList;
         }
 
-        public List<LodgeConfigurationFacade.Room.Dto> GetRoomDtoList(List<Data> RoomList)
+        public List<LodgeConfigFac.Room.Dto> GetRoomDtoList(List<Data> RoomList)
         {
-            List<LodgeConfigurationFacade.Room.Dto> RoomDtoList = new List<LodgeConfigurationFacade.Room.Dto>();
-            foreach (CrystalLodge.Room.Data data in RoomList)
+            List<LodgeConfigFac.Room.Dto> RoomDtoList = new List<LodgeConfigFac.Room.Dto>();
+            foreach (LodgeCrys.Room.Data data in RoomList)
             {
-                RoomDtoList.Add(new LodgeConfigurationFacade.Room.Dto
+                RoomDtoList.Add(new LodgeConfigFac.Room.Dto
                 {
                     Id = data.Id,
                     Number = data.Number,
@@ -257,21 +252,16 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 Value = bookingList,
             };
 
-        }        
-
-        ReturnObject<bool> IReservation.ChangeReservationStatus()
-        {
-            return this.UpdateReservationStatus();
         }
 
         private ReturnObject<Boolean> UpdateReservationStatus()
         {
             Dto reservationDto = (this.FormDto as FormDto).Dto;
 
-            CrystalCustomer.Action.IAction roomReservation = new CrystalLodge.Room.Reservation.Server(new CrystalLodge.Room.Reservation.Data 
+            CustCrys.Action.IAction roomReservation = new LodgeCrys.Room.Reservation.Server(new LodgeCrys.Room.Reservation.Data 
             {
                 Id = reservationDto.Id,
-                Status = new CrystalCustomer.Action.Status.Data
+                Status = new CustCrys.Action.Status.Data
                 {
                     Id = reservationDto.BookingStatusId
                 }            
@@ -286,7 +276,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             artifactDto.FileName = fileName;
 
             if (reservationModuleDto != null)
+            {
                 reservationModuleDto.Artifact.Children.Add(artifactDto);
+            }
 
             (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact = new Vanilla.Utility.Facade.Artifact.FormDto
             {
@@ -295,16 +287,20 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
             (this.FormDto as FormDto).ModuleFormDto.Dto = reservationModuleDto;
             Vanilla.Utility.Facade.Module.Server moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto);
-            moduleFacade.Add();
-                       
+            moduleFacade.Add();                       
         }
         
-        ReturnObject<List<LodgeConfigurationFacade.Room.Dto>> IReservation.GetBookedRooms(DateTime startDate, DateTime endDate)
+        ReturnObject<Boolean> IReservation.ChangeReservationStatus()
+        {
+            return this.UpdateReservationStatus();
+        }
+
+        ReturnObject<List<LodgeConfigFac.Room.Dto>> IReservation.GetBookedRooms(DateTime startDate, DateTime endDate)
         {
             Crystal.Customer.Component.Action.IAction reservation = new Crystal.Lodge.Component.Room.Reservation.Server(null);
             ReturnObject<List<Crystal.Customer.Component.Action.Data>> ret = reservation.Search(new Crystal.Customer.Component.Action.Status.Data { Id = System.Convert.ToInt64(RoomStatus.Open) }, startDate, endDate);
 
-            List<LodgeConfigurationFacade.Room.Dto> lstRoomDto = new List<LodgeConfigurationFacade.Room.Dto>();
+            List<LodgeConfigFac.Room.Dto> lstRoomDto = new List<LodgeConfigFac.Room.Dto>();
 
             if (ret.Value != null)
             {
@@ -312,34 +308,36 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 {
                     if (roomData.ProductList != null && roomData.ProductList.Count > 0)
                     {
-                        foreach (CrystalLodge.Room.Data data in roomData.ProductList)
+                        foreach (LodgeCrys.Room.Data data in roomData.ProductList)
                         {
                             if(data.Id > 0)
-                                lstRoomDto.Add(new LodgeConfigurationFacade.Room.Dto { Id = data.Id });
+                                lstRoomDto.Add(new LodgeConfigFac.Room.Dto { Id = data.Id });
                         }
                     }
                 }
             }
 
-            return new ReturnObject<List<LodgeConfigurationFacade.Room.Dto>>
+            return new ReturnObject<List<LodgeConfigFac.Room.Dto>>
             {
                 Value = lstRoomDto
             };
         }
-        
-        Boolean IReservation.ValidateRoomWithCategoryTypeAndACPreference(LodgeConfigurationFacade.Room.Dto room, long categoryId, long typeId, int acPreference)
+
+        Boolean IReservation.ValidateRoomWithCategoryTypeAndACPreference(LodgeConfigFac.Room.Dto room, Int64 categoryId, Int64 typeId, Int32 acPreference)
         {
             return this.ValidateRoomWithCategoryTypeAndACPreference(room, categoryId, typeId, acPreference);
         }
 
-        List<LodgeConfigurationFacade.Room.Dto> IReservation.GetFilteredRoomsWithCategoryTypeAndACPreference(List<LodgeConfigurationFacade.Room.Dto> roomList, long categoryId, long typeId, int acPreference)
+        List<LodgeConfigFac.Room.Dto> IReservation.GetFilteredRoomsWithCategoryTypeAndACPreference(List<LodgeConfigFac.Room.Dto> roomList, Int64 categoryId, Int64 typeId, Int32 acPreference)
         {
-            List<LodgeConfigurationFacade.Room.Dto> lstRoom = new List<LodgeConfigurationFacade.Room.Dto>();
+            List<LodgeConfigFac.Room.Dto> lstRoom = new List<LodgeConfigFac.Room.Dto>();
 
-            foreach (LodgeConfigurationFacade.Room.Dto room in roomList)
+            foreach (LodgeConfigFac.Room.Dto room in roomList)
             {
                 if (this.ValidateRoomWithCategoryTypeAndACPreference(room, categoryId, typeId, acPreference))
+                {
                     lstRoom.Add(room);
+                }
             }
 
             return lstRoom;
@@ -354,7 +352,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             if (ret.Value != null && ret.Value.Count > 0)
             {
                 List<Crystal.Customer.Component.Action.Data> actionList = this.RemoveDuplicateReservation(ret.Value);
-                foreach (CrystalLodge.Room.Reservation.Data reservationData in actionList)
+                foreach (LodgeCrys.Room.Reservation.Data reservationData in actionList)
                 {
                     if (reservationData.Id != reservationId)
                         retVal += reservationData.NoOfRooms;
@@ -364,7 +362,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return retVal;          
         }
 
-        Int32 IReservation.GetNoOfRoomsBookedBetweenTwoDates(DateTime startDate, DateTime endDate, long reservationId, long categoryId, long typeId, int acPreference)
+        Int32 IReservation.GetNoOfRoomsBookedBetweenTwoDates(DateTime startDate, DateTime endDate, Int64 reservationId, Int64 categoryId, Int64 typeId, Int32 acPreference)
         {
             int retVal = 0;
             Crystal.Customer.Component.Action.IAction reservation = new Crystal.Lodge.Component.Room.Reservation.Server(null);
@@ -373,7 +371,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             if (ret.Value != null && ret.Value.Count > 0)
             {
                 List<Crystal.Customer.Component.Action.Data> actionList = this.RemoveDuplicateReservation(ret.Value);
-                foreach (CrystalLodge.Room.Reservation.Data reservationData in actionList)
+                foreach (LodgeCrys.Room.Reservation.Data reservationData in actionList)
                 {
                     if (reservationData.Id != reservationId && ValidateRoomWithCategoryTypeAndACPreference(reservationData, categoryId, typeId, acPreference))
                         retVal += reservationData.NoOfRooms;
@@ -383,7 +381,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 //{
                 //    if (actionData.Id != reservationId && actionData.ProductList != null && actionData.ProductList.Count > 0)
                 //    {
-                //        foreach (CrystalLodge.Room.Data data in actionData.ProductList)
+                //        foreach (LodgeCrys.Room.Data data in actionData.ProductList)
                 //        {
                 //            if(ValidateRoomWithCategoryTypeAndACPreference(data,categoryId,typeId,acPreference))
                 //                retVal += 1;
@@ -395,96 +393,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return retVal;      
         }
 
-        private List<Crystal.Customer.Component.Action.Data> RemoveDuplicateReservation(List<Crystal.Customer.Component.Action.Data> actionList)
-        {
-            List<Crystal.Customer.Component.Action.Data> lstAction = new List<CrystalCustomer.Action.Data>();
-            Boolean isExists;
-            foreach (Crystal.Customer.Component.Action.Data roomData in actionList)
-            {
-                if (lstAction.Count == 0)
-                    lstAction.Add(roomData);
-                else
-                {
-                    isExists = false;
-                    foreach(Crystal.Customer.Component.Action.Data uniqueRoomData in lstAction)
-                    {
-                        if (uniqueRoomData.Id == roomData.Id)
-                        {
-                            isExists = true;
-                            break;
-                        }
-                    }
-                    if (!isExists) lstAction.Add(roomData);
-                }
-            }
-            
-
-            return lstAction;
-        }
-
-        private Boolean ValidateRoomWithCategoryTypeAndACPreference(LodgeConfigurationFacade.Room.Dto room, Int64 categoryId, Int64 typeId, Int32 acPreference)
-        {
-            if (room.Id == 0)
-                return false;
-
-            if (categoryId > 0 && categoryId != room.Category.Id)
-                return false;
-
-            if (typeId > 0 && typeId != room.Type.Id)
-                return false;
-
-            if (acPreference > 0)
-            {
-                Boolean isAC = acPreference == 1 ? true : false;
-                if (isAC != room.IsAirconditioned)
-                    return false;
-            }
-
-            return true;
-        }
-
-        private Boolean ValidateRoomWithCategoryTypeAndACPreference(CrystalLodge.Room.Data room, Int64 categoryId, Int64 typeId, Int32 acPreference)
-        {
-            if (room.Id == 0)
-                return false;
-
-            if (categoryId > 0 && categoryId != room.Category.Id)
-                return false;
-
-            if (typeId > 0 && typeId != room.Type.Id)
-                return false;
-
-            if (acPreference > 0)
-            {
-                Boolean isAC = acPreference == 1 ? true : false;
-                if (isAC != room.IsAirConditioned)
-                    return false;
-            }
-
-            return true;
-        }
-
-        private Boolean ValidateRoomWithCategoryTypeAndACPreference(CrystalLodge.Room.Reservation.Data reservationData, Int64 categoryId, Int64 typeId, Int32 acPreference)
-        {
-            Int64 catId = reservationData.RoomCategory == null ? 0 : reservationData.RoomCategory.Id;
-            Int64 typId = reservationData.RoomType == null ? 0 : reservationData.RoomType.Id;           
-
-            Boolean retVal = true;
-            if (categoryId != 0)            
-                retVal = catId == categoryId;
-
-            if (retVal && typeId != 0)
-                retVal = typId == typeId;
-
-            if (retVal && acPreference != 0)
-                retVal = reservationData.ACPreference == acPreference;
-
-            return retVal;
-        }
-        
         Customer.Facade.Dto IReservation.CloneCustomer(Customer.Facade.Dto customerDto)
         {
-            return new CustomerFacade.Dto
+            return new CustFac.Dto
             {
                 Id = customerDto.Id,
                 //Initial = customerDto.Initial == null ? null : new Table
@@ -498,7 +409,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 ContactNumberList = customerDto.ContactNumberList == null ? null : this.CloneContactNumber(customerDto.ContactNumberList),
                 Address = customerDto.Address,
                 Email = customerDto.Email
-            };           
+            };
         }
 
         Dto IReservation.CloneReservaion(Dto reservationDto)
@@ -526,6 +437,77 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             };
         }
 
+        private List<Crystal.Customer.Component.Action.Data> RemoveDuplicateReservation(List<Crystal.Customer.Component.Action.Data> actionList)
+        {
+            List<Crystal.Customer.Component.Action.Data> lstAction = new List<CustCrys.Action.Data>();
+            Boolean isExists;
+            foreach (Crystal.Customer.Component.Action.Data roomData in actionList)
+            {
+                if (lstAction.Count == 0)
+                {
+                    lstAction.Add(roomData);
+                }
+                else
+                {
+                    isExists = false;
+                    foreach (Crystal.Customer.Component.Action.Data uniqueRoomData in lstAction)
+                    {
+                        if (uniqueRoomData.Id == roomData.Id)
+                        {
+                            isExists = true;
+                            break;
+                        }
+                    }
+                    if (!isExists) lstAction.Add(roomData);
+                }
+            }            
+
+            return lstAction;
+        }
+
+        private Boolean ValidateRoomWithCategoryTypeAndACPreference(LodgeConfigFac.Room.Dto room, Int64 categoryId, Int64 typeId, Int32 acPreference)
+        {
+            if (room.Id == 0) return false;
+            if (categoryId > 0 && categoryId != room.Category.Id) return false;
+            if (typeId > 0 && typeId != room.Type.Id) return false;
+
+            if (acPreference > 0)
+            {
+                Boolean isAC = acPreference == 1 ? true : false;
+                if (isAC != room.IsAirconditioned) return false;
+            }
+
+            return true;
+        }
+
+        private Boolean ValidateRoomWithCategoryTypeAndACPreference(LodgeCrys.Room.Data room, Int64 categoryId, Int64 typeId, Int32 acPreference)
+        {
+            if (room.Id == 0) return false;
+            if (categoryId > 0 && categoryId != room.Category.Id) return false;
+            if (typeId > 0 && typeId != room.Type.Id) return false;
+
+            if (acPreference > 0)
+            {
+                Boolean isAC = acPreference == 1 ? true : false;
+                if (isAC != room.IsAirConditioned) return false;
+            }
+
+            return true;
+        }
+
+        private Boolean ValidateRoomWithCategoryTypeAndACPreference(LodgeCrys.Room.Reservation.Data reservationData, Int64 categoryId, Int64 typeId, Int32 acPreference)
+        {
+            Int64 catId = reservationData.RoomCategory == null ? 0 : reservationData.RoomCategory.Id;
+            Int64 typId = reservationData.RoomType == null ? 0 : reservationData.RoomType.Id;           
+
+            Boolean retVal = true;
+            if (categoryId != 0) retVal = catId == categoryId;
+            if (retVal && typeId != 0) retVal = typId == typeId;
+            if (retVal && acPreference != 0) retVal = reservationData.ACPreference == acPreference;
+
+            return retVal;
+        }
+        
         private List<Table> CloneContactNumber(List<Table> contactNumberList)
         {
             List<Table> lstContactNumber = new List<Table>();
@@ -540,12 +522,12 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return lstContactNumber;
         }
 
-        private List<LodgeConfigurationFacade.Room.Dto> CloneRoomList(List<LodgeConfigurationFacade.Room.Dto> roomList)
+        private List<LodgeConfigFac.Room.Dto> CloneRoomList(List<LodgeConfigFac.Room.Dto> roomList)
         {
-            List<LodgeConfigurationFacade.Room.Dto> lstRoom = new List<LodgeConfigurationFacade.Room.Dto>();
+            List<LodgeConfigFac.Room.Dto> lstRoom = new List<LodgeConfigFac.Room.Dto>();
 
-            foreach (LodgeConfigurationFacade.Room.Dto room in roomList)
-                lstRoom.Add(new LodgeConfigurationFacade.Room.Dto
+            foreach (LodgeConfigFac.Room.Dto room in roomList)
+                lstRoom.Add(new LodgeConfigFac.Room.Dto
                 {
                     Id = room.Id,
                     Action = room.Action,
@@ -569,28 +551,28 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         
         protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData)
         {
-            try
-            {
-                return new ResrvCrys.Navigator.Artifact.Server(artifactData as ResrvCrys.Navigator.Artifact.Data);
-            }
-            catch (Exception ex)
-            { 
-            
-            }
-
-            return null;
+            return new RoomRsvCrys.Navigator.Artifact.Server(artifactData as RoomRsvCrys.Navigator.Artifact.Data);
         }
 
         protected override ArtfCrys.Observer.DocumentComponent GetComponentServer()
         {
-            this.componentServer = new ResrvCrys.Server(this.Convert((this.FormDto as FormDto).Dto) as ResrvCrys.Data);
+            this.componentServer = new RoomRsvCrys.Server(this.Convert((this.FormDto as FormDto).Dto) as RoomRsvCrys.Data);
             return this.componentServer as ArtfCrys.Observer.DocumentComponent;
         }
 
         protected override String GetComponentDataType()
         {
-            //return "AutoTourism.Lodge.Facade.RoomReservation.Navigator.Artifact.Data, AutoTourism.Component.Lodge";
             return "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data, Crystal.Lodge.Component";
+        }
+
+        //-- RoomStaus ID is mapped with database table RoomReservationStatus
+        public enum RoomStatus
+        {
+            Open = 10001,
+            Close = 10002,
+            Cancel = 10003,
+            CheckIn = 10004,
+            Modify = 10005
         }
 
     }
