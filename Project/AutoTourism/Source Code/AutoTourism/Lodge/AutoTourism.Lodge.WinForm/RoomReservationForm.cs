@@ -56,13 +56,13 @@ namespace AutoTourism.Lodge.WinForm
 
         protected override void Compose()
         {
-            base.formDto = new Facade.RoomReservation.FormDto 
+            this.formDto = new Facade.RoomReservation.FormDto 
             {
                 ModuleFormDto = new UtilFac.Module.FormDto(),
                 Dto = new Facade.RoomReservation.Dto()
             };
-            
-            base.facade = new Facade.RoomReservation.ReservationServer(base.formDto as Facade.RoomReservation.FormDto);
+
+            this.facade = new Facade.RoomReservation.ReservationServer(this.formDto as Facade.RoomReservation.FormDto);
         }
 
         public RoomReservationForm(TreeView trvForm)
@@ -309,11 +309,11 @@ namespace AutoTourism.Lodge.WinForm
             //    this.txtArtifactPath.Text = this.dto.artifactPath;
 
             //disable the controls if the reservation is checked in
-            if (formDto.Dto != null && formDto.Dto.isCheckedIn)
+            if (formDto.Dto != null && (formDto.Dto as Facade.RoomReservation.Dto).isCheckedIn)
             {
                 this.DisableFormControls();
             }
-            else if (formDto.Dto != null && formDto.Dto.BookingStatusId == Convert.ToInt64(Status.Canceled))
+            else if (formDto.Dto != null && (formDto.Dto as Facade.RoomReservation.Dto).BookingStatusId == Convert.ToInt64(Status.Canceled))
             {
                 this.DisableFormControls();
                 btnCancelOpen.Enabled = true;
@@ -328,8 +328,8 @@ namespace AutoTourism.Lodge.WinForm
 
         private void PopulateCustomerData(Form form)
         {
-            Facade.RoomReservation.FormDto formDto = base.formDto as Facade.RoomReservation.FormDto;            
-            formDto.Dto.Customer = form.Tag as CustomerFacade.Dto;
+            Facade.RoomReservation.FormDto formDto = base.formDto as Facade.RoomReservation.FormDto;
+            (formDto.Dto as Facade.RoomReservation.Dto).Customer = form.Tag as CustomerFacade.Dto;
 
             //if (this.dto == null)
             //{
@@ -337,14 +337,14 @@ namespace AutoTourism.Lodge.WinForm
             //}
             //this.dto.Customer = form.Tag as CustomerFacade.Dto;
 
-            this.txtName.Text = formDto.Dto.Customer.Name;
+            this.txtName.Text = (formDto.Dto as Facade.RoomReservation.Dto).Customer.Name;
 
-            this.lstContact.DataSource = formDto.Dto.Customer.ContactNumberList;
+            this.lstContact.DataSource = (formDto.Dto as Facade.RoomReservation.Dto).Customer.ContactNumberList;
             this.lstContact.DisplayMember = "Name";
             this.lstContact.ValueMember = "Id";
             this.lstContact.SelectedIndex = -1;
-            this.txtAdds.Text = formDto.Dto.Customer.Address;
-            this.txtEmail.Text = formDto.Dto.Customer.Email;            
+            this.txtAdds.Text = (formDto.Dto as Facade.RoomReservation.Dto).Customer.Address;
+            this.txtEmail.Text = (formDto.Dto as Facade.RoomReservation.Dto).Customer.Email;            
         }
                
         protected override void PopulateDataToForm()
@@ -828,9 +828,10 @@ namespace AutoTourism.Lodge.WinForm
             List<ConfigFacade.Room.Dto> selectedRoomList = new List<ConfigFacade.Room.Dto>();
             List<ConfigFacade.Room.Dto> availableRoomList = new List<ConfigFacade.Room.Dto>();
 
+             
             if (roomList != null && roomList.Count > 0)
             {
-                if (formDto.Dto == null || formDto.Dto.RoomList == null || formDto.Dto.RoomList.Count == 0)
+                if (formDto.Dto == null || (formDto.Dto as Facade.RoomReservation.Dto).RoomList == null || (formDto.Dto as Facade.RoomReservation.Dto).RoomList.Count == 0)
                 {
                     selectedRoomList = null;
                     availableRoomList = roomList;
@@ -841,7 +842,7 @@ namespace AutoTourism.Lodge.WinForm
                     foreach (ConfigFacade.Room.Dto roomDto in roomList)
                     {
                         isSelected = false;
-                        foreach (ConfigFacade.Room.Dto validRoomDto in formDto.Dto.RoomList)
+                        foreach (ConfigFacade.Room.Dto validRoomDto in (formDto.Dto as Facade.RoomReservation.Dto).RoomList)
                         {
                             if (roomDto.Id == validRoomDto.Id)
                             {

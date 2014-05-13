@@ -36,7 +36,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
             if (formDto.Dto != null && formDto.Dto.Id > 0)
             {
-                formDto.Dto.Customer = this.GetCustomerDtoForReservation(formDto.Dto.Id);
+                (formDto.Dto as Facade.RoomReservation.Dto).Customer = this.GetCustomerDtoForReservation(formDto.Dto.Id);
             }
             //{                
             //    //CustAuto.ICustomer autoCustomer = new CustAuto.Server(null);
@@ -125,6 +125,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         private void Save()
         {
+            Boolean isNew = (this.FormDto as FormDto).Dto.Id == 0;
             using (System.Transactions.TransactionScope T = new System.Transactions.TransactionScope())
             {
                 CustAuto.Server custServer = new CustAuto.Server(this.ConvertCustomer());
@@ -138,8 +139,15 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 //Call observer...
                 //This is work around because for this form artifact is different than component server.
                 //Here customer component has to call bu need to update room reservation artifact
-                (this.componentServer as BinAff.Core.Crud).Data.Id = (this.FormDto as FormDto).Dto.Id; 
-                (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForCreate();                
+                if (isNew)
+                {
+                    (this.componentServer as BinAff.Core.Crud).Data.Id = (this.FormDto as FormDto).Dto.Id;
+                    (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForCreate();
+                }
+                else
+                {
+                    (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForUpdate();
+                }
 
                 this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
                 T.Complete();
@@ -148,7 +156,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         private CustAuto.Data ConvertCustomer()
         {
-            Dto dto = (this.FormDto as FormDto).Dto;
+            Dto dto = (this.FormDto as FormDto).Dto as Dto;
             AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data()
             {
                 Id = dto.Customer.Id,
@@ -271,7 +279,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         private ReturnObject<Boolean> UpdateReservationStatus()
         {
-            Dto reservationDto = (this.FormDto as FormDto).Dto;
+            Dto reservationDto = (this.FormDto as FormDto).Dto as Dto;
 
             CustCrys.Action.IAction roomReservation = new LodgeCrys.Room.Reservation.Server(new LodgeCrys.Room.Reservation.Data 
             {
