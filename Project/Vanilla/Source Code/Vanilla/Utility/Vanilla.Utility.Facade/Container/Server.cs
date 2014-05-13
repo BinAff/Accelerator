@@ -38,7 +38,7 @@ namespace Vanilla.Utility.Facade.Container
             new VanAcc.Server(new VanAcc.FormDto()).Logout();
         }
 
-        public List<XmlBucket> SaveRecentFile(String documentPath, String artifactComponentType, String xmlFilePath)
+        public List<XmlBucket> SaveRecentFile(String documentPath, String componentCode, String xmlFilePath)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(xmlFilePath);
@@ -59,7 +59,7 @@ namespace Vanilla.Utility.Facade.Container
             attr.Value = documentPath;
             element.Attributes.Append(attr);
             attr = xmlDoc.CreateAttribute("Code");
-            attr.Value = artifactComponentType;
+            attr.Value = componentCode;
             element.Attributes.Append(attr);
 
             rootNode.AppendChild(element);

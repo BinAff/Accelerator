@@ -80,15 +80,11 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        public String ArtifactComponentTypeName
+        public String ComponentCode
         {
             get
             {
-                Facade.Module.Helper helper = new Facade.Module.Helper(new Facade.Module.Dto
-                {
-                    Code = this.formDto.Document.ComponentDefinition.Code,
-                }, this.formDto.Document.Category);
-                return helper.ArtifactComponentType + ", " + helper.ArtifactComponentAssembly;
+                return this.formDto.Document.ComponentDefinition.Code;
             }
         }
 

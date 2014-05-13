@@ -47,16 +47,6 @@ namespace Vanilla.Form.WinForm
             return Vanilla.Form.WinForm.Container.CreateInstance(dto);
         }
 
-        protected virtual Document InstantiateForm(ArtfFac.Dto currentArtifact)
-        {
-            //Get artifact from path
-            Type type = Type.GetType(currentArtifact.ComponentDefinition.ComponentFormType, true);
-            currentArtifact.Module.artifactPath = currentArtifact.Path;
-            Document form = (Document)Activator.CreateInstance(type, currentArtifact);
-
-            return form;
-        }
-
     }
 
 }

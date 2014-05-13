@@ -46,7 +46,6 @@ namespace Crystal.Report.Component.Navigator.Artifact
             base.CreateConnection();
             base.CreateCommand(this.ReadComponentLinkSPName);
             base.AddInParameter("@ArtifactId", DbType.Int64, this.Data.Id);
-            base.AddInParameter("@Category", DbType.Int64, (this.Data as Data).Category);
 
             DataSet ds = this.ExecuteDataSet();
             this.CloseConnection();

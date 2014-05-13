@@ -48,31 +48,6 @@ namespace Vanilla.Report.WinForm
         {
             return Vanilla.Report.WinForm.Container.CreateInstance(dto);
         }
-
-        protected virtual Document InstantiateForm(ArtfFac.Dto currentArtifact)
-        {
-            RptFac.Document.FormDto formDto = new RptFac.Document.FormDto
-            {
-                Dto = currentArtifact.Module as RptFac.Document.Dto,
-                Document = currentArtifact,
-                ModuleName = currentArtifact.ComponentDefinition.Name,
-                Category = (currentArtifact.Module as RptFac.Document.Dto).Category,
-            };
-            ////Get artifact from path
-            //Document form = new Document(new RptFac.Document.FormDto
-            //{
-            //    //Dto = currentArtifact.Module as RptFac.Document.Dto,
-            //    //Document = currentArtifact,
-            //    //ModuleName = currentArtifact.ComponentDefinition.Name,
-            //    //Category = (currentArtifact.Module as RptFac.Document.Dto).Category,
-            //}, registerFacade.GetReportFacade(new UtilFac.Module.Dto
-            //{
-            //    //Code = currentArtifact.ComponentDefinition.Code,
-            //}, currentArtifact.Category) as RptFac.Document.Server);
-            
-            //return form;
-            return null;
-        }
         
     }
 

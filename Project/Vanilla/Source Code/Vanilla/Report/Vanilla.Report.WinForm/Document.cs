@@ -7,6 +7,8 @@ using PresLib = BinAff.Presentation.Library;
 
 using UtilFac = Vanilla.Utility.Facade;
 using UtilWin = Vanilla.Utility.WinForm;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using DocFac = Vanilla.Report.Facade.Document;
 
 namespace Vanilla.Report.WinForm
 {
@@ -19,18 +21,23 @@ namespace Vanilla.Report.WinForm
         {
             InitializeComponent();
         }
-        
-        public Document(Facade.Document.FormDto formDto, Facade.Document.Server facade)
-            : this()
-        {
-            this.formDto = formDto;
-            this.facade = facade;
-        }
 
         public Document(Facade.Document.FormDto formDto)
             : this()
         {
             this.formDto = formDto;
+        }
+
+        public Document(ArtfFac.Dto dto)
+            : this()
+        {
+            this.formDto = new DocFac.FormDto
+            {
+                Dto = dto.Module as DocFac.Dto,
+                Document = dto,
+                ModuleName = dto.ComponentDefinition.Name,
+                Category = (dto.Module as DocFac.Dto).Category,
+            };
         }
 
         private void Document_Load(object sender, EventArgs e)

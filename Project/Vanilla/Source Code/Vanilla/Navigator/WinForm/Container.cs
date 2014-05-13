@@ -139,10 +139,7 @@ namespace Vanilla.Navigator.WinForm
             {
                 Dto = moduleFormDto as Report.Facade.Document.Dto,
                 Document = currentArtifact,
-            }, registerFacade.GetReportFacade(new Vanilla.Utility.Facade.Module.Dto
-            {
-                Code = currentArtifact.ComponentDefinition.Code,
-            }, currentArtifact.Category) as RptFac.Document.Server);
+            });
         }
 
         private void ucRegister_ReportLoad(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade)
@@ -158,17 +155,10 @@ namespace Vanilla.Navigator.WinForm
                 this.LogOut();
                 return;
             }
-            RptWin.Document form = new RptWin.Document(new RptFac.Document.FormDto
-            {
-                Dto = currentArtifact.Module as RptFac.Document.Dto,
-                Document = currentArtifact,
-                ModuleName = currentArtifact.ComponentDefinition.Name,
-                Category = (currentArtifact.Module as RptFac.Document.Dto).Category,
-            })
+            new RptWin.Document(currentArtifact)
             {
                 MdiParent = this.reportExecutable
-            };
-            form.Show();
+            }.Show();
         }
 
         private void ucRegister_ReportCategoryGet(UtilFac.Artifact.Dto currentArtifact, string categoryName)
