@@ -3,10 +3,12 @@ using System;
 
 using BinAff.Core;
 
+using CrysArtfObserver = Crystal.Navigator.Component.Artifact.Observer;
+
 namespace Crystal.Customer.Component.Action
 {
 
-    public abstract class Server : BinAff.Core.Observer.ObserverSubjectCrud, IAction
+    public abstract class Server : CrysArtfObserver.DocumentComponent, IAction
     {
 
         public Server(Data data)

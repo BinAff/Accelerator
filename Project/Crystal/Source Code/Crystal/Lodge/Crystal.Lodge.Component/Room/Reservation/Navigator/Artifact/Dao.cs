@@ -96,7 +96,7 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
 
         protected override ReturnObject<bool> UpdateArtifactModuleLink()
         {
-            Boolean status = false;
+            Boolean status = true;
 
             Data artifactData = Data as Data;
 
