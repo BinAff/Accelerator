@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Data;
+
 using BinAff.Core;
+
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
 
 namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
 {
 
-    public class Dao : Crystal.Navigator.Component.Artifact.Dao
+    public class Dao : ArtfCrys.Dao
     {
 
-        private String DeleteArtifactLinkSPName;
+        private String deleteArtifactLinkSPName;
 
         public Dao(Data data)
             : base(data)
@@ -19,7 +22,7 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
         protected override void Compose()
         {
             base.Compose();
-            this.DeleteArtifactLinkSPName = "[Lodge].[DeleteReservationFormForArtifact]";
+            this.deleteArtifactLinkSPName = "[Lodge].[DeleteReservationFormForArtifact]";
         }
 
         protected override Boolean ReadBefore()
@@ -43,7 +46,7 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
             return true;
         }
 
-        protected override BinAff.Core.Data CreateDataObject(Int64 id, Crystal.Navigator.Component.Artifact.Category category)
+        protected override BinAff.Core.Data CreateDataObject(Int64 id, ArtfCrys.Category category)
         {
             return new Data
             {
@@ -74,43 +77,34 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
             return status;
         }
 
-        protected override bool DeleteBefore()
+        protected override Boolean DeleteBefore()
         {
             return this.DeleteArtifactLink();
         }
 
-        public bool DeleteArtifactLink()
+        public Boolean DeleteArtifactLink()
         {
             Boolean status = true;
-            base.CreateCommand(this.DeleteArtifactLinkSPName);
+            base.CreateCommand(this.deleteArtifactLinkSPName);
             base.AddInParameter("@Id", DbType.Int64, this.Data.Id);
-
             Int32 ret = base.ExecuteNonQuery();
             if (ret == -2146232060) status = false;//Foreign key violation
-
             base.CloseConnection();
-
             return status;
-
         }
 
-        protected override ReturnObject<bool> UpdateArtifactModuleLink()
+        protected override ReturnObject<Boolean> UpdateArtifactModuleLink()
         {
             Boolean status = true;
-
             Data artifactData = Data as Data;
 
             base.CreateCommand("[Lodge].[UpdateReservationFormForArtifact]");
             base.AddInParameter("@ReservationId", DbType.Int64, artifactData.ComponentData.Id);
             base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
-
             Int32 ret = base.ExecuteNonQuery();
             if (ret == -2146232060) status = false;//Foreign key violation
 
-            return new ReturnObject<bool>
-            {
-                Value = status
-            };           
+            return new ReturnObject<Boolean> { Value = status };
         }
 
     }
