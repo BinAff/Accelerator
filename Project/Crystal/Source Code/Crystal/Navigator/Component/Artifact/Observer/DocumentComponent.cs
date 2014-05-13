@@ -10,24 +10,24 @@ namespace Crystal.Navigator.Component.Artifact.Observer
     public abstract class DocumentComponent : ObserverSubjectCrud, ISubject
     {
 
-        private List<Artifact.Server> observers;
+        public List<Artifact.Server> Observers { get; private set; }
 
         public DocumentComponent(BinAff.Core.Data data)
             : base(data)
         {
-            this.observers = new List<Artifact.Server>();
+            this.Observers = new List<Artifact.Server>();
         }
 
         #region ISubject
 
         void ISubject.RegisterObserver(Artifact.Server artf)
         {
-            this.observers.Add(artf);
+            this.Observers.Add(artf);
         }
 
         void ISubject.RemoveObserver(Artifact.Server artf)
         {
-            this.observers.Remove(artf);
+            this.Observers.Remove(artf);
         }
 
         ReturnObject<Boolean> ISubject.NotifyObserverForCreate()
@@ -49,7 +49,7 @@ namespace Crystal.Navigator.Component.Artifact.Observer
                 Value = true,
                 MessageList = new List<Message>()
             };
-            foreach (Artifact.Server o in this.observers)
+            foreach (Artifact.Server o in this.Observers)
             {
                 IObserver observer = o;
                 (o.Data as Artifact.Data).ComponentData = this.Data;
@@ -66,7 +66,7 @@ namespace Crystal.Navigator.Component.Artifact.Observer
                 Value = true,
                 MessageList = new List<Message>()
             };
-            foreach (Artifact.Server o in this.observers)
+            foreach (Artifact.Server o in this.Observers)
             {
                 IObserver observer = o;
                 base.ManipulateReturnObject(notification, observer.UpdateAfterComponentUpdate(this.Data as Data));

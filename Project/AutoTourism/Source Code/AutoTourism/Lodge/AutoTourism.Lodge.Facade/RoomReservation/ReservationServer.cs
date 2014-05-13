@@ -7,6 +7,7 @@ using LodgeCrys = Crystal.Lodge.Component;
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
 using CustCrys = Crystal.Customer.Component;
 using RoomRsvCrys = Crystal.Lodge.Component.Room.Reservation;
+using RoomRsvArtf = Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact;
 
 using LodgeConfigFac = AutoTourism.Lodge.Configuration.Facade;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
@@ -34,7 +35,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             formDto.TypeList = new LodgeConfigFac.Room.Server(null).ReadAllType().Value;
 
             if (formDto.Dto != null && formDto.Dto.Id > 0)
+            {
                 formDto.Dto.Customer = this.GetCustomerDtoForReservation(formDto.Dto.Id);
+            }
             //{                
             //    //CustAuto.ICustomer autoCustomer = new CustAuto.Server(null);
             //    //formDto.Dto.Customer = ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(formDto.Dto.Id));
@@ -122,10 +125,32 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         private void Save()
         {
-            Dto dto = (this.FormDto as FormDto).Dto;
+            using (System.Transactions.TransactionScope T = new System.Transactions.TransactionScope())
+            {
+                CustAuto.Server custServer = new CustAuto.Server(this.ConvertCustomer());
+                ReturnObject<Boolean> ret = (custServer as ICrud).Save();
+                CustAuto.Data customer = (custServer as BinAff.Core.Crud).Data as CustAuto.Data;
+                if (customer.RoomReserver.Active != null)
+                {
+                    (this.FormDto as FormDto).Dto.Id = customer.RoomReserver.Active.Id;
+                }
 
-            AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data() 
-            { 
+                //Call observer...
+                //This is work around because for this form artifact is different than component server.
+                //Here customer component has to call bu need to update room reservation artifact
+                (this.componentServer as BinAff.Core.Crud).Data.Id = (this.FormDto as FormDto).Dto.Id; 
+                (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForCreate();                
+
+                this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+                T.Complete();
+            }
+        }
+
+        private CustAuto.Data ConvertCustomer()
+        {
+            Dto dto = (this.FormDto as FormDto).Dto;
+            AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data()
+            {
                 Id = dto.Customer.Id,
                 FirstName = dto.Customer.FirstName,
                 MiddleName = dto.Customer.MiddleName,
@@ -157,17 +182,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             autoCustomer.RoomReserver.Active = this.Convert(dto) as CustCrys.Action.Data;
             autoCustomer.RoomReserver.Active.ProductList = dto.RoomList == null ? null : this.GetRoomDataList(dto.RoomList);
 
-            //This was mistake. never instanciate component server, observer will not be there.
-            //ICrud crud = new AutoTourism.Component.Customer.Server(autoCustomer);
-            //ReturnObject<Boolean> ret = crud.Save();
-            ReturnObject<Boolean> ret = base.componentServer.Save();
-
-            if (autoCustomer.RoomReserver.Active != null)
-            {
-                (this.FormDto as FormDto).Dto.Id = autoCustomer.RoomReserver.Active.Id;
-            }
-
-            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);           
+            return autoCustomer;
         }
 
         public List<CustCrys.ContactNumber.Data> ConvertToContactNumberData(List<Table> contactNumberList)
