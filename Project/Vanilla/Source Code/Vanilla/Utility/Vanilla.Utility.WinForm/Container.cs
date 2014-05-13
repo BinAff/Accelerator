@@ -57,7 +57,7 @@ namespace Vanilla.Utility.WinForm
                 {
                     this.mdiChildrenCount++;
                     currentForm.FormClosed += currentForm_FormClosed;                    
-                    this.ManageRecentFile(currentForm.DocumentPath, currentForm.ArtifactComponentTypeName);
+                    this.ManageRecentFile(currentForm.DocumentPath, currentForm.ComponentCode);
                 }
                 this.tlsVersion.Text = currentForm.Version;
                 this.tlsCreatedBy.Text = currentForm.CreatedBy;
@@ -280,9 +280,9 @@ namespace Vanilla.Utility.WinForm
             
         }
 
-        private void ManageRecentFile(String documentPath, String artifactComponentType)
+        private void ManageRecentFile(String documentPath, String componentCode)
         {
-            List<ContFac.Server.XmlBucket> recentItemList = this.facade.SaveRecentFile(documentPath, artifactComponentType, Application.StartupPath + @"\Files\Recent.xml");
+            List<ContFac.Server.XmlBucket> recentItemList = this.facade.SaveRecentFile(documentPath, componentCode, Application.StartupPath + @"\Files\Recent.xml");
             this.AttachRecentDocuments(recentItemList);
         }
 

@@ -275,6 +275,7 @@ namespace Vanilla.Utility.Facade.Artifact
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
             if (!this.IsError)
             {
+                (data as CrysArtf.Data).Category = (CrysArtf.Category)category;
                 (data as CrysArtf.Data).ComponentDefinition = new Crystal.License.Component.Data
                 {
                     Code = code,
