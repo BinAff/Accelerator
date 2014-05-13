@@ -106,7 +106,7 @@ namespace AutoTourism.Lodge.WinForm
             //    new Vanilla.Utility.Facade.Module.Server(this.formDto.ModuleFormDto).LoadForm();
             //}
 
-            LoadForm();
+            //LoadForm();
         }  
 
         private void btnPickCustomer_Click(object sender, System.EventArgs e)
