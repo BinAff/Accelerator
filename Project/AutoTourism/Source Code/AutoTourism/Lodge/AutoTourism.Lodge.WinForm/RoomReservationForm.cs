@@ -557,8 +557,10 @@ namespace AutoTourism.Lodge.WinForm
             dto.NoOfPersons = Convert.ToInt16(txtPersons.Text);
             dto.NoOfRooms = Convert.ToInt16(txtRooms.Text);
             dto.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));
-            dto.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<ConfigFacade.Room.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
-            dto.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<ConfigFacade.Room.Type.Dto>)[this.cboType.SelectedIndex].Id };
+            //dto.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<ConfigFacade.Room.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
+            dto.RoomCategory = this.cboCategory.SelectedItem == null ? null : new Table { Id = (this.cboCategory.SelectedItem as ConfigFacade.Room.Category.Dto).Id };
+            //dto.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<ConfigFacade.Room.Type.Dto>)[this.cboType.SelectedIndex].Id };
+            dto.RoomType = this.cboType.SelectedItem == null ? null : new Table { Id = (this.cboType.SelectedItem as ConfigFacade.Room.Type.Dto).Id };
             dto.ACPreference = this.cboAC.SelectedIndex;
             dto.BookingStatusId = Convert.ToInt64(Status.Open);
             //dto.Customer = new CustomerFacade.Dto
