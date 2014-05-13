@@ -9,7 +9,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
     public class FormDto : Vanilla.Form.Facade.Document.FormDto
     {
 
-        public Dto Dto { get; set; }
         public RuleFacade.ConfigurationRuleDto configurationRuleDto { get; set; }        
         public List<LodgeConfigurationFacade.Room.Dto> roomList { get; set; }
         public List<LodgeConfigurationFacade.Room.Category.Dto> CategoryList { get; set; }
