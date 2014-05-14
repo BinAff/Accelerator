@@ -107,7 +107,7 @@ namespace Vanilla.Utility.Facade.Artifact
             tree.Id = artifactDto.Id;
             tree.FileName =  artifactDto.FileName;
             tree.Extension = artifactDto.Extension;
-            tree.Path = artifactDto.Path;
+            tree.Path = artifactDto.Path;   
             tree.Category = (CrysArtf.Category)artifactDto.Category;
             tree.Style = (artifactDto.Style == Type.Folder) ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
             tree.CreatedBy = new Crystal.Guardian.Component.Account.Data
@@ -123,6 +123,7 @@ namespace Vanilla.Utility.Facade.Artifact
                 };
                 tree.ModifiedAt = artifactDto.ModifiedAt;
             }
+            tree.ParentId = artifactDto.Parent.Id;
             return tree;
         }
 
