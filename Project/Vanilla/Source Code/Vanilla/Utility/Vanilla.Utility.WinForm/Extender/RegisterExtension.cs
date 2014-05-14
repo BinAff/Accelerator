@@ -595,10 +595,16 @@ namespace Vanilla.Utility.WinForm.Extender
         {
             node.SubItems["Type"].Text = artifact.Style.ToString();
             node.SubItems["Version"].Text = artifact.Version.ToString();
-            node.SubItems["Created By"].Text = artifact.CreatedBy.Name;
-            node.SubItems["Created At"].Text = artifact.CreatedAt.ToString();
-            node.SubItems["Modified By"].Text = artifact.ModifiedBy.Name;
-            node.SubItems["Modified At"].Text = artifact.ModifiedAt.ToString();
+            if (artifact.CreatedBy != null)
+            {
+                node.SubItems["Created By"].Text = artifact.CreatedBy.Name;
+                node.SubItems["Created At"].Text = artifact.CreatedAt.ToString();
+            }
+            if (artifact.ModifiedBy != null)
+            {
+                node.SubItems["Modified By"].Text = artifact.ModifiedBy.Name;
+                node.SubItems["Modified At"].Text = artifact.ModifiedAt.ToString();
+            }
         }
 
     }
