@@ -56,7 +56,7 @@ namespace Vanilla.Utility.WinForm
                 if (this.MdiChildren.Length != this.mdiChildrenCount)
                 {
                     this.mdiChildrenCount++;
-                    currentForm.FormClosed += currentForm_FormClosed;                    
+                    currentForm.FormClosed += currentForm_FormClosed;
                     this.ManageRecentFile(currentForm.DocumentPath, currentForm.ComponentCode);
                 }
                 this.tlsVersion.Text = currentForm.Version;

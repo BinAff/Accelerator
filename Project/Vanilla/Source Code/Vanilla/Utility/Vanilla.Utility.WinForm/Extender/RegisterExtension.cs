@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using PresLib = BinAff.Presentation.Library;
-using FacadeArtifact = Vanilla.Utility.Facade.Artifact;
+
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using ModFac = Vanilla.Utility.Facade.Module;
 
 namespace Vanilla.Utility.WinForm.Extender
 {
@@ -180,8 +182,8 @@ namespace Vanilla.Utility.WinForm.Extender
             else
                 childNodeArtifact = childNodeClone.Tag as Facade.Artifact.Dto;
 
-            Facade.Artifact.Dto childNodeArtifactClone = new FacadeArtifact.Server(null).CloneArtifact(childNodeArtifact);
-            new FacadeArtifact.Server(null).UpdateArtifactPath(pathOfParent, childNodeArtifactClone, pathSeperator);          
+            Facade.Artifact.Dto childNodeArtifactClone = new ArtfFac.Server(null).CloneArtifact(childNodeArtifact);
+            new ArtfFac.Server(null).UpdateArtifactPath(pathOfParent, childNodeArtifactClone, pathSeperator);          
 
             if (parentNodeArtifact.Children == null)
                 parentNodeArtifact.Children = new List<Facade.Artifact.Dto>();
@@ -219,7 +221,7 @@ namespace Vanilla.Utility.WinForm.Extender
 
         public static void AddArtifact(this TreeView treeView, TreeNode node, Facade.Artifact.Dto artifact, String pathSeperator, String moduleSeparator)
         {
-            Facade.Artifact.Dto artifactClone = new FacadeArtifact.Server(null).CloneArtifact(artifact);
+            Facade.Artifact.Dto artifactClone = new ArtfFac.Server(null).CloneArtifact(artifact);
             String pathOfParent = String.Empty;
 
             //remove artifact from parent
@@ -251,7 +253,7 @@ namespace Vanilla.Utility.WinForm.Extender
                 pathOfParent += nodeArtifact.Path;
             }
 
-            new FacadeArtifact.Server(null).UpdateArtifactPath(pathOfParent, artifactClone, pathSeperator);
+            new ArtfFac.Server(null).UpdateArtifactPath(pathOfParent, artifactClone, pathSeperator);
             artifactClone.Parent = nodeArtifact;
 
             if (nodeArtifact.Children == null)
@@ -265,7 +267,7 @@ namespace Vanilla.Utility.WinForm.Extender
         private static void UpdateTagArtifact(String pathOfParent, TreeNode node, String pathSeperator)
         {
             Facade.Artifact.Dto nodeArtifact = node.Tag as Facade.Artifact.Dto;
-            new FacadeArtifact.Server(null).UpdateArtifactPath(pathOfParent, nodeArtifact, pathSeperator);            
+            new ArtfFac.Server(null).UpdateArtifactPath(pathOfParent, nodeArtifact, pathSeperator);            
 
             //update the tag object
             foreach (TreeNode tNode in node.Nodes)
@@ -431,30 +433,36 @@ namespace Vanilla.Utility.WinForm.Extender
             {   
                 new ListViewItem.ListViewSubItem(node, "Type")
                 {
+                    Name = "Type",
                     Text = artifact.Style.ToString(),
                 },
                 new ListViewItem.ListViewSubItem(node, "Version")
                 {
+                    Name = "Version",
                     Text = artifact.Version.ToString(),
                 },
                 new ListViewItem.ListViewSubItem(node, "Created By")
                 {
+                    Name = "Created By",
                     Text = artifact.CreatedBy == null ? String.Empty : (artifact.CreatedBy as BinAff.Core.Table).Name,
                 },
                 new ListViewItem.ListViewSubItem(node, "Created At")
                 {
+                    Name = "Created At",
                     Text = artifact.CreatedAt.ToString(),
                 },
                 new ListViewItem.ListViewSubItem(node, "Modified By")
                 {
+                    Name = "Modified By",
                     Text = artifact.ModifiedBy == null ? String.Empty : (artifact.ModifiedBy as BinAff.Core.Table).Name,
                 },
                 new ListViewItem.ListViewSubItem(node, "Modified At")
                 {
+                    Name = "Modified At",
                     Text = artifact.ModifiedAt == DateTime.MinValue? String.Empty : artifact.ModifiedAt.ToString(),
                 },
             };
-        }
+        }       
 
         public static void Sort(this ListView listView, String columnHeaderCaption, PresLib.ListViewColumnSorter columnSorter, Boolean isDocumentFirst)
         {
@@ -563,6 +571,34 @@ namespace Vanilla.Utility.WinForm.Extender
                 listView.Columns[i].ImageIndex = -1;
                 listView.Columns[i].TextAlign = HorizontalAlignment.Left;
             }
+        }
+
+        public static ListViewItem FindNode(this ListView listView, Facade.Artifact.Dto artifact)
+        {
+            ListViewItem ret = null;
+            foreach (ListViewItem item in listView.Items)
+            {
+                if ((item.Tag as Facade.Artifact.Dto).Id == artifact.Id)
+                {
+                    return item;
+                }
+            }
+            return ret;
+        }
+
+    }
+
+    public static class ListViewItemExtender
+    {
+
+        public static void ChangeListViewSubItems(this ListViewItem node, Facade.Artifact.Dto artifact)
+        {
+            node.SubItems["Type"].Text = artifact.Style.ToString();
+            node.SubItems["Version"].Text = artifact.Version.ToString();
+            node.SubItems["Created By"].Text = artifact.CreatedBy.Name;
+            node.SubItems["Created At"].Text = artifact.CreatedAt.ToString();
+            node.SubItems["Modified By"].Text = artifact.ModifiedBy.Name;
+            node.SubItems["Modified At"].Text = artifact.ModifiedAt.ToString();
         }
 
     }

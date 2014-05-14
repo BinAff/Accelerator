@@ -10,6 +10,21 @@ namespace Vanilla.Utility.WinForm
         protected Facade.Document.FormDto formDto;
         protected Facade.Document.Server facade;
 
+        public delegate void OnAuditInfoChanged(Document document);
+        public event OnAuditInfoChanged AuditInfoChanged;
+
+        public Facade.Artifact.Dto Artifact
+        {
+            get
+            {
+                if (this.formDto != null)
+                {
+                    return this.formDto.Document;
+                }
+                return null;
+            }
+        }
+
         public String Version
         {
             get
@@ -92,6 +107,11 @@ namespace Vanilla.Utility.WinForm
         {
             InitializeComponent();
             this.Compose();
+        }
+
+        private void Document_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            this.AuditInfoChanged(this);
         }
 
         protected virtual void Compose()

@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using FacLib = BinAff.Facade.Library;
+
+using ModDefFac = Vanilla.Utility.Facade.Module.Definition;
+
 namespace Vanilla.Utility.Facade.Artifact
 {
 
-    public class Dto : BinAff.Facade.Library.Dto
+    public class Dto : BinAff.Facade.Library.Dto, ICloneable
     {
 
         private String fileName;
@@ -210,11 +214,11 @@ namespace Vanilla.Utility.Facade.Artifact
             }
         }
 
-        private BinAff.Facade.Library.Dto module;
+        private FacLib.Dto module;
         /// <summary>
         /// Attached module data
         /// </summary>
-        public BinAff.Facade.Library.Dto Module
+        public FacLib.Dto Module
         {
             get
             {
@@ -229,11 +233,11 @@ namespace Vanilla.Utility.Facade.Artifact
             }
         }
 
-        private Vanilla.Utility.Facade.Module.Definition.Dto componentDef;
+        private ModDefFac.Dto componentDef;
         /// <summary>
         /// Attached module data
         /// </summary>
-        public Vanilla.Utility.Facade.Module.Definition.Dto ComponentDefinition
+        public ModDefFac.Dto ComponentDefinition
         {
             get
             {
@@ -248,8 +252,8 @@ namespace Vanilla.Utility.Facade.Artifact
             }
         }
 
-        private BinAff.Facade.Library.Dto parent;
-        public BinAff.Facade.Library.Dto Parent
+        private FacLib.Dto parent;
+        public FacLib.Dto Parent
         {
             get
             {
@@ -262,6 +266,25 @@ namespace Vanilla.Utility.Facade.Artifact
                     this.parent = value;
                 }
             }
+        }
+
+        public object Clone()
+        {
+            Dto artf = this.MemberwiseClone() as Dto;
+            artf.CreatedBy = this.CreatedBy.Clone() as BinAff.Core.Table;
+            artf.ModifiedBy = this.ModifiedBy.Clone() as BinAff.Core.Table;
+            if (this.Children != null && this.Children.Count > 0)
+            {
+                artf.Children = new List<Dto>();
+                foreach (Dto dto in this.Children)
+                {
+                    artf.Children.Add(dto.Clone() as Dto);
+                }
+            }
+            artf.Module = this.Module.Clone() as FacLib.Dto;
+            artf.ComponentDefinition = this.ComponentDefinition.Clone() as ModDefFac.Dto;
+            artf.Parent = this.Parent.Clone() as FacLib.Dto;
+            return artf;
         }
 
     }

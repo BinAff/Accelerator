@@ -162,8 +162,13 @@ namespace Crystal.Navigator.Component.Artifact
         }
 
         BinAff.Core.ReturnObject<Boolean> Observer.IObserver.UpdateAfterComponentUpdate(Data subject)
-        {            
-            return this.Update();
+        {
+            BinAff.Core.ReturnObject<Boolean> ret = this.Update();
+            if (!ret.HasError())
+            {
+                this.Read();
+            }
+            return ret;
         }
 
     }

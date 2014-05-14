@@ -32,7 +32,7 @@ namespace Vanilla.Guardian.Facade.Profile
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
             CrysProfile.Data profileData = data as CrysProfile.Data;
-            Dto profileDto = (this.FormDto as FormDto).Dto as Dto;
+            Dto profileDto = this.FormDto == null || (this.FormDto as FormDto).Dto == null ? new Dto() : (this.FormDto as FormDto).Dto as Dto;
             if (profileData != null)
             {
                 profileDto.Id = profileData.Id;
@@ -42,11 +42,13 @@ namespace Vanilla.Guardian.Facade.Profile
                 profileDto.DateOfBirth = profileData.DateOfBirth;
                 if (profileData.Initial != null)
                 {
+                    if (profileDto.Initial == null) profileDto.Initial = new Table();
                     profileDto.Initial.Id = profileData.Initial.Id;
                     profileDto.Initial.Name = profileData.Initial.Name;
                 }
                 if (profileData.ContactNumberList != null && profileData.ContactNumberList.Count > 0)
                 {
+                    if (profileDto.ContactNumberList == null) profileDto.ContactNumberList = new List<Table>();
                     foreach (CrysProfile.ContactNumber.Data contactNumber in profileData.ContactNumberList)
                     {
                         profileDto.ContactNumberList.Add(new Table
