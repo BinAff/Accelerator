@@ -10,6 +10,7 @@ using PresLib = BinAff.Presentation.Library;
 using Vanilla.Utility.WinForm.Extender;
 using UtilFac = Vanilla.Utility.Facade;
 using UtilWin = Vanilla.Utility.WinForm;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
 
 namespace Vanilla.Utility.WinForm
 {
@@ -1986,6 +1987,41 @@ namespace Vanilla.Utility.WinForm
                             break;
                         }
                     }
+                }
+            }
+        }
+
+        public void ChangeForFormChange(Document document)
+        {
+            TreeNode affectedParentFolder = this.trvForm.FindNode(this.GetParent(document.Artifact));
+            this.UpdateForDocumentChange(affectedParentFolder, document);
+        }
+
+        public void ChangeForReportChange(Document document)
+        {
+            TreeNode affectedParentFolder = this.trvReport.FindNode(this.GetParent(document.Artifact));
+            this.UpdateForDocumentChange(affectedParentFolder, document);
+        }
+
+        private void UpdateForDocumentChange(TreeNode affectedParentFolder, Document document)
+        {
+            ArtfFac.Dto affectedArtifact = GetArtifact(affectedParentFolder.Tag).Children.FindLast((p) => 
+            { 
+                return p.Id == document.Artifact.Id; 
+            });
+            affectedArtifact.Version = document.Artifact.Version;
+            affectedArtifact.CreatedAt = document.Artifact.CreatedAt;
+            affectedArtifact.CreatedBy = document.Artifact.CreatedBy;
+            affectedArtifact.ModifiedAt = document.Artifact.ModifiedAt;
+            affectedArtifact.ModifiedBy = document.Artifact.ModifiedBy;
+
+            if (this.trvForm.SelectedNode == affectedParentFolder)
+            {
+                ListViewItem affectedNode = this.lsvContainer.FindNode(document.Artifact);
+                affectedNode.ChangeListViewSubItems(document.Artifact);
+                if (this.lsvContainer.SelectedItems[0] == affectedNode)
+                {
+                    this.ShowAuditInfo(document.Artifact);
                 }
             }
         }

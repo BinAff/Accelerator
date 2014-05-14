@@ -82,7 +82,7 @@ namespace Vanilla.Guardian.Facade.Account
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
             CrysAcc.Data accData = data as CrysAcc.Data;
-            Dto accDto = (this.FormDto as FormDto).Dto as Dto;
+            Dto accDto = this.FormDto == null || (this.FormDto as FormDto).Dto == null ? new Dto() : (this.FormDto as FormDto).Dto as Dto;
             accDto.Id = accData.Id;
             accDto.LoginId = accData.LoginId;
             accDto.Password = accData.Password;

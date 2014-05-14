@@ -3,7 +3,7 @@
 namespace BinAff.Facade.Library
 {
 
-    public class Dto
+    public class Dto : ICloneable
     {
 
         /// <summary>
@@ -27,6 +27,11 @@ namespace BinAff.Facade.Library
             Update,
             Delete,
             Read
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
 
     }

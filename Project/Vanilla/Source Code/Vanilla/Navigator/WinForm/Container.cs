@@ -155,10 +155,17 @@ namespace Vanilla.Navigator.WinForm
                 this.LogOut();
                 return;
             }
-            new RptWin.Document(currentArtifact)
+            RptWin.Document report = new RptWin.Document(currentArtifact)
             {
                 MdiParent = this.reportExecutable
-            }.Show();
+            };
+            report.AuditInfoChanged += report_AuditInfoChanged;
+            report.Show();
+        }
+
+        private void report_AuditInfoChanged(Utility.WinForm.Document document)
+        {
+            this.ucRegister.ChangeForReportChange(document);
         }
 
         private void ucRegister_ReportCategoryGet(UtilFac.Artifact.Dto currentArtifact, string categoryName)
@@ -188,7 +195,13 @@ namespace Vanilla.Navigator.WinForm
             currentArtifact.Module.artifactPath = currentArtifact.Path;
             FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);
             form.MdiParent = this.formExecutable;
+            form.AuditInfoChanged += form_AuditInfoChanged;
             form.Show();
+        }
+
+        private void form_AuditInfoChanged(Utility.WinForm.Document document)
+        {
+            this.ucRegister.ChangeForFormChange(document);
         }
 
         private void formExecutable_FormClosed(object sender, FormClosedEventArgs e)
