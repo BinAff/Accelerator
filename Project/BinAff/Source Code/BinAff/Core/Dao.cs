@@ -171,6 +171,7 @@ namespace BinAff.Core
         /// <returns>Active connection</returns>
         protected DbConnection CreateConnection(String connStr)
         {
+            connStr = "Data Source=(local);Initial Catalog=AutoTourism;Integrated Security=True";
             this.conn = new SqlConnection(connStr);
             if (this.conn.State != ConnectionState.Open) this.conn.Open();
 

@@ -52,6 +52,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         public Customer.Facade.Dto ConvertToCustomerDto(Crystal.Customer.Component.Data customerData)
         {
+            if (customerData == null)
+                return null;
+
             BinAff.Facade.Library.Dto dto = new AutoTourism.Customer.Facade.Server(null).Convert(customerData);
             return dto as Customer.Facade.Dto;
         }

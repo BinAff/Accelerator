@@ -48,7 +48,8 @@ namespace AutoTourism.Component.Customer
 
         Crystal.Customer.Component.Data ICustomer.GetCustomerForReservation(long reservationId)
         {
-            return this.ReadCustomerForReservation(reservationId);
+            Crystal.Customer.Component.Data data = this.ReadCustomerForReservation(reservationId);
+            return this.ReadCustomerForReservation(reservationId);           
         }
 
         private Customer.Data ReadCustomerForReservation(Int64 reservationId)

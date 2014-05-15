@@ -5,7 +5,7 @@ using LodgeFacade = AutoTourism.Lodge.Facade;
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
 
-    public class Dto : BinAff.Facade.Library.Dto
+    public class Dto : Vanilla.Form.Facade.Document.Dto
     {
 
         public DateTime Date { get; set; }
