@@ -690,13 +690,16 @@ namespace AutoTourism.Customer.WinForm
             {
                 Module = this.formDto.Dto,
                 Style = Vanilla.Utility.Facade.Artifact.Type.Document,
-                Version = 1,
-                CreatedBy = new Table
+                AuditInfo = new UtilFac.Artifact.Audit.Dto
                 {
-                    Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                    Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
+                    Version = 1,
+                    CreatedBy = new Table
+                    {
+                        Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
+                        Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
+                    },
+                    CreatedAt = DateTime.Now,
                 },
-                CreatedAt = DateTime.Now,
                 Category = Vanilla.Utility.Facade.Artifact.Category.Form,
                 Path = this.formDto.Document.Path
             };

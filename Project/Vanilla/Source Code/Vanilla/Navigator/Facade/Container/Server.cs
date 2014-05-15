@@ -108,9 +108,9 @@ namespace Vanilla.Navigator.Facade.Container
         {
             foreach (VanArtf.Dto artf in artifactDto.Children)
             {
-                artf.Version = artf.Version + 1;
-                artf.ModifiedAt = artifactDto.ModifiedAt;
-                artf.ModifiedBy = artifactDto.ModifiedBy;
+                artf.AuditInfo.Version++;
+                artf.AuditInfo.ModifiedAt = artifactDto.AuditInfo.ModifiedAt;
+                artf.AuditInfo.ModifiedBy = artifactDto.AuditInfo.ModifiedBy;
                 artf.Path = artifactDto.Path + artf.FileName + "\\";
 
                 VanArtf.Dto childArtifactDto = this.GetArtifactDtoByValue(artf);
@@ -138,8 +138,8 @@ namespace Vanilla.Navigator.Facade.Container
                 if (artf.Style == VanArtf.Type.Folder)
                 {
                     VanArtf.Dto childArtifactDto = this.GetArtifactDtoByValueForCopy(artf);
-                    childArtifactDto.CreatedAt = artifactDto.CreatedAt;
-                    childArtifactDto.CreatedBy = artifactDto.CreatedBy;
+                    childArtifactDto.AuditInfo.CreatedAt = artifactDto.AuditInfo.CreatedAt;
+                    childArtifactDto.AuditInfo.CreatedBy = artifactDto.AuditInfo.CreatedBy;
                     childArtifactDto.Parent = new BinAff.Facade.Library.Dto { Id = artifactDto.Id };
                     childArtifactDto.Path = artifactDto.Path + childArtifactDto.FileName + "\\";
 
@@ -150,8 +150,8 @@ namespace Vanilla.Navigator.Facade.Container
                     this.Add();
 
                     artf.Id = childArtifactDto.Id;
-                    artf.CreatedAt = childArtifactDto.CreatedAt;
-                    artf.CreatedBy = childArtifactDto.CreatedBy;
+                    artf.AuditInfo.CreatedAt = childArtifactDto.AuditInfo.CreatedAt;
+                    artf.AuditInfo.CreatedBy = childArtifactDto.AuditInfo.CreatedBy;
                     artf.Path = childArtifactDto.Path;
 
                     actualArtifactDto.Id = childArtifactDto.Id;
@@ -233,11 +233,14 @@ namespace Vanilla.Navigator.Facade.Container
                 Path = data.Path,
                 Style = data.Style,
                 Category = data.Category,
-                Version = data.Version,
-                CreatedBy = data.CreatedBy,
-                ModifiedBy = data.ModifiedBy,
-                CreatedAt = data.CreatedAt,
-                ModifiedAt = data.ModifiedAt,
+                AuditInfo = new VanArtf.Audit.Dto
+                {
+                    Version = data.AuditInfo.Version,
+                    CreatedBy = data.AuditInfo.CreatedBy,
+                    ModifiedBy = data.AuditInfo.ModifiedBy,
+                    CreatedAt = data.AuditInfo.CreatedAt,
+                    ModifiedAt = data.AuditInfo.ModifiedAt,
+                },
                 Children = data.Children == null ? null : this.GetChildren(data.Children),
                 Module = data.Module == null ? null : new BinAff.Facade.Library.Dto
                 {
@@ -259,7 +262,7 @@ namespace Vanilla.Navigator.Facade.Container
                 FileName = data.FileName,
                 Style = data.Style,
                 Category = data.Category,
-                Version = 1,
+                AuditInfo = new VanArtf.Audit.Dto { Version = 1 },
                 Children = data.Children == null ? null : this.GetChildren(data.Children),
                 Module = data.Module == null ? null : new BinAff.Facade.Library.Dto
                 {

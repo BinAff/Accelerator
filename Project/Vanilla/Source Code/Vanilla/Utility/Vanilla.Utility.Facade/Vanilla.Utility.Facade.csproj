@@ -36,6 +36,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Artifact\Audit\Dto.cs" />
     <Compile Include="Artifact\Category.cs" />
     <Compile Include="Artifact\Dto.cs" />
     <Compile Include="Artifact\FormDto.cs" />

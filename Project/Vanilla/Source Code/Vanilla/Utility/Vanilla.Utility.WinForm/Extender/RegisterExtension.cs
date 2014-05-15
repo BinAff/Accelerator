@@ -439,27 +439,27 @@ namespace Vanilla.Utility.WinForm.Extender
                 new ListViewItem.ListViewSubItem(node, "Version")
                 {
                     Name = "Version",
-                    Text = artifact.Version.ToString(),
+                    Text = artifact.AuditInfo.Version.ToString(),
                 },
                 new ListViewItem.ListViewSubItem(node, "Created By")
                 {
                     Name = "Created By",
-                    Text = artifact.CreatedBy == null ? String.Empty : (artifact.CreatedBy as BinAff.Core.Table).Name,
+                    Text = artifact.AuditInfo.CreatedBy == null ? String.Empty : (artifact.AuditInfo.CreatedBy as BinAff.Core.Table).Name,
                 },
                 new ListViewItem.ListViewSubItem(node, "Created At")
                 {
                     Name = "Created At",
-                    Text = artifact.CreatedAt.ToString(),
+                    Text = artifact.AuditInfo.CreatedAt.ToString(),
                 },
                 new ListViewItem.ListViewSubItem(node, "Modified By")
                 {
                     Name = "Modified By",
-                    Text = artifact.ModifiedBy == null ? String.Empty : (artifact.ModifiedBy as BinAff.Core.Table).Name,
+                    Text = artifact.AuditInfo.ModifiedBy == null ? String.Empty : (artifact.AuditInfo.ModifiedBy as BinAff.Core.Table).Name,
                 },
                 new ListViewItem.ListViewSubItem(node, "Modified At")
                 {
                     Name = "Modified At",
-                    Text = artifact.ModifiedAt == DateTime.MinValue? String.Empty : artifact.ModifiedAt.ToString(),
+                    Text = artifact.AuditInfo.ModifiedAt == DateTime.MinValue? String.Empty : artifact.AuditInfo.ModifiedAt.ToString(),
                 },
             };
         }       
@@ -594,16 +594,16 @@ namespace Vanilla.Utility.WinForm.Extender
         public static void ChangeListViewSubItems(this ListViewItem node, Facade.Artifact.Dto artifact)
         {
             node.SubItems["Type"].Text = artifact.Style.ToString();
-            node.SubItems["Version"].Text = artifact.Version.ToString();
-            if (artifact.CreatedBy != null)
+            node.SubItems["Version"].Text = artifact.AuditInfo.Version.ToString();
+            if (artifact.AuditInfo.CreatedBy != null)
             {
-                node.SubItems["Created By"].Text = artifact.CreatedBy.Name;
-                node.SubItems["Created At"].Text = artifact.CreatedAt.ToString();
+                node.SubItems["Created By"].Text = artifact.AuditInfo.CreatedBy.Name;
+                node.SubItems["Created At"].Text = artifact.AuditInfo.CreatedAt.ToString();
             }
-            if (artifact.ModifiedBy != null)
+            if (artifact.AuditInfo.ModifiedBy != null)
             {
-                node.SubItems["Modified By"].Text = artifact.ModifiedBy.Name;
-                node.SubItems["Modified At"].Text = artifact.ModifiedAt.ToString();
+                node.SubItems["Modified By"].Text = artifact.AuditInfo.ModifiedBy.Name;
+                node.SubItems["Modified At"].Text = artifact.AuditInfo.ModifiedAt.ToString();
             }
         }
 

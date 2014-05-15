@@ -74,21 +74,21 @@ namespace Vanilla.Form.WinForm
 
             if (base.formDto.Dto.Id == 0)
             {
-                base.formDto.Document.CreatedBy = new Table
+                base.formDto.Document.AuditInfo.CreatedBy = new Table
                 {
                     Id = (Server.Current.Cache["User"] as AccFac.Dto).Id,
                     Name = (Server.Current.Cache["User"] as AccFac.Dto).Profile.Name
                 };
-                base.formDto.Document.CreatedAt = DateTime.Now;
+                base.formDto.Document.AuditInfo.CreatedAt = DateTime.Now;
             }
             else
             {
-                base.formDto.Document.ModifiedBy = new Table
+                base.formDto.Document.AuditInfo.ModifiedBy = new Table
                 {
                     Id = (Server.Current.Cache["User"] as AccFac.Dto).Id,
                     Name = (Server.Current.Cache["User"] as AccFac.Dto).Profile.Name
                 };
-                base.formDto.Document.ModifiedAt = DateTime.Now;
+                base.formDto.Document.AuditInfo.ModifiedAt = DateTime.Now;
             }
             this.RegisterArtifactObserver();
             if (base.formDto.Dto.Id == 0)

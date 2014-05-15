@@ -31,7 +31,7 @@ namespace Vanilla.Utility.WinForm
             {
                 if (this.formDto != null && this.formDto.Document != null)
                 {
-                    return this.formDto.Document.Version.ToString();
+                    return this.formDto.Document.AuditInfo.Version.ToString();
                 }
                 return String.Empty;
             }
@@ -41,9 +41,9 @@ namespace Vanilla.Utility.WinForm
         {
             get
             {
-                if (this.formDto != null && this.formDto.Document != null && this.formDto.Document.CreatedBy != null)
+                if (this.formDto != null && this.formDto.Document != null && this.formDto.Document.AuditInfo.CreatedBy != null)
                 {
-                    return this.formDto.Document.CreatedBy.Name;
+                    return this.formDto.Document.AuditInfo.CreatedBy.Name;
                 }
                 return String.Empty;
             }
@@ -55,7 +55,7 @@ namespace Vanilla.Utility.WinForm
             {
                 if (this.formDto != null && this.formDto.Document != null)
                 {
-                    return this.formDto.Document.CreatedAt.ToString();
+                    return this.formDto.Document.AuditInfo.CreatedAt.ToString();
                 }
                 return String.Empty;
             }
@@ -65,9 +65,9 @@ namespace Vanilla.Utility.WinForm
         {
             get
             {
-                if (this.formDto != null && this.formDto.Document != null && this.formDto.Document.ModifiedBy != null)
+                if (this.formDto != null && this.formDto.Document != null && this.formDto.Document.AuditInfo.ModifiedBy != null)
                 {
-                    return this.formDto.Document.ModifiedBy.Name;
+                    return this.formDto.Document.AuditInfo.ModifiedBy.Name;
                 }
                 return String.Empty;
             }
@@ -79,7 +79,7 @@ namespace Vanilla.Utility.WinForm
             {
                 if (this.formDto != null && this.formDto.Document != null)
                 {
-                    return this.formDto.Document.ModifiedAt.ToString();
+                    return this.formDto.Document.AuditInfo.ModifiedAt.ToString();
                 }
                 return String.Empty;
             }
