@@ -72,7 +72,14 @@ namespace Vanilla.Utility.Facade.Artifact
         {
             get
             {
-                return this.FileName + "." + this.Extension;
+                if (this.Style == Type.Document)
+                {
+                    return this.FileName + "." + this.Extension;
+                }
+                else
+                {
+                    return this.FileName;
+                }
             }
         }
 

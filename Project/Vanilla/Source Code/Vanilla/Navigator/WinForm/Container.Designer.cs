@@ -119,16 +119,27 @@
             this.pnlMenuContainer = new System.Windows.Forms.Panel();
             this.pnlCalender = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblModifiedAt = new System.Windows.Forms.Label();
+            this.lblModification = new System.Windows.Forms.Label();
+            this.lblModifiedBy = new System.Windows.Forms.Label();
+            this.lblCreatedAt = new System.Windows.Forms.Label();
+            this.lblCreation = new System.Windows.Forms.Label();
+            this.lblCreatedBy = new System.Windows.Forms.Label();
+            this.lblVersion = new System.Windows.Forms.Label();
+            this.lblType = new System.Windows.Forms.Label();
+            this.lblFileName = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.btnConnect = new System.Windows.Forms.Button();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.shapeOnlineStatus = new Microsoft.VisualBasic.PowerPacks.OvalShape();
-            this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
             this.ucRegister = new Vanilla.Utility.WinForm.Register();
+            this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.mnuMain.SuspendLayout();
             this.pnlTool.SuspendLayout();
             this.pnlMenuContainer.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // imglIcons
@@ -876,30 +887,124 @@
             // 
             // panel1
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Controls.Add(this.lblModifiedAt);
+            this.panel1.Controls.Add(this.lblModification);
+            this.panel1.Controls.Add(this.lblModifiedBy);
+            this.panel1.Controls.Add(this.lblCreatedAt);
+            this.panel1.Controls.Add(this.lblCreation);
+            this.panel1.Controls.Add(this.lblCreatedBy);
+            this.panel1.Controls.Add(this.lblVersion);
+            this.panel1.Controls.Add(this.lblType);
+            this.panel1.Controls.Add(this.lblFileName);
             this.panel1.Controls.Add(this.progressBar);
             this.panel1.Controls.Add(this.btnConnect);
             this.panel1.Controls.Add(this.shapeContainer1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 363);
+            this.panel1.Location = new System.Drawing.Point(0, 340);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(827, 31);
+            this.panel1.Size = new System.Drawing.Size(827, 54);
             this.panel1.TabIndex = 18;
+            // 
+            // lblModifiedAt
+            // 
+            this.lblModifiedAt.AutoSize = true;
+            this.lblModifiedAt.Location = new System.Drawing.Point(494, 37);
+            this.lblModifiedAt.Name = "lblModifiedAt";
+            this.lblModifiedAt.Size = new System.Drawing.Size(60, 13);
+            this.lblModifiedAt.TabIndex = 12;
+            this.lblModifiedAt.Text = "Modified At";
+            // 
+            // lblModification
+            // 
+            this.lblModification.AutoSize = true;
+            this.lblModification.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblModification.Location = new System.Drawing.Point(418, 19);
+            this.lblModification.Name = "lblModification";
+            this.lblModification.Size = new System.Drawing.Size(76, 13);
+            this.lblModification.TabIndex = 11;
+            this.lblModification.Text = "Modification";
+            // 
+            // lblModifiedBy
+            // 
+            this.lblModifiedBy.AutoSize = true;
+            this.lblModifiedBy.Location = new System.Drawing.Point(494, 19);
+            this.lblModifiedBy.Name = "lblModifiedBy";
+            this.lblModifiedBy.Size = new System.Drawing.Size(62, 13);
+            this.lblModifiedBy.TabIndex = 10;
+            this.lblModifiedBy.Text = "Modified By";
+            // 
+            // lblCreatedAt
+            // 
+            this.lblCreatedAt.AutoSize = true;
+            this.lblCreatedAt.Location = new System.Drawing.Point(263, 37);
+            this.lblCreatedAt.Name = "lblCreatedAt";
+            this.lblCreatedAt.Size = new System.Drawing.Size(57, 13);
+            this.lblCreatedAt.TabIndex = 9;
+            this.lblCreatedAt.Text = "Created At";
+            // 
+            // lblCreation
+            // 
+            this.lblCreation.AutoSize = true;
+            this.lblCreation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCreation.Location = new System.Drawing.Point(209, 19);
+            this.lblCreation.Name = "lblCreation";
+            this.lblCreation.Size = new System.Drawing.Size(54, 13);
+            this.lblCreation.TabIndex = 8;
+            this.lblCreation.Text = "Creation";
+            // 
+            // lblCreatedBy
+            // 
+            this.lblCreatedBy.AutoSize = true;
+            this.lblCreatedBy.Location = new System.Drawing.Point(263, 19);
+            this.lblCreatedBy.Name = "lblCreatedBy";
+            this.lblCreatedBy.Size = new System.Drawing.Size(59, 13);
+            this.lblCreatedBy.TabIndex = 7;
+            this.lblCreatedBy.Text = "Created By";
+            // 
+            // lblVersion
+            // 
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.Location = new System.Drawing.Point(54, 37);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(13, 13);
+            this.lblVersion.TabIndex = 6;
+            this.lblVersion.Text = "0";
+            // 
+            // lblType
+            // 
+            this.lblType.AutoSize = true;
+            this.lblType.Location = new System.Drawing.Point(54, 19);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(56, 13);
+            this.lblType.TabIndex = 5;
+            this.lblType.Text = "Document";
+            // 
+            // lblFileName
+            // 
+            this.lblFileName.AutoSize = true;
+            this.lblFileName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFileName.Location = new System.Drawing.Point(54, 3);
+            this.lblFileName.Name = "lblFileName";
+            this.lblFileName.Size = new System.Drawing.Size(82, 13);
+            this.lblFileName.TabIndex = 4;
+            this.lblFileName.Text = "Artifact name";
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(3, 3);
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar.Location = new System.Drawing.Point(721, 3);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(200, 23);
+            this.progressBar.Size = new System.Drawing.Size(100, 16);
             this.progressBar.TabIndex = 3;
             this.progressBar.Visible = false;
             // 
             // btnConnect
             // 
             this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConnect.Location = new System.Drawing.Point(742, 2);
+            this.btnConnect.Location = new System.Drawing.Point(721, 24);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(55, 23);
+            this.btnConnect.Size = new System.Drawing.Size(75, 23);
             this.btnConnect.TabIndex = 2;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
@@ -913,19 +1018,30 @@
             this.shapeContainer1.Name = "shapeContainer1";
             this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
             this.shapeOnlineStatus});
-            this.shapeContainer1.Size = new System.Drawing.Size(823, 27);
+            this.shapeContainer1.Size = new System.Drawing.Size(827, 54);
             this.shapeContainer1.TabIndex = 1;
             this.shapeContainer1.TabStop = false;
             // 
             // shapeOnlineStatus
             // 
-            this.shapeOnlineStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.shapeOnlineStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.shapeOnlineStatus.BackColor = System.Drawing.Color.Red;
             this.shapeOnlineStatus.BackStyle = Microsoft.VisualBasic.PowerPacks.BackStyle.Opaque;
             this.shapeOnlineStatus.BorderColor = System.Drawing.Color.Red;
-            this.shapeOnlineStatus.Location = new System.Drawing.Point(801, 2);
+            this.shapeOnlineStatus.Location = new System.Drawing.Point(795, 24);
             this.shapeOnlineStatus.Name = "shapeOnlineStatus";
-            this.shapeOnlineStatus.Size = new System.Drawing.Size(19, 20);
+            this.shapeOnlineStatus.Size = new System.Drawing.Size(20, 20);
+            // 
+            // ucRegister
+            // 
+            this.ucRegister.Address = null;
+            this.ucRegister.Category = Vanilla.Utility.Facade.Artifact.Category.Form;
+            this.ucRegister.IsDialogue = false;
+            this.ucRegister.Location = new System.Drawing.Point(393, 92);
+            this.ucRegister.Name = "ucRegister";
+            this.ucRegister.Size = new System.Drawing.Size(13, 12);
+            this.ucRegister.TabIndex = 13;
+            this.ucRegister.Visible = false;
             // 
             // ucConfiguration
             // 
@@ -935,14 +1051,13 @@
             this.ucConfiguration.TabIndex = 12;
             this.ucConfiguration.Visible = false;
             // 
-            // ucRegister
+            // pictureBox1
             // 
-            this.ucRegister.Address = null;
-            this.ucRegister.Location = new System.Drawing.Point(393, 92);
-            this.ucRegister.Name = "ucRegister";
-            this.ucRegister.Size = new System.Drawing.Size(13, 12);
-            this.ucRegister.TabIndex = 13;
-            this.ucRegister.Visible = false;
+            this.pictureBox1.Location = new System.Drawing.Point(2, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(48, 48);
+            this.pictureBox1.TabIndex = 13;
+            this.pictureBox1.TabStop = false;
             // 
             // Container
             // 
@@ -970,6 +1085,8 @@
             this.pnlMenuContainer.ResumeLayout(false);
             this.pnlMenuContainer.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1071,6 +1188,16 @@
         private Microsoft.VisualBasic.PowerPacks.OvalShape shapeOnlineStatus;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.Label lblFileName;
+        private System.Windows.Forms.Label lblType;
+        private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.Label lblCreatedBy;
+        private System.Windows.Forms.Label lblCreation;
+        private System.Windows.Forms.Label lblCreatedAt;
+        private System.Windows.Forms.Label lblModification;
+        private System.Windows.Forms.Label lblModifiedBy;
+        private System.Windows.Forms.Label lblModifiedAt;
+        private System.Windows.Forms.PictureBox pictureBox1;
 
     }
 }

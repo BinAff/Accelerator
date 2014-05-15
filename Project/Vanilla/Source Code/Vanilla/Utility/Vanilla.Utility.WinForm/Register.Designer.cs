@@ -42,16 +42,6 @@
             this.ucSearchResult = new Vanilla.Utility.WinForm.SearchResult();
             this.lsvContainer = new System.Windows.Forms.ListView();
             this.imgLargeIcon = new System.Windows.Forms.ImageList(this.components);
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.lblModification = new System.Windows.Forms.Label();
-            this.lblFileName = new System.Windows.Forms.Label();
-            this.lblCreationDetails = new System.Windows.Forms.Label();
-            this.lblType = new System.Windows.Forms.Label();
-            this.lblVersion = new System.Windows.Forms.Label();
-            this.lblCreatedBy = new System.Windows.Forms.Label();
-            this.lblCreatedAt = new System.Windows.Forms.Label();
-            this.lblModifiedBy = new System.Windows.Forms.Label();
-            this.lblModifiedAt = new System.Windows.Forms.Label();
             this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.cmsExplorer = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -107,7 +97,6 @@
             this.tbpForm.SuspendLayout();
             this.tbpCatalogue.SuspendLayout();
             this.tbpReport.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.cmsExplorer.SuspendLayout();
             this.pnlAddress.SuspendLayout();
             this.SuspendLayout();
@@ -127,7 +116,6 @@
             // 
             this.pnlArtifact.Panel2.Controls.Add(this.ucSearchResult);
             this.pnlArtifact.Panel2.Controls.Add(this.lsvContainer);
-            this.pnlArtifact.Panel2.Controls.Add(this.tableLayoutPanel1);
             this.pnlArtifact.Size = new System.Drawing.Size(698, 410);
             this.pnlArtifact.SplitterDistance = 217;
             this.pnlArtifact.TabIndex = 0;
@@ -276,107 +264,6 @@
             this.imgLargeIcon.Images.SetKeyName(2, "Document");
             this.imgLargeIcon.Images.SetKeyName(3, "Down");
             this.imgLargeIcon.Images.SetKeyName(4, "Up");
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.Controls.Add(this.lblModification, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblFileName, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblCreationDetails, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblType, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.lblVersion, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.lblCreatedBy, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.lblCreatedAt, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.lblModifiedBy, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.lblModifiedAt, 2, 2);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 337);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(477, 73);
-            this.tableLayoutPanel1.TabIndex = 5;
-            // 
-            // lblModification
-            // 
-            this.lblModification.AutoSize = true;
-            this.lblModification.Location = new System.Drawing.Point(360, 3);
-            this.lblModification.Name = "lblModification";
-            this.lblModification.Size = new System.Drawing.Size(64, 13);
-            this.lblModification.TabIndex = 4;
-            this.lblModification.Text = "Modification";
-            // 
-            // lblFileName
-            // 
-            this.lblFileName.AutoSize = true;
-            this.lblFileName.Location = new System.Drawing.Point(6, 3);
-            this.lblFileName.Name = "lblFileName";
-            this.lblFileName.Size = new System.Drawing.Size(0, 13);
-            this.lblFileName.TabIndex = 1;
-            // 
-            // lblCreationDetails
-            // 
-            this.lblCreationDetails.AutoSize = true;
-            this.lblCreationDetails.Location = new System.Drawing.Point(241, 3);
-            this.lblCreationDetails.Name = "lblCreationDetails";
-            this.lblCreationDetails.Size = new System.Drawing.Size(46, 13);
-            this.lblCreationDetails.TabIndex = 3;
-            this.lblCreationDetails.Text = "Creation";
-            this.lblCreationDetails.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblType
-            // 
-            this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(6, 26);
-            this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(0, 13);
-            this.lblType.TabIndex = 2;
-            // 
-            // lblVersion
-            // 
-            this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(6, 49);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(0, 13);
-            this.lblVersion.TabIndex = 2;
-            // 
-            // lblCreatedBy
-            // 
-            this.lblCreatedBy.AutoSize = true;
-            this.lblCreatedBy.Location = new System.Drawing.Point(241, 26);
-            this.lblCreatedBy.Name = "lblCreatedBy";
-            this.lblCreatedBy.Size = new System.Drawing.Size(0, 13);
-            this.lblCreatedBy.TabIndex = 5;
-            // 
-            // lblCreatedAt
-            // 
-            this.lblCreatedAt.AutoSize = true;
-            this.lblCreatedAt.Location = new System.Drawing.Point(241, 49);
-            this.lblCreatedAt.Name = "lblCreatedAt";
-            this.lblCreatedAt.Size = new System.Drawing.Size(0, 13);
-            this.lblCreatedAt.TabIndex = 6;
-            // 
-            // lblModifiedBy
-            // 
-            this.lblModifiedBy.AutoSize = true;
-            this.lblModifiedBy.Location = new System.Drawing.Point(360, 26);
-            this.lblModifiedBy.Name = "lblModifiedBy";
-            this.lblModifiedBy.Size = new System.Drawing.Size(0, 13);
-            this.lblModifiedBy.TabIndex = 7;
-            // 
-            // lblModifiedAt
-            // 
-            this.lblModifiedAt.AutoSize = true;
-            this.lblModifiedAt.Location = new System.Drawing.Point(360, 49);
-            this.lblModifiedAt.Name = "lblModifiedAt";
-            this.lblModifiedAt.Size = new System.Drawing.Size(0, 13);
-            this.lblModifiedAt.TabIndex = 8;
             // 
             // imgSmallIcon
             // 
@@ -778,8 +665,6 @@
             this.tbpForm.ResumeLayout(false);
             this.tbpCatalogue.ResumeLayout(false);
             this.tbpReport.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.cmsExplorer.ResumeLayout(false);
             this.pnlAddress.ResumeLayout(false);
             this.pnlAddress.PerformLayout();
@@ -840,16 +725,6 @@
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button btnUp;
         private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.Label lblVersion;
-        private System.Windows.Forms.Label lblModification;
-        private System.Windows.Forms.Label lblCreationDetails;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label lblFileName;
-        private System.Windows.Forms.Label lblType;
-        private System.Windows.Forms.Label lblCreatedBy;
-        private System.Windows.Forms.Label lblCreatedAt;
-        private System.Windows.Forms.Label lblModifiedBy;
-        private System.Windows.Forms.Label lblModifiedAt;
         private SearchResult ucSearchResult;
         private System.Windows.Forms.ToolStripMenuItem cmnuDailyReport;
         private System.Windows.Forms.ToolStripMenuItem cmnuWeeklyReport;

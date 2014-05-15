@@ -125,11 +125,20 @@ namespace Vanilla.Navigator.WinForm
             this.reportCategoryList.Add(new Report.Facade.Category.Dto { Id = 10005, Extension = "yrpt", Name = "Yearly" });
             //
 
+            this.RemoveAuditInfo();
+
+            this.ucRegister.ArtifactClicked += ucRegister_ArtifactClicked;
+
             this.ucRegister.ReportAdd += ucRegister_ReportAdd;
             this.ucRegister.ReportLoad += ucRegister_ReportLoad;
             this.ucRegister.ReportCategoryGet += ucRegister_ReportCategoryGet;
 
             this.ucRegister.FormLoad += ucRegister_FormLoad;
+        }
+
+        void ucRegister_ArtifactClicked()
+        {
+            this.ShowAuditInfo(this.ucRegister.CurrentArtifact);
         }
 
         private RptWin.Document ucRegister_ReportAdd(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto)
@@ -782,6 +791,64 @@ namespace Vanilla.Navigator.WinForm
         }
 
         #endregion
+
+        private void ShowAuditInfo(UtilFac.Artifact.Dto selectedNode)
+        {
+            if (selectedNode != null)
+            {
+                this.lblFileName.Text = selectedNode.FullFileName;
+                if (selectedNode.AuditInfo != null)
+                {
+                    if (selectedNode.AuditInfo.Version > 0)
+                    {
+                        this.lblType.Text = selectedNode.Style.ToString();
+                        this.lblVersion.Text = selectedNode.AuditInfo.Version.ToString();
+                    }
+
+                    if (selectedNode.AuditInfo.CreatedBy == null)
+                    {
+                        this.lblCreatedBy.Text = String.Empty;
+                        this.lblCreatedAt.Text = String.Empty;
+                    }
+                    else
+                    {
+                        this.lblCreation.Text = "Creation";
+                        this.lblModification.Text = "Modification";
+                        this.lblCreatedBy.Text = selectedNode.AuditInfo.CreatedBy.Name;
+                        this.lblCreatedAt.Text = selectedNode.AuditInfo.CreatedAt.ToString();
+                    }
+
+                    if (selectedNode.AuditInfo.ModifiedBy == null)
+                    {
+                        this.lblModifiedBy.Text = String.Empty;
+                        this.lblModifiedAt.Text = String.Empty;
+                    }
+                    else
+                    {
+                        this.lblModifiedBy.Text = selectedNode.AuditInfo.ModifiedBy.Name;
+                        this.lblModifiedAt.Text = ((DateTime)selectedNode.AuditInfo.ModifiedAt).ToString();
+                    }
+                }
+                else
+                {
+                    this.RemoveAuditInfo();
+                    this.lblType.Text = "Addon";
+                }
+            }
+        }
+
+        private void RemoveAuditInfo()
+        {
+            this.lblFileName.Text = String.Empty;
+            this.lblType.Text = String.Empty;
+            this.lblVersion.Text = String.Empty;
+            this.lblCreatedBy.Text = String.Empty;
+            this.lblCreatedAt.Text = String.Empty;
+            this.lblModifiedBy.Text = String.Empty;
+            this.lblModifiedAt.Text = String.Empty;
+            this.lblCreation.Text = String.Empty;
+            this.lblModification.Text = String.Empty;
+        }
 
     }
 
