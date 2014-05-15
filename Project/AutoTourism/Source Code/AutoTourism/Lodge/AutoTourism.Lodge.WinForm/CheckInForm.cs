@@ -116,7 +116,10 @@ namespace AutoTourism.Lodge.WinForm
 
             Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
             base.facade.LoadForm();
-         
+
+            EnableDisableFormControls();            
+
+
             this.configurationRuleDto = formDto.configurationRuleDto;
 
             //--populate room category
@@ -878,24 +881,7 @@ namespace AutoTourism.Lodge.WinForm
 
             //this.formDto.dto = new LodgeFacade.CheckIn.Dto();
         }
-
-        private void DisableFormControls()
-        {
-            dtFrom.Enabled = false;
-            dtFromTime.Enabled = false;
-            txtDays.Enabled = false;
-            txtPersons.Enabled = false;
-            txtRooms.Enabled = false;
-            txtAdvance.Enabled = false;
-            cboCategory.Enabled = false;
-            cboType.Enabled = false;
-            cboAC.Enabled = false;
-            cboRoomList.Enabled = false;
-            cmbCheckInRoom.Enabled = false;
-            btnAddRoom.Enabled = false;
-            btnRemoveRoom.Enabled = false;
-        }
-
+        
         private void btnCheckOut_Click(object sender, EventArgs e)
         {
             //Int32 noOfDays = new Calender().DaysBetweenTwoDays(this.formDto.dto.Date, DateTime.Today);
@@ -1166,6 +1152,48 @@ namespace AutoTourism.Lodge.WinForm
             //(this.trvForm.Nodes[reservationNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children.Add(artifactDto);
             //artifactDto.Parent = this.trvForm.Nodes[reservationNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto;
 
+        }
+
+        private void EnableDisableFormControls()
+        {            
+            Facade.CheckIn.Dto dto = (base.formDto as Facade.CheckIn.FormDto).dto;
+            if (dto == null || dto.Id == 0) // new checkIn form
+            {
+                this.btnCheckOut.Enabled = false;
+                this.btnGenerateInvoice.Enabled = false;
+            }
+            if (dto != null && dto.StatusId == Convert.ToInt64(CheckInStatus.CheckIn)) //edit in checkIn mode
+            {
+                this.btnOk.Enabled = false;
+                this.btnRefresh.Enabled = false;
+                this.btnGenerateInvoice.Enabled = false;
+                this.DisableFormControls();
+            }
+            if (dto != null && dto.StatusId == Convert.ToInt64(CheckInStatus.CheckOut)) //edit in check out mode
+            {
+                this.btnOk.Enabled = false;
+                this.btnRefresh.Enabled = false;
+                this.btnCheckOut.Enabled = false;
+                //this.btnGenerateInvoice.Enabled = false;
+                this.DisableFormControls();
+            }
+        }
+
+        private void DisableFormControls()
+        {
+            dtFrom.Enabled = false;
+            dtFromTime.Enabled = false;
+            txtDays.Enabled = false;
+            txtPersons.Enabled = false;
+            txtRooms.Enabled = false;
+            txtAdvance.Enabled = false;
+            cboCategory.Enabled = false;
+            cboType.Enabled = false;
+            cboAC.Enabled = false;
+            cboRoomList.Enabled = false;
+            cmbCheckInRoom.Enabled = false;
+            btnAddRoom.Enabled = false;
+            btnRemoveRoom.Enabled = false;
         }
 
     }
