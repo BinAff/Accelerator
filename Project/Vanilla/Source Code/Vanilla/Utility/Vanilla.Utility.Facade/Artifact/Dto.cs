@@ -8,7 +8,7 @@ using ModDefFac = Vanilla.Utility.Facade.Module.Definition;
 namespace Vanilla.Utility.Facade.Artifact
 {
 
-    public class Dto : BinAff.Facade.Library.Dto, ICloneable
+    public class Dto : BinAff.Facade.Library.Dto
     {
 
         private String fileName;
@@ -119,100 +119,100 @@ namespace Vanilla.Utility.Facade.Artifact
             }
         }
 
-        private Int32 version;
-        /// <summary>
-        /// Version number
-        /// </summary>
-        public Int32 Version
-        {
-            get
-            {
-                return this.version;
-            }
-            set
-            {
-                if (this.version != value)
-                {
-                    this.version = value;
-                }
-            }
-        }
+        //private Int32 version;
+        ///// <summary>
+        ///// Version number
+        ///// </summary>
+        //public Int32 Version
+        //{
+        //    get
+        //    {
+        //        return this.version;
+        //    }
+        //    set
+        //    {
+        //        if (this.version != value)
+        //        {
+        //            this.version = value;
+        //        }
+        //    }
+        //}
 
-        private BinAff.Core.Table createdBy;
-        /// <summary>
-        /// Created by user
-        /// </summary>
-        public BinAff.Core.Table CreatedBy
-        {
-            get
-            {
-                return this.createdBy;
-            }
-            set
-            {
-                if (value != null && this.createdBy != value)
-                {
-                    this.createdBy = value;
-                }
-            }
-        }
+        //private BinAff.Core.Table createdBy;
+        ///// <summary>
+        ///// Created by user
+        ///// </summary>
+        //public BinAff.Core.Table CreatedBy
+        //{
+        //    get
+        //    {
+        //        return this.createdBy;
+        //    }
+        //    set
+        //    {
+        //        if (value != null && this.createdBy != value)
+        //        {
+        //            this.createdBy = value;
+        //        }
+        //    }
+        //}
 
-        private BinAff.Core.Table modifiedBy;
-        /// <summary>
-        /// Modified by User
-        /// </summary>
-        public BinAff.Core.Table ModifiedBy
-        {
-            get
-            {
-                return this.modifiedBy;
-            }
-            set
-            {
-                if (value != null && this.modifiedBy != value)
-                {
-                    this.modifiedBy = value;
-                }
-            }
-        }
+        //private BinAff.Core.Table modifiedBy;
+        ///// <summary>
+        ///// Modified by User
+        ///// </summary>
+        //public BinAff.Core.Table ModifiedBy
+        //{
+        //    get
+        //    {
+        //        return this.modifiedBy;
+        //    }
+        //    set
+        //    {
+        //        if (value != null && this.modifiedBy != value)
+        //        {
+        //            this.modifiedBy = value;
+        //        }
+        //    }
+        //}
 
-        private DateTime createdAt;
-        /// <summary>
-        /// Time when artifact created
-        /// </summary>
-        public DateTime CreatedAt
-        {
-            get
-            {
-                return this.createdAt;
-            }
-            set
-            {
-                if (value != null && this.createdAt != value)
-                {
-                    this.createdAt = value;
-                }
-            }
-        }
+        //private DateTime createdAt;
+        ///// <summary>
+        ///// Time when artifact created
+        ///// </summary>
+        //public DateTime CreatedAt
+        //{
+        //    get
+        //    {
+        //        return this.createdAt;
+        //    }
+        //    set
+        //    {
+        //        if (value != null && this.createdAt != value)
+        //        {
+        //            this.createdAt = value;
+        //        }
+        //    }
+        //}
 
-        private DateTime? modifiedAt;
-        /// <summary>
-        /// Time when artifact last modified
-        /// </summary>
-        public DateTime? ModifiedAt
-        {
-            get
-            {
-                return this.modifiedAt;
-            }
-            set
-            {
-                if (value != null && this.modifiedAt != value)
-                {
-                    this.modifiedAt = value;
-                }
-            }
-        }
+        //private DateTime? modifiedAt;
+        ///// <summary>
+        ///// Time when artifact last modified
+        ///// </summary>
+        //public DateTime? ModifiedAt
+        //{
+        //    get
+        //    {
+        //        return this.modifiedAt;
+        //    }
+        //    set
+        //    {
+        //        if (value != null && this.modifiedAt != value)
+        //        {
+        //            this.modifiedAt = value;
+        //        }
+        //    }
+        //}
 
         private List<Dto> children;
         public List<Dto> Children
@@ -284,11 +284,13 @@ namespace Vanilla.Utility.Facade.Artifact
             }
         }
 
+        public Audit.Dto AuditInfo { get; set; }
+
         public object Clone()
         {
             Dto artf = this.MemberwiseClone() as Dto;
-            artf.CreatedBy = this.CreatedBy.Clone() as BinAff.Core.Table;
-            artf.ModifiedBy = this.ModifiedBy.Clone() as BinAff.Core.Table;
+            artf.AuditInfo.CreatedBy = this.AuditInfo.CreatedBy.Clone() as BinAff.Core.Table;
+            artf.AuditInfo.ModifiedBy = this.AuditInfo.ModifiedBy.Clone() as BinAff.Core.Table;
             if (this.Children != null && this.Children.Count > 0)
             {
                 artf.Children = new List<Dto>();

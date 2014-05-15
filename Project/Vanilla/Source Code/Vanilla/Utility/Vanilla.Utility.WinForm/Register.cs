@@ -343,13 +343,13 @@ namespace Vanilla.Utility.WinForm
         {
             if (artifact.Id == 0)
             {
-                artifact.Version = 1;
-                artifact.CreatedBy = new Table
+                artifact.AuditInfo.Version = 1;
+                artifact.AuditInfo.CreatedBy = new Table
                 {
                     Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
                     Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
                 };
-                artifact.CreatedAt = DateTime.Now;                
+                artifact.AuditInfo.CreatedAt = DateTime.Now;                
             }
         }
 
@@ -921,36 +921,36 @@ namespace Vanilla.Utility.WinForm
             if (selectedNode != null)
             {
                 this.lblFileName.Text = selectedNode.FileName;
-                if (selectedNode.Version > 0)
+                if (selectedNode.AuditInfo.Version > 0)
                 {
                     this.lblType.Text = selectedNode.Style.ToString();
-                    this.lblVersion.Text = selectedNode.Version.ToString();
+                    this.lblVersion.Text = selectedNode.AuditInfo.Version.ToString();
                 }
                 else
                 {
                     this.lblType.Text = "Addon";
                 }
 
-                if (selectedNode.CreatedBy == null)
+                if (selectedNode.AuditInfo.CreatedBy == null)
                 {
                     this.lblCreatedBy.Text = String.Empty;
                     this.lblCreatedAt.Text = String.Empty;
                 }
                 else
                 {
-                    this.lblCreatedBy.Text = selectedNode.CreatedBy.Name;
-                    this.lblCreatedAt.Text = selectedNode.CreatedAt.ToShortDateString();
+                    this.lblCreatedBy.Text = selectedNode.AuditInfo.CreatedBy.Name;
+                    this.lblCreatedAt.Text = selectedNode.AuditInfo.CreatedAt.ToShortDateString();
                 }
 
-                if (selectedNode.ModifiedBy == null)
+                if (selectedNode.AuditInfo.ModifiedBy == null)
                 {
                     this.lblModifiedBy.Text = String.Empty;
                     this.lblModifiedAt.Text = String.Empty;
                 }
                 else
                 {
-                    this.lblModifiedBy.Text = selectedNode.ModifiedBy.Name;
-                    this.lblModifiedAt.Text = ((DateTime)selectedNode.ModifiedAt).ToShortDateString();
+                    this.lblModifiedBy.Text = selectedNode.AuditInfo.ModifiedBy.Name;
+                    this.lblModifiedAt.Text = ((DateTime)selectedNode.AuditInfo.ModifiedAt).ToShortDateString();
                 }
             }
         }
@@ -1136,15 +1136,15 @@ namespace Vanilla.Utility.WinForm
                 else
                     artifactDto = new Facade.Register.Server(null).GetArtifactDtoByValue(this.cutArtifact);
 
-                artifactDto.Version = artifactDto.Version + 1;
-                artifactDto.ModifiedAt = DateTime.Now;
-                artifactDto.ModifiedBy = currentLoggedInUser;
+                artifactDto.AuditInfo.Version++;
+                artifactDto.AuditInfo.ModifiedAt = DateTime.Now;
+                artifactDto.AuditInfo.ModifiedBy = currentLoggedInUser;
             }
             else
             {
                 artifactDto = new Facade.Register.Server(null).GetArtifactDtoByValueForCopy(editNode.Tag as Vanilla.Utility.Facade.Artifact.Dto);
-                artifactDto.CreatedAt = DateTime.Now;
-                artifactDto.CreatedBy = currentLoggedInUser;
+                artifactDto.AuditInfo.CreatedAt = DateTime.Now;
+                artifactDto.AuditInfo.CreatedBy = currentLoggedInUser;
             }
 
             artifactDto.Parent = parent;
@@ -1946,9 +1946,9 @@ namespace Vanilla.Utility.WinForm
                 {
                     if (artifactDto.Parent != null) artifactDto.Parent.Id = 0;
                 }
-                artifactDto.Version++;
-                artifactDto.ModifiedAt = DateTime.Now;
-                artifactDto.ModifiedBy = new Table
+                artifactDto.AuditInfo.Version++;
+                artifactDto.AuditInfo.ModifiedAt = DateTime.Now;
+                artifactDto.AuditInfo.ModifiedBy = new Table
                 {
                     Id = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
                     Name = (Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
@@ -2037,11 +2037,11 @@ namespace Vanilla.Utility.WinForm
             { 
                 return p.Id == document.Artifact.Id; 
             });
-            affectedArtifact.Version = document.Artifact.Version;
-            affectedArtifact.CreatedAt = document.Artifact.CreatedAt;
-            affectedArtifact.CreatedBy = document.Artifact.CreatedBy;
-            affectedArtifact.ModifiedAt = document.Artifact.ModifiedAt;
-            affectedArtifact.ModifiedBy = document.Artifact.ModifiedBy;
+            affectedArtifact.AuditInfo.Version = document.Artifact.AuditInfo.Version;
+            affectedArtifact.AuditInfo.CreatedAt = document.Artifact.AuditInfo.CreatedAt;
+            affectedArtifact.AuditInfo.CreatedBy = document.Artifact.AuditInfo.CreatedBy;
+            affectedArtifact.AuditInfo.ModifiedAt = document.Artifact.AuditInfo.ModifiedAt;
+            affectedArtifact.AuditInfo.ModifiedBy = document.Artifact.AuditInfo.ModifiedBy;
 
             if (this.trvForm.SelectedNode == affectedParentFolder)
             {
@@ -2091,10 +2091,13 @@ namespace Vanilla.Utility.WinForm
                 {
                     FileName = fileName,
                     Extension = this.currentArtifact.Extension,
-                    Version = 1,
                     Style = type,
-                    CreatedBy = currentLoggedInUser,
-                    CreatedAt = DateTime.Now,
+                    AuditInfo = new ArtfFac.Audit.Dto
+                    {
+                        Version = 1,
+                        CreatedBy = currentLoggedInUser,
+                        CreatedAt = DateTime.Now,
+                    },
                     Module = moduleFormDto,
                     ComponentDefinition = moduleDefinationDto == null ? null : new UtilFac.Module.Definition.Dto { Code = moduleDefinationDto.Code },
                     Parent = parentArtifact

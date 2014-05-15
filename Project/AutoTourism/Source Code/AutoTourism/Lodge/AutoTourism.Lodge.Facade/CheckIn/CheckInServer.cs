@@ -322,13 +322,13 @@ namespace AutoTourism.Lodge.Facade.CheckIn
            
             artifactDto.Module = invoiceDto;
             artifactDto.Style = Vanilla.Utility.Facade.Artifact.Type.Document;
-            artifactDto.Version = 1;
-            artifactDto.CreatedBy = new Table
+            artifactDto.AuditInfo.Version = 1;
+            artifactDto.AuditInfo.CreatedBy = new Table
             {
                 Id = currentUser.Id,
                 Name = currentUser.Name
             };
-            artifactDto.CreatedAt = DateTime.Now;
+            artifactDto.AuditInfo.CreatedAt = DateTime.Now;
             artifactDto.Category = Vanilla.Utility.Facade.Artifact.Category.Form;
             artifactDto.Path = invoiceDto.artifactPath;
             

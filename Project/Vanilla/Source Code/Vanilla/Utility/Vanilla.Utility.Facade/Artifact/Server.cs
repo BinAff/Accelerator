@@ -63,19 +63,22 @@ namespace Vanilla.Utility.Facade.Artifact
                 Extension = artifactData.Extension,
                 Path = artifactData.Path,
                 Style = (artifactData.Style == CrysArtf.Type.Directory) ? Type.Folder : Type.Document,
-                Version = artifactData.Version,
-                CreatedBy = artifactData.CreatedBy == null ? null : new Table
+                AuditInfo = new Audit.Dto
                 {
-                    Id = artifactData.CreatedBy.Id,
-                    Name = artifactData.CreatedBy.Profile == null ? null : artifactData.CreatedBy.Profile.Name
+                    Version = artifactData.Version,
+                    CreatedBy = artifactData.CreatedBy == null ? null : new Table
+                    {
+                        Id = artifactData.CreatedBy.Id,
+                        Name = artifactData.CreatedBy.Profile == null ? null : artifactData.CreatedBy.Profile.Name
+                    },
+                    CreatedAt = artifactData.CreatedAt,
+                    ModifiedBy = artifactData.ModifiedBy == null ? null : new Table
+                    {
+                        Id = artifactData.ModifiedBy.Id,
+                        Name = artifactData.CreatedBy.Profile == null ? null : artifactData.ModifiedBy.Profile.Name
+                    },
+                    ModifiedAt = artifactData.ModifiedAt,
                 },
-                CreatedAt = artifactData.CreatedAt,
-                ModifiedBy = artifactData.ModifiedBy == null ? null : new Table
-                {
-                    Id = artifactData.ModifiedBy.Id,
-                    Name = artifactData.CreatedBy.Profile == null ? null : artifactData.ModifiedBy.Profile.Name
-                },
-                ModifiedAt = artifactData.ModifiedAt,
                 Category = (Category)artifactData.Category
             };
 
@@ -113,16 +116,16 @@ namespace Vanilla.Utility.Facade.Artifact
             tree.Style = (artifactDto.Style == Type.Folder) ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
             tree.CreatedBy = new Crystal.Guardian.Component.Account.Data
             {
-                Id = artifactDto.CreatedBy.Id,
+                Id = artifactDto.AuditInfo.CreatedBy.Id,
             };
-            tree.CreatedAt = artifactDto.CreatedAt;
-            if (artifactDto.ModifiedBy != null)
+            tree.CreatedAt = artifactDto.AuditInfo.CreatedAt;
+            if (artifactDto.AuditInfo.ModifiedBy != null)
             {
                 tree.ModifiedBy = new Crystal.Guardian.Component.Account.Data
                 {
-                    Id = artifactDto.ModifiedBy.Id,
+                    Id = artifactDto.AuditInfo.ModifiedBy.Id,
                 };
-                tree.ModifiedAt = artifactDto.ModifiedAt;
+                tree.ModifiedAt = artifactDto.AuditInfo.ModifiedAt;
             }
             tree.ParentId = artifactDto.Parent.Id;
             return tree;
@@ -138,14 +141,14 @@ namespace Vanilla.Utility.Facade.Artifact
             data.Style = (artifactDto.Style == Type.Folder) ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
             data.CreatedBy = new Crystal.Guardian.Component.Account.Data
             {
-                Id = artifactDto.CreatedBy.Id,
+                Id = artifactDto.AuditInfo.CreatedBy.Id,
             };
-            data.CreatedAt = artifactDto.CreatedAt;
-            data.ModifiedBy = artifactDto.ModifiedBy == null ? null : new Crystal.Guardian.Component.Account.Data
+            data.CreatedAt = artifactDto.AuditInfo.CreatedAt;
+            data.ModifiedBy = artifactDto.AuditInfo.ModifiedBy == null ? null : new Crystal.Guardian.Component.Account.Data
             {
-                Id = artifactDto.ModifiedBy.Id,
+                Id = artifactDto.AuditInfo.ModifiedBy.Id,
             };
-            data.ModifiedAt = artifactDto.ModifiedAt;
+            data.ModifiedAt = artifactDto.AuditInfo.ModifiedAt;
             data.ParentId = artifactDto.Parent == null ? null : (long?)artifactDto.Parent.Id;
             data.Category = (CrysArtf.Category)((Int32)artifactDto.Category);
             return data;
@@ -195,12 +198,12 @@ namespace Vanilla.Utility.Facade.Artifact
             tree.Extension = dto.Extension;
             tree.Category = (CrysArtf.Category)dto.Category;
             tree.ParentId = dto.Parent == null ? 0 : dto.Parent.Id;
-            tree.CreatedBy = new GuardianAcc.Data { Id = dto.CreatedBy.Id };
-            tree.CreatedAt = dto.CreatedAt;
-            if (dto.ModifiedBy != null)
+            tree.CreatedBy = new GuardianAcc.Data { Id = dto.AuditInfo.CreatedBy.Id };
+            tree.CreatedAt = dto.AuditInfo.CreatedAt;
+            if (dto.AuditInfo.ModifiedBy != null)
             {
-                tree.ModifiedBy = new GuardianAcc.Data { Id = dto.ModifiedBy.Id };
-                tree.ModifiedAt = dto.ModifiedAt;
+                tree.ModifiedBy = new GuardianAcc.Data { Id = dto.AuditInfo.ModifiedBy.Id };
+                tree.ModifiedAt = dto.AuditInfo.ModifiedAt;
             }
 
             tree.Style = dto.Style == Type.Folder ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
@@ -361,11 +364,14 @@ namespace Vanilla.Utility.Facade.Artifact
                 Path = dto.Path,
                 Style = dto.Style,
                 Category = dto.Category,
-                Version = dto.Version,
-                CreatedBy = dto.CreatedBy,
-                ModifiedBy = dto.ModifiedBy,
-                CreatedAt = dto.CreatedAt,
-                ModifiedAt = dto.ModifiedAt,
+                AuditInfo = new Audit.Dto
+                {
+                    Version = dto.AuditInfo.Version,
+                    CreatedBy = dto.AuditInfo.CreatedBy,
+                    ModifiedBy = dto.AuditInfo.ModifiedBy,
+                    CreatedAt = dto.AuditInfo.CreatedAt,
+                    ModifiedAt = dto.AuditInfo.ModifiedAt,
+                },
                 Children = dto.Children == null ? null : GetChildren(dto),
                 Extension = dto.Extension,
                 Module = dto.Module == null ? null : new BinAff.Facade.Library.Dto

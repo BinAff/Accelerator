@@ -53,22 +53,22 @@ namespace Vanilla.Form.Facade.Document
         {
             ArtfCrys.Data artf = ((this.componentServer as ArtfCrys.Observer.DocumentComponent).Observers[0].Data as ArtfCrys.Data);
             ArtfFac.Dto document = (this.FormDto as FormDto).Document;
-            document.Version = artf.Version;
+            document.AuditInfo.Version = artf.Version;
             if (artf.CreatedBy != null)
             {
-                document.CreatedAt = artf.CreatedAt;
+                document.AuditInfo.CreatedAt = artf.CreatedAt;
                 AccFac.Dto acc = new AccFac.Server(null).Convert(artf.CreatedBy) as AccFac.Dto;
-                if (document.CreatedBy == null) document.CreatedBy = new Table();
-                document.CreatedBy.Id = acc.Id;
-                document.CreatedBy.Name = acc.Profile.Name;
+                if (document.AuditInfo.CreatedBy == null) document.AuditInfo.CreatedBy = new Table();
+                document.AuditInfo.CreatedBy.Id = acc.Id;
+                document.AuditInfo.CreatedBy.Name = acc.Profile.Name;
             }
             if (artf.ModifiedBy != null)
             {
-                document.ModifiedAt = artf.ModifiedAt;
+                document.AuditInfo.ModifiedAt = artf.ModifiedAt;
                 AccFac.Dto acc = new AccFac.Server(null).Convert(artf.ModifiedBy) as AccFac.Dto;
-                if (document.ModifiedBy == null) document.ModifiedBy = new Table();
-                document.ModifiedBy.Id = acc.Id;
-                document.ModifiedBy.Name = acc.Profile.Name;
+                if (document.AuditInfo.ModifiedBy == null) document.AuditInfo.ModifiedBy = new Table();
+                document.AuditInfo.ModifiedBy.Id = acc.Id;
+                document.AuditInfo.ModifiedBy.Name = acc.Profile.Name;
             }
         }
 
