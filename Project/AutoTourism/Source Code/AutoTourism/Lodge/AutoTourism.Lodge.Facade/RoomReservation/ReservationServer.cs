@@ -148,6 +148,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 {
                     (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForUpdate();
                 }
+                this.UpdateAuditInformation();
 
                 this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
                 T.Complete();
