@@ -31,6 +31,17 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        /// <summary>
+        /// Selected document or folder
+        /// </summary>
+        public UtilFac.Artifact.Dto CurrentArtifact 
+        {
+            get
+            {
+                return this.currentArtifact;
+            }
+        }
+
         private Facade.Register.FormDto formDto;
         private Facade.Register.Server facade;
 
@@ -90,6 +101,9 @@ namespace Vanilla.Utility.WinForm
 
         public delegate void OnDocumentShown();
         public event OnDocumentShown DocumentShown;
+
+        public delegate void OnDocumentClicked();
+        public event OnDocumentClicked DocumentClicked;
             
         public Register()
         {
@@ -467,7 +481,7 @@ namespace Vanilla.Utility.WinForm
             UtilFac.Artifact.Dto selectedArtifact = selectedItem.Tag as UtilFac.Artifact.Dto;
             //selectedArtifact.Extension = this.currentArtifact.Extension;
 
-            String documentName = selectedArtifact.FileName + "." + selectedArtifact.Extension;
+            String documentName = selectedArtifact.FullFileName;
             String defaultFileName = selectedArtifact.FileName;
             String artifactFileName = String.Empty;
 
@@ -632,7 +646,7 @@ namespace Vanilla.Utility.WinForm
                             //}
 
                             //if (selectedArtifact.Style == UtilFac.Artifact.Type.Document)
-                            //    selectedItem.Text = selectedArtifact.FileName + "." + selectedArtifact.Extension;
+                            //    selectedItem.Text = selectedArtifact.FullFileName;
                             return true;
                         }
                         //else
@@ -655,10 +669,10 @@ namespace Vanilla.Utility.WinForm
             }
             else if (e.Button == MouseButtons.Left)
             {
+                ListViewItem selected = this.lsvContainer.GetItemAt(e.X, e.Y);
                 if (this.lsvContainer.GetItemAt(e.X, e.Y) != null) //Clicked on one item
                 {
-                    this.ShowAuditInfo(this.lsvContainer.GetItemAt(e.X, e.Y).Tag as UtilFac.Artifact.Dto);
-                    if (this.lsvContainer.GetItemAt(e.X, e.Y) == this.lsvContainer.FocusedItem)
+                    if (selected == this.lsvContainer.FocusedItem)
                     {
                         //TO DO :: Edit like F2
                     }
@@ -671,23 +685,14 @@ namespace Vanilla.Utility.WinForm
             if (e.KeyCode == Keys.F2)
             {
                 this.lsvContainer.EditListViewSelectedItem();
-                //String artifactFileName = String.Empty;
-                //foreach (ListViewItem item in lsvContainer.SelectedItems)
-                //{                    
-                //    UtilFac.Artifact.Dto dto = item.Tag as UtilFac.Artifact.Dto;
-                //    if (dto.Category == UtilFac.Artifact.Category.Report && dto.Style == UtilFac.Artifact.Type.Document)                    
-                //        artifactFileName = dto.FileName;
-                //}
+            }
+        }
 
-                //if (artifactFileName == String.Empty)
-                //    this.lsvContainer.EditListViewSelectedItem();
-                //else
-                //    this.lsvContainer.EditListViewSelectedItem(artifactFileName);
-            }
-            else
-            {
-                this.ShowAuditInfo(this.lsvContainer.FocusedItem.Tag as UtilFac.Artifact.Dto);
-            }
+        private void lsvContainer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.currentArtifact = this.lsvContainer.FocusedItem.Tag as UtilFac.Artifact.Dto;//Any impact?
+            this.ShowAuditInfo(this.lsvContainer.FocusedItem.Tag as UtilFac.Artifact.Dto);
+            if (this.IsDialogue && this.currentArtifact.Style == ArtfFac.Type.Document) DocumentClicked();
         }
 
         private void lsvContainer_DoubleClick(object sender, EventArgs e)
@@ -705,9 +710,6 @@ namespace Vanilla.Utility.WinForm
             }
             else
             {
-                //UtilFac.Artifact.Dto artifactDto = this.GetParent(this.currentArtifact);
-                //TreeNode parentNode = trv.FindNode(artifactDto);
-                //TreeNode rootNode = trv.FindRootNode(parentNode);
                 this.ShowDocument();
             }
         }
