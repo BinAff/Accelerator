@@ -9,7 +9,7 @@ using CustomerFacade = AutoTourism.Customer.Facade;
 namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 {
 
-    public class Dto : BinAff.Facade.Library.Dto
+    public class Dto : Vanilla.Form.Facade.Document.Dto
     {
 
         public DateTime BookingDate { get; set; }

@@ -5,7 +5,7 @@ using RuleFac = AutoTourism.Configuration.Rule.Facade;
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
 
-    public class FormDto : BinAff.Facade.Library.FormDto
+    public class FormDto : Vanilla.Form.Facade.Document.FormDto
     {
 
         public Dto dto { get; set; }
@@ -14,6 +14,8 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public List<LodgeConfFac.Room.Dto> roomList { get; set; }
         public List<LodgeConfFac.Room.Category.Dto> CategoryList { get; set; }
         public List<LodgeConfFac.Room.Type.Dto> TypeList { get; set; }
+
+        public Vanilla.Utility.Facade.Module.FormDto ModuleFormDto { get; set; }
 
     }
 

@@ -10,12 +10,14 @@ using CrystalCustomer = Crystal.Customer.Component;
 using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
 using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using LodgeFacade = AutoTourism.Lodge.Facade;
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
+using RoomChkCrys = Crystal.Lodge.Component.Room.CheckIn;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
 
-    public class CheckInServer : BinAff.Facade.Library.Server, ICheckIn
-    {
+    public class CheckInServer : Vanilla.Form.Facade.Document.Server, ICheckIn
+    {       
 
         public CheckInServer(FormDto formDto)
             : base(formDto)
@@ -68,7 +70,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 Date = checkIn.ActivityDate,
                 StatusId = (checkIn.Status == null || checkIn.Status.Id == 0 ) ? 0 : checkIn.Status.Id,
                 InvoiceNumber = checkIn.invoiceNumber,
-                Reservation = new RoomReservation.Dto 
+                Reservation = reservation == null ? null : new RoomReservation.Dto
                 {
                     Id = reservation.Id,
                     NoOfDays = reservation.NoOfDays,
@@ -366,6 +368,22 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         Vanilla.Invoice.Facade.Dto ICheckIn.ReadInvoice(string invoiceNumber)
         {
             return this.ReadInvoice(invoiceNumber);
+        }
+
+        protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData)
+        {
+            return new RoomChkCrys.Navigator.Artifact.Server(artifactData as RoomChkCrys.Navigator.Artifact.Data);
+        }
+
+        protected override ArtfCrys.Observer.DocumentComponent GetComponentServer()
+        {
+            this.componentServer = new RoomChkCrys.Server(this.Convert((this.FormDto as FormDto).Dto) as RoomChkCrys.Data);
+            return this.componentServer as ArtfCrys.Observer.DocumentComponent;
+        }
+
+        protected override String GetComponentDataType()
+        {
+            return "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data, Crystal.Lodge.Component";
         }
 
         public enum CheckInStatus
