@@ -17,7 +17,20 @@ namespace Vanilla.Utility.WinForm
 
     public partial class Register : UserControl
     {
-        
+
+        private Boolean isDialogue;
+        public Boolean IsDialogue
+        { 
+            get
+            {
+                return this.isDialogue;
+            }
+            set
+            {
+                this.isDialogue = value;                
+            }
+        }
+
         private Facade.Register.FormDto formDto;
         private Facade.Register.Server facade;
 
@@ -74,6 +87,9 @@ namespace Vanilla.Utility.WinForm
 
         public delegate void OnFormLoad(UtilFac.Artifact.Dto currentArtifact);
         public event OnFormLoad FormLoad;
+
+        public delegate void OnDocumentShown();
+        public event OnDocumentShown DocumentShown;
             
         public Register()
         {
@@ -94,6 +110,7 @@ namespace Vanilla.Utility.WinForm
             this.loadPercentage = 0;
             Timer t = new Timer { Interval = 10 };
             t.Tick += t_Tick;
+
             this.cmsExplorer.ImageList = this.imgSmallIcon;
             this.columnSorter = new PresLib.ListViewColumnSorter();
             this.sortColumn = this.lsvContainer.Initialize();
@@ -116,7 +133,19 @@ namespace Vanilla.Utility.WinForm
             this.lsvContainer.Items.Clear();
             this.btnBack.Enabled = false;
             this.btnUp.Enabled = false;
-
+            //Show only proper tab
+            if (this.isDialogue)
+            {
+                switch (this.Category)
+                {
+                    case ArtfFac.Category.Form:
+                        this.tbcCategory.TabPages.Remove(this.tbpReport);
+                        break;
+                    case ArtfFac.Category.Report:
+                        this.tbcCategory.TabPages.Remove(this.tbpForm);
+                        break;
+                }
+            }
             this.loadPercentage = 100;
         }
 
@@ -616,8 +645,7 @@ namespace Vanilla.Utility.WinForm
 
             return false;
         }
-
-
+        
         private void lsvContainer_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -692,11 +720,8 @@ namespace Vanilla.Utility.WinForm
                 else
                 {
                     this.FormLoad(this.currentArtifact);
-                    //if (form.IsModified)
-                    //{
-                    //    this.SaveArtifact(this.currentArtifact, this.currentArtifact.FileName, true);
-                    //}
-                }                
+                }
+                if(IsDialogue) this.DocumentShown();
             }
         }
 

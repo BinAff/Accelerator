@@ -141,10 +141,15 @@ namespace Vanilla.Utility.WinForm
 
         private void mnuOpen_Click(object sender, EventArgs e)
         {
-            new Open().ShowDialog(this);
+            this.GetOpenDialogue().ShowDialog(this);
         }
 
         #endregion
+
+        protected virtual Open GetOpenDialogue()
+        {
+            throw new NotImplementedException();
+        }
 
         #region Windows
 

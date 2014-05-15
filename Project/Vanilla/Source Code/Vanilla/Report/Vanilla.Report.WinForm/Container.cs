@@ -48,6 +48,15 @@ namespace Vanilla.Report.WinForm
         {
             return Vanilla.Report.WinForm.Container.CreateInstance(dto);
         }
+
+        protected override UtilWin.Open GetOpenDialogue()
+        {
+            return new Open
+            {
+                Text = "Open Report",
+                Owner = this,
+            };
+        }
         
     }
 

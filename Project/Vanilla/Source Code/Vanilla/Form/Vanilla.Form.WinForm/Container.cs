@@ -47,6 +47,15 @@ namespace Vanilla.Form.WinForm
             return Vanilla.Form.WinForm.Container.CreateInstance(dto);
         }
 
+        protected override UtilWin.Open GetOpenDialogue()
+        {
+            return new Open
+            {
+                Text = "Open Form",
+                Owner = this,
+            };
+        }
+
     }
 
 }

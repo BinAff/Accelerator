@@ -54,6 +54,12 @@
     <Compile Include="Document.Designer.cs">
       <DependentUpon>Document.cs</DependentUpon>
     </Compile>
+    <Compile Include="Open.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Open.Designer.cs">
+      <DependentUpon>Open.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Document.resx">
       <DependentUpon>Document.cs</DependentUpon>
