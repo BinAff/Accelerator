@@ -104,6 +104,9 @@ namespace Vanilla.Utility.WinForm
 
         public delegate void OnDocumentClicked();
         public event OnDocumentClicked DocumentClicked;
+
+        public delegate void OnArtifactClicked();
+        public event OnArtifactClicked ArtifactClicked;
             
         public Register()
         {
@@ -129,7 +132,6 @@ namespace Vanilla.Utility.WinForm
             this.columnSorter = new PresLib.ListViewColumnSorter();
             this.sortColumn = this.lsvContainer.Initialize();
             this.InitializeTab();
-            this.RemoveAuditInfo();
             this.facade = new Facade.Register.Server(this.formDto = new Facade.Register.FormDto
             {
                 ModuleFormDto = new UtilFac.Module.FormDto
@@ -147,6 +149,7 @@ namespace Vanilla.Utility.WinForm
             this.lsvContainer.Items.Clear();
             this.btnBack.Enabled = false;
             this.btnUp.Enabled = false;
+            
             //Show only proper tab
             if (this.isDialogue)
             {
@@ -285,7 +288,7 @@ namespace Vanilla.Utility.WinForm
                 this.addressList.Add(selectedNode.Path);
             }
             this.formDto.ModuleFormDto.Dto = (sender as TreeView).FindRootNode().Tag as UtilFac.Module.Dto;
-            this.ShowAuditInfo(selectedNode);
+            if (!this.IsDialogue) this.ArtifactClicked();
         }
 
         private void trvReport_MouseDown(object sender, MouseEventArgs e)
@@ -332,9 +335,8 @@ namespace Vanilla.Utility.WinForm
             {
                 this.addressList.Add(selectedNode.Path);
             }
-            //this.formDto1.ModuleFormDto.Dto = this.FindRootNode((sender as TreeView).SelectedNode).Tag as UtilFac.Module.Dto;
             this.formDto.ModuleFormDto.Dto = (sender as TreeView).FindRootNode().Tag as UtilFac.Module.Dto;
-            this.ShowAuditInfo(selectedNode);
+            if (!this.IsDialogue) this.ArtifactClicked();
         }
         
         #endregion
@@ -691,8 +693,14 @@ namespace Vanilla.Utility.WinForm
         private void lsvContainer_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.currentArtifact = this.lsvContainer.FocusedItem.Tag as UtilFac.Artifact.Dto;//Any impact?
-            this.ShowAuditInfo(this.lsvContainer.FocusedItem.Tag as UtilFac.Artifact.Dto);
-            if (this.IsDialogue && this.currentArtifact.Style == ArtfFac.Type.Document) DocumentClicked();
+            if (this.IsDialogue)
+            {
+                this.DocumentClicked();
+            }
+            else
+            {
+                this.ArtifactClicked();
+            }
         }
 
         private void lsvContainer_DoubleClick(object sender, EventArgs e)
@@ -910,60 +918,6 @@ namespace Vanilla.Utility.WinForm
             {
                 this.SelectNode(this.txtAddress.Text.Trim());
             }
-        }
-
-        #endregion
-
-        #region Audit
-
-        private void ShowAuditInfo(UtilFac.Artifact.Dto selectedNode)
-        {
-            if (selectedNode != null)
-            {
-                this.lblFileName.Text = selectedNode.FileName;
-                if (selectedNode.AuditInfo.Version > 0)
-                {
-                    this.lblType.Text = selectedNode.Style.ToString();
-                    this.lblVersion.Text = selectedNode.AuditInfo.Version.ToString();
-                }
-                else
-                {
-                    this.lblType.Text = "Addon";
-                }
-
-                if (selectedNode.AuditInfo.CreatedBy == null)
-                {
-                    this.lblCreatedBy.Text = String.Empty;
-                    this.lblCreatedAt.Text = String.Empty;
-                }
-                else
-                {
-                    this.lblCreatedBy.Text = selectedNode.AuditInfo.CreatedBy.Name;
-                    this.lblCreatedAt.Text = selectedNode.AuditInfo.CreatedAt.ToShortDateString();
-                }
-
-                if (selectedNode.AuditInfo.ModifiedBy == null)
-                {
-                    this.lblModifiedBy.Text = String.Empty;
-                    this.lblModifiedAt.Text = String.Empty;
-                }
-                else
-                {
-                    this.lblModifiedBy.Text = selectedNode.AuditInfo.ModifiedBy.Name;
-                    this.lblModifiedAt.Text = ((DateTime)selectedNode.AuditInfo.ModifiedAt).ToShortDateString();
-                }
-            }
-        }
-
-        private void RemoveAuditInfo()
-        {
-            this.lblFileName.Text = String.Empty;
-            this.lblType.Text = String.Empty;
-            this.lblVersion.Text = String.Empty;
-            this.lblCreatedBy.Text = String.Empty;
-            this.lblCreatedAt.Text = String.Empty;
-            this.lblModifiedBy.Text = String.Empty;
-            this.lblModifiedAt.Text = String.Empty;
         }
 
         #endregion
@@ -2049,7 +2003,7 @@ namespace Vanilla.Utility.WinForm
                 affectedNode.ChangeListViewSubItems(document.Artifact);
                 if (this.lsvContainer.SelectedItems[0] == affectedNode)
                 {
-                    this.ShowAuditInfo(document.Artifact);
+                    this.ArtifactClicked();
                 }
             }
         }
