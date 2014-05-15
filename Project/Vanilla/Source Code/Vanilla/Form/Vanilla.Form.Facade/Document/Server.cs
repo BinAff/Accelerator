@@ -45,11 +45,11 @@ namespace Vanilla.Form.Facade.Document
         {
             ReturnObject<Boolean> ret = this.componentServer.Save();
             (this.FormDto as FormDto).Dto.Id = (this.componentServer as Crud).Data.Id;
-            this.UpdateAuditInformation();            
+            this.UpdateAuditInformation();
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
-        private void UpdateAuditInformation()
+        protected void UpdateAuditInformation()
         {
             ArtfCrys.Data artf = ((this.componentServer as ArtfCrys.Observer.DocumentComponent).Observers[0].Data as ArtfCrys.Data);
             ArtfFac.Dto document = (this.FormDto as FormDto).Document;

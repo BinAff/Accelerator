@@ -25,63 +25,15 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        public String Version
+        public Facade.Artifact.Audit.Dto AuditInfo
         {
             get
             {
                 if (this.formDto != null && this.formDto.Document != null)
                 {
-                    return this.formDto.Document.AuditInfo.Version.ToString();
+                    return this.formDto.Document.AuditInfo;
                 }
-                return String.Empty;
-            }
-        }
-        
-        public String CreatedBy
-        {
-            get
-            {
-                if (this.formDto != null && this.formDto.Document != null && this.formDto.Document.AuditInfo.CreatedBy != null)
-                {
-                    return this.formDto.Document.AuditInfo.CreatedBy.Name;
-                }
-                return String.Empty;
-            }
-        }
-
-        public String CreatedAt
-        {
-            get
-            {
-                if (this.formDto != null && this.formDto.Document != null)
-                {
-                    return this.formDto.Document.AuditInfo.CreatedAt.ToString();
-                }
-                return String.Empty;
-            }
-        }
-
-        public String ModifiedBy
-        {
-            get
-            {
-                if (this.formDto != null && this.formDto.Document != null && this.formDto.Document.AuditInfo.ModifiedBy != null)
-                {
-                    return this.formDto.Document.AuditInfo.ModifiedBy.Name;
-                }
-                return String.Empty;
-            }
-        }
-
-        public String ModifiedAt
-        {
-            get
-            {
-                if (this.formDto != null && this.formDto.Document != null)
-                {
-                    return this.formDto.Document.AuditInfo.ModifiedAt.ToString();
-                }
-                return String.Empty;
+                return null;
             }
         }
 

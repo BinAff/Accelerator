@@ -59,11 +59,14 @@ namespace Vanilla.Utility.WinForm
                     currentForm.FormClosed += currentForm_FormClosed;
                     this.ManageRecentFile(currentForm.DocumentPath, currentForm.ComponentCode);
                 }
-                this.tlsVersion.Text = currentForm.Version;
-                this.tlsCreatedBy.Text = currentForm.CreatedBy;
-                this.tlsCreatedAt.Text = currentForm.CreatedAt;
-                this.tlsModifiedBy.Text = currentForm.ModifiedBy;
-                this.tlsModifiedAt.Text = currentForm.ModifiedAt;
+                this.tlsVersion.Text = currentForm.AuditInfo.Version.ToString();
+                this.tlsCreatedBy.Text = currentForm.AuditInfo.CreatedBy.Name;
+                this.tlsCreatedAt.Text = currentForm.AuditInfo.CreatedAt.ToString();
+                if (currentForm.AuditInfo.ModifiedBy != null)
+                {
+                    this.tlsModifiedBy.Text = currentForm.AuditInfo.ModifiedBy.Name;
+                    this.tlsModifiedAt.Text = currentForm.AuditInfo.ModifiedAt.ToString();
+                }
             }
 
         }
