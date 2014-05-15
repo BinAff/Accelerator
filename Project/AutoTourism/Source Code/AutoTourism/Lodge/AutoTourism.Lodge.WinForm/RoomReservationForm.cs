@@ -164,21 +164,15 @@ namespace AutoTourism.Lodge.WinForm
             //    base.IsModified = true;
             //    this.Close();
             //}
-
-            try
+           
+            if (base.Save())
             {
-                if (base.Save())
-                {
-                    if (this.isLoadedFromCheckInForm) this.SaveArtifact();
+                if (this.isLoadedFromCheckInForm) this.SaveArtifact();
 
-                    base.IsModified = true;
-                    this.Close();
-                }
+                base.IsModified = true;
+                this.Close();
             }
-            catch (Exception ex)
-            { 
-            
-            }
+           
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)

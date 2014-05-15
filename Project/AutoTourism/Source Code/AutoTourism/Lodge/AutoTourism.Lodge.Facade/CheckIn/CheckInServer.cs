@@ -12,6 +12,8 @@ using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using LodgeFacade = AutoTourism.Lodge.Facade;
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
 using RoomChkCrys = Crystal.Lodge.Component.Room.CheckIn;
+using CustAuto = AutoTourism.Component.Customer;
+
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
@@ -101,27 +103,59 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         private void Save()
         {
-            Dto checkInDto = (this.FormDto as FormDto).dto;
-           
-            LodgeFacade.RoomReservation.Dto reservationDto = checkInDto.Reservation;
-
-            AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data
+            Boolean isNew = (this.FormDto as FormDto).Dto.Id == 0;
+            using (System.Transactions.TransactionScope T = new System.Transactions.TransactionScope())
             {
-                Id = reservationDto.Customer.Id,
-                FirstName = reservationDto.Customer.FirstName,
-                MiddleName = reservationDto.Customer.MiddleName,
-                LastName = reservationDto.Customer.LastName,
-                Address = reservationDto.Customer.Address,
-                City = reservationDto.Customer.City,
-                Pin = reservationDto.Customer.Pin,
-                Email = reservationDto.Customer.Email,
-                IdentityProof = reservationDto.Customer.IdentityProofName == null ? String.Empty : reservationDto.Customer.IdentityProofName,
+                CustAuto.Server custServer = new CustAuto.Server(this.ConvertCustomer());
+                ReturnObject<Boolean> ret = (custServer as ICrud).Save();
+                CustAuto.Data customer = (custServer as BinAff.Core.Crud).Data as CustAuto.Data;
+                if (customer.Checkin.Active != null)
+                {
+                    (this.FormDto as FormDto).Dto.Id = customer.Checkin.Active.Id;
+                }
+
+                //Call observer...
+                //This is work around because for this form artifact is different than component server.
+                //Here customer component has to call bu need to update room reservation artifact
+                if (isNew)
+                {
+                    (this.componentServer as BinAff.Core.Crud).Data.Id = (this.FormDto as FormDto).Dto.Id;
+                    (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForCreate();
+                }
+                else
+                {
+                    (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForUpdate();
+                }
+                this.UpdateAuditInformation();
+
+                this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+                T.Complete();
+            }
+        }
+
+        private CustAuto.Data ConvertCustomer()
+        {
+            //Dto dto1 = (this.FormDto as FormDto).Dto;
+            Dto dto = (base.FormDto as Facade.CheckIn.FormDto).dto;
+       
+
+            AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data()
+            {
+                Id = dto.Reservation.Customer.Id,
+                FirstName = dto.Reservation.Customer.FirstName,
+                MiddleName = dto.Reservation.Customer.MiddleName,
+                LastName = dto.Reservation.Customer.LastName,
+                Address = dto.Reservation.Customer.Address,
+                City = dto.Reservation.Customer.City,
+                Pin = dto.Reservation.Customer.Pin,
+                Email = dto.Reservation.Customer.Email,
+                IdentityProof = dto.Reservation.Customer.IdentityProofName == null ? String.Empty : dto.Reservation.Customer.IdentityProofName,
                 State = new Crystal.Configuration.Component.State.Data
                 {
-                    Id = reservationDto.Customer.State.Id,
-                    Name = reservationDto.Customer.State.Name
+                    Id = dto.Reservation.Customer.State.Id,
+                    Name = dto.Reservation.Customer.State.Name
                 },
-                ContactNumberList = new RoomReservation.ReservationServer(null).ConvertToContactNumberData(reservationDto.Customer.ContactNumberList),
+                ContactNumberList = this.ConvertToContactNumberData(dto.Reservation.Customer.ContactNumberList),
                 //Initial = new Crystal.Configuration.Component.Initial.Data
                 //{
                 //    Id = reservationDto.Customer.Initial.Id,
@@ -129,27 +163,53 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 //},
                 IdentityProofType = new Crystal.Configuration.Component.IdentityProofType.Data
                 {
-                    Id = reservationDto.Customer.IdentityProofType.Id,
-                    Name = reservationDto.Customer.IdentityProofType.Name
-                },
-                RoomReserver = new CrystalLodge.Room.Reserver.Data(),
+                    Id = dto.Reservation.Customer.IdentityProofType.Id,
+                    Name = dto.Reservation.Customer.IdentityProofType.Name
+                },                
                 Checkin = new CrystalLodge.Room.CheckInContainer.Data()
             };
 
-            autoCustomer.RoomReserver.Active = new RoomReservation.ReservationServer(null).Convert(reservationDto) as CrystalCustomer.Action.Data;
-            autoCustomer.RoomReserver.Active.ProductList = reservationDto.RoomList == null ? null : new RoomReservation.ReservationServer(null).GetRoomDataList(reservationDto.RoomList);
+            autoCustomer.Checkin.Active = this.Convert(dto) as CrystalCustomer.Action.Data;
+            autoCustomer.Checkin.Active.ProductList = dto.Reservation.RoomList == null ? null : this.GetRoomDataList(dto.Reservation.RoomList);
 
-            autoCustomer.Checkin.Active = this.Convert(checkInDto) as CrystalCustomer.Action.Data;
-
-            ICrud crud = new AutoTourism.Component.Customer.Server(autoCustomer);
-            ReturnObject<Boolean> ret = crud.Save();
-
-            if (autoCustomer.Checkin.Active != null)
-                (this.FormDto as FormDto).dto.Id = autoCustomer.Checkin.Active.Id;
-
-            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information); 
+            return autoCustomer;
         }
-        
+
+
+        //--Duplicate function [exists in ReservationServer]
+        public List<CrystalCustomer.ContactNumber.Data> ConvertToContactNumberData(List<Table> contactNumberList)
+        {
+            List<CrystalCustomer.ContactNumber.Data> lstContactNumber = new List<CrystalCustomer.ContactNumber.Data>();
+            if (contactNumberList != null && contactNumberList.Count > 0)
+            {
+                foreach (Table table in contactNumberList)
+                {
+                    lstContactNumber.Add(new CrystalCustomer.ContactNumber.Data
+                    {
+                        Id = table.Id,
+                        ContactNumber = table.Name
+                    });
+                }
+            }
+
+            return lstContactNumber;
+        }
+
+        //--Duplicate function [exists in ReservationServer]
+        public List<Data> GetRoomDataList(List<LodgeConfFac.Room.Dto> RoomList)
+        {
+            List<Data> RoomDataList = new List<Data>();
+            foreach (LodgeConfFac.Room.Dto dto in RoomList)
+            {
+                RoomDataList.Add(new CrystalLodge.Room.Data
+                {
+                    Id = dto.Id,
+                    Number = dto.Number,
+                });
+            }
+            return RoomDataList;
+        }
+
         void ICheckIn.CheckOut()
         {            
             //updating reservation
