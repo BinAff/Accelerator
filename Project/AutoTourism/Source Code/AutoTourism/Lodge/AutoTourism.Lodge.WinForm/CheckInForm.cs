@@ -190,6 +190,120 @@ namespace AutoTourism.Lodge.WinForm
                 //this.refreshDto.Reservation.Customer = reservation.CloneCustomer(this.formDto.dto.Reservation.Customer);
             }
         }
+
+        protected override Boolean ValidateForm()
+        {
+            Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
+
+            Boolean retVal = true;
+            errorProvider.Clear();
+
+            if (formDto == null || formDto.dto == null || formDto.dto.Reservation == null || formDto.dto.Reservation.Customer == null)
+            {
+                errorProvider.SetError(btnPickReservation, "Reservation is available for check in.");
+                btnPickReservation.Focus();
+                return false;
+            }
+            else if (ValidationRule.IsDateLessThanToday(dtFrom.Value))
+            {
+                errorProvider.SetError(dtFrom, "Booking date cannot be less than today.");
+                dtFrom.Focus();
+                return false;
+            }
+            else if (!ValidationRule.IsDateEqual(dtFrom.Value, DateTime.Today))
+            {
+                errorProvider.SetError(dtFrom, "Booking date cannot be greater than today.");
+                dtFrom.Focus();
+                return false;
+            }
+            else if (String.IsNullOrEmpty(txtDays.Text.Trim()))
+            {
+                errorProvider.SetError(txtDays, "Please enter days.");
+                txtDays.Focus();
+                return false;
+            }
+            else if (!(new Regex(@"^[0-9]*$").IsMatch(txtDays.Text.Trim())) || Convert.ToInt16(txtDays.Text) == 0)
+            {
+                errorProvider.SetError(txtDays, "Entered " + txtDays.Text + " is Invalid.");
+                txtDays.Focus();
+                return false;
+            }
+            else if (String.IsNullOrEmpty(txtPersons.Text.Trim()))
+            {
+                errorProvider.SetError(txtPersons, "Please enter persons.");
+                txtPersons.Focus();
+                return false;
+            }
+            else if (!(new Regex(@"^[0-9]*$").IsMatch(txtPersons.Text.Trim())) || Convert.ToInt16(txtPersons.Text) == 0)
+            {
+                errorProvider.SetError(txtPersons, "Entered " + txtPersons.Text + " is Invalid.");
+                txtPersons.Focus();
+                return false;
+            }
+            else if (String.IsNullOrEmpty(txtRooms.Text.Trim()))
+            {
+                errorProvider.SetError(txtRooms, "Please enter rooms.");
+                txtRooms.Focus();
+                return false;
+            }
+            else if (!(new Regex(@"^[0-9]*$").IsMatch(txtRooms.Text.Trim())) || Convert.ToInt16(txtRooms.Text) == 0)
+            {
+                errorProvider.SetError(txtRooms, "Entered " + txtRooms.Text + " is Invalid.");
+                txtRooms.Focus();
+                return false;
+            }
+            else if (!ValidationRule.IsDecimal(txtAdvance.Text.Trim() == String.Empty ? "0" : txtAdvance.Text.Trim().Replace(",", "")))
+            {
+                errorProvider.SetError(txtAdvance, "Entered " + txtAdvance.Text + " is Invalid.");
+                txtAdvance.Focus();
+                return false;
+            }
+            else if (cmbCheckInRoom.DataSource == null || cmbCheckInRoom.Items.Count == 0)
+            {
+                errorProvider.SetError(cmbCheckInRoom, "Select rooms for checkin.");
+                cmbCheckInRoom.Focus();
+                return false;
+            }
+            else if (cmbCheckInRoom.Items.Count > Convert.ToInt32(txtRooms.Text.Trim()))
+            {
+                errorProvider.SetError(cmbCheckInRoom, "Selected rooms cannot be greater than the no of rooms.");
+                cmbCheckInRoom.Focus();
+                return false;
+            }
+            else if (Convert.ToInt32(txtRooms.Text.Trim()) > this.availableRooms)
+            {
+                errorProvider.SetError(txtRooms, "No of rooms cannot be greater than available rooms.");
+                cmbCheckInRoom.Focus();
+                return false;
+            }
+            return retVal;
+        }
+
+        protected override void AssignDto()
+        {
+            Facade.CheckIn.Dto dto = (base.formDto as Facade.CheckIn.FormDto).Dto as Facade.CheckIn.Dto;
+            dto.Id = dto == null ? 0 : dto.Id;
+
+         
+            dto.Date = DateTime.Now;
+
+            if (dto.Reservation == null) dto.Reservation = new LodgeFacade.RoomReservation.Dto();
+            dto.Reservation.Id = dto.Reservation == null ? 0 : dto.Reservation.Id;
+
+            dto.Reservation.isCheckedIn = true;
+            dto.Reservation.BookingFrom = new DateTime(dtFrom.Value.Year, dtFrom.Value.Month, dtFrom.Value.Day, dtFrom.Value.Hour, dtFrom.Value.Minute, dtFrom.Value.Second);
+            dto.Reservation.BookingFrom = DateTime.Now;
+
+            dto.Reservation.NoOfDays = Convert.ToInt16(txtDays.Text);
+            dto.Reservation.NoOfPersons = Convert.ToInt16(txtPersons.Text);
+            dto.Reservation.NoOfRooms = Convert.ToInt16(txtRooms.Text);
+            dto.Reservation.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));
+            dto.Reservation.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
+            dto.Reservation.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>)[this.cboType.SelectedIndex].Id };
+            dto.Reservation.ACPreference = this.cboAC.SelectedIndex;
+            dto.Reservation.RoomList = (List<LodgeConfigurationFacade.Room.Dto>)cmbCheckInRoom.DataSource;
+            
+        }
                 
         private Boolean SaveCheckInData()
         {
@@ -307,93 +421,101 @@ namespace AutoTourism.Lodge.WinForm
             //    base.IsModified = true;
             //    this.Close();
             //}
+
+            if (base.Save())
+            {
+
+                (base.formDto as Facade.CheckIn.FormDto).dto.StatusId = Convert.ToInt64(CheckInStatus.CheckIn);
+                base.IsModified = true;
+                this.Close();
+            }
         }
 
-        private Boolean ValidateCheckIn()
-        {
-            Boolean retVal = true;
-            //errorProvider.Clear();
+        //private Boolean ValidateCheckIn()
+        //{
+        //    Boolean retVal = true;
+        //    errorProvider.Clear();
 
-            //if (this.formDto == null || this.formDto.dto == null || this.formDto.dto.Reservation == null || this.formDto.dto.Reservation.Customer == null)
-            //{
-            //    errorProvider.SetError(btnPickReservation, "Reservation is available for check in.");
-            //    btnPickReservation.Focus();
-            //    return false;
-            //}
-            //else if (ValidationRule.IsDateLessThanToday(dtFrom.Value))
-            //{
-            //    errorProvider.SetError(dtFrom, "Booking date cannot be less than today.");
-            //    dtFrom.Focus();
-            //    return false;
-            //}
-            //else if (!ValidationRule.IsDateEqual(dtFrom.Value, DateTime.Today))
-            //{
-            //    errorProvider.SetError(dtFrom, "Booking date cannot be greater than today.");
-            //    dtFrom.Focus();
-            //    return false;
-            //}
-            //else if (String.IsNullOrEmpty(txtDays.Text.Trim()))
-            //{
-            //    errorProvider.SetError(txtDays, "Please enter days.");
-            //    txtDays.Focus();
-            //    return false;
-            //}
-            //else if (!(new Regex(@"^[0-9]*$").IsMatch(txtDays.Text.Trim())) || Convert.ToInt16(txtDays.Text) == 0)
-            //{
-            //    errorProvider.SetError(txtDays, "Entered " + txtDays.Text + " is Invalid.");
-            //    txtDays.Focus();
-            //    return false;
-            //}
-            //else if (String.IsNullOrEmpty(txtPersons.Text.Trim()))
-            //{
-            //    errorProvider.SetError(txtPersons, "Please enter persons.");
-            //    txtPersons.Focus();
-            //    return false;
-            //}
-            //else if (!(new Regex(@"^[0-9]*$").IsMatch(txtPersons.Text.Trim())) || Convert.ToInt16(txtPersons.Text) == 0)
-            //{
-            //    errorProvider.SetError(txtPersons, "Entered " + txtPersons.Text + " is Invalid.");
-            //    txtPersons.Focus();
-            //    return false;
-            //}
-            //else if (String.IsNullOrEmpty(txtRooms.Text.Trim()))
-            //{
-            //    errorProvider.SetError(txtRooms, "Please enter rooms.");
-            //    txtRooms.Focus();
-            //    return false;
-            //}
-            //else if (!(new Regex(@"^[0-9]*$").IsMatch(txtRooms.Text.Trim())) || Convert.ToInt16(txtRooms.Text) == 0)
-            //{
-            //    errorProvider.SetError(txtRooms, "Entered " + txtRooms.Text + " is Invalid.");
-            //    txtRooms.Focus();
-            //    return false;
-            //}
-            //else if (!ValidationRule.IsDecimal(txtAdvance.Text.Trim() == String.Empty ? "0" : txtAdvance.Text.Trim().Replace(",", "")))
-            //{
-            //    errorProvider.SetError(txtAdvance, "Entered " + txtAdvance.Text + " is Invalid.");
-            //    txtAdvance.Focus();
-            //    return false;
-            //}
-            //else if (cmbCheckInRoom.DataSource == null || cmbCheckInRoom.Items.Count == 0)
-            //{
-            //    errorProvider.SetError(cmbCheckInRoom, "Select rooms for checkin.");
-            //    cmbCheckInRoom.Focus();
-            //    return false;
-            //}
-            //else if (cmbCheckInRoom.Items.Count > Convert.ToInt32(txtRooms.Text.Trim()))
-            //{
-            //    errorProvider.SetError(cmbCheckInRoom, "Selected rooms cannot be greater than the no of rooms.");
-            //    cmbCheckInRoom.Focus();
-            //    return false;
-            //}
-            //else if (Convert.ToInt32(txtRooms.Text.Trim()) > this.availableRooms)
-            //{
-            //    errorProvider.SetError(txtRooms, "No of rooms cannot be greater than available rooms.");
-            //    cmbCheckInRoom.Focus();
-            //    return false;
-            //}
-            return retVal;
-        }
+        //    if (this.formDto == null || this.formDto.dto == null || this.formDto.dto.Reservation == null || this.formDto.dto.Reservation.Customer == null)
+        //    {
+        //        errorProvider.SetError(btnPickReservation, "Reservation is available for check in.");
+        //        btnPickReservation.Focus();
+        //        return false;
+        //    }
+        //    else if (ValidationRule.IsDateLessThanToday(dtFrom.Value))
+        //    {
+        //        errorProvider.SetError(dtFrom, "Booking date cannot be less than today.");
+        //        dtFrom.Focus();
+        //        return false;
+        //    }
+        //    else if (!ValidationRule.IsDateEqual(dtFrom.Value, DateTime.Today))
+        //    {
+        //        errorProvider.SetError(dtFrom, "Booking date cannot be greater than today.");
+        //        dtFrom.Focus();
+        //        return false;
+        //    }
+        //    else if (String.IsNullOrEmpty(txtDays.Text.Trim()))
+        //    {
+        //        errorProvider.SetError(txtDays, "Please enter days.");
+        //        txtDays.Focus();
+        //        return false;
+        //    }
+        //    else if (!(new Regex(@"^[0-9]*$").IsMatch(txtDays.Text.Trim())) || Convert.ToInt16(txtDays.Text) == 0)
+        //    {
+        //        errorProvider.SetError(txtDays, "Entered " + txtDays.Text + " is Invalid.");
+        //        txtDays.Focus();
+        //        return false;
+        //    }
+        //    else if (String.IsNullOrEmpty(txtPersons.Text.Trim()))
+        //    {
+        //        errorProvider.SetError(txtPersons, "Please enter persons.");
+        //        txtPersons.Focus();
+        //        return false;
+        //    }
+        //    else if (!(new Regex(@"^[0-9]*$").IsMatch(txtPersons.Text.Trim())) || Convert.ToInt16(txtPersons.Text) == 0)
+        //    {
+        //        errorProvider.SetError(txtPersons, "Entered " + txtPersons.Text + " is Invalid.");
+        //        txtPersons.Focus();
+        //        return false;
+        //    }
+        //    else if (String.IsNullOrEmpty(txtRooms.Text.Trim()))
+        //    {
+        //        errorProvider.SetError(txtRooms, "Please enter rooms.");
+        //        txtRooms.Focus();
+        //        return false;
+        //    }
+        //    else if (!(new Regex(@"^[0-9]*$").IsMatch(txtRooms.Text.Trim())) || Convert.ToInt16(txtRooms.Text) == 0)
+        //    {
+        //        errorProvider.SetError(txtRooms, "Entered " + txtRooms.Text + " is Invalid.");
+        //        txtRooms.Focus();
+        //        return false;
+        //    }
+        //    else if (!ValidationRule.IsDecimal(txtAdvance.Text.Trim() == String.Empty ? "0" : txtAdvance.Text.Trim().Replace(",", "")))
+        //    {
+        //        errorProvider.SetError(txtAdvance, "Entered " + txtAdvance.Text + " is Invalid.");
+        //        txtAdvance.Focus();
+        //        return false;
+        //    }
+        //    else if (cmbCheckInRoom.DataSource == null || cmbCheckInRoom.Items.Count == 0)
+        //    {
+        //        errorProvider.SetError(cmbCheckInRoom, "Select rooms for checkin.");
+        //        cmbCheckInRoom.Focus();
+        //        return false;
+        //    }
+        //    else if (cmbCheckInRoom.Items.Count > Convert.ToInt32(txtRooms.Text.Trim()))
+        //    {
+        //        errorProvider.SetError(cmbCheckInRoom, "Selected rooms cannot be greater than the no of rooms.");
+        //        cmbCheckInRoom.Focus();
+        //        return false;
+        //    }
+        //    else if (Convert.ToInt32(txtRooms.Text.Trim()) > this.availableRooms)
+        //    {
+        //        errorProvider.SetError(txtRooms, "No of rooms cannot be greater than available rooms.");
+        //        cmbCheckInRoom.Focus();
+        //        return false;
+        //    }
+        //    return retVal;
+        //}
         
         private void btnAddRoom_Click(object sender, EventArgs e)
         {
@@ -553,73 +675,74 @@ namespace AutoTourism.Lodge.WinForm
 
         private void PopulateFilteredRoomList()
         {
+            Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
 
-            //this.cboRoomList.DataSource = null;
-            //List<LodgeConfigurationFacade.Room.Dto> RoomList = new List<LodgeConfigurationFacade.Room.Dto>();
+            this.cboRoomList.DataSource = null;
+            List<LodgeConfigurationFacade.Room.Dto> RoomList = new List<LodgeConfigurationFacade.Room.Dto>();
 
-            //if (this.formDto.roomList != null && this.formDto.roomList.Count > 0)
-            //{
-            //    foreach (LodgeConfigurationFacade.Room.Dto roomDto in this.formDto.roomList)
-            //    {
-            //        if (this.ValidateRoom(roomDto))
-            //            RoomList.Add(roomDto);
-            //    }
-            //}
+            if (formDto.roomList != null && formDto.roomList.Count > 0)
+            {
+                foreach (LodgeConfigurationFacade.Room.Dto roomDto in formDto.roomList)
+                {
+                    if (this.ValidateRoom(roomDto))
+                        RoomList.Add(roomDto);
+                }
+            }
 
 
-            //List<LodgeConfigurationFacade.Room.Dto> SelectedRoomList = new List<LodgeConfigurationFacade.Room.Dto>();
-            //List<LodgeConfigurationFacade.Room.Dto> AvailableRoomList = new List<LodgeConfigurationFacade.Room.Dto>();
+            List<LodgeConfigurationFacade.Room.Dto> SelectedRoomList = new List<LodgeConfigurationFacade.Room.Dto>();
+            List<LodgeConfigurationFacade.Room.Dto> AvailableRoomList = new List<LodgeConfigurationFacade.Room.Dto>();
 
-            //if (RoomList != null && RoomList.Count > 0)
-            //{
-            //    if (this.formDto.dto.Reservation == null || this.formDto.dto.Reservation.RoomList == null || this.formDto.dto.Reservation.RoomList.Count == 0)
-            //    {
-            //        SelectedRoomList = null;
-            //        AvailableRoomList = RoomList;
-            //    }
-            //    else
-            //    {
-            //        Boolean isSelected = false;
-            //        foreach (LodgeConfigurationFacade.Room.Dto roomDto in RoomList)
-            //        {
-            //            isSelected = false;
-            //            foreach (LodgeConfigurationFacade.Room.Dto validRoomDto in this.formDto.dto.Reservation.RoomList)
-            //            {
-            //                if (roomDto.Id == validRoomDto.Id)
-            //                {
-            //                    isSelected = true;
-            //                    break;
-            //                }
-            //            }
+            if (RoomList != null && RoomList.Count > 0)
+            {
+                if (formDto.dto == null || formDto.dto.Reservation == null || formDto.dto.Reservation.RoomList == null || formDto.dto.Reservation.RoomList.Count == 0)
+                {
+                    SelectedRoomList = null;
+                    AvailableRoomList = RoomList;
+                }
+                else
+                {
+                    Boolean isSelected = false;
+                    foreach (LodgeConfigurationFacade.Room.Dto roomDto in RoomList)
+                    {
+                        isSelected = false;
+                        foreach (LodgeConfigurationFacade.Room.Dto validRoomDto in formDto.dto.Reservation.RoomList)
+                        {
+                            if (roomDto.Id == validRoomDto.Id)
+                            {
+                                isSelected = true;
+                                break;
+                            }
+                        }
 
-            //            if (isSelected)
-            //                SelectedRoomList.Add(roomDto);
-            //            else
-            //                AvailableRoomList.Add(roomDto);
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    SelectedRoomList = null;
-            //    AvailableRoomList = null;
-            //}
+                        if (isSelected)
+                            SelectedRoomList.Add(roomDto);
+                        else
+                            AvailableRoomList.Add(roomDto);
+                    }
+                }
+            }
+            else
+            {
+                SelectedRoomList = null;
+                AvailableRoomList = null;
+            }
 
-            //this.cmbCheckInRoom.DataSource = SelectedRoomList;
-            //if (SelectedRoomList != null && SelectedRoomList.Count > 0)
-            //{
-            //    this.cmbCheckInRoom.DisplayMember = "Number";
-            //    this.cmbCheckInRoom.ValueMember = "Id";
-            //    this.cmbCheckInRoom.SelectedIndex = -1;
-            //}
+            this.cmbCheckInRoom.DataSource = SelectedRoomList;
+            if (SelectedRoomList != null && SelectedRoomList.Count > 0)
+            {
+                this.cmbCheckInRoom.DisplayMember = "Number";
+                this.cmbCheckInRoom.ValueMember = "Id";
+                this.cmbCheckInRoom.SelectedIndex = -1;
+            }
 
-            //this.cboRoomList.DataSource = AvailableRoomList;
-            //if (AvailableRoomList != null && AvailableRoomList.Count > 0)
-            //{
-            //    this.cboRoomList.DisplayMember = "Number";
-            //    this.cboRoomList.ValueMember = "Id";
-            //    this.cboRoomList.SelectedIndex = -1;
-            //}
+            this.cboRoomList.DataSource = AvailableRoomList;
+            if (AvailableRoomList != null && AvailableRoomList.Count > 0)
+            {
+                this.cboRoomList.DisplayMember = "Number";
+                this.cboRoomList.ValueMember = "Id";
+                this.cboRoomList.SelectedIndex = -1;
+            }
         }
 
         private Boolean ValidateRoom(LodgeConfigurationFacade.Room.Dto roomDto)
@@ -648,8 +771,8 @@ namespace AutoTourism.Lodge.WinForm
             if (!isValidRoom)
                 return false;
 
-            if (!this.isRoomBooked(roomDto))
-                return false;
+            //if (!this.isRoomBooked(roomDto))
+            //    return false;
 
             return true;
 
@@ -670,7 +793,7 @@ namespace AutoTourism.Lodge.WinForm
                             return false;
                     }
                 }
-                return true;
+                //return true;
             }
 
             return false;
@@ -758,77 +881,79 @@ namespace AutoTourism.Lodge.WinForm
 
         private void LoadRoomReservationStatusLevels()
         {
-            //Int64 roomCategoryId = 0;
-            //Int64 roomTypeId = 0;
-            //Int32 acPreference = 0;
+            Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
 
-            //if (this.cboCategory.SelectedIndex > 0)
-            //{
-            //    List<LodgeConfigurationFacade.Room.Category.Dto> lstCategory = this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>;
-            //    roomCategoryId = lstCategory[this.cboCategory.SelectedIndex].Id;
-            //}
+            Int64 roomCategoryId = 0;
+            Int64 roomTypeId = 0;
+            Int32 acPreference = 0;
 
-            //if (this.cboType.SelectedIndex > 0)
-            //{
-            //    List<LodgeConfigurationFacade.Room.Type.Dto> lstType = this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>;
-            //    roomTypeId = lstType[this.cboType.SelectedIndex].Id;
-            //}
+            if (this.cboCategory.SelectedIndex > 0)
+            {
+                List<LodgeConfigurationFacade.Room.Category.Dto> lstCategory = this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>;
+                roomCategoryId = lstCategory[this.cboCategory.SelectedIndex].Id;
+            }
 
-            //acPreference = this.cboAC.SelectedIndex;
+            if (this.cboType.SelectedIndex > 0)
+            {
+                List<LodgeConfigurationFacade.Room.Type.Dto> lstType = this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>;
+                roomTypeId = lstType[this.cboType.SelectedIndex].Id;
+            }
 
-            //int TotalRoomsWithMatchingCategoryTypeAndACPreference = 0;
-            //int TotalRoomsBookedWithMatchingCategoryTypeAndACPreference = 0;
-            //int AvailableRoomsCount = 0;
+            acPreference = this.cboAC.SelectedIndex;
 
-            //LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
-            //List<LodgeConfigurationFacade.Room.Dto> filteredRoomList = new List<LodgeConfigurationFacade.Room.Dto>();
+            int TotalRoomsWithMatchingCategoryTypeAndACPreference = 0;
+            int TotalRoomsBookedWithMatchingCategoryTypeAndACPreference = 0;
+            int AvailableRoomsCount = 0;
 
-            //if (this.formDto.roomList != null && this.formDto.roomList.Count > 0)
-            //{
-            //    filteredRoomList = reservation.GetFilteredRoomsWithCategoryTypeAndACPreference(this.formDto.roomList, 0, 0, 0);
-            //    this.totalRooms = filteredRoomList.Count;
-            //    //lblTotalRooms.Text = "Total Rooms : = " + filteredRoomList.Count.ToString();
-            //    txtTotalRoom.Text = filteredRoomList.Count.ToString();
+            LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
+            List<LodgeConfigurationFacade.Room.Dto> filteredRoomList = new List<LodgeConfigurationFacade.Room.Dto>();
 
-            //    filteredRoomList = reservation.GetFilteredRoomsWithCategoryTypeAndACPreference(this.formDto.roomList, roomCategoryId, roomTypeId, acPreference);
-            //    if (filteredRoomList != null)
-            //        TotalRoomsWithMatchingCategoryTypeAndACPreference = filteredRoomList.Count;
-            //}
-            ////lblTotalRoomCount.Text = "Total no of rooms for the selected category, type and AC preference = " + TotalRoomsWithMatchingCategoryTypeAndACPreference.ToString();
-            //txtTotalRoomWithFilter.Text = TotalRoomsWithMatchingCategoryTypeAndACPreference.ToString();
+            if (formDto.roomList != null && formDto.roomList.Count > 0)
+            {
+                filteredRoomList = reservation.GetFilteredRoomsWithCategoryTypeAndACPreference(formDto.roomList, 0, 0, 0);
+                this.totalRooms = filteredRoomList.Count;
+                //lblTotalRooms.Text = "Total Rooms : = " + filteredRoomList.Count.ToString();
+                txtTotalRoom.Text = filteredRoomList.Count.ToString();
 
-            //if (isNoOfDaysExists())
-            //{
-            //    Int64 reservationId = (this.formDto.dto == null || this.formDto.dto.Reservation == null) ? 0 : this.formDto.dto.Reservation.Id;
-            //    this.totalBookings = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId);
-            //    //lblTotalBooking.Text = "Total Bookings between selected dates : = " + this.totalBookings.ToString();
-            //    txtTotalBooked.Text = this.totalBookings.ToString();
+                filteredRoomList = reservation.GetFilteredRoomsWithCategoryTypeAndACPreference(formDto.roomList, roomCategoryId, roomTypeId, acPreference);
+                if (filteredRoomList != null)
+                    TotalRoomsWithMatchingCategoryTypeAndACPreference = filteredRoomList.Count;
+            }
+            //lblTotalRoomCount.Text = "Total no of rooms for the selected category, type and AC preference = " + TotalRoomsWithMatchingCategoryTypeAndACPreference.ToString();
+            txtTotalRoomWithFilter.Text = TotalRoomsWithMatchingCategoryTypeAndACPreference.ToString();
 
-            //    //reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, 0, 0, 0).ToString();
+            if (isNoOfDaysExists())
+            {
+                Int64 reservationId = (formDto.dto == null || formDto.dto.Reservation == null) ? 0 : formDto.dto.Reservation.Id;
+                this.totalBookings = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId);
+                //lblTotalBooking.Text = "Total Bookings between selected dates : = " + this.totalBookings.ToString();
+                txtTotalBooked.Text = this.totalBookings.ToString();
 
-            //    TotalRoomsBookedWithMatchingCategoryTypeAndACPreference = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, roomCategoryId, roomTypeId, acPreference);
-            //    //lblTotalBookedRoomCount.Text = "Total no of rooms booked for the selected category, type and AC preference from " +
-            //    //    dtFrom.Value.ToShortDateString() + " and " + dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)).ToShortDateString() + " = " +
-            //    //    TotalRoomsBookedWithMatchingCategoryTypeAndACPreference.ToString();
+                //reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, 0, 0, 0).ToString();
 
-            //    AvailableRoomsCount = TotalRoomsWithMatchingCategoryTypeAndACPreference - TotalRoomsBookedWithMatchingCategoryTypeAndACPreference;
-            //    Int32 totalAvailableRooms = this.totalRooms - this.totalBookings;
-            //    this.availableRooms = (AvailableRoomsCount > totalAvailableRooms) ? totalAvailableRooms : AvailableRoomsCount;
+                TotalRoomsBookedWithMatchingCategoryTypeAndACPreference = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, roomCategoryId, roomTypeId, acPreference);
+                //lblTotalBookedRoomCount.Text = "Total no of rooms booked for the selected category, type and AC preference from " +
+                //    dtFrom.Value.ToShortDateString() + " and " + dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)).ToShortDateString() + " = " +
+                //    TotalRoomsBookedWithMatchingCategoryTypeAndACPreference.ToString();
 
-            //    //lblAvailableRooms.Text = "No of Rooms available for booking = " + this.availableRooms.ToString();
-            //    txtAvailableRooms.Text = this.availableRooms.ToString();
+                AvailableRoomsCount = TotalRoomsWithMatchingCategoryTypeAndACPreference - TotalRoomsBookedWithMatchingCategoryTypeAndACPreference;
+                Int32 totalAvailableRooms = this.totalRooms - this.totalBookings;
+                this.availableRooms = (AvailableRoomsCount > totalAvailableRooms) ? totalAvailableRooms : AvailableRoomsCount;
 
-            //    if (this.availableRooms == 0)
-            //        this.cboRoomList.DataSource = null;
+                //lblAvailableRooms.Text = "No of Rooms available for booking = " + this.availableRooms.ToString();
+                txtAvailableRooms.Text = this.availableRooms.ToString();
 
-            //}
-            //else
-            //{
-            //    txtAvailableRooms.Text = String.Empty;
-            //    //lblTotalBookedRoomCount.Text = String.Empty;
-            //    //lblAvailableRooms.Text = String.Empty;
-            //    this.availableRooms = 0;
-            //}
+                if (this.availableRooms == 0)
+                    this.cboRoomList.DataSource = null;
+
+            }
+            else
+            {
+                txtAvailableRooms.Text = String.Empty;
+                //lblTotalBookedRoomCount.Text = String.Empty;
+                //lblAvailableRooms.Text = String.Empty;
+                this.availableRooms = 0;
+            }
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
