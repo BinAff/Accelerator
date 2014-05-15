@@ -33,6 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cboExtension = new System.Windows.Forms.ComboBox();
             this.pnlFile = new System.Windows.Forms.Panel();
+            this.btnOpen = new System.Windows.Forms.Button();
             this.pnlFile.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,9 +51,9 @@
             // txtDocName
             // 
             this.txtDocName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtDocName.Location = new System.Drawing.Point(87, 0);
+            this.txtDocName.Location = new System.Drawing.Point(40, 0);
             this.txtDocName.Name = "txtDocName";
-            this.txtDocName.Size = new System.Drawing.Size(333, 20);
+            this.txtDocName.Size = new System.Drawing.Size(336, 20);
             this.txtDocName.TabIndex = 1;
             // 
             // label1
@@ -60,9 +61,9 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Left;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 21);
+            this.label1.Size = new System.Drawing.Size(40, 21);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Document Name";
+            this.label1.Text = "Name";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cboExtension
@@ -70,21 +71,33 @@
             this.cboExtension.Dock = System.Windows.Forms.DockStyle.Right;
             this.cboExtension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboExtension.FormattingEnabled = true;
-            this.cboExtension.Location = new System.Drawing.Point(420, 0);
+            this.cboExtension.Location = new System.Drawing.Point(376, 0);
             this.cboExtension.Name = "cboExtension";
-            this.cboExtension.Size = new System.Drawing.Size(171, 21);
+            this.cboExtension.Size = new System.Drawing.Size(140, 21);
             this.cboExtension.TabIndex = 3;
             // 
             // pnlFile
             // 
             this.pnlFile.Controls.Add(this.txtDocName);
-            this.pnlFile.Controls.Add(this.label1);
             this.pnlFile.Controls.Add(this.cboExtension);
+            this.pnlFile.Controls.Add(this.btnOpen);
+            this.pnlFile.Controls.Add(this.label1);
             this.pnlFile.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlFile.Location = new System.Drawing.Point(0, 414);
             this.pnlFile.Name = "pnlFile";
             this.pnlFile.Size = new System.Drawing.Size(591, 21);
             this.pnlFile.TabIndex = 4;
+            // 
+            // btnOpen
+            // 
+            this.btnOpen.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnOpen.Location = new System.Drawing.Point(516, 0);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(75, 21);
+            this.btnOpen.TabIndex = 4;
+            this.btnOpen.Text = "Open";
+            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // Open
             // 
@@ -114,5 +127,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboExtension;
         private System.Windows.Forms.Panel pnlFile;
+        private System.Windows.Forms.Button btnOpen;
     }
 }
