@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ucRegister = new Register();
+            this.ucRegister = new Vanilla.Utility.WinForm.Register();
             this.txtDocName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cboExtension = new System.Windows.Forms.ComboBox();
@@ -39,7 +39,9 @@
             // ucRegister
             // 
             this.ucRegister.Address = null;
+            this.ucRegister.Category = Vanilla.Utility.Facade.Artifact.Category.Form;
             this.ucRegister.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucRegister.IsDialogue = true;
             this.ucRegister.Location = new System.Drawing.Point(0, 0);
             this.ucRegister.Name = "ucRegister";
             this.ucRegister.Size = new System.Drawing.Size(591, 414);
@@ -68,13 +70,6 @@
             this.cboExtension.Dock = System.Windows.Forms.DockStyle.Right;
             this.cboExtension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboExtension.FormattingEnabled = true;
-            this.cboExtension.Items.AddRange(new object[] {
-            "All Report (*.$rpt)",
-            "Daily Report (*.drpt)",
-            "Weekly Report (*.wrpt)",
-            "Monthly Report (*.mrpt)",
-            "Quarterly Report (*.qrpt)",
-            "Yearly Report (*.yrpt)"});
             this.cboExtension.Location = new System.Drawing.Point(420, 0);
             this.cboExtension.Name = "cboExtension";
             this.cboExtension.Size = new System.Drawing.Size(171, 21);
@@ -102,6 +97,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Open";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Open Document";
             this.Load += new System.EventHandler(this.Open_Load);
