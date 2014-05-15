@@ -66,7 +66,23 @@ namespace Vanilla.Utility.Facade.Artifact
                     this.extension = value;
                 }
             }
-        }        
+        }
+
+        public String FullFileName
+        {
+            get
+            {
+                return this.FileName + "." + this.Extension;
+            }
+        }
+
+        public String FullPath
+        {
+            get
+            {
+                return this.Path + "\\" + this.FullFileName;
+            }
+        }
 
         private Type style;
         /// <summary>

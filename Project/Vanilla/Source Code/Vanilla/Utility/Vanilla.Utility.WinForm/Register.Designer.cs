@@ -35,8 +35,11 @@
             this.tbpForm = new System.Windows.Forms.TabPage();
             this.trvForm = new System.Windows.Forms.TreeView();
             this.imgMediumIcons = new System.Windows.Forms.ImageList(this.components);
+            this.tbpCatalogue = new System.Windows.Forms.TabPage();
+            this.trvCatalogue = new System.Windows.Forms.TreeView();
             this.tbpReport = new System.Windows.Forms.TabPage();
             this.trvReport = new System.Windows.Forms.TreeView();
+            this.ucSearchResult = new Vanilla.Utility.WinForm.SearchResult();
             this.lsvContainer = new System.Windows.Forms.ListView();
             this.imgLargeIcon = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -96,20 +99,17 @@
             this.btnBack = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.trvCatalogue = new System.Windows.Forms.TreeView();
-            this.tbpCatalogue = new System.Windows.Forms.TabPage();
-            this.ucSearchResult = new Vanilla.Utility.WinForm.SearchResult();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
             this.pnlArtifact.Panel2.SuspendLayout();
             this.pnlArtifact.SuspendLayout();
             this.tbcCategory.SuspendLayout();
             this.tbpForm.SuspendLayout();
+            this.tbpCatalogue.SuspendLayout();
             this.tbpReport.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.cmsExplorer.SuspendLayout();
             this.pnlAddress.SuspendLayout();
-            this.tbpCatalogue.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlArtifact
@@ -187,6 +187,29 @@
             this.imgMediumIcons.Images.SetKeyName(3, "Down");
             this.imgMediumIcons.Images.SetKeyName(4, "Up");
             // 
+            // tbpCatalogue
+            // 
+            this.tbpCatalogue.Controls.Add(this.trvCatalogue);
+            this.tbpCatalogue.Location = new System.Drawing.Point(4, 22);
+            this.tbpCatalogue.Name = "tbpCatalogue";
+            this.tbpCatalogue.Padding = new System.Windows.Forms.Padding(3);
+            this.tbpCatalogue.Size = new System.Drawing.Size(209, 384);
+            this.tbpCatalogue.TabIndex = 1;
+            this.tbpCatalogue.Text = "Catalogue";
+            this.tbpCatalogue.UseVisualStyleBackColor = true;
+            this.tbpCatalogue.Click += new System.EventHandler(this.tbpCatalogue_Click);
+            // 
+            // trvCatalogue
+            // 
+            this.trvCatalogue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.trvCatalogue.Location = new System.Drawing.Point(3, 3);
+            this.trvCatalogue.Name = "trvCatalogue";
+            this.trvCatalogue.ShowRootLines = false;
+            this.trvCatalogue.Size = new System.Drawing.Size(203, 378);
+            this.trvCatalogue.TabIndex = 0;
+            this.trvCatalogue.Visible = false;
+            this.trvCatalogue.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvCatalogue_AfterSelect);
+            // 
             // tbpReport
             // 
             this.tbpReport.Controls.Add(this.trvReport);
@@ -215,6 +238,15 @@
             this.trvReport.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvReport_NodeMouseClick);
             this.trvReport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvReport_MouseDown);
             // 
+            // ucSearchResult
+            // 
+            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
+            this.ucSearchResult.Name = "ucSearchResult";
+            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
+            this.ucSearchResult.TabIndex = 16;
+            this.ucSearchResult.Visible = false;
+            this.ucSearchResult.DoubleClick += new System.EventHandler(this.ucSearchResult_DoubleClick);
+            // 
             // lsvContainer
             // 
             this.lsvContainer.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -230,6 +262,7 @@
             this.lsvContainer.View = System.Windows.Forms.View.Details;
             this.lsvContainer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lsvContainer_AfterLabelEdit);
             this.lsvContainer.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lsvContainer_ColumnClick);
+            this.lsvContainer.SelectedIndexChanged += new System.EventHandler(this.lsvContainer_SelectedIndexChanged);
             this.lsvContainer.DoubleClick += new System.EventHandler(this.lsvContainer_DoubleClick);
             this.lsvContainer.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lsvContainer_KeyUp);
             this.lsvContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lsvContainer_MouseDown);
@@ -728,38 +761,6 @@
             this.txtSearch.Text = "Search...";
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
-            // trvCatalogue
-            // 
-            this.trvCatalogue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trvCatalogue.Location = new System.Drawing.Point(3, 3);
-            this.trvCatalogue.Name = "trvCatalogue";
-            this.trvCatalogue.ShowRootLines = false;
-            this.trvCatalogue.Size = new System.Drawing.Size(203, 378);
-            this.trvCatalogue.TabIndex = 0;
-            this.trvCatalogue.Visible = false;
-            this.trvCatalogue.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvCatalogue_AfterSelect);
-            // 
-            // tbpCatalogue
-            // 
-            this.tbpCatalogue.Controls.Add(this.trvCatalogue);
-            this.tbpCatalogue.Location = new System.Drawing.Point(4, 22);
-            this.tbpCatalogue.Name = "tbpCatalogue";
-            this.tbpCatalogue.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpCatalogue.Size = new System.Drawing.Size(209, 384);
-            this.tbpCatalogue.TabIndex = 1;
-            this.tbpCatalogue.Text = "Catalogue";
-            this.tbpCatalogue.UseVisualStyleBackColor = true;
-            this.tbpCatalogue.Click += new System.EventHandler(this.tbpCatalogue_Click);
-            // 
-            // ucSearchResult
-            // 
-            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
-            this.ucSearchResult.Name = "ucSearchResult";
-            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
-            this.ucSearchResult.TabIndex = 16;
-            this.ucSearchResult.Visible = false;
-            this.ucSearchResult.DoubleClick += new System.EventHandler(this.ucSearchResult_DoubleClick);
-            // 
             // Register
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -775,13 +776,13 @@
             this.pnlArtifact.ResumeLayout(false);
             this.tbcCategory.ResumeLayout(false);
             this.tbpForm.ResumeLayout(false);
+            this.tbpCatalogue.ResumeLayout(false);
             this.tbpReport.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.cmsExplorer.ResumeLayout(false);
             this.pnlAddress.ResumeLayout(false);
             this.pnlAddress.PerformLayout();
-            this.tbpCatalogue.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

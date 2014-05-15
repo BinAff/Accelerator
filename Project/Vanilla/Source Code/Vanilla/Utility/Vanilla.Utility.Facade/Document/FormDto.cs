@@ -16,7 +16,7 @@ namespace Vanilla.Utility.Facade.Document
             {
                 if (this.Document != null)
                 {
-                    return this.Document.FileName + "." + this.Document.Extension;
+                    return this.Document.FullFileName;
                 }
                 return String.Empty;
             }

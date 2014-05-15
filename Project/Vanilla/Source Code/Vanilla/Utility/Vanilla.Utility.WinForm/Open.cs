@@ -26,10 +26,16 @@ namespace Vanilla.Utility.WinForm
             this.ucRegister.FormLoad += ucRegister_FormLoad;
             this.ucRegister.ReportLoad += ucRegister_ReportLoad;
             this.ucRegister.DocumentShown += ucRegister_DocumentShown;
+            this.ucRegister.DocumentClicked += ucRegister_DocumentClicked;
 
             this.cboExtension.DisplayMember = "Name";
             this.cboExtension.Bind(this.GetExtensionList());
             this.cboExtension.SelectedIndex = 0;
+        }
+
+        void ucRegister_DocumentClicked()
+        {
+            this.txtDocName.Text = this.ucRegister.CurrentArtifact.FullFileName;
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
