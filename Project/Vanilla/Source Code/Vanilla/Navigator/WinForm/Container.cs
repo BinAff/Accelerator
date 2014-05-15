@@ -142,7 +142,7 @@ namespace Vanilla.Navigator.WinForm
             });
         }
 
-        private void ucRegister_ReportLoad(UtilFac.Artifact.Dto currentArtifact, UtilFac.Register.Server registerFacade)
+        private void ucRegister_ReportLoad(UtilFac.Artifact.Dto currentArtifact)
         {
             if (this.reportExecutable == null)
             {

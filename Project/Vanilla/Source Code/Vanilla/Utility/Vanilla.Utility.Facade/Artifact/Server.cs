@@ -95,6 +95,7 @@ namespace Vanilla.Utility.Facade.Artifact
             {
                 artifact.Module = this.ModuleFacade.Convert((data as CrysArtf.Data).ComponentData);
             }
+
             return artifact;
         }
 
@@ -255,8 +256,10 @@ namespace Vanilla.Utility.Facade.Artifact
             if (!this.IsError)
             {
                 Module.Definition.Dto moduleDef = formDto.Dto.ComponentDefinition;
+                BinAff.Facade.Library.Dto parent = formDto.Dto.Parent;
                 formDto.Dto = this.Convert(ret.Value) as Dto;
                 formDto.Dto.ComponentDefinition = moduleDef;
+                formDto.Dto.Parent = parent;
             }
         }
 

@@ -32,17 +32,22 @@ namespace Vanilla.Utility.WinForm
             this.cboExtension.SelectedIndex = 0;
         }
 
-        void ucRegister_FormLoad(Facade.Artifact.Dto currentArtifact)
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            this.ucRegister.ShowDocument();
+        }
+
+        private void ucRegister_FormLoad(Facade.Artifact.Dto currentArtifact)
         {
             this.ShowDocumentForm(currentArtifact);
         }
 
-        void ucRegister_ReportLoad(Facade.Artifact.Dto currentArtifact, Facade.Register.Server registerFacade)
+        private void ucRegister_ReportLoad(Facade.Artifact.Dto currentArtifact)
         {
             this.ShowDocumentForm(currentArtifact);
         }
-        
-        void ucRegister_DocumentShown()
+
+        private void ucRegister_DocumentShown()
         {
             this.Close();
         }

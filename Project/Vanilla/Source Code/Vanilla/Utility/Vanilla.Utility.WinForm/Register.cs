@@ -76,7 +76,7 @@ namespace Vanilla.Utility.WinForm
         public delegate void ChangePath();
         public event ChangePath PathChanged;
 
-        public delegate void OnReportLoad(UtilFac.Artifact.Dto currentArtifact, Facade.Register.Server registerFacade);
+        public delegate void OnReportLoad(UtilFac.Artifact.Dto currentArtifact);
         public event OnReportLoad ReportLoad;
 
         public delegate UtilWin.Document OnReportAdd(UtilFac.Artifact.Dto currentArtifact, Facade.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto);
@@ -705,23 +705,10 @@ namespace Vanilla.Utility.WinForm
             }
             else
             {
-                UtilFac.Artifact.Dto artifactDto = this.GetParent(this.currentArtifact);
-                TreeNode parentNode = null;                
-                parentNode = trv.FindNode(artifactDto);
-                TreeNode rootNode = trv.FindRootNode(parentNode);
-                BinAff.Facade.Library.Dto parent = this.currentArtifact.Parent;
-                this.currentArtifact = this.ReadDocument(this.currentArtifact);
-                this.currentArtifact.Parent = parent;
-
-                if(this.currentArtifact.Category == UtilFac.Artifact.Category.Report)                
-                {
-                    this.ReportLoad(this.currentArtifact, this.facade);
-                }
-                else
-                {
-                    this.FormLoad(this.currentArtifact);
-                }
-                if(IsDialogue) this.DocumentShown();
+                //UtilFac.Artifact.Dto artifactDto = this.GetParent(this.currentArtifact);
+                //TreeNode parentNode = trv.FindNode(artifactDto);
+                //TreeNode rootNode = trv.FindRootNode(parentNode);
+                this.ShowDocument();
             }
         }
 
@@ -755,6 +742,20 @@ namespace Vanilla.Utility.WinForm
         }
 
         #endregion
+
+        public void ShowDocument()
+        {
+            this.currentArtifact = this.ReadDocument(this.currentArtifact);
+            if (this.currentArtifact.Category == UtilFac.Artifact.Category.Report)
+            {
+                this.ReportLoad(this.currentArtifact);
+            }
+            else
+            {
+                this.FormLoad(this.currentArtifact);
+            }
+            if (IsDialogue) this.DocumentShown();
+        }
 
         private Boolean IsListViewItem(String contextMenuName, ListViewItem listViewItem)
         {
