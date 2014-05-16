@@ -1975,7 +1975,9 @@ namespace Vanilla.Utility.WinForm
 
         public void ChangeForFormChange(Document document)
         {
-            TreeNode affectedParentFolder = this.trvForm.FindNode(this.GetParent(document.Artifact));
+            ArtfFac.Dto parent = this.GetParent(document.Artifact);
+            if (parent == null) return;
+            TreeNode affectedParentFolder = this.trvForm.FindNode(parent);
             this.UpdateForDocumentChange(affectedParentFolder, document);
         }
 
@@ -2177,23 +2179,26 @@ namespace Vanilla.Utility.WinForm
 
         private void ucSearchResult_DoubleClick(object sender, EventArgs e)
         {
-            //this.ucSearchResult.Hide();
-            //this.pnlArtifact.Show();
-            //this.SelectNode(this.ucSearchResult.FormDto.CurrentArtifact.Style == UtilFac.Artifact.Type.Document ?
-            //    this.GetParent(this.ucSearchResult.FormDto.CurrentArtifact).Path :
-            //    this.ucSearchResult.FormDto.CurrentArtifact.Path);
-            if (this.ucSearchResult.FormDto.CurrentArtifact.Style == UtilFac.Artifact.Type.Document)
+            this.currentArtifact = this.ucSearchResult.FormDto.CurrentArtifact;
+            if (this.currentArtifact.Style == UtilFac.Artifact.Type.Document)
             {
-                PresLib.Form form = (PresLib.Form)Activator.CreateInstance(Type.GetType(this.ucSearchResult.FormDto.CurrentArtifact.ComponentDefinition.ComponentFormType, true), this.ucSearchResult.FormDto.CurrentArtifact.Module);
-                form.ShowDialog(this);
+                //Need to add parent
+                //this.currentArtifact.Parent = this.GetParent(this.currentArtifact);
+                switch (this.currentArtifact.Category)
+                {
+                    case ArtfFac.Category.Form:
+                        this.FormLoad(this.currentArtifact);
+                        break;
+                    case ArtfFac.Category.Report:
+                        this.ReportLoad(this.currentArtifact);
+                        break;
+                }
             }
             else
             {
                 this.ucSearchResult.Hide();
                 this.pnlArtifact.Show();
-                this.SelectNode(this.ucSearchResult.FormDto.CurrentArtifact.Style == UtilFac.Artifact.Type.Document ?
-                    this.GetParent(this.ucSearchResult.FormDto.CurrentArtifact).Path :
-                    this.ucSearchResult.FormDto.CurrentArtifact.Path);
+                this.SelectNode(this.currentArtifact.Path);
             }
         }
 

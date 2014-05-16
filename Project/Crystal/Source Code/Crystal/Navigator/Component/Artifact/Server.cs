@@ -73,6 +73,31 @@ namespace Crystal.Navigator.Component.Artifact
             };
         }
 
+        ReturnObject<Data> IArtifact.ReadWithParent()
+        {
+            ReturnObject<BinAff.Core.Data> comp = this.Read();
+            ReturnObject<Data> ret = new ReturnObject<Data>
+            {
+                Value = comp.Value as Data,
+                MessageList = comp.MessageList,
+            };
+            if (ret.HasError() || (this.Data as Data).ParentId == null) return ret;
+            Data parentData = this.CreateDataObject() as Data;
+            parentData.Id = (Int64)(this.Data as Data).ParentId;
+            parentData.Category = (this.Data as Data).Category;
+            ReturnObject<BinAff.Core.Data> parentRet = (this.CreateInstance(parentData) as ICrud).Read();
+            if (parentRet.MessageList != null && parentRet.MessageList.Count > 0)
+            {
+                if (ret.MessageList == null) ret.MessageList = new List<Message>();
+                ret.MessageList.AddRange(parentRet.MessageList);
+            }
+            if (!parentRet.HasError())
+            {
+                ret.Value.Parent = parentData;
+            }
+            return ret;
+        }
+
         /// <summary>
         /// Form artifact tree from database related record
         /// </summary>
@@ -134,7 +159,7 @@ namespace Crystal.Navigator.Component.Artifact
             List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
             foreach (BinAff.Core.Data data in dataList)
             {
-                if ((data as Data).ParentId == 0)
+                if ((data as Data).ParentId == null)
                     ret.Add(data);
             }
             return ret;
@@ -158,7 +183,12 @@ namespace Crystal.Navigator.Component.Artifact
 
         BinAff.Core.ReturnObject<Boolean> Observer.IObserver.UpdateArtifactComponentLink(Data subject)
         {
-            return (this.DataAccess as Dao).UpdateArtifactModuleLink();
+            BinAff.Core.ReturnObject<Boolean> ret = (this.DataAccess as Dao).UpdateArtifactModuleLink();
+            if (!ret.HasError())
+            {
+                this.Read();
+            }
+            return ret;
         }
 
         BinAff.Core.ReturnObject<Boolean> Observer.IObserver.UpdateAfterComponentUpdate(Data subject)

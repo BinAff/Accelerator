@@ -79,8 +79,13 @@ namespace Vanilla.Utility.Facade.Artifact
                     },
                     ModifiedAt = artifactData.ModifiedAt,
                 },
-                Category = (Category)artifactData.Category
+                Category = (Category)artifactData.Category,
             };
+
+            if ((data as CrysArtf.Data).Parent != null)
+            {
+                artifact.Parent = this.Convert((data as CrysArtf.Data).Parent);
+            }
 
             if ((data as CrysArtf.Data).ComponentDefinition != null)
             {
@@ -254,15 +259,35 @@ namespace Vanilla.Utility.Facade.Artifact
         public override void Read()
         {
             FormDto formDto = this.FormDto as FormDto;
-            ReturnObject<BinAff.Core.Data> ret = this.ModuleArtifactComponent.Read();
+            ReturnObject<CrysArtf.Data> ret = ((Crystal.Navigator.Component.Artifact.IArtifact)this.ModuleArtifactComponent).ReadWithParent();
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
             if (!this.IsError)
             {
+                BinAff.Facade.Library.Dto parent = null;
+                if (ret.Value.Parent == null) //Root
+                {
+                    parent = formDto.Dto.Parent;
+                }
                 Module.Definition.Dto moduleDef = formDto.Dto.ComponentDefinition;
-                BinAff.Facade.Library.Dto parent = formDto.Dto.Parent;
                 formDto.Dto = this.Convert(ret.Value) as Dto;
+                if (formDto.Dto.Parent == null) //Root
+                {
+                    if (parent == null)
+                    {
+                        Module.Definition.Dto def = (BinAff.Facade.Cache.Server.Current.Cache["ComponentDefinition"] as List<Module.Definition.Dto>).FindLast((p) =>
+                        {
+                            return p.Code == formDto.Dto.ComponentDefinition.Code;
+                        });
+                        parent = new Module.Dto
+                        {
+                            Id = def.Id,
+                            Code = def.Code,
+                            Name = def.Name,                            
+                        };
+                    }
+                    formDto.Dto.Parent = parent;
+                }
                 formDto.Dto.ComponentDefinition = moduleDef;
-                formDto.Dto.Parent = parent;
             }
         }
 
@@ -333,13 +358,6 @@ namespace Vanilla.Utility.Facade.Artifact
                 FileName = artifactName,
             }) as Crystal.Navigator.Component.SearchAgent.ISearchAgent).Search());
         }
-
-        //public override void Read()
-        //{
-        //    FormDto formDto = this.FormDto as FormDto;
-        //    ReturnObject<BinAff.Core.Data> ret = this.ModuleArtifactComponent.Read();
-        //    this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
-        //}
 
         public void UpdateArtifactPath(String pathOfParent, Dto artifactDto, String pathSeperator)
         {

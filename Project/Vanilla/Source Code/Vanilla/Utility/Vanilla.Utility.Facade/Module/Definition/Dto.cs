@@ -10,6 +10,8 @@ namespace Vanilla.Utility.Facade.Module.Definition
 
         public String Code { get; set; }
 
+        public String Description { get; set; }
+
         public String ComponentFormType { get; set; }
 
         public BinAff.Facade.Library.Dto ComponentFormDto { get; set; }

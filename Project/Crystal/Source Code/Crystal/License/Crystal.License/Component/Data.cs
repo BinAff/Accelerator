@@ -19,7 +19,7 @@ namespace Crystal.License.Component
         /// <summary>
         /// Module description
         /// </summary>
-        internal String Description { get; set; }
+        public String Description { get; set; }
 
         /// <summary>
         /// Is there any form for module
