@@ -7,8 +7,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
     public class FormDto : Vanilla.Form.Facade.Document.FormDto
     {
-
-        public Dto dto { get; set; }
+        //public Dto dto { get; set; }
         //public LodgeFac.RoomReservationRegister.Dto roomReservationRegisterDto { get; set; } 
         public RuleFac.ConfigurationRuleDto configurationRuleDto { get; set; }
         public List<LodgeConfFac.Room.Dto> roomList { get; set; }
