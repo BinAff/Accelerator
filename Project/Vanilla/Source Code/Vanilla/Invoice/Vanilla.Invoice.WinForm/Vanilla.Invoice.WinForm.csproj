@@ -101,6 +101,14 @@
       <Project>{ED04BF0C-B4F1-4E9C-80C5-799027EBE260}</Project>
       <Name>BinAff.Utility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Form\Vanilla.Form.Facade\Vanilla.Form.Facade.csproj">
+      <Project>{856d10d5-3235-41ca-8fe3-48019c9d4a39}</Project>
+      <Name>Vanilla.Form.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Form\Vanilla.Form.WinForm\Vanilla.Form.WinForm.csproj">
+      <Project>{6ffd4a1c-c8fc-44b6-b3c1-4a2240037154}</Project>
+      <Name>Vanilla.Form.WinForm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Report\Vanilla.Report.Facade\Vanilla.Report.Facade.csproj">
       <Project>{B5E1E4CB-76A8-479E-940B-CC8B99BA86FE}</Project>
       <Name>Vanilla.Report.Facade</Name>
@@ -108,6 +116,10 @@
     <ProjectReference Include="..\..\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
       <Project>{A10719AF-5C9F-4903-AB83-089EC502EEA2}</Project>
       <Name>Vanilla.Utility.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utility\Vanilla.Utility.WinForm\Vanilla.Utility.WinForm.csproj">
+      <Project>{49be0d61-4bd1-42b2-b582-77094af71728}</Project>
+      <Name>Vanilla.Utility.WinForm</Name>
     </ProjectReference>
     <ProjectReference Include="..\Vanilla.Invoice.Facade\Vanilla.Invoice.Facade.csproj">
       <Project>{F5351CBF-9763-43A3-9B2E-7A6C1A93FCE4}</Project>

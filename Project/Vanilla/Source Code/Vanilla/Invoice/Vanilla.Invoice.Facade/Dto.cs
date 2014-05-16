@@ -3,7 +3,7 @@ using System;
 
 namespace Vanilla.Invoice.Facade
 {
-    public class Dto : BinAff.Facade.Library.Dto
+    public class Dto : Vanilla.Form.Facade.Document.Dto
     {
         public string invoiceNumber { get; set; }
         public double advance { get; set; }

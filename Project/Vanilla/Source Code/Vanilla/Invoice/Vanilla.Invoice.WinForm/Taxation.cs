@@ -1,8 +1,8 @@
-﻿using System.Windows.Forms;
+﻿//using System.Windows.Forms;
 
 namespace Vanilla.Invoice.WinForm
 {
-    public partial class Taxation : Form
+    public partial class Taxation : System.Windows.Forms.Form
     {
         public Taxation()
         {
