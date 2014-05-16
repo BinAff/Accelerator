@@ -1,4 +1,5 @@
 ﻿using BinAff.Core;
+using System.Collections.Generic;
 
 namespace Vanilla.Utility.Facade.Module.Definition
 {
@@ -25,6 +26,7 @@ namespace Vanilla.Utility.Facade.Module.Definition
                 Id = data.Id,
                 Code = comp.Code,
                 Name = comp.Name,
+                Description = comp.Description,
             };
             return dto;
         }
@@ -37,6 +39,19 @@ namespace Vanilla.Utility.Facade.Module.Definition
                 Code = (dto as Dto).Code,
                 Name = (dto as Dto).Name,
             };
+        }
+
+        public List<Dto> ReadAll()
+        {
+            ReturnObject <List<BinAff.Core.Data>> licenseList = (new Crystal.License.Component.Server(null) as ICrud).ReadAll();
+
+            List<Dto> ret = new List<Dto>();
+            foreach (Crystal.License.Component.Data data in licenseList.Value)
+            {
+                ret.Add(this.Convert(data) as Dto);
+            }
+
+            return ret;
         }
 
     }

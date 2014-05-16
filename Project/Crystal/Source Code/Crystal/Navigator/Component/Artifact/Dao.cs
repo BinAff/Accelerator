@@ -94,7 +94,15 @@ namespace Crystal.Navigator.Component.Artifact
             }
             dt.CreatedAt = Convert.IsDBNull(dr["CreatedAt"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CreatedAt"]);
             dt.ModifiedAt = Convert.IsDBNull(dr["ModifiedAt"]) ? DateTime.MinValue : Convert.ToDateTime(dr["ModifiedAt"]);
-            dt.ParentId = Convert.IsDBNull(dr["ParentId"]) ? 0 : Convert.ToInt64(dr["ParentId"]);
+            if (Convert.IsDBNull(dr["ParentId"]))
+            {
+                dt.ParentId = null;
+            }
+            else
+            {
+                dt.ParentId = Convert.ToInt64(dr["ParentId"]);
+            }
+            
             return dt;
         }
 

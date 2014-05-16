@@ -23,7 +23,7 @@ namespace Vanilla.Navigator.WinForm
 
                 //DateTimeHandler dateTimeManipulationHandler = new DateTimeHandler();
                 //dateTimeManipulationHandler.SystemDateChanged += handler_SystemDateChanged;
-                //if (!dateTimeManipulationHandler.Start("Splash"))
+                //if (!dateTimeManipulationHandler.Start("Navigator"))
                 //{
                 //    Quit("System date got changed after application is shutdown last time. Restore the date to continue.");
                 //    return;
@@ -36,7 +36,8 @@ namespace Vanilla.Navigator.WinForm
                 //    ConfigurationManager.AppSettings["StartUpClass"] + ", " +
                 //    ConfigurationManager.AppSettings["StartUpAssembly"], true);
                 //currentForm = (Form)Activator.CreateInstance(type);
-                currentForm = Vanilla.Navigator.WinForm.Container.CreateInstance();
+                //currentForm = Vanilla.Navigator.WinForm.Container.CreateInstance();
+                currentForm = new Vanilla.Navigator.WinForm.Splash();
                 Application.Run(currentForm);
             }
             catch (System.Data.SqlClient.SqlException ex)
