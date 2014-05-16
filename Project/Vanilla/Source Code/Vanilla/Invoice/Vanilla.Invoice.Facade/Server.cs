@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using BinAff.Core;
 
 using CrystalCustomer = Crystal.Customer.Component;
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
+using InvoiceCrys = Crystal.Invoice.Component;
 
 namespace Vanilla.Invoice.Facade
 {
-    public class Server : BinAff.Facade.Library.Server, IInvoice
+    public class Server : Vanilla.Form.Facade.Document.Server, IInvoice
     {
         public Server(FormDto formDto)
             : base(formDto)
@@ -114,7 +116,7 @@ namespace Vanilla.Invoice.Facade
 
         private Vanilla.Invoice.Facade.Seller.Dto GetSeller(Crystal.Invoice.Component.Seller seller)
         {
-            return new Vanilla.Invoice.Facade.Seller.Dto
+            return seller == null ? null : new Vanilla.Invoice.Facade.Seller.Dto
             {
                 Name = seller.Name,
                 Address = seller.Address,
@@ -126,7 +128,7 @@ namespace Vanilla.Invoice.Facade
 
         private Vanilla.Invoice.Facade.Buyer.Dto GetBuyer(Crystal.Invoice.Component.Buyer buyer)
         {
-            return new Vanilla.Invoice.Facade.Buyer.Dto
+            return buyer == null ? null : new Vanilla.Invoice.Facade.Buyer.Dto
             {
                 Name = buyer.Name,
                 Address = buyer.Address,
@@ -222,6 +224,22 @@ namespace Vanilla.Invoice.Facade
                 }
             }
             return taxList;
+        }
+
+        protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData)
+        {
+            return new InvoiceCrys.Navigator.Artifact.Server(artifactData as InvoiceCrys.Navigator.Artifact.Data);
+        }
+
+        protected override ArtfCrys.Observer.DocumentComponent GetComponentServer()
+        {
+            this.componentServer = new InvoiceCrys.Server(this.Convert((this.FormDto as FormDto).Dto) as InvoiceCrys.Data);
+            return this.componentServer as ArtfCrys.Observer.DocumentComponent;
+        }
+
+        protected override String GetComponentDataType()
+        {
+            return "Crystal.Invoice.Component.Navigator.Artifact.Data, Crystal.Invoice.Component";
         }
     }
 }

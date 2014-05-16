@@ -235,40 +235,40 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         {
             ReturnObject<Boolean> ret = new ReturnObject<bool>();
 
-            Vanilla.Invoice.Facade.Dto invoiceDto = invoiceFormDto.dto;
-            AutoTourism.Component.Customer.Data autoCustomer = new AutoTourism.Component.Customer.Data
-            {
-                Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
-                {
-                    Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
-                }
-            };
+            //Vanilla.Invoice.Facade.Dto invoiceDto = invoiceFormDto.dto;
+            //AutoTourism.Component.Customer.Data autoCustomer = new AutoTourism.Component.Customer.Data
+            //{
+            //    Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
+            //    {
+            //        Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
+            //    }
+            //};
 
-            using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
-            {
-                //Save Invoice Data
-                CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
-                ret = customer.GenerateInvoice();
+            //using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
+            //{
+            //    //Save Invoice Data
+            //    CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
+            //    ret = customer.GenerateInvoice();
 
-                if (ret.Value)
-                {
-                    Crystal.Invoice.Component.Data invoiceData = (autoCustomer.Invoice as Crystal.Invoice.Component.InvoiceContainer.Data).Active as Crystal.Invoice.Component.Data;
-                    if (invoiceData.Id > 0)
-                    {
-                        //Update invoice number to CheckIn table
-                        ret = this.UpdateInvoiceNumber(invoiceData.InvoiceNumber);
+            //    if (ret.Value)
+            //    {
+            //        Crystal.Invoice.Component.Data invoiceData = (autoCustomer.Invoice as Crystal.Invoice.Component.InvoiceContainer.Data).Active as Crystal.Invoice.Component.Data;
+            //        if (invoiceData.Id > 0)
+            //        {
+            //            //Update invoice number to CheckIn table
+            //            ret = this.UpdateInvoiceNumber(invoiceData.InvoiceNumber);
 
-                        if (ret.Value)
-                        {
-                            //Save to Artifact
-                            invoiceFormDto.dto.Id = invoiceData.Id;
-                            this.SaveArtifact(invoiceFormDto, currentUser, artifactDto);
+            //            if (ret.Value)
+            //            {
+            //                //Save to Artifact
+            //                invoiceFormDto.dto.Id = invoiceData.Id;
+            //                this.SaveArtifact(invoiceFormDto, currentUser, artifactDto);
 
-                            T.Complete();
-                        }
-                    }
-                }
-            }
+            //                T.Complete();
+            //            }
+            //        }
+            //    }
+            //}
 
             return ret;
         }
@@ -383,36 +383,36 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         private Boolean SaveArtifact(Vanilla.Invoice.Facade.FormDto invoiceFormDto, Table currentUser, Vanilla.Utility.Facade.Artifact.Dto artifactDto)
         {
-            Vanilla.Invoice.Facade.Dto invoiceDto = invoiceFormDto.dto;
+            //Vanilla.Invoice.Facade.Dto invoiceDto = invoiceFormDto.dto;
            
-            artifactDto.Module = invoiceDto;
-            artifactDto.Style = Vanilla.Utility.Facade.Artifact.Type.Document;
-            artifactDto.AuditInfo.Version = 1;
-            artifactDto.AuditInfo.CreatedBy = new Table
-            {
-                Id = currentUser.Id,
-                Name = currentUser.Name
-            };
-            artifactDto.AuditInfo.CreatedAt = DateTime.Now;
-            artifactDto.Category = Vanilla.Utility.Facade.Artifact.Category.Form;
-            artifactDto.Path = invoiceDto.artifactPath;
-            
-            //Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto
+            //artifactDto.Module = invoiceDto;
+            //artifactDto.Style = Vanilla.Utility.Facade.Artifact.Type.Document;
+            //artifactDto.AuditInfo.Version = 1;
+            //artifactDto.AuditInfo.CreatedBy = new Table
             //{
-            //    Module = invoiceDto,
-            //    Style = Vanilla.Utility.Facade.Artifact.Type.Document,
-            //    Version = 1,
-            //    CreatedBy = new Table
-            //    {
-            //        Id = currentUser.Id,
-            //        Name = currentUser.Name
-            //    },
-            //    CreatedAt = DateTime.Now,
-            //    Category = Vanilla.Utility.Facade.Artifact.Category.Form,
-            //    Path = invoiceDto.artifactPath
+            //    Id = currentUser.Id,
+            //    Name = currentUser.Name
             //};
+            //artifactDto.AuditInfo.CreatedAt = DateTime.Now;
+            //artifactDto.Category = Vanilla.Utility.Facade.Artifact.Category.Form;
+            //artifactDto.Path = invoiceDto.artifactPath;
             
-            new Vanilla.Invoice.Facade.Server(invoiceFormDto).SaveArtifactForReservation(artifactDto);
+            ////Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto
+            ////{
+            ////    Module = invoiceDto,
+            ////    Style = Vanilla.Utility.Facade.Artifact.Type.Document,
+            ////    Version = 1,
+            ////    CreatedBy = new Table
+            ////    {
+            ////        Id = currentUser.Id,
+            ////        Name = currentUser.Name
+            ////    },
+            ////    CreatedAt = DateTime.Now,
+            ////    Category = Vanilla.Utility.Facade.Artifact.Category.Form,
+            ////    Path = invoiceDto.artifactPath
+            ////};
+            
+            //new Vanilla.Invoice.Facade.Server(invoiceFormDto).SaveArtifactForReservation(artifactDto);
             return true;
         }
 

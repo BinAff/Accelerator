@@ -77,9 +77,17 @@
       <Project>{CA372D03-699E-4D6A-80FA-567940BFA130}</Project>
       <Name>Crystal.Invoice.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Navigator\Component\Crystal.Navigator.Component.csproj">
+      <Project>{3e089798-771d-44f3-8a99-c990ab47a0b4}</Project>
+      <Name>Crystal.Navigator.Component</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Report\Crystal.Report.Component\Crystal.Report.Component.csproj">
       <Project>{CD06572D-594D-4B5C-A786-41CF7AAA74D8}</Project>
       <Name>Crystal.Report.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Form\Vanilla.Form.Facade\Vanilla.Form.Facade.csproj">
+      <Project>{856d10d5-3235-41ca-8fe3-48019c9d4a39}</Project>
+      <Name>Vanilla.Form.Facade</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Report\Vanilla.Report.Facade\Vanilla.Report.Facade.csproj">
       <Project>{B5E1E4CB-76A8-479E-940B-CC8B99BA86FE}</Project>

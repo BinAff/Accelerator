@@ -9,7 +9,7 @@ using BinAff.Core;
 
 namespace Vanilla.Invoice.WinForm
 {
-    public partial class Payment : Form
+    public partial class Payment : System.Windows.Forms.Form
     {
         private Facade.Payment.Dto dto;
         private Facade.Payment.FormDto formDto;
@@ -320,40 +320,40 @@ namespace Vanilla.Invoice.WinForm
 
         private void btnPay_Click(object sender, EventArgs e)
         {
-            if (this.ValidateMakePayment())
-            {
-                //call crystal invoice
-                this.invoiceDto.invoiceNumber = Common.GenerateInvoiceNumber();
-                this.invoiceDto.paymentList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
-                this.invoiceDto.discount = txtDiscount.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtDiscount.Text);
+            //if (this.ValidateMakePayment())
+            //{
+            //    //call crystal invoice
+            //    this.invoiceDto.invoiceNumber = Common.GenerateInvoiceNumber();
+            //    this.invoiceDto.paymentList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
+            //    this.invoiceDto.discount = txtDiscount.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtDiscount.Text);
                                
-                //Facade.Server facade = new Facade.Server(new Facade.FormDto { dto = invoiceDto });
-                //facade.Add();
-                this.invoiceDto.artifactPath = this.txtArtifactPath.Text;
-                Facade.FormDto invoiceFormDto = new Facade.FormDto
-                {
-                    dto = this.invoiceDto,
-                    ModuleFormDto = this.formDto.ModuleFormDto
-                };
-                this.Tag = invoiceFormDto;
-                this.Close();
+            //    //Facade.Server facade = new Facade.Server(new Facade.FormDto { dto = invoiceDto });
+            //    //facade.Add();
+            //    this.invoiceDto.artifactPath = this.txtArtifactPath.Text;
+            //    Facade.FormDto invoiceFormDto = new Facade.FormDto
+            //    {
+            //        dto = this.invoiceDto,
+            //        ModuleFormDto = this.formDto.ModuleFormDto
+            //    };
+            //    this.Tag = invoiceFormDto;
+            //    this.Close();
 
 
-                //if (facade.IsError)
-                //{
-                //    //retVal = false;
-                //    new PresentationLibrary.MessageBox
-                //    {
-                //        DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
-                //        Heading = "Splash",
-                //    }.Show(facade.DisplayMessageList);
-                //}
-                //else
-                //{   
-                //    this.Tag = this.invoiceDto;
-                //    this.Close();                    
-                //}
-            }
+            //    //if (facade.IsError)
+            //    //{
+            //    //    //retVal = false;
+            //    //    new PresentationLibrary.MessageBox
+            //    //    {
+            //    //        DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
+            //    //        Heading = "Splash",
+            //    //    }.Show(facade.DisplayMessageList);
+            //    //}
+            //    //else
+            //    //{   
+            //    //    this.Tag = this.invoiceDto;
+            //    //    this.Close();                    
+            //    //}
+            //}
         }
 
         private Boolean ValidateMakePayment()
