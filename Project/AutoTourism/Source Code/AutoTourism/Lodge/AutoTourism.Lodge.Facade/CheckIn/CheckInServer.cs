@@ -136,7 +136,8 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         private CustAuto.Data ConvertCustomer()
         {
             //Dto dto1 = (this.FormDto as FormDto).Dto;
-            Dto dto = (base.FormDto as Facade.CheckIn.FormDto).dto;
+            //Dto dto = (base.FormDto as Facade.CheckIn.FormDto).dto;
+            Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
        
 
             AutoTourism.Component.Customer.Data autoCustomer = new Component.Customer.Data()
@@ -211,16 +212,17 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         }
 
         void ICheckIn.CheckOut()
-        {            
+        {
+            Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
             //updating reservation
             LodgeFacade.RoomReservation.FormDto reservationFormDto = new LodgeFacade.RoomReservation.FormDto
             {
-                Dto = ((this.FormDto) as FormDto).dto.Reservation
+                Dto = dto.Reservation
             };
             new LodgeFacade.RoomReservation.ReservationServer(reservationFormDto).Change();
 
             //update checkIn status
-            CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = ((this.FormDto) as FormDto).dto.Id });
+            CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = dto.Id });
             checkIn.ModifyCheckInStatus(System.Convert.ToInt64(CheckInStatus.CheckOut));
         }
 
@@ -374,7 +376,8 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         ReturnObject<bool> UpdateInvoiceNumber(String invoiceNumber)
         {
-            CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = ((this.FormDto) as FormDto).dto.Id });
+            Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
+            CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = dto.Id });
             return checkIn.UpdateInvoiceNumber(invoiceNumber);
         }
 

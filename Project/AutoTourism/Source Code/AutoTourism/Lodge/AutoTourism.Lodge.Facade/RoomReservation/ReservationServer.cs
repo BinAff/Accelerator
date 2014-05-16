@@ -172,7 +172,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 Pin = dto.Customer.Pin,
                 Email = dto.Customer.Email,
                 IdentityProof = dto.Customer.IdentityProofName == null ? String.Empty : dto.Customer.IdentityProofName,
-                State = new Crystal.Configuration.Component.State.Data
+                State = dto.Customer.State == null ? null : new Crystal.Configuration.Component.State.Data
                 {
                     Id = dto.Customer.State.Id,
                     Name = dto.Customer.State.Name
@@ -183,7 +183,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 //    Id = reservationDto.Customer.Initial.Id,
                 //    Name = reservationDto.Customer.Initial.Name
                 //},
-                IdentityProofType = new Crystal.Configuration.Component.IdentityProofType.Data
+                IdentityProofType = dto.Customer.IdentityProofType == null ? null : new Crystal.Configuration.Component.IdentityProofType.Data
                 {
                     Id = dto.Customer.IdentityProofType.Id,
                     Name = dto.Customer.IdentityProofType.Name
