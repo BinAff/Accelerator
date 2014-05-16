@@ -2221,6 +2221,110 @@ namespace Vanilla.Utility.WinForm
             internal UtilFac.Artifact.Category Category { get; set; }
             internal Boolean IsAlreadyLoaded { get; set; }
         }
+
+        private void lsvContainer_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (this.currentArtifact.Style == ArtfFac.Type.Document)
+            {
+                this.lsvContainer.DoDragDrop(this.lsvContainer.FocusedItem, DragDropEffects.Move);
+            }
+            else
+            {
+                this.lsvContainer.DoDragDrop(this.lsvContainer.FocusedItem, DragDropEffects.Copy | DragDropEffects.Move);
+            }
+        }
+
+        private void lsvContainer_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = this.DragEnterToControl();
+        }
+
+        private void lsvContainer_DragDrop(object sender, DragEventArgs e)
+        {
+            ListView current = sender as ListView;
+            ListViewItem Item = current.HitTest(current.PointToClient(new Point(e.X, e.Y))).Item;
+            if (Item != null)
+            {
+                this.Drop(Item.Tag as ArtfFac.Dto, e.X, e.Y);
+            }
+        }
+
+        private void tsmDragDropCopy_Click(object sender, EventArgs e)
+        {
+            this.Copy();
+            this.currentArtifact = this.cmsDragDrop.Tag as ArtfFac.Dto;
+            this.Paste();
+        }
+
+        private void tsmDragDropMove_Click(object sender, EventArgs e)
+        {
+            this.Cut();
+            this.currentArtifact = this.cmsDragDrop.Tag as ArtfFac.Dto;
+            this.Paste();
+        }
+
+        private void trvForm_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (this.currentArtifact.Style == ArtfFac.Type.Document)
+            {
+                this.trvForm.DoDragDrop(this.trvForm.SelectedNode, DragDropEffects.Move);
+            }
+            else
+            {
+                this.trvForm.DoDragDrop(this.trvForm.SelectedNode, DragDropEffects.Copy | DragDropEffects.Move);
+            }
+        }
+
+        private void trvForm_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = this.DragEnterToControl();
+        }
+
+        private void trvForm_DragDrop(object sender, DragEventArgs e)
+        {
+            TreeView current = sender as TreeView;
+            TreeNode Item = current.HitTest(current.PointToClient(new Point(e.X, e.Y))).Node;
+            this.currentArtifact = (e.Data.GetData("System.Windows.Forms.TreeNode") as TreeNode).Tag as ArtfFac.Dto;
+            if (Item != null)
+            {
+                //Need to handle root level
+                this.Drop(Item.Tag as ArtfFac.Dto, e.X, e.Y);
+            }
+        }
+
+        private DragDropEffects DragEnterToControl()
+        {
+            if (this.currentArtifact.Style == ArtfFac.Type.Document)
+            {
+                return DragDropEffects.Move;
+            }
+            else
+            {
+                return DragDropEffects.Copy | DragDropEffects.Move;
+            }
+        }
+
+        private void Drop(ArtfFac.Dto dropOver, Int32 X, Int32 Y)
+        {
+            if (dropOver.Style == ArtfFac.Type.Document)
+            {
+                return;
+            }
+            else
+            {
+                if (this.currentArtifact.Style == ArtfFac.Type.Document)
+                {
+                    this.Cut();
+                    this.currentArtifact = dropOver;
+                    this.Paste();
+                }
+                else
+                {
+                    this.cmsDragDrop.Tag = dropOver; //Attaching the target artifact
+                    this.cmsDragDrop.Show(new Point(X, Y));
+                }
+            }
+        }
         
     }
 
