@@ -688,6 +688,10 @@ namespace Vanilla.Utility.WinForm
             {
                 this.lsvContainer.EditListViewSelectedItem();
             }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                this.OpenArtifact();
+            }
         }
 
         private void lsvContainer_SelectedIndexChanged(object sender, EventArgs e)
@@ -705,21 +709,7 @@ namespace Vanilla.Utility.WinForm
 
         private void lsvContainer_DoubleClick(object sender, EventArgs e)
         {
-            TreeView trv = this.GetActiveTreeView();
-
-            this.currentArtifact = ((sender as ListView).SelectedItems[0].Tag as UtilFac.Artifact.Dto);
-            if (currentArtifact.Style == UtilFac.Artifact.Type.Folder)
-            {
-                this.lsvContainer.AttachChildren(this.currentArtifact,isDocumentFirst);
-                this.SelectNode(this.currentArtifact);
-                this.txtAddress.Text = this.currentArtifact.Path;
-                this.addressList.Add(this.currentArtifact.Path);
-                this.btnUp.Enabled = true;
-            }
-            else
-            {
-                this.ShowDocument();
-            }
+            this.OpenArtifact();
         }
 
         private void lsvContainer_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -752,6 +742,30 @@ namespace Vanilla.Utility.WinForm
         }
 
         #endregion
+
+        /// <summary>
+        /// Open folder or show document depending on current document
+        /// </summary>
+        private void OpenArtifact()
+        {
+            if (currentArtifact.Style == UtilFac.Artifact.Type.Folder)
+            {
+                this.OpenFolder();
+            }
+            else
+            {
+                this.ShowDocument();
+            }
+        }
+
+        private void OpenFolder()
+        {
+            this.lsvContainer.AttachChildren(this.currentArtifact, isDocumentFirst);
+            this.SelectNode(this.currentArtifact);
+            this.txtAddress.Text = this.currentArtifact.Path;
+            this.addressList.Add(this.currentArtifact.Path);
+            this.btnUp.Enabled = true;
+        }
 
         public void ShowDocument()
         {
