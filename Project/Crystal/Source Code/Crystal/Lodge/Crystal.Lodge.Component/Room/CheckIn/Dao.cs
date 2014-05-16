@@ -118,7 +118,8 @@ namespace Crystal.Lodge.Component.Room.CheckIn
                 foreach(BinAff.Core.Data roomData in data.ProductList){
                     this.CreateCommand("[Lodge].[RoomReservationDetailsInsert]");
                     this.AddInParameter("@RoomId", DbType.Int64, roomData.Id);
-                    this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
+                    //this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
+                    this.AddInParameter("@ReservationId", DbType.Int64, data.Reservation.Id);
                     this.AddInParameter("@Id", DbType.Int64, reservationId);
                     Int32 ret = this.ExecuteNonQuery();
 
