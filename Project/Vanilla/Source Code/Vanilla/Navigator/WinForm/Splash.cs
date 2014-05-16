@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Vanilla.Navigator.WinForm
@@ -21,10 +22,12 @@ namespace Vanilla.Navigator.WinForm
         private void Splash_Load(object sender, EventArgs e)
         {
             new Facade.Splash.Server(null).LoadForm();
-            new System.Threading.Thread(delegate()
+            Thread t = new Thread(delegate()
             {
                 Application.Run(Vanilla.Navigator.WinForm.Container.CreateInstance());
-            }).Start();
+            });
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
             
             this.Close();
         }

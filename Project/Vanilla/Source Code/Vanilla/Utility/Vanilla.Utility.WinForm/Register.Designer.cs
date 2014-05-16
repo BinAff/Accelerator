@@ -39,7 +39,6 @@
             this.trvCatalogue = new System.Windows.Forms.TreeView();
             this.tbpReport = new System.Windows.Forms.TabPage();
             this.trvReport = new System.Windows.Forms.TreeView();
-            this.ucSearchResult = new Vanilla.Utility.WinForm.SearchResult();
             this.lsvContainer = new System.Windows.Forms.ListView();
             this.imgLargeIcon = new System.Windows.Forms.ImageList(this.components);
             this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
@@ -89,6 +88,10 @@
             this.btnBack = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
+            this.cmsDragDrop = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmDragDropCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmDragDropMove = new System.Windows.Forms.ToolStripMenuItem();
+            this.ucSearchResult = new Vanilla.Utility.WinForm.SearchResult();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
             this.pnlArtifact.Panel2.SuspendLayout();
@@ -99,6 +102,7 @@
             this.tbpReport.SuspendLayout();
             this.cmsExplorer.SuspendLayout();
             this.pnlAddress.SuspendLayout();
+            this.cmsDragDrop.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlArtifact
@@ -147,6 +151,7 @@
             // 
             // trvForm
             // 
+            this.trvForm.AllowDrop = true;
             this.trvForm.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.trvForm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trvForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -160,8 +165,11 @@
             this.trvForm.StateImageList = this.imgMediumIcons;
             this.trvForm.TabIndex = 6;
             this.trvForm.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvArtifact_AfterLabelEdit);
+            this.trvForm.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.trvForm_ItemDrag);
             this.trvForm.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvArtifact_AfterSelect);
             this.trvForm.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvArtifact_NodeMouseClick);
+            this.trvForm.DragDrop += new System.Windows.Forms.DragEventHandler(this.trvForm_DragDrop);
+            this.trvForm.DragEnter += new System.Windows.Forms.DragEventHandler(this.trvForm_DragEnter);
             this.trvForm.KeyUp += new System.Windows.Forms.KeyEventHandler(this.trvArtifact_KeyUp);
             this.trvForm.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvArtifact_MouseDown);
             // 
@@ -226,17 +234,9 @@
             this.trvReport.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvReport_NodeMouseClick);
             this.trvReport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvReport_MouseDown);
             // 
-            // ucSearchResult
-            // 
-            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
-            this.ucSearchResult.Name = "ucSearchResult";
-            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
-            this.ucSearchResult.TabIndex = 16;
-            this.ucSearchResult.Visible = false;
-            this.ucSearchResult.DoubleClick += new System.EventHandler(this.ucSearchResult_DoubleClick);
-            // 
             // lsvContainer
             // 
+            this.lsvContainer.AllowDrop = true;
             this.lsvContainer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lsvContainer.FullRowSelect = true;
             this.lsvContainer.LargeImageList = this.imgLargeIcon;
@@ -250,7 +250,10 @@
             this.lsvContainer.View = System.Windows.Forms.View.Details;
             this.lsvContainer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lsvContainer_AfterLabelEdit);
             this.lsvContainer.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lsvContainer_ColumnClick);
+            this.lsvContainer.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.lsvContainer_ItemDrag);
             this.lsvContainer.SelectedIndexChanged += new System.EventHandler(this.lsvContainer_SelectedIndexChanged);
+            this.lsvContainer.DragDrop += new System.Windows.Forms.DragEventHandler(this.lsvContainer_DragDrop);
+            this.lsvContainer.DragEnter += new System.Windows.Forms.DragEventHandler(this.lsvContainer_DragEnter);
             this.lsvContainer.DoubleClick += new System.EventHandler(this.lsvContainer_DoubleClick);
             this.lsvContainer.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lsvContainer_KeyUp);
             this.lsvContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lsvContainer_MouseDown);
@@ -648,6 +651,37 @@
             this.txtSearch.Text = "Search...";
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
             // 
+            // cmsDragDrop
+            // 
+            this.cmsDragDrop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmDragDropCopy,
+            this.tsmDragDropMove});
+            this.cmsDragDrop.Name = "cmsDragDrop";
+            this.cmsDragDrop.Size = new System.Drawing.Size(101, 48);
+            // 
+            // tsmDragDropCopy
+            // 
+            this.tsmDragDropCopy.Name = "tsmDragDropCopy";
+            this.tsmDragDropCopy.Size = new System.Drawing.Size(100, 22);
+            this.tsmDragDropCopy.Text = "Copy";
+            this.tsmDragDropCopy.Click += new System.EventHandler(this.tsmDragDropCopy_Click);
+            // 
+            // tsmDragDropMove
+            // 
+            this.tsmDragDropMove.Name = "tsmDragDropMove";
+            this.tsmDragDropMove.Size = new System.Drawing.Size(100, 22);
+            this.tsmDragDropMove.Text = "Move";
+            this.tsmDragDropMove.Click += new System.EventHandler(this.tsmDragDropMove_Click);
+            // 
+            // ucSearchResult
+            // 
+            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
+            this.ucSearchResult.Name = "ucSearchResult";
+            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
+            this.ucSearchResult.TabIndex = 16;
+            this.ucSearchResult.Visible = false;
+            this.ucSearchResult.DoubleClick += new System.EventHandler(this.ucSearchResult_DoubleClick);
+            // 
             // Register
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -668,6 +702,7 @@
             this.cmsExplorer.ResumeLayout(false);
             this.pnlAddress.ResumeLayout(false);
             this.pnlAddress.PerformLayout();
+            this.cmsDragDrop.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -733,5 +768,8 @@
         private System.Windows.Forms.ToolStripMenuItem cmnuYearlyReport;
         private System.Windows.Forms.TabPage tbpCatalogue;
         private System.Windows.Forms.TreeView trvCatalogue;
+        private System.Windows.Forms.ContextMenuStrip cmsDragDrop;
+        private System.Windows.Forms.ToolStripMenuItem tsmDragDropCopy;
+        private System.Windows.Forms.ToolStripMenuItem tsmDragDropMove;
     }
 }

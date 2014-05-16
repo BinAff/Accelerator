@@ -87,7 +87,14 @@ namespace Vanilla.Utility.Facade.Artifact
         {
             get
             {
-                return this.Path + "\\" + this.FullFileName;
+               if (this.Style == Type.Document)
+                {
+                    return this.Path + "\\" + this.FullFileName;
+                }
+                else
+                {
+                    return this.Path;
+                } 
             }
         }
 
