@@ -1,6 +1,6 @@
-﻿using System;
+﻿using BinAff.Core;
+using System;
 using System.Data;
-
 using CrysNav = Crystal.Navigator.Component;
 
 namespace Crystal.Invoice.Component.Navigator.Artifact
@@ -93,6 +93,20 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
 
             return status;
 
+        }
+
+        protected override ReturnObject<Boolean> UpdateArtifactModuleLink()
+        {
+            Boolean status = true;
+            Data artifactData = Data as Data;
+
+            base.CreateCommand("[Invoice].[UpdateInvoiceFormForArtifact]");
+            base.AddInParameter("@InvoiceId", DbType.Int64, artifactData.ComponentData.Id);
+            base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
+            Int32 ret = base.ExecuteNonQuery();
+            if (ret == -2146232060) status = false;//Foreign key violation
+
+            return new ReturnObject<Boolean> { Value = status };
         }
 
     }
