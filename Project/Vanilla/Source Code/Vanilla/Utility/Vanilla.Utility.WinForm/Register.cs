@@ -862,10 +862,7 @@ namespace Vanilla.Utility.WinForm
         {
             if (e.KeyCode == Keys.Enter)
             {
-                this.pnlArtifact.Panel2.Controls.Add(this.ucSearchResult);
-                this.ucSearchResult.Show();
-                this.lsvContainer.Hide();
-                this.ucSearchResult.LoadResult(this.txtSearch.Text.Trim());
+                this.Search();
             }
         }
 
@@ -932,6 +929,19 @@ namespace Vanilla.Utility.WinForm
             {
                 this.SelectNode(this.txtAddress.Text.Trim());
             }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            this.Search();
+        }
+
+        private void Search()
+        {
+            this.pnlArtifact.Panel2.Controls.Add(this.ucSearchResult);
+            this.ucSearchResult.Show();
+            this.lsvContainer.Hide();
+            this.ucSearchResult.LoadResult(this.txtSearch.Text.Trim());
         }
 
         #endregion
@@ -2263,24 +2273,25 @@ namespace Vanilla.Utility.WinForm
             this.Paste();
         }
 
-        private void trvForm_ItemDrag(object sender, ItemDragEventArgs e)
+        private void treeView_ItemDrag(object sender, ItemDragEventArgs e)
         {
+            TreeView treeView = sender as TreeView;
             if (this.currentArtifact.Style == ArtfFac.Type.Document)
             {
-                this.trvForm.DoDragDrop(this.trvForm.SelectedNode, DragDropEffects.Move);
+                treeView.DoDragDrop(treeView.SelectedNode, DragDropEffects.Move);
             }
             else
             {
-                this.trvForm.DoDragDrop(this.trvForm.SelectedNode, DragDropEffects.Copy | DragDropEffects.Move);
+                treeView.DoDragDrop(treeView.SelectedNode, DragDropEffects.Copy | DragDropEffects.Move);
             }
         }
 
-        private void trvForm_DragEnter(object sender, DragEventArgs e)
+        private void treeView_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = this.DragEnterToControl();
         }
 
-        private void trvForm_DragDrop(object sender, DragEventArgs e)
+        private void treeView_DragDrop(object sender, DragEventArgs e)
         {
             TreeView current = sender as TreeView;
             TreeNode Item = current.HitTest(current.PointToClient(new Point(e.X, e.Y))).Node;

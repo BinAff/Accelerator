@@ -91,6 +91,7 @@
             this.cmsDragDrop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmDragDropCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmDragDropMove = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.ucSearchResult = new Vanilla.Utility.WinForm.SearchResult();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
@@ -165,11 +166,11 @@
             this.trvForm.StateImageList = this.imgMediumIcons;
             this.trvForm.TabIndex = 6;
             this.trvForm.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.trvArtifact_AfterLabelEdit);
-            this.trvForm.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.trvForm_ItemDrag);
+            this.trvForm.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView_ItemDrag);
             this.trvForm.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvArtifact_AfterSelect);
             this.trvForm.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvArtifact_NodeMouseClick);
-            this.trvForm.DragDrop += new System.Windows.Forms.DragEventHandler(this.trvForm_DragDrop);
-            this.trvForm.DragEnter += new System.Windows.Forms.DragEventHandler(this.trvForm_DragEnter);
+            this.trvForm.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView_DragDrop);
+            this.trvForm.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView_DragEnter);
             this.trvForm.KeyUp += new System.Windows.Forms.KeyEventHandler(this.trvArtifact_KeyUp);
             this.trvForm.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvArtifact_MouseDown);
             // 
@@ -230,8 +231,11 @@
             this.trvReport.ShowRootLines = false;
             this.trvReport.Size = new System.Drawing.Size(203, 378);
             this.trvReport.TabIndex = 0;
+            this.trvReport.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView_ItemDrag);
             this.trvReport.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvReport_AfterSelect);
             this.trvReport.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvReport_NodeMouseClick);
+            this.trvReport.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeView_DragDrop);
+            this.trvReport.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView_DragEnter);
             this.trvReport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvReport_MouseDown);
             // 
             // lsvContainer
@@ -589,6 +593,7 @@
             this.pnlAddress.Controls.Add(this.btnBack);
             this.pnlAddress.Controls.Add(this.btnUp);
             this.pnlAddress.Controls.Add(this.txtSearch);
+            this.pnlAddress.Controls.Add(this.btnSearch);
             this.pnlAddress.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlAddress.Location = new System.Drawing.Point(0, 0);
             this.pnlAddress.Name = "pnlAddress";
@@ -600,7 +605,7 @@
             this.txtAddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtAddress.Location = new System.Drawing.Point(40, 0);
             this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(428, 20);
+            this.txtAddress.Size = new System.Drawing.Size(405, 20);
             this.txtAddress.TabIndex = 1;
             this.txtAddress.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtAddress_KeyUp);
             // 
@@ -608,11 +613,12 @@
             // 
             this.btnEnter.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnEnter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnEnter.Location = new System.Drawing.Point(468, 0);
+            this.btnEnter.Location = new System.Drawing.Point(445, 0);
             this.btnEnter.Name = "btnEnter";
             this.btnEnter.Size = new System.Drawing.Size(23, 20);
             this.btnEnter.TabIndex = 4;
             this.btnEnter.Text = "Æ";
+            this.toolTip.SetToolTip(this.btnEnter, "Go");
             this.btnEnter.UseVisualStyleBackColor = true;
             this.btnEnter.Click += new System.EventHandler(this.btnEnter_Click);
             // 
@@ -625,6 +631,7 @@
             this.btnBack.Size = new System.Drawing.Size(20, 20);
             this.btnBack.TabIndex = 3;
             this.btnBack.Text = "Å";
+            this.toolTip.SetToolTip(this.btnBack, "Back");
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
@@ -637,6 +644,7 @@
             this.btnUp.Size = new System.Drawing.Size(20, 20);
             this.btnUp.TabIndex = 2;
             this.btnUp.Text = "Ç";
+            this.toolTip.SetToolTip(this.btnUp, "Up");
             this.btnUp.UseVisualStyleBackColor = true;
             this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
             // 
@@ -644,12 +652,14 @@
             // 
             this.txtSearch.Dock = System.Windows.Forms.DockStyle.Right;
             this.txtSearch.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.txtSearch.Location = new System.Drawing.Point(491, 0);
+            this.txtSearch.Location = new System.Drawing.Point(468, 0);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(207, 20);
             this.txtSearch.TabIndex = 5;
             this.txtSearch.Text = "Search...";
+            this.txtSearch.Enter += new System.EventHandler(this.txtSearch_Enter);
             this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyDown);
+            this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
             // cmsDragDrop
             // 
@@ -672,6 +682,21 @@
             this.tsmDragDropMove.Size = new System.Drawing.Size(100, 22);
             this.tsmDragDropMove.Text = "Move";
             this.tsmDragDropMove.Click += new System.EventHandler(this.tsmDragDropMove_Click);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSearch.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnSearch.Font = new System.Drawing.Font("Symbol", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnSearch.Location = new System.Drawing.Point(675, 0);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(23, 20);
+            this.btnSearch.TabIndex = 6;
+            this.btnSearch.Text = "Q";
+            this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.toolTip.SetToolTip(this.btnSearch, "Search");
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // ucSearchResult
             // 
@@ -771,5 +796,6 @@
         private System.Windows.Forms.ContextMenuStrip cmsDragDrop;
         private System.Windows.Forms.ToolStripMenuItem tsmDragDropCopy;
         private System.Windows.Forms.ToolStripMenuItem tsmDragDropMove;
+        private System.Windows.Forms.Button btnSearch;
     }
 }
