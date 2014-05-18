@@ -20,9 +20,7 @@ namespace AutoTourism.Lodge.WinForm
 
     public partial class CheckInForm : FormWin.Document
     {
-        //private LodgeFacade.CheckIn.Dto dto;
-        //private LodgeFacade.CheckIn.Dto refreshDto;
-        //private LodgeFacade.CheckIn.FormDto formDto;
+
         private RuleFacade.ConfigurationRuleDto configurationRuleDto;
         private List<LodgeConfigurationFacade.Room.Dto> bookedRooms;
 
@@ -32,10 +30,10 @@ namespace AutoTourism.Lodge.WinForm
 
         private TreeView trvForm;
 
-        public enum CheckInStatus
+        public CheckInForm()
+            : base()
         {
-            CheckIn = 10001,
-            CheckOut = 10002
+            InitializeComponent();
         }
 
         public CheckInForm(UtilFac.Artifact.Dto artifact)
@@ -43,7 +41,6 @@ namespace AutoTourism.Lodge.WinForm
         {
             InitializeComponent();            
         }
-
 
         public CheckInForm(LodgeFacade.CheckIn.Dto CheckInDto)
         {
@@ -823,24 +820,21 @@ namespace AutoTourism.Lodge.WinForm
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
 
             LodgeFacade.RoomReservationRegister.Dto roomReservationRegisterDto = form.Tag as LodgeFacade.RoomReservationRegister.Dto;
-            dto = new LodgeFacade.CheckIn.Dto
+            dto.CustomerDisplayName = roomReservationRegisterDto.Name;
+            dto.Date = roomReservationRegisterDto.BookingFrom;
+            dto.Reservation = new LodgeFacade.RoomReservation.Dto
             {
-                CustomerDisplayName = roomReservationRegisterDto.Name,
-                Date = roomReservationRegisterDto.BookingFrom,
-                Reservation = new LodgeFacade.RoomReservation.Dto
-                {
-                    Id = roomReservationRegisterDto.Id,
-                    NoOfDays = roomReservationRegisterDto.NoOfDays,
-                    NoOfPersons = roomReservationRegisterDto.NoOfPersons,
-                    NoOfRooms = roomReservationRegisterDto.NoOfRooms,
-                    Advance = roomReservationRegisterDto.Advance,
-                    RoomCategory = roomReservationRegisterDto.RoomCategory,
-                    RoomType = roomReservationRegisterDto.RoomType,
-                    ACPreference = roomReservationRegisterDto.ACPreference,
-                    RoomList = roomReservationRegisterDto.RoomList,
-                    BookingFrom = roomReservationRegisterDto.BookingFrom,
-                    Customer = roomReservationRegisterDto.Customer
-                }
+                Id = roomReservationRegisterDto.Id,
+                NoOfDays = roomReservationRegisterDto.NoOfDays,
+                NoOfPersons = roomReservationRegisterDto.NoOfPersons,
+                NoOfRooms = roomReservationRegisterDto.NoOfRooms,
+                Advance = roomReservationRegisterDto.Advance,
+                RoomCategory = roomReservationRegisterDto.RoomCategory,
+                RoomType = roomReservationRegisterDto.RoomType,
+                ACPreference = roomReservationRegisterDto.ACPreference,
+                RoomList = roomReservationRegisterDto.RoomList,
+                BookingFrom = roomReservationRegisterDto.BookingFrom,
+                Customer = roomReservationRegisterDto.Customer
             };
 
             this.LoadCheckInData();
@@ -1329,6 +1323,12 @@ namespace AutoTourism.Lodge.WinForm
             cmbCheckInRoom.Enabled = false;
             btnAddRoom.Enabled = false;
             btnRemoveRoom.Enabled = false;
+        }
+
+        public enum CheckInStatus
+        {
+            CheckIn = 10001,
+            CheckOut = 10002
         }
 
     }

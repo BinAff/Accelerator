@@ -608,8 +608,8 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtPersons);
             this.Name = "RoomReservationForm";
+            this.ShowInTaskbar = false;
             this.Text = "Room Reservation Form";
-            this.TransparencyKey = System.Drawing.Color.Empty;
             this.Load += new System.EventHandler(this.RoomBookingForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
