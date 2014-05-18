@@ -108,28 +108,30 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 CustAuto.Server custServer = new CustAuto.Server(this.ConvertCustomer());
                 ReturnObject<Boolean> ret = (custServer as ICrud).Save();
-                CustAuto.Data customer = (custServer as BinAff.Core.Crud).Data as CustAuto.Data;
-                if (customer.Checkin.Active != null)
+                if (!ret.HasError())
                 {
-                    (this.FormDto as FormDto).Dto.Id = customer.Checkin.Active.Id;
-                }
+                    CustAuto.Data customer = (custServer as BinAff.Core.Crud).Data as CustAuto.Data;
+                    if (customer.Checkin.Active != null)
+                    {
+                        (this.FormDto as FormDto).Dto.Id = customer.Checkin.Active.Id;
+                    }
 
-                //Call observer...
-                //This is work around because for this form artifact is different than component server.
-                //Here customer component has to call bu need to update room reservation artifact
-                if (isNew)
-                {
-                    (this.componentServer as BinAff.Core.Crud).Data.Id = (this.FormDto as FormDto).Dto.Id;
-                    (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForCreate();
+                    //Call observer...
+                    //This is work around because for this form artifact is different than component server.
+                    //Here customer component has to call bu need to update room reservation artifact
+                    if (isNew)
+                    {
+                        (this.componentServer as BinAff.Core.Crud).Data.Id = (this.FormDto as FormDto).Dto.Id;
+                        (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForCreate();
+                    }
+                    else
+                    {
+                        (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForUpdate();
+                    }
+                    this.UpdateAuditInformation();
+                    T.Complete();
                 }
-                else
-                {
-                    (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForUpdate();
-                }
-                this.UpdateAuditInformation();
-
                 this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
-                T.Complete();
             }
         }
 

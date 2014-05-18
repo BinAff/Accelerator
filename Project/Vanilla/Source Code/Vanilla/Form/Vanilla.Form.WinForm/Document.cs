@@ -49,14 +49,17 @@ namespace Vanilla.Form.WinForm
 
         private void Document_Load(object sender, EventArgs e)
         {
-            this.formDto.Document = this.artifact;
-            this.formDto.Dto = this.artifact.Module as DocFac.Dto;
-            this.SetTitle();
-            this.InitialDto = this.CloneDto(this.formDto.Dto);
-            this.LoadForm();
-            if (this.formDto.Dto != null)
+            if (this.artifact != null)
             {
-                this.PopulateDataToForm();
+                this.formDto.Document = this.artifact;
+                this.formDto.Dto = this.artifact.Module as DocFac.Dto;
+                this.SetTitle();
+                this.InitialDto = this.CloneDto(this.formDto.Dto);
+                this.LoadForm();
+                if (this.formDto.Dto != null)
+                {
+                    this.PopulateDataToForm();
+                }
             }
         }
 

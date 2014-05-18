@@ -148,11 +148,11 @@
             this.label5.TabIndex = 104;
             this.label5.Text = "Contact Numbers";
             // 
-            // cboProofType
+            // cboIdentityProofType
             // 
             this.cboIdentityProofType.FormattingEnabled = true;
             this.cboIdentityProofType.Location = new System.Drawing.Point(106, 188);
-            this.cboIdentityProofType.Name = "cboProofType";
+            this.cboIdentityProofType.Name = "cboIdentityProofType";
             this.cboIdentityProofType.Size = new System.Drawing.Size(168, 21);
             this.cboIdentityProofType.TabIndex = 15;
             // 
@@ -383,8 +383,8 @@
             this.Controls.Add(this.cboState);
             this.Controls.Add(this.label1);
             this.Name = "CustomerForm";
+            this.ShowInTaskbar = false;
             this.Text = "Customer Registration Form";
-            this.TransparencyKey = System.Drawing.Color.Empty;
             this.Load += new System.EventHandler(this.CustomerForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
