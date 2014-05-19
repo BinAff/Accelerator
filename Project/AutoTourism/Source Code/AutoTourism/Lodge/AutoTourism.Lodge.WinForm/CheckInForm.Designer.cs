@@ -406,7 +406,7 @@
             this.btnPickReservation.TabIndex = 97;
             this.btnPickReservation.Text = "Pick Reservation";
             this.btnPickReservation.UseVisualStyleBackColor = true;
-            this.btnPickReservation.Click += new System.EventHandler(this.btnPickReservation_Click_1);
+            this.btnPickReservation.Click += new System.EventHandler(this.btnPickReservation_Click);
             // 
             // errorProvider
             // 
