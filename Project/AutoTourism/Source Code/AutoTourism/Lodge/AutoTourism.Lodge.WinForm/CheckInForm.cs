@@ -1099,7 +1099,8 @@ namespace AutoTourism.Lodge.WinForm
             this.AttachTariff(invoiceDto.productList);
             invoiceDto.taxationList = this.ConvertToInvoiceTaxationDto(taxationList);
 
-            Form form = new Vanilla.Invoice.WinForm.Payment(invoiceDto, dto.trvForm);
+            //Form form = new Vanilla.Invoice.WinForm.Payment(invoiceDto, dto.trvForm);
+            Form form = new Vanilla.Invoice.WinForm.Payment(invoiceDto);
             form.ShowDialog(this);
 
             if (invoiceDto.paymentList != null && invoiceDto.paymentList.Count > 0)
@@ -1145,48 +1146,49 @@ namespace AutoTourism.Lodge.WinForm
 
         private List<InvFac.LineItem.Dto> GroupRoomList(List<RoomFac.Dto> roomList)
         {
+            Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
             List<InvFac.LineItem.Dto> productList = new List<InvFac.LineItem.Dto>();
-            //Boolean blnAdd = false;
+            Boolean blnAdd = false;
 
-            //if (roomList != null && roomList.Count > 0)
-            //{
-            //    foreach (RoomFac.Dto dtoRoom in roomList)
-            //    {
-            //        Vanilla.Invoice.Facade.LineItem.Dto productDto = new InvFac.LineItem.Dto()
-            //        {
-            //            Id = dtoRoom.Id,
-            //            startDate = this.dto.Reservation.BookingFrom,
-            //            roomCategoryId = dtoRoom.Category == null ? 0 : dtoRoom.Category.Id,
-            //            roomTypeId = dtoRoom.Type == null ? 0 : dtoRoom.Type.Id,
-            //            roomIsAC = dtoRoom.IsAirconditioned,                        
-            //            description = this.GetRoomDescription(dtoRoom.Id),
-            //            count = 1, //count is basically rooms of same type [i.e. same typeid, categoryId, and Ac] 
-            //            endDate = this.dto.Reservation.BookingFrom.AddDays(this.dto.Reservation.NoOfDays)
-            //        };
+            if (roomList != null && roomList.Count > 0)
+            {
+                foreach (RoomFac.Dto dtoRoom in roomList)
+                {
+                    Vanilla.Invoice.Facade.LineItem.Dto productDto = new InvFac.LineItem.Dto()
+                    {
+                        Id = dtoRoom.Id,
+                        startDate = dto.Reservation.BookingFrom,
+                        roomCategoryId = dtoRoom.Category == null ? 0 : dtoRoom.Category.Id,
+                        roomTypeId = dtoRoom.Type == null ? 0 : dtoRoom.Type.Id,
+                        roomIsAC = dtoRoom.IsAirconditioned,
+                        description = this.GetRoomDescription(dtoRoom.Id),
+                        count = 1, //count is basically rooms of same type [i.e. same typeid, categoryId, and Ac] 
+                        endDate = dto.Reservation.BookingFrom.AddDays(dto.Reservation.NoOfDays)
+                    };
 
-            //        if (productList.Count == 0)
-            //        {
-            //            productList.Add(productDto);
-            //        }
-            //        else
-            //        {
-            //            blnAdd = true;
-            //            foreach (InvFac.LineItem.Dto roomDto in productList)
-            //            {
-            //                if (productDto.roomCategoryId == roomDto.roomCategoryId && productDto.roomTypeId == roomDto.roomTypeId && productDto.roomIsAC == roomDto.roomIsAC)
-            //                {
-            //                    roomDto.count++;
-            //                    blnAdd = false;
-            //                    break;
-            //                }
-            //            }
-            //            if (blnAdd)
-            //            {
-            //                productList.Add(productDto);
-            //            }
-            //        }
-            //    }
-            //}
+                    if (productList.Count == 0)
+                    {
+                        productList.Add(productDto);
+                    }
+                    else
+                    {
+                        blnAdd = true;
+                        foreach (InvFac.LineItem.Dto roomDto in productList)
+                        {
+                            if (productDto.roomCategoryId == roomDto.roomCategoryId && productDto.roomTypeId == roomDto.roomTypeId && productDto.roomIsAC == roomDto.roomIsAC)
+                            {
+                                roomDto.count++;
+                                blnAdd = false;
+                                break;
+                            }
+                        }
+                        if (blnAdd)
+                        {
+                            productList.Add(productDto);
+                        }
+                    }
+                }
+            }
 
             return productList;
         }
@@ -1235,19 +1237,21 @@ namespace AutoTourism.Lodge.WinForm
 
         private void SetRoomDetail(List<RoomFac.Dto> roomList)
         {
-            //foreach (RoomFac.Dto dto in roomList)
-            //{
-            //    foreach (RoomFac.Dto roomDto in this.formDto.roomList)
-            //    {
-            //        if (dto.Id == roomDto.Id)
-            //        {
-            //            dto.Category = new RoomFac.Category.Dto { Id = roomDto.Category.Id };
-            //            dto.Type = new RoomFac.Type.Dto { Id = roomDto.Type.Id };
-            //            dto.IsAirconditioned = roomDto.IsAirconditioned;
-            //            break;
-            //        }
-            //    }
-            //}
+            Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
+
+            foreach (RoomFac.Dto dto in roomList)
+            {
+                foreach (RoomFac.Dto roomDto in formDto.roomList)
+                {
+                    if (dto.Id == roomDto.Id)
+                    {
+                        dto.Category = new RoomFac.Category.Dto { Id = roomDto.Category.Id };
+                        dto.Type = new RoomFac.Type.Dto { Id = roomDto.Type.Id };
+                        dto.IsAirconditioned = roomDto.IsAirconditioned;
+                        break;
+                    }
+                }
+            }
         }
 
         private void DisplayInvoice()
