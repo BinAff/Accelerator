@@ -9,67 +9,50 @@ using ArtfFac = Vanilla.Utility.Facade.Artifact;
 namespace Vanilla.Utility.WinForm
 {
 
-    public partial class Open : System.Windows.Forms.Form
+    public partial class Open : Dialog
     {
 
-        public ArtfFac.Category Category { get; set; }
-
         public Open()
+            : base()
         {
             InitializeComponent();
+            this.Register.DialogueMode = DialogueMode.Open;
         }
 
-        private void Open_Load(object sender, System.EventArgs e)
+        private void Open_Load(object sender, EventArgs e)
         {
-            this.ucRegister.Category = this.Category;
-            this.ucRegister.LoadForm();
-            this.ucRegister.FormLoad += ucRegister_FormLoad;
-            this.ucRegister.ReportLoad += ucRegister_ReportLoad;
-            this.ucRegister.DocumentShown += ucRegister_DocumentShown;
-            this.ucRegister.DocumentClicked += ucRegister_DocumentClicked;
-
-            this.cboExtension.DisplayMember = "Name";
-            this.cboExtension.Bind(this.GetExtensionList());
-            this.cboExtension.SelectedIndex = 0;
+            this.Register.FormLoad += Register_FormLoad;
+            this.Register.ReportLoad += Register_ReportLoad;
+            this.Register.DocumentShown += Register_DocumentShown;
         }
 
-        void ucRegister_DocumentClicked()
-        {
-            this.txtDocName.Text = this.ucRegister.CurrentArtifact.FullFileName;
-        }
-
-        private void btnOpen_Click(object sender, EventArgs e)
-        {
-            this.ucRegister.ShowDocument();
-        }
-
-        private void ucRegister_FormLoad(Facade.Artifact.Dto currentArtifact)
+        void Register_ReportLoad(ArtfFac.Dto currentArtifact)
         {
             this.ShowDocumentForm(currentArtifact);
         }
 
-        private void ucRegister_ReportLoad(Facade.Artifact.Dto currentArtifact)
+        void Register_FormLoad(ArtfFac.Dto currentArtifact)
         {
             this.ShowDocumentForm(currentArtifact);
         }
 
-        private void ucRegister_DocumentShown()
+        private void Register_DocumentShown()
         {
             this.Close();
         }
-        
+
         private void ShowDocumentForm(Facade.Artifact.Dto document)
         {
             document.Module.artifactPath = document.Path;
-            Document report = this.GetDocumentForm(document);
-            report.MdiParent = this.Owner as System.Windows.Forms.Form;
-            report.AuditInfoChanged += report_AuditInfoChanged;
-            report.Show();
+            Document doc = this.GetDocumentForm(document);
+            doc.MdiParent = this.Owner as System.Windows.Forms.Form;
+            doc.AuditInfoChanged += doc_AuditInfoChanged;
+            doc.Show();
         }
 
-        private void report_AuditInfoChanged(Document document)
+        private void doc_AuditInfoChanged(Document document)
         {
-            
+
         }
 
         protected virtual Document GetDocumentForm(Facade.Artifact.Dto currentArtifact)
@@ -77,9 +60,14 @@ namespace Vanilla.Utility.WinForm
             throw new NotImplementedException();
         }
 
-        protected virtual List<Table> GetExtensionList()
+        protected override String SetActionName()
         {
-            throw new NotImplementedException();
+            return "Open";
+        }
+
+        protected override void DoAction()
+        {
+            this.Register.ShowDocument();
         }
 
     }

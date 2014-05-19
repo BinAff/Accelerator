@@ -9,7 +9,6 @@ using PresLib = BinAff.Presentation.Library;
 
 using Vanilla.Utility.WinForm.Extender;
 using UtilFac = Vanilla.Utility.Facade;
-using UtilWin = Vanilla.Utility.WinForm;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 
 namespace Vanilla.Utility.WinForm
@@ -18,18 +17,7 @@ namespace Vanilla.Utility.WinForm
     public partial class Register : UserControl
     {
 
-        private Boolean isDialogue;
-        public Boolean IsDialogue
-        { 
-            get
-            {
-                return this.isDialogue;
-            }
-            set
-            {
-                this.isDialogue = value;                
-            }
-        }
+        public DialogueMode DialogueMode { get; set; }
 
         /// <summary>
         /// Selected document or folder
@@ -84,13 +72,15 @@ namespace Vanilla.Utility.WinForm
 
         public UtilFac.Artifact.Category Category { get; set; }
 
+        #region events
+
         public delegate void ChangePath();
         public event ChangePath PathChanged;
 
         public delegate void OnReportLoad(UtilFac.Artifact.Dto currentArtifact);
         public event OnReportLoad ReportLoad;
 
-        public delegate UtilWin.Document OnReportAdd(UtilFac.Artifact.Dto currentArtifact, Facade.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto);
+        public delegate Document OnReportAdd(UtilFac.Artifact.Dto currentArtifact, Facade.Register.Server registerFacade, BinAff.Facade.Library.Dto moduleFormDto);
         public event OnReportAdd ReportAdd;
 
         public delegate void OnReportCategoryGet(UtilFac.Artifact.Dto currentArtifact, String categoryName);
@@ -107,10 +97,13 @@ namespace Vanilla.Utility.WinForm
 
         public delegate void OnArtifactClicked();
         public event OnArtifactClicked ArtifactClicked;
-            
+
+        #endregion
+
         public Register()
         {
             InitializeComponent();
+            this.DialogueMode = DialogueMode.None;
             this.sortOrder = SortOrder.Ascending;
             this.addressList = new List<String>();
         }
@@ -151,7 +144,7 @@ namespace Vanilla.Utility.WinForm
             this.btnUp.Enabled = false;
             
             //Show only proper tab
-            if (this.isDialogue)
+            if (this.DialogueMode != DialogueMode.None)
             {
                 switch (this.Category)
                 {
@@ -288,7 +281,7 @@ namespace Vanilla.Utility.WinForm
                 this.addressList.Add(selectedNode.Path);
             }
             this.formDto.ModuleFormDto.Dto = (sender as TreeView).FindRootNode().Tag as UtilFac.Module.Dto;
-            if (!this.IsDialogue) this.ArtifactClicked();
+            if (this.DialogueMode == DialogueMode.None) this.ArtifactClicked();
         }
 
         private void trvReport_MouseDown(object sender, MouseEventArgs e)
@@ -336,7 +329,7 @@ namespace Vanilla.Utility.WinForm
                 this.addressList.Add(selectedNode.Path);
             }
             this.formDto.ModuleFormDto.Dto = (sender as TreeView).FindRootNode().Tag as UtilFac.Module.Dto;
-            if (!this.IsDialogue) this.ArtifactClicked();
+            if (this.DialogueMode == DialogueMode.None) this.ArtifactClicked();
         }
         
         #endregion
@@ -697,7 +690,7 @@ namespace Vanilla.Utility.WinForm
         private void lsvContainer_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.currentArtifact = this.lsvContainer.FocusedItem.Tag as UtilFac.Artifact.Dto;//Any impact?
-            if (this.IsDialogue)
+            if (this.DialogueMode != DialogueMode.None)
             {
                 this.DocumentClicked();
             }
@@ -748,14 +741,29 @@ namespace Vanilla.Utility.WinForm
         /// </summary>
         private void OpenArtifact()
         {
-            if (currentArtifact.Style == UtilFac.Artifact.Type.Folder)
+            switch (this.DialogueMode)
             {
-                this.OpenFolder();
-            }
-            else
-            {
-                this.ShowDocument();
-            }
+                case DialogueMode.None:
+                case DialogueMode.Open:
+                    if (currentArtifact.Style == UtilFac.Artifact.Type.Folder)
+                    {
+                        this.OpenFolder();
+                    }
+                    else
+                    {
+                        this.ShowDocument();
+                    }
+                    break;
+                case DialogueMode.Save:
+                    //if (MessageBox.Show("Do you want to overwrite?", "Alert!!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    //{
+                    //    //
+                    //}
+                    break;
+                case DialogueMode.New:
+                    //
+                    break;
+            }            
         }
 
         private void OpenFolder()
@@ -778,7 +786,10 @@ namespace Vanilla.Utility.WinForm
             {
                 this.FormLoad(this.currentArtifact);
             }
-            if (IsDialogue) this.DocumentShown();
+            if (this.DialogueMode == DialogueMode.Open)
+            {
+                this.DocumentShown();
+            }
         }
 
         private Boolean IsListViewItem(String contextMenuName, ListViewItem listViewItem)
@@ -1835,15 +1846,15 @@ namespace Vanilla.Utility.WinForm
                 
                 //this.AddArtifact(UtilFac.Artifact.Type.Document, moduleFormDto, new UtilFac.Module.Definition.Dto { Code = (rootNode.Tag as UtilFac.Module.Dto).Code });
 
-                UtilWin.Document form;
+                Document form;
                 if (this.currentArtifact.Category == UtilFac.Artifact.Category.Report)
                 {
-                    form = this.ReportAdd(this.currentArtifact, this.facade, moduleFormDto) as UtilWin.Document;
+                    form = this.ReportAdd(this.currentArtifact, this.facade, moduleFormDto) as Document;
                 }
                 else
                 {
                     Type type = Type.GetType((rootNode.Tag as UtilFac.Module.Dto).ComponentFormType, true);
-                    form = (UtilWin.Document)Activator.CreateInstance(type, moduleFormDto);
+                    form = (Document)Activator.CreateInstance(type, moduleFormDto);
                 }
                 
                 //form.ShowDialog(this);
@@ -2344,6 +2355,14 @@ namespace Vanilla.Utility.WinForm
         TreeView = 1,
         ListView = 2,
         MenuBar = 3
+    }
+
+    public enum DialogueMode
+    {
+        None = 0,
+        Open = 1,
+        New = 2,
+        Save = 3,
     }
 
 }
