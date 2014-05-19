@@ -142,6 +142,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 //Call observer...
                 //This is work around because for this form artifact is different than component server.
                 //Here customer component has to call bu need to update room reservation artifact
+                if (this.componentServer == null) this.componentServer = this.GetComponentServer();
                 if (isNew)
                 {
                     (this.componentServer as BinAff.Core.Crud).Data.Id = (this.FormDto as FormDto).Dto.Id;
