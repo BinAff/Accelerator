@@ -56,6 +56,15 @@ namespace Vanilla.Form.WinForm
             };
         }
 
+        protected override UtilWin.SaveDialog GetNewDialogue()
+        {
+            return new SaveDialogue
+            {
+                Text = "Save Form",
+                Owner = this,
+            };
+        }
+
     }
 
 }

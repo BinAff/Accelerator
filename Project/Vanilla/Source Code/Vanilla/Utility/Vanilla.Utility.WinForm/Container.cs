@@ -135,11 +135,7 @@ namespace Vanilla.Utility.WinForm
 
         private void mnuNew_Click(object sender, EventArgs e)
         {
-            new Form
-            {
-                Text = "New Form",
-                MdiParent = this,
-            }.Show();
+            this.GetNewDialogue().ShowDialog(this);
         }
 
         private void mnuOpen_Click(object sender, EventArgs e)
@@ -150,6 +146,11 @@ namespace Vanilla.Utility.WinForm
         #endregion
 
         protected virtual Open GetOpenDialogue()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual SaveDialog GetNewDialogue()
         {
             throw new NotImplementedException();
         }

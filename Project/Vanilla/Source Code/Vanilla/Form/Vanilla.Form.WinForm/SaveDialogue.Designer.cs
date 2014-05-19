@@ -1,6 +1,6 @@
-﻿namespace Vanilla.Utility.WinForm
+﻿namespace Vanilla.Form.WinForm
 {
-    partial class SaveDialog
+    partial class SaveDialogue
     {
         /// <summary>
         /// Required designer variable.
@@ -30,19 +30,17 @@
         {
             this.SuspendLayout();
             // 
-            // SaveDialog
+            // SaveDialogue
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(635, 429);
-            this.Name = "SaveDialog";
+            this.Name = "SaveDialogue";
             this.Text = "Save";
-            this.Load += new System.EventHandler(this.SaveDialog_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
     }
 }

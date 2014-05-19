@@ -1036,7 +1036,7 @@
             // 
             this.ucRegister.Address = null;
             this.ucRegister.Category = Vanilla.Utility.Facade.Artifact.Category.Form;
-            this.ucRegister.IsDialogue = false;
+            //this.ucRegister.IsDialogue = false;
             this.ucRegister.Location = new System.Drawing.Point(393, 92);
             this.ucRegister.Name = "ucRegister";
             this.ucRegister.Size = new System.Drawing.Size(13, 12);
