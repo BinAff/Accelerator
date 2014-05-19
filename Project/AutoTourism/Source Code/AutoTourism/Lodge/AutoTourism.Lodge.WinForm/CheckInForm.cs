@@ -5,15 +5,19 @@ using System.Text.RegularExpressions;
 
 using BinAff.Core;
 using BinAff.Utility;
+using PresLib = BinAff.Presentation.Library;
 
-using RuleFacade = AutoTourism.Configuration.Rule.Facade;
-using LodgeFacade = AutoTourism.Lodge.Facade;
-using CustomerFacade = AutoTourism.Customer.Facade;
-using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
-using PresentationLibrary = BinAff.Presentation.Library;
-using FormWin = Vanilla.Form.WinForm;
+//using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using UtilFac = Vanilla.Utility.Facade;
 using DocFac = Vanilla.Utility.Facade.Document;
+
+using FormWin = Vanilla.Form.WinForm;
+
+using RuleFac = AutoTourism.Configuration.Rule.Facade;
+using LodgeFac = AutoTourism.Lodge.Facade;
+using CustFac = AutoTourism.Customer.Facade;
+using RoomFac = AutoTourism.Lodge.Configuration.Facade.Room;
+using TarrifFac = AutoTourism.Lodge.Configuration.Facade.Tariff;
 
 namespace AutoTourism.Lodge.WinForm
 {
@@ -21,8 +25,8 @@ namespace AutoTourism.Lodge.WinForm
     public partial class CheckInForm : FormWin.Document
     {
 
-        private RuleFacade.ConfigurationRuleDto configurationRuleDto;
-        private List<LodgeConfigurationFacade.Room.Dto> bookedRooms;
+        private RuleFac.ConfigurationRuleDto configurationRuleDto;
+        private List<RoomFac.Dto> bookedRooms;
 
         private Int32 totalRooms = 0;
         private Int32 totalBookings = 0;
@@ -42,12 +46,12 @@ namespace AutoTourism.Lodge.WinForm
             InitializeComponent();            
         }
 
-        public CheckInForm(LodgeFacade.CheckIn.Dto CheckInDto)
+        public CheckInForm(LodgeFac.CheckIn.Dto CheckInDto)
         {
             InitializeComponent();
 
             //this.dto = CheckInDto;
-            //this.formDto = new LodgeFacade.CheckIn.FormDto { dto = this.dto };
+            //this.formDto = new LodgeFac.CheckIn.FormDto { dto = this.dto };
 
             //if (this.dto == null || this.dto.Id == 0) // new checkIn form
             //{
@@ -88,8 +92,8 @@ namespace AutoTourism.Lodge.WinForm
         {
             Facade.CheckIn.Dto dto = source as Facade.CheckIn.Dto;
 
-            LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
-            LodgeFacade.CheckIn.Dto checkInDto = new LodgeFacade.CheckIn.Dto
+            LodgeFac.RoomReservation.IReservation reservation = new LodgeFac.RoomReservation.ReservationServer(null);
+            LodgeFac.CheckIn.Dto checkInDto = new LodgeFac.CheckIn.Dto
             {
                 Date = dto.Date,
                 CustomerDisplayName = dto.CustomerDisplayName,
@@ -123,7 +127,7 @@ namespace AutoTourism.Lodge.WinForm
             this.cboCategory.DataSource = null;
             if (formDto.CategoryList != null && formDto.CategoryList.Count > 0)
             {
-                formDto.CategoryList.Insert(0, new LodgeConfigurationFacade.Room.Category.Dto
+                formDto.CategoryList.Insert(0, new RoomFac.Category.Dto
                 {
                     Name = "All"
                 });
@@ -138,7 +142,7 @@ namespace AutoTourism.Lodge.WinForm
             this.cboType.DataSource = null;
             if (formDto.TypeList != null && formDto.TypeList.Count > 0)
             {
-                formDto.TypeList.Insert(0, new LodgeConfigurationFacade.Room.Type.Dto
+                formDto.TypeList.Insert(0, new RoomFac.Type.Dto
                 {
                     Name = "All"
                 });
@@ -169,7 +173,7 @@ namespace AutoTourism.Lodge.WinForm
             //populate checkIn form
             if (dto != null && dto.Id > 0)
             {
-                CustomerFacade.Dto customerDto = dto.Reservation.Customer;
+                CustFac.Dto customerDto = dto.Reservation.Customer;
                 dto.CustomerDisplayName = customerDto.Name;
 
                 this.LoadCheckInData();
@@ -178,8 +182,8 @@ namespace AutoTourism.Lodge.WinForm
                 btnPickReservation.Enabled = false;
                 btnAddReservation.Enabled = false;
 
-                //LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
-                //refreshDto = new LodgeFacade.CheckIn.Dto
+                //LodgeFac.RoomReservation.IReservation reservation = new LodgeFac.RoomReservation.ReservationServer(null);
+                //refreshDto = new LodgeFac.CheckIn.Dto
                 //{
                 //    Date = this.formDto.dto.Date,
                 //    CustomerDisplayName = this.formDto.dto.CustomerDisplayName,
@@ -286,7 +290,7 @@ namespace AutoTourism.Lodge.WinForm
          
             dto.Date = DateTime.Now;
 
-            if (dto.Reservation == null) dto.Reservation = new LodgeFacade.RoomReservation.Dto();
+            if (dto.Reservation == null) dto.Reservation = new LodgeFac.RoomReservation.Dto();
             dto.Reservation.Id = dto.Reservation == null ? 0 : dto.Reservation.Id;
 
             dto.Reservation.isCheckedIn = true;
@@ -297,10 +301,10 @@ namespace AutoTourism.Lodge.WinForm
             dto.Reservation.NoOfPersons = Convert.ToInt16(txtPersons.Text);
             dto.Reservation.NoOfRooms = Convert.ToInt16(txtRooms.Text);
             dto.Reservation.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));
-            dto.Reservation.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
-            dto.Reservation.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>)[this.cboType.SelectedIndex].Id };
+            dto.Reservation.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<RoomFac.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
+            dto.Reservation.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<RoomFac.Type.Dto>)[this.cboType.SelectedIndex].Id };
             dto.Reservation.ACPreference = this.cboAC.SelectedIndex;
-            dto.Reservation.RoomList = (List<LodgeConfigurationFacade.Room.Dto>)cmbCheckInRoom.DataSource;
+            dto.Reservation.RoomList = (List<RoomFac.Dto>)cmbCheckInRoom.DataSource;
             
         }
                 
@@ -311,12 +315,12 @@ namespace AutoTourism.Lodge.WinForm
 
             //if (retVal)
             //{
-            //    if (this.formDto.dto == null) this.formDto.dto = new LodgeFacade.CheckIn.Dto();
+            //    if (this.formDto.dto == null) this.formDto.dto = new LodgeFac.CheckIn.Dto();
             //    this.formDto.dto.Id = this.formDto.dto == null ? 0 : this.formDto.dto.Id;
             //    //this.formDto.dto.Date = new DateTime(dtCheckIn.Value.Year, dtCheckIn.Value.Month, dtCheckIn.Value.Day, dtCheckIn.Value.Hour, dtCheckIn.Value.Minute, dtCheckIn.Value.Second);
             //    this.formDto.dto.Date = DateTime.Now;
 
-            //    if (this.formDto.dto.Reservation == null) this.formDto.dto.Reservation = new LodgeFacade.RoomReservation.Dto();
+            //    if (this.formDto.dto.Reservation == null) this.formDto.dto.Reservation = new LodgeFac.RoomReservation.Dto();
             //    this.formDto.dto.Reservation.Id = this.formDto.dto.Reservation == null ? 0 : this.formDto.dto.Reservation.Id;
 
             //    this.formDto.dto.Reservation.isCheckedIn = true;
@@ -327,12 +331,12 @@ namespace AutoTourism.Lodge.WinForm
             //    this.formDto.dto.Reservation.NoOfPersons = Convert.ToInt16(txtPersons.Text);
             //    this.formDto.dto.Reservation.NoOfRooms = Convert.ToInt16(txtRooms.Text);
             //    this.formDto.dto.Reservation.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));
-            //    this.formDto.dto.Reservation.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
-            //    this.formDto.dto.Reservation.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>)[this.cboType.SelectedIndex].Id };
+            //    this.formDto.dto.Reservation.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<RoomFac.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
+            //    this.formDto.dto.Reservation.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<RoomFac.Type.Dto>)[this.cboType.SelectedIndex].Id };
             //    this.formDto.dto.Reservation.ACPreference = this.cboAC.SelectedIndex;
-            //    this.formDto.dto.Reservation.RoomList = (List<LodgeConfigurationFacade.Room.Dto>)cmbCheckInRoom.DataSource;
+            //    this.formDto.dto.Reservation.RoomList = (List<RoomFac.Dto>)cmbCheckInRoom.DataSource;
 
-            //    BinAff.Facade.Library.Server facade = new LodgeFacade.CheckIn.CheckInServer(formDto);
+            //    BinAff.Facade.Library.Server facade = new LodgeFac.CheckIn.CheckInServer(formDto);
 
             //    if (this.formDto.dto.Id == 0)
             //    {
@@ -354,9 +358,9 @@ namespace AutoTourism.Lodge.WinForm
             //    if (facade.IsError)
             //    {
             //        retVal = false;
-            //        new PresentationLibrary.MessageBox
+            //        new PresLib.MessageBox
             //        {
-            //            DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
+            //            DialogueType = facade.IsError ? PresLib.MessageBox.Type.Error : PresLib.MessageBox.Type.Information,
             //            Heading = "Splash",
             //        }.Show(facade.DisplayMessageList);
             //    }
@@ -365,7 +369,7 @@ namespace AutoTourism.Lodge.WinForm
             //return retVal;
         }
 
-        //private void UpdateRoomReservationNodeInTree(LodgeFacade.RoomReservation.Dto reservationDto)
+        //private void UpdateRoomReservationNodeInTree(LodgeFac.RoomReservation.Dto reservationDto)
         //{
         //    //-Add artifact to customer node
         //    Int16 reservationNodePosition = 0;
@@ -382,7 +386,7 @@ namespace AutoTourism.Lodge.WinForm
         //    //this.UpdateTreeNode(isNodeUpdated, reservationDto, artifactList);
         //}
 
-        //private void UpdateTreeNode(Boolean isNodeUpdated, LodgeFacade.RoomReservation.Dto reservationDto, List<Vanilla.Utility.Facade.Artifact.Dto> artifactList)
+        //private void UpdateTreeNode(Boolean isNodeUpdated, LodgeFac.RoomReservation.Dto reservationDto, List<Vanilla.Utility.Facade.Artifact.Dto> artifactList)
         //{
         //    if (isNodeUpdated) return;
 
@@ -518,10 +522,10 @@ namespace AutoTourism.Lodge.WinForm
         
         private void btnAddRoom_Click(object sender, EventArgs e)
         {
-            LodgeConfigurationFacade.Room.Dto roomDto = null;
+            RoomFac.Dto roomDto = null;
             if (cboRoomList.SelectedIndex != -1)
             {
-                roomDto = (LodgeConfigurationFacade.Room.Dto)cboRoomList.SelectedItem;
+                roomDto = (RoomFac.Dto)cboRoomList.SelectedItem;
                 AddToList(roomDto, cmbCheckInRoom);
                 RemoveFromList(roomDto, cboRoomList);
             }
@@ -529,25 +533,25 @@ namespace AutoTourism.Lodge.WinForm
 
         private void btnRemoveRoom_Click(object sender, EventArgs e)
         {
-            LodgeConfigurationFacade.Room.Dto roomDto = null;
+            RoomFac.Dto roomDto = null;
             if (cmbCheckInRoom.SelectedIndex != -1)
             {
-                roomDto = (LodgeConfigurationFacade.Room.Dto)cmbCheckInRoom.SelectedItem;
+                roomDto = (RoomFac.Dto)cmbCheckInRoom.SelectedItem;
                 AddToList(roomDto, cboRoomList);
                 RemoveFromList(roomDto, cmbCheckInRoom);
             }
         }
 
-        private void AddToList(LodgeConfigurationFacade.Room.Dto roomDto, System.Windows.Forms.ListControl cboRoom)
+        private void AddToList(RoomFac.Dto roomDto, System.Windows.Forms.ListControl cboRoom)
         {
             Boolean Include = false;
-            List<LodgeConfigurationFacade.Room.Dto> RoomList = new List<LodgeConfigurationFacade.Room.Dto>();
+            List<RoomFac.Dto> RoomList = new List<RoomFac.Dto>();
 
             if (((System.Windows.Forms.ComboBox)cboRoom).Items.Count == 0)
                 RoomList.Add(roomDto);
             else
             {
-                foreach (LodgeConfigurationFacade.Room.Dto dto in (List<LodgeConfigurationFacade.Room.Dto>)cboRoom.DataSource)
+                foreach (RoomFac.Dto dto in (List<RoomFac.Dto>)cboRoom.DataSource)
                 {
                     if (dto.Id < roomDto.Id || Include == true)
                         RoomList.Add(dto);
@@ -568,10 +572,10 @@ namespace AutoTourism.Lodge.WinForm
             cboRoom.SelectedIndex = -1;
         }
 
-        private void RemoveFromList(LodgeConfigurationFacade.Room.Dto roomDto, System.Windows.Forms.ListControl cboRoom)
+        private void RemoveFromList(RoomFac.Dto roomDto, System.Windows.Forms.ListControl cboRoom)
         {
-            List<LodgeConfigurationFacade.Room.Dto> RoomList = new List<LodgeConfigurationFacade.Room.Dto>();
-            foreach (LodgeConfigurationFacade.Room.Dto dto in (List<LodgeConfigurationFacade.Room.Dto>)cboRoom.DataSource)
+            List<RoomFac.Dto> RoomList = new List<RoomFac.Dto>();
+            foreach (RoomFac.Dto dto in (List<RoomFac.Dto>)cboRoom.DataSource)
                 if (dto.Id != roomDto.Id) RoomList.Add(dto);
 
             cboRoom.DataSource = null;
@@ -581,13 +585,15 @@ namespace AutoTourism.Lodge.WinForm
             cboRoom.SelectedIndex = -1;
         }
 
-        private void btnPickReservation_Click_1(object sender, EventArgs e)
+        private void btnPickReservation_Click(object sender, EventArgs e)
         {
             Form form = new RoomReservationRegister();
             form.ShowDialog(this);
 
             if (form.Tag != null)
+            {
                 this.PopulateReservationData(form);
+            }
 
         }
 
@@ -621,7 +627,7 @@ namespace AutoTourism.Lodge.WinForm
             {
                 for (int i = 0; i < cboCategory.Items.Count; i++)
                 {
-                    if (dto.Reservation.RoomCategory.Id == ((LodgeConfigurationFacade.Room.Category.Dto)cboCategory.Items[i]).Id)
+                    if (dto.Reservation.RoomCategory.Id == ((RoomFac.Category.Dto)cboCategory.Items[i]).Id)
                     {
                         cboCategory.SelectedIndex = i;
                         break;
@@ -634,7 +640,7 @@ namespace AutoTourism.Lodge.WinForm
             {
                 for (int i = 0; i < cboType.Items.Count; i++)
                 {
-                    if (dto.Reservation.RoomType.Id == ((LodgeConfigurationFacade.Room.Type.Dto)cboType.Items[i]).Id)
+                    if (dto.Reservation.RoomType.Id == ((RoomFac.Type.Dto)cboType.Items[i]).Id)
                     {
                         cboType.SelectedIndex = i;
                         break;
@@ -679,11 +685,11 @@ namespace AutoTourism.Lodge.WinForm
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
 
             this.cboRoomList.DataSource = null;
-            List<LodgeConfigurationFacade.Room.Dto> RoomList = new List<LodgeConfigurationFacade.Room.Dto>();
+            List<RoomFac.Dto> RoomList = new List<RoomFac.Dto>();
 
             if (formDto.roomList != null && formDto.roomList.Count > 0)
             {
-                foreach (LodgeConfigurationFacade.Room.Dto roomDto in formDto.roomList)
+                foreach (RoomFac.Dto roomDto in formDto.roomList)
                 {
                     if (this.ValidateRoom(roomDto))
                         RoomList.Add(roomDto);
@@ -691,8 +697,8 @@ namespace AutoTourism.Lodge.WinForm
             }
 
 
-            List<LodgeConfigurationFacade.Room.Dto> SelectedRoomList = new List<LodgeConfigurationFacade.Room.Dto>();
-            List<LodgeConfigurationFacade.Room.Dto> AvailableRoomList = new List<LodgeConfigurationFacade.Room.Dto>();
+            List<RoomFac.Dto> SelectedRoomList = new List<RoomFac.Dto>();
+            List<RoomFac.Dto> AvailableRoomList = new List<RoomFac.Dto>();
 
             if (RoomList != null && RoomList.Count > 0)
             {
@@ -704,10 +710,10 @@ namespace AutoTourism.Lodge.WinForm
                 else
                 {
                     Boolean isSelected = false;
-                    foreach (LodgeConfigurationFacade.Room.Dto roomDto in RoomList)
+                    foreach (RoomFac.Dto roomDto in RoomList)
                     {
                         isSelected = false;
-                        foreach (LodgeConfigurationFacade.Room.Dto validRoomDto in dto.Reservation.RoomList)
+                        foreach (RoomFac.Dto validRoomDto in dto.Reservation.RoomList)
                         {
                             if (roomDto.Id == validRoomDto.Id)
                             {
@@ -746,7 +752,7 @@ namespace AutoTourism.Lodge.WinForm
             }
         }
 
-        private Boolean ValidateRoom(LodgeConfigurationFacade.Room.Dto roomDto)
+        private Boolean ValidateRoom(RoomFac.Dto roomDto)
         {
             Int64 roomCategoryId = 0;
             Int64 roomTypeId = 0;
@@ -754,19 +760,19 @@ namespace AutoTourism.Lodge.WinForm
 
             if (this.cboCategory.SelectedIndex > 0)
             {
-                List<LodgeConfigurationFacade.Room.Category.Dto> lstCategory = this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>;
+                List<RoomFac.Category.Dto> lstCategory = this.cboCategory.DataSource as List<RoomFac.Category.Dto>;
                 roomCategoryId = lstCategory[this.cboCategory.SelectedIndex].Id;
             }
 
             if (this.cboType.SelectedIndex > 0)
             {
-                List<LodgeConfigurationFacade.Room.Type.Dto> lstType = this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>;
+                List<RoomFac.Type.Dto> lstType = this.cboType.DataSource as List<RoomFac.Type.Dto>;
                 roomTypeId = lstType[this.cboType.SelectedIndex].Id;
             }
 
             acPreference = this.cboAC.SelectedIndex;
 
-            LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
+            LodgeFac.RoomReservation.IReservation reservation = new LodgeFac.RoomReservation.ReservationServer(null);
             Boolean isValidRoom = reservation.ValidateRoomWithCategoryTypeAndACPreference(roomDto, roomCategoryId, roomTypeId, acPreference);
 
             if (!isValidRoom)
@@ -779,13 +785,13 @@ namespace AutoTourism.Lodge.WinForm
 
         }
 
-        private Boolean isRoomBooked(LodgeConfigurationFacade.Room.Dto roomDto)
+        private Boolean isRoomBooked(RoomFac.Dto roomDto)
         {
             if (isNoOfDaysExists())
             {
                 if (this.bookedRooms != null && this.bookedRooms.Count > 0)
                 {
-                    foreach (LodgeConfigurationFacade.Room.Dto room in this.bookedRooms)
+                    foreach (RoomFac.Dto room in this.bookedRooms)
                     {
                         if (isBookedRoomBelongsToCurrentReservation(room))
                             return true;
@@ -800,12 +806,12 @@ namespace AutoTourism.Lodge.WinForm
             return false;
         }
 
-        private Boolean isBookedRoomBelongsToCurrentReservation(LodgeConfigurationFacade.Room.Dto bookedRoom)
+        private Boolean isBookedRoomBelongsToCurrentReservation(RoomFac.Dto bookedRoom)
         {
             //if (this.formDto.dto == null || this.formDto.dto.Reservation == null || this.formDto.dto.Reservation.RoomList == null)
             //    return false;
 
-            //foreach (LodgeConfigurationFacade.Room.Dto room in this.formDto.dto.Reservation.RoomList)
+            //foreach (RoomFac.Dto room in this.formDto.dto.Reservation.RoomList)
             //{
             //    if (bookedRoom.Id == room.Id)
             //        return true;
@@ -816,13 +822,12 @@ namespace AutoTourism.Lodge.WinForm
 
         private void PopulateReservationData(Form form)
         {
-            //Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
 
-            LodgeFacade.RoomReservationRegister.Dto roomReservationRegisterDto = form.Tag as LodgeFacade.RoomReservationRegister.Dto;
+            LodgeFac.RoomReservationRegister.Dto roomReservationRegisterDto = form.Tag as LodgeFac.RoomReservationRegister.Dto;
             dto.CustomerDisplayName = roomReservationRegisterDto.Name;
             dto.Date = roomReservationRegisterDto.BookingFrom;
-            dto.Reservation = new LodgeFacade.RoomReservation.Dto
+            dto.Reservation = new LodgeFac.RoomReservation.Dto
             {
                 Id = roomReservationRegisterDto.Id,
                 NoOfDays = roomReservationRegisterDto.NoOfDays,
@@ -872,9 +877,9 @@ namespace AutoTourism.Lodge.WinForm
             return true;
         }
 
-        private List<LodgeConfigurationFacade.Room.Dto> GetBookedRoomListBetweenTwoDates(DateTime startDate, DateTime endDate)
+        private List<RoomFac.Dto> GetBookedRoomListBetweenTwoDates(DateTime startDate, DateTime endDate)
         {
-            LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
+            LodgeFac.RoomReservation.IReservation reservation = new LodgeFac.RoomReservation.ReservationServer(null);
             return reservation.GetBookedRooms(startDate, endDate).Value;
         }
 
@@ -889,13 +894,13 @@ namespace AutoTourism.Lodge.WinForm
 
             if (this.cboCategory.SelectedIndex > 0)
             {
-                List<LodgeConfigurationFacade.Room.Category.Dto> lstCategory = this.cboCategory.DataSource as List<LodgeConfigurationFacade.Room.Category.Dto>;
+                List<RoomFac.Category.Dto> lstCategory = this.cboCategory.DataSource as List<RoomFac.Category.Dto>;
                 roomCategoryId = lstCategory[this.cboCategory.SelectedIndex].Id;
             }
 
             if (this.cboType.SelectedIndex > 0)
             {
-                List<LodgeConfigurationFacade.Room.Type.Dto> lstType = this.cboType.DataSource as List<LodgeConfigurationFacade.Room.Type.Dto>;
+                List<RoomFac.Type.Dto> lstType = this.cboType.DataSource as List<RoomFac.Type.Dto>;
                 roomTypeId = lstType[this.cboType.SelectedIndex].Id;
             }
 
@@ -905,8 +910,8 @@ namespace AutoTourism.Lodge.WinForm
             int TotalRoomsBookedWithMatchingCategoryTypeAndACPreference = 0;
             int AvailableRoomsCount = 0;
 
-            LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
-            List<LodgeConfigurationFacade.Room.Dto> filteredRoomList = new List<LodgeConfigurationFacade.Room.Dto>();
+            LodgeFac.RoomReservation.IReservation reservation = new LodgeFac.RoomReservation.ReservationServer(null);
+            List<RoomFac.Dto> filteredRoomList = new List<RoomFac.Dto>();
 
             if (formDto.roomList != null && formDto.roomList.Count > 0)
             {
@@ -970,7 +975,7 @@ namespace AutoTourism.Lodge.WinForm
 
         private void ResetLoad()
         {
-            //LodgeFacade.RoomReservation.IReservation reservation = new LodgeFacade.RoomReservation.ReservationServer(null);
+            //LodgeFac.RoomReservation.IReservation reservation = new LodgeFac.RoomReservation.ReservationServer(null);
             //this.formDto.dto.Date = this.refreshDto.Date;
             //this.formDto.dto.CustomerDisplayName = this.refreshDto.CustomerDisplayName;
             //this.formDto.dto.Reservation = reservation.CloneReservaion(this.refreshDto.Reservation);
@@ -1004,7 +1009,7 @@ namespace AutoTourism.Lodge.WinForm
             txtAdds.Text = String.Empty;
             txtEmail.Text = String.Empty;
 
-            //this.formDto.dto = new LodgeFacade.CheckIn.Dto();
+            //this.formDto.dto = new LodgeFac.CheckIn.Dto();
         }
         
         private void btnCheckOut_Click(object sender, EventArgs e)
@@ -1021,15 +1026,15 @@ namespace AutoTourism.Lodge.WinForm
                 else
                     dto.Reservation.NoOfDays = noOfDays;
 
-                new PresentationLibrary.MessageBox
+                new PresLib.MessageBox
                 {
-                    DialogueType = PresentationLibrary.MessageBox.Type.Alert,
+                    DialogueType = PresLib.MessageBox.Type.Alert,
                     Heading = "Splash"
                 }.Show("CheckOut date is not matching with reservation end date. Reservation end date will be changed with checkout.");
             }
 
             dto.Reservation.BookingStatusId = Convert.ToInt64(CheckInStatus.CheckOut);
-            LodgeFacade.CheckIn.ICheckIn checkIn = new LodgeFacade.CheckIn.CheckInServer(formDto);
+            LodgeFac.CheckIn.ICheckIn checkIn = new LodgeFac.CheckIn.CheckInServer(formDto);
             checkIn.CheckOut();
 
             dto.StatusId = Convert.ToInt64(CheckInStatus.CheckOut);
@@ -1045,9 +1050,9 @@ namespace AutoTourism.Lodge.WinForm
             //    ReturnObject<Boolean> ret = this.GenerateInvoice(artifactDto);
             //    if (!ret.Value)
             //    {
-            //        new PresentationLibrary.MessageBox
+            //        new PresLib.MessageBox
             //        {
-            //            DialogueType = PresentationLibrary.MessageBox.Type.Error,
+            //            DialogueType = PresLib.MessageBox.Type.Error,
             //            Heading = "Splash",
             //        }.Show(ret.MessageList);
             //        return;
@@ -1080,7 +1085,7 @@ namespace AutoTourism.Lodge.WinForm
             //    ContactNumber = this.dto.Reservation.Customer.ContactNumberList == null ? null : this.dto.Reservation.Customer.ContactNumberList[0].Name
             //};
             //this.PopulateSellerInfo(invoiceDto);
-            //List<LodgeConfigurationFacade.Room.Dto> roomList = this.dto.Reservation.RoomList;
+            //List<RoomFac.Dto> roomList = this.dto.Reservation.RoomList;
             //this.SetRoomDetail(roomList);
             //invoiceDto.productList = this.GroupRoomList(roomList);
             //this.AttachTariff(invoiceDto.productList);
@@ -1092,7 +1097,7 @@ namespace AutoTourism.Lodge.WinForm
             //if (invoiceDto.paymentList != null && invoiceDto.paymentList.Count > 0)
             //{
             //    Vanilla.Invoice.Facade.FormDto invoiceFormDto = form.Tag as Vanilla.Invoice.Facade.FormDto;
-            //    LodgeFacade.CheckIn.ICheckIn checkIn = new LodgeFacade.CheckIn.CheckInServer(this.formDto);
+            //    LodgeFac.CheckIn.ICheckIn checkIn = new LodgeFac.CheckIn.CheckInServer(this.formDto);
 
             //    Table currentUser = new Table
             //    {
@@ -1129,14 +1134,14 @@ namespace AutoTourism.Lodge.WinForm
             return invoiceTaxationDtoList;
         }
 
-        private List<Vanilla.Invoice.Facade.LineItem.Dto> GroupRoomList(List<LodgeConfigurationFacade.Room.Dto> roomList)
+        private List<Vanilla.Invoice.Facade.LineItem.Dto> GroupRoomList(List<RoomFac.Dto> roomList)
         {
             List<Vanilla.Invoice.Facade.LineItem.Dto> productList = new List<Vanilla.Invoice.Facade.LineItem.Dto>();
             //Boolean blnAdd = false;
 
             //if (roomList != null && roomList.Count > 0)
             //{
-            //    foreach (LodgeConfigurationFacade.Room.Dto dtoRoom in roomList)
+            //    foreach (RoomFac.Dto dtoRoom in roomList)
             //    {
             //        Vanilla.Invoice.Facade.LineItem.Dto productDto = new Vanilla.Invoice.Facade.LineItem.Dto()
             //        {
@@ -1180,14 +1185,14 @@ namespace AutoTourism.Lodge.WinForm
         private void AttachTariff(List<Vanilla.Invoice.Facade.LineItem.Dto> roomList)
         { 
             //hit Lodge Room Tariff component
-            LodgeConfigurationFacade.Tariff.ITariff tariff = new LodgeConfigurationFacade.Tariff.TariffServer(null);
-            List<LodgeConfigurationFacade.Tariff.Dto> tariffList = tariff.ReadAllCurrentTariff().Value;         
+            TarrifFac.ITariff tariff = new TarrifFac.TariffServer(null);
+            List<TarrifFac.Dto> tariffList = tariff.ReadAllCurrentTariff().Value;         
 
             if (tariffList != null && tariffList.Count > 0)
             {
                 foreach (Vanilla.Invoice.Facade.LineItem.Dto roomDto in roomList)
                 {
-                    foreach (LodgeConfigurationFacade.Tariff.Dto tariffDto in tariffList)
+                    foreach (TarrifFac.Dto tariffDto in tariffList)
                     {
                         if (roomDto.roomCategoryId == tariffDto.Category.Id && roomDto.roomTypeId == tariffDto.Type.Id && roomDto.roomIsAC == tariffDto.IsAC)
                         {
@@ -1203,8 +1208,8 @@ namespace AutoTourism.Lodge.WinForm
         private void PopulateSellerInfo(Vanilla.Invoice.Facade.Dto invoiceDto)
         {            
             //populate seller info
-            LodgeFacade.FormDto formDto = new LodgeFacade.FormDto();
-            LodgeFacade.Server facade = new LodgeFacade.Server(formDto);
+            LodgeFac.FormDto formDto = new LodgeFac.FormDto();
+            LodgeFac.Server facade = new LodgeFac.Server(formDto);
             facade.LoadForm();
 
             invoiceDto.seller = formDto.Lodge == null ? null : new Vanilla.Invoice.Facade.Seller.Dto 
@@ -1219,16 +1224,16 @@ namespace AutoTourism.Lodge.WinForm
             
         }
 
-        private void SetRoomDetail(List<LodgeConfigurationFacade.Room.Dto> roomList)
+        private void SetRoomDetail(List<RoomFac.Dto> roomList)
         {
-            //foreach (LodgeConfigurationFacade.Room.Dto dto in roomList)
+            //foreach (RoomFac.Dto dto in roomList)
             //{
-            //    foreach (LodgeConfigurationFacade.Room.Dto roomDto in this.formDto.roomList)
+            //    foreach (RoomFac.Dto roomDto in this.formDto.roomList)
             //    {
             //        if (dto.Id == roomDto.Id)
             //        {
-            //            dto.Category = new LodgeConfigurationFacade.Room.Category.Dto { Id = roomDto.Category.Id };
-            //            dto.Type = new LodgeConfigurationFacade.Room.Type.Dto { Id = roomDto.Type.Id };
+            //            dto.Category = new RoomFac.Category.Dto { Id = roomDto.Category.Id };
+            //            dto.Type = new RoomFac.Type.Dto { Id = roomDto.Type.Id };
             //            dto.IsAirconditioned = roomDto.IsAirconditioned;
             //            break;
             //        }
@@ -1242,7 +1247,7 @@ namespace AutoTourism.Lodge.WinForm
             //Facade.CheckIn.ICheckIn checkInServer = new Facade.CheckIn.CheckInServer(null);
             //Vanilla.Invoice.Facade.Dto invoiceDto = checkInServer.ReadInvoice(invoiceNumber);
 
-            //PresentationLibrary.Form form = new Vanilla.Invoice.WinForm.Invoice(invoiceDto);
+            //PresLib.Form form = new Vanilla.Invoice.WinForm.Invoice(invoiceDto);
             //form.ShowDialog(this);
         }
 
@@ -1251,7 +1256,7 @@ namespace AutoTourism.Lodge.WinForm
             String roomDescription = String.Empty;
             //if (this.formDto.roomList != null && this.formDto.roomList.Count > 0)
             //{
-            //    foreach (LodgeConfigurationFacade.Room.Dto dto in this.formDto.roomList)
+            //    foreach (RoomFac.Dto dto in this.formDto.roomList)
             //    {
             //        if (dto.Id == roomId)
             //        {
