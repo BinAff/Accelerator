@@ -1888,20 +1888,24 @@ namespace Vanilla.Utility.WinForm
             artifactDto.Category = this.facade.SetCategory(this.tbcCategory.SelectedTab.Text);
             artifactDto.Extension = this.facade.GetExtension(artifactDto.Category, artifactDto.Style);
             this.SetAuditInformationForNewRecord(artifactDto);
-            //Set path
+
+            artifactDto.Path = new UtilFac.Artifact.Server(null).GetParentArtifactPath(artifactDto) + artifactDto.FileName;
             if (artifactDto.Style == UtilFac.Artifact.Type.Folder)
-            {
-                if (artifactDto.Parent == null)
-                {
-                    artifactDto.Path += this.formDto.Rule.ModuleSeperator + this.formDto.Rule.PathSeperator + this.formDto.Rule.PathSeperator;
-                }
-                artifactDto.Path += artifactDto.FileName + this.formDto.Rule.PathSeperator;
-            }
-            else if (artifactDto.Style == UtilFac.Artifact.Type.Document)
-            {
-                //artifactDto.Path += artifactDto.FileName;
-                artifactDto.Path = new UtilFac.Artifact.Server(null).GetParentArtifactPath(artifactDto) + artifactDto.FileName;
-            }
+                artifactDto.Path += this.formDto.Rule.PathSeperator;
+            ////Set path
+            //if (artifactDto.Style == UtilFac.Artifact.Type.Folder)
+            //{
+            //    if (artifactDto.Parent == null)
+            //    {
+            //        artifactDto.Path += this.formDto.Rule.ModuleSeperator + this.formDto.Rule.PathSeperator + this.formDto.Rule.PathSeperator;
+            //    }
+            //    artifactDto.Path += artifactDto.FileName + this.formDto.Rule.PathSeperator;
+            //}
+            //else if (artifactDto.Style == UtilFac.Artifact.Type.Document)
+            //{
+            //    //artifactDto.Path += artifactDto.FileName;
+            //    artifactDto.Path = new UtilFac.Artifact.Server(null).GetParentArtifactPath(artifactDto) + artifactDto.FileName;
+            //}
 
             //this.facade = new Facade.Register.Server(this.formDto) { Category = artifactDto.Category };
 
