@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BinAff.Core;
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
 
 namespace Vanilla.Invoice.Facade.Payment
 {
-    public class Server : BinAff.Facade.Library.Server
+    public class Server : Vanilla.Form.Facade.Document.Server
     {
         public Server(FormDto formDto)
             : base(formDto)
@@ -51,6 +52,25 @@ namespace Vanilla.Invoice.Facade.Payment
                 }
             }
             return paymentList;
+        }
+
+        protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData)
+        {
+            return null; 
+            //return new RoomChkCrys.Navigator.Artifact.Server(artifactData as RoomChkCrys.Navigator.Artifact.Data);
+        }
+
+        protected override ArtfCrys.Observer.DocumentComponent GetComponentServer()
+        {
+            return null;
+            //this.componentServer = new RoomChkCrys.Server(this.Convert((this.FormDto as FormDto).Dto) as RoomChkCrys.Data);
+            //return this.componentServer as ArtfCrys.Observer.DocumentComponent;
+        }
+
+        protected override String GetComponentDataType()
+        {
+            return String.Empty;
+            //return "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data, Crystal.Lodge.Component";
         }
     }
 }

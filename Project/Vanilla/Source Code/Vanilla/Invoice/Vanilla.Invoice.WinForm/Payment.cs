@@ -6,38 +6,125 @@ using System.Text.RegularExpressions;
 using BinAff.Utility;
 using PresentationLibrary = BinAff.Presentation.Library;
 using BinAff.Core;
+using FormWin = Vanilla.Form.WinForm;
+using UtilFac = Vanilla.Utility.Facade;
+using DocFac = Vanilla.Utility.Facade.Document;
 
 namespace Vanilla.Invoice.WinForm
 {
-    public partial class Payment : System.Windows.Forms.Form
+    public partial class Payment : FormWin.Document
     {
-        private Facade.Payment.Dto dto;
-        private Facade.Payment.FormDto formDto;
+        //private Facade.Payment.Dto dto;
+        //private Facade.Payment.FormDto formDto;
         private Facade.Dto invoiceDto;
         private TreeView trvForm;
 
-        public Payment(Facade.Dto invoiceDto, TreeView trvForm)
+        //public Payment(Facade.Dto invoiceDto, TreeView trvForm)
+        //{
+        //    InitializeComponent();
+
+        //    this.trvForm = trvForm;
+        //    this.invoiceDto = invoiceDto;
+        //    this.dto = new Facade.Payment.Dto();
+        //    this.formDto = new Facade.Payment.FormDto
+        //    {
+        //        dto = this.dto,
+        //        ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
+        //    };
+
+        //    new Vanilla.Utility.Facade.Module.Server(this.formDto.ModuleFormDto).LoadForm();
+
+        //    this.dgvProduct.AutoGenerateColumns = false;
+        //    this.dgvTax.AutoGenerateColumns = false;
+
+        //    this.SetPaymentGridViewSettings();
+        //    this.LoadProductData();
+        //    //this.LoadTax();
+        //    this.LoadForm();
+        //}
+
+        public Payment()
+            : base()
         {
             InitializeComponent();
-            
-            this.trvForm = trvForm;
+        }
+
+
+        public Payment(Facade.Dto invoiceDto)
+        {
+            InitializeComponent();        
             this.invoiceDto = invoiceDto;
-            this.dto = new Facade.Payment.Dto();
-            this.formDto = new Facade.Payment.FormDto 
-            { 
-                dto = this.dto,
-                ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
+
+            //this.dto = new Facade.Payment.Dto();
+            //this.formDto = new Facade.Payment.FormDto
+            //{
+            //    dto = this.dto,
+            //    ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
+            //};
+
+            //new Vanilla.Utility.Facade.Module.Server(this.formDto.ModuleFormDto).LoadForm();
+
+            //this.dgvProduct.AutoGenerateColumns = false;
+            //this.dgvTax.AutoGenerateColumns = false;
+
+            //this.SetPaymentGridViewSettings();
+            //this.LoadProductData();
+            ////this.LoadTax();
+            //this.LoadForm();
+        }
+
+        protected override void Compose()
+        {
+            base.formDto = new Facade.Payment.FormDto
+            {
+                ModuleFormDto = new UtilFac.Module.FormDto(),
+                Dto = new Facade.Payment.Dto()
             };
 
-            new Vanilla.Utility.Facade.Module.Server(this.formDto.ModuleFormDto).LoadForm();
+            this.facade = new Facade.Payment.Server(base.formDto as Facade.Payment.FormDto);
+        }
 
+        protected override DocFac.Dto CloneDto(DocFac.Dto source)
+        {
+            return new DocFac.Dto();
+        }
+
+        protected override void LoadForm()
+        {
             this.dgvProduct.AutoGenerateColumns = false;
             this.dgvTax.AutoGenerateColumns = false;
 
             this.SetPaymentGridViewSettings();
+
             this.LoadProductData();
-            //this.LoadTax();
-            this.LoadForm();
+
+            Facade.Payment.FormDto formDto = base.formDto as Facade.Payment.FormDto;
+            base.facade.LoadForm();
+
+            //--populate payment type category
+            this.cboPaymentType.DataSource = null;
+            if (formDto.typeList != null && formDto.typeList.Count > 0)
+            {
+                this.cboPaymentType.DataSource = formDto.typeList;
+                this.cboPaymentType.ValueMember = "Id";
+                this.cboPaymentType.DisplayMember = "Name";
+                this.cboPaymentType.SelectedIndex = 0;
+            }
+
+            this.txtArtifactPath.ReadOnly = true;
+        }
+
+        protected override void PopulateDataToForm()
+        { 
+        }
+
+        protected override Boolean ValidateForm()
+        {
+            return true;
+        }
+
+        protected override void AssignDto()
+        { 
         }
 
         private void LoadProductData()
@@ -114,25 +201,28 @@ namespace Vanilla.Invoice.WinForm
             
         }
 
-        private void LoadForm()
-        {
-            BinAff.Facade.Library.Server facade = new Facade.Payment.Server(formDto);
-            facade.LoadForm();
+        //private void LoadForm()
+        //{
+        //    Facade.Payment.FormDto formDto = base.formDto as Facade.Payment.FormDto;
+        //    base.facade.LoadForm();
 
-            //--populate payment type category
-            this.cboPaymentType.DataSource = null;
-            if (this.formDto.typeList != null && this.formDto.typeList.Count > 0)
-            {
-                this.cboPaymentType.DataSource = this.formDto.typeList;
-                this.cboPaymentType.ValueMember = "Id";
-                this.cboPaymentType.DisplayMember = "Name";
-                this.cboPaymentType.SelectedIndex = 0;
-            }
+        //    //BinAff.Facade.Library.Server facade = new Facade.Payment.Server(formDto);
+        //    //facade.LoadForm();
 
-            this.txtArtifactPath.ReadOnly = true;
-            this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("INVO", this.formDto.ModuleFormDto.FormModuleList, "Form");            
+        //    //--populate payment type category
+        //    this.cboPaymentType.DataSource = null;
+        //    if (formDto.typeList != null && formDto.typeList.Count > 0)
+        //    {
+        //        this.cboPaymentType.DataSource = formDto.typeList;
+        //        this.cboPaymentType.ValueMember = "Id";
+        //        this.cboPaymentType.DisplayMember = "Name";
+        //        this.cboPaymentType.SelectedIndex = 0;
+        //    }
 
-        }
+        //    this.txtArtifactPath.ReadOnly = true;
+        //    //this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("INVO", this.formDto.ModuleFormDto.FormModuleList, "Form");            
+
+        //}
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -258,6 +348,8 @@ namespace Vanilla.Invoice.WinForm
 
         private void dgvPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            Facade.Payment.FormDto formDto = base.formDto as Facade.Payment.FormDto;
+
             int Edit = 4;
             int Delete = 5;
             List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
@@ -275,7 +367,7 @@ namespace Vanilla.Invoice.WinForm
                 txtRemark.Text = paymentDto.remark;
                 txtAmount.Text = paymentDto.amount.ToString();
 
-                if (this.formDto.typeList != null && this.formDto.typeList.Count > 0)
+                if (formDto.typeList != null && formDto.typeList.Count > 0)
                 {
                     for (int i = 0; i < cboPaymentType.Items.Count; i++)
                     {
