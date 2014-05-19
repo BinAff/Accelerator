@@ -178,7 +178,6 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return autoCustomer;
         }
 
-
         //--Duplicate function [exists in ReservationServer]
         public List<CrystalCustomer.ContactNumber.Data> ConvertToContactNumberData(List<Table> contactNumberList)
         {
@@ -221,7 +220,9 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 Dto = dto.Reservation
             };
-            new LodgeFacade.RoomReservation.ReservationServer(reservationFormDto).Change();
+            LodgeFacade.RoomReservation.ReservationServer roomReserver = new LodgeFacade.RoomReservation.ReservationServer(reservationFormDto);
+            //roomReserver.RegisterArtifactObserver();//Artifact is missing. Need to attach that in Document
+            roomReserver.Change();
 
             //update checkIn status
             CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = dto.Id });
