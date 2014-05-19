@@ -356,7 +356,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return this.ValidateRoomWithCategoryTypeAndACPreference(room, categoryId, typeId, acPreference);
         }
 
-        List<LodgeConfigFac.Room.Dto> IReservation.GetFilteredRoomsWithCategoryTypeAndACPreference(List<LodgeConfigFac.Room.Dto> roomList, Int64 categoryId, Int64 typeId, Int32 acPreference)
+        public List<LodgeConfigFac.Room.Dto> FilterRoomList(List<LodgeConfigFac.Room.Dto> roomList, Int64 categoryId, Int64 typeId, Int32 acPreference)
         {
             List<LodgeConfigFac.Room.Dto> lstRoom = new List<LodgeConfigFac.Room.Dto>();
 
@@ -370,8 +370,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
             return lstRoom;
         }
-        
-        Int32 IReservation.GetNoOfRoomsBookedBetweenTwoDates(DateTime startDate, DateTime endDate, Int64 reservationId)
+
+        public Int32 GetReservedRoomList(DateTime startDate, DateTime endDate, Int64 reservationId)
         {
             int retVal = 0;
             Crystal.Customer.Component.Action.IAction reservation = new Crystal.Lodge.Component.Room.Reservation.Server(null);
@@ -390,7 +390,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return retVal;          
         }
 
-        Int32 IReservation.GetNoOfRoomsBookedBetweenTwoDates(DateTime startDate, DateTime endDate, Int64 reservationId, Int64 categoryId, Int64 typeId, Int32 acPreference)
+        public Int32 GetReservedRoomList(DateTime startDate, DateTime endDate, Int64 reservationId, Int64 categoryId, Int64 typeId, Int32 acPreference)
         {
             int retVal = 0;
             Crystal.Customer.Component.Action.IAction reservation = new Crystal.Lodge.Component.Room.Reservation.Server(null);

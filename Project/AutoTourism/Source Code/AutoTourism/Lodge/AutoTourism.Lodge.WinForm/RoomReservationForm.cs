@@ -1061,16 +1061,16 @@ namespace AutoTourism.Lodge.WinForm
             int TotalRoomsBookedWithMatchingCategoryTypeAndACPreference = 0;
             int AvailableRoomsCount = 0;
 
-            Facade.RoomReservation.IReservation reservation = new Facade.RoomReservation.ReservationServer(null);
+            Facade.RoomReservation.ReservationServer reservation = new Facade.RoomReservation.ReservationServer(null);
             List<ConfigFacade.Room.Dto> filteredRoomList = new List<ConfigFacade.Room.Dto>();
 
             if (formDto.roomList != null && formDto.roomList.Count > 0)
             {
-                filteredRoomList = reservation.GetFilteredRoomsWithCategoryTypeAndACPreference(formDto.roomList, 0, 0, 0);
+                filteredRoomList = reservation.FilterRoomList(formDto.roomList, 0, 0, 0);
                 this.totalRooms = filteredRoomList.Count;
                 lblTotalRoomsLodge.Text = "Total Rooms : = " + filteredRoomList.Count.ToString();
 
-                filteredRoomList = reservation.GetFilteredRoomsWithCategoryTypeAndACPreference(formDto.roomList, roomCategoryId, roomTypeId, acPreference);
+                filteredRoomList = reservation.FilterRoomList(formDto.roomList, roomCategoryId, roomTypeId, acPreference);
                 if (filteredRoomList != null)
                     TotalRoomsWithMatchingCategoryTypeAndACPreference = filteredRoomList.Count;
             }
@@ -1079,10 +1079,10 @@ namespace AutoTourism.Lodge.WinForm
             if (IsNoOfDaysExists())
             {
                 Int64 reservationId = formDto.Dto == null ? 0 : formDto.Dto.Id;
-                this.totalBookings = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId);
+                this.totalBookings = reservation.GetReservedRoomList(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId);
                 txtTotalBooking.Text = this.totalBookings.ToString();
 
-                TotalRoomsBookedWithMatchingCategoryTypeAndACPreference = reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, roomCategoryId, roomTypeId, acPreference);
+                TotalRoomsBookedWithMatchingCategoryTypeAndACPreference = reservation.GetReservedRoomList(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, roomCategoryId, roomTypeId, acPreference);
                 //lblTotalBookedRoomCount.Text = "Total no of rooms booked for the selected category, type and AC preference from " +
                 //    dtFrom.Value.ToShortDateString() + " and " + dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)).ToShortDateString() + " = " +
                 //    TotalRoomsBookedWithMatchingCategoryTypeAndACPreference.ToString();
