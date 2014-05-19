@@ -212,7 +212,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return RoomDataList;
         }
 
-        void ICheckIn.CheckOut()
+        public void CheckOut()
         {
             Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
             //updating reservation
