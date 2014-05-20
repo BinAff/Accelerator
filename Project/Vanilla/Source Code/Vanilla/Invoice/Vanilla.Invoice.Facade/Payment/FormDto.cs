@@ -7,6 +7,6 @@ namespace Vanilla.Invoice.Facade.Payment
         //public Dto dto { get; set; }
         public List<Type.Dto> typeList { get; set; }
 
-        public Vanilla.Utility.Facade.Module.FormDto ModuleFormDto { get; set; }
+        public Vanilla.Utility.Facade.Module.FormDto ModuleFormDto { get; set; }    
     }
 }
