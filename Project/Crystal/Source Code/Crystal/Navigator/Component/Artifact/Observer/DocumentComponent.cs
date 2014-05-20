@@ -69,7 +69,8 @@ namespace Crystal.Navigator.Component.Artifact.Observer
             foreach (Artifact.Server o in this.Observers)
             {
                 IObserver observer = o;
-                base.ManipulateReturnObject(notification, observer.UpdateAfterComponentUpdate(this.Data as Data));
+                (o.Data as Artifact.Data).ComponentData = this.Data;
+                base.ManipulateReturnObject(notification, observer.UpdateAfterComponentUpdate(o.Data as Artifact.Data));
             }
 
             return notification;
