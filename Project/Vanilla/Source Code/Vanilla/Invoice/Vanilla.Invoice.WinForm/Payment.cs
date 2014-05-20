@@ -16,8 +16,14 @@ namespace Vanilla.Invoice.WinForm
     {
         //private Facade.Payment.Dto dto;
         //private Facade.Payment.FormDto formDto;
-        private Facade.Dto invoiceDto;
-        private TreeView trvForm;
+        //private Facade.Dto invoiceDto;
+        //private TreeView trvForm;
+
+        public Payment(UtilFac.Artifact.Dto artifact)
+            : base(artifact)
+        {
+            InitializeComponent();            
+        }
 
         //public Payment(Facade.Dto invoiceDto, TreeView trvForm)
         //{
@@ -43,35 +49,35 @@ namespace Vanilla.Invoice.WinForm
         //    this.LoadForm();
         //}
 
-        public Payment()
-            : base()
-        {
-            InitializeComponent();
-        }
+        //public Payment()
+        //    : base()
+        //{
+        //    InitializeComponent();
+        //}
 
 
-        public Payment(Facade.Dto invoiceDto)
-        {
-            InitializeComponent();        
-            this.invoiceDto = invoiceDto;
+        //public Payment(Facade.Dto invoiceDto)
+        //{
+        //    InitializeComponent();        
+        //    this.invoiceDto = invoiceDto;
 
-            //this.dto = new Facade.Payment.Dto();
-            //this.formDto = new Facade.Payment.FormDto
-            //{
-            //    dto = this.dto,
-            //    ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
-            //};
+        //    //this.dto = new Facade.Payment.Dto();
+        //    //this.formDto = new Facade.Payment.FormDto
+        //    //{
+        //    //    dto = this.dto,
+        //    //    ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto()
+        //    //};
 
-            //new Vanilla.Utility.Facade.Module.Server(this.formDto.ModuleFormDto).LoadForm();
+        //    //new Vanilla.Utility.Facade.Module.Server(this.formDto.ModuleFormDto).LoadForm();
 
-            //this.dgvProduct.AutoGenerateColumns = false;
-            //this.dgvTax.AutoGenerateColumns = false;
+        //    //this.dgvProduct.AutoGenerateColumns = false;
+        //    //this.dgvTax.AutoGenerateColumns = false;
 
-            //this.SetPaymentGridViewSettings();
-            //this.LoadProductData();
-            ////this.LoadTax();
-            //this.LoadForm();
-        }
+        //    //this.SetPaymentGridViewSettings();
+        //    //this.LoadProductData();
+        //    ////this.LoadTax();
+        //    //this.LoadForm();
+        //}
 
         protected override void Compose()
         {
@@ -129,6 +135,8 @@ namespace Vanilla.Invoice.WinForm
 
         private void LoadProductData()
         {
+            Facade.Dto invoiceDto = base.Artifact.Module as Vanilla.Invoice.Facade.Dto;
+
             for (int i = 0; i < dgvProduct.Columns.Count; i++)
                 dgvProduct.Columns[i].ReadOnly = true;
 
@@ -142,7 +150,7 @@ namespace Vanilla.Invoice.WinForm
 
             List<Data> invoiceList = new List<Data>();
             Double lineItemTotal = 0;
-            foreach (Facade.LineItem.Dto lineItem in this.invoiceDto.productList)
+            foreach (Facade.LineItem.Dto lineItem in invoiceDto.productList)
             {
                 invoiceList.Add(new Data
                 {
@@ -165,39 +173,41 @@ namespace Vanilla.Invoice.WinForm
 
         private void LoadTax(Double total)
         {
-            Facade.IInvoice invoiceServer = new Facade.Server(null);
-            List<Table> taxList = invoiceServer.CalulateTaxList(total, this.invoiceDto.taxationList);
+            Facade.Dto invoiceDto = base.Artifact.Module as Vanilla.Invoice.Facade.Dto;
 
+            Facade.IInvoice invoiceServer = new Facade.Server(null);
+            List<Table> taxList = invoiceServer.CalulateTaxList(total, invoiceDto.taxationList);
             dgvTax.ColumnHeadersVisible = false;
             for (int i = 0; i < dgvTax.Columns.Count; i++)
                 dgvTax.Columns[i].ReadOnly = true;
 
             dgvTax.Columns[0].DataPropertyName = "Name";
             dgvTax.Columns[1].DataPropertyName = "Value";
-                                  
+
             dgvProduct.MultiSelect = false;
             dgvTax.DataSource = taxList;
 
             Double totalAfterTax = total;
             if (taxList != null && taxList.Count > 0)
             {
-                foreach (Table tax in taxList)                
+                foreach (Table tax in taxList)
                     totalAfterTax += tax.Value;
             }
             txtTotal.Text = totalAfterTax.ToString();
-            txtAdvance.Text = this.invoiceDto.advance.ToString();
-            txtGrandTotal.Text = (totalAfterTax - this.invoiceDto.advance).ToString();
+            txtAdvance.Text = invoiceDto.advance.ToString();
+            txtGrandTotal.Text = (totalAfterTax - invoiceDto.advance).ToString();
         }
 
         private void txtDiscount_TextChanged(object sender, EventArgs e)
         {
+            Facade.Dto invoiceDto = base.Artifact.Module as Vanilla.Invoice.Facade.Dto;
             Double discount = 0;
 
             if (ValidationRule.IsDouble(txtDiscount.Text))
-                discount = Convert.ToDouble(txtDiscount.Text);            
-            
+                discount = Convert.ToDouble(txtDiscount.Text);
+
             if (ValidationRule.IsDouble(txtDiscount.Text))
-                txtGrandTotal.Text = (Convert.ToDouble(txtTotal.Text) - this.invoiceDto.advance - discount).ToString();
+                txtGrandTotal.Text = (Convert.ToDouble(txtTotal.Text) - invoiceDto.advance - discount).ToString();
             
         }
 
@@ -412,40 +422,45 @@ namespace Vanilla.Invoice.WinForm
 
         private void btnPay_Click(object sender, EventArgs e)
         {
-            //if (this.ValidateMakePayment())
-            //{
-            //    //call crystal invoice
-            //    this.invoiceDto.invoiceNumber = Common.GenerateInvoiceNumber();
-            //    this.invoiceDto.paymentList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
-            //    this.invoiceDto.discount = txtDiscount.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtDiscount.Text);
-                               
-            //    //Facade.Server facade = new Facade.Server(new Facade.FormDto { dto = invoiceDto });
-            //    //facade.Add();
-            //    this.invoiceDto.artifactPath = this.txtArtifactPath.Text;
-            //    Facade.FormDto invoiceFormDto = new Facade.FormDto
-            //    {
-            //        dto = this.invoiceDto,
-            //        ModuleFormDto = this.formDto.ModuleFormDto
-            //    };
-            //    this.Tag = invoiceFormDto;
-            //    this.Close();
+            Facade.Dto invoiceDto = base.Artifact.Module as Vanilla.Invoice.Facade.Dto;
+            
+            if (this.ValidateMakePayment())
+            {
+                //call crystal invoice
+                invoiceDto.invoiceNumber = Common.GenerateInvoiceNumber();
+                invoiceDto.paymentList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
+                invoiceDto.discount = txtDiscount.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtDiscount.Text);
+
+                //Vanilla.Form.Facade.Document.FormDto formDto = new Facade.FormDto();
+                //formDto.Dto = invoiceDto;
+                //Facade.Server facade = new Facade.Server(formDto as Facade.FormDto);
+                //facade.Add();
+
+                //this.invoiceDto.artifactPath = this.txtArtifactPath.Text;
+                //Facade.FormDto invoiceFormDto = new Facade.FormDto
+                //{
+                //    dto = this.invoiceDto,
+                //    ModuleFormDto = this.formDto.ModuleFormDto
+                //};
+                //this.Tag = invoiceFormDto;
+                this.Close();
 
 
-            //    //if (facade.IsError)
-            //    //{
-            //    //    //retVal = false;
-            //    //    new PresentationLibrary.MessageBox
-            //    //    {
-            //    //        DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
-            //    //        Heading = "Splash",
-            //    //    }.Show(facade.DisplayMessageList);
-            //    //}
-            //    //else
-            //    //{   
-            //    //    this.Tag = this.invoiceDto;
-            //    //    this.Close();                    
-            //    //}
-            //}
+                //if (facade.IsError)
+                //{
+                //    //retVal = false;
+                //    new PresentationLibrary.MessageBox
+                //    {
+                //        DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
+                //        Heading = "Splash",
+                //    }.Show(facade.DisplayMessageList);
+                //}
+                //else
+                //{   
+                //    this.Tag = this.invoiceDto;
+                //    this.Close();                    
+                //}
+            }
         }
 
         private Boolean ValidateMakePayment()

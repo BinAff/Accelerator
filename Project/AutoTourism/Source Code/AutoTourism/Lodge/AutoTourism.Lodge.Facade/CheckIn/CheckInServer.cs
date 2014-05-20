@@ -13,7 +13,8 @@ using LodgeFacade = AutoTourism.Lodge.Facade;
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
 using RoomChkCrys = Crystal.Lodge.Component.Room.CheckIn;
 using CustAuto = AutoTourism.Component.Customer;
-
+using InvFac = Vanilla.Invoice.Facade;
+using TarrifFac = AutoTourism.Lodge.Configuration.Facade.Tariff;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
@@ -229,49 +230,89 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             checkIn.ModifyCheckInStatus(System.Convert.ToInt64(CheckInStatus.CheckOut));
         }
 
-        ReturnObject<bool> ICheckIn.PaymentInsert(Vanilla.Invoice.Facade.FormDto invoiceFormDto, Table currentUser, Vanilla.Utility.Facade.Artifact.Dto artifactDto)
+        //ReturnObject<bool> ICheckIn.PaymentInsert(Vanilla.Invoice.Facade.FormDto invoiceFormDto, Table currentUser, Vanilla.Utility.Facade.Artifact.Dto artifactDto)
+        //{
+        //    return this.MakePayment(invoiceFormDto, currentUser, artifactDto);            
+        //}
+
+        //private ReturnObject<Boolean> MakePayment(Vanilla.Invoice.Facade.FormDto invoiceFormDto, Table currentUser, Vanilla.Utility.Facade.Artifact.Dto artifactDto)
+        //{
+        //    ReturnObject<Boolean> ret = new ReturnObject<bool>();
+
+        //    Vanilla.Invoice.Facade.Dto invoiceDto = invoiceFormDto.dto;
+        //    AutoTourism.Component.Customer.Data autoCustomer = new AutoTourism.Component.Customer.Data
+        //    {
+        //        Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
+        //        {
+        //            Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
+        //        }
+        //    };
+
+        //    using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
+        //    {
+        //        //Save Invoice Data
+        //        CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
+        //        ret = customer.GenerateInvoice();
+
+        //        if (ret.Value)
+        //        {
+        //            Crystal.Invoice.Component.Data invoiceData = (autoCustomer.Invoice as Crystal.Invoice.Component.InvoiceContainer.Data).Active as Crystal.Invoice.Component.Data;
+        //            if (invoiceData.Id > 0)
+        //            {
+        //                //Update invoice number to CheckIn table
+        //                ret = this.UpdateInvoiceNumber(invoiceData.InvoiceNumber);
+
+        //                if (ret.Value)
+        //                {
+        //                    //Save to Artifact
+        //                    invoiceFormDto.dto.Id = invoiceData.Id;
+        //                    this.SaveArtifact(invoiceFormDto, currentUser, artifactDto);
+
+        //                    T.Complete();
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    return ret;
+        //}
+
+        ReturnObject<bool> ICheckIn.PaymentInsert(Vanilla.Invoice.Facade.Dto invoiceDto)
         {
-            return this.MakePayment(invoiceFormDto, currentUser, artifactDto);            
+            return this.MakePayment(invoiceDto);
         }
 
-        private ReturnObject<Boolean> MakePayment(Vanilla.Invoice.Facade.FormDto invoiceFormDto, Table currentUser, Vanilla.Utility.Facade.Artifact.Dto artifactDto)
+        private ReturnObject<Boolean> MakePayment(Vanilla.Invoice.Facade.Dto invoiceDto)
         {
             ReturnObject<Boolean> ret = new ReturnObject<bool>();
+                        
+            AutoTourism.Component.Customer.Data autoCustomer = new AutoTourism.Component.Customer.Data
+            {
+                Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
+                {
+                    Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
+                }
+            };
 
-            //Vanilla.Invoice.Facade.Dto invoiceDto = invoiceFormDto.dto;
-            //AutoTourism.Component.Customer.Data autoCustomer = new AutoTourism.Component.Customer.Data
-            //{
-            //    Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
-            //    {
-            //        Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
-            //    }
-            //};
+            using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
+            {
+                //Save Invoice Data
+                CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
+                ret = customer.GenerateInvoice();
 
-            //using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
-            //{
-            //    //Save Invoice Data
-            //    CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
-            //    ret = customer.GenerateInvoice();
-
-            //    if (ret.Value)
-            //    {
-            //        Crystal.Invoice.Component.Data invoiceData = (autoCustomer.Invoice as Crystal.Invoice.Component.InvoiceContainer.Data).Active as Crystal.Invoice.Component.Data;
-            //        if (invoiceData.Id > 0)
-            //        {
-            //            //Update invoice number to CheckIn table
-            //            ret = this.UpdateInvoiceNumber(invoiceData.InvoiceNumber);
-
-            //            if (ret.Value)
-            //            {
-            //                //Save to Artifact
-            //                invoiceFormDto.dto.Id = invoiceData.Id;
-            //                this.SaveArtifact(invoiceFormDto, currentUser, artifactDto);
-
-            //                T.Complete();
-            //            }
-            //        }
-            //    }
-            //}
+                if (ret.Value)
+                {
+                    Crystal.Invoice.Component.Data invoiceData = (autoCustomer.Invoice as Crystal.Invoice.Component.InvoiceContainer.Data).Active as Crystal.Invoice.Component.Data;
+                    if (invoiceData.Id > 0)
+                    {
+                        //Update invoice number to CheckIn table
+                        ret = this.UpdateInvoiceNumber(invoiceData.InvoiceNumber);
+                        if (ret.Value) 
+                            T.Complete();
+                        
+                    }
+                }
+            }
 
             return ret;
         }
@@ -450,6 +491,180 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         protected override String GetComponentDataType()
         {
             return "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data, Crystal.Lodge.Component";
+        }
+
+        public void PopulateInvoiceDto(Vanilla.Invoice.Facade.Dto invoiceDto)
+        {
+            Dto dto = (this.FormDto as Vanilla.Form.Facade.Document.FormDto).Dto as Dto;
+            Facade.Taxation.ITaxation taxation = new Facade.Taxation.TaxationServer();
+            List<Facade.Taxation.Dto> taxationList = taxation.ReadLodgeTaxation();
+
+            //Vanilla.Invoice.Facade.Dto invoiceDto = new Vanilla.Invoice.Facade.Dto();
+            invoiceDto.advance = dto.Reservation.Advance;
+            invoiceDto.buyer = dto.Reservation.Customer == null ? null : new Vanilla.Invoice.Facade.Buyer.Dto
+            {
+                Name = dto.Reservation.Customer.Name,
+                Address = dto.Reservation.Customer.Address,
+                Email = dto.Reservation.Customer.Email,
+                ContactNumber = dto.Reservation.Customer.ContactNumberList == null ? null : dto.Reservation.Customer.ContactNumberList[0].Name
+            };
+            this.PopulateSellerInfo(invoiceDto);
+            List<LodgeConfFac.Room.Dto> roomList = dto.Reservation.RoomList;
+            this.SetRoomDetail(roomList);
+            invoiceDto.productList = this.GroupRoomList(roomList);
+            this.AttachTariff(invoiceDto.productList);
+            invoiceDto.taxationList = this.ConvertToInvoiceTaxationDto(taxationList);
+
+        }
+
+        private void PopulateSellerInfo(Vanilla.Invoice.Facade.Dto invoiceDto)
+        {
+            //populate seller info
+            LodgeFacade.FormDto formDto = new LodgeFacade.FormDto();
+            LodgeFacade.Server facade = new LodgeFacade.Server(formDto);
+            facade.LoadForm();
+
+            invoiceDto.seller = formDto.Lodge == null ? null : new Vanilla.Invoice.Facade.Seller.Dto
+            {
+                Id = formDto.Lodge.Id,
+                Name = formDto.Lodge.Name,
+                Address = formDto.Lodge.Address,
+                Liscence = formDto.Lodge.LicenceNumber,
+                Email = formDto.Lodge.EmailList == null ? null : formDto.Lodge.EmailList[0].Name,
+                ContactNumber = formDto.Lodge.ContactNumberList == null ? null : formDto.Lodge.ContactNumberList[0].Name
+            };
+
+        }
+
+        private void SetRoomDetail(List<LodgeConfFac.Room.Dto> roomList)
+        {
+            FormDto formDto = (this.FormDto as Vanilla.Form.Facade.Document.FormDto) as FormDto;
+
+            foreach (LodgeConfFac.Room.Dto dto in roomList)
+            {
+                foreach (LodgeConfFac.Room.Dto roomDto in formDto.roomList)
+                {
+                    if (dto.Id == roomDto.Id)
+                    {
+                        dto.Category = new LodgeConfFac.Room.Category.Dto { Id = roomDto.Category.Id };
+                        dto.Type = new LodgeConfFac.Room.Type.Dto { Id = roomDto.Type.Id };
+                        dto.IsAirconditioned = roomDto.IsAirconditioned;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private List<InvFac.LineItem.Dto> GroupRoomList(List<LodgeConfFac.Room.Dto> roomList)
+        {
+            Dto dto = (this.FormDto as Vanilla.Form.Facade.Document.FormDto).Dto as Dto;
+            List<InvFac.LineItem.Dto> productList = new List<InvFac.LineItem.Dto>();
+            Boolean blnAdd = false;
+
+            if (roomList != null && roomList.Count > 0)
+            {
+                foreach (LodgeConfFac.Room.Dto dtoRoom in roomList)
+                {
+                    Vanilla.Invoice.Facade.LineItem.Dto productDto = new InvFac.LineItem.Dto()
+                    {
+                        Id = dtoRoom.Id,
+                        startDate = dto.Reservation.BookingFrom,
+                        roomCategoryId = dtoRoom.Category == null ? 0 : dtoRoom.Category.Id,
+                        roomTypeId = dtoRoom.Type == null ? 0 : dtoRoom.Type.Id,
+                        roomIsAC = dtoRoom.IsAirconditioned,
+                        description = this.GetRoomDescription(dtoRoom.Id),
+                        count = 1, //count is basically rooms of same type [i.e. same typeid, categoryId, and Ac] 
+                        endDate = dto.Reservation.BookingFrom.AddDays(dto.Reservation.NoOfDays)
+                    };
+
+                    if (productList.Count == 0)
+                    {
+                        productList.Add(productDto);
+                    }
+                    else
+                    {
+                        blnAdd = true;
+                        foreach (InvFac.LineItem.Dto roomDto in productList)
+                        {
+                            if (productDto.roomCategoryId == roomDto.roomCategoryId && productDto.roomTypeId == roomDto.roomTypeId && productDto.roomIsAC == roomDto.roomIsAC)
+                            {
+                                roomDto.count++;
+                                blnAdd = false;
+                                break;
+                            }
+                        }
+                        if (blnAdd)
+                        {
+                            productList.Add(productDto);
+                        }
+                    }
+                }
+            }
+
+            return productList;
+        }
+
+        private String GetRoomDescription(Int64 roomId)
+        {
+            FormDto formDto = (this.FormDto as Vanilla.Form.Facade.Document.FormDto) as FormDto;
+
+            String roomDescription = String.Empty;
+            if (formDto.roomList != null && formDto.roomList.Count > 0)
+            {
+                foreach (LodgeConfFac.Room.Dto dto in formDto.roomList)
+                {
+                    if (dto.Id == roomId)
+                    {
+                        roomDescription = dto.Category.Name + ", " + dto.Type.Name + ", " + (dto.IsAirconditioned ? "AC" : "Non AC");
+                        break;
+                    }
+                }
+            }
+
+            return roomDescription;
+        }
+
+        private void AttachTariff(List<InvFac.LineItem.Dto> roomList)
+        {
+            //hit Lodge Room Tariff component
+            TarrifFac.ITariff tariff = new TarrifFac.TariffServer(null);
+            List<TarrifFac.Dto> tariffList = tariff.ReadAllCurrentTariff().Value;
+
+            if (tariffList != null && tariffList.Count > 0)
+            {
+                foreach (Vanilla.Invoice.Facade.LineItem.Dto roomDto in roomList)
+                {
+                    foreach (TarrifFac.Dto tariffDto in tariffList)
+                    {
+                        if (roomDto.roomCategoryId == tariffDto.Category.Id && roomDto.roomTypeId == tariffDto.Type.Id && roomDto.roomIsAC == tariffDto.IsAC)
+                        {
+                            roomDto.unitRate = tariffDto.Rate;
+                            roomDto.total = roomDto.unitRate * roomDto.count;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private List<InvFac.Taxation.Dto> ConvertToInvoiceTaxationDto(List<Facade.Taxation.Dto> taxationList)
+        {
+            List<InvFac.Taxation.Dto> taxationDtoList = new List<InvFac.Taxation.Dto>();
+            if (taxationList != null && taxationList.Count > 0)
+            {
+                foreach (Facade.Taxation.Dto dto in taxationList)
+                {
+                    taxationDtoList.Add(new InvFac.Taxation.Dto
+                    {
+                        Id = dto.Id,
+                        Name = dto.Name,
+                        Amount = dto.Amount,
+                        isPercentage = dto.isPercentage
+                    });
+                }
+            }
+
+            return taxationDtoList;
         }
 
         public enum CheckInStatus
