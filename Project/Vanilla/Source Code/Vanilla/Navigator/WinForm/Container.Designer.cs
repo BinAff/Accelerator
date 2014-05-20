@@ -76,13 +76,13 @@
             this.mnuStickyNote = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuEmail = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSMS = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuViewSeperator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuViewSeperator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuLargeIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSmallIcon = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuList = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDetail = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTile = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuViewSeperator3 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuSort = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCreatedAt = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCreatedBy = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,7 +95,7 @@
             this.mnuAscending = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDescending = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuGroup = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuViewSeperator4 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuStatusBar = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTool = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,6 +119,7 @@
             this.pnlMenuContainer = new System.Windows.Forms.Panel();
             this.pnlCalender = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblModifiedAt = new System.Windows.Forms.Label();
             this.lblModification = new System.Windows.Forms.Label();
             this.lblModifiedBy = new System.Windows.Forms.Label();
@@ -134,7 +135,9 @@
             this.shapeOnlineStatus = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.ucRegister = new Vanilla.Utility.WinForm.Register();
             this.ucConfiguration = new Vanilla.Navigator.WinForm.Configuration();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.mnuForms = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuViewSeperator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuReports = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMain.SuspendLayout();
             this.pnlTool.SuspendLayout();
             this.pnlMenuContainer.SuspendLayout();
@@ -505,22 +508,25 @@
             // mnuView
             // 
             this.mnuView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuForms,
+            this.mnuReports,
+            this.mnuViewSeperator1,
             this.mnuRegister,
             this.mnuConfiguration,
             this.mnuCalender,
             this.mnuStickyNote,
             this.mnuEmail,
             this.mnuSMS,
-            this.mnuViewSeperator1,
+            this.mnuViewSeperator2,
             this.mnuLargeIcon,
             this.mnuSmallIcon,
             this.mnuList,
             this.mnuDetail,
             this.mnuTile,
-            this.toolStripSeparator2,
+            this.mnuViewSeperator3,
             this.mnuSort,
             this.mnuGroup,
-            this.toolStripSeparator3,
+            this.mnuViewSeperator4,
             this.mnuStatusBar,
             this.mnuRefresh});
             this.mnuView.Name = "mnuView";
@@ -530,28 +536,28 @@
             // mnuRegister
             // 
             this.mnuRegister.Name = "mnuRegister";
-            this.mnuRegister.Size = new System.Drawing.Size(139, 22);
+            this.mnuRegister.Size = new System.Drawing.Size(152, 22);
             this.mnuRegister.Text = "Register";
             this.mnuRegister.Click += new System.EventHandler(this.mnuRegister_Click);
             // 
             // mnuConfiguration
             // 
             this.mnuConfiguration.Name = "mnuConfiguration";
-            this.mnuConfiguration.Size = new System.Drawing.Size(139, 22);
+            this.mnuConfiguration.Size = new System.Drawing.Size(152, 22);
             this.mnuConfiguration.Text = "Configuration";
             this.mnuConfiguration.Click += new System.EventHandler(this.mnuConfiguration_Click);
             // 
             // mnuCalender
             // 
             this.mnuCalender.Name = "mnuCalender";
-            this.mnuCalender.Size = new System.Drawing.Size(139, 22);
+            this.mnuCalender.Size = new System.Drawing.Size(152, 22);
             this.mnuCalender.Text = "Calender";
             this.mnuCalender.Click += new System.EventHandler(this.mnuCalender_Click);
             // 
             // mnuStickyNote
             // 
             this.mnuStickyNote.Name = "mnuStickyNote";
-            this.mnuStickyNote.Size = new System.Drawing.Size(139, 22);
+            this.mnuStickyNote.Size = new System.Drawing.Size(152, 22);
             this.mnuStickyNote.Text = "Sticky Note";
             this.mnuStickyNote.Click += new System.EventHandler(this.mnuStickyNote_Click);
             // 
@@ -559,7 +565,7 @@
             // 
             this.mnuEmail.Enabled = false;
             this.mnuEmail.Name = "mnuEmail";
-            this.mnuEmail.Size = new System.Drawing.Size(139, 22);
+            this.mnuEmail.Size = new System.Drawing.Size(152, 22);
             this.mnuEmail.Text = "Email";
             this.mnuEmail.Click += new System.EventHandler(this.mnuEmail_Click);
             // 
@@ -567,54 +573,54 @@
             // 
             this.mnuSMS.Enabled = false;
             this.mnuSMS.Name = "mnuSMS";
-            this.mnuSMS.Size = new System.Drawing.Size(139, 22);
+            this.mnuSMS.Size = new System.Drawing.Size(152, 22);
             this.mnuSMS.Text = "SMS";
             this.mnuSMS.Click += new System.EventHandler(this.mnuSMS_Click);
             // 
-            // mnuViewSeperator1
+            // mnuViewSeperator2
             // 
-            this.mnuViewSeperator1.Name = "mnuViewSeperator1";
-            this.mnuViewSeperator1.Size = new System.Drawing.Size(136, 6);
+            this.mnuViewSeperator2.Name = "mnuViewSeperator2";
+            this.mnuViewSeperator2.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuLargeIcon
             // 
             this.mnuLargeIcon.Name = "mnuLargeIcon";
-            this.mnuLargeIcon.Size = new System.Drawing.Size(139, 22);
+            this.mnuLargeIcon.Size = new System.Drawing.Size(152, 22);
             this.mnuLargeIcon.Text = "Large Icon";
             this.mnuLargeIcon.Click += new System.EventHandler(this.mnuLargeIcon_Click);
             // 
             // mnuSmallIcon
             // 
             this.mnuSmallIcon.Name = "mnuSmallIcon";
-            this.mnuSmallIcon.Size = new System.Drawing.Size(139, 22);
+            this.mnuSmallIcon.Size = new System.Drawing.Size(152, 22);
             this.mnuSmallIcon.Text = "Small Icon";
             this.mnuSmallIcon.Click += new System.EventHandler(this.mnuSmallIcon_Click);
             // 
             // mnuList
             // 
             this.mnuList.Name = "mnuList";
-            this.mnuList.Size = new System.Drawing.Size(139, 22);
+            this.mnuList.Size = new System.Drawing.Size(152, 22);
             this.mnuList.Text = "List";
             this.mnuList.Click += new System.EventHandler(this.mnuList_Click);
             // 
             // mnuDetail
             // 
             this.mnuDetail.Name = "mnuDetail";
-            this.mnuDetail.Size = new System.Drawing.Size(139, 22);
+            this.mnuDetail.Size = new System.Drawing.Size(152, 22);
             this.mnuDetail.Text = "Detail";
             this.mnuDetail.Click += new System.EventHandler(this.mnuDetail_Click);
             // 
             // mnuTile
             // 
             this.mnuTile.Name = "mnuTile";
-            this.mnuTile.Size = new System.Drawing.Size(139, 22);
+            this.mnuTile.Size = new System.Drawing.Size(152, 22);
             this.mnuTile.Text = "Tile";
             this.mnuTile.Click += new System.EventHandler(this.mnuTile_Click);
             // 
-            // toolStripSeparator2
+            // mnuViewSeperator3
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(136, 6);
+            this.mnuViewSeperator3.Name = "mnuViewSeperator3";
+            this.mnuViewSeperator3.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuSort
             // 
@@ -630,7 +636,7 @@
             this.mnuAscending,
             this.mnuDescending});
             this.mnuSort.Name = "mnuSort";
-            this.mnuSort.Size = new System.Drawing.Size(139, 22);
+            this.mnuSort.Size = new System.Drawing.Size(152, 22);
             this.mnuSort.Text = "Sort";
             // 
             // mnuCreatedAt
@@ -704,24 +710,24 @@
             // mnuGroup
             // 
             this.mnuGroup.Name = "mnuGroup";
-            this.mnuGroup.Size = new System.Drawing.Size(139, 22);
+            this.mnuGroup.Size = new System.Drawing.Size(152, 22);
             this.mnuGroup.Text = "Group";
             // 
-            // toolStripSeparator3
+            // mnuViewSeperator4
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(136, 6);
+            this.mnuViewSeperator4.Name = "mnuViewSeperator4";
+            this.mnuViewSeperator4.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuStatusBar
             // 
             this.mnuStatusBar.Name = "mnuStatusBar";
-            this.mnuStatusBar.Size = new System.Drawing.Size(139, 22);
+            this.mnuStatusBar.Size = new System.Drawing.Size(152, 22);
             this.mnuStatusBar.Text = "Status Bar";
             // 
             // mnuRefresh
             // 
             this.mnuRefresh.Name = "mnuRefresh";
-            this.mnuRefresh.Size = new System.Drawing.Size(139, 22);
+            this.mnuRefresh.Size = new System.Drawing.Size(152, 22);
             this.mnuRefresh.Text = "Refresh";
             // 
             // mnuTool
@@ -906,6 +912,14 @@
             this.panel1.Size = new System.Drawing.Size(827, 54);
             this.panel1.TabIndex = 18;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(2, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(48, 48);
+            this.pictureBox1.TabIndex = 13;
+            this.pictureBox1.TabStop = false;
+            // 
             // lblModifiedAt
             // 
             this.lblModifiedAt.AutoSize = true;
@@ -1036,7 +1050,7 @@
             // 
             this.ucRegister.Address = null;
             this.ucRegister.Category = Vanilla.Utility.Facade.Artifact.Category.Form;
-            //this.ucRegister.IsDialogue = false;
+            this.ucRegister.DialogueMode = Vanilla.Utility.WinForm.DialogueMode.None;
             this.ucRegister.Location = new System.Drawing.Point(393, 92);
             this.ucRegister.Name = "ucRegister";
             this.ucRegister.Size = new System.Drawing.Size(13, 12);
@@ -1051,13 +1065,24 @@
             this.ucConfiguration.TabIndex = 12;
             this.ucConfiguration.Visible = false;
             // 
-            // pictureBox1
+            // mnuForms
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(2, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(48, 48);
-            this.pictureBox1.TabIndex = 13;
-            this.pictureBox1.TabStop = false;
+            this.mnuForms.Name = "mnuForms";
+            this.mnuForms.Size = new System.Drawing.Size(152, 22);
+            this.mnuForms.Text = "Forms";
+            this.mnuForms.Click += new System.EventHandler(this.mnuForms_Click);
+            // 
+            // mnuViewSeperator1
+            // 
+            this.mnuViewSeperator1.Name = "mnuViewSeperator1";
+            this.mnuViewSeperator1.Size = new System.Drawing.Size(149, 6);
+            // 
+            // mnuReports
+            // 
+            this.mnuReports.Name = "mnuReports";
+            this.mnuReports.Size = new System.Drawing.Size(152, 22);
+            this.mnuReports.Text = "Reports";
+            this.mnuReports.Click += new System.EventHandler(this.mnuReports_Click);
             // 
             // Container
             // 
@@ -1119,15 +1144,15 @@
         private System.Windows.Forms.ToolStripMenuItem mnuInvertSelection;
         private System.Windows.Forms.ToolStripMenuItem mnuView;
         private System.Windows.Forms.ToolStripMenuItem mnuStatusBar;
-        private System.Windows.Forms.ToolStripSeparator mnuViewSeperator1;
+        private System.Windows.Forms.ToolStripSeparator mnuViewSeperator2;
         private System.Windows.Forms.ToolStripMenuItem mnuLargeIcon;
         private System.Windows.Forms.ToolStripMenuItem mnuSmallIcon;
         private System.Windows.Forms.ToolStripMenuItem mnuList;
         private System.Windows.Forms.ToolStripMenuItem mnuDetail;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator mnuViewSeperator3;
         private System.Windows.Forms.ToolStripMenuItem mnuSort;
         private System.Windows.Forms.ToolStripMenuItem mnuGroup;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripSeparator mnuViewSeperator4;
         private System.Windows.Forms.ToolStripMenuItem mnuRefresh;
         private System.Windows.Forms.ToolStripMenuItem mnuTool;
         private System.Windows.Forms.ToolStripMenuItem mnuHelp;
@@ -1198,6 +1223,9 @@
         private System.Windows.Forms.Label lblModifiedBy;
         private System.Windows.Forms.Label lblModifiedAt;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolStripMenuItem mnuForms;
+        private System.Windows.Forms.ToolStripMenuItem mnuReports;
+        private System.Windows.Forms.ToolStripSeparator mnuViewSeperator1;
 
     }
 }
