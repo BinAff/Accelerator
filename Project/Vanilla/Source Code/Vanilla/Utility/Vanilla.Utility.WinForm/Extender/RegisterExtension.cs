@@ -378,7 +378,7 @@ namespace Vanilla.Utility.WinForm.Extender
                         Tag = artifact,
                         ImageIndex = artifact.Style == Facade.Artifact.Type.Folder ? 0 : 2,
                     };
-                    if (artifact.Style == Facade.Artifact.Type.Document) current.Text += "." + artifact.Extension;
+                    if (artifact.Style == Facade.Artifact.Type.Document && !String.IsNullOrEmpty(artifact.Extension)) current.Text += "." + artifact.Extension;
                     current.SubItems.AddRange(AddListViewSubItems(current, artifact));
                     listView.Items.Add(current);
                 }

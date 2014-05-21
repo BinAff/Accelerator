@@ -423,8 +423,9 @@ namespace Vanilla.Utility.Facade.Artifact
         public Dto GetParentArtifact(Dto artifactDto)
         {
             if (artifactDto.Parent.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+            {
                 return ((Vanilla.Utility.Facade.Module.Dto)(artifactDto.Parent)).Artifact;
-
+            }
             return artifactDto.Parent as Dto;
         }
 
