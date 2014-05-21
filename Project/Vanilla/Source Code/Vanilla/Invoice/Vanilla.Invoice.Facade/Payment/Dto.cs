@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Vanilla.Invoice.Facade.Payment
 {
-    public class Dto : Vanilla.Form.Facade.Document.Dto
+    public class Dto : BinAff.Facade.Library.Dto
     {
         public DateTime date { get; set; }
         public String cardNumber { get; set; }
