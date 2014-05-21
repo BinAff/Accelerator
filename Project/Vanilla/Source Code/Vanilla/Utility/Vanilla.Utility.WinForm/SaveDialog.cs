@@ -1,5 +1,8 @@
 ﻿using System;
 
+using BinAff.Core;
+using PresLib = BinAff.Presentation.Library;
+
 namespace Vanilla.Utility.WinForm
 {
 
@@ -12,6 +15,11 @@ namespace Vanilla.Utility.WinForm
             InitializeComponent();
         }
 
+        private void SaveDialog_Load(object sender, EventArgs e)
+        {
+            this.Register.DialogueMode = DialogueMode.Save;
+        }
+
         protected override String SetActionName()
         {
             return "Save";
@@ -19,30 +27,31 @@ namespace Vanilla.Utility.WinForm
 
         protected override void DoAction()
         {
-            if (!this.ValidateData())
+            String message = this.ValidateData();
+            if (String.IsNullOrEmpty(message))
             {
-                //Show message
+                new PresLib.MessageBox().Show(new Message
+                {
+                    Category = Message.Type.Error,
+                    Description = message,
+                });
             }
+            this.Register.AddDocument();
             //Save artifact in current location
             //this.Register.ShowDocument();
         }
 
-        private Boolean ValidateData()
+        private String ValidateData()
         {
             if(String.IsNullOrEmpty(base.DocumentName))
             {
-                return false;
+                return "Document name cannot be empty.";
             }
-            if (this.Register.IsExistsInFolder(base.DocumentName))
+            if (this.Register.IsDocumentExistsInFolder(base.DocumentName))
             {
-                return false;
+                return "Name already exists in current folder.";
             }
-            return true;
-        }
-
-        private void SaveDialog_Load(object sender, EventArgs e)
-        {
-            this.Register.DialogueMode = DialogueMode.Save;
+            return String.Empty; ;
         }
 
     }
