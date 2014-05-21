@@ -43,7 +43,7 @@
             this.tlpFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.82796F));
             this.tlpFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 88.17204F));
             this.tlpFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
-            this.tlpFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tlpFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 91F));
             this.tlpFile.Controls.Add(this.label1, 0, 0);
             this.tlpFile.Controls.Add(this.txtDocName, 1, 0);
             this.tlpFile.Controls.Add(this.cboExtension, 2, 0);
@@ -71,7 +71,7 @@
             this.txtDocName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtDocName.Location = new System.Drawing.Point(46, 3);
             this.txtDocName.Name = "txtDocName";
-            this.txtDocName.Size = new System.Drawing.Size(321, 20);
+            this.txtDocName.Size = new System.Drawing.Size(320, 20);
             this.txtDocName.TabIndex = 2;
             this.txtDocName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtDocName_KeyUp);
             // 
@@ -80,7 +80,7 @@
             this.cboExtension.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cboExtension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboExtension.FormattingEnabled = true;
-            this.cboExtension.Location = new System.Drawing.Point(373, 3);
+            this.cboExtension.Location = new System.Drawing.Point(372, 3);
             this.cboExtension.Name = "cboExtension";
             this.cboExtension.Size = new System.Drawing.Size(124, 21);
             this.cboExtension.TabIndex = 4;
@@ -88,9 +88,9 @@
             // btnAction
             // 
             this.btnAction.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnAction.Location = new System.Drawing.Point(503, 3);
+            this.btnAction.Location = new System.Drawing.Point(502, 3);
             this.btnAction.Name = "btnAction";
-            this.btnAction.Size = new System.Drawing.Size(85, 22);
+            this.btnAction.Size = new System.Drawing.Size(86, 22);
             this.btnAction.TabIndex = 5;
             this.btnAction.Text = "Action";
             this.btnAction.UseVisualStyleBackColor = true;

@@ -72,7 +72,7 @@ namespace Vanilla.Utility.WinForm
 
         public UtilFac.Artifact.Category Category { get; set; }
 
-        #region events
+        #region Exposed events
 
         public delegate void ChangePath();
         public event ChangePath PathChanged;
@@ -159,41 +159,24 @@ namespace Vanilla.Utility.WinForm
             this.loadPercentage = 100;
         }
 
+        public Boolean IsExistsInFolder(String name)
+        {
+            return this.lsvContainer.IsExist(name);
+        }
+
+        #region Progressbar
+
         public Int16 GetStatus()
         {
             return (Int16)Math.Abs(this.loadPercentage * 0.8);
         }
 
-        void t_Tick(object sender, EventArgs e)
+        private void t_Tick(object sender, EventArgs e)
         {
             this.loadPercentage = this.facade.GetStatus();
         }
 
-        private void LoadModules(String currentTab)
-        {
-            TreeView current = new TreeView();
-            TreeNode[] tree = new TreeNode[this.formDto.Dto.Modules.Count];
-            Int16 i = 0;
-            foreach (UtilFac.Module.Dto module in this.formDto.Dto.Modules)
-            {
-                switch (currentTab)
-                {
-                    case "Form": current = this.trvForm;
-                        break;
-                    case "Catalogue": current = this.trvCatalogue;
-                        break;
-                    case "Report": current = this.trvReport;
-                        break;
-                    default: current = this.trvForm;
-                        break;
-                }
-                tree[i] = this.trvForm.CreateTreeNodes(module.Artifact);
-                tree[i++].Tag = module;
-            }
-            current.Nodes.Clear();
-            current.Nodes.AddRange(tree);
-
-        }       
+        #endregion
 
         #region TreeView
 
@@ -1611,6 +1594,31 @@ namespace Vanilla.Utility.WinForm
         }
 
         #endregion
+
+        private void LoadModules(String currentTab)
+        {
+            TreeView current = new TreeView();
+            TreeNode[] tree = new TreeNode[this.formDto.Dto.Modules.Count];
+            Int16 i = 0;
+            foreach (UtilFac.Module.Dto module in this.formDto.Dto.Modules)
+            {
+                switch (currentTab)
+                {
+                    case "Form": current = this.trvForm;
+                        break;
+                    case "Catalogue": current = this.trvCatalogue;
+                        break;
+                    case "Report": current = this.trvReport;
+                        break;
+                    default: current = this.trvForm;
+                        break;
+                }
+                tree[i] = this.trvForm.CreateTreeNodes(module.Artifact);
+                tree[i++].Tag = module;
+            }
+            current.Nodes.Clear();
+            current.Nodes.AddRange(tree);
+        }       
 
         private void SelectNode(String selectedNodePath)
         {
