@@ -332,13 +332,13 @@ namespace Vanilla.Utility.WinForm.Extender
 
         public static String Initialize(this ListView listView)
         {
-            listView.Columns.Add("Name", 150);
-            listView.Columns.Add("Type", 70);
-            listView.Columns.Add("Version", 50);
-            listView.Columns.Add("Created By", 100);
-            listView.Columns.Add("Created At", 115);
-            listView.Columns.Add("Modified By", 100);
-            listView.Columns.Add("Modified At", 115);
+            listView.Columns.Add("Name", "Name", 150);
+            listView.Columns.Add("Type", "Type", 70);
+            listView.Columns.Add("Version", "Version", 50);
+            listView.Columns.Add("Created By", "Created By", 100);
+            listView.Columns.Add("Created At", "Created At", 115);
+            listView.Columns.Add("Modified By", "Modified By", 100);
+            listView.Columns.Add("Modified At", "Modified At", 115);
 
             listView.ListViewItemSorter = new PresLib.ListViewColumnSorter();
             return "Name"; //this name will come from rule
@@ -586,6 +586,17 @@ namespace Vanilla.Utility.WinForm.Extender
             return ret;
         }
 
+        public static Boolean IsExist(this ListView listView, String name)
+        {
+            foreach (ListViewItem item in listView.Items)
+            {
+                ArtfFac.Dto artf = item.Tag as ArtfFac.Dto;
+                return (artf.Style == ArtfFac.Type.Document
+                    && (String.Compare(artf.FileName, name) == 0 || String.Compare(artf.FullFileName, name) == 0));
+            }
+            return false;
+        }
+
     }
 
     public static class ListViewItemExtender
@@ -627,7 +638,7 @@ namespace Vanilla.Utility.WinForm.Extender
                 {
                     for (int i = 0; i < lstTableSortText.Count; i++)
                     {
-                        if (text == lstTableSortText[i].Name && !isExists(lstTableSortText[i], sortTable))
+                        if (text == lstTableSortText[i].Name && !IsExists(lstTableSortText[i], sortTable))
                         {
                             sortTable.Add(lstTableSortText[i]);
                             break;
@@ -641,7 +652,7 @@ namespace Vanilla.Utility.WinForm.Extender
                 {
                     for (int i = 0; i < lstTableSortText.Count; i++)
                     {
-                        if (lstStringSortText[j] == lstTableSortText[i].Name && !isExists(lstTableSortText[i], sortTable))
+                        if (lstStringSortText[j] == lstTableSortText[i].Name && !IsExists(lstTableSortText[i], sortTable))
                         {
                             sortTable.Add(lstTableSortText[i]);
                             break;
@@ -655,12 +666,14 @@ namespace Vanilla.Utility.WinForm.Extender
 
         }
 
-        private static Boolean isExists(BinAff.Core.Table item, List<BinAff.Core.Table> lstItem)
+        private static Boolean IsExists(BinAff.Core.Table item, List<BinAff.Core.Table> lstItem)
         {
             foreach (BinAff.Core.Table table in lstItem)
             {
                 if (table.Id == item.Id)
+                {
                     return true;
+                }
             }
 
             return false;

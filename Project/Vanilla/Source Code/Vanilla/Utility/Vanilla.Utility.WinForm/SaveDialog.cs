@@ -19,8 +19,25 @@ namespace Vanilla.Utility.WinForm
 
         protected override void DoAction()
         {
+            if (!this.ValidateData())
+            {
+                //Show message
+            }
             //Save artifact in current location
             //this.Register.ShowDocument();
+        }
+
+        private Boolean ValidateData()
+        {
+            if(String.IsNullOrEmpty(base.DocumentName))
+            {
+                return false;
+            }
+            if (this.Register.IsExistsInFolder(base.DocumentName))
+            {
+                return false;
+            }
+            return true;
         }
 
         private void SaveDialog_Load(object sender, EventArgs e)

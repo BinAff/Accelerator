@@ -33,6 +33,14 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        protected String DocumentName
+        {
+            get
+            {
+                return this.txtDocName.Text.Trim();
+            }
+        }
+
         public Dialog()
         {
             InitializeComponent();
@@ -78,6 +86,9 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        /// <summary>
+        /// Do when Action button is clicked
+        /// </summary>
         protected virtual void DoAction()
         {
             throw new NotImplementedException();
