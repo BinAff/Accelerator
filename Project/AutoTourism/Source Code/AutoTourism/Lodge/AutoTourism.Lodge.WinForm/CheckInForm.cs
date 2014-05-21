@@ -1106,16 +1106,23 @@ namespace AutoTourism.Lodge.WinForm
             //invoiceDto.taxationList = this.ConvertToInvoiceTaxationDto(taxationList);
 
             //Form form = new Vanilla.Invoice.WinForm.Payment(invoiceDto, dto.trvForm);
-            //Form form = new Vanilla.Invoice.WinForm.Payment(invoiceDto);
-            //form.ShowDialog(this);
-                        
-            Type type = Type.GetType("Vanilla.Invoice.WinForm.Payment,Vanilla.Invoice.WinForm", true);
-            UtilFac.Artifact.Dto currentArtifact = new UtilFac.Artifact.Dto 
+            InvFac.Payment.FormDto paymentFormDto = new InvFac.Payment.FormDto 
             {
-                Module = invoiceDto
+                ProductList = invoiceDto.productList,
+                Advance = invoiceDto.advance,
+                TaxationList = invoiceDto.taxationList
             };
-            FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);        
+            Form form = new Vanilla.Invoice.WinForm.Payment(paymentFormDto);
+            form.Owner = this;
             form.ShowDialog();
+                        
+            //Type type = Type.GetType("Vanilla.Invoice.WinForm.Payment,Vanilla.Invoice.WinForm", true);
+            //UtilFac.Artifact.Dto currentArtifact = new UtilFac.Artifact.Dto 
+            //{
+            //    Module = invoiceDto
+            //};
+            //FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);        
+            //form.ShowDialog();
 
             //if (invoiceDto.paymentList != null && invoiceDto.paymentList.Count > 0)
             //{
@@ -1135,8 +1142,12 @@ namespace AutoTourism.Lodge.WinForm
             //        //dto.InvoiceNumber = invoiceFormDto.dto.invoiceNumber;
             //}
 
-            if (invoiceDto.paymentList != null && invoiceDto.paymentList.Count > 0)
+            if (paymentFormDto.PaymentList != null && paymentFormDto.PaymentList.Count > 0)
             {
+                invoiceDto.paymentList = paymentFormDto.PaymentList;
+                invoiceDto.discount = paymentFormDto.Discount;
+                //invoiceDto.invoiceNumber = paymentFormDto.InvoiceNumber;
+
                 LodgeFac.CheckIn.ICheckIn checkIn = new LodgeFac.CheckIn.CheckInServer(base.formDto as LodgeFac.CheckIn.FormDto);
                 ret = checkIn.PaymentInsert(invoiceDto);
 
