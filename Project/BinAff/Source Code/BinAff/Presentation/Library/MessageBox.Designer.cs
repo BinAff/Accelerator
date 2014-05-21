@@ -73,11 +73,11 @@
             // 
             // txtMessage
             // 
-            this.txtMessage.BackColor = System.Drawing.Color.Lavender;
-            this.txtMessage.Location = new System.Drawing.Point(12, 65);
+            this.txtMessage.BackColor = System.Drawing.SystemColors.Window;
+            this.txtMessage.Location = new System.Drawing.Point(12, 46);
             this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(327, 98);
+            this.txtMessage.Size = new System.Drawing.Size(327, 117);
             this.txtMessage.TabIndex = 139;
             // 
             // picIcon
@@ -86,7 +86,7 @@
             this.picIcon.Location = new System.Drawing.Point(12, 10);
             this.picIcon.Name = "picIcon";
             this.picIcon.Padding = new System.Windows.Forms.Padding(2);
-            this.picIcon.Size = new System.Drawing.Size(49, 44);
+            this.picIcon.Size = new System.Drawing.Size(30, 30);
             this.picIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picIcon.TabIndex = 140;
             this.picIcon.TabStop = false;
