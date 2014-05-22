@@ -2,7 +2,7 @@
 
 namespace Vanilla.Utility.Facade.Rule
 {
-    public class Dto
+    public class Dto : BinAff.Facade.Library.Dto
     {
         /// <summary>
         /// Module separetor

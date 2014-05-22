@@ -274,7 +274,7 @@ namespace Vanilla.Utility.Facade.Artifact
                 {
                     if (parent == null)
                     {
-                        Module.Definition.Dto def = (BinAff.Facade.Cache.Server.Current.Cache["ComponentDefinition"] as List<Module.Definition.Dto>).FindLast((p) =>
+                        Module.Definition.Dto def = (BinAff.Facade.Cache.Server.Current.Cache["Main"] as Cache.Dto).ComponentDefinitionList.FindLast((p) =>
                         {
                             return p.Code == formDto.Dto.ComponentDefinition.Code;
                         });

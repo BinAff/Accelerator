@@ -1,13 +1,14 @@
-﻿
-using System;
+﻿using System;
 using BinAff.Core;
 
-using Vanilla.Utility.Facade.Module;
+using Crys = Crystal.Navigator.Rule;
 
 namespace Vanilla.Utility.Facade.Rule
 {
+
     public class Server : BinAff.Facade.Library.Server
     {
+
         public Server(FormDto formDto)
             : base(formDto)
         {
@@ -21,24 +22,33 @@ namespace Vanilla.Utility.Facade.Rule
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            throw new NotImplementedException();
+            Crys.Data rule = data as Crys.Data;
+            return new Dto
+            {
+                ModuleSeperator = rule.ModuleSeperator,
+                PathSeperator = rule.PathSeperator,
+            };
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            throw new NotImplementedException();
+            Dto rule = dto as Dto;
+            return new Crys.Data
+            {
+                ModuleSeperator = rule.ModuleSeperator,
+                PathSeperator = rule.PathSeperator,
+            };
         }
 
-        public Dto ReadRule()
+        public override void Read()
         {
-            Dto dto = new Dto();
-            Crystal.Navigator.Rule.Data data = new Crystal.Navigator.Rule.Data();
-            ICrud comp = new Crystal.Navigator.Rule.Server(data);
+            Crys.Data data = new Crys.Data();
+            ICrud comp = new Crys.Server(data);
             ReturnObject<Data> ret = comp.Read();
-            dto.ModuleSeperator = data.ModuleSeperator;
-            dto.PathSeperator = data.PathSeperator;
 
-            return dto;
+            (this.FormDto as FormDto).Dto = this.Convert(ret.Value) as Dto;
         }
+
     }
+
 }

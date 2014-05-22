@@ -42,6 +42,7 @@
     <Compile Include="Artifact\FormDto.cs" />
     <Compile Include="Artifact\Server.cs" />
     <Compile Include="Artifact\Type.cs" />
+    <Compile Include="Cache\Dto.cs" />
     <Compile Include="Container\Dto.cs" />
     <Compile Include="Container\FormDto.cs" />
     <Compile Include="Container\Server.cs" />
@@ -67,12 +68,15 @@
     <Compile Include="Report\Dto.cs" />
     <Compile Include="Report\IReport.cs" />
     <Compile Include="Rule\Dto.cs" />
+    <Compile Include="Rule\FormDto.cs" />
     <Compile Include="Rule\Server.cs" />
+    <Compile Include="SaveDialog\Dto.cs" />
+    <Compile Include="SaveDialog\FormDto.cs" />
+    <Compile Include="SaveDialog\Server.cs" />
     <Compile Include="SearchResult\Dto.cs" />
     <Compile Include="SearchResult\FormDto.cs" />
     <Compile Include="SearchResult\Server.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
       <Project>{D25DF173-3451-49AA-9570-269B2880C393}</Project>

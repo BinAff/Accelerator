@@ -4,8 +4,6 @@ using System.Timers;
 
 using BinAff.Core;
 
-using RuleCrys = Crystal.Navigator.Rule;
-
 using VanAcc = Vanilla.Guardian.Facade.Account;
 
 namespace Vanilla.Utility.Facade.Register
@@ -222,14 +220,12 @@ namespace Vanilla.Utility.Facade.Register
             }
         }
 
-        private void LoadRule()
+        public void LoadRule()
         {
-            RuleCrys.Data data = new RuleCrys.Data();
-            ICrud comp = new RuleCrys.Server(data);
-            ReturnObject<Data> ret = comp.Read();
+            Cache.Dto cache = BinAff.Facade.Cache.Server.Current.Cache["Main"] as Cache.Dto;
             if ((this.FormDto as FormDto).Rule == null) (this.FormDto as FormDto).Rule = new Rule.Dto();
-            (this.FormDto as FormDto).Rule.ModuleSeperator = data.ModuleSeperator;
-            (this.FormDto as FormDto).Rule.PathSeperator = data.PathSeperator;
+            (this.FormDto as FormDto).Rule.ModuleSeperator = cache.NavigatorRule.ModuleSeperator;
+            (this.FormDto as FormDto).Rule.PathSeperator = cache.NavigatorRule.PathSeperator;
         }
 
         public void GetCurrentModules(Artifact.Category category)
