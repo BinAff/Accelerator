@@ -22,35 +22,35 @@ namespace Vanilla.Invoice.WinForm
             InitializeComponent();            
         }
 
-        public Invoice()
-        {
-            InitializeComponent();
-            //this.invoiceData = data;
-            //LoadReport();
-            //LoadFormData();
+        //public Invoice()
+        //{
+        //    InitializeComponent();
+        //    //this.invoiceData = data;
+        //    //LoadReport();
+        //    //LoadFormData();
 
-            //if (this.invoiceData.Payment == null || ValidationRule.IsMinimumDate(this.invoiceData.Payment.Date))
-            //    btnPrint.Visible = false;
-            //else
-            //{
-            //    btnPayAndPrint.Visible = false;
-            //    this.cboPaymentType.Enabled = false;
-            //    this.txtLastFourDigit.Enabled = false;
-            //    this.txtRemark.Enabled = false;
-            //}
+        //    //if (this.invoiceData.Payment == null || ValidationRule.IsMinimumDate(this.invoiceData.Payment.Date))
+        //    //    btnPrint.Visible = false;
+        //    //else
+        //    //{
+        //    //    btnPayAndPrint.Visible = false;
+        //    //    this.cboPaymentType.Enabled = false;
+        //    //    this.txtLastFourDigit.Enabled = false;
+        //    //    this.txtRemark.Enabled = false;
+        //    //}
 
-        }
+        //}
 
-        public Invoice(Facade.Dto dto)
-        {
-            InitializeComponent();
+        //public Invoice(Facade.Dto dto)
+        //{
+        //    InitializeComponent();
 
-            //this.dto = dto;
-            //this.formDto = new Facade.FormDto { dto = this.dto };
+        //    //this.dto = dto;
+        //    //this.formDto = new Facade.FormDto { dto = this.dto };
           
-            //this.LoadForm();            
-            //this.LoadReport();
-        }
+        //    //this.LoadForm();            
+        //    //this.LoadReport();
+        //}
 
         protected override void Compose()
         {
@@ -60,7 +60,7 @@ namespace Vanilla.Invoice.WinForm
                 Dto = new Facade.Dto()
             };
 
-            this.facade = new Facade.Server(this.formDto as Facade.FormDto);
+            //this.facade = new Facade.Server(this.formDto as Facade.FormDto);
         }
 
         protected override DocFac.Dto CloneDto(DocFac.Dto source)
@@ -73,9 +73,9 @@ namespace Vanilla.Invoice.WinForm
             //BinAff.Facade.Library.Server facade = new Facade.Server(formDto);
             //facade.LoadForm();
 
-            Facade.FormDto formDto = base.formDto as Facade.FormDto;
-            base.facade.LoadForm();
-
+            //Facade.FormDto formDto = base.formDto as Facade.FormDto;
+            //base.facade.LoadForm();
+            
             this.LoadReport();
         }
 
@@ -95,15 +95,18 @@ namespace Vanilla.Invoice.WinForm
 
         private void LoadReport()
         {
-            Facade.Dto dto = base.formDto.Dto as Facade.Dto;
+            Facade.Dto dto = base.Artifact.Module as Facade.Dto;
+            //Facade.Dto dto = base.formDto.Dto as Facade.Dto;
 
-            List<Data> invoiceList = this.PopulateReportData();
+            List<Data> invoiceList = this.PopulateReportData(dto);
 
             this.rvInvoice.DocumentMapCollapsed = true;
             this.rvInvoice.ShowPrintButton = false;
             String path = System.IO.Directory.GetCurrentDirectory();
-            path = path.Remove(path.IndexOf("AutoTourism"));
-            path += @"Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.WinForm\Invoice.rdlc";
+            //path = path.Remove(path.IndexOf("AutoTourism"));
+            //path += @"Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.WinForm\Invoice.rdlc";
+
+            path = @"E:\Binary Affairs\Online SVN\Project\Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.WinForm\Invoice.rdlc";
 
             this.rvInvoice.LocalReport.ReportPath = path;
             string sDataSourceName = "Invoice";
@@ -120,7 +123,7 @@ namespace Vanilla.Invoice.WinForm
             p[7] = new ReportParameter("BuyerContactNo", dto.buyer.ContactNumber);
             p[8] = new ReportParameter("BuyerAddress", dto.buyer.Address);
             p[9] = new ReportParameter("Total", lineItemTotal.ToString()); //Change
-            p[10] = new ReportParameter("Discount", "0"); //Change
+            p[10] = new ReportParameter("Discount", dto.discount.ToString()); //Change
             p[11] = new ReportParameter("Tax", "4"); //Change
             p[12] = new ReportParameter("Advance", dto.advance.ToString());
 
@@ -135,10 +138,10 @@ namespace Vanilla.Invoice.WinForm
             this.rvInvoice.RefreshReport();
                         
         }
-        
-        private List<Data> PopulateReportData()
+
+        private List<Data> PopulateReportData(Facade.Dto dto)
         {
-            Facade.Dto dto = base.formDto.Dto as Facade.Dto;
+            //Facade.Dto dto = base.formDto.Dto as Facade.Dto;
             List<Data> invoiceList = new List<Data>();
 
             Double lineItemTotal = 0;
