@@ -1,7 +1,12 @@
 ﻿using System;
 
 using BinAff.Core;
+using BinAff.Facade.Cache;
 using PresLib = BinAff.Presentation.Library;
+
+using Fac = Vanilla.Utility.Facade.SaveDialog;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using ModDefFac = Vanilla.Utility.Facade.Module.Definition;
 
 namespace Vanilla.Utility.WinForm
 {
@@ -28,7 +33,7 @@ namespace Vanilla.Utility.WinForm
         protected override void DoAction()
         {
             String message = this.ValidateData();
-            if (String.IsNullOrEmpty(message))
+            if (!String.IsNullOrEmpty(message))
             {
                 new PresLib.MessageBox().Show(new Message
                 {
@@ -36,9 +41,16 @@ namespace Vanilla.Utility.WinForm
                     Description = message,
                 });
             }
-            this.Register.AddDocument();
-            //Save artifact in current location
-            //this.Register.ShowDocument();
+            new Fac.Server(new Fac.FormDto
+            {
+                Dto = new Fac.Dto
+                {
+                    DocumentName = base.DocumentName,
+                    Parent = base.Register.CurrentArtifact,
+                }
+            }).Add();
+            //Save artifact in navigator... Use event
+            //this.Register.AttachDocument(base.DocumentName);
         }
 
         private String ValidateData()

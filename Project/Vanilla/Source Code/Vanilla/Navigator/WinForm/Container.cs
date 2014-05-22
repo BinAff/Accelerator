@@ -151,7 +151,7 @@ namespace Vanilla.Navigator.WinForm
             if (!this.ShowForms()) return;
 
             Type type = Type.GetType(currentArtifact.ComponentDefinition.ComponentFormType, true);
-            currentArtifact.Module.artifactPath = currentArtifact.Path;
+            //currentArtifact.Module.artifactPath = currentArtifact.Path;
             FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);
             form.MdiParent = this.formExecutable;
             form.AuditInfoChanged += form_AuditInfoChanged;

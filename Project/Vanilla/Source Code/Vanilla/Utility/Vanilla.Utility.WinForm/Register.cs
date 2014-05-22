@@ -38,6 +38,7 @@ namespace Vanilla.Utility.WinForm
         private Facade.Register.Server facade;
 
         List<String> addressList; //This is for back button. This will hold all navigations
+        Boolean isRenaming;
 
         private ArtfFac.Dto cutArtifact;
 
@@ -166,6 +167,20 @@ namespace Vanilla.Utility.WinForm
         public Boolean IsDocumentExistsInFolder(String name)
         {
             return this.lsvContainer.IsExist(name);
+        }
+
+        public void AttachDocument(String fileName)
+        {
+            TreeNode root = this.GetActiveTreeView().TopNode;
+            ModDefFac.Dto componentDef = new ModDefFac.Dto
+            {
+                Code = (root.Tag as ModFac.Dto).Code
+            };
+            FacLib.Dto component = new ModFac.Server(null)
+            {
+                Category = this.facade.Category
+            }.InstantiateDto(root.Tag as ModFac.Dto);
+            this.AddArtifact(ArtfFac.Type.Document, fileName, component, componentDef);
         }
 
         #region Progressbar
@@ -522,16 +537,16 @@ namespace Vanilla.Utility.WinForm
             this.RefreshTreeAfterLabelEdit(trv, selectedArtifact);
             if (this.currentArtifact.Category == ArtfFac.Category.Report)
             {
-                //form = this.ReportAdded(this.currentArtifact, this.facade, this.formDto.ModuleFormDto.CurrentArtifact.Dto.Module);
                 this.ReportLoad(this.formDto.ModuleFormDto.CurrentArtifact.Dto);
             }
             else
             {
-                if (this.formDto.ModuleFormDto.CurrentArtifact.Dto.Style == ArtfFac.Type.Document)
+                if (this.formDto.ModuleFormDto.CurrentArtifact.Dto.Style == ArtfFac.Type.Document && !this.isRenaming)
                 {
                     this.FormLoad(this.formDto.ModuleFormDto.CurrentArtifact.Dto);
                 }
             }
+            this.isRenaming = false; //Rename done
         }
 
         private void RefreshTreeAfterLabelEdit(TreeView trv, ArtfFac.Dto selectedArtifact)
@@ -621,6 +636,7 @@ namespace Vanilla.Utility.WinForm
         {
             if (e.KeyCode == Keys.F2)
             {
+                this.isRenaming = true;
                 this.lsvContainer.EditListViewSelectedItem();
             }
             else if (e.KeyCode == Keys.Enter)
@@ -1719,26 +1735,24 @@ namespace Vanilla.Utility.WinForm
         {
             ArtfFac.Dto artifactDto = this.GetArtifact(node.Tag);
 
-            String fileName = String.Empty;
-            String appendText = "New Folder";
+            String fileName = type == ArtfFac.Type.Document?
+                "New " + this.tbcCategory.SelectedTab.Text : "New Folder";
 
-            if (type.ToString() == ArtfFac.Type.Document.ToString())
-            {
-                appendText = "New " + this.tbcCategory.SelectedTab.Text;
-            }
-
-            if (artifactDto.Children == null)
-                return appendText;
+            if (artifactDto.Children == null) return fileName;
 
             Boolean isExists = false;
             for (int i = 0; i <= artifactDto.Children.Count; i++)
             {
                 isExists = false;
-                fileName = i == 0 ? appendText : appendText + " (" + i + ")";
+                if (i > 0)
+                {
+                    fileName += " (" + i + ")";
+                }
 
+                //Find duplicate name
                 foreach (ArtfFac.Dto childArtifact in artifactDto.Children)
                 {
-                    if (childArtifact.FileName.ToUpper().Trim() == fileName.ToUpper().Trim())
+                    if (String.Compare(childArtifact.FileName, fileName, true) == 0)
                     {
                         isExists = true;
                         break;
@@ -1753,7 +1767,8 @@ namespace Vanilla.Utility.WinForm
 
         public void AddFolder()
         {
-            this.AddArtifact(ArtfFac.Type.Folder, null, null);
+            String fileName = this.GetArtifactName(this.GetActiveTreeView().SelectedNode, ArtfFac.Type.Folder);
+            this.AddArtifact(ArtfFac.Type.Folder,fileName, null, null);
         }
 
         public void AddDocument()
@@ -1788,7 +1803,7 @@ namespace Vanilla.Utility.WinForm
                 component.trvForm = trv;
 
                 //this.menuClickSource = MenuClickSource.ListView;
-                this.AddArtifact(ArtfFac.Type.Document, component, new ModDefFac.Dto
+                this.AddArtifact(ArtfFac.Type.Document, fileName, component, new ModDefFac.Dto
                 {
                     Code = (rootNode.Tag as ModFac.Dto).Code
                 });
@@ -1900,15 +1915,14 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        private void AddArtifact(ArtfFac.Type type, FacLib.Dto component, ModDefFac.Dto moduleDefinationDto)
+        private void AddArtifact(ArtfFac.Type type, String fileName, FacLib.Dto component, ModDefFac.Dto componentDef)
         {
             TreeView trv = this.GetActiveTreeView();
             TreeNode selectedNode = ReadSelectedNode(trv);
 
             if (selectedNode != null)
             {
-                String fileName = this.GetArtifactName(selectedNode, type);
-                TreeNode newNode = this.GetNewNode(this.GetArtifact(selectedNode.Tag), fileName, this.currentArtifact.Extension, type, component, moduleDefinationDto);
+                TreeNode newNode = this.GetNewNode(this.GetArtifact(selectedNode.Tag), fileName, type, component, componentDef);
 
                 this.formDto.ModuleFormDto.CurrentArtifact = new ArtfFac.FormDto
                 {
@@ -1926,7 +1940,7 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        private TreeNode GetNewNode(ArtfFac.Dto parent, String fileName, String extension, ArtfFac.Type type, FacLib.Dto component, ModDefFac.Dto componentDef)
+        private TreeNode GetNewNode(ArtfFac.Dto parent, String fileName, ArtfFac.Type type, FacLib.Dto component, ModDefFac.Dto componentDef)
         {
             return new TreeNode
             {
@@ -1934,7 +1948,6 @@ namespace Vanilla.Utility.WinForm
                 Tag = new ArtfFac.Dto
                 {
                     FileName = fileName,
-                    Extension = extension,
                     Style = type,
                     AuditInfo = new ArtfFac.Audit.Dto
                     {
