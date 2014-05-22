@@ -1081,7 +1081,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             ReturnObject<Boolean> ret = new ReturnObject<bool> { Value = true };
 
-            //Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
+            Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
             //Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;         
             
 
@@ -1148,11 +1148,14 @@ namespace AutoTourism.Lodge.WinForm
                 invoiceDto.discount = paymentFormDto.Discount;
                 //invoiceDto.invoiceNumber = paymentFormDto.InvoiceNumber;
 
-                LodgeFac.CheckIn.ICheckIn checkIn = new LodgeFac.CheckIn.CheckInServer(base.formDto as LodgeFac.CheckIn.FormDto);
-                ret = checkIn.PaymentInsert(invoiceDto);
+                formDto.InvoiceDto = invoiceDto;
+                (base.facade as Facade.CheckIn.CheckInServer).GenerateInvoice();
 
-                Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
-                dto.InvoiceNumber = invoiceDto.invoiceNumber;
+                //LodgeFac.CheckIn.ICheckIn checkIn = new LodgeFac.CheckIn.CheckInServer(formDto);
+                //ret = checkIn.PaymentInsert(invoiceDto);
+
+                //Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
+                //dto.InvoiceNumber = invoiceDto.invoiceNumber;
             }
 
             return ret;
