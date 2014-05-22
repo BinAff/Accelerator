@@ -119,8 +119,8 @@ namespace Vanilla.Utility.WinForm.Extender
 
         public static void Sort(this TreeView treeView, TreeNode treeNode)
         {
+            if (treeNode == null) return;
             treeView.BeginUpdate();
-            
             TreeNode[] childNodes = new TreeNode[treeNode.Nodes.Count];
             treeNode.Nodes.CopyTo(childNodes, 0);       
 
