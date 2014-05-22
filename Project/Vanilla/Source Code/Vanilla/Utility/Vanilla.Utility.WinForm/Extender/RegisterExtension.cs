@@ -419,6 +419,19 @@ namespace Vanilla.Utility.WinForm.Extender
             }
         }
 
+        public static void AttachChild(this ListView listView, Facade.Artifact.Dto tag)
+        {
+            ListViewItem current = new ListViewItem
+            {
+                Text = tag.FileName,
+                Tag = tag,
+                ImageIndex = tag.Style == Facade.Artifact.Type.Folder ? 0 : 2,
+            };
+            if (tag.Style == Facade.Artifact.Type.Document && !String.IsNullOrEmpty(tag.Extension)) current.Text += "." + tag.Extension;
+            current.SubItems.AddRange(AddListViewSubItems(current, tag));
+            listView.Items.Add(current);
+        }
+
         private static void ResetColumnOrder(this ListView listView)
         {
             for (int i = 0; i < listView.Columns.Count; i++)

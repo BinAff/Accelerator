@@ -23,7 +23,7 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        private ArtfFac.Dto artifact;
+        //private ArtfFac.Dto artifact;
 
         protected DocFac.Dto InitialDto { get; private set; }
 
@@ -36,7 +36,7 @@ namespace Vanilla.Form.WinForm
         public Document(ArtfFac.Dto artifact)
             :this()
         {
-            this.artifact = artifact;
+            base.formDto.Document = artifact;
         }
 
         private void SetTitle()
@@ -49,10 +49,10 @@ namespace Vanilla.Form.WinForm
 
         private void Document_Load(object sender, EventArgs e)
         {
-            if (this.artifact != null)
+            if (this.Artifact != null)
             {
-                this.formDto.Document = this.artifact;
-                this.formDto.Dto = this.artifact.Module as DocFac.Dto;
+                this.formDto.Document = this.Artifact;
+                this.formDto.Dto = this.Artifact.Module as DocFac.Dto;
                 this.SetTitle();
                 this.InitialDto = this.CloneDto(this.formDto.Dto);
                 this.LoadForm();
