@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
+using InvFac = Vanilla.Invoice.Facade;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
@@ -14,6 +15,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public List<LodgeConfFac.Room.Category.Dto> CategoryList { get; set; }
         public List<LodgeConfFac.Room.Type.Dto> TypeList { get; set; }
 
+        public InvFac.Dto InvoiceDto { get; set; }
         public Vanilla.Utility.Facade.Module.FormDto ModuleFormDto { get; set; }
 
     }

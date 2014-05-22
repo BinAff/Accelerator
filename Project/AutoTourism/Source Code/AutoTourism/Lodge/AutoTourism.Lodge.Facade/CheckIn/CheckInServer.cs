@@ -277,146 +277,146 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    return ret;
         //}
 
-        ReturnObject<bool> ICheckIn.PaymentInsert(Vanilla.Invoice.Facade.Dto invoiceDto)
-        {
-            return this.MakePayment(invoiceDto);
-        }
+        //ReturnObject<bool> ICheckIn.PaymentInsert(Vanilla.Invoice.Facade.Dto invoiceDto)
+        //{
+        //    return this.MakePayment(invoiceDto);
+        //}
 
-        private ReturnObject<Boolean> MakePayment(Vanilla.Invoice.Facade.Dto invoiceDto)
-        {
-            ReturnObject<Boolean> ret = new ReturnObject<bool>();
+        //private ReturnObject<Boolean> MakePayment(Vanilla.Invoice.Facade.Dto invoiceDto)
+        //{
+        //    ReturnObject<Boolean> ret = new ReturnObject<bool>();
                         
-            AutoTourism.Component.Customer.Data autoCustomer = new AutoTourism.Component.Customer.Data
-            {
-                Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
-                {
-                    Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
-                }
-            };
+        //    AutoTourism.Component.Customer.Data autoCustomer = new AutoTourism.Component.Customer.Data
+        //    {
+        //        Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
+        //        {
+        //            //Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
+        //        }
+        //    };
 
-            using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
-            {
-                //Save Invoice Data
-                CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
-                ret = customer.GenerateInvoice();
+        //    using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
+        //    {
+        //        //Save Invoice Data
+        //        CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
+        //        ret = customer.GenerateInvoice();
 
-                if (ret.Value)
-                {
-                    Crystal.Invoice.Component.Data invoiceData = (autoCustomer.Invoice as Crystal.Invoice.Component.InvoiceContainer.Data).Active as Crystal.Invoice.Component.Data;
-                    if (invoiceData.Id > 0)
-                    {
-                        //Update invoice number to CheckIn table
-                        ret = this.UpdateInvoiceNumber(invoiceData.InvoiceNumber);
-                        if (ret.Value) 
-                            T.Complete();
+        //        if (ret.Value)
+        //        {
+        //            Crystal.Invoice.Component.Data invoiceData = (autoCustomer.Invoice as Crystal.Invoice.Component.InvoiceContainer.Data).Active as Crystal.Invoice.Component.Data;
+        //            if (invoiceData.Id > 0)
+        //            {
+        //                //Update invoice number to CheckIn table
+        //                ret = this.UpdateInvoiceNumber(invoiceData.InvoiceNumber);
+        //                if (ret.Value) 
+        //                    T.Complete();
                         
-                    }
-                }
-            }
+        //            }
+        //        }
+        //    }
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
-        private BinAff.Core.Data ConvertToInvoiceData(BinAff.Facade.Library.Dto dto)
-        {
-            Vanilla.Invoice.Facade.Dto invoiceDto = dto as Vanilla.Invoice.Facade.Dto;
+        //private BinAff.Core.Data ConvertToInvoiceData(BinAff.Facade.Library.Dto dto)
+        //{
+        //    Vanilla.Invoice.Facade.Dto invoiceDto = dto as Vanilla.Invoice.Facade.Dto;
 
-            return new Crystal.Invoice.Component.Data()
-            {
-                InvoiceNumber = invoiceDto.invoiceNumber,
-                Advance = invoiceDto.advance,
-                Discount = invoiceDto.discount,
-                Date = System.DateTime.Now,
-                Seller = this.GetSeller(invoiceDto.seller),
-                Buyer = this.GetBuyer(invoiceDto.buyer),
-                LineItem = this.GetLineItem(invoiceDto.productList),
-                Taxation = this.GetTaxation(invoiceDto.taxationList),
-                Payment = this.GetPayments(invoiceDto.paymentList)
-            };
-        }
+        //    return new Crystal.Invoice.Component.Data()
+        //    {
+        //        InvoiceNumber = invoiceDto.invoiceNumber,
+        //        Advance = invoiceDto.advance,
+        //        Discount = invoiceDto.discount,
+        //        Date = System.DateTime.Now,
+        //        Seller = this.GetSeller(invoiceDto.seller),
+        //        Buyer = this.GetBuyer(invoiceDto.buyer),
+        //        LineItem = this.GetLineItem(invoiceDto.productList),
+        //        Taxation = this.GetTaxation(invoiceDto.taxationList),
+        //        Payment = this.GetPayments(invoiceDto.paymentList)
+        //    };
+        //}
 
-        private Crystal.Invoice.Component.Seller GetSeller(Vanilla.Invoice.Facade.Seller.Dto seller)
-        {
-            return new Crystal.Invoice.Component.Seller
-            {
-                Name = seller.Name,
-                Address = seller.Address,
-                Liscence = seller.Liscence,
-                Email = seller.Email,
-                ContactNumber = seller.ContactNumber
-            };
-        }
+        //private Crystal.Invoice.Component.Seller GetSeller(Vanilla.Invoice.Facade.Seller.Dto seller)
+        //{
+        //    return new Crystal.Invoice.Component.Seller
+        //    {
+        //        Name = seller.Name,
+        //        Address = seller.Address,
+        //        Liscence = seller.Liscence,
+        //        Email = seller.Email,
+        //        ContactNumber = seller.ContactNumber
+        //    };
+        //}
 
-        private Crystal.Invoice.Component.Buyer GetBuyer(Vanilla.Invoice.Facade.Buyer.Dto buyer)
-        {
-            return new Crystal.Invoice.Component.Buyer
-            {
-                Name = buyer.Name,
-                Address = buyer.Address,
-                Email = buyer.Email,
-                ContactNumber = buyer.ContactNumber
-            };
-        }
+        //private Crystal.Invoice.Component.Buyer GetBuyer(Vanilla.Invoice.Facade.Buyer.Dto buyer)
+        //{
+        //    return new Crystal.Invoice.Component.Buyer
+        //    {
+        //        Name = buyer.Name,
+        //        Address = buyer.Address,
+        //        Email = buyer.Email,
+        //        ContactNumber = buyer.ContactNumber
+        //    };
+        //}
 
-        private List<BinAff.Core.Data> GetLineItem(List<Vanilla.Invoice.Facade.LineItem.Dto> roomList)
-        {
-            List<BinAff.Core.Data> lineItemList = new List<Data>();
-            if (roomList != null && roomList.Count > 0)
-            {
-                foreach (Vanilla.Invoice.Facade.LineItem.Dto lineItem in roomList)
-                {
-                    lineItemList.Add(new Crystal.Invoice.Component.LineItem.Data
-                    {
-                        Start = lineItem.startDate,
-                        End = lineItem.endDate,
-                        Description = lineItem.description,
-                        UnitRate = lineItem.unitRate,
-                        Count = lineItem.count,
-                        Total = lineItem.total
-                    });
-                }
-            }
-            return lineItemList;
-        }
+        //private List<BinAff.Core.Data> GetLineItem(List<Vanilla.Invoice.Facade.LineItem.Dto> roomList)
+        //{
+        //    List<BinAff.Core.Data> lineItemList = new List<Data>();
+        //    if (roomList != null && roomList.Count > 0)
+        //    {
+        //        foreach (Vanilla.Invoice.Facade.LineItem.Dto lineItem in roomList)
+        //        {
+        //            lineItemList.Add(new Crystal.Invoice.Component.LineItem.Data
+        //            {
+        //                Start = lineItem.startDate,
+        //                End = lineItem.endDate,
+        //                Description = lineItem.description,
+        //                UnitRate = lineItem.unitRate,
+        //                Count = lineItem.count,
+        //                Total = lineItem.total
+        //            });
+        //        }
+        //    }
+        //    return lineItemList;
+        //}
 
-        private List<BinAff.Core.Data> GetTaxation(List<Vanilla.Invoice.Facade.Taxation.Dto> taxationList)
-        {
-            List<BinAff.Core.Data> taxationDataList = new List<Data>();
-            if (taxationList != null && taxationList.Count > 0)
-            {
-                foreach (Vanilla.Invoice.Facade.Taxation.Dto dto in taxationList)
-                {
-                    taxationDataList.Add(new Crystal.Invoice.Component.Taxation.Data
-                    {
-                        Id = dto.Id,
-                        Name = dto.Name,
-                        Amount = dto.Amount,
-                        isPercentage = dto.isPercentage
-                    });
-                }
-            }
-            return taxationDataList;
-        }
+        //private List<BinAff.Core.Data> GetTaxation(List<Vanilla.Invoice.Facade.Taxation.Dto> taxationList)
+        //{
+        //    List<BinAff.Core.Data> taxationDataList = new List<Data>();
+        //    if (taxationList != null && taxationList.Count > 0)
+        //    {
+        //        foreach (Vanilla.Invoice.Facade.Taxation.Dto dto in taxationList)
+        //        {
+        //            taxationDataList.Add(new Crystal.Invoice.Component.Taxation.Data
+        //            {
+        //                Id = dto.Id,
+        //                Name = dto.Name,
+        //                Amount = dto.Amount,
+        //                isPercentage = dto.isPercentage
+        //            });
+        //        }
+        //    }
+        //    return taxationDataList;
+        //}
 
-        private List<BinAff.Core.Data> GetPayments(List<Vanilla.Invoice.Facade.Payment.Dto> paymentList)
-        {
-            List<BinAff.Core.Data> paymentDataList = new List<Data>();
-            if (paymentList != null && paymentList.Count > 0)
-            {
-                foreach (Vanilla.Invoice.Facade.Payment.Dto dto in paymentList)
-                {
-                    paymentDataList.Add(new Crystal.Invoice.Component.Payment.Data
-                    {
-                        Id = dto.Id,
-                        Type = new Crystal.Invoice.Component.Payment.Type.Data { Id = dto.Type.Id },
-                        CardNumber = dto.cardNumber,
-                        Remark = dto.remark,
-                        Amount = dto.amount,
-                    });
-                }
-            }
-            return paymentDataList;
-        }
+        //private List<BinAff.Core.Data> GetPayments(List<Vanilla.Invoice.Facade.Payment.Dto> paymentList)
+        //{
+        //    List<BinAff.Core.Data> paymentDataList = new List<Data>();
+        //    if (paymentList != null && paymentList.Count > 0)
+        //    {
+        //        foreach (Vanilla.Invoice.Facade.Payment.Dto dto in paymentList)
+        //        {
+        //            paymentDataList.Add(new Crystal.Invoice.Component.Payment.Data
+        //            {
+        //                Id = dto.Id,
+        //                Type = new Crystal.Invoice.Component.Payment.Type.Data { Id = dto.Type.Id },
+        //                CardNumber = dto.cardNumber,
+        //                Remark = dto.remark,
+        //                Amount = dto.amount,
+        //            });
+        //        }
+        //    }
+        //    return paymentDataList;
+        //}
 
         ReturnObject<bool> UpdateInvoiceNumber(String invoiceNumber)
         {
@@ -665,6 +665,44 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             }
 
             return taxationDtoList;
+        }
+
+        public ReturnObject<Boolean> GenerateInvoice()
+        {
+            ReturnObject<Boolean> ret = new ReturnObject<bool>();
+
+            //AutoTourism.Component.Customer.Data autoCustomer = new AutoTourism.Component.Customer.Data
+            //{
+            //    Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
+            //    {
+            //        Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
+            //    }
+            //};
+
+            using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
+            {
+                InvFac.FormDto invoiceFormDto = new InvFac.FormDto();
+                invoiceFormDto.Dto = (base.FormDto as Facade.CheckIn.FormDto).InvoiceDto;
+                InvFac.Server invoiceServer = new InvFac.Server(invoiceFormDto);
+                ret = invoiceServer.GenerateInvoice();
+                
+                ////Save Invoice Data
+                //CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
+                //ret = customer.GenerateInvoice();
+
+                if (ret.Value)
+                {
+                    //Crystal.Invoice.Component.Data invoiceData = (autoCustomer.Invoice as Crystal.Invoice.Component.InvoiceContainer.Data).Active as Crystal.Invoice.Component.Data;
+                                                
+                    //Update invoice number to CheckIn table
+                    ret = this.UpdateInvoiceNumber((invoiceFormDto.Dto as InvFac.Dto).invoiceNumber);
+                    if (ret.Value)
+                        T.Complete();
+                   
+                }
+            }
+
+            return ret;
         }
 
         public enum CheckInStatus
