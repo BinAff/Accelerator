@@ -61,6 +61,14 @@ namespace Vanilla.Utility.WinForm
             this.Compose();
         }
 
+        private void Document_Load(object sender, EventArgs e)
+        {
+            if (this.Artifact == null || this.Artifact.Id == 0)
+            {
+                new SaveDialog().ShowDialog(this);
+            }
+        }
+
         private void Document_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
         {
             this.AuditInfoChanged(this);

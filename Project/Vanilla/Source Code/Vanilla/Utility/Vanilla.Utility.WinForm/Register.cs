@@ -209,6 +209,8 @@ namespace Vanilla.Utility.WinForm
             current.SelectedNode = current.GetNodeAt(e.X, e.Y);
             current.Sort(current.SelectedNode);
 
+            this.currentArtifact = current.SelectedNode == null ? null : current.SelectedNode.Tag as ArtfFac.Dto;
+
             if (e.Button == MouseButtons.Right)
             {
                 ToolStripMenuItem menuItem = cmsExplorer.Items[0] as ToolStripMenuItem;
@@ -293,6 +295,7 @@ namespace Vanilla.Utility.WinForm
             TreeView current = sender as TreeView;
             current.SelectedNode = current.GetNodeAt(e.X, e.Y);
             current.Sort(current.SelectedNode);
+            this.currentArtifact = current.SelectedNode == null ? null : current.SelectedNode.Tag as ArtfFac.Dto;
 
             if (e.Button == MouseButtons.Right)
             {
@@ -547,6 +550,10 @@ namespace Vanilla.Utility.WinForm
                 }
             }
             this.isRenaming = false; //Rename done
+            this.lsvContainer.Sort("Name", new PresLib.ListViewColumnSorter
+            {
+                Order = SortOrder.Ascending
+            }, false);
         }
 
         private void RefreshTreeAfterLabelEdit(TreeView trv, ArtfFac.Dto selectedArtifact)
@@ -573,7 +580,7 @@ namespace Vanilla.Utility.WinForm
             //}
         }
 
-        private Boolean IsListViewItemDuplicate(ListView.ListViewItemCollection lstViewItems, ArtfFac.Dto selectedArtifact, string artifactFileName)
+        private Boolean IsListViewItemDuplicate(ListView.ListViewItemCollection lstViewItems, ArtfFac.Dto selectedArtifact, String artifactFileName)
         {
             //loop through the list to check for duplicate
             foreach (ListViewItem item in lstViewItems)
@@ -613,15 +620,16 @@ namespace Vanilla.Utility.WinForm
 
         private void lsvContainer_MouseDown(object sender, MouseEventArgs e)
         {
+            ListViewItem selected = this.lsvContainer.GetItemAt(e.X, e.Y);
+            this.currentArtifact = selected == null ? null : selected.Tag as ArtfFac.Dto;
             this.menuClickSource = MenuClickSource.ListView;
             if (e.Button == MouseButtons.Right)
             {
-                this.ShowHideContextMenuItems(this.lsvContainer.GetItemAt(e.X, e.Y));
+                this.ShowHideContextMenuItems(selected);
                 this.cmsExplorer.Show(Cursor.Position);
             }
             else if (e.Button == MouseButtons.Left)
             {
-                ListViewItem selected = this.lsvContainer.GetItemAt(e.X, e.Y);
                 if (this.lsvContainer.GetItemAt(e.X, e.Y) != null) //Clicked on one item
                 {
                     if (selected == this.lsvContainer.FocusedItem)
@@ -1519,13 +1527,14 @@ namespace Vanilla.Utility.WinForm
                     break;
                 case MenuClickSource.ListView:
                     this.lsvContainer.LabelEdit = true;
-                    ListViewItem currentItem = null;
-                    foreach (ListViewItem item in this.lsvContainer.Items)
-                    {
-                        if ((item.Tag as ArtfFac.Dto).Style == ArtfFac.Type.Document) break;
-                        currentItem = item;
-                    }
-                    if (currentItem != null) currentItem.BeginEdit();
+                    this.lsvContainer.Items[this.lsvContainer.Items.Count - 1].BeginEdit();
+                    //ListViewItem currentItem = null;
+                    //foreach (ListViewItem item in this.lsvContainer.Items)
+                    //{
+                    //    if ((item.Tag as ArtfFac.Dto).Style == ArtfFac.Type.Document) break;
+                    //    currentItem = item;
+                    //}
+                    //if (currentItem != null) currentItem.BeginEdit();
                     break;
             }
         }
@@ -1768,7 +1777,7 @@ namespace Vanilla.Utility.WinForm
         public void AddFolder()
         {
             String fileName = this.GetArtifactName(this.GetActiveTreeView().SelectedNode, ArtfFac.Type.Folder);
-            this.AddArtifact(ArtfFac.Type.Folder,fileName, null, null);
+            this.AddArtifact(ArtfFac.Type.Folder, fileName, null, null);
         }
 
         public void AddDocument()
@@ -1798,11 +1807,10 @@ namespace Vanilla.Utility.WinForm
                 }
 
                 String fileName = this.GetArtifactName(selectedNode, ArtfFac.Type.Document);
-                component.artifactPath = this.currentArtifact.Path + fileName;
+                //component.artifactPath = this.currentArtifact.Path + fileName;
                 component.fileName = fileName;
                 component.trvForm = trv;
 
-                //this.menuClickSource = MenuClickSource.ListView;
                 this.AddArtifact(ArtfFac.Type.Document, fileName, component, new ModDefFac.Dto
                 {
                     Code = (rootNode.Tag as ModFac.Dto).Code
@@ -1935,8 +1943,7 @@ namespace Vanilla.Utility.WinForm
                     selectedNode.Nodes.Add(newNode);
                 }
 
-                this.currentArtifact = this.GetArtifact(selectedNode.Tag);
-                this.lsvContainer.AttachChildren(this.currentArtifact, isDocumentFirst);
+                this.lsvContainer.AttachChild(this.formDto.ModuleFormDto.CurrentArtifact.Dto);
             }
         }
 
@@ -2066,9 +2073,10 @@ namespace Vanilla.Utility.WinForm
         {
             TreeNode selectedNode = null;
 
-            if ((this.menuClickSource == MenuClickSource.ListView) && (this.currentArtifact != null))
+            if ((this.menuClickSource == MenuClickSource.ListView))
             {
-                selectedNode = trv.FindNode(this.currentArtifact);
+                selectedNode = this.currentArtifact == null || this.currentArtifact.Style == ArtfFac.Type.Document ? 
+                    trv.SelectedNode : trv.FindNode(this.currentArtifact);
             }
             else if (this.menuClickSource == MenuClickSource.TreeView)
             {
