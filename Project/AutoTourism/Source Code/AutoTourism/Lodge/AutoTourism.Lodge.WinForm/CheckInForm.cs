@@ -1301,12 +1301,14 @@ namespace AutoTourism.Lodge.WinForm
             //PresLib.Form form = new Vanilla.Invoice.WinForm.Invoice(invoiceDto);
             //form.ShowDialog(this);
 
-            Type type = Type.GetType("Vanilla.Invoice.WinForm.Invoice,Vanilla.Invoice.WinForm", true);
+            //Type type = Type.GetType("Vanilla.Invoice.WinForm.Invoice,Vanilla.Invoice.WinForm", true);
             UtilFac.Artifact.Dto currentArtifact = new UtilFac.Artifact.Dto
             {
                 Module = invoiceDto
             };
-            FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);
+            //FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);
+            FrmWin.Document form = new Vanilla.Invoice.WinForm.Invoice(currentArtifact);
+            form.Owner = this;
             form.ShowDialog();
         }
 
