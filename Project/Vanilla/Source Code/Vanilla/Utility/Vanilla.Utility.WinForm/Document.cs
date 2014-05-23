@@ -71,7 +71,9 @@ namespace Vanilla.Utility.WinForm
                 if (saveDialogue != null)
                 {
                     saveDialogue.ShowDialog(this);
+                    BinAff.Facade.Library.Dto module = this.formDto.Document.Module;
                     this.formDto.Document = saveDialogue.Document;
+                    this.formDto.Document.Module = module;
                 }
                 this.Visible = true;
             }

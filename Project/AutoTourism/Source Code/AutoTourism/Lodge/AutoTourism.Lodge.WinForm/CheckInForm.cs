@@ -496,8 +496,10 @@ namespace AutoTourism.Lodge.WinForm
                 //    this.AddInvoiceNodeToTree(artifactDto);
             }
 
-            if (dto.InvoiceNumber != null && dto.InvoiceNumber != String.Empty)
+            if (!String.IsNullOrEmpty(dto.InvoiceNumber))
+            {
                 this.DisplayInvoice();
+            }
 
             this.Close();
         }
@@ -1304,6 +1306,7 @@ namespace AutoTourism.Lodge.WinForm
             //Type type = Type.GetType("Vanilla.Invoice.WinForm.Invoice,Vanilla.Invoice.WinForm", true);
             UtilFac.Artifact.Dto currentArtifact = new UtilFac.Artifact.Dto
             {
+                Id = 364,
                 Module = invoiceDto
             };
             //FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);
