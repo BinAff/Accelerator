@@ -1300,16 +1300,14 @@ namespace AutoTourism.Lodge.WinForm
             Facade.CheckIn.ICheckIn checkInServer = new Facade.CheckIn.CheckInServer(base.formDto as LodgeFac.CheckIn.FormDto);
             Vanilla.Invoice.Facade.Dto invoiceDto = checkInServer.ReadInvoice(dto.InvoiceNumber);
 
-            //PresLib.Form form = new Vanilla.Invoice.WinForm.Invoice(invoiceDto);
-            //form.ShowDialog(this);
-
-            //Type type = Type.GetType("Vanilla.Invoice.WinForm.Invoice,Vanilla.Invoice.WinForm", true);
+            UtilFac.Artifact.Dto invoiceArtifact = (base.facade as Facade.CheckIn.CheckInServer).GetInvoiceArtifact(dto.InvoiceNumber);
+         
             UtilFac.Artifact.Dto currentArtifact = new UtilFac.Artifact.Dto
             {
-                Id = 364,
+                Id = invoiceArtifact == null ? 0 : invoiceArtifact.Id,
                 Module = invoiceDto
             };
-            //FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);
+          
             FrmWin.Document form = new Vanilla.Invoice.WinForm.Invoice(currentArtifact);
             form.Owner = this;
             form.ShowDialog();

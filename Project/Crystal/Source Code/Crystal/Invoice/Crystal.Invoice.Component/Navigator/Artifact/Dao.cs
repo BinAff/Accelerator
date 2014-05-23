@@ -109,6 +109,22 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
             return new ReturnObject<Boolean> { Value = status };
         }
 
+        public Data GetArtifactForInvoiceNumber(String invoiceNumber)
+        {           
+            Data artifactData = Data as Data;
+
+            base.CreateCommand("[Invoice].[ReadArtifactForInvoiceNumber]");
+            base.AddInParameter("@InvoiceNumber", DbType.String, invoiceNumber);          
+            DataSet ds =  base.ExecuteDataSet();
+
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                artifactData.Id = ds.Tables[0].Rows[0]["ArtifactId"] == null ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["ArtifactId"]);
+
+            return artifactData;
+
+        }
+
+
     }
 
 }

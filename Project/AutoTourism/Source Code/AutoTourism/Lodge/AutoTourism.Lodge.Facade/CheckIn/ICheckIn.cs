@@ -15,6 +15,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //ReturnObject<Boolean> PaymentInsert(Vanilla.Invoice.Facade.Dto invoiceDto);
         Vanilla.Invoice.Facade.Dto ReadInvoice(String invoiceNumber);
 
+
     }
 
 }
