@@ -117,11 +117,12 @@ namespace AutoTourism.Customer.WinForm
 
         private void CustomerForm_Load(object sender, System.EventArgs e)
         {
+            if (DesignMode) return;
             //if loaded form room reservation form , then populate the modules
-            if (this.isLoadedFromRoomReservationForm)
-            {
-                new Vanilla.Utility.Facade.Module.Server((this.formDto as Facade.FormDto).ModuleFormDto).LoadForm();
-            }
+            //if (this.isLoadedFromRoomReservationForm)
+            //{
+            //    new Vanilla.Utility.Facade.Module.Server((this.formDto as Facade.FormDto).ModuleFormDto).LoadForm();
+            //}
 
             //DIDN'T CHECK THE IMPACT IF FORM IS OPEN FROM RESERVATION FORM
             //this.LoadForm();
@@ -269,10 +270,7 @@ namespace AutoTourism.Customer.WinForm
         {
             if (base.Save())
             {
-                if (this.isLoadedFromRoomReservationForm)
-                {
-                    this.SaveArtifact();
-                }
+                base.Artifact.Module = base.formDto.Dto;
                 base.IsModified = true;
                 this.Close();
             }
@@ -317,14 +315,14 @@ namespace AutoTourism.Customer.WinForm
                 this.cboIdentityProofType.SelectedIndex = -1;
             }
             this.txtArtifactPath.ReadOnly = true;
-            if (this.isLoadedFromRoomReservationForm)
-            {
-                this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("CUST", (this.formDto as Facade.FormDto).ModuleFormDto.FormModuleList, "Form");
-            }
-            else
-            {
-                this.txtArtifactPath.Text = this.formDto.Dto.artifactPath;
-            }
+            //if (this.isLoadedFromRoomReservationForm)
+            //{
+            //    this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("CUST", (this.formDto as Facade.FormDto).ModuleFormDto.FormModuleList, "Form");
+            //}
+            //else
+            //{
+            //    this.txtArtifactPath.Text = this.formDto.Dto.artifactPath;
+            //}
         }
 
         protected override void PopulateDataToForm()

@@ -154,8 +154,14 @@ namespace Vanilla.Navigator.WinForm
             //currentArtifact.Module.artifactPath = currentArtifact.Path;
             FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);
             form.MdiParent = this.formExecutable;
+            form.ChildArtifactSaved += form_ChildArtifactSaved;
             form.AuditInfoChanged += form_AuditInfoChanged;
             form.Show();
+        }
+
+        void form_ChildArtifactSaved(UtilFac.Artifact.Dto document)
+        {
+            this.ucRegister.AttachDocument(document);
         }
 
         private void form_AuditInfoChanged(Utility.WinForm.Document document)

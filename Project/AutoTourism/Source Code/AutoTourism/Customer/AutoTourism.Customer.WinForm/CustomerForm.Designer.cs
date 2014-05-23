@@ -150,6 +150,7 @@
             // 
             // cboIdentityProofType
             // 
+            this.cboIdentityProofType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboIdentityProofType.FormattingEnabled = true;
             this.cboIdentityProofType.Location = new System.Drawing.Point(106, 188);
             this.cboIdentityProofType.Name = "cboIdentityProofType";

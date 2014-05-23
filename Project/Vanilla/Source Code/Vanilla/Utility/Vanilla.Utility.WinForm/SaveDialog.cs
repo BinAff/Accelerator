@@ -41,16 +41,16 @@ namespace Vanilla.Utility.WinForm
                     Description = message,
                 });
             }
-            new Fac.Server(new Fac.FormDto
+            Fac.FormDto formDto = new Fac.FormDto
             {
                 Dto = new Fac.Dto
                 {
                     DocumentName = base.DocumentName,
                     Parent = base.Register.CurrentArtifact,
                 }
-            }).Add();
-            //Save artifact in navigator... Use event
-            //this.Register.AttachDocument(base.DocumentName);
+            };
+            new Fac.Server(formDto).Add();
+            this.Document = formDto.Document;
         }
 
         private String ValidateData()

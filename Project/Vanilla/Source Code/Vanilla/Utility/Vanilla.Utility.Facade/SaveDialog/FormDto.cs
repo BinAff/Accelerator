@@ -6,6 +6,8 @@
 
         public Dto Dto { get; set; }
 
+        public Artifact.Dto Document { get; set; }
+
     }
 
 }

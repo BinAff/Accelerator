@@ -22,10 +22,22 @@ namespace Vanilla.Form.WinForm
                 return System.Drawing.Color.FromArgb(255, 255, 240, 240);
             }
         }
-
-        //private ArtfFac.Dto artifact;
-
+        
         protected DocFac.Dto InitialDto { get; private set; }
+
+        public delegate void OnArtifactSaved(ArtfFac.Dto document);
+        public event OnArtifactSaved ArtifactSaved;
+
+        public delegate void OnChildArtifactSaved(ArtfFac.Dto document);
+        public event OnChildArtifactSaved ChildArtifactSaved;
+        protected virtual void RaiseChildArtifactSaved(ArtfFac.Dto document)
+        {
+            OnChildArtifactSaved del = ChildArtifactSaved;
+            if (del != null)
+            {
+                del(document);
+            }
+        }
 
         public Document()
             : base()
@@ -39,28 +51,38 @@ namespace Vanilla.Form.WinForm
             base.formDto.Document = artifact;
         }
 
+        private void Document_Shown(object sender, EventArgs e)
+        {
+            if (DesignMode) return;
+            if (this.Artifact != null && this.Artifact.Id != 0)
+            {
+                this.SetTitle();
+                this.formDto.Document = this.Artifact;
+                if (this.Artifact.Module != null)
+                {
+                    this.formDto.Dto = this.Artifact.Module as DocFac.Dto;
+                    this.InitialDto = this.CloneDto(this.formDto.Dto);
+                }
+                this.LoadForm();
+                if (this.formDto.Dto != null)
+                {
+                    this.PopulateDataToForm();
+                }
+                if(this.ArtifactSaved != null) this.ArtifactSaved(this.formDto.Document);
+            }
+        }
+
+        protected override Vanilla.Utility.WinForm.SaveDialog GetSaveDialogue()
+        {
+            return new SaveDialogue();
+        }
+
         private void SetTitle()
         {
             DocFac.FormDto formDto = this.formDto as DocFac.FormDto;
             DocFac.Dto dto = this.formDto.Dto as DocFac.Dto;
 
             this.Text += " :: " + this.formDto.DocumentName;
-        }
-
-        private void Document_Load(object sender, EventArgs e)
-        {
-            if (this.Artifact != null)
-            {
-                this.formDto.Document = this.Artifact;
-                this.formDto.Dto = this.Artifact.Module as DocFac.Dto;
-                this.SetTitle();
-                this.InitialDto = this.CloneDto(this.formDto.Dto);
-                this.LoadForm();
-                if (this.formDto.Dto != null)
-                {
-                    this.PopulateDataToForm();
-                }
-            }
         }
 
         protected void RegisterArtifactObserver()
