@@ -61,22 +61,35 @@ namespace Vanilla.Utility.WinForm
             this.Compose();
         }
 
-        private void Document_Load(object sender, EventArgs e)
+        private void Document_Shown(object sender, EventArgs e)
         {
+            if (DesignMode) return;
             if (this.Artifact == null || this.Artifact.Id == 0)
             {
-                new SaveDialog().ShowDialog(this);
+                this.Visible = false;
+                SaveDialog saveDialogue = this.GetSaveDialogue();
+                if (saveDialogue != null)
+                {
+                    saveDialogue.ShowDialog(this);
+                    this.formDto.Document = saveDialogue.Document;
+                }
+                this.Visible = true;
             }
         }
 
         private void Document_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
         {
-            this.AuditInfoChanged(this);
+            if(this.AuditInfoChanged != null) this.AuditInfoChanged(this);
         }
 
         protected virtual void Compose()
         {
             
+        }
+
+        protected virtual SaveDialog GetSaveDialogue()
+        {
+            return null;
         }
 
     }

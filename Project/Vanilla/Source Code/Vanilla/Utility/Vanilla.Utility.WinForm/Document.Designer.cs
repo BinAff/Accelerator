@@ -38,7 +38,7 @@
             this.Name = "Document";
             this.Text = "Document";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Document_FormClosed);
-            this.Shown += new System.EventHandler(this.Document_Load);
+            this.Shown += new System.EventHandler(this.Document_Shown);
             this.ResumeLayout(false);
 
         }

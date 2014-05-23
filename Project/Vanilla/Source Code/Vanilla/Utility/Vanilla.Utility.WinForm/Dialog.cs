@@ -25,6 +25,8 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        public ArtfFac.Dto Document { get; protected set; }
+
         protected Register Register 
         {
             get
@@ -76,6 +78,7 @@ namespace Vanilla.Utility.WinForm
         private void btnAction_Click(object sender, EventArgs e)
         {
             this.DoAction();
+            this.Close();
         }
 
         private void txtDocName_KeyUp(object sender, KeyEventArgs e)

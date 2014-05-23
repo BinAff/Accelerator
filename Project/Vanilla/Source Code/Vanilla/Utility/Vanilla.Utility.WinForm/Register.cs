@@ -34,6 +34,11 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        /// <summary>
+        /// Parent folder of new node
+        /// </summary>
+        public ArtfFac.Dto ParentFolder { get; set; }
+
         private Facade.Register.FormDto formDto;
         private Facade.Register.Server facade;
 
@@ -169,18 +174,16 @@ namespace Vanilla.Utility.WinForm
             return this.lsvContainer.IsExist(name);
         }
 
-        public void AttachDocument(String fileName)
+        public void AttachDocument(ArtfFac.Dto document)
         {
-            TreeNode root = this.GetActiveTreeView().TopNode;
-            ModDefFac.Dto componentDef = new ModDefFac.Dto
+            ArtfFac.Dto parentArtifact = this.GetParent(document);
+            TreeView currrentTreeView = this.GetActiveTreeView();
+            TreeNode parentNode = currrentTreeView.FindNode(parentArtifact);
+            this.GetArtifact(parentNode.Tag).Children.Add(document);
+            if (currrentTreeView.SelectedNode == parentNode)
             {
-                Code = (root.Tag as ModFac.Dto).Code
-            };
-            FacLib.Dto component = new ModFac.Server(null)
-            {
-                Category = this.facade.Category
-            }.InstantiateDto(root.Tag as ModFac.Dto);
-            this.AddArtifact(ArtfFac.Type.Document, fileName, component, componentDef);
+                this.lsvContainer.AttachChild(document);
+            }
         }
 
         #region Progressbar
@@ -621,7 +624,8 @@ namespace Vanilla.Utility.WinForm
         private void lsvContainer_MouseDown(object sender, MouseEventArgs e)
         {
             ListViewItem selected = this.lsvContainer.GetItemAt(e.X, e.Y);
-            this.currentArtifact = selected == null ? null : selected.Tag as ArtfFac.Dto;
+            this.currentArtifact = selected == null ?
+                this.GetActiveTreeView().SelectedNode.Tag as ArtfFac.Dto : selected.Tag as ArtfFac.Dto;
             this.menuClickSource = MenuClickSource.ListView;
             if (e.Button == MouseButtons.Right)
             {
@@ -658,7 +662,7 @@ namespace Vanilla.Utility.WinForm
             this.currentArtifact = this.lsvContainer.FocusedItem.Tag as ArtfFac.Dto;//Any impact?
             if (this.DialogueMode != DialogueMode.None)
             {
-                this.DocumentClicked();
+                if (this.currentArtifact.Style == ArtfFac.Type.Document) this.DocumentClicked();
             }
             else
             {
@@ -721,10 +725,10 @@ namespace Vanilla.Utility.WinForm
                     }
                     break;
                 case DialogueMode.Save:
-                    //if (MessageBox.Show("Do you want to overwrite?", "Alert!!!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    //{
-                    //    //
-                    //}
+                    if (currentArtifact.Style == ArtfFac.Type.Folder)
+                    {
+                        this.OpenFolder();
+                    }
                     break;
                 case DialogueMode.New:
                     //
@@ -1926,21 +1930,22 @@ namespace Vanilla.Utility.WinForm
         private void AddArtifact(ArtfFac.Type type, String fileName, FacLib.Dto component, ModDefFac.Dto componentDef)
         {
             TreeView trv = this.GetActiveTreeView();
-            TreeNode selectedNode = ReadSelectedNode(trv);
+            TreeNode parentNode = ReadSelectedNode(trv);
+            this.ParentFolder = this.GetArtifact(parentNode.Tag);
 
-            if (selectedNode != null)
+            if (parentNode != null)
             {
-                TreeNode newNode = this.GetNewNode(this.GetArtifact(selectedNode.Tag), fileName, type, component, componentDef);
+                TreeNode newNode = this.GetNewNode(this.ParentFolder, fileName, type, component, componentDef);
 
                 this.formDto.ModuleFormDto.CurrentArtifact = new ArtfFac.FormDto
                 {
                     Dto = newNode.Tag as ArtfFac.Dto,
                 };
 
-                this.UpdateParentArtifactWithChildArtifactAndAddChildPath(selectedNode.Tag as FacLib.Dto, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
+                this.UpdateParentArtifactWithChildArtifactAndAddChildPath(this.ParentFolder, this.formDto.ModuleFormDto.CurrentArtifact.Dto);
                 if (type == ArtfFac.Type.Folder)
                 {
-                    selectedNode.Nodes.Add(newNode);
+                    parentNode.Nodes.Add(newNode);
                 }
 
                 this.lsvContainer.AttachChild(this.formDto.ModuleFormDto.CurrentArtifact.Dto);

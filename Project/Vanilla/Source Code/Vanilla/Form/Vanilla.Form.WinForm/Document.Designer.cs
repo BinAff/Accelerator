@@ -38,7 +38,7 @@
             this.MaximizeBox = false;
             this.Name = "Document";
             this.Text = "Forms";
-            this.Load += new System.EventHandler(this.Document_Load);
+            this.Shown += new System.EventHandler(this.Document_Shown);
             this.ResumeLayout(false);
 
 		}

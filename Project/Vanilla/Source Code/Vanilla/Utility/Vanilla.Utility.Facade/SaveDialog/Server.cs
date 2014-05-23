@@ -33,16 +33,17 @@ namespace Vanilla.Utility.Facade.SaveDialog
 
         public override void Add()
         {
-            Dto dto = (base.FormDto as FormDto).Dto;
+            FormDto formDto = base.FormDto as FormDto;
             Rule.Dto navRule = (BinAff.Facade.Cache.Server.Current.Cache["Main"] as Cache.Dto).NavigatorRule;
-            ArtfFac.Dto doc = new ArtfFac.Dto
+            formDto.Document = new ArtfFac.Dto
             {
-                FileName = dto.DocumentName,
+                FileName = formDto.Dto.DocumentName,
+                Extension = this.GetExtension(formDto.Dto.Parent.Category, ArtfFac.Type.Document),
                 Style = ArtfFac.Type.Document,
-                Category = dto.Parent.Category,
-                ComponentDefinition = dto.Parent.ComponentDefinition,
-                Parent = dto.Parent,
-                Path = dto.Parent.Path + navRule.PathSeperator + dto.DocumentName,
+                Category = formDto.Dto.Parent.Category,
+                ComponentDefinition = formDto.Dto.Parent.ComponentDefinition,
+                Parent = formDto.Dto.Parent,
+                Path = formDto.Dto.Parent.Path + navRule.PathSeperator + formDto.Dto.DocumentName,
                 AuditInfo = new ArtfFac.Audit.Dto
                 {
                     Version = 1,
@@ -58,20 +59,40 @@ namespace Vanilla.Utility.Facade.SaveDialog
             {
                 Dto = new Module.Dto
                 {
-                    Id = doc.ComponentDefinition.Id,
-                    Code = doc.ComponentDefinition.Code,
+                    Id = formDto.Document.ComponentDefinition.Id,
+                    Code = formDto.Document.ComponentDefinition.Code,
                 },
                 CurrentArtifact = new Artifact.FormDto
                 {
-                    Dto = doc,
+                    Dto = formDto.Document,
                 },                
             })
             {
-                Category = doc.Category,
+                Category = formDto.Document.Category,
             };
             moduleFacade.Add();
             this.DisplayMessageList = moduleFacade.DisplayMessageList;
             this.IsError = moduleFacade.IsError;
+        }
+
+        /// <summary>
+        /// This should not be hard coded. It should handled using database
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public String GetExtension(Artifact.Category category, Artifact.Type type)
+        {
+            if (type == Artifact.Type.Folder) return null;
+            switch (category)
+            {
+                case Artifact.Category.Form:
+                    return "frm";
+                case Artifact.Category.Catalogue:
+                    return "ctl";
+                default:
+                    return "binaff";
+            }
         }
 
     }
