@@ -346,7 +346,7 @@ namespace AutoTourism.Lodge.WinForm
             //this.lstContact.SelectedIndex = -1;
             //this.txtAdds.Text = (formDto.Dto as Facade.RoomReservation.Dto).Customer.Address;
             //this.txtEmail.Text = (formDto.Dto as Facade.RoomReservation.Dto).Customer.Email;
-
+            (formDto.Dto as Facade.RoomReservation.Dto).Customer = customerData;
             this.txtName.Text = customerData.Name;
 
             this.lstContact.DataSource = customerData.ContactNumberList;

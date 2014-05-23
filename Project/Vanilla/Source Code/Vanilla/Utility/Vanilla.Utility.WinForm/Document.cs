@@ -51,7 +51,11 @@ namespace Vanilla.Utility.WinForm
         {
             get
             {
-                return this.formDto.Document.ComponentDefinition.Code;
+                if (this.formDto.Document.ComponentDefinition != null)
+                {
+                    return this.formDto.Document.ComponentDefinition.Code;
+                }
+                return null;
             }
         }
 
@@ -70,10 +74,8 @@ namespace Vanilla.Utility.WinForm
                 SaveDialog saveDialogue = this.GetSaveDialogue();
                 if (saveDialogue != null)
                 {
+                    saveDialogue.Document = this.formDto.Document;
                     saveDialogue.ShowDialog(this);
-                    BinAff.Facade.Library.Dto module = this.formDto.Document.Module;
-                    this.formDto.Document = saveDialogue.Document;
-                    this.formDto.Document.Module = module;
                 }
                 this.Visible = true;
             }

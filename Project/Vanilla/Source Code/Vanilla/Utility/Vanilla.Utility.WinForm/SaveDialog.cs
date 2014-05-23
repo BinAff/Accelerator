@@ -43,6 +43,7 @@ namespace Vanilla.Utility.WinForm
             }
             Fac.FormDto formDto = new Fac.FormDto
             {
+                Document = base.Document,
                 Dto = new Fac.Dto
                 {
                     DocumentName = base.DocumentName,
@@ -50,7 +51,7 @@ namespace Vanilla.Utility.WinForm
                 }
             };
             new Fac.Server(formDto).Add();
-            this.Document = formDto.Document;
+            //this.Document = formDto.Document;
         }
 
         private String ValidateData()
