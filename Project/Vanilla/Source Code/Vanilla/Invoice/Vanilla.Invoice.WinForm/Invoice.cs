@@ -103,10 +103,7 @@ namespace Vanilla.Invoice.WinForm
             this.rvInvoice.DocumentMapCollapsed = true;
             this.rvInvoice.ShowPrintButton = false;
             String path = System.IO.Directory.GetCurrentDirectory();
-            //path = path.Remove(path.IndexOf("AutoTourism"));
-            //path += @"Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.WinForm\Invoice.rdlc";
-
-            path = @"E:\Binary Affairs\Online SVN\Project\Vanilla\Source Code\Vanilla\Invoice\Vanilla.Invoice.WinForm\Invoice.rdlc";
+            path = Application.StartupPath + "\\Report\\Invoice.rdlc";
 
             this.rvInvoice.LocalReport.ReportPath = path;
             string sDataSourceName = "Invoice";

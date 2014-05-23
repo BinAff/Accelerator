@@ -35,25 +35,23 @@ namespace Vanilla.Utility.Facade.SaveDialog
         {
             FormDto formDto = base.FormDto as FormDto;
             Rule.Dto navRule = (BinAff.Facade.Cache.Server.Current.Cache["Main"] as Cache.Dto).NavigatorRule;
-            formDto.Document = new ArtfFac.Dto
+            if (formDto.Document == null) formDto.Document = new ArtfFac.Dto();
+            formDto.Document.FileName = formDto.Dto.DocumentName;
+            formDto.Document.Extension = this.GetExtension(formDto.Dto.Parent.Category, ArtfFac.Type.Document);
+            formDto.Document.Style = ArtfFac.Type.Document;
+            formDto.Document.Category = formDto.Dto.Parent.Category;
+            formDto.Document.ComponentDefinition = formDto.Dto.Parent.ComponentDefinition;
+            formDto.Document.Parent = formDto.Dto.Parent;
+            formDto.Document.Path = formDto.Dto.Parent.Path + navRule.PathSeperator + formDto.Dto.DocumentName;
+            formDto.Document.AuditInfo = new ArtfFac.Audit.Dto
             {
-                FileName = formDto.Dto.DocumentName,
-                Extension = this.GetExtension(formDto.Dto.Parent.Category, ArtfFac.Type.Document),
-                Style = ArtfFac.Type.Document,
-                Category = formDto.Dto.Parent.Category,
-                ComponentDefinition = formDto.Dto.Parent.ComponentDefinition,
-                Parent = formDto.Dto.Parent,
-                Path = formDto.Dto.Parent.Path + navRule.PathSeperator + formDto.Dto.DocumentName,
-                AuditInfo = new ArtfFac.Audit.Dto
+                Version = 1,
+                CreatedBy = new Table
                 {
-                    Version = 1,
-                    CreatedBy = new Table
-                    {
-                        Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as AccFac.Dto).Id,
-                        Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as AccFac.Dto).Profile.Name
-                    },
-                    CreatedAt = DateTime.Now,
+                    Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as AccFac.Dto).Id,
+                    Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as AccFac.Dto).Profile.Name
                 },
+                CreatedAt = DateTime.Now,
             };
             Module.Server moduleFacade = new Module.Server(new Module.FormDto
             {
@@ -65,7 +63,7 @@ namespace Vanilla.Utility.Facade.SaveDialog
                 CurrentArtifact = new Artifact.FormDto
                 {
                     Dto = formDto.Document,
-                },                
+                },
             })
             {
                 Category = formDto.Document.Category,
