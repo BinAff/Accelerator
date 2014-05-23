@@ -83,7 +83,7 @@ namespace Vanilla.Utility.WinForm
 
         private void Document_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
         {
-            if(this.AuditInfoChanged != null) this.AuditInfoChanged(this);
+            if (this.AuditInfoChanged != null && this.IsModified) this.AuditInfoChanged(this);
         }
 
         protected virtual void Compose()

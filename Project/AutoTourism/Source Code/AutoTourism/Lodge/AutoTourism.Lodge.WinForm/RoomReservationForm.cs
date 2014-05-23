@@ -174,8 +174,7 @@ namespace AutoTourism.Lodge.WinForm
            
             if (base.Save())
             {
-                if (this.isLoadedFromCheckInForm) this.SaveArtifact();
-
+                base.Artifact.Module = base.formDto.Dto;
                 base.IsModified = true;
                 this.Close();
             }
