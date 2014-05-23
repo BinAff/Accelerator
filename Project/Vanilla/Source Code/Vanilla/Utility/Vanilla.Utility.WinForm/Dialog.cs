@@ -25,7 +25,7 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        public ArtfFac.Dto Document { get; protected set; }
+        public ArtfFac.Dto Document { get; protected internal set; }
 
         protected Register Register 
         {

@@ -491,17 +491,24 @@ namespace AutoTourism.Lodge.WinForm
                     }.Show(ret.MessageList);
                     return;
                 }
-
-                //if (dto.InvoiceNumber != null && dto.InvoiceNumber != String.Empty)
-                //    this.AddInvoiceNodeToTree(artifactDto);
             }
 
             if (!String.IsNullOrEmpty(dto.InvoiceNumber))
             {
-                this.DisplayInvoice();
+                UtilFac.Artifact.Dto inv = this.GetInvoiceArtifact();
+                FrmWin.Document form = new Vanilla.Invoice.WinForm.Invoice(inv);
+                if(inv.Id == 0 ) form.ArtifactSaved += form_ArtifactSaved;
+                form.ShowDialog();
+                //form.MdiParent = this.MdiParent;
+                //form.Show();
             }
 
             this.Close();
+        }
+
+        void form_ArtifactSaved(UtilFac.Artifact.Dto document)
+        {
+            base.RaiseChildArtifactSaved(document);
         }
 
         //private Boolean ValidateCheckIn()
@@ -1293,7 +1300,7 @@ namespace AutoTourism.Lodge.WinForm
         //    }
         //}
 
-        private void DisplayInvoice()
+        private UtilFac.Artifact.Dto GetInvoiceArtifact()
         {
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;            
 
@@ -1302,15 +1309,11 @@ namespace AutoTourism.Lodge.WinForm
 
             UtilFac.Artifact.Dto invoiceArtifact = (base.facade as Facade.CheckIn.CheckInServer).GetInvoiceArtifact(dto.InvoiceNumber);
          
-            UtilFac.Artifact.Dto currentArtifact = new UtilFac.Artifact.Dto
+            return new UtilFac.Artifact.Dto
             {
                 Id = invoiceArtifact == null ? 0 : invoiceArtifact.Id,
                 Module = invoiceDto
             };
-          
-            FrmWin.Document form = new Vanilla.Invoice.WinForm.Invoice(currentArtifact);
-            form.Owner = this;
-            form.ShowDialog();
         }
 
         //private String GetRoomDescription(Int64 roomId)
