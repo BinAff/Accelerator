@@ -39,10 +39,15 @@
             this.trvCatalogue = new System.Windows.Forms.TreeView();
             this.tbpReport = new System.Windows.Forms.TabPage();
             this.trvReport = new System.Windows.Forms.TreeView();
+            this.ucSearchResult = new Vanilla.Utility.WinForm.SearchResult();
             this.lsvContainer = new System.Windows.Forms.ListView();
             this.imgLargeIcon = new System.Windows.Forms.ImageList(this.components);
             this.imgSmallIcon = new System.Windows.Forms.ImageList(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnEnter = new System.Windows.Forms.Button();
+            this.btnBack = new System.Windows.Forms.Button();
+            this.btnUp = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.cmsExplorer = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmnuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.cmnuView = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,15 +89,10 @@
             this.imgMisc = new System.Windows.Forms.ImageList(this.components);
             this.pnlAddress = new System.Windows.Forms.Panel();
             this.txtAddress = new System.Windows.Forms.TextBox();
-            this.btnEnter = new System.Windows.Forms.Button();
-            this.btnBack = new System.Windows.Forms.Button();
-            this.btnUp = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.cmsDragDrop = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmDragDropCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmDragDropMove = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.ucSearchResult = new Vanilla.Utility.WinForm.SearchResult();
             ((System.ComponentModel.ISupportInitialize)(this.pnlArtifact)).BeginInit();
             this.pnlArtifact.Panel1.SuspendLayout();
             this.pnlArtifact.Panel2.SuspendLayout();
@@ -238,6 +238,15 @@
             this.trvReport.DragEnter += new System.Windows.Forms.DragEventHandler(this.treeView_DragEnter);
             this.trvReport.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trvReport_MouseDown);
             // 
+            // ucSearchResult
+            // 
+            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
+            this.ucSearchResult.Name = "ucSearchResult";
+            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
+            this.ucSearchResult.TabIndex = 16;
+            this.ucSearchResult.Visible = false;
+            this.ucSearchResult.DoubleClick += new System.EventHandler(this.ucSearchResult_DoubleClick);
+            // 
             // lsvContainer
             // 
             this.lsvContainer.AllowDrop = true;
@@ -281,6 +290,60 @@
             this.imgSmallIcon.Images.SetKeyName(2, "Document");
             this.imgSmallIcon.Images.SetKeyName(3, "Down");
             this.imgSmallIcon.Images.SetKeyName(4, "Up");
+            // 
+            // btnEnter
+            // 
+            this.btnEnter.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnEnter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnEnter.Location = new System.Drawing.Point(445, 0);
+            this.btnEnter.Name = "btnEnter";
+            this.btnEnter.Size = new System.Drawing.Size(23, 20);
+            this.btnEnter.TabIndex = 4;
+            this.btnEnter.Text = "Æ";
+            this.toolTip.SetToolTip(this.btnEnter, "Go");
+            this.btnEnter.UseVisualStyleBackColor = true;
+            this.btnEnter.Click += new System.EventHandler(this.btnEnter_Click);
+            // 
+            // btnBack
+            // 
+            this.btnBack.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnBack.Location = new System.Drawing.Point(20, 0);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(20, 20);
+            this.btnBack.TabIndex = 3;
+            this.btnBack.Text = "Å";
+            this.toolTip.SetToolTip(this.btnBack, "Back");
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // btnUp
+            // 
+            this.btnUp.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnUp.Location = new System.Drawing.Point(0, 0);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(20, 20);
+            this.btnUp.TabIndex = 2;
+            this.btnUp.Text = "Ç";
+            this.toolTip.SetToolTip(this.btnUp, "Up");
+            this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSearch.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnSearch.Font = new System.Drawing.Font("Symbol", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnSearch.Location = new System.Drawing.Point(675, 0);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(23, 20);
+            this.btnSearch.TabIndex = 6;
+            this.btnSearch.Text = "Q";
+            this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.toolTip.SetToolTip(this.btnSearch, "Search");
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // cmsExplorer
             // 
@@ -609,45 +672,6 @@
             this.txtAddress.TabIndex = 1;
             this.txtAddress.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtAddress_KeyUp);
             // 
-            // btnEnter
-            // 
-            this.btnEnter.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnEnter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnEnter.Location = new System.Drawing.Point(445, 0);
-            this.btnEnter.Name = "btnEnter";
-            this.btnEnter.Size = new System.Drawing.Size(23, 20);
-            this.btnEnter.TabIndex = 4;
-            this.btnEnter.Text = "Æ";
-            this.toolTip.SetToolTip(this.btnEnter, "Go");
-            this.btnEnter.UseVisualStyleBackColor = true;
-            this.btnEnter.Click += new System.EventHandler(this.btnEnter_Click);
-            // 
-            // btnBack
-            // 
-            this.btnBack.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnBack.Location = new System.Drawing.Point(20, 0);
-            this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(20, 20);
-            this.btnBack.TabIndex = 3;
-            this.btnBack.Text = "Å";
-            this.toolTip.SetToolTip(this.btnBack, "Back");
-            this.btnBack.UseVisualStyleBackColor = true;
-            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
-            // 
-            // btnUp
-            // 
-            this.btnUp.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnUp.Location = new System.Drawing.Point(0, 0);
-            this.btnUp.Name = "btnUp";
-            this.btnUp.Size = new System.Drawing.Size(20, 20);
-            this.btnUp.TabIndex = 2;
-            this.btnUp.Text = "Ç";
-            this.toolTip.SetToolTip(this.btnUp, "Up");
-            this.btnUp.UseVisualStyleBackColor = true;
-            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
-            // 
             // txtSearch
             // 
             this.txtSearch.Dock = System.Windows.Forms.DockStyle.Right;
@@ -682,30 +706,6 @@
             this.tsmDragDropMove.Size = new System.Drawing.Size(100, 22);
             this.tsmDragDropMove.Text = "Move";
             this.tsmDragDropMove.Click += new System.EventHandler(this.tsmDragDropMove_Click);
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSearch.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnSearch.Font = new System.Drawing.Font("Symbol", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnSearch.Location = new System.Drawing.Point(675, 0);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(23, 20);
-            this.btnSearch.TabIndex = 6;
-            this.btnSearch.Text = "Q";
-            this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.toolTip.SetToolTip(this.btnSearch, "Search");
-            this.btnSearch.UseVisualStyleBackColor = false;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
-            // ucSearchResult
-            // 
-            this.ucSearchResult.Location = new System.Drawing.Point(67, 25);
-            this.ucSearchResult.Name = "ucSearchResult";
-            this.ucSearchResult.Size = new System.Drawing.Size(152, 103);
-            this.ucSearchResult.TabIndex = 16;
-            this.ucSearchResult.Visible = false;
-            this.ucSearchResult.DoubleClick += new System.EventHandler(this.ucSearchResult_DoubleClick);
             // 
             // Register
             // 
