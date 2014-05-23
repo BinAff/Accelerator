@@ -29,6 +29,7 @@ namespace Vanilla.Invoice.Facade
             Crystal.Invoice.Component.Data invoiceData = data as Crystal.Invoice.Component.Data;
             return new Dto 
             {
+                Id = invoiceData.Id,
                 invoiceNumber = invoiceData.InvoiceNumber,
                 advance = invoiceData.Advance,
                 discount = invoiceData.Discount,
@@ -227,6 +228,12 @@ namespace Vanilla.Invoice.Facade
                 }
             }
             return taxList;
+        }
+
+        ReturnObject<Crystal.Invoice.Component.Data> IInvoice.GetInvoice(String invoiceNumber)
+        {            
+            InvoiceCrys.IInvoice invoice = new InvoiceCrys.Server(new InvoiceCrys.Data());
+            return invoice.GetInvoice(invoiceNumber);
         }
 
         public ReturnObject<Boolean> GenerateInvoice()
@@ -448,6 +455,14 @@ namespace Vanilla.Invoice.Facade
         //    return paymentDataList;
         //}
 
+        public Vanilla.Utility.Facade.Artifact.Dto GetArtifactForInvoiceNumber(String invoiceNumber)
+        {            
+           Crystal.Navigator.Component.Artifact.Data  data =  new InvoiceCrys.Navigator.Artifact.Server(new InvoiceCrys.Navigator.Artifact.Data()).GetArtifactForInvoiceNumber(invoiceNumber);
+           return new Utility.Facade.Artifact.Dto 
+           {
+               Id = data == null ? 0 : data.Id
+           };
+        }
 
         protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData)
         {

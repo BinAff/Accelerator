@@ -463,7 +463,10 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         private Vanilla.Invoice.Facade.Dto ReadInvoice(String invoiceNumber)
         {
             Vanilla.Invoice.Facade.Dto invoiceDto = null;
-            Crystal.Invoice.Component.IInvoice invoice = new Crystal.Invoice.Component.Server(new Crystal.Invoice.Component.Data());
+            //Crystal.Invoice.Component.IInvoice invoice = new Crystal.Invoice.Component.Server(new Crystal.Invoice.Component.Data());
+            //ReturnObject<Crystal.Invoice.Component.Data> retVal = invoice.GetInvoice(invoiceNumber);
+
+            InvFac.IInvoice invoice = new InvFac.Server(null);
             ReturnObject<Crystal.Invoice.Component.Data> retVal = invoice.GetInvoice(invoiceNumber);
 
             if (retVal != null)
@@ -703,6 +706,12 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             }
 
             return ret;
+        }
+
+        public Vanilla.Utility.Facade.Artifact.Dto GetInvoiceArtifact(String invoiceNumber)
+        {            
+            InvFac.Server invoiceServer = new InvFac.Server(null);
+            return  invoiceServer.GetArtifactForInvoiceNumber(invoiceNumber);
         }
 
         public enum CheckInStatus

@@ -54,6 +54,11 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
             return base.DeleteAfter();
         }
 
+        public Data GetArtifactForInvoiceNumber(String invoiceNumber)
+        {           
+            return new Dao(this.Data as Data).GetArtifactForInvoiceNumber(invoiceNumber);
+        }
+
     }
 
 }
