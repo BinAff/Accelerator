@@ -77,7 +77,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 //IsAC = reservation.IsAC,
                 ACPreference = reservation.ACPreference,
                 BookingDate = reservation.Date,
-                isCheckedIn = reservation.IsCheckedIn
+                isCheckedIn = reservation.IsCheckedIn               
             };
         }
 

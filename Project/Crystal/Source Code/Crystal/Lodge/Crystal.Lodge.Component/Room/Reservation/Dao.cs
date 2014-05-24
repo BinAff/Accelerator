@@ -64,7 +64,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
             dt.RoomCategory = Convert.IsDBNull(dr["RoomCategoryId"]) ? null : new Category.Data { Id = Convert.ToInt64(dr["RoomCategoryId"]) };
             dt.RoomType = Convert.IsDBNull(dr["RoomTypeId"]) ? null : new Type.Data { Id = Convert.ToInt64(dr["RoomTypeId"]) };
             dt.ACPreference = Convert.IsDBNull(dr["AcRoomPreference"]) ? 0 :  Convert.ToInt32(dr["AcRoomPreference"]) ;            
-
+            
             return dt;
         }
 
