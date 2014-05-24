@@ -170,10 +170,13 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                     Id = dto.Reservation.Customer.IdentityProofType.Id,
                     Name = dto.Reservation.Customer.IdentityProofType.Name
                 },                
-                Checkin = new CrystalLodge.Room.CheckInContainer.Data()
+                Checkin = new CrystalLodge.Room.CheckInContainer.Data(),
+                RoomReserver = new CrystalLodge.Room.Reserver.Data(),
             };
 
             autoCustomer.Checkin.Active = this.Convert(dto) as CrystalCustomer.Action.Data;
+            autoCustomer.RoomReserver.Active = (autoCustomer.Checkin.Active as CrystalLodge.Room.CheckIn.Data).Reservation as CrystalCustomer.Action.Data;
+
             autoCustomer.Checkin.Active.ProductList = dto.Reservation.RoomList == null ? null : this.GetRoomDataList(dto.Reservation.RoomList);
 
             return autoCustomer;

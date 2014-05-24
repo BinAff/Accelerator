@@ -934,7 +934,8 @@ namespace AutoTourism.Lodge.WinForm
                 ACPreference = roomReservationRegisterDto.ACPreference,
                 RoomList = roomReservationRegisterDto.RoomList,
                 BookingFrom = roomReservationRegisterDto.BookingFrom,
-                Customer = roomReservationRegisterDto.Customer
+                Customer = roomReservationRegisterDto.Customer,
+                BookingStatusId = roomReservationRegisterDto.BookingStatusId
             };
 
             this.LoadCheckInData();
