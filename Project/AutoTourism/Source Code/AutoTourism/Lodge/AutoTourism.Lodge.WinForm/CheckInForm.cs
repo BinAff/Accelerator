@@ -476,10 +476,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
             if (dto.InvoiceNumber == null || dto.InvoiceNumber == String.Empty)
-            {
-                //Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto();
-                //ReturnObject<Boolean> ret = this.GenerateInvoice(artifactDto);
-                                
+            {                   
                 ReturnObject<Boolean> ret = this.GenerateInvoice();
 
                 if (!ret.Value)
@@ -1091,30 +1088,11 @@ namespace AutoTourism.Lodge.WinForm
             ReturnObject<Boolean> ret = new ReturnObject<bool> { Value = true };
 
             Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
-            //Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;         
-            
-
-            //Facade.Taxation.ITaxation taxation = new Facade.Taxation.TaxationServer();
-            //List<Facade.Taxation.Dto> taxationList = taxation.ReadLodgeTaxation();
-
+            Facade.CheckIn.Dto dto = formDto.Dto as Facade.CheckIn.Dto;
+               
             Vanilla.Invoice.Facade.Dto invoiceDto = new Vanilla.Invoice.Facade.Dto();
-            (base.facade as Facade.CheckIn.CheckInServer).PopulateInvoiceDto(invoiceDto);
-            //invoiceDto.advance = dto.Reservation.Advance;
-            //invoiceDto.buyer = dto.Reservation.Customer == null ? null : new Vanilla.Invoice.Facade.Buyer.Dto
-            //{
-            //    Name = dto.Reservation.Customer.Name,
-            //    Address = dto.Reservation.Customer.Address,
-            //    Email = dto.Reservation.Customer.Email,
-            //    ContactNumber = dto.Reservation.Customer.ContactNumberList == null ? null : dto.Reservation.Customer.ContactNumberList[0].Name
-            //};
-            //this.PopulateSellerInfo(invoiceDto);
-            //List<RoomFac.Dto> roomList = dto.Reservation.RoomList;
-            //this.SetRoomDetail(roomList);
-            //invoiceDto.productList = this.GroupRoomList(roomList);
-            //this.AttachTariff(invoiceDto.productList);
-            //invoiceDto.taxationList = this.ConvertToInvoiceTaxationDto(taxationList);
-
-            //Form form = new Vanilla.Invoice.WinForm.Payment(invoiceDto, dto.trvForm);
+            (base.facade as Facade.CheckIn.CheckInServer).PopulateInvoiceDto(invoiceDto);  
+          
             InvFac.Payment.FormDto paymentFormDto = new InvFac.Payment.FormDto 
             {
                 ProductList = invoiceDto.productList,
@@ -1125,31 +1103,7 @@ namespace AutoTourism.Lodge.WinForm
             form.Owner = this;
             form.ShowDialog();
                         
-            //Type type = Type.GetType("Vanilla.Invoice.WinForm.Payment,Vanilla.Invoice.WinForm", true);
-            //UtilFac.Artifact.Dto currentArtifact = new UtilFac.Artifact.Dto 
-            //{
-            //    Module = invoiceDto
-            //};
-            //FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);        
-            //form.ShowDialog();
-
-            //if (invoiceDto.paymentList != null && invoiceDto.paymentList.Count > 0)
-            //{
-            //    Vanilla.Invoice.Facade.FormDto invoiceFormDto = form.Tag as Vanilla.Invoice.Facade.FormDto;
-            //    LodgeFac.CheckIn.ICheckIn checkIn = new LodgeFac.CheckIn.CheckInServer(formDto);
-
-            //    Table currentUser = new Table
-            //    {
-            //        Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-            //        Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
-            //    };
-
-            //    ret = checkIn.PaymentInsert(invoiceFormDto, currentUser, artifactDto);
-
-            //    if (ret.Value)
-            //        dto.InvoiceNumber = (invoiceFormDto.Dto as Vanilla.Invoice.Facade.Dto).invoiceNumber;
-            //        //dto.InvoiceNumber = invoiceFormDto.dto.invoiceNumber;
-            //}
+          
 
             if (paymentFormDto.PaymentList != null && paymentFormDto.PaymentList.Count > 0)
             {
@@ -1158,13 +1112,9 @@ namespace AutoTourism.Lodge.WinForm
                 //invoiceDto.invoiceNumber = paymentFormDto.InvoiceNumber;
 
                 formDto.InvoiceDto = invoiceDto;
-                (base.facade as Facade.CheckIn.CheckInServer).GenerateInvoice();
-
-                //LodgeFac.CheckIn.ICheckIn checkIn = new LodgeFac.CheckIn.CheckInServer(formDto);
-                //ret = checkIn.PaymentInsert(invoiceDto);
-
-                //Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
-                //dto.InvoiceNumber = invoiceDto.invoiceNumber;
+                ret = (base.facade as Facade.CheckIn.CheckInServer).GenerateInvoice();
+                if (ret.Value)
+                    dto.InvoiceNumber = formDto.InvoiceDto.invoiceNumber;                
             }
 
             return ret;
