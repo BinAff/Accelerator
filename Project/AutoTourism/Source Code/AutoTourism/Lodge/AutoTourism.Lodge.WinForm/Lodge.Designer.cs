@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.openFileDialogLogoBrowse = new System.Windows.Forms.OpenFileDialog();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.bttnRemoveEmail = new System.Windows.Forms.Button();
+            this.bttnRemoveFax = new System.Windows.Forms.Button();
+            this.bttnRemoveContact = new System.Windows.Forms.Button();
             this.txtMobile = new System.Windows.Forms.TextBox();
             this.txtMobilePrefix = new System.Windows.Forms.TextBox();
             this.lstEmail = new System.Windows.Forms.ListBox();
@@ -48,8 +48,6 @@
             this.cboState = new System.Windows.Forms.ComboBox();
             this.txtConatcName = new System.Windows.Forms.TextBox();
             this.lblContactName = new System.Windows.Forms.Label();
-            this.txtLogoPath = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.lblEmail = new System.Windows.Forms.Label();
             this.txtFaxNumber = new System.Windows.Forms.TextBox();
@@ -71,54 +69,58 @@
             this.lblName = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnOK = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
-            // button3
+            // bttnRemoveEmail
             // 
-            this.button3.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(287, 396);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(32, 22);
-            this.button3.TabIndex = 78;
-            this.button3.Text = "x";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.bttnRemoveEmail_Click);
+            this.bttnRemoveEmail.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bttnRemoveEmail.Location = new System.Drawing.Point(295, 337);
+            this.bttnRemoveEmail.Name = "bttnRemoveEmail";
+            this.bttnRemoveEmail.Size = new System.Drawing.Size(32, 22);
+            this.bttnRemoveEmail.TabIndex = 24;
+            this.bttnRemoveEmail.Text = "x";
+            this.bttnRemoveEmail.UseVisualStyleBackColor = true;
+            this.bttnRemoveEmail.Click += new System.EventHandler(this.bttnRemoveEmail_Click);
             // 
-            // button2
+            // bttnRemoveFax
             // 
-            this.button2.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(287, 347);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(32, 22);
-            this.button2.TabIndex = 77;
-            this.button2.Text = "x";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.bttnRemoveFax_Click);
+            this.bttnRemoveFax.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bttnRemoveFax.Location = new System.Drawing.Point(295, 288);
+            this.bttnRemoveFax.Name = "bttnRemoveFax";
+            this.bttnRemoveFax.Size = new System.Drawing.Size(32, 22);
+            this.bttnRemoveFax.TabIndex = 20;
+            this.bttnRemoveFax.Text = "x";
+            this.bttnRemoveFax.UseVisualStyleBackColor = true;
+            this.bttnRemoveFax.Click += new System.EventHandler(this.bttnRemoveFax_Click);
             // 
-            // button1
+            // bttnRemoveContact
             // 
-            this.button1.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(287, 297);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(32, 22);
-            this.button1.TabIndex = 76;
-            this.button1.Text = "x";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.bttnRemoveContact_Click);
+            this.bttnRemoveContact.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bttnRemoveContact.Location = new System.Drawing.Point(295, 238);
+            this.bttnRemoveContact.Name = "bttnRemoveContact";
+            this.bttnRemoveContact.Size = new System.Drawing.Size(32, 22);
+            this.bttnRemoveContact.TabIndex = 16;
+            this.bttnRemoveContact.Text = "x";
+            this.bttnRemoveContact.UseVisualStyleBackColor = true;
+            this.bttnRemoveContact.Click += new System.EventHandler(this.bttnRemoveContact_Click);
             // 
             // txtMobile
             // 
-            this.txtMobile.Location = new System.Drawing.Point(141, 300);
+            this.txtMobile.Location = new System.Drawing.Point(132, 241);
             this.txtMobile.Name = "txtMobile";
             this.txtMobile.Size = new System.Drawing.Size(134, 20);
-            this.txtMobile.TabIndex = 75;
+            this.txtMobile.TabIndex = 13;
             // 
             // txtMobilePrefix
             // 
             this.txtMobilePrefix.Enabled = false;
-            this.txtMobilePrefix.Location = new System.Drawing.Point(112, 300);
+            this.txtMobilePrefix.Location = new System.Drawing.Point(103, 241);
             this.txtMobilePrefix.Name = "txtMobilePrefix";
             this.txtMobilePrefix.Size = new System.Drawing.Size(23, 20);
             this.txtMobilePrefix.TabIndex = 74;
@@ -127,18 +129,18 @@
             // lstEmail
             // 
             this.lstEmail.FormattingEnabled = true;
-            this.lstEmail.Location = new System.Drawing.Point(325, 375);
+            this.lstEmail.Location = new System.Drawing.Point(361, 316);
             this.lstEmail.Name = "lstEmail";
-            this.lstEmail.Size = new System.Drawing.Size(154, 43);
-            this.lstEmail.TabIndex = 73;
+            this.lstEmail.Size = new System.Drawing.Size(163, 43);
+            this.lstEmail.TabIndex = 23;
             // 
             // bttnAddEmail
             // 
             this.bttnAddEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bttnAddEmail.Location = new System.Drawing.Point(287, 373);
+            this.bttnAddEmail.Location = new System.Drawing.Point(295, 314);
             this.bttnAddEmail.Name = "bttnAddEmail";
             this.bttnAddEmail.Size = new System.Drawing.Size(32, 22);
-            this.bttnAddEmail.TabIndex = 72;
+            this.bttnAddEmail.TabIndex = 22;
             this.bttnAddEmail.Text = "  ►";
             this.bttnAddEmail.UseVisualStyleBackColor = true;
             this.bttnAddEmail.Click += new System.EventHandler(this.bttnAddEmail_Click);
@@ -146,10 +148,10 @@
             // bttnAddFax
             // 
             this.bttnAddFax.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bttnAddFax.Location = new System.Drawing.Point(287, 325);
+            this.bttnAddFax.Location = new System.Drawing.Point(295, 266);
             this.bttnAddFax.Name = "bttnAddFax";
             this.bttnAddFax.Size = new System.Drawing.Size(32, 22);
-            this.bttnAddFax.TabIndex = 71;
+            this.bttnAddFax.TabIndex = 18;
             this.bttnAddFax.Text = "  ►";
             this.bttnAddFax.UseVisualStyleBackColor = true;
             this.bttnAddFax.Click += new System.EventHandler(this.bttnAddFax_Click);
@@ -157,33 +159,33 @@
             // lslFax
             // 
             this.lslFax.FormattingEnabled = true;
-            this.lslFax.Location = new System.Drawing.Point(325, 326);
+            this.lslFax.Location = new System.Drawing.Point(361, 267);
             this.lslFax.Name = "lslFax";
-            this.lslFax.Size = new System.Drawing.Size(154, 43);
-            this.lslFax.TabIndex = 70;
+            this.lslFax.Size = new System.Drawing.Size(163, 43);
+            this.lslFax.TabIndex = 19;
             // 
             // bttnAddContact
             // 
             this.bttnAddContact.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bttnAddContact.Location = new System.Drawing.Point(287, 275);
+            this.bttnAddContact.Location = new System.Drawing.Point(295, 216);
             this.bttnAddContact.Name = "bttnAddContact";
             this.bttnAddContact.Size = new System.Drawing.Size(32, 22);
-            this.bttnAddContact.TabIndex = 69;
+            this.bttnAddContact.TabIndex = 14;
             this.bttnAddContact.Text = "  ►";
             this.bttnAddContact.UseVisualStyleBackColor = true;
             this.bttnAddContact.Click += new System.EventHandler(this.bttnAddContact_Click);
             // 
             // txtStd
             // 
-            this.txtStd.Location = new System.Drawing.Point(141, 277);
+            this.txtStd.Location = new System.Drawing.Point(132, 218);
             this.txtStd.Name = "txtStd";
             this.txtStd.Size = new System.Drawing.Size(47, 20);
-            this.txtStd.TabIndex = 68;
+            this.txtStd.TabIndex = 11;
             // 
             // txtIsd
             // 
             this.txtIsd.Enabled = false;
-            this.txtIsd.Location = new System.Drawing.Point(112, 277);
+            this.txtIsd.Location = new System.Drawing.Point(103, 218);
             this.txtIsd.Name = "txtIsd";
             this.txtIsd.Size = new System.Drawing.Size(23, 20);
             this.txtIsd.TabIndex = 67;
@@ -193,24 +195,24 @@
             // 
             this.lstContact.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
             this.lstContact.FormattingEnabled = true;
-            this.lstContact.Location = new System.Drawing.Point(325, 277);
+            this.lstContact.Location = new System.Drawing.Point(361, 218);
             this.lstContact.Name = "lstContact";
-            this.lstContact.Size = new System.Drawing.Size(154, 43);
-            this.lstContact.TabIndex = 66;
+            this.lstContact.Size = new System.Drawing.Size(163, 43);
+            this.lstContact.TabIndex = 15;
             // 
             // bttnBrowse
             // 
-            this.bttnBrowse.Location = new System.Drawing.Point(112, 39);
+            this.bttnBrowse.Location = new System.Drawing.Point(400, 8);
             this.bttnBrowse.Name = "bttnBrowse";
-            this.bttnBrowse.Size = new System.Drawing.Size(93, 22);
-            this.bttnBrowse.TabIndex = 65;
-            this.bttnBrowse.Text = "Browse";
+            this.bttnBrowse.Size = new System.Drawing.Size(54, 22);
+            this.bttnBrowse.TabIndex = 2;
+            this.bttnBrowse.Text = "Logo";
             this.bttnBrowse.UseVisualStyleBackColor = true;
             this.bttnBrowse.Click += new System.EventHandler(this.bttnBrowse_Click);
             // 
             // picLogo
             // 
-            this.picLogo.Location = new System.Drawing.Point(211, 40);
+            this.picLogo.Location = new System.Drawing.Point(460, 9);
             this.picLogo.Name = "picLogo";
             this.picLogo.Size = new System.Drawing.Size(64, 64);
             this.picLogo.TabIndex = 64;
@@ -219,59 +221,41 @@
             // cboState
             // 
             this.cboState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
+            this.cboState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboState.FormattingEnabled = true;
-            this.cboState.Location = new System.Drawing.Point(319, 223);
+            this.cboState.Location = new System.Drawing.Point(361, 191);
             this.cboState.Name = "cboState";
-            this.cboState.Size = new System.Drawing.Size(160, 21);
-            this.cboState.TabIndex = 63;
-            this.cboState.Text = "West Bengal";
+            this.cboState.Size = new System.Drawing.Size(163, 21);
+            this.cboState.TabIndex = 10;
             // 
             // txtConatcName
             // 
             this.txtConatcName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.txtConatcName.Location = new System.Drawing.Point(112, 424);
+            this.txtConatcName.Location = new System.Drawing.Point(103, 365);
             this.txtConatcName.Name = "txtConatcName";
-            this.txtConatcName.Size = new System.Drawing.Size(367, 20);
-            this.txtConatcName.TabIndex = 62;
+            this.txtConatcName.Size = new System.Drawing.Size(421, 20);
+            this.txtConatcName.TabIndex = 25;
             // 
             // lblContactName
             // 
             this.lblContactName.AutoSize = true;
-            this.lblContactName.Location = new System.Drawing.Point(17, 428);
+            this.lblContactName.Location = new System.Drawing.Point(8, 369);
             this.lblContactName.Name = "lblContactName";
             this.lblContactName.Size = new System.Drawing.Size(75, 13);
             this.lblContactName.TabIndex = 61;
             this.lblContactName.Text = "Contact Name";
             // 
-            // txtLogoPath
-            // 
-            this.txtLogoPath.Enabled = false;
-            this.txtLogoPath.Location = new System.Drawing.Point(281, 39);
-            this.txtLogoPath.Multiline = true;
-            this.txtLogoPath.Name = "txtLogoPath";
-            this.txtLogoPath.Size = new System.Drawing.Size(198, 65);
-            this.txtLogoPath.TabIndex = 60;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(16, 44);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(31, 13);
-            this.label10.TabIndex = 59;
-            this.label10.Text = "Logo";
-            // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(112, 375);
+            this.txtEmail.Location = new System.Drawing.Point(103, 316);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(163, 20);
-            this.txtEmail.TabIndex = 58;
+            this.txtEmail.TabIndex = 21;
             // 
             // lblEmail
             // 
             this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(17, 379);
+            this.lblEmail.Location = new System.Drawing.Point(8, 320);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(37, 13);
             this.lblEmail.TabIndex = 57;
@@ -279,15 +263,15 @@
             // 
             // txtFaxNumber
             // 
-            this.txtFaxNumber.Location = new System.Drawing.Point(112, 326);
+            this.txtFaxNumber.Location = new System.Drawing.Point(103, 267);
             this.txtFaxNumber.Name = "txtFaxNumber";
             this.txtFaxNumber.Size = new System.Drawing.Size(163, 20);
-            this.txtFaxNumber.TabIndex = 56;
+            this.txtFaxNumber.TabIndex = 17;
             // 
             // lblFax
             // 
             this.lblFax.AutoSize = true;
-            this.lblFax.Location = new System.Drawing.Point(17, 330);
+            this.lblFax.Location = new System.Drawing.Point(8, 271);
             this.lblFax.Name = "lblFax";
             this.lblFax.Size = new System.Drawing.Size(32, 13);
             this.lblFax.TabIndex = 55;
@@ -295,15 +279,15 @@
             // 
             // txtLandLine
             // 
-            this.txtLandLine.Location = new System.Drawing.Point(194, 277);
+            this.txtLandLine.Location = new System.Drawing.Point(185, 218);
             this.txtLandLine.Name = "txtLandLine";
             this.txtLandLine.Size = new System.Drawing.Size(81, 20);
-            this.txtLandLine.TabIndex = 54;
+            this.txtLandLine.TabIndex = 12;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 280);
+            this.label5.Location = new System.Drawing.Point(8, 221);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(89, 13);
             this.label5.TabIndex = 53;
@@ -312,15 +296,15 @@
             // txtPin
             // 
             this.txtPin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.txtPin.Location = new System.Drawing.Point(112, 250);
+            this.txtPin.Location = new System.Drawing.Point(361, 163);
             this.txtPin.Name = "txtPin";
             this.txtPin.Size = new System.Drawing.Size(163, 20);
-            this.txtPin.TabIndex = 52;
+            this.txtPin.TabIndex = 9;
             // 
             // lblPin
             // 
             this.lblPin.AutoSize = true;
-            this.lblPin.Location = new System.Drawing.Point(16, 254);
+            this.lblPin.Location = new System.Drawing.Point(275, 166);
             this.lblPin.Name = "lblPin";
             this.lblPin.Size = new System.Drawing.Size(50, 13);
             this.lblPin.TabIndex = 51;
@@ -329,7 +313,7 @@
             // lblState
             // 
             this.lblState.AutoSize = true;
-            this.lblState.Location = new System.Drawing.Point(281, 227);
+            this.lblState.Location = new System.Drawing.Point(272, 194);
             this.lblState.Name = "lblState";
             this.lblState.Size = new System.Drawing.Size(32, 13);
             this.lblState.TabIndex = 50;
@@ -338,15 +322,15 @@
             // txtCity
             // 
             this.txtCity.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.txtCity.Location = new System.Drawing.Point(112, 223);
+            this.txtCity.Location = new System.Drawing.Point(361, 133);
             this.txtCity.Name = "txtCity";
             this.txtCity.Size = new System.Drawing.Size(163, 20);
-            this.txtCity.TabIndex = 49;
+            this.txtCity.TabIndex = 8;
             // 
             // lblCity
             // 
             this.lblCity.AutoSize = true;
-            this.lblCity.Location = new System.Drawing.Point(16, 227);
+            this.lblCity.Location = new System.Drawing.Point(275, 136);
             this.lblCity.Name = "lblCity";
             this.lblCity.Size = new System.Drawing.Size(24, 13);
             this.lblCity.TabIndex = 48;
@@ -355,16 +339,16 @@
             // txtAdds
             // 
             this.txtAdds.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.txtAdds.Location = new System.Drawing.Point(112, 137);
+            this.txtAdds.Location = new System.Drawing.Point(103, 132);
             this.txtAdds.Multiline = true;
             this.txtAdds.Name = "txtAdds";
-            this.txtAdds.Size = new System.Drawing.Size(367, 80);
-            this.txtAdds.TabIndex = 47;
+            this.txtAdds.Size = new System.Drawing.Size(163, 80);
+            this.txtAdds.TabIndex = 7;
             // 
             // lblAdds
             // 
             this.lblAdds.AutoSize = true;
-            this.lblAdds.Location = new System.Drawing.Point(16, 141);
+            this.lblAdds.Location = new System.Drawing.Point(7, 136);
             this.lblAdds.Name = "lblAdds";
             this.lblAdds.Size = new System.Drawing.Size(45, 13);
             this.lblAdds.TabIndex = 46;
@@ -372,15 +356,15 @@
             // 
             // txtTan
             // 
-            this.txtTan.Location = new System.Drawing.Point(358, 110);
+            this.txtTan.Location = new System.Drawing.Point(361, 79);
             this.txtTan.Name = "txtTan";
-            this.txtTan.Size = new System.Drawing.Size(121, 20);
-            this.txtTan.TabIndex = 45;
+            this.txtTan.Size = new System.Drawing.Size(163, 20);
+            this.txtTan.TabIndex = 4;
             // 
             // lblTan
             // 
             this.lblTan.AutoSize = true;
-            this.lblTan.Location = new System.Drawing.Point(278, 113);
+            this.lblTan.Location = new System.Drawing.Point(275, 82);
             this.lblTan.Name = "lblTan";
             this.lblTan.Size = new System.Drawing.Size(29, 13);
             this.lblTan.TabIndex = 44;
@@ -388,15 +372,15 @@
             // 
             // txtLiscNo
             // 
-            this.txtLiscNo.Location = new System.Drawing.Point(112, 111);
+            this.txtLiscNo.Location = new System.Drawing.Point(103, 80);
             this.txtLiscNo.Name = "txtLiscNo";
             this.txtLiscNo.Size = new System.Drawing.Size(163, 20);
-            this.txtLiscNo.TabIndex = 43;
+            this.txtLiscNo.TabIndex = 3;
             // 
             // lblLiscNo
             // 
             this.lblLiscNo.AutoSize = true;
-            this.lblLiscNo.Location = new System.Drawing.Point(16, 114);
+            this.lblLiscNo.Location = new System.Drawing.Point(7, 83);
             this.lblLiscNo.Name = "lblLiscNo";
             this.lblLiscNo.Size = new System.Drawing.Size(90, 13);
             this.lblLiscNo.TabIndex = 42;
@@ -405,15 +389,15 @@
             // txtName
             // 
             this.txtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.txtName.Location = new System.Drawing.Point(112, 14);
+            this.txtName.Location = new System.Drawing.Point(103, 9);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(367, 20);
-            this.txtName.TabIndex = 41;
+            this.txtName.Size = new System.Drawing.Size(291, 20);
+            this.txtName.TabIndex = 1;
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(16, 18);
+            this.lblName.Location = new System.Drawing.Point(7, 13);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 40;
@@ -425,23 +409,59 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(495, 14);
+            this.btnOK.Location = new System.Drawing.Point(530, 7);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 79;
+            this.btnOK.TabIndex = 26;
             this.btnOK.Text = "O&K";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(361, 105);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(163, 20);
+            this.textBox1.TabIndex = 6;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(272, 108);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.TabIndex = 82;
+            this.label1.Text = "Service Tax No";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(103, 106);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(163, 20);
+            this.textBox2.TabIndex = 5;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 109);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(82, 13);
+            this.label2.TabIndex = 80;
+            this.label2.Text = "Luxuary Tax No";
             // 
             // Lodge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 460);
+            this.ClientSize = new System.Drawing.Size(613, 394);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.bttnRemoveEmail);
+            this.Controls.Add(this.bttnRemoveFax);
+            this.Controls.Add(this.bttnRemoveContact);
             this.Controls.Add(this.txtMobile);
             this.Controls.Add(this.txtMobilePrefix);
             this.Controls.Add(this.lstEmail);
@@ -457,8 +477,6 @@
             this.Controls.Add(this.cboState);
             this.Controls.Add(this.txtConatcName);
             this.Controls.Add(this.lblContactName);
-            this.Controls.Add(this.txtLogoPath);
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.lblEmail);
             this.Controls.Add(this.txtFaxNumber);
@@ -495,9 +513,9 @@
         #endregion
 
         private System.Windows.Forms.OpenFileDialog openFileDialogLogoBrowse;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button bttnRemoveEmail;
+        private System.Windows.Forms.Button bttnRemoveFax;
+        private System.Windows.Forms.Button bttnRemoveContact;
         private System.Windows.Forms.TextBox txtMobile;
         private System.Windows.Forms.TextBox txtMobilePrefix;
         private System.Windows.Forms.ListBox lstEmail;
@@ -513,8 +531,6 @@
         private System.Windows.Forms.ComboBox cboState;
         private System.Windows.Forms.TextBox txtConatcName;
         private System.Windows.Forms.Label lblContactName;
-        private System.Windows.Forms.TextBox txtLogoPath;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.TextBox txtFaxNumber;
@@ -536,6 +552,10 @@
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label2;
     }
 }
 
