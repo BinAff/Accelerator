@@ -260,6 +260,7 @@ namespace AutoTourism.Customer.WinForm
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
+            errorProvider.Clear();
             this.txtStd.Text = String.Empty;
             this.txtLandLine.Text = String.Empty;
             this.txtMobile.Text = String.Empty;
@@ -522,31 +523,33 @@ namespace AutoTourism.Customer.WinForm
 
         protected override void AssignDto()
         {
-            if (base.formDto.Dto == null) base.formDto.Dto = new CustFac.Dto();
-            CustFac.Dto dto = base.formDto.Dto as CustFac.Dto;
+            PopulateDataToForm();
+            //if (base.formDto.Dto == null) base.formDto.Dto = new CustFac.Dto();
+            
+            //CustFac.Dto dto = base.formDto.Dto as CustFac.Dto;
 
-            dto.Id = dto == null ? 0 : dto.Id;
-            //this.dto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
+            //dto.Id = dto == null ? 0 : dto.Id;
+            ////this.dto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
+            ////{
+            ////    Id = ((Table)cboInitial.SelectedItem).Id,
+            ////};
+            //dto.FirstName = txtFName.Text.Trim();
+            //dto.MiddleName = txtMName.Text.Trim();
+            //dto.LastName = txtLName.Text.Trim();
+            //dto.Address = txtAdds.Text.Trim();
+            //dto.State = cboState.SelectedIndex == -1 ? null : new Table()
             //{
-            //    Id = ((Table)cboInitial.SelectedItem).Id,
+            //    Id = ((Table)cboState.SelectedItem).Id,
             //};
-            dto.FirstName = txtFName.Text.Trim();
-            dto.MiddleName = txtMName.Text.Trim();
-            dto.LastName = txtLName.Text.Trim();
-            dto.Address = txtAdds.Text.Trim();
-            dto.State = cboState.SelectedIndex == -1 ? null : new Table()
-            {
-                Id = ((Table)cboState.SelectedItem).Id,
-            };
-            dto.City = txtCity.Text.Trim();
-            dto.Pin = txtPin.Text == String.Empty ? 0 : Convert.ToInt32(txtPin.Text);
-            dto.ContactNumberList = GetContactNumberDtoList();
-            dto.Email = txtEmail.Text.Trim();
-            dto.IdentityProofType = cboIdentityProofType.SelectedIndex == -1 ? null : new Table()
-            {
-                Id = ((Table)cboIdentityProofType.SelectedItem).Id,
-            };
-            dto.IdentityProofName = txtIdentityProofName.Text.Trim();
+            //dto.City = txtCity.Text.Trim();
+            //dto.Pin = txtPin.Text == String.Empty ? 0 : Convert.ToInt32(txtPin.Text);
+            //dto.ContactNumberList = GetContactNumberDtoList();
+            //dto.Email = txtEmail.Text.Trim();
+            //dto.IdentityProofType = cboIdentityProofType.SelectedIndex == -1 ? null : new Table()
+            //{
+            //    Id = ((Table)cboIdentityProofType.SelectedItem).Id,
+            //};
+            //dto.IdentityProofName = txtIdentityProofName.Text.Trim();
         }
 
         protected override Boolean SaveAfter()
