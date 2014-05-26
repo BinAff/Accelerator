@@ -13,6 +13,10 @@ namespace AutoTourism.Lodge.Facade
         public Byte[] logo { get; set; }
         public String LicenceNumber { get; set; }
         public String Tan { get; set; }
+
+        public String LuxuaryTaxNumber { get; set; }
+        public String ServiceTaxNumber { get; set; }
+
         public String Address { get; set; }
         public String City { get; set; }        
         public Table State { get; set; }

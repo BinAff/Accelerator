@@ -30,11 +30,14 @@ namespace Crystal.Organization.Component
             base.AddInParameter("@Logo", DbType.Binary, (object)(((Data)this.Data).Logo));
             base.AddInParameter("@LicenceNumber", DbType.String, ((Data)this.Data).LicenceNumber);
             base.AddInParameter("@Tan", DbType.String, ((Data)this.Data).Tan);
+            base.AddInParameter("@ServiceTaxNumber", DbType.String, ((Data)this.Data).ServiceTaxNumber);
+            base.AddInParameter("@LuxuaryTaxNumber", DbType.String, ((Data)this.Data).LuxuaryTaxNumber);
             base.AddInParameter("@Address", DbType.String, ((Data)this.Data).Address);
             base.AddInParameter("@City", DbType.String, ((Data)this.Data).City);
             base.AddInParameter("@StateId", DbType.String, ((Data)this.Data).State.Id);
             base.AddInParameter("@Pin", DbType.Int32, ((Data)this.Data).Pin);
             base.AddInParameter("@ContactName", DbType.String, ((Data)this.Data).ContactName);
+
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
@@ -49,6 +52,8 @@ namespace Crystal.Organization.Component
                 dt.Logo = Convert.IsDBNull(row["Logo"]) ? null : (Byte[])row["Logo"];
                 dt.LicenceNumber = Convert.IsDBNull(row["LicenceNumber"]) ? String.Empty : Convert.ToString(row["LicenceNumber"]);
                 dt.Tan = Convert.IsDBNull(row["Tan"]) ? String.Empty : Convert.ToString(row["Tan"]);
+                dt.ServiceTaxNumber = Convert.IsDBNull(row["ServiceTaxNumber"]) ? String.Empty : Convert.ToString(row["ServiceTaxNumber"]);
+                dt.LuxuaryTaxNumber = Convert.IsDBNull(row["LuxuaryTaxNumber"]) ? String.Empty : Convert.ToString(row["LuxuaryTaxNumber"]);
                 dt.Address = Convert.IsDBNull(row["Address"]) ? String.Empty : Convert.ToString(row["Address"]);
                 dt.City = Convert.IsDBNull(row["City"]) ? String.Empty : Convert.ToString(row["City"]);
                 dt.State = Convert.IsDBNull(row["StateId"]) ? null : new Crystal.Configuration.Component.State.Data
