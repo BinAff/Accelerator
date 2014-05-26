@@ -680,6 +680,8 @@ namespace AutoTourism.Lodge.WinForm
                         logo = ImagePath == String.Empty ? ImageData : Reader.ReadFile(ImagePath),
                         LicenceNumber = txtLiscNo.Text.Trim(),
                         Tan = txtTan.Text.Trim(),
+                        LuxuaryTaxNumber = txtLuxTaxNo.Text.Trim(),
+                        ServiceTaxNumber = txtServiceTaxNo.Text.Trim(),
                         Address = txtAdds.Text.Trim(),
                         City = txtCity.Text.Trim(),
                         State = new Table

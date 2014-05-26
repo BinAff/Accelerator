@@ -69,9 +69,9 @@
             this.lblName = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnOK = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtServiceTaxNo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtLuxTaxNo = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -417,12 +417,12 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // textBox1
+            // txtServiceTaxNo
             // 
-            this.textBox1.Location = new System.Drawing.Point(361, 105);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(163, 20);
-            this.textBox1.TabIndex = 6;
+            this.txtServiceTaxNo.Location = new System.Drawing.Point(361, 105);
+            this.txtServiceTaxNo.Name = "txtServiceTaxNo";
+            this.txtServiceTaxNo.Size = new System.Drawing.Size(163, 20);
+            this.txtServiceTaxNo.TabIndex = 6;
             // 
             // label1
             // 
@@ -433,12 +433,12 @@
             this.label1.TabIndex = 82;
             this.label1.Text = "Service Tax No";
             // 
-            // textBox2
+            // txtLuxTaxNo
             // 
-            this.textBox2.Location = new System.Drawing.Point(103, 106);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(163, 20);
-            this.textBox2.TabIndex = 5;
+            this.txtLuxTaxNo.Location = new System.Drawing.Point(103, 106);
+            this.txtLuxTaxNo.Name = "txtLuxTaxNo";
+            this.txtLuxTaxNo.Size = new System.Drawing.Size(163, 20);
+            this.txtLuxTaxNo.TabIndex = 5;
             // 
             // label2
             // 
@@ -454,9 +454,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(613, 394);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtServiceTaxNo);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.txtLuxTaxNo);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.bttnRemoveEmail);
@@ -552,9 +552,9 @@
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtServiceTaxNo;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtLuxTaxNo;
         private System.Windows.Forms.Label label2;
     }
 }
