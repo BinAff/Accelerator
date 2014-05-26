@@ -627,11 +627,11 @@ namespace Vanilla.Utility.WinForm
 
             //-- check for null
             TreeView trv = this.GetActiveTreeView();
-            if (selected == null && trv == null)
+            if (selected == null && trv == null && trv.SelectedNode == null)
                 return;
 
             this.currentArtifact = selected == null ?
-                this.GetActiveTreeView().SelectedNode.Tag as ArtfFac.Dto : selected.Tag as ArtfFac.Dto;
+                trv.SelectedNode.Tag as ArtfFac.Dto : selected.Tag as ArtfFac.Dto;
             this.menuClickSource = MenuClickSource.ListView;
             if (e.Button == MouseButtons.Right)
             {
@@ -1279,43 +1279,57 @@ namespace Vanilla.Utility.WinForm
 
         public void Delete()
         {
+            Boolean retVal = true;
 
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this Folder/Document?", "Delete", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                TreeView trv = this.GetActiveTreeView();
+                if(this.currentArtifact.Style == ArtfFac.Type.Document)
+                   retVal = this.DeleteDocument(this.currentArtifact);
 
-                TreeNode node = null;
-                TreeNode selectedNode = null;
 
-                if (this.currentArtifact.Style == ArtfFac.Type.Document)
-                {
-                    node = trv.FindNode(this.GetParent(this.currentArtifact));
-                }
-                else
-                {
-                    selectedNode = trv.FindNode(this.currentArtifact);
-                    node = selectedNode.Parent;
+                if (!retVal)
+                { 
+                    new PresLib.MessageBox
+                    {
+                        DialogueType = PresLib.MessageBox.Type.Error,
+                        Heading = "Splash",
+                    }.Show("Document contains transactional information. Cannot be deleted.");
                 }
 
-                if ((this.menuClickSource == MenuClickSource.ListView) && (this.currentArtifact.Style == ArtfFac.Type.Document))
-                {
-                    this.DeleteDocument(this.currentArtifact);
-                }
-                else
-                {
-                    Boolean retVal = true;
-                    this.DeleteFolder(this.currentArtifact, retVal);
-                }
-                this.currentArtifact = this.GetArtifact(node.Tag);
+                //TreeView trv = this.GetActiveTreeView();
 
-                this.lsvContainer.AttachChildren(this.currentArtifact, isDocumentFirst);
+                //TreeNode node = null;
+                //TreeNode selectedNode = null;
 
-                if (selectedNode != null)
-                {
-                    trv.SelectedNode = selectedNode.Parent;
-                    trv.Nodes.Remove(selectedNode);
-                }
+                //if (this.currentArtifact.Style == ArtfFac.Type.Document)
+                //{
+                //    node = trv.FindNode(this.GetParent(this.currentArtifact));
+                //}
+                //else
+                //{
+                //    selectedNode = trv.FindNode(this.currentArtifact);
+                //    node = selectedNode.Parent;
+                //}
+
+                //if ((this.menuClickSource == MenuClickSource.ListView) && (this.currentArtifact.Style == ArtfFac.Type.Document))
+                //{
+                //    this.DeleteDocument(this.currentArtifact);
+                //}
+                //else
+                //{
+                //    Boolean retVal = true;
+                //    this.DeleteFolder(this.currentArtifact, retVal);
+                //}
+                //this.currentArtifact = this.GetArtifact(node.Tag);
+
+                //this.lsvContainer.AttachChildren(this.currentArtifact, isDocumentFirst);
+
+                //if (selectedNode != null)
+                //{
+                //    trv.SelectedNode = selectedNode.Parent;
+                //    trv.Nodes.Remove(selectedNode);
+                //}
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -1325,15 +1339,23 @@ namespace Vanilla.Utility.WinForm
 
         private Boolean DeleteDocument(ArtfFac.Dto artifact)
         {
-            Boolean retVal = true;
-            TreeNode parentNode = this.trvForm.FindNode(this.GetParent(artifact));
+            //Boolean retVal = true;
+            //TreeNode parentNode = this.trvForm.FindNode(this.GetParent(artifact));
 
-            if (parentNode != null)
+            //if (parentNode != null)
+            //{
+            //    retVal = this.DeleteItem(artifact, parentNode);
+            //}
+
+            this.formDto.ModuleFormDto.CurrentArtifact = new ArtfFac.FormDto
             {
-                retVal = this.DeleteItem(artifact, parentNode);
-            }
+                Dto = artifact,
+            };
 
-            return retVal;
+            this.facade = new Facade.Register.Server(this.formDto);
+            this.facade.Delete();
+
+            return (!this.facade.IsError);
         }
 
         private void DeleteFolder(ArtfFac.Dto artifact, Boolean retVal)
@@ -1362,37 +1384,37 @@ namespace Vanilla.Utility.WinForm
             TreeNode node = null;
             //node = this.FindTreeNodeFromTag(artifact, this.trvForm.Nodes, node);
             node = this.trvForm.FindNode(artifact);
-            retVal = this.DeleteItem(artifact, node.Parent);
+            //retVal = this.DeleteItem(artifact, node.Parent);
 
         }
 
-        private Boolean DeleteItem(ArtfFac.Dto artifact, TreeNode parentNode)
-        {
-            this.formDto.ModuleFormDto.CurrentArtifact = new ArtfFac.FormDto
-            {
-                Dto = artifact,
-            };
+        //private Boolean DeleteItem(ArtfFac.Dto artifact, TreeNode parentNode)
+        //{
+        //    this.formDto.ModuleFormDto.CurrentArtifact = new ArtfFac.FormDto
+        //    {
+        //        Dto = artifact,
+        //    };
 
-            this.facade = new Facade.Register.Server(this.formDto);
-            this.facade.Delete();
+        //    this.facade = new Facade.Register.Server(this.formDto);
+        //    this.facade.Delete();
 
-            if (!this.facade.IsError)
-            {
-                this.GetParent(artifact).Children.Remove(artifact);
-            }
-            else
-            {
-                new PresLib.MessageBox
-                {
-                    DialogueType = PresLib.MessageBox.Type.Error,
-                    Heading = "Splash",
-                }.Show("Document contains transactional information. Cannot be deleted.");
+        //    if (!this.facade.IsError)
+        //    {
+        //        this.GetParent(artifact).Children.Remove(artifact);
+        //    }
+        //    else
+        //    {
+        //        new PresLib.MessageBox
+        //        {
+        //            DialogueType = PresLib.MessageBox.Type.Error,
+        //            Heading = "Splash",
+        //        }.Show("Document contains transactional information. Cannot be deleted.");
 
-                return false;
-            }
+        //        return false;
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
         public void SelectAll()
         {
