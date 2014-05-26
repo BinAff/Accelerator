@@ -624,6 +624,12 @@ namespace Vanilla.Utility.WinForm
         private void lsvContainer_MouseDown(object sender, MouseEventArgs e)
         {
             ListViewItem selected = this.lsvContainer.GetItemAt(e.X, e.Y);
+
+            //-- check for null
+            TreeView trv = this.GetActiveTreeView();
+            if (selected == null && trv == null)
+                return;
+
             this.currentArtifact = selected == null ?
                 this.GetActiveTreeView().SelectedNode.Tag as ArtfFac.Dto : selected.Tag as ArtfFac.Dto;
             this.menuClickSource = MenuClickSource.ListView;
