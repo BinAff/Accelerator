@@ -153,6 +153,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\DataSources\Data.datasource" />
     <None Include="Properties\DataSources\Vanilla.Invoice.Facade.Report.Dto.datasource" />
   </ItemGroup>
   <ItemGroup />

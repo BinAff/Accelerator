@@ -627,11 +627,12 @@ namespace Vanilla.Utility.WinForm
 
             //-- check for null
             TreeView trv = this.GetActiveTreeView();
-            if (selected == null && trv == null && trv.SelectedNode == null)
+            if ((selected == null) && (trv == null || trv.SelectedNode == null))
                 return;
 
             this.currentArtifact = selected == null ?
                 trv.SelectedNode.Tag as ArtfFac.Dto : selected.Tag as ArtfFac.Dto;
+
             this.menuClickSource = MenuClickSource.ListView;
             if (e.Button == MouseButtons.Right)
             {

@@ -503,11 +503,12 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public void PopulateInvoiceDto(InvFac.Dto invoiceDto)
         {
             Dto dto = (this.FormDto as DocFac.FormDto).Dto as Dto;
-            Taxation.ITaxation taxation = new Taxation.TaxationServer();
-            ////////////////////////////Hardcoded - Need to take from screen//////////////////////////
-            int D = 1000;
-            List<Taxation.Dto> taxationList = taxation.ReadLodgeTaxation(D); 
-            //////////////////////////////////////////////////////////////////////////////////////////
+
+            //Taxation.ITaxation taxation = new Taxation.TaxationServer();
+            //////////////////////////////Hardcoded - Need to take from screen//////////////////////////
+            //int D = 1000;
+            //List<Taxation.Dto> taxationList = taxation.ReadLodgeTaxation(D); 
+            ////////////////////////////////////////////////////////////////////////////////////////////
 
             //InvFac.Dto invoiceDto = new InvFac.Dto();
             invoiceDto.advance = dto.Reservation.Advance;
@@ -521,9 +522,15 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             this.PopulateSellerInfo(invoiceDto);
             List<LodgeConfFac.Room.Dto> roomList = dto.Reservation.RoomList;
             this.SetRoomDetail(roomList);
+           
             invoiceDto.productList = this.GroupRoomList(roomList);
+            if (dto.Reservation.NoOfDays > 1)
+                invoiceDto.productList = this.GenerateLineItemsForEachDay(dto.Reservation.NoOfDays, invoiceDto.productList);
+
+            //invoiceDto.productList = this.GroupRoomList(roomList);
             this.AttachTariff(invoiceDto.productList);
-            invoiceDto.taxationList = this.ConvertToInvoiceTaxationDto(taxationList);
+            //invoiceDto.taxationList = this.ConvertToInvoiceTaxationDto(taxationList);
+            this.CalculateTax(invoiceDto.productList);
 
         }
 
@@ -584,7 +591,8 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                         roomIsAC = dtoRoom.IsAirconditioned,
                         description = this.GetRoomDescription(dtoRoom.Id),
                         count = 1, //count is basically rooms of same type [i.e. same typeid, categoryId, and Ac] 
-                        endDate = dto.Reservation.BookingFrom.AddDays(dto.Reservation.NoOfDays)
+                        //endDate = dto.Reservation.BookingFrom.AddDays(dto.Reservation.NoOfDays)
+                        endDate = dto.Reservation.BookingFrom.AddDays(1)
                     };
 
                     if (productList.Count == 0)
@@ -608,6 +616,38 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                             productList.Add(productDto);
                         }
                     }
+                }
+            }
+
+            return productList;
+        }
+
+        private List<InvFac.LineItem.Dto> GenerateLineItemsForEachDay(int noOfdays,List<InvFac.LineItem.Dto> lineItems)
+        {
+            List<InvFac.LineItem.Dto> productList = new List<InvFac.LineItem.Dto>();
+            DateTime stDate = DateTime.MinValue;
+
+            for (int i = 0; i < noOfdays; i++)
+            {
+                foreach (InvFac.LineItem.Dto lineItem in lineItems)
+                {
+                    if(i == 0)
+                        stDate = lineItem.startDate;
+
+                    InvFac.LineItem.Dto productDto = new InvFac.LineItem.Dto()
+                    {
+                        Id = lineItem.Id,
+                        startDate = stDate,
+                        roomCategoryId = lineItem.roomCategoryId,
+                        roomTypeId = lineItem.roomTypeId,
+                        roomIsAC = lineItem.roomIsAC,
+                        description = lineItem.description,
+                        count = lineItem.count,
+                        endDate = stDate.AddDays(1)
+                    };
+
+                    productList.Add(productDto);
+                    stDate = stDate.AddDays(1);
                 }
             }
 
@@ -657,25 +697,93 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             }
         }
 
-        private List<InvFac.Taxation.Dto> ConvertToInvoiceTaxationDto(List<Taxation.Dto> taxationList)
+        private void CalculateTax(List<InvFac.LineItem.Dto> roomList)
         {
-            List<InvFac.Taxation.Dto> taxationDtoList = new List<InvFac.Taxation.Dto>();
-            if (taxationList != null && taxationList.Count > 0)
+            Taxation.ITaxation taxation = new Taxation.TaxationServer();
+           
+            foreach (InvFac.LineItem.Dto lineItem in roomList)
             {
-                foreach (Taxation.Dto dto in taxationList)
+                Double totalAmount = lineItem.unitRate * lineItem.count;
+                List<Taxation.Dto> taxationList = taxation.ReadLodgeTaxation(totalAmount);
+
+                lineItem.ServiceTax = CalculateServiceTax(totalAmount, taxationList);
+                lineItem.LuxuaryTax = CalculatLuxuaryTax(totalAmount, taxationList);
+            }
+        }
+
+        private Double CalculateServiceTax(Double amount, List<Taxation.Dto> taxationList)
+        {
+            Double serviceTax = 0;
+            Taxation.Dto tax = null;
+            foreach (Taxation.Dto dto in taxationList)
+            {
+                if (dto.Name == "Service Tax")
                 {
-                    taxationDtoList.Add(new InvFac.Taxation.Dto
-                    {
-                        Id = dto.Id,
-                        Name = dto.Name,
-                        Amount = dto.Amount,
-                        isPercentage = dto.IsPercentage
-                    });
+                    tax = dto;
+                    break;
                 }
             }
 
-            return taxationDtoList;
+            if (tax == null)
+                return 0;
+
+            if (tax.IsPercentage)
+            {
+                serviceTax = amount * (tax.Amount / 100);
+            }
+            else
+                serviceTax = tax.Amount;
+
+
+            return serviceTax;
         }
+
+        private Double CalculatLuxuaryTax(Double amount, List<Taxation.Dto> taxationList)
+        {
+            Double luxuaryTax = 0;
+            Taxation.Dto tax = null;
+            foreach (Taxation.Dto dto in taxationList)
+            {
+                if (dto.Name == "Luxuary Tax")
+                {
+                    tax = dto;
+                    break;
+                }
+            }
+
+            if (tax == null)
+                return 0;
+
+            if (tax.IsPercentage)
+            {
+                luxuaryTax = amount * (tax.Amount / 100);
+            }
+            else
+                luxuaryTax = tax.Amount;
+
+
+            return luxuaryTax;
+        }
+
+        //private List<InvFac.Taxation.Dto> ConvertToInvoiceTaxationDto(List<Taxation.Dto> taxationList)
+        //{
+        //    List<InvFac.Taxation.Dto> taxationDtoList = new List<InvFac.Taxation.Dto>();
+        //    if (taxationList != null && taxationList.Count > 0)
+        //    {
+        //        foreach (Taxation.Dto dto in taxationList)
+        //        {
+        //            taxationDtoList.Add(new InvFac.Taxation.Dto
+        //            {
+        //                Id = dto.Id,
+        //                Name = dto.Name,
+        //                Amount = dto.Amount,
+        //                isPercentage = dto.IsPercentage
+        //            });
+        //        }
+        //    }
+
+        //    return taxationDtoList;
+        //}
 
         public ReturnObject<Boolean> GenerateInvoice()
         {
