@@ -475,30 +475,63 @@ namespace AutoTourism.Lodge.WinForm
         private void btnGenerateInvoice_Click(object sender, EventArgs e)
         {
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
+
+            Vanilla.Invoice.Facade.Dto invoiceDto = new Vanilla.Invoice.Facade.Dto();
+            UtilFac.Artifact.Dto inv;
             if (dto.InvoiceNumber == null || dto.InvoiceNumber == String.Empty)
-            {                   
-                ReturnObject<Boolean> ret = this.GenerateInvoice();
-
-                if (!ret.Value)
-                {
-                    new PresLib.MessageBox
-                    {
-                        DialogueType = PresLib.MessageBox.Type.Error,
-                        Heading = "Splash",
-                    }.Show(ret.MessageList);
-                    return;
-                }
-            }
-
-            if (!String.IsNullOrEmpty(dto.InvoiceNumber))
             {
-                UtilFac.Artifact.Dto inv = this.GetInvoiceArtifact();
-                FrmWin.Document form = new Vanilla.Invoice.WinForm.Invoice(inv);
-                if(inv.Id == 0 ) form.ArtifactSaved += form_ArtifactSaved;
-                form.ShowDialog();
-                //form.MdiParent = this.MdiParent;
-                //form.Show();
+                (base.facade as Facade.CheckIn.CheckInServer).PopulateInvoiceDto(invoiceDto);
+                inv = new UtilFac.Artifact.Dto
+                {         
+                    Id = 5, // to be removed
+                    Module = invoiceDto
+                };
             }
+            else
+            {
+                inv = this.GetInvoiceArtifact();
+            }
+
+            FrmWin.Document form = new Vanilla.Invoice.WinForm.Invoice(inv);
+            if (inv.Id == 0) form.ArtifactSaved += form_ArtifactSaved;
+            form.ShowDialog();
+            form.MdiParent = this.MdiParent;
+            form.Show();
+
+
+            //UtilFac.Artifact.Dto inv = new UtilFac.Artifact.Dto
+            //{               
+            //    Module = invoiceDto
+            //};
+            //FrmWin.Document form = new Vanilla.Invoice.WinForm.Invoice(inv);
+
+            //if (dto.InvoiceNumber == null || dto.InvoiceNumber == String.Empty)
+            //{
+            //    ReturnObject<Boolean> ret = this.GenerateInvoice();
+
+            //    Vanilla.Invoice.Facade.Dto invoiceDto = new Vanilla.Invoice.Facade.Dto();
+            //    (base.facade as Facade.CheckIn.CheckInServer).PopulateInvoiceDto(invoiceDto);
+
+            //    if (!ret.Value)
+            //    {
+            //        new PresLib.MessageBox
+            //        {
+            //            DialogueType = PresLib.MessageBox.Type.Error,
+            //            Heading = "Splash",
+            //        }.Show(ret.MessageList);
+            //        return;
+            //    }
+            //}
+
+            //if (!String.IsNullOrEmpty(dto.InvoiceNumber))
+            //{
+            //    UtilFac.Artifact.Dto inv = this.GetInvoiceArtifact();
+            //    FrmWin.Document form = new Vanilla.Invoice.WinForm.Invoice(inv);
+            //    if(inv.Id == 0 ) form.ArtifactSaved += form_ArtifactSaved;
+            //    form.ShowDialog();
+            //    form.MdiParent = this.MdiParent;
+            //    form.Show();
+            //}
 
             this.Close();
         }
@@ -1084,42 +1117,41 @@ namespace AutoTourism.Lodge.WinForm
             //this.formDto.dto = new LodgeFac.CheckIn.Dto();
         }
 
-        private ReturnObject<Boolean> GenerateInvoice()
-        {
-            ReturnObject<Boolean> ret = new ReturnObject<bool> { Value = true };
+        //private ReturnObject<Boolean> GenerateInvoice()
+        //{
+        //    ReturnObject<Boolean> ret = new ReturnObject<bool> { Value = true };
 
-            Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
-            Facade.CheckIn.Dto dto = formDto.Dto as Facade.CheckIn.Dto;
+        //    Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
+        //    Facade.CheckIn.Dto dto = formDto.Dto as Facade.CheckIn.Dto;
                
-            Vanilla.Invoice.Facade.Dto invoiceDto = new Vanilla.Invoice.Facade.Dto();
-            (base.facade as Facade.CheckIn.CheckInServer).PopulateInvoiceDto(invoiceDto);  
+        //    Vanilla.Invoice.Facade.Dto invoiceDto = new Vanilla.Invoice.Facade.Dto();
+        //    (base.facade as Facade.CheckIn.CheckInServer).PopulateInvoiceDto(invoiceDto);
+
+        //    InvFac.Payment.FormDto paymentFormDto = new InvFac.Payment.FormDto
+        //    {
+        //        ProductList = invoiceDto.productList,
+        //        Advance = invoiceDto.advance,
+        //        TaxationList = invoiceDto.taxationList
+        //    };
+        //    Form form = new Vanilla.Invoice.WinForm.Payment(paymentFormDto);
+        //    form.Owner = this;
+        //    form.ShowDialog();
           
-            InvFac.Payment.FormDto paymentFormDto = new InvFac.Payment.FormDto 
-            {
-                ProductList = invoiceDto.productList,
-                Advance = invoiceDto.advance,
-                TaxationList = invoiceDto.taxationList
-            };
-            Form form = new Vanilla.Invoice.WinForm.Payment(paymentFormDto);
-            form.Owner = this;
-            form.ShowDialog();
-                        
-          
 
-            if (paymentFormDto.PaymentList != null && paymentFormDto.PaymentList.Count > 0)
-            {
-                invoiceDto.paymentList = paymentFormDto.PaymentList;
-                invoiceDto.discount = paymentFormDto.Discount;
-                //invoiceDto.invoiceNumber = paymentFormDto.InvoiceNumber;
+        //    if (paymentFormDto.PaymentList != null && paymentFormDto.PaymentList.Count > 0)
+        //    {
+        //        invoiceDto.paymentList = paymentFormDto.PaymentList;
+        //        invoiceDto.discount = paymentFormDto.Discount;
+        //        //invoiceDto.invoiceNumber = paymentFormDto.InvoiceNumber;
 
-                formDto.InvoiceDto = invoiceDto;
-                ret = (base.facade as Facade.CheckIn.CheckInServer).GenerateInvoice();
-                if (ret.Value)
-                    dto.InvoiceNumber = formDto.InvoiceDto.invoiceNumber;                
-            }
+        //        formDto.InvoiceDto = invoiceDto;
+        //        ret = (base.facade as Facade.CheckIn.CheckInServer).GenerateInvoice();
+        //        if (ret.Value)
+        //            dto.InvoiceNumber = formDto.InvoiceDto.invoiceNumber;                
+        //    }
 
-            return ret;
-        }
+        //    return ret;
+        //}
 
         //private List<InvFac.Taxation.Dto> ConvertToInvoiceTaxationDto(List<Facade.Taxation.Dto> taxationList)
         //{
@@ -1253,13 +1285,13 @@ namespace AutoTourism.Lodge.WinForm
 
         private UtilFac.Artifact.Dto GetInvoiceArtifact()
         {
-            Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;            
+            Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
 
             Facade.CheckIn.ICheckIn checkInServer = new Facade.CheckIn.CheckInServer(base.formDto as LodgeFac.CheckIn.FormDto);
             Vanilla.Invoice.Facade.Dto invoiceDto = checkInServer.ReadInvoice(dto.InvoiceNumber);
 
             UtilFac.Artifact.Dto invoiceArtifact = (base.facade as Facade.CheckIn.CheckInServer).GetInvoiceArtifact(dto.InvoiceNumber);
-         
+
             return new UtilFac.Artifact.Dto
             {
                 Id = invoiceArtifact == null ? 0 : invoiceArtifact.Id,

@@ -110,7 +110,8 @@ namespace Vanilla.Invoice.WinForm
 
             String lineItemTotal = "122";
             ReportParameter[] p = new ReportParameter[13];
-            p[0] = new ReportParameter("InvoiceNumber", dto.invoiceNumber);
+            //p[0] = new ReportParameter("InvoiceNumber", dto.invoiceNumber);
+            p[0] = new ReportParameter("InvoiceNumber", "test");
             p[1] = new ReportParameter("SellerName", dto.seller.Name);
             p[2] = new ReportParameter("SellerAddress", dto.seller.Address);
             p[3] = new ReportParameter("SellerContactNo", dto.seller.ContactNumber);
@@ -141,7 +142,7 @@ namespace Vanilla.Invoice.WinForm
             //Facade.Dto dto = base.formDto.Dto as Facade.Dto;
             List<Data> invoiceList = new List<Data>();
 
-            Double lineItemTotal = 0;
+            //Double lineItemTotal = 0;
             foreach (Facade.LineItem.Dto lineItem in dto.productList)
             {
                 invoiceList.Add(new Data
@@ -152,70 +153,85 @@ namespace Vanilla.Invoice.WinForm
                     Description = lineItem.description,
                     UnitRate = lineItem.unitRate.ToString(),
                     Count = lineItem.count.ToString(),
-                    Total = (lineItem.unitRate * lineItem.count).ToString()
+                    Total = (lineItem.unitRate * lineItem.count).ToString(),
+                    ServiceTax = lineItem.ServiceTax.ToString(),
+                    LuxuaryTax = lineItem.LuxuaryTax.ToString(),
+                    GrandTotal = (lineItem.ServiceTax + lineItem.LuxuaryTax + (lineItem.unitRate * lineItem.count)).ToString()
                 });
-                lineItemTotal += (lineItem.unitRate * lineItem.count);
+                //lineItemTotal += (lineItem.unitRate * lineItem.count);
             }
 
-            //add tax
-            Facade.IInvoice invoiceServer = new Facade.Server(null);
-            Double total = lineItemTotal;
-            List<Table> taxList = invoiceServer.CalulateTaxList(lineItemTotal, dto.taxationList);
-            if (taxList != null && taxList.Count > 0)
-            {
-                foreach (Table tax in taxList)
-                {
-                    total += tax.Value;
+            //calculate grand total
+            //foreach (Data data in invoiceList)
+            //{
+            //    Double gndTotal = String.IsNullOrEmpty(data.Total) ? 0 : Convert.ToDouble(data.Total);
+            //    gndTotal += String.IsNullOrEmpty(data.LuxuaryTax) ? 0 : Convert.ToDouble(data.LuxuaryTax);
+            //    gndTotal += String.IsNullOrEmpty(data.ServiceTax) ? 0 : Convert.ToDouble(data.ServiceTax);
 
-                    invoiceList.Add(new Data
-                    {
-                        colId = "Tx",
-                        name = tax.Name,
-                        value = tax.Value.ToString()
-                    });
-                }
-            }
+            //    data.GrandTotal = gndTotal.ToString();
+            //}
 
-            invoiceList.Add(new Data
-            {
-                colId = "T",
-                name = "Total",
-                value = total.ToString()
-            });
+            ////add tax
+            //Facade.IInvoice invoiceServer = new Facade.Server(null);
+            //Double total = lineItemTotal;
+            //List<Table> taxList = invoiceServer.CalulateTaxList(lineItemTotal, dto.taxationList);
+            //if (taxList != null && taxList.Count > 0)
+            //{
+            //    foreach (Table tax in taxList)
+            //    {
+            //        total += tax.Value;
 
-            Double grandTotal = total;
-            if (dto.advance > 0)
-            {
-                grandTotal = grandTotal - dto.advance;
-                invoiceList.Add(new Data
-                {
-                    colId = "A",
-                    name = "Advance",
-                    value = dto.advance.ToString()
-                });
-            }
+            //        invoiceList.Add(new Data
+            //        {
+            //            colId = "Tx",
+            //            name = tax.Name,
+            //            value = tax.Value.ToString()
+            //        });
+            //    }
+            //}
 
-            if (dto.discount > 0)
-            {
-                grandTotal = grandTotal - dto.discount;
-                invoiceList.Add(new Data
-                {
-                    colId = "D",
-                    name = "Discount",
-                    value = dto.discount.ToString()
-                });
-            }
+            //invoiceList.Add(new Data
+            //{
+            //    colId = "T",
+            //    name = "Total",
+            //    value = total.ToString()
+            //});
 
-            invoiceList.Add(new Data
-            {
-                colId = "Gt",
-                name = "Grand Total",
-                value = grandTotal.ToString()
-            });
+            //Double grandTotal = total;
+            //if (dto.advance > 0)
+            //{
+            //    grandTotal = grandTotal - dto.advance;
+            //    invoiceList.Add(new Data
+            //    {
+            //        colId = "A",
+            //        name = "Advance",
+            //        value = dto.advance.ToString()
+            //    });
+            //}
+
+            //if (dto.discount > 0)
+            //{
+            //    grandTotal = grandTotal - dto.discount;
+            //    invoiceList.Add(new Data
+            //    {
+            //        colId = "D",
+            //        name = "Discount",
+            //        value = dto.discount.ToString()
+            //    });
+            //}
+
+            //invoiceList.Add(new Data
+            //{
+            //    colId = "Gt",
+            //    name = "Grand Total",
+            //    value = grandTotal.ToString()
+            //});
             
 
             return invoiceList;
         }
+
+       
 
     }
 }
