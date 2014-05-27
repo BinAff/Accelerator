@@ -95,7 +95,8 @@ namespace Vanilla.Form.WinForm
             if (!this.ValidateForm()) return false;
             if (!this.SaveBefore()) return false;
 
-            this.AssignDto();
+            //this.AssignDto();
+            this.PopulateDataToForm();
 
             if (base.formDto.Dto.Id == 0)
             {
@@ -142,7 +143,8 @@ namespace Vanilla.Form.WinForm
             if (this.formDto.Dto.Id > 0)
             {
                 this.RevertForm();
-                this.AssignDto();
+                //this.AssignDto();
+                this.PopulateDataToForm();
             }
             else
             {
