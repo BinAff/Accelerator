@@ -59,6 +59,8 @@
             this.btnOpen = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.lblRoomStatus = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.picPhoto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -139,7 +141,7 @@
             // chkIsAC
             // 
             this.chkIsAC.AutoSize = true;
-            this.chkIsAC.Location = new System.Drawing.Point(202, 228);
+            this.chkIsAC.Location = new System.Drawing.Point(202, 258);
             this.chkIsAC.Name = "chkIsAC";
             this.chkIsAC.Size = new System.Drawing.Size(97, 17);
             this.chkIsAC.TabIndex = 8;
@@ -204,7 +206,7 @@
             this.cboRoomList.FormattingEnabled = true;
             this.cboRoomList.Location = new System.Drawing.Point(9, 11);
             this.cboRoomList.Name = "cboRoomList";
-            this.cboRoomList.Size = new System.Drawing.Size(184, 234);
+            this.cboRoomList.Size = new System.Drawing.Size(184, 286);
             this.cboRoomList.Sorted = true;
             this.cboRoomList.TabIndex = 54;
             this.cboRoomList.SelectedIndexChanged += new System.EventHandler(this.cboRoomList_SelectedIndexChanged);
@@ -319,7 +321,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(202, 267);
+            this.label5.Location = new System.Drawing.Point(202, 283);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(68, 13);
             this.label5.TabIndex = 86;
@@ -333,11 +335,30 @@
             this.lblRoomStatus.Size = new System.Drawing.Size(0, 13);
             this.lblRoomStatus.TabIndex = 87;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(199, 233);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(57, 13);
+            this.label9.TabIndex = 88;
+            this.label9.Text = "Bed Count";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(262, 230);
+            this.textBox1.MaxLength = 50;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(32, 20);
+            this.textBox1.TabIndex = 89;
+            // 
             // Room
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(732, 293);
+            this.ClientSize = new System.Drawing.Size(732, 305);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.lblRoomStatus);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btnOpen);
@@ -413,5 +434,7 @@
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.Label lblRoomStatus;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label9;
     }
 }
