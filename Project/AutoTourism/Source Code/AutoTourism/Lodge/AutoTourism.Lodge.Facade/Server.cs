@@ -60,7 +60,7 @@ namespace AutoTourism.Lodge.Facade
                 LicenceNumber = lodge.LicenceNumber == null ? String.Empty : lodge.LicenceNumber,
                 Tan = lodge.Tan == null ? String.Empty : lodge.Tan,
                 ServiceTaxNumber = lodge.ServiceTaxNumber == null ? String.Empty : lodge.ServiceTaxNumber,
-                LuxuaryTaxNumber = lodge.LuxuaryTaxNumber == null ? String.Empty : lodge.LuxuaryTaxNumber,
+                LuxuryTaxNumber = lodge.LuxuryTaxNumber == null ? String.Empty : lodge.LuxuryTaxNumber,
                 Address = lodge.Address == null ? String.Empty : lodge.Address,
                 City = lodge.City == null ? String.Empty : lodge.City,
                 State = lodge.State == null ? null : new Table
@@ -87,7 +87,7 @@ namespace AutoTourism.Lodge.Facade
                 LicenceNumber = lodge.LicenceNumber,
                 Tan = lodge.Tan,
                 ServiceTaxNumber = lodge.ServiceTaxNumber,
-                LuxuaryTaxNumber = lodge.LuxuaryTaxNumber,
+                LuxuryTaxNumber = lodge.LuxuryTaxNumber,
                 Address = lodge.Address,
                 City = lodge.City,
                 State = new StateComponent.Data
