@@ -78,6 +78,7 @@
             this.txtTotalBooked = new System.Windows.Forms.TextBox();
             this.btnCheckOut = new System.Windows.Forms.Button();
             this.btnGenerateInvoice = new System.Windows.Forms.Button();
+            this.btnPay = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -134,6 +135,7 @@
             // 
             // txtTotalRoomWithFilter
             // 
+            this.txtTotalRoomWithFilter.Enabled = false;
             this.txtTotalRoomWithFilter.Location = new System.Drawing.Point(100, 17);
             this.txtTotalRoomWithFilter.Name = "txtTotalRoomWithFilter";
             this.txtTotalRoomWithFilter.Size = new System.Drawing.Size(19, 20);
@@ -152,6 +154,7 @@
             // 
             // txtAvailableRooms
             // 
+            this.txtAvailableRooms.Enabled = false;
             this.txtAvailableRooms.Location = new System.Drawing.Point(260, 19);
             this.txtAvailableRooms.Name = "txtAvailableRooms";
             this.txtAvailableRooms.Size = new System.Drawing.Size(19, 20);
@@ -495,7 +498,7 @@
             // lblTotalRoom
             // 
             this.lblTotalRoom.AutoSize = true;
-            this.lblTotalRoom.Location = new System.Drawing.Point(636, 254);
+            this.lblTotalRoom.Location = new System.Drawing.Point(610, 284);
             this.lblTotalRoom.Name = "lblTotalRoom";
             this.lblTotalRoom.Size = new System.Drawing.Size(67, 13);
             this.lblTotalRoom.TabIndex = 117;
@@ -504,7 +507,7 @@
             // 
             // txtTotalRoom
             // 
-            this.txtTotalRoom.Location = new System.Drawing.Point(654, 276);
+            this.txtTotalRoom.Location = new System.Drawing.Point(675, 281);
             this.txtTotalRoom.Name = "txtTotalRoom";
             this.txtTotalRoom.Size = new System.Drawing.Size(49, 20);
             this.txtTotalRoom.TabIndex = 118;
@@ -513,7 +516,7 @@
             // lblBookedRoom
             // 
             this.lblBookedRoom.AutoSize = true;
-            this.lblBookedRoom.Location = new System.Drawing.Point(621, 199);
+            this.lblBookedRoom.Location = new System.Drawing.Point(610, 265);
             this.lblBookedRoom.Name = "lblBookedRoom";
             this.lblBookedRoom.Size = new System.Drawing.Size(107, 13);
             this.lblBookedRoom.TabIndex = 119;
@@ -522,7 +525,7 @@
             // 
             // txtTotalBooked
             // 
-            this.txtTotalBooked.Location = new System.Drawing.Point(634, 215);
+            this.txtTotalBooked.Location = new System.Drawing.Point(680, 258);
             this.txtTotalBooked.Name = "txtTotalBooked";
             this.txtTotalBooked.Size = new System.Drawing.Size(49, 20);
             this.txtTotalBooked.TabIndex = 121;
@@ -548,11 +551,22 @@
             this.btnGenerateInvoice.UseVisualStyleBackColor = true;
             this.btnGenerateInvoice.Click += new System.EventHandler(this.btnGenerateInvoice_Click);
             // 
+            // btnPay
+            // 
+            this.btnPay.Location = new System.Drawing.Point(654, 128);
+            this.btnPay.Name = "btnPay";
+            this.btnPay.Size = new System.Drawing.Size(75, 23);
+            this.btnPay.TabIndex = 129;
+            this.btnPay.Text = "Pay";
+            this.btnPay.UseVisualStyleBackColor = true;
+            // 
             // CheckInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(736, 339);
+            this.Controls.Add(this.lblBookedRoom);
+            this.Controls.Add(this.btnPay);
             this.Controls.Add(this.btnGenerateInvoice);
             this.Controls.Add(this.cboAC);
             this.Controls.Add(this.btnCheckOut);
@@ -562,7 +576,6 @@
             this.Controls.Add(this.cboCategory);
             this.Controls.Add(this.lblCategory);
             this.Controls.Add(this.txtTotalBooked);
-            this.Controls.Add(this.lblBookedRoom);
             this.Controls.Add(this.txtTotalRoom);
             this.Controls.Add(this.lblTotalRoom);
             this.Controls.Add(this.dtFromTime);
@@ -649,5 +662,6 @@
         private System.Windows.Forms.Label lblTotalRoomWithFilter;
         private System.Windows.Forms.Button btnCheckOut;
         private System.Windows.Forms.Button btnGenerateInvoice;
+        private System.Windows.Forms.Button btnPay;
     }
 }

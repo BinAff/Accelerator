@@ -8,7 +8,7 @@ namespace AutoTourism.Lodge.Facade.Taxation
 
         public String Name { get; set; }
         public Double Amount { get; set; }
-        public Boolean isPercentage { get; set; }
+        public Boolean IsPercentage { get; set; }
 
     }
 

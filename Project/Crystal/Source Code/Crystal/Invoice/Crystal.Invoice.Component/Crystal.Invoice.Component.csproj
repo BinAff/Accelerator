@@ -81,12 +81,22 @@
     <Compile Include="Server.cs" />
     <Compile Include="Taxation\Dao.cs" />
     <Compile Include="Taxation\Data.cs" />
+    <Compile Include="Taxation\ITaxation.cs" />
     <Compile Include="Taxation\Server.cs" />
+    <Compile Include="Taxation\Slab\Dao.cs" />
+    <Compile Include="Taxation\Slab\Data.cs" />
+    <Content Include="Taxation\Slab\Database\ReadForParent.sql" />
+    <Compile Include="Taxation\Slab\Server.cs" />
+    <Compile Include="Taxation\Slab\Validator.cs" />
     <Compile Include="Taxation\Validator.cs" />
     <Compile Include="Validator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Taxation\Database\Read.sql" />
+    <Content Include="Taxation\Slab\Database\Create.sql" />
     <Content Include="DBScript.sql" />
+    <Content Include="Taxation\Slab\Database\Read.sql" />
+    <Content Include="Taxation\Slab\Database\ReadAll.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
