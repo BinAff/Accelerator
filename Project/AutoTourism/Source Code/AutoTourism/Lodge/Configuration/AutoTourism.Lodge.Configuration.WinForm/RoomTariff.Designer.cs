@@ -53,6 +53,7 @@
             this.rdoAll = new System.Windows.Forms.RadioButton();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnChange = new System.Windows.Forms.Button();
+            this.chkIsExtraBed = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTariff)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -96,7 +97,7 @@
             // chkIsAC
             // 
             this.chkIsAC.AutoSize = true;
-            this.chkIsAC.Location = new System.Drawing.Point(561, 92);
+            this.chkIsAC.Location = new System.Drawing.Point(564, 92);
             this.chkIsAC.Name = "chkIsAC";
             this.chkIsAC.Size = new System.Drawing.Size(97, 17);
             this.chkIsAC.TabIndex = 79;
@@ -105,7 +106,7 @@
             // 
             // txtRate
             // 
-            this.txtRate.Location = new System.Drawing.Point(616, 167);
+            this.txtRate.Location = new System.Drawing.Point(616, 190);
             this.txtRate.Name = "txtRate";
             this.txtRate.Size = new System.Drawing.Size(142, 20);
             this.txtRate.TabIndex = 81;
@@ -113,7 +114,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(561, 171);
+            this.label8.Location = new System.Drawing.Point(561, 194);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(30, 13);
             this.label8.TabIndex = 80;
@@ -121,14 +122,14 @@
             // 
             // dtStartDate
             // 
-            this.dtStartDate.Location = new System.Drawing.Point(616, 115);
+            this.dtStartDate.Location = new System.Drawing.Point(616, 138);
             this.dtStartDate.Name = "dtStartDate";
             this.dtStartDate.Size = new System.Drawing.Size(142, 20);
             this.dtStartDate.TabIndex = 82;
             // 
             // dtEndDate
             // 
-            this.dtEndDate.Location = new System.Drawing.Point(616, 141);
+            this.dtEndDate.Location = new System.Drawing.Point(616, 164);
             this.dtEndDate.Name = "dtEndDate";
             this.dtEndDate.Size = new System.Drawing.Size(142, 20);
             this.dtEndDate.TabIndex = 83;
@@ -136,7 +137,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(561, 119);
+            this.label2.Location = new System.Drawing.Point(561, 142);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 13);
             this.label2.TabIndex = 84;
@@ -145,7 +146,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(561, 145);
+            this.label5.Location = new System.Drawing.Point(561, 168);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(52, 13);
             this.label5.TabIndex = 85;
@@ -278,11 +279,22 @@
             this.btnChange.UseVisualStyleBackColor = true;
             this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
             // 
+            // chkIsExtraBed
+            // 
+            this.chkIsExtraBed.AutoSize = true;
+            this.chkIsExtraBed.Location = new System.Drawing.Point(564, 115);
+            this.chkIsExtraBed.Name = "chkIsExtraBed";
+            this.chkIsExtraBed.Size = new System.Drawing.Size(72, 17);
+            this.chkIsExtraBed.TabIndex = 138;
+            this.chkIsExtraBed.Text = "Extra Bed";
+            this.chkIsExtraBed.UseVisualStyleBackColor = true;
+            // 
             // RoomTariff
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 279);
+            this.Controls.Add(this.chkIsExtraBed);
             this.Controls.Add(this.btnChange);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.rdoAll);
@@ -336,5 +348,6 @@
         private System.Windows.Forms.RadioButton rdoCurrent;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnChange;
+        private System.Windows.Forms.CheckBox chkIsExtraBed;
     }
 }
