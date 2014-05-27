@@ -31,7 +31,7 @@ namespace Crystal.Organization.Component
             base.AddInParameter("@LicenceNumber", DbType.String, ((Data)this.Data).LicenceNumber);
             base.AddInParameter("@Tan", DbType.String, ((Data)this.Data).Tan);
             base.AddInParameter("@ServiceTaxNumber", DbType.String, ((Data)this.Data).ServiceTaxNumber);
-            base.AddInParameter("@LuxuaryTaxNumber", DbType.String, ((Data)this.Data).LuxuaryTaxNumber);
+            base.AddInParameter("@LuxuaryTaxNumber", DbType.String, ((Data)this.Data).LuxuryTaxNumber);
             base.AddInParameter("@Address", DbType.String, ((Data)this.Data).Address);
             base.AddInParameter("@City", DbType.String, ((Data)this.Data).City);
             base.AddInParameter("@StateId", DbType.String, ((Data)this.Data).State.Id);
@@ -53,7 +53,7 @@ namespace Crystal.Organization.Component
                 dt.LicenceNumber = Convert.IsDBNull(row["LicenceNumber"]) ? String.Empty : Convert.ToString(row["LicenceNumber"]);
                 dt.Tan = Convert.IsDBNull(row["Tan"]) ? String.Empty : Convert.ToString(row["Tan"]);
                 dt.ServiceTaxNumber = Convert.IsDBNull(row["ServiceTaxNumber"]) ? String.Empty : Convert.ToString(row["ServiceTaxNumber"]);
-                dt.LuxuaryTaxNumber = Convert.IsDBNull(row["LuxuaryTaxNumber"]) ? String.Empty : Convert.ToString(row["LuxuaryTaxNumber"]);
+                dt.LuxuryTaxNumber = Convert.IsDBNull(row["LuxuaryTaxNumber"]) ? String.Empty : Convert.ToString(row["LuxuaryTaxNumber"]);
                 dt.Address = Convert.IsDBNull(row["Address"]) ? String.Empty : Convert.ToString(row["Address"]);
                 dt.City = Convert.IsDBNull(row["City"]) ? String.Empty : Convert.ToString(row["City"]);
                 dt.State = Convert.IsDBNull(row["StateId"]) ? null : new Crystal.Configuration.Component.State.Data
