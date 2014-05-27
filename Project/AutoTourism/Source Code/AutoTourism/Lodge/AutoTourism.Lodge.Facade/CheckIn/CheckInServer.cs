@@ -15,11 +15,12 @@ using RoomChkCrys = Crystal.Lodge.Component.Room.CheckIn;
 using CustAuto = AutoTourism.Component.Customer;
 using InvFac = Vanilla.Invoice.Facade;
 using TarrifFac = AutoTourism.Lodge.Configuration.Facade.Tariff;
+using DocFac = Vanilla.Form.Facade.Document;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
 
-    public class CheckInServer : Vanilla.Form.Facade.Document.Server, ICheckIn
+    public class CheckInServer : DocFac.Server, ICheckIn
     {       
 
         public CheckInServer(FormDto formDto)
@@ -233,16 +234,16 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             checkIn.ModifyCheckInStatus(System.Convert.ToInt64(CheckInStatus.CheckOut));
         }
 
-        //ReturnObject<bool> ICheckIn.PaymentInsert(Vanilla.Invoice.Facade.FormDto invoiceFormDto, Table currentUser, Vanilla.Utility.Facade.Artifact.Dto artifactDto)
+        //ReturnObject<bool> ICheckIn.PaymentInsert(InvFac.FormDto invoiceFormDto, Table currentUser, Vanilla.Utility.Facade.Artifact.Dto artifactDto)
         //{
         //    return this.MakePayment(invoiceFormDto, currentUser, artifactDto);            
         //}
 
-        //private ReturnObject<Boolean> MakePayment(Vanilla.Invoice.Facade.FormDto invoiceFormDto, Table currentUser, Vanilla.Utility.Facade.Artifact.Dto artifactDto)
+        //private ReturnObject<Boolean> MakePayment(InvFac.FormDto invoiceFormDto, Table currentUser, Vanilla.Utility.Facade.Artifact.Dto artifactDto)
         //{
         //    ReturnObject<Boolean> ret = new ReturnObject<bool>();
 
-        //    Vanilla.Invoice.Facade.Dto invoiceDto = invoiceFormDto.dto;
+        //    InvFac.Dto invoiceDto = invoiceFormDto.dto;
         //    AutoTourism.Component.Customer.Data autoCustomer = new AutoTourism.Component.Customer.Data
         //    {
         //        Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
@@ -280,12 +281,12 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    return ret;
         //}
 
-        //ReturnObject<bool> ICheckIn.PaymentInsert(Vanilla.Invoice.Facade.Dto invoiceDto)
+        //ReturnObject<bool> ICheckIn.PaymentInsert(InvFac.Dto invoiceDto)
         //{
         //    return this.MakePayment(invoiceDto);
         //}
 
-        //private ReturnObject<Boolean> MakePayment(Vanilla.Invoice.Facade.Dto invoiceDto)
+        //private ReturnObject<Boolean> MakePayment(InvFac.Dto invoiceDto)
         //{
         //    ReturnObject<Boolean> ret = new ReturnObject<bool>();
                         
@@ -322,7 +323,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         //private BinAff.Core.Data ConvertToInvoiceData(BinAff.Facade.Library.Dto dto)
         //{
-        //    Vanilla.Invoice.Facade.Dto invoiceDto = dto as Vanilla.Invoice.Facade.Dto;
+        //    InvFac.Dto invoiceDto = dto as InvFac.Dto;
 
         //    return new Crystal.Invoice.Component.Data()
         //    {
@@ -338,7 +339,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    };
         //}
 
-        //private Crystal.Invoice.Component.Seller GetSeller(Vanilla.Invoice.Facade.Seller.Dto seller)
+        //private Crystal.Invoice.Component.Seller GetSeller(InvFac.Seller.Dto seller)
         //{
         //    return new Crystal.Invoice.Component.Seller
         //    {
@@ -350,7 +351,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    };
         //}
 
-        //private Crystal.Invoice.Component.Buyer GetBuyer(Vanilla.Invoice.Facade.Buyer.Dto buyer)
+        //private Crystal.Invoice.Component.Buyer GetBuyer(InvFac.Buyer.Dto buyer)
         //{
         //    return new Crystal.Invoice.Component.Buyer
         //    {
@@ -361,12 +362,12 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    };
         //}
 
-        //private List<BinAff.Core.Data> GetLineItem(List<Vanilla.Invoice.Facade.LineItem.Dto> roomList)
+        //private List<BinAff.Core.Data> GetLineItem(List<InvFac.LineItem.Dto> roomList)
         //{
         //    List<BinAff.Core.Data> lineItemList = new List<Data>();
         //    if (roomList != null && roomList.Count > 0)
         //    {
-        //        foreach (Vanilla.Invoice.Facade.LineItem.Dto lineItem in roomList)
+        //        foreach (InvFac.LineItem.Dto lineItem in roomList)
         //        {
         //            lineItemList.Add(new Crystal.Invoice.Component.LineItem.Data
         //            {
@@ -382,12 +383,12 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    return lineItemList;
         //}
 
-        //private List<BinAff.Core.Data> GetTaxation(List<Vanilla.Invoice.Facade.Taxation.Dto> taxationList)
+        //private List<BinAff.Core.Data> GetTaxation(List<InvFac.Taxation.Dto> taxationList)
         //{
         //    List<BinAff.Core.Data> taxationDataList = new List<Data>();
         //    if (taxationList != null && taxationList.Count > 0)
         //    {
-        //        foreach (Vanilla.Invoice.Facade.Taxation.Dto dto in taxationList)
+        //        foreach (InvFac.Taxation.Dto dto in taxationList)
         //        {
         //            taxationDataList.Add(new Crystal.Invoice.Component.Taxation.Data
         //            {
@@ -401,12 +402,12 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    return taxationDataList;
         //}
 
-        //private List<BinAff.Core.Data> GetPayments(List<Vanilla.Invoice.Facade.Payment.Dto> paymentList)
+        //private List<BinAff.Core.Data> GetPayments(List<InvFac.Payment.Dto> paymentList)
         //{
         //    List<BinAff.Core.Data> paymentDataList = new List<Data>();
         //    if (paymentList != null && paymentList.Count > 0)
         //    {
-        //        foreach (Vanilla.Invoice.Facade.Payment.Dto dto in paymentList)
+        //        foreach (InvFac.Payment.Dto dto in paymentList)
         //        {
         //            paymentDataList.Add(new Crystal.Invoice.Component.Payment.Data
         //            {
@@ -428,9 +429,9 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return checkIn.UpdateInvoiceNumber(invoiceNumber);
         }
 
-        private Boolean SaveArtifact(Vanilla.Invoice.Facade.FormDto invoiceFormDto, Table currentUser, Vanilla.Utility.Facade.Artifact.Dto artifactDto)
+        private Boolean SaveArtifact(InvFac.FormDto invoiceFormDto, Table currentUser, Vanilla.Utility.Facade.Artifact.Dto artifactDto)
         {
-            //Vanilla.Invoice.Facade.Dto invoiceDto = invoiceFormDto.dto;
+            //InvFac.Dto invoiceDto = invoiceFormDto.dto;
            
             //artifactDto.Module = invoiceDto;
             //artifactDto.Style = Vanilla.Utility.Facade.Artifact.Type.Document;
@@ -459,13 +460,13 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             ////    Path = invoiceDto.artifactPath
             ////};
             
-            //new Vanilla.Invoice.Facade.Server(invoiceFormDto).SaveArtifactForReservation(artifactDto);
+            //new InvFac.Server(invoiceFormDto).SaveArtifactForReservation(artifactDto);
             return true;
         }
 
-        private Vanilla.Invoice.Facade.Dto ReadInvoice(String invoiceNumber)
+        private InvFac.Dto ReadInvoice(String invoiceNumber)
         {
-            Vanilla.Invoice.Facade.Dto invoiceDto = null;
+            InvFac.Dto invoiceDto = null;
             //Crystal.Invoice.Component.IInvoice invoice = new Crystal.Invoice.Component.Server(new Crystal.Invoice.Component.Data());
             //ReturnObject<Crystal.Invoice.Component.Data> retVal = invoice.GetInvoice(invoiceNumber);
 
@@ -473,12 +474,12 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             ReturnObject<Crystal.Invoice.Component.Data> retVal = invoice.GetInvoice(invoiceNumber);
 
             if (retVal != null)
-                invoiceDto = new Vanilla.Invoice.Facade.Server(null).Convert(retVal.Value) as Vanilla.Invoice.Facade.Dto;
+                invoiceDto = new InvFac.Server(null).Convert(retVal.Value) as InvFac.Dto;
 
             return invoiceDto;
         }
         
-        Vanilla.Invoice.Facade.Dto ICheckIn.ReadInvoice(string invoiceNumber)
+        InvFac.Dto ICheckIn.ReadInvoice(string invoiceNumber)
         {
             return this.ReadInvoice(invoiceNumber);
         }
@@ -499,15 +500,18 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data, Crystal.Lodge.Component";
         }
 
-        public void PopulateInvoiceDto(Vanilla.Invoice.Facade.Dto invoiceDto)
+        public void PopulateInvoiceDto(InvFac.Dto invoiceDto)
         {
-            Dto dto = (this.FormDto as Vanilla.Form.Facade.Document.FormDto).Dto as Dto;
-            Facade.Taxation.ITaxation taxation = new Facade.Taxation.TaxationServer();
-            List<Facade.Taxation.Dto> taxationList = taxation.ReadLodgeTaxation();
+            Dto dto = (this.FormDto as DocFac.FormDto).Dto as Dto;
+            Taxation.ITaxation taxation = new Taxation.TaxationServer();
+            ////////////////////////////Hardcoded - Need to take from screen//////////////////////////
+            int D = 1000;
+            List<Taxation.Dto> taxationList = taxation.ReadLodgeTaxation(D); 
+            //////////////////////////////////////////////////////////////////////////////////////////
 
-            //Vanilla.Invoice.Facade.Dto invoiceDto = new Vanilla.Invoice.Facade.Dto();
+            //InvFac.Dto invoiceDto = new InvFac.Dto();
             invoiceDto.advance = dto.Reservation.Advance;
-            invoiceDto.buyer = dto.Reservation.Customer == null ? null : new Vanilla.Invoice.Facade.Buyer.Dto
+            invoiceDto.buyer = dto.Reservation.Customer == null ? null : new InvFac.Buyer.Dto
             {
                 Name = dto.Reservation.Customer.Name,
                 Address = dto.Reservation.Customer.Address,
@@ -523,14 +527,14 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         }
 
-        private void PopulateSellerInfo(Vanilla.Invoice.Facade.Dto invoiceDto)
+        private void PopulateSellerInfo(InvFac.Dto invoiceDto)
         {
             //populate seller info
             LodgeFacade.FormDto formDto = new LodgeFacade.FormDto();
             LodgeFacade.Server facade = new LodgeFacade.Server(formDto);
             facade.LoadForm();
 
-            invoiceDto.seller = formDto.Lodge == null ? null : new Vanilla.Invoice.Facade.Seller.Dto
+            invoiceDto.seller = formDto.Lodge == null ? null : new InvFac.Seller.Dto
             {
                 Id = formDto.Lodge.Id,
                 Name = formDto.Lodge.Name,
@@ -544,7 +548,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         private void SetRoomDetail(List<LodgeConfFac.Room.Dto> roomList)
         {
-            FormDto formDto = (this.FormDto as Vanilla.Form.Facade.Document.FormDto) as FormDto;
+            FormDto formDto = (this.FormDto as DocFac.FormDto) as FormDto;
 
             foreach (LodgeConfFac.Room.Dto dto in roomList)
             {
@@ -563,7 +567,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         private List<InvFac.LineItem.Dto> GroupRoomList(List<LodgeConfFac.Room.Dto> roomList)
         {
-            Dto dto = (this.FormDto as Vanilla.Form.Facade.Document.FormDto).Dto as Dto;
+            Dto dto = (this.FormDto as DocFac.FormDto).Dto as Dto;
             List<InvFac.LineItem.Dto> productList = new List<InvFac.LineItem.Dto>();
             Boolean blnAdd = false;
 
@@ -571,7 +575,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 foreach (LodgeConfFac.Room.Dto dtoRoom in roomList)
                 {
-                    Vanilla.Invoice.Facade.LineItem.Dto productDto = new InvFac.LineItem.Dto()
+                    InvFac.LineItem.Dto productDto = new InvFac.LineItem.Dto()
                     {
                         Id = dtoRoom.Id,
                         startDate = dto.Reservation.BookingFrom,
@@ -612,7 +616,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         private String GetRoomDescription(Int64 roomId)
         {
-            FormDto formDto = (this.FormDto as Vanilla.Form.Facade.Document.FormDto) as FormDto;
+            FormDto formDto = (this.FormDto as DocFac.FormDto) as FormDto;
 
             String roomDescription = String.Empty;
             if (formDto.roomList != null && formDto.roomList.Count > 0)
@@ -638,7 +642,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
             if (tariffList != null && tariffList.Count > 0)
             {
-                foreach (Vanilla.Invoice.Facade.LineItem.Dto roomDto in roomList)
+                foreach (InvFac.LineItem.Dto roomDto in roomList)
                 {
                     foreach (TarrifFac.Dto tariffDto in tariffList)
                     {
@@ -653,19 +657,19 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             }
         }
 
-        private List<InvFac.Taxation.Dto> ConvertToInvoiceTaxationDto(List<Facade.Taxation.Dto> taxationList)
+        private List<InvFac.Taxation.Dto> ConvertToInvoiceTaxationDto(List<Taxation.Dto> taxationList)
         {
             List<InvFac.Taxation.Dto> taxationDtoList = new List<InvFac.Taxation.Dto>();
             if (taxationList != null && taxationList.Count > 0)
             {
-                foreach (Facade.Taxation.Dto dto in taxationList)
+                foreach (Taxation.Dto dto in taxationList)
                 {
                     taxationDtoList.Add(new InvFac.Taxation.Dto
                     {
                         Id = dto.Id,
                         Name = dto.Name,
                         Amount = dto.Amount,
-                        isPercentage = dto.isPercentage
+                        isPercentage = dto.IsPercentage
                     });
                 }
             }
