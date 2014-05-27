@@ -60,7 +60,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.lblRoomStatus = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtBedCount = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.picPhoto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -344,20 +344,20 @@
             this.label9.TabIndex = 88;
             this.label9.Text = "Bed Count";
             // 
-            // textBox1
+            // txtBedCount
             // 
-            this.textBox1.Location = new System.Drawing.Point(262, 230);
-            this.textBox1.MaxLength = 50;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(32, 20);
-            this.textBox1.TabIndex = 89;
+            this.txtBedCount.Location = new System.Drawing.Point(262, 230);
+            this.txtBedCount.MaxLength = 50;
+            this.txtBedCount.Name = "txtBedCount";
+            this.txtBedCount.Size = new System.Drawing.Size(32, 20);
+            this.txtBedCount.TabIndex = 89;
             // 
             // Room
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(732, 305);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtBedCount);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.lblRoomStatus);
             this.Controls.Add(this.label5);
@@ -434,7 +434,7 @@
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.Label lblRoomStatus;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtBedCount;
         private System.Windows.Forms.Label label9;
     }
 }
