@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [Invoice].[Slab](
-	[Id] [numeric](10, 0) NOT NULL,
+	[TaxId] [numeric](10, 0) NOT NULL,
 	[Limit] [numeric](10, 0) NOT NULL,
 	[Amount] [numeric](4, 2) NOT NULL,
 	[StartDate] [date] NOT NULL,
