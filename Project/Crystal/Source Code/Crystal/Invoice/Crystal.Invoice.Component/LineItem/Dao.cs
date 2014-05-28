@@ -95,6 +95,32 @@ namespace Crystal.Invoice.Component.LineItem
 
         }
 
+        protected override bool CreateAfter()
+        {
+            Data data = this.Data as Data;
+            Boolean retVal = true;
+            Int64 LineItemTaxationId = 0;
+
+            foreach (Taxation.Data taxationData in data.TaxList)
+            {
+                this.CreateCommand("[Invoice].[LineItemTaxationInsert]");
+                this.AddInParameter("@LineItemId", DbType.Int64, data.Id);
+                this.AddInParameter("@TaxName", DbType.String, taxationData.Name);
+                this.AddInParameter("@TaxAmount", DbType.Currency, taxationData.Amount);
+                this.AddInParameter("@IsPercentage", DbType.Boolean, taxationData.isPercentage);
+                this.AddInParameter("@Id", DbType.Int64, LineItemTaxationId);
+
+                Int32 ret = this.ExecuteNonQuery();
+
+                if (ret == -2146232060)
+                    return false;//Foreign key violation  
+                else
+                    retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+            }
+
+            return retVal;
+        }
+
     }
 
 }

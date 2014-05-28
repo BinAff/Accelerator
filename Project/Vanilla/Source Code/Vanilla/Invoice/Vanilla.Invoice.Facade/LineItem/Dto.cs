@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 namespace Vanilla.Invoice.Facade.LineItem
 {
     public class Dto : BinAff.Facade.Library.Dto
@@ -18,5 +19,7 @@ namespace Vanilla.Invoice.Facade.LineItem
         public Int64 roomCategoryId { get; set; }
         public Int64 roomTypeId { get; set; }
         public Boolean roomIsAC { get; set; }
+
+        public List<Taxation.Dto> TaxList { get; set; }
     }
 }

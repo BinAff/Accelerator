@@ -20,6 +20,7 @@ using CustFac = AutoTourism.Customer.Facade;
 using RoomFac = AutoTourism.Lodge.Configuration.Facade.Room;
 using TarrifFac = AutoTourism.Lodge.Configuration.Facade.Tariff;
 using FrmWin = Vanilla.Form.WinForm;
+using System.Transactions;
 
 namespace AutoTourism.Lodge.WinForm
 {
@@ -475,15 +476,17 @@ namespace AutoTourism.Lodge.WinForm
         private void btnGenerateInvoice_Click(object sender, EventArgs e)
         {
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
-
+            String invNumber = String.Empty;
             Vanilla.Invoice.Facade.Dto invoiceDto = new Vanilla.Invoice.Facade.Dto();
             UtilFac.Artifact.Dto inv;
             if (dto.InvoiceNumber == null || dto.InvoiceNumber == String.Empty)
-            {
+            {   
+                invoiceDto.invoiceNumber = Common.GenerateInvoiceNumber();
+                invNumber = invoiceDto.invoiceNumber;
                 (base.facade as Facade.CheckIn.CheckInServer).PopulateInvoiceDto(invoiceDto);
                 inv = new UtilFac.Artifact.Dto
-                {         
-                    Id = 5, // to be removed
+                {
+                    //Id = 5, // to be removed
                     Module = invoiceDto
                 };
             }
@@ -492,11 +495,20 @@ namespace AutoTourism.Lodge.WinForm
                 inv = this.GetInvoiceArtifact();
             }
 
-            FrmWin.Document form = new Vanilla.Invoice.WinForm.Invoice(inv);
-            if (inv.Id == 0) form.ArtifactSaved += form_ArtifactSaved;
-            form.ShowDialog();
-            form.MdiParent = this.MdiParent;
-            form.Show();
+            using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
+            {
+                if (invNumber != String.Empty)
+                    (base.facade as Facade.CheckIn.CheckInServer).UpdateInvoiceNumber(invNumber);
+
+                FrmWin.Document form = new Vanilla.Invoice.WinForm.InvoiceForm(inv);
+                if (inv.Id == 0) form.ArtifactSaved += form_ArtifactSaved;
+                form.ShowDialog();
+                form.MdiParent = this.MdiParent;
+
+                if (invNumber != String.Empty && form.Tag != null && Convert.ToBoolean(form.Tag) == true)
+                    T.Complete();
+            }
+            //form.Show();
 
 
             //UtilFac.Artifact.Dto inv = new UtilFac.Artifact.Dto

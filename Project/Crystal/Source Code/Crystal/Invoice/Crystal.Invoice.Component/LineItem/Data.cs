@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Crystal.Invoice.Component.LineItem
 {
@@ -12,6 +13,8 @@ namespace Crystal.Invoice.Component.LineItem
         public Double UnitRate { get; set; }
         public Int32 Count { get; set; }
         public Double Total { get; set; }
+
+        public List<BinAff.Core.Data> TaxList { get; set; }
 
     }
 

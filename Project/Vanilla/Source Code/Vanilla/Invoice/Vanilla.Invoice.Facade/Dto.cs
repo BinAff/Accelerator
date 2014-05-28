@@ -12,7 +12,7 @@ namespace Vanilla.Invoice.Facade
         public Seller.Dto seller { get; set; }
         public DateTime date { get; set; }
         public List<LineItem.Dto> productList { get; set; }
-        public List<Taxation.Dto> taxationList { get; set; }
-        public List<Payment.Dto> paymentList { get; set; }  
+        //public List<Taxation.Dto> taxationList { get; set; }
+        //public List<Payment.Dto> paymentList { get; set; }  
     }
 }

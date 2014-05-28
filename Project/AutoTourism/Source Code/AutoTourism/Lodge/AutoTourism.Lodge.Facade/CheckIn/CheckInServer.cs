@@ -422,7 +422,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    return paymentDataList;
         //}
 
-        ReturnObject<bool> UpdateInvoiceNumber(String invoiceNumber)
+        public ReturnObject<bool> UpdateInvoiceNumber(String invoiceNumber)
         {
             Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
             CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = dto.Id });
@@ -706,6 +706,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 Double totalAmount = lineItem.unitRate * lineItem.count;
                 List<Taxation.Dto> taxationList = taxation.ReadLodgeTaxation(totalAmount);
 
+                lineItem.TaxList = this.ConvertTaxationDto(taxationList);
                 lineItem.ServiceTax = CalculateServiceTax(totalAmount, taxationList);
                 lineItem.LuxuaryTax = CalculatLuxuaryTax(totalAmount, taxationList);
             }
@@ -827,6 +828,26 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         {            
             InvFac.Server invoiceServer = new InvFac.Server(null);
             return  invoiceServer.GetArtifactForInvoiceNumber(invoiceNumber);
+        }
+
+        private List<InvFac.Taxation.Dto> ConvertTaxationDto(List<Taxation.Dto> taxList)
+        {
+            List<InvFac.Taxation.Dto> productTaxList = new List<InvFac.Taxation.Dto>();
+            
+            if (taxList != null && taxList.Count > 0)
+            {
+                foreach (Taxation.Dto dto in taxList)
+                {
+                    productTaxList.Add(new InvFac.Taxation.Dto 
+                    {
+                        Name = dto.Name,
+                        Amount = dto.Amount,
+                        isPercentage = dto.IsPercentage
+                    });
+                }
+            }
+            
+            return productTaxList;
         }
 
         public enum CheckInStatus

@@ -9,6 +9,9 @@ using System.Windows.Forms;
 using FormWin = Vanilla.Form.WinForm;
 using UtilFac = Vanilla.Utility.Facade;
 using DocFac = Vanilla.Utility.Facade.Document;
+using BinAff.Utility;
+using PresentationLibrary = BinAff.Presentation.Library;
+using BinAff.Core;
 
 namespace Vanilla.Invoice.WinForm
 {
@@ -30,6 +33,26 @@ namespace Vanilla.Invoice.WinForm
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             //Will be disabled after generation
+
+            Facade.Dto dto = base.Artifact.Module as Facade.Dto;
+
+            if (Convert.ToDouble(txtGrandTotal.Text) < 1)
+            {
+                new PresentationLibrary.MessageBox
+                {
+                    DialogueType = PresentationLibrary.MessageBox.Type.Error,
+                    Heading = "Splash",
+                }.Show(new List<String> { "Invalid amount. Please check the payment amount?" });
+
+                return;
+            }
+
+            if (ValidationRule.IsDouble(txtDiscount.Text))
+                dto.discount = Convert.ToDouble(txtDiscount.Text);
+                        
+            ReturnObject<Boolean> ret = (base.facade as Facade.Server).GenerateInvoice();
+            this.Tag = ret.Value;
+            this.Close();
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
@@ -51,6 +74,8 @@ namespace Vanilla.Invoice.WinForm
                 ModuleFormDto = new UtilFac.Module.FormDto(),
                 Dto = new Facade.Dto()
             };
+        
+            this.facade = new Facade.Server(base.formDto as Facade.FormDto);
         }
 
         protected override DocFac.Dto CloneDto(DocFac.Dto source)
@@ -59,12 +84,44 @@ namespace Vanilla.Invoice.WinForm
         }
 
         protected override void LoadForm()
-        {
-            //BinAff.Facade.Library.Server facade = new Facade.Server(formDto);
-            //facade.LoadForm();
+        {            
+            Facade.Dto dto = base.Artifact.Module as Facade.Dto;
 
-            //Facade.FormDto formDto = base.formDto as Facade.FormDto;
-            //base.facade.LoadForm();
+            //enabling disabling buttons
+            if (dto.Id == 0)
+            {
+                btnPrint.Enabled = false;
+                btnCancel.Enabled = false;
+            }
+            else
+                btnGenerate.Enabled = false;
+
+            List<Data> invoiceList = new List<Data>();
+
+            Double lineItemTotal = 0;
+            foreach (Facade.LineItem.Dto lineItem in dto.productList)
+            {
+                invoiceList.Add(new Data
+                {                  
+                    Start = lineItem.startDate.ToShortDateString(),
+                    End = lineItem.endDate.ToShortDateString(),
+                    Description = lineItem.description,
+                    UnitRate = lineItem.unitRate.ToString(),
+                    Count = lineItem.count.ToString(),
+                    Total = (lineItem.unitRate * lineItem.count).ToString(),
+                    ServiceTax = lineItem.ServiceTax.ToString(),
+                    LuxuaryTax = lineItem.LuxuaryTax.ToString(),
+                    GrandTotal = (lineItem.ServiceTax + lineItem.LuxuaryTax + (lineItem.unitRate * lineItem.count)).ToString()
+                });
+                lineItemTotal += lineItem.ServiceTax + lineItem.LuxuaryTax + (lineItem.unitRate * lineItem.count);
+            }
+
+            this.BindToGrid(invoiceList);
+         
+            txtTotal.Text = lineItemTotal.ToString();
+            txtAdvance.Text = dto.advance.ToString();
+            txtGrandTotal.Text = (lineItemTotal - dto.advance).ToString();
+
         }
 
         protected override void PopulateDataToForm()
@@ -81,6 +138,37 @@ namespace Vanilla.Invoice.WinForm
         {
         }
 
+        private void BindToGrid(List<Data> invoiceList)
+        {
+            if (invoiceList != null && invoiceList.Count > 0)
+            {
+                dgvProduct.Columns[0].DataPropertyName = "Start";
+                dgvProduct.Columns[1].DataPropertyName = "End";
+                dgvProduct.Columns[2].DataPropertyName = "Description";
+                dgvProduct.Columns[3].DataPropertyName = "UnitRate";
+                dgvProduct.Columns[4].DataPropertyName = "Count";
+                dgvProduct.Columns[5].DataPropertyName = "Total";
+                dgvProduct.Columns[6].DataPropertyName = "ServiceTax";
+                dgvProduct.Columns[7].DataPropertyName = "LuxuaryTax";
+                dgvProduct.Columns[8].DataPropertyName = "GrandTotal";
+
+                dgvProduct.AutoGenerateColumns = false;
+                dgvProduct.DataSource = invoiceList;
+               
+            }
+        }
+
+        private void txtDiscount_TextChanged(object sender, EventArgs e)
+        {
+            Facade.Dto dto = base.Artifact.Module as Facade.Dto;
+            Double discount = 0;
+
+            if (ValidationRule.IsDouble(txtDiscount.Text))
+                discount = Convert.ToDouble(txtDiscount.Text);
+
+            if (ValidationRule.IsDouble(txtDiscount.Text))
+                txtGrandTotal.Text = (Convert.ToDouble(txtTotal.Text) - dto.advance - discount).ToString();
+        }
     }
 
 }
