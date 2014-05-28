@@ -29,13 +29,9 @@
         private void InitializeComponent()
         {
             this.dgvTax = new System.Windows.Forms.DataGridView();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvProduct = new System.Windows.Forms.DataGridView();
-            this.Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.End = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UnitRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtAdvance = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtGrandTotal = new System.Windows.Forms.TextBox();
@@ -46,9 +42,20 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnPrint = new System.Windows.Forms.Button();
+            this.Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.End = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UnitRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ServiceTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LuxuaryTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LineTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).BeginInit();
             this.SuspendLayout();
@@ -59,10 +66,20 @@
             this.dgvTax.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.name,
             this.value});
-            this.dgvTax.Location = new System.Drawing.Point(616, 154);
+            this.dgvTax.Location = new System.Drawing.Point(12, 232);
             this.dgvTax.Name = "dgvTax";
             this.dgvTax.Size = new System.Drawing.Size(269, 86);
             this.dgvTax.TabIndex = 154;
+            // 
+            // name
+            // 
+            this.name.HeaderText = "Tax";
+            this.name.Name = "name";
+            // 
+            // value
+            // 
+            this.value.HeaderText = "Amount";
+            this.value.Name = "value";
             // 
             // dgvProduct
             // 
@@ -75,43 +92,14 @@
             this.Description,
             this.UnitRate,
             this.Count,
-            this.Total});
-            this.dgvProduct.Location = new System.Drawing.Point(12, 12);
+            this.Total,
+            this.ServiceTax,
+            this.LuxuaryTax,
+            this.LineTotal});
+            this.dgvProduct.Location = new System.Drawing.Point(12, 78);
             this.dgvProduct.Name = "dgvProduct";
-            this.dgvProduct.Size = new System.Drawing.Size(873, 139);
+            this.dgvProduct.Size = new System.Drawing.Size(1147, 139);
             this.dgvProduct.TabIndex = 149;
-            // 
-            // Start
-            // 
-            this.Start.HeaderText = "Start Date";
-            this.Start.Name = "Start";
-            // 
-            // End
-            // 
-            this.End.HeaderText = "End Date";
-            this.End.Name = "End";
-            // 
-            // Description
-            // 
-            this.Description.HeaderText = "Description";
-            this.Description.MinimumWidth = 300;
-            this.Description.Name = "Description";
-            this.Description.Width = 300;
-            // 
-            // UnitRate
-            // 
-            this.UnitRate.HeaderText = "Unit Rate";
-            this.UnitRate.Name = "UnitRate";
-            // 
-            // Count
-            // 
-            this.Count.HeaderText = "Count";
-            this.Count.Name = "Count";
-            // 
-            // Total
-            // 
-            this.Total.HeaderText = "Total";
-            this.Total.Name = "Total";
             // 
             // txtAdvance
             // 
@@ -153,6 +141,7 @@
             this.txtDiscount.Name = "txtDiscount";
             this.txtDiscount.Size = new System.Drawing.Size(118, 20);
             this.txtDiscount.TabIndex = 158;
+            this.txtDiscount.TextChanged += new System.EventHandler(this.txtDiscount_TextChanged);
             // 
             // txtTotal
             // 
@@ -200,16 +189,6 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // name
-            // 
-            this.name.HeaderText = "Tax";
-            this.name.Name = "name";
-            // 
-            // value
-            // 
-            this.value.HeaderText = "Amount";
-            this.value.Name = "value";
-            // 
             // btnPrint
             // 
             this.btnPrint.Location = new System.Drawing.Point(729, 350);
@@ -220,11 +199,96 @@
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
+            // Start
+            // 
+            this.Start.HeaderText = "Start Date";
+            this.Start.Name = "Start";
+            // 
+            // End
+            // 
+            this.End.HeaderText = "End Date";
+            this.End.Name = "End";
+            // 
+            // Description
+            // 
+            this.Description.HeaderText = "Description";
+            this.Description.MinimumWidth = 300;
+            this.Description.Name = "Description";
+            this.Description.Width = 300;
+            // 
+            // UnitRate
+            // 
+            this.UnitRate.HeaderText = "Unit Rate";
+            this.UnitRate.Name = "UnitRate";
+            // 
+            // Count
+            // 
+            this.Count.HeaderText = "Count";
+            this.Count.Name = "Count";
+            // 
+            // Total
+            // 
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            // 
+            // ServiceTax
+            // 
+            this.ServiceTax.HeaderText = "Service Tax";
+            this.ServiceTax.Name = "ServiceTax";
+            // 
+            // LuxuaryTax
+            // 
+            this.LuxuaryTax.HeaderText = "Luxuary Tax";
+            this.LuxuaryTax.Name = "LuxuaryTax";
+            // 
+            // LineTotal
+            // 
+            this.LineTotal.HeaderText = "LineTotal";
+            this.LineTotal.Name = "LineTotal";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 13);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(82, 13);
+            this.label2.TabIndex = 166;
+            this.label2.Text = "Invoice Number";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(16, 41);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(68, 13);
+            this.label5.TabIndex = 167;
+            this.label5.Text = "Invoice Date";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(114, 10);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(208, 20);
+            this.textBox1.TabIndex = 168;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Enabled = false;
+            this.textBox2.Location = new System.Drawing.Point(114, 33);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(208, 20);
+            this.textBox2.TabIndex = 169;
+            // 
             // InvoiceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(900, 385);
+            this.ClientSize = new System.Drawing.Size(1159, 385);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnGenerate);
@@ -251,12 +315,6 @@
 
         private System.Windows.Forms.DataGridView dgvTax;
         private System.Windows.Forms.DataGridView dgvProduct;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Start;
-        private System.Windows.Forms.DataGridViewTextBoxColumn End;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UnitRate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Count;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
         private System.Windows.Forms.TextBox txtAdvance;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtGrandTotal;
@@ -270,5 +328,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn value;
         private System.Windows.Forms.Button btnPrint;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Start;
+        private System.Windows.Forms.DataGridViewTextBoxColumn End;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UnitRate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Count;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ServiceTax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LuxuaryTax;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LineTotal;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }

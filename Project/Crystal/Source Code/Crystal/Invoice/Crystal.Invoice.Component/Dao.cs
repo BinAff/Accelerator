@@ -151,170 +151,170 @@ namespace Crystal.Invoice.Component
             return dataList;
         }
 
-        protected override bool CreateAfter()
-        {
-            Boolean retVal = false;
-            retVal = this.InsertInvoiceTaxation();
-            if (retVal) retVal = this.InsertInvoicePayment();
+        //protected override bool CreateAfter()
+        //{
+        //    Boolean retVal = false;
+        //    retVal = this.InsertInvoiceTaxation();
+        //    if (retVal) retVal = this.InsertInvoicePayment();
            
-            return retVal;
-        }
+        //    return retVal;
+        //}
 
-        protected override bool ReadAfter()
-        {
-            this.ReadInvoiceTaxation();
-            this.ReadInvoicePayment();
+        //protected override bool ReadAfter()
+        //{
+        //    this.ReadInvoiceTaxation();
+        //    this.ReadInvoicePayment();
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        protected override bool DeleteBefore()
-        {
-            Boolean retVal = false;
-            retVal = this.DeleteInvoiceTaxationLink();
-            if (retVal) retVal = this.DeleteInvoicePaymentLink();
+        //protected override bool DeleteBefore()
+        //{
+        //    Boolean retVal = false;
+        //    retVal = this.DeleteInvoiceTaxationLink();
+        //    if (retVal) retVal = this.DeleteInvoicePaymentLink();
 
-            return retVal;
-        }
+        //    return retVal;
+        //}
 
-        private Boolean InsertInvoiceTaxation()
-        {
-            Data data = this.Data as Data;
-            Boolean retVal = true;
-            Int64 InvoiceTaxationId = 0;            
+        //private Boolean InsertInvoiceTaxation()
+        //{
+        //    Data data = this.Data as Data;
+        //    Boolean retVal = true;
+        //    Int64 InvoiceTaxationId = 0;            
 
-            foreach (Invoice.Component.Taxation.Data taxationData in data.Taxation)
-            {
-                this.CreateCommand("[Invoice].[InvoiceTaxationInsert]");
-                this.AddInParameter("@InvoiceId", DbType.Int64, data.Id);
-                this.AddInParameter("@TaxName", DbType.String, taxationData.Name);
-                this.AddInParameter("@TaxAmount", DbType.Currency, taxationData.Amount);
-                this.AddInParameter("@IsPercentage", DbType.Boolean, taxationData.isPercentage);
-                this.AddInParameter("@Id", DbType.Int64, InvoiceTaxationId);
+        //    foreach (Invoice.Component.Taxation.Data taxationData in data.Taxation)
+        //    {
+        //        this.CreateCommand("[Invoice].[InvoiceTaxationInsert]");
+        //        this.AddInParameter("@InvoiceId", DbType.Int64, data.Id);
+        //        this.AddInParameter("@TaxName", DbType.String, taxationData.Name);
+        //        this.AddInParameter("@TaxAmount", DbType.Currency, taxationData.Amount);
+        //        this.AddInParameter("@IsPercentage", DbType.Boolean, taxationData.isPercentage);
+        //        this.AddInParameter("@Id", DbType.Int64, InvoiceTaxationId);
 
-                Int32 ret = this.ExecuteNonQuery();
+        //        Int32 ret = this.ExecuteNonQuery();
 
-                if (ret == -2146232060)               
-                    return false;//Foreign key violation  
-                else
-                    retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
-            }
+        //        if (ret == -2146232060)               
+        //            return false;//Foreign key violation  
+        //        else
+        //            retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+        //    }
 
-            return retVal;
-        }
+        //    return retVal;
+        //}
 
-        private Boolean InsertInvoicePayment()
-        {
-            Data data = this.Data as Data;
-            Boolean retVal = true;
-            Int64 InvoicePaymentId = 0;   
+        //private Boolean InsertInvoicePayment()
+        //{
+        //    Data data = this.Data as Data;
+        //    Boolean retVal = true;
+        //    Int64 InvoicePaymentId = 0;   
 
-            foreach (Invoice.Component.Payment.Data paymentData in data.Payment)
-            {
-                this.CreateCommand("[Invoice].[PaymentInsert]");
-                this.AddInParameter("@InvoiceId", DbType.Int64, data.Id);
-                this.AddInParameter("@PaymentTypeId", DbType.Int64, paymentData.Type.Id);
-                this.AddInParameter("@CardNumber", DbType.String, paymentData.CardNumber);
-                this.AddInParameter("@Remark", DbType.String, paymentData.Remark);
-                this.AddInParameter("@Amount", DbType.Currency, paymentData.Amount);
-                this.AddInParameter("@Id", DbType.Int64, InvoicePaymentId);
+        //    foreach (Invoice.Component.Payment.Data paymentData in data.Payment)
+        //    {
+        //        this.CreateCommand("[Invoice].[PaymentInsert]");
+        //        this.AddInParameter("@InvoiceId", DbType.Int64, data.Id);
+        //        this.AddInParameter("@PaymentTypeId", DbType.Int64, paymentData.Type.Id);
+        //        this.AddInParameter("@CardNumber", DbType.String, paymentData.CardNumber);
+        //        this.AddInParameter("@Remark", DbType.String, paymentData.Remark);
+        //        this.AddInParameter("@Amount", DbType.Currency, paymentData.Amount);
+        //        this.AddInParameter("@Id", DbType.Int64, InvoicePaymentId);
 
-                Int32 ret = this.ExecuteNonQuery();
+        //        Int32 ret = this.ExecuteNonQuery();
 
-                if (ret == -2146232060)
-                    return false;//Foreign key violation  
-                else
-                    retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
-            }
+        //        if (ret == -2146232060)
+        //            return false;//Foreign key violation  
+        //        else
+        //            retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+        //    }
 
-            return retVal;
-        }
+        //    return retVal;
+        //}
 
-        private void ReadInvoiceTaxation()
-        {
-            this.CreateCommand("[Invoice].[InvoiceTaxationRead]");
-            this.AddInParameter("@InvoiceId", DbType.Int64, this.Data.Id);
+        //private void ReadInvoiceTaxation()
+        //{
+        //    this.CreateCommand("[Invoice].[InvoiceTaxationRead]");
+        //    this.AddInParameter("@InvoiceId", DbType.Int64, this.Data.Id);
 
-            DataSet ds = this.ExecuteDataSet();
-            (this.Data as Data).Taxation = new List<BinAff.Core.Data>();
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {                
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    Invoice.Component.Taxation.Data data = new Taxation.Data {
-                        Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"]),
-                        Name = Convert.IsDBNull(row["TaxName"]) ? String.Empty : Convert.ToString(row["TaxName"]),
-                        Amount = Convert.IsDBNull(row["TaxAmount"]) ? 0 : Convert.ToDouble(row["TaxAmount"]),
-                        isPercentage = Convert.IsDBNull(row["IsPercentage"]) ? true : Convert.ToBoolean(row["IsPercentage"])
-                    };
+        //    DataSet ds = this.ExecuteDataSet();
+        //    (this.Data as Data).Taxation = new List<BinAff.Core.Data>();
+        //    if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+        //    {                
+        //        foreach (DataRow row in ds.Tables[0].Rows)
+        //        {
+        //            Invoice.Component.Taxation.Data data = new Taxation.Data {
+        //                Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"]),
+        //                Name = Convert.IsDBNull(row["TaxName"]) ? String.Empty : Convert.ToString(row["TaxName"]),
+        //                Amount = Convert.IsDBNull(row["TaxAmount"]) ? 0 : Convert.ToDouble(row["TaxAmount"]),
+        //                isPercentage = Convert.IsDBNull(row["IsPercentage"]) ? true : Convert.ToBoolean(row["IsPercentage"])
+        //            };
 
-                    (this.Data as Data).Taxation.Add(data);
-                }
-            }
-        }         
+        //            (this.Data as Data).Taxation.Add(data);
+        //        }
+        //    }
+        //}         
 
-        private void ReadInvoicePayment()
-        {
-            this.CreateCommand("[Invoice].[InvoicePaymentRead]");
-            this.AddInParameter("@InvoiceId", DbType.Int64, this.Data.Id);
+        //private void ReadInvoicePayment()
+        //{
+        //    this.CreateCommand("[Invoice].[InvoicePaymentRead]");
+        //    this.AddInParameter("@InvoiceId", DbType.Int64, this.Data.Id);
 
-            DataSet ds = this.ExecuteDataSet();
-            (this.Data as Data).Payment = new List<BinAff.Core.Data>();
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    Invoice.Component.Payment.Data data = new Payment.Data
-                    {
-                        Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"]),
-                        Type = new Payment.Type.Data
-                        {
-                            Id = Convert.IsDBNull(row["PaymentTypeId"]) ? 0 : Convert.ToInt64(row["PaymentTypeId"])
-                        },
-                        CardNumber = Convert.IsDBNull(row["CardNumber"]) ? String.Empty : Convert.ToString(row["CardNumber"]),
-                        Remark =  Convert.IsDBNull(row["Remark"]) ? String.Empty : Convert.ToString(row["Remark"]),
-                        Amount =  Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]),
-                        Date =  Convert.IsDBNull(row["Amount"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"])
-                    };
+        //    DataSet ds = this.ExecuteDataSet();
+        //    (this.Data as Data).Payment = new List<BinAff.Core.Data>();
+        //    if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+        //    {
+        //        foreach (DataRow row in ds.Tables[0].Rows)
+        //        {
+        //            Invoice.Component.Payment.Data data = new Payment.Data
+        //            {
+        //                Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"]),
+        //                Type = new Payment.Type.Data
+        //                {
+        //                    Id = Convert.IsDBNull(row["PaymentTypeId"]) ? 0 : Convert.ToInt64(row["PaymentTypeId"])
+        //                },
+        //                CardNumber = Convert.IsDBNull(row["CardNumber"]) ? String.Empty : Convert.ToString(row["CardNumber"]),
+        //                Remark =  Convert.IsDBNull(row["Remark"]) ? String.Empty : Convert.ToString(row["Remark"]),
+        //                Amount =  Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]),
+        //                Date =  Convert.IsDBNull(row["Amount"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"])
+        //            };
 
-                    (this.Data as Data).Payment.Add(data);
-                }
-            }
-        }
+        //            (this.Data as Data).Payment.Add(data);
+        //        }
+        //    }
+        //}
 
-        private Boolean DeleteInvoiceTaxationLink()
-        {
-            Data data = this.Data as Data;
-            Boolean retVal = true;
+        //private Boolean DeleteInvoiceTaxationLink()
+        //{
+        //    Data data = this.Data as Data;
+        //    Boolean retVal = true;
           
-            this.CreateCommand("[Invoice].[InvoiceTaxationLinkDelete]");
-            this.AddInParameter("@Id", DbType.Int64, data.Id);
+        //    this.CreateCommand("[Invoice].[InvoiceTaxationLinkDelete]");
+        //    this.AddInParameter("@Id", DbType.Int64, data.Id);
 
-            Int32 ret = this.ExecuteNonQuery();
+        //    Int32 ret = this.ExecuteNonQuery();
 
-            if (ret == -2146232060)
-                return false;//Foreign key violation  
-            else
-                retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
-            return retVal;
-        }
+        //    if (ret == -2146232060)
+        //        return false;//Foreign key violation  
+        //    else
+        //        retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+        //    return retVal;
+        //}
 
-        private Boolean DeleteInvoicePaymentLink()
-        {
-            Data data = this.Data as Data;
-            Boolean retVal = true;
+        //private Boolean DeleteInvoicePaymentLink()
+        //{
+        //    Data data = this.Data as Data;
+        //    Boolean retVal = true;
 
-            this.CreateCommand("[Invoice].[InvoicePaymentLinkDelete]");
-            this.AddInParameter("@Id", DbType.Int64, data.Id);
+        //    this.CreateCommand("[Invoice].[InvoicePaymentLinkDelete]");
+        //    this.AddInParameter("@Id", DbType.Int64, data.Id);
 
-            Int32 ret = this.ExecuteNonQuery();
+        //    Int32 ret = this.ExecuteNonQuery();
 
-            if (ret == -2146232060)
-                return false;//Foreign key violation  
-            else
-                retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
-            return retVal;
-        }
+        //    if (ret == -2146232060)
+        //        return false;//Foreign key violation  
+        //    else
+        //        retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+        //    return retVal;
+        //}
 
         public Int64 ReadInvoiceId(String invoiceNumber)
         {            
