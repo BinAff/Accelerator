@@ -1,11 +1,13 @@
 ﻿using System;
 
 using BinAff.Core;
+using CrysArtfObserver = Crystal.Navigator.Component.Artifact.Observer;
 
 namespace Crystal.Invoice.Component
 {
 
-    public class Server : BinAff.Core.Observer.ObserverSubjectCrud, IInvoice
+    //public class Server : BinAff.Core.Observer.ObserverSubjectCrud, IInvoice
+    public class Server : CrysArtfObserver.DocumentComponent, IInvoice
     {
 
         public Server(Data data)

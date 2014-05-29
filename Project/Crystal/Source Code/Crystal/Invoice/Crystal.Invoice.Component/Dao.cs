@@ -57,6 +57,7 @@ namespace Crystal.Invoice.Component
                 dt.InvoiceNumber = Convert.IsDBNull(row["InvoiceNumber"]) ? String.Empty : Convert.ToString(row["InvoiceNumber"]);
                 dt.Advance = Convert.IsDBNull(row["Advance"]) ? 0 : Convert.ToDouble(row["Advance"]);
                 dt.Discount = Convert.IsDBNull(row["Discount"]) ? 0 : Convert.ToDouble(row["Discount"]);
+                dt.Date = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]);
 
                 dt.Seller = new Seller()
                 {
