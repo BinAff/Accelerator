@@ -44,21 +44,18 @@ namespace Vanilla.Invoice.Facade
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            return null;
-            //Dto invoiceDto = (this.FormDto as Vanilla.Form.Facade.Document.FormDto).Dto as Dto;
+            Vanilla.Invoice.Facade.Dto invoiceDto = dto as Vanilla.Invoice.Facade.Dto;
 
-            //return new Crystal.Invoice.Component.Data()
-            //{
-            //    InvoiceNumber = invoiceDto.invoiceNumber,
-            //    Advance = invoiceDto.advance,
-            //    Discount = invoiceDto.discount,
-            //    Date = System.DateTime.Now,
-            //    Seller = this.GetSeller(invoiceDto.seller),
-            //    Buyer = this.GetBuyer(invoiceDto.buyer),
-            //    LineItem = this.GetLineItem(invoiceDto.productList),
-            //    Taxation = this.GetTaxation(invoiceDto.taxationList),
-            //    Payment = this.GetPayments(invoiceDto.paymentList)
-            //};
+            return new Crystal.Invoice.Component.Data()
+            {
+                InvoiceNumber = invoiceDto.invoiceNumber,
+                Advance = invoiceDto.advance,
+                Discount = invoiceDto.discount,
+                Date = System.DateTime.Now,
+                Seller = this.GetSeller(invoiceDto.seller),
+                Buyer = this.GetBuyer(invoiceDto.buyer),
+                LineItem = this.GetLineItem(invoiceDto.productList)                
+            };
         }
 
         public override void Add()
@@ -238,6 +235,8 @@ namespace Vanilla.Invoice.Facade
 
         public ReturnObject<Boolean> GenerateInvoice()
         {
+            ReturnObject<Boolean> ret = new ReturnObject<bool>();
+
             Dto invoiceDto = (base.FormDto as Facade.FormDto).Dto as Facade.Dto;
             //invoiceDto.invoiceNumber = Common.GenerateInvoiceNumber();
 
@@ -245,31 +244,41 @@ namespace Vanilla.Invoice.Facade
             {
                 Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
                 {
-                    Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
+                    Active = this.Convert(invoiceDto) as CrystalCustomer.Action.Data
                 }
             };
 
             CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
-            return customer.GenerateInvoice();
-        }
+            ret = customer.GenerateInvoice();
 
-        private BinAff.Core.Data ConvertToInvoiceData(BinAff.Facade.Library.Dto dto)
-        {
-            Vanilla.Invoice.Facade.Dto invoiceDto = dto as Vanilla.Invoice.Facade.Dto;
-
-            return new Crystal.Invoice.Component.Data()
+            if (ret.Value)
             {
-                InvoiceNumber = invoiceDto.invoiceNumber,
-                Advance = invoiceDto.advance,
-                Discount = invoiceDto.discount,
-                Date = System.DateTime.Now,
-                Seller = this.GetSeller(invoiceDto.seller),
-                Buyer = this.GetBuyer(invoiceDto.buyer),
-                LineItem = this.GetLineItem(invoiceDto.productList),
-                //Taxation = this.GetTaxation(invoiceDto.taxationList),
-                //Payment = this.GetPayments(invoiceDto.paymentList)
-            };
+                invoiceDto.date = DateTime.Now; // updating the dto with current date since in SP current date is getting updated
+                
+                (this.componentServer as BinAff.Core.Crud).Data.Id = autoCustomer.Invoice.Active.Id;
+                ret = (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForCreate();
+            }
+
+            return ret;         
         }
+
+        //private BinAff.Core.Data ConvertToInvoiceData(BinAff.Facade.Library.Dto dto)
+        //{
+        //    Vanilla.Invoice.Facade.Dto invoiceDto = dto as Vanilla.Invoice.Facade.Dto;
+
+        //    return new Crystal.Invoice.Component.Data()
+        //    {
+        //        InvoiceNumber = invoiceDto.invoiceNumber,
+        //        Advance = invoiceDto.advance,
+        //        Discount = invoiceDto.discount,
+        //        Date = System.DateTime.Now,
+        //        Seller = this.GetSeller(invoiceDto.seller),
+        //        Buyer = this.GetBuyer(invoiceDto.buyer),
+        //        LineItem = this.GetLineItem(invoiceDto.productList),
+        //        //Taxation = this.GetTaxation(invoiceDto.taxationList),
+        //        //Payment = this.GetPayments(invoiceDto.paymentList)
+        //    };
+        //}
 
         private Crystal.Invoice.Component.Seller GetSeller(Vanilla.Invoice.Facade.Seller.Dto seller)
         {

@@ -49,8 +49,19 @@ namespace Vanilla.Invoice.WinForm
 
             if (ValidationRule.IsDouble(txtDiscount.Text))
                 dto.discount = Convert.ToDouble(txtDiscount.Text);
-                        
+
+            this.RegisterArtifactObserver();
             ReturnObject<Boolean> ret = (base.facade as Facade.Server).GenerateInvoice();
+
+            if (!ret.Value)
+            {
+                new PresentationLibrary.MessageBox
+                {
+                    DialogueType = PresentationLibrary.MessageBox.Type.Error,
+                    Heading = "Splash",
+                }.Show(ret.MessageList);
+            }
+
             this.Tag = ret.Value;
             this.Close();
         }
@@ -94,7 +105,13 @@ namespace Vanilla.Invoice.WinForm
                 btnCancel.Enabled = false;
             }
             else
+            {
                 btnGenerate.Enabled = false;
+                txtDiscount.Enabled = false;
+                txtInvoice.Text = dto.invoiceNumber;
+                txtDate.Text = dto.date.ToString();
+                txtDiscount.Text = dto.discount.ToString();               
+            }
 
             List<Data> invoiceList = new List<Data>();
 
@@ -120,7 +137,7 @@ namespace Vanilla.Invoice.WinForm
          
             txtTotal.Text = lineItemTotal.ToString();
             txtAdvance.Text = dto.advance.ToString();
-            txtGrandTotal.Text = (lineItemTotal - dto.advance).ToString();
+            txtGrandTotal.Text = (lineItemTotal - dto.advance - dto.discount).ToString();
 
         }
 
@@ -167,7 +184,10 @@ namespace Vanilla.Invoice.WinForm
                 discount = Convert.ToDouble(txtDiscount.Text);
 
             if (ValidationRule.IsDouble(txtDiscount.Text))
-                txtGrandTotal.Text = (Convert.ToDouble(txtTotal.Text) - dto.advance - discount).ToString();
+            {
+                Double total = String.IsNullOrEmpty(txtTotal.Text) ? 0 : Convert.ToDouble(txtTotal.Text);
+                txtGrandTotal.Text = (total - dto.advance - discount).ToString();
+            }
         }
     }
 

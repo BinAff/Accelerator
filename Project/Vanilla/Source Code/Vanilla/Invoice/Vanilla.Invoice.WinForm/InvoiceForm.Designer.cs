@@ -32,6 +32,15 @@
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvProduct = new System.Windows.Forms.DataGridView();
+            this.Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.End = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UnitRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ServiceTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LuxuaryTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LineTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtAdvance = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtGrandTotal = new System.Windows.Forms.TextBox();
@@ -43,19 +52,10 @@
             this.btnGenerate = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
-            this.Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.End = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UnitRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ServiceTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LuxuaryTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LineTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtInvoice = new System.Windows.Forms.TextBox();
+            this.txtDate = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).BeginInit();
             this.SuspendLayout();
@@ -100,6 +100,53 @@
             this.dgvProduct.Name = "dgvProduct";
             this.dgvProduct.Size = new System.Drawing.Size(1147, 139);
             this.dgvProduct.TabIndex = 149;
+            // 
+            // Start
+            // 
+            this.Start.HeaderText = "Start Date";
+            this.Start.Name = "Start";
+            // 
+            // End
+            // 
+            this.End.HeaderText = "End Date";
+            this.End.Name = "End";
+            // 
+            // Description
+            // 
+            this.Description.HeaderText = "Description";
+            this.Description.MinimumWidth = 300;
+            this.Description.Name = "Description";
+            this.Description.Width = 300;
+            // 
+            // UnitRate
+            // 
+            this.UnitRate.HeaderText = "Unit Rate";
+            this.UnitRate.Name = "UnitRate";
+            // 
+            // Count
+            // 
+            this.Count.HeaderText = "Count";
+            this.Count.Name = "Count";
+            // 
+            // Total
+            // 
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            // 
+            // ServiceTax
+            // 
+            this.ServiceTax.HeaderText = "Service Tax";
+            this.ServiceTax.Name = "ServiceTax";
+            // 
+            // LuxuaryTax
+            // 
+            this.LuxuaryTax.HeaderText = "Luxuary Tax";
+            this.LuxuaryTax.Name = "LuxuaryTax";
+            // 
+            // LineTotal
+            // 
+            this.LineTotal.HeaderText = "LineTotal";
+            this.LineTotal.Name = "LineTotal";
             // 
             // txtAdvance
             // 
@@ -199,53 +246,6 @@
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
-            // Start
-            // 
-            this.Start.HeaderText = "Start Date";
-            this.Start.Name = "Start";
-            // 
-            // End
-            // 
-            this.End.HeaderText = "End Date";
-            this.End.Name = "End";
-            // 
-            // Description
-            // 
-            this.Description.HeaderText = "Description";
-            this.Description.MinimumWidth = 300;
-            this.Description.Name = "Description";
-            this.Description.Width = 300;
-            // 
-            // UnitRate
-            // 
-            this.UnitRate.HeaderText = "Unit Rate";
-            this.UnitRate.Name = "UnitRate";
-            // 
-            // Count
-            // 
-            this.Count.HeaderText = "Count";
-            this.Count.Name = "Count";
-            // 
-            // Total
-            // 
-            this.Total.HeaderText = "Total";
-            this.Total.Name = "Total";
-            // 
-            // ServiceTax
-            // 
-            this.ServiceTax.HeaderText = "Service Tax";
-            this.ServiceTax.Name = "ServiceTax";
-            // 
-            // LuxuaryTax
-            // 
-            this.LuxuaryTax.HeaderText = "Luxuary Tax";
-            this.LuxuaryTax.Name = "LuxuaryTax";
-            // 
-            // LineTotal
-            // 
-            this.LineTotal.HeaderText = "LineTotal";
-            this.LineTotal.Name = "LineTotal";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -264,29 +264,29 @@
             this.label5.TabIndex = 167;
             this.label5.Text = "Invoice Date";
             // 
-            // textBox1
+            // txtInvoice
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(114, 10);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(208, 20);
-            this.textBox1.TabIndex = 168;
+            this.txtInvoice.Enabled = false;
+            this.txtInvoice.Location = new System.Drawing.Point(114, 10);
+            this.txtInvoice.Name = "txtInvoice";
+            this.txtInvoice.Size = new System.Drawing.Size(208, 20);
+            this.txtInvoice.TabIndex = 168;
             // 
-            // textBox2
+            // txtDate
             // 
-            this.textBox2.Enabled = false;
-            this.textBox2.Location = new System.Drawing.Point(114, 33);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(208, 20);
-            this.textBox2.TabIndex = 169;
+            this.txtDate.Enabled = false;
+            this.txtDate.Location = new System.Drawing.Point(114, 33);
+            this.txtDate.Name = "txtDate";
+            this.txtDate.Size = new System.Drawing.Size(208, 20);
+            this.txtDate.TabIndex = 169;
             // 
             // InvoiceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1159, 385);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtDate);
+            this.Controls.Add(this.txtInvoice);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnPrint);
@@ -339,7 +339,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn LineTotal;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtInvoice;
+        private System.Windows.Forms.TextBox txtDate;
     }
 }
