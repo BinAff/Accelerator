@@ -43,7 +43,7 @@
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
             this.txtDays = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtPersons = new System.Windows.Forms.TextBox();
+            this.txtMale = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtRooms = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -69,16 +69,15 @@
             this.btnCancelOpen = new System.Windows.Forms.Button();
             this.lblReservationStatus = new System.Windows.Forms.Label();
             this.btnAddCustomer = new System.Windows.Forms.Button();
-            this.lblFilePath = new System.Windows.Forms.Label();
-            this.txtArtifactPath = new System.Windows.Forms.TextBox();
-            this.btnBrowse = new System.Windows.Forms.Button();
             this.cboAC = new System.Windows.Forms.ComboBox();
             this.lblAC = new System.Windows.Forms.Label();
-            this.lblTotalRoomsLodge = new System.Windows.Forms.Label();
-            this.lblTotalBooking = new System.Windows.Forms.Label();
-            this.txtTotalRoom = new System.Windows.Forms.TextBox();
             this.txtStatus = new System.Windows.Forms.TextBox();
-            this.txtTotalBooking = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtFemale = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtChild = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtInfant = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -95,27 +94,28 @@
             this.groupBox1.Controls.Add(this.txtName);
             this.groupBox1.Controls.Add(this.lblName);
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(314, 99);
+            this.groupBox1.Location = new System.Drawing.Point(252, 188);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(291, 204);
+            this.groupBox1.Size = new System.Drawing.Size(293, 197);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Customer Details";
             // 
             // txtEmail
             // 
-            this.txtEmail.BackColor = System.Drawing.SystemColors.Window;
-            this.txtEmail.Enabled = false;
+            this.txtEmail.BackColor = System.Drawing.SystemColors.Control;
             this.txtEmail.ForeColor = System.Drawing.Color.Black;
-            this.txtEmail.Location = new System.Drawing.Point(103, 168);
+            this.txtEmail.Location = new System.Drawing.Point(103, 164);
             this.txtEmail.Name = "txtEmail";
+            this.txtEmail.ReadOnly = true;
             this.txtEmail.Size = new System.Drawing.Size(182, 20);
-            this.txtEmail.TabIndex = 85;
+            this.txtEmail.TabIndex = 999;
+            this.txtEmail.TabStop = false;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 171);
+            this.label8.Location = new System.Drawing.Point(8, 167);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(33, 13);
             this.label8.TabIndex = 84;
@@ -123,14 +123,15 @@
             // 
             // txtAdds
             // 
-            this.txtAdds.BackColor = System.Drawing.SystemColors.Window;
-            this.txtAdds.Enabled = false;
+            this.txtAdds.BackColor = System.Drawing.SystemColors.Control;
             this.txtAdds.ForeColor = System.Drawing.Color.Black;
             this.txtAdds.Location = new System.Drawing.Point(103, 94);
             this.txtAdds.Multiline = true;
             this.txtAdds.Name = "txtAdds";
+            this.txtAdds.ReadOnly = true;
             this.txtAdds.Size = new System.Drawing.Size(182, 64);
-            this.txtAdds.TabIndex = 83;
+            this.txtAdds.TabIndex = 999;
+            this.txtAdds.TabStop = false;
             // 
             // label7
             // 
@@ -143,14 +144,14 @@
             // 
             // lstContact
             // 
-            this.lstContact.BackColor = System.Drawing.SystemColors.Window;
-            this.lstContact.Enabled = false;
+            this.lstContact.BackColor = System.Drawing.SystemColors.Control;
             this.lstContact.ForeColor = System.Drawing.Color.Black;
             this.lstContact.FormattingEnabled = true;
             this.lstContact.Location = new System.Drawing.Point(103, 45);
             this.lstContact.Name = "lstContact";
             this.lstContact.Size = new System.Drawing.Size(182, 43);
-            this.lstContact.TabIndex = 81;
+            this.lstContact.TabIndex = 999;
+            this.lstContact.TabStop = false;
             // 
             // label5
             // 
@@ -163,13 +164,14 @@
             // 
             // txtName
             // 
-            this.txtName.BackColor = System.Drawing.SystemColors.Window;
-            this.txtName.Enabled = false;
+            this.txtName.BackColor = System.Drawing.SystemColors.Control;
             this.txtName.ForeColor = System.Drawing.Color.Black;
             this.txtName.Location = new System.Drawing.Point(103, 19);
             this.txtName.Name = "txtName";
+            this.txtName.ReadOnly = true;
             this.txtName.Size = new System.Drawing.Size(182, 20);
-            this.txtName.TabIndex = 23;
+            this.txtName.TabIndex = 999;
+            this.txtName.TabStop = false;
             // 
             // lblName
             // 
@@ -182,10 +184,10 @@
             // 
             // btnPickCustomer
             // 
-            this.btnPickCustomer.Location = new System.Drawing.Point(314, 70);
+            this.btnPickCustomer.Location = new System.Drawing.Point(15, 194);
             this.btnPickCustomer.Name = "btnPickCustomer";
             this.btnPickCustomer.Size = new System.Drawing.Size(97, 23);
-            this.btnPickCustomer.TabIndex = 96;
+            this.btnPickCustomer.TabIndex = 12;
             this.btnPickCustomer.Text = "Pick Customer";
             this.btnPickCustomer.UseVisualStyleBackColor = true;
             this.btnPickCustomer.Click += new System.EventHandler(this.btnPickCustomer_Click);
@@ -193,7 +195,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 16);
+            this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 82;
@@ -202,16 +204,16 @@
             // dtFrom
             // 
             this.dtFrom.Checked = false;
-            this.dtFrom.Location = new System.Drawing.Point(70, 12);
+            this.dtFrom.Location = new System.Drawing.Point(87, 7);
             this.dtFrom.Name = "dtFrom";
-            this.dtFrom.Size = new System.Drawing.Size(108, 20);
+            this.dtFrom.Size = new System.Drawing.Size(122, 20);
             this.dtFrom.TabIndex = 1;
             this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
             // 
             // txtDays
             // 
             this.txtDays.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtDays.Location = new System.Drawing.Point(343, 12);
+            this.txtDays.Location = new System.Drawing.Point(87, 33);
             this.txtDays.MaxLength = 3;
             this.txtDays.Name = "txtDays";
             this.txtDays.Size = new System.Drawing.Size(32, 20);
@@ -221,43 +223,43 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(277, 16);
+            this.label2.Location = new System.Drawing.Point(12, 37);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 13);
             this.label2.TabIndex = 82;
             this.label2.Text = "No of Days";
             // 
-            // txtPersons
+            // txtMale
             // 
-            this.txtPersons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtPersons.Location = new System.Drawing.Point(462, 12);
-            this.txtPersons.MaxLength = 3;
-            this.txtPersons.Name = "txtPersons";
-            this.txtPersons.Size = new System.Drawing.Size(32, 20);
-            this.txtPersons.TabIndex = 4;
+            this.txtMale.BackColor = System.Drawing.SystemColors.Window;
+            this.txtMale.Location = new System.Drawing.Point(80, 223);
+            this.txtMale.MaxLength = 3;
+            this.txtMale.Name = "txtMale";
+            this.txtMale.Size = new System.Drawing.Size(32, 20);
+            this.txtMale.TabIndex = 14;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(381, 16);
+            this.label3.Location = new System.Drawing.Point(14, 230);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 13);
+            this.label3.Size = new System.Drawing.Size(30, 13);
             this.label3.TabIndex = 84;
-            this.label3.Text = "No of Persons";
+            this.label3.Text = "Male";
             // 
             // txtRooms
             // 
             this.txtRooms.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtRooms.Location = new System.Drawing.Point(574, 12);
+            this.txtRooms.Location = new System.Drawing.Point(87, 140);
             this.txtRooms.MaxLength = 3;
             this.txtRooms.Name = "txtRooms";
             this.txtRooms.Size = new System.Drawing.Size(32, 20);
-            this.txtRooms.TabIndex = 5;
+            this.txtRooms.TabIndex = 7;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(499, 16);
+            this.label4.Location = new System.Drawing.Point(12, 143);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(69, 13);
             this.label4.TabIndex = 86;
@@ -266,20 +268,20 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(14, 312);
+            this.label6.Location = new System.Drawing.Point(12, 282);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(89, 13);
+            this.label6.Size = new System.Drawing.Size(114, 13);
             this.label6.TabIndex = 88;
-            this.label6.Text = "Advance Amount";
+            this.label6.Text = "Advance Amount (Rs.)";
             // 
             // txtAdvance
             // 
             this.txtAdvance.BackColor = System.Drawing.SystemColors.Window;
-            this.txtAdvance.Location = new System.Drawing.Point(109, 309);
+            this.txtAdvance.Location = new System.Drawing.Point(129, 279);
             this.txtAdvance.MaxLength = 10;
             this.txtAdvance.Name = "txtAdvance";
-            this.txtAdvance.Size = new System.Drawing.Size(199, 20);
-            this.txtAdvance.TabIndex = 6;
+            this.txtAdvance.Size = new System.Drawing.Size(117, 20);
+            this.txtAdvance.TabIndex = 18;
             this.txtAdvance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // cboRoomList
@@ -289,8 +291,9 @@
             this.cboRoomList.FormattingEnabled = true;
             this.cboRoomList.Location = new System.Drawing.Point(11, 43);
             this.cboRoomList.Name = "cboRoomList";
-            this.cboRoomList.Size = new System.Drawing.Size(108, 189);
-            this.cboRoomList.TabIndex = 90;
+            this.cboRoomList.Size = new System.Drawing.Size(108, 111);
+            this.cboRoomList.TabIndex = 8;
+            this.cboRoomList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cboRoomList_MouseDoubleClick);
             // 
             // cboSelectedRoom
             // 
@@ -299,8 +302,9 @@
             this.cboSelectedRoom.FormattingEnabled = true;
             this.cboSelectedRoom.Location = new System.Drawing.Point(174, 43);
             this.cboSelectedRoom.Name = "cboSelectedRoom";
-            this.cboSelectedRoom.Size = new System.Drawing.Size(107, 189);
-            this.cboSelectedRoom.TabIndex = 91;
+            this.cboSelectedRoom.Size = new System.Drawing.Size(107, 111);
+            this.cboSelectedRoom.TabIndex = 10;
+            this.cboSelectedRoom.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cboSelectedRoom_MouseDoubleClick);
             // 
             // btnAddRoom
             // 
@@ -308,7 +312,7 @@
             this.btnAddRoom.Location = new System.Drawing.Point(131, 43);
             this.btnAddRoom.Name = "btnAddRoom";
             this.btnAddRoom.Size = new System.Drawing.Size(32, 22);
-            this.btnAddRoom.TabIndex = 7;
+            this.btnAddRoom.TabIndex = 9;
             this.btnAddRoom.Text = "►";
             this.btnAddRoom.UseVisualStyleBackColor = true;
             this.btnAddRoom.Click += new System.EventHandler(this.btnAddRoom_Click);
@@ -319,7 +323,7 @@
             this.btnRemoveRoom.Location = new System.Drawing.Point(131, 71);
             this.btnRemoveRoom.Name = "btnRemoveRoom";
             this.btnRemoveRoom.Size = new System.Drawing.Size(32, 22);
-            this.btnRemoveRoom.TabIndex = 8;
+            this.btnRemoveRoom.TabIndex = 11;
             this.btnRemoveRoom.Text = "◄";
             this.btnRemoveRoom.UseVisualStyleBackColor = true;
             this.btnRemoveRoom.Click += new System.EventHandler(this.btnRemoveRoom_Click);
@@ -335,28 +339,30 @@
             this.groupBox2.Controls.Add(this.btnAddRoom);
             this.groupBox2.Controls.Add(this.lblTotalRooms);
             this.groupBox2.ForeColor = System.Drawing.Color.Black;
-            this.groupBox2.Location = new System.Drawing.Point(15, 68);
+            this.groupBox2.Location = new System.Drawing.Point(252, 28);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(293, 235);
+            this.groupBox2.Size = new System.Drawing.Size(293, 159);
             this.groupBox2.TabIndex = 94;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preffered Room";
             // 
             // txtFilteredAvailableRoomCount
             // 
-            this.txtFilteredAvailableRoomCount.Enabled = false;
             this.txtFilteredAvailableRoomCount.Location = new System.Drawing.Point(262, 17);
             this.txtFilteredAvailableRoomCount.Name = "txtFilteredAvailableRoomCount";
+            this.txtFilteredAvailableRoomCount.ReadOnly = true;
             this.txtFilteredAvailableRoomCount.Size = new System.Drawing.Size(19, 20);
-            this.txtFilteredAvailableRoomCount.TabIndex = 113;
+            this.txtFilteredAvailableRoomCount.TabIndex = 999;
+            this.txtFilteredAvailableRoomCount.TabStop = false;
             // 
             // txtFilteredRoomCount
             // 
-            this.txtFilteredRoomCount.Enabled = false;
             this.txtFilteredRoomCount.Location = new System.Drawing.Point(100, 17);
             this.txtFilteredRoomCount.Name = "txtFilteredRoomCount";
+            this.txtFilteredRoomCount.ReadOnly = true;
             this.txtFilteredRoomCount.Size = new System.Drawing.Size(19, 20);
-            this.txtFilteredRoomCount.TabIndex = 112;
+            this.txtFilteredRoomCount.TabIndex = 999;
+            this.txtFilteredRoomCount.TabStop = false;
             // 
             // lblAvailableRooms
             // 
@@ -379,7 +385,7 @@
             // lblType
             // 
             this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(182, 44);
+            this.lblType.Location = new System.Drawing.Point(12, 89);
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(31, 13);
             this.lblType.TabIndex = 96;
@@ -388,7 +394,7 @@
             // lblCategory
             // 
             this.lblCategory.AutoSize = true;
-            this.lblCategory.Location = new System.Drawing.Point(14, 44);
+            this.lblCategory.Location = new System.Drawing.Point(14, 62);
             this.lblCategory.Name = "lblCategory";
             this.lblCategory.Size = new System.Drawing.Size(49, 13);
             this.lblCategory.TabIndex = 95;
@@ -398,22 +404,22 @@
             // 
             this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboType.FormattingEnabled = true;
-            this.cboType.Location = new System.Drawing.Point(219, 41);
+            this.cboType.Location = new System.Drawing.Point(87, 86);
             this.cboType.Name = "cboType";
-            this.cboType.Size = new System.Drawing.Size(188, 21);
+            this.cboType.Size = new System.Drawing.Size(156, 21);
             this.cboType.Sorted = true;
-            this.cboType.TabIndex = 93;
+            this.cboType.TabIndex = 5;
             this.cboType.SelectedIndexChanged += new System.EventHandler(this.cboType_SelectedIndexChanged);
             // 
             // cboCategory
             // 
             this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCategory.FormattingEnabled = true;
-            this.cboCategory.Location = new System.Drawing.Point(71, 41);
+            this.cboCategory.Location = new System.Drawing.Point(87, 59);
             this.cboCategory.Name = "cboCategory";
-            this.cboCategory.Size = new System.Drawing.Size(103, 21);
+            this.cboCategory.Size = new System.Drawing.Size(156, 21);
             this.cboCategory.Sorted = true;
-            this.cboCategory.TabIndex = 92;
+            this.cboCategory.TabIndex = 4;
             this.cboCategory.SelectedIndexChanged += new System.EventHandler(this.cboCategory_SelectedIndexChanged);
             // 
             // errorProvider
@@ -422,37 +428,39 @@
             // 
             // dtFromTime
             // 
-            this.dtFromTime.Location = new System.Drawing.Point(185, 12);
+            this.dtFromTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtFromTime.Location = new System.Drawing.Point(215, 7);
             this.dtFromTime.Name = "dtFromTime";
-            this.dtFromTime.Size = new System.Drawing.Size(86, 20);
+            this.dtFromTime.ShowUpDown = true;
+            this.dtFromTime.Size = new System.Drawing.Size(68, 20);
             this.dtFromTime.TabIndex = 2;
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(619, 41);
+            this.btnOk.Location = new System.Drawing.Point(551, 36);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 95;
+            this.btnOk.TabIndex = 19;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(619, 12);
+            this.btnRefresh.Location = new System.Drawing.Point(551, 7);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 96;
+            this.btnRefresh.TabIndex = 20;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnCancelOpen
             // 
-            this.btnCancelOpen.Location = new System.Drawing.Point(619, 70);
+            this.btnCancelOpen.Location = new System.Drawing.Point(551, 65);
             this.btnCancelOpen.Name = "btnCancelOpen";
             this.btnCancelOpen.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelOpen.TabIndex = 97;
+            this.btnCancelOpen.TabIndex = 21;
             this.btnCancelOpen.Text = "Cancel";
             this.btnCancelOpen.UseVisualStyleBackColor = true;
             this.btnCancelOpen.Click += new System.EventHandler(this.btnCancelOpen_Click);
@@ -460,7 +468,7 @@
             // lblReservationStatus
             // 
             this.lblReservationStatus.AutoSize = true;
-            this.lblReservationStatus.Location = new System.Drawing.Point(314, 312);
+            this.lblReservationStatus.Location = new System.Drawing.Point(12, 308);
             this.lblReservationStatus.Name = "lblReservationStatus";
             this.lblReservationStatus.Size = new System.Drawing.Size(97, 13);
             this.lblReservationStatus.TabIndex = 98;
@@ -468,39 +476,13 @@
             // 
             // btnAddCustomer
             // 
-            this.btnAddCustomer.Location = new System.Drawing.Point(417, 70);
+            this.btnAddCustomer.Location = new System.Drawing.Point(146, 194);
             this.btnAddCustomer.Name = "btnAddCustomer";
             this.btnAddCustomer.Size = new System.Drawing.Size(97, 23);
-            this.btnAddCustomer.TabIndex = 100;
+            this.btnAddCustomer.TabIndex = 13;
             this.btnAddCustomer.Text = "Add Customer";
             this.btnAddCustomer.UseVisualStyleBackColor = true;
             this.btnAddCustomer.Click += new System.EventHandler(this.btnAddCustomer_Click);
-            // 
-            // lblFilePath
-            // 
-            this.lblFilePath.AutoSize = true;
-            this.lblFilePath.Location = new System.Drawing.Point(12, 340);
-            this.lblFilePath.Name = "lblFilePath";
-            this.lblFilePath.Size = new System.Drawing.Size(81, 13);
-            this.lblFilePath.TabIndex = 101;
-            this.lblFilePath.Text = "Document Path";
-            // 
-            // txtArtifactPath
-            // 
-            this.txtArtifactPath.Location = new System.Drawing.Point(109, 337);
-            this.txtArtifactPath.Name = "txtArtifactPath";
-            this.txtArtifactPath.Size = new System.Drawing.Size(497, 20);
-            this.txtArtifactPath.TabIndex = 102;
-            // 
-            // btnBrowse
-            // 
-            this.btnBrowse.Location = new System.Drawing.Point(619, 335);
-            this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowse.TabIndex = 103;
-            this.btnBrowse.Text = "Browse";
-            this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Visible = false;
             // 
             // cboAC
             // 
@@ -508,82 +490,98 @@
             this.cboAC.FormattingEnabled = true;
             this.cboAC.Items.AddRange(new object[] {
             "All"});
-            this.cboAC.Location = new System.Drawing.Point(483, 41);
+            this.cboAC.Location = new System.Drawing.Point(87, 113);
             this.cboAC.Name = "cboAC";
-            this.cboAC.Size = new System.Drawing.Size(123, 21);
-            this.cboAC.TabIndex = 104;
+            this.cboAC.Size = new System.Drawing.Size(156, 21);
+            this.cboAC.TabIndex = 6;
             this.cboAC.SelectedIndexChanged += new System.EventHandler(this.cboAC_SelectedIndexChanged);
             // 
             // lblAC
             // 
             this.lblAC.AutoSize = true;
-            this.lblAC.Location = new System.Drawing.Point(423, 44);
+            this.lblAC.Location = new System.Drawing.Point(12, 116);
             this.lblAC.Name = "lblAC";
             this.lblAC.Size = new System.Drawing.Size(54, 13);
             this.lblAC.TabIndex = 105;
             this.lblAC.Text = "Appliance";
             // 
-            // lblTotalRoomsLodge
-            // 
-            this.lblTotalRoomsLodge.AutoSize = true;
-            this.lblTotalRoomsLodge.Location = new System.Drawing.Point(616, 99);
-            this.lblTotalRoomsLodge.Name = "lblTotalRoomsLodge";
-            this.lblTotalRoomsLodge.Size = new System.Drawing.Size(62, 13);
-            this.lblTotalRoomsLodge.TabIndex = 109;
-            this.lblTotalRoomsLodge.Text = "Total Room";
-            this.lblTotalRoomsLodge.Visible = false;
-            // 
-            // lblTotalBooking
-            // 
-            this.lblTotalBooking.AutoSize = true;
-            this.lblTotalBooking.Location = new System.Drawing.Point(616, 148);
-            this.lblTotalBooking.Name = "lblTotalBooking";
-            this.lblTotalBooking.Size = new System.Drawing.Size(73, 13);
-            this.lblTotalBooking.TabIndex = 110;
-            this.lblTotalBooking.Text = "Total Booking";
-            this.lblTotalBooking.Visible = false;
-            // 
-            // txtTotalRoom
-            // 
-            this.txtTotalRoom.Enabled = false;
-            this.txtTotalRoom.Location = new System.Drawing.Point(645, 118);
-            this.txtTotalRoom.Name = "txtTotalRoom";
-            this.txtTotalRoom.Size = new System.Drawing.Size(33, 20);
-            this.txtTotalRoom.TabIndex = 111;
-            this.txtTotalRoom.Visible = false;
-            // 
             // txtStatus
             // 
-            this.txtStatus.Enabled = false;
-            this.txtStatus.Location = new System.Drawing.Point(417, 309);
+            this.txtStatus.Location = new System.Drawing.Point(129, 305);
             this.txtStatus.Name = "txtStatus";
-            this.txtStatus.Size = new System.Drawing.Size(188, 20);
-            this.txtStatus.TabIndex = 112;
+            this.txtStatus.ReadOnly = true;
+            this.txtStatus.Size = new System.Drawing.Size(117, 20);
+            this.txtStatus.TabIndex = 999;
+            this.txtStatus.TabStop = false;
             // 
-            // txtTotalBooking
+            // label9
             // 
-            this.txtTotalBooking.Enabled = false;
-            this.txtTotalBooking.Location = new System.Drawing.Point(666, 164);
-            this.txtTotalBooking.Name = "txtTotalBooking";
-            this.txtTotalBooking.Size = new System.Drawing.Size(28, 20);
-            this.txtTotalBooking.TabIndex = 113;
-            this.txtTotalBooking.Visible = false;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(143, 226);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 13);
+            this.label9.TabIndex = 114;
+            this.label9.Text = "Female";
+            // 
+            // txtFemale
+            // 
+            this.txtFemale.BackColor = System.Drawing.SystemColors.Window;
+            this.txtFemale.Location = new System.Drawing.Point(211, 223);
+            this.txtFemale.MaxLength = 3;
+            this.txtFemale.Name = "txtFemale";
+            this.txtFemale.Size = new System.Drawing.Size(32, 20);
+            this.txtFemale.TabIndex = 15;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(14, 256);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(30, 13);
+            this.label10.TabIndex = 116;
+            this.label10.Text = "Child";
+            // 
+            // txtChild
+            // 
+            this.txtChild.BackColor = System.Drawing.SystemColors.Window;
+            this.txtChild.Location = new System.Drawing.Point(80, 249);
+            this.txtChild.MaxLength = 3;
+            this.txtChild.Name = "txtChild";
+            this.txtChild.Size = new System.Drawing.Size(32, 20);
+            this.txtChild.TabIndex = 16;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(143, 252);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(34, 13);
+            this.label11.TabIndex = 118;
+            this.label11.Text = "Infant";
+            // 
+            // txtInfant
+            // 
+            this.txtInfant.BackColor = System.Drawing.SystemColors.Window;
+            this.txtInfant.Location = new System.Drawing.Point(211, 249);
+            this.txtInfant.MaxLength = 3;
+            this.txtInfant.Name = "txtInfant";
+            this.txtInfant.Size = new System.Drawing.Size(32, 20);
+            this.txtInfant.TabIndex = 17;
             // 
             // RoomReservationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(702, 366);
-            this.Controls.Add(this.txtTotalBooking);
+            this.ClientSize = new System.Drawing.Size(632, 397);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.txtInfant);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.txtChild);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.txtFemale);
             this.Controls.Add(this.txtStatus);
-            this.Controls.Add(this.txtTotalRoom);
-            this.Controls.Add(this.lblTotalBooking);
-            this.Controls.Add(this.lblTotalRoomsLodge);
             this.Controls.Add(this.lblAC);
             this.Controls.Add(this.cboAC);
-            this.Controls.Add(this.btnBrowse);
-            this.Controls.Add(this.txtArtifactPath);
-            this.Controls.Add(this.lblFilePath);
             this.Controls.Add(this.lblType);
             this.Controls.Add(this.btnAddCustomer);
             this.Controls.Add(this.lblCategory);
@@ -606,7 +604,7 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txtRooms);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtPersons);
+            this.Controls.Add(this.txtMale);
             this.Name = "RoomReservationForm";
             this.ShowInTaskbar = false;
             this.Text = "Room Reservation Form";
@@ -632,7 +630,7 @@
         private System.Windows.Forms.DateTimePicker dtFrom;
         private System.Windows.Forms.TextBox txtDays;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtPersons;
+        private System.Windows.Forms.TextBox txtMale;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtRooms;
         private System.Windows.Forms.Label label4;
@@ -659,19 +657,18 @@
         private System.Windows.Forms.Label lblType;
         private System.Windows.Forms.Label lblReservationStatus;
         private System.Windows.Forms.Button btnAddCustomer;
-        private System.Windows.Forms.TextBox txtArtifactPath;
-        private System.Windows.Forms.Label lblFilePath;
-        private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.ComboBox cboAC;
         private System.Windows.Forms.Label lblAC;
         private System.Windows.Forms.Label lblAvailableRooms;
         private System.Windows.Forms.Label lblTotalRooms;
-        private System.Windows.Forms.Label lblTotalBooking;
-        private System.Windows.Forms.Label lblTotalRoomsLodge;
-        private System.Windows.Forms.TextBox txtTotalRoom;
         private System.Windows.Forms.TextBox txtFilteredRoomCount;
         private System.Windows.Forms.TextBox txtFilteredAvailableRoomCount;
         private System.Windows.Forms.TextBox txtStatus;
-        private System.Windows.Forms.TextBox txtTotalBooking;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtInfant;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtChild;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtFemale;
     }
 }
