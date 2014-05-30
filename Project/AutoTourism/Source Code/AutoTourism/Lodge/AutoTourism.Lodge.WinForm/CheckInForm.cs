@@ -114,11 +114,8 @@ namespace AutoTourism.Lodge.WinForm
         protected override void LoadForm()
         {
             //set default date format
-            this.dtFrom.Format = DateTimePickerFormat.Custom;
-            this.dtFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
-
-            this.dtFromTime.Format = DateTimePickerFormat.Time;
-            this.dtFromTime.ShowUpDown = true;
+            //this.dtFrom.Format = DateTimePickerFormat.Custom;
+            //this.dtFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
 
             Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
             base.facade.LoadForm();
@@ -163,10 +160,7 @@ namespace AutoTourism.Lodge.WinForm
             };
             this.cboAC.ValueMember = "Id";
             this.cboAC.DisplayMember = "Name";
-            this.cboAC.SelectedIndex = 0;            
-
-            this.txtArtifactPath.ReadOnly = true;
-            this.txtArtifactPath.Text = base.Artifact.Path;
+            this.cboAC.SelectedIndex = 0;
         }
 
         protected override void PopulateDataToForm()
@@ -1046,7 +1040,7 @@ namespace AutoTourism.Lodge.WinForm
                 filteredRoomList = reservation.FilterRoomList(formDto.roomList, 0, 0, 0);
                 this.totalRooms = filteredRoomList.Count;
                 //this.lblTotalRooms.Text = "Total Rooms : = " + filteredRoomList.Count.ToString();
-                this.txtTotalRoom.Text = filteredRoomList.Count.ToString();
+                //this.txtTotalRoom.Text = filteredRoomList.Count.ToString();
 
                 filteredRoomList = reservation.FilterRoomList(formDto.roomList, roomCategoryId, roomTypeId, acPreference);
                 if (filteredRoomList != null)
@@ -1062,7 +1056,7 @@ namespace AutoTourism.Lodge.WinForm
                 Int64 reservationId = (dto == null || dto.Reservation == null) ? 0 : dto.Reservation.Id;
                 this.totalBookings = reservation.GetReservedRoomList(this.dtFrom.Value, this.dtFrom.Value.AddDays(Convert.ToInt32(this.txtDays.Text)), reservationId);
                 //lblTotalBooking.Text = "Total Bookings between selected dates : = " + this.totalBookings.ToString();
-                this.txtTotalBooked.Text = this.totalBookings.ToString();
+                //this.txtTotalBooked.Text = this.totalBookings.ToString();
 
                 //reservation.GetNoOfRoomsBookedBetweenTwoDates(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, 0, 0, 0).ToString();
 
@@ -1103,8 +1097,8 @@ namespace AutoTourism.Lodge.WinForm
 
         private void Clear()
         {
-            txtTotalRoom.Text = String.Empty;
-            txtTotalBooked.Text = String.Empty;
+            //txtTotalRoom.Text = String.Empty;
+            //txtTotalBooked.Text = String.Empty;
             txtTotalRoomWithFilter.Text = String.Empty;
             txtAvailableRooms.Text = String.Empty;
 

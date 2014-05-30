@@ -66,16 +66,9 @@
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnAddReservation = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.txtArtifactPath = new System.Windows.Forms.TextBox();
-            this.lblFilePath = new System.Windows.Forms.Label();
             this.lblBookingFrom = new System.Windows.Forms.Label();
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
             this.dtFromTime = new System.Windows.Forms.DateTimePicker();
-            this.lblTotalRoom = new System.Windows.Forms.Label();
-            this.txtTotalRoom = new System.Windows.Forms.TextBox();
-            this.lblBookedRoom = new System.Windows.Forms.Label();
-            this.txtTotalBooked = new System.Windows.Forms.TextBox();
             this.btnCheckOut = new System.Windows.Forms.Button();
             this.btnGenerateInvoice = new System.Windows.Forms.Button();
             this.btnPay = new System.Windows.Forms.Button();
@@ -95,7 +88,7 @@
             this.groupBox2.Controls.Add(this.lblTotalRoomWithFilter);
             this.groupBox2.Controls.Add(this.lblAvailableRoom);
             this.groupBox2.ForeColor = System.Drawing.Color.Black;
-            this.groupBox2.Location = new System.Drawing.Point(15, 102);
+            this.groupBox2.Location = new System.Drawing.Point(15, 98);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(293, 199);
             this.groupBox2.TabIndex = 107;
@@ -320,7 +313,7 @@
             this.groupBox1.Controls.Add(this.lblName);
             this.groupBox1.Enabled = false;
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(319, 102);
+            this.groupBox1.Location = new System.Drawing.Point(319, 98);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(272, 199);
             this.groupBox1.TabIndex = 96;
@@ -445,32 +438,6 @@
             this.btnAddReservation.UseVisualStyleBackColor = true;
             this.btnAddReservation.Click += new System.EventHandler(this.btnAddReservation_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(653, 307);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 113;
-            this.button1.Text = "Browse";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
-            // 
-            // txtArtifactPath
-            // 
-            this.txtArtifactPath.Location = new System.Drawing.Point(103, 307);
-            this.txtArtifactPath.Name = "txtArtifactPath";
-            this.txtArtifactPath.Size = new System.Drawing.Size(488, 20);
-            this.txtArtifactPath.TabIndex = 112;
-            // 
-            // lblFilePath
-            // 
-            this.lblFilePath.AutoSize = true;
-            this.lblFilePath.Location = new System.Drawing.Point(16, 310);
-            this.lblFilePath.Name = "lblFilePath";
-            this.lblFilePath.Size = new System.Drawing.Size(81, 13);
-            this.lblFilePath.TabIndex = 111;
-            this.lblFilePath.Text = "Document Path";
-            // 
             // lblBookingFrom
             // 
             this.lblBookingFrom.AutoSize = true;
@@ -490,46 +457,12 @@
             // 
             // dtFromTime
             // 
+            this.dtFromTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtFromTime.Location = new System.Drawing.Point(209, 44);
             this.dtFromTime.Name = "dtFromTime";
+            this.dtFromTime.ShowUpDown = true;
             this.dtFromTime.Size = new System.Drawing.Size(101, 20);
             this.dtFromTime.TabIndex = 116;
-            // 
-            // lblTotalRoom
-            // 
-            this.lblTotalRoom.AutoSize = true;
-            this.lblTotalRoom.Location = new System.Drawing.Point(610, 284);
-            this.lblTotalRoom.Name = "lblTotalRoom";
-            this.lblTotalRoom.Size = new System.Drawing.Size(67, 13);
-            this.lblTotalRoom.TabIndex = 117;
-            this.lblTotalRoom.Text = "Total Rooms";
-            this.lblTotalRoom.Visible = false;
-            // 
-            // txtTotalRoom
-            // 
-            this.txtTotalRoom.Location = new System.Drawing.Point(675, 281);
-            this.txtTotalRoom.Name = "txtTotalRoom";
-            this.txtTotalRoom.Size = new System.Drawing.Size(49, 20);
-            this.txtTotalRoom.TabIndex = 118;
-            this.txtTotalRoom.Visible = false;
-            // 
-            // lblBookedRoom
-            // 
-            this.lblBookedRoom.AutoSize = true;
-            this.lblBookedRoom.Location = new System.Drawing.Point(610, 265);
-            this.lblBookedRoom.Name = "lblBookedRoom";
-            this.lblBookedRoom.Size = new System.Drawing.Size(107, 13);
-            this.lblBookedRoom.TabIndex = 119;
-            this.lblBookedRoom.Text = "Total Booked Rooms";
-            this.lblBookedRoom.Visible = false;
-            // 
-            // txtTotalBooked
-            // 
-            this.txtTotalBooked.Location = new System.Drawing.Point(680, 258);
-            this.txtTotalBooked.Name = "txtTotalBooked";
-            this.txtTotalBooked.Size = new System.Drawing.Size(49, 20);
-            this.txtTotalBooked.TabIndex = 121;
-            this.txtTotalBooked.Visible = false;
             // 
             // btnCheckOut
             // 
@@ -564,8 +497,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(736, 339);
-            this.Controls.Add(this.lblBookedRoom);
+            this.ClientSize = new System.Drawing.Size(736, 310);
             this.Controls.Add(this.btnPay);
             this.Controls.Add(this.btnGenerateInvoice);
             this.Controls.Add(this.cboAC);
@@ -575,15 +507,9 @@
             this.Controls.Add(this.lblType);
             this.Controls.Add(this.cboCategory);
             this.Controls.Add(this.lblCategory);
-            this.Controls.Add(this.txtTotalBooked);
-            this.Controls.Add(this.txtTotalRoom);
-            this.Controls.Add(this.lblTotalRoom);
             this.Controls.Add(this.dtFromTime);
             this.Controls.Add(this.dtFrom);
             this.Controls.Add(this.lblBookingFrom);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.txtArtifactPath);
-            this.Controls.Add(this.lblFilePath);
             this.Controls.Add(this.btnAddReservation);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnRefresh);
@@ -644,9 +570,6 @@
         private System.Windows.Forms.Label lblCategory;
         private System.Windows.Forms.ComboBox cboCategory;
         private System.Windows.Forms.Button btnAddReservation;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox txtArtifactPath;
-        private System.Windows.Forms.Label lblFilePath;
         private System.Windows.Forms.Label lblAC;
         private System.Windows.Forms.ComboBox cboAC;
         private System.Windows.Forms.Label lblBookingFrom;
@@ -654,10 +577,6 @@
         private System.Windows.Forms.DateTimePicker dtFromTime;
         private System.Windows.Forms.TextBox txtAvailableRooms;
         private System.Windows.Forms.Label lblAvailableRoom;
-        private System.Windows.Forms.TextBox txtTotalBooked;
-        private System.Windows.Forms.Label lblBookedRoom;
-        private System.Windows.Forms.TextBox txtTotalRoom;
-        private System.Windows.Forms.Label lblTotalRoom;
         private System.Windows.Forms.TextBox txtTotalRoomWithFilter;
         private System.Windows.Forms.Label lblTotalRoomWithFilter;
         private System.Windows.Forms.Button btnCheckOut;
