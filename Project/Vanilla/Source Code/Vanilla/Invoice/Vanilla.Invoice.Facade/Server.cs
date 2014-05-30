@@ -254,7 +254,7 @@ namespace Vanilla.Invoice.Facade
             if (ret.Value)
             {
                 invoiceDto.date = DateTime.Now; // updating the dto with current date since in SP current date is getting updated
-                
+                if (this.componentServer == null) this.componentServer = this.GetComponentServer();
                 (this.componentServer as BinAff.Core.Crud).Data.Id = autoCustomer.Invoice.Active.Id;
                 ret = (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForCreate();
             }

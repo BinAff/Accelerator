@@ -5,6 +5,7 @@ namespace Vanilla.Utility.Facade.Artifact
     {
         Form = 1,
         Catalogue = 2,
-        Report = 3
+        Report = 3,
+        CommercialInstrument = 4,
     }
 }
