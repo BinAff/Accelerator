@@ -46,6 +46,9 @@
     <Compile Include="Payment\Server.cs" />
     <Compile Include="Payment\Type\Dto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Receipt\Dto.cs" />
+    <Compile Include="Receipt\FormDto.cs" />
+    <Compile Include="Receipt\Server.cs" />
     <Compile Include="Report\Dto.cs" />
     <Compile Include="Report\FormDto.cs" />
     <Compile Include="Report\IReport.cs" />
