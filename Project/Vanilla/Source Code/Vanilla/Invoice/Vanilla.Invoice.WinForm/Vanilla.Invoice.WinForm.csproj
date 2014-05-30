@@ -85,6 +85,7 @@
     <Compile Include="Taxation.Designer.cs">
       <DependentUpon>Taxation.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AdvanceReceipt.rdlc" />
     <EmbeddedResource Include="Invoice.rdlc" />
     <EmbeddedResource Include="Invoice.resx">
       <DependentUpon>Invoice.cs</DependentUpon>
@@ -98,6 +99,7 @@
     <EmbeddedResource Include="PaymentForm.resx">
       <DependentUpon>PaymentForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PaymentReceipt.rdlc" />
     <EmbeddedResource Include="PaymentReceipt.resx">
       <DependentUpon>PaymentReceipt.cs</DependentUpon>
     </EmbeddedResource>
