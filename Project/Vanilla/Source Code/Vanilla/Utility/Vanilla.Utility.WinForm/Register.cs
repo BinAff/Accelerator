@@ -179,7 +179,9 @@ namespace Vanilla.Utility.WinForm
             ArtfFac.Dto parentArtifact = this.GetParent(document);
             TreeView currrentTreeView = this.GetActiveTreeView();
             TreeNode parentNode = currrentTreeView.FindNode(parentArtifact);
-            this.GetArtifact(parentNode.Tag).Children.Add(document);
+            ArtfFac.Dto parentArtf = this.GetArtifact(parentNode.Tag);
+            if(parentArtf.Children == null) parentArtf.Children = new List<ArtfFac.Dto>();
+            parentArtf.Children.Add(document);
             if (currrentTreeView.SelectedNode == parentNode)
             {
                 this.lsvContainer.AttachChild(document);
