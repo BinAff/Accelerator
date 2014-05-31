@@ -11,16 +11,24 @@ using DocFac = Vanilla.Utility.Facade.Document;
 
 namespace Vanilla.Invoice.WinForm
 {
-    public partial class Invoice : FormWin.Document
+    public partial class Invoice : System.Windows.Forms.Form
     {
+
         //private Facade.Dto dto;
         //private Facade.FormDto formDto;
-
-        public Invoice(UtilFac.Artifact.Dto artifact)
-            : base(artifact)
+        String invoiceNumber = "INVO-30-05-201404324";
+        public Invoice()
         {
-            InitializeComponent();            
+            InitializeComponent();
+          
+            this.LoadForm();
         }
+
+        //public Invoice(UtilFac.Artifact.Dto artifact)
+        //    : base(artifact)
+        //{
+        //    InitializeComponent();            
+        //}
 
         //public Invoice()
         //{
@@ -52,23 +60,23 @@ namespace Vanilla.Invoice.WinForm
         //    //this.LoadReport();
         //}
 
-        protected override void Compose()
-        {
-            base.formDto = new Facade.FormDto
-            {
-                ModuleFormDto = new UtilFac.Module.FormDto(),
-                Dto = new Facade.Dto()
-            };
+        //protected override void Compose()
+        //{
+        //    base.formDto = new Facade.FormDto
+        //    {
+        //        ModuleFormDto = new UtilFac.Module.FormDto(),
+        //        Dto = new Facade.Dto()
+        //    };
 
-            //this.facade = new Facade.Server(this.formDto as Facade.FormDto);
-        }
+        //    //this.facade = new Facade.Server(this.formDto as Facade.FormDto);
+        //}
 
-        protected override DocFac.Dto CloneDto(DocFac.Dto source)
-        {
-            return new DocFac.Dto();
-        }
+        //protected override DocFac.Dto CloneDto(DocFac.Dto source)
+        //{
+        //    return new DocFac.Dto();
+        //}
 
-        protected override void LoadForm()
+        protected void LoadForm()
         {
             //BinAff.Facade.Library.Server facade = new Facade.Server(formDto);
             //facade.LoadForm();
@@ -76,66 +84,66 @@ namespace Vanilla.Invoice.WinForm
             //Facade.FormDto formDto = base.formDto as Facade.FormDto;
             //base.facade.LoadForm();
             
-            this.LoadReport();
+            //this.LoadReport();
         }
 
-        protected override void PopulateDataToForm()
-        { 
+        //protected override void PopulateDataToForm()
+        //{ 
         
-        }
+        //}
 
-        protected override Boolean ValidateForm()
-        {
-            return true;
-        }
+        //protected override Boolean ValidateForm()
+        //{
+        //    return true;
+        //}
 
-        protected override void AssignDto()
-        { 
-        }
+        //protected override void AssignDto()
+        //{ 
+        //}
 
-        private void LoadReport()
-        {
-            Facade.Dto dto = base.Artifact.Module as Facade.Dto;
-            //Facade.Dto dto = base.formDto.Dto as Facade.Dto;
+        //private void LoadReport()
+        //{
+        //    Facade.Dto dto = base.Artifact.Module as Facade.Dto;
+        //    //Facade.Dto dto = base.formDto.Dto as Facade.Dto;
 
-            List<Data> invoiceList = this.PopulateReportData(dto);
+        //    List<Data> invoiceList = this.PopulateReportData(dto);
 
-            this.rvInvoice.DocumentMapCollapsed = true;
-            this.rvInvoice.ShowPrintButton = false;
-            String path = System.IO.Directory.GetCurrentDirectory();
-            path = Application.StartupPath + "\\Report\\Invoice.rdlc";
+        //    this.rvInvoice.DocumentMapCollapsed = true;
+        //    this.rvInvoice.ShowPrintButton = false;
+        //    String path = System.IO.Directory.GetCurrentDirectory();
+        //    path = Application.StartupPath + "\\Report\\Invoice.rdlc";
 
-            this.rvInvoice.LocalReport.ReportPath = path;
-            string sDataSourceName = "Invoice";
+        //    this.rvInvoice.LocalReport.ReportPath = path;
+        //    string sDataSourceName = "Invoice";
 
-            String lineItemTotal = "122";
-            ReportParameter[] p = new ReportParameter[13];
-            //p[0] = new ReportParameter("InvoiceNumber", dto.invoiceNumber);
-            p[0] = new ReportParameter("InvoiceNumber", "test");
-            p[1] = new ReportParameter("SellerName", dto.seller.Name);
-            p[2] = new ReportParameter("SellerAddress", dto.seller.Address);
-            p[3] = new ReportParameter("SellerContactNo", dto.seller.ContactNumber);
-            p[4] = new ReportParameter("SellerEmail", dto.seller.Email);
-            p[5] = new ReportParameter("SellerLicenceNo", dto.seller.Liscence);
-            p[6] = new ReportParameter("BuyerName", dto.buyer.Name);
-            p[7] = new ReportParameter("BuyerContactNo", dto.buyer.ContactNumber);
-            p[8] = new ReportParameter("BuyerAddress", dto.buyer.Address);
-            p[9] = new ReportParameter("Total", lineItemTotal.ToString()); //Change
-            p[10] = new ReportParameter("Discount", dto.discount.ToString()); //Change
-            p[11] = new ReportParameter("Tax", "4"); //Change
-            p[12] = new ReportParameter("Advance", dto.advance.ToString());
+        //    String lineItemTotal = "122";
+        //    ReportParameter[] p = new ReportParameter[13];
+        //    //p[0] = new ReportParameter("InvoiceNumber", dto.invoiceNumber);
+        //    p[0] = new ReportParameter("InvoiceNumber", "test");
+        //    p[1] = new ReportParameter("SellerName", dto.seller.Name);
+        //    p[2] = new ReportParameter("SellerAddress", dto.seller.Address);
+        //    p[3] = new ReportParameter("SellerContactNo", dto.seller.ContactNumber);
+        //    p[4] = new ReportParameter("SellerEmail", dto.seller.Email);
+        //    p[5] = new ReportParameter("SellerLicenceNo", dto.seller.Liscence);
+        //    p[6] = new ReportParameter("BuyerName", dto.buyer.Name);
+        //    p[7] = new ReportParameter("BuyerContactNo", dto.buyer.ContactNumber);
+        //    p[8] = new ReportParameter("BuyerAddress", dto.buyer.Address);
+        //    p[9] = new ReportParameter("Total", lineItemTotal.ToString()); //Change
+        //    p[10] = new ReportParameter("Discount", dto.discount.ToString()); //Change
+        //    p[11] = new ReportParameter("Tax", "4"); //Change
+        //    p[12] = new ReportParameter("Advance", dto.advance.ToString());
 
-            this.rvInvoice.LocalReport.SetParameters(p);
+        //    this.rvInvoice.LocalReport.SetParameters(p);
 
-            Microsoft.Reporting.WinForms.ReportDataSource rptDataSoruce = new Microsoft.Reporting.WinForms.ReportDataSource();
-            rptDataSoruce.Name = sDataSourceName;
-            rptDataSoruce.Value = invoiceList;
+        //    Microsoft.Reporting.WinForms.ReportDataSource rptDataSoruce = new Microsoft.Reporting.WinForms.ReportDataSource();
+        //    rptDataSoruce.Name = sDataSourceName;
+        //    rptDataSoruce.Value = invoiceList;
 
-            this.rvInvoice.Visible = true;
-            this.rvInvoice.LocalReport.DataSources.Add(rptDataSoruce);
-            this.rvInvoice.RefreshReport();
+        //    this.rvInvoice.Visible = true;
+        //    this.rvInvoice.LocalReport.DataSources.Add(rptDataSoruce);
+        //    this.rvInvoice.RefreshReport();
                         
-        }
+        //}
 
         private List<Data> PopulateReportData(Facade.Dto dto)
         {

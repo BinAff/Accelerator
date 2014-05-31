@@ -69,7 +69,10 @@ namespace Vanilla.Invoice.WinForm
         private void btnPrint_Click(object sender, EventArgs e)
         {
             //Disabled initially, enabled after generation
-            //new Invoice().ShowDialog();
+            //new Invoice().ShowDialog();            
+          
+            System.Windows.Forms.Form form = new Vanilla.Invoice.WinForm.Invoice();           
+            form.ShowDialog();           
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
