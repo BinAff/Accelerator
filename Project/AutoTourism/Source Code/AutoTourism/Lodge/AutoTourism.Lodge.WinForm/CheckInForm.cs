@@ -479,8 +479,7 @@ namespace AutoTourism.Lodge.WinForm
                 invNumber = invoiceDto.invoiceNumber;
                 (base.facade as Facade.CheckIn.CheckInServer).PopulateInvoiceDto(invoiceDto);
                 inv = new UtilFac.Artifact.Dto
-                {
-                    //Id = 5, // to be removed
+                {                   
                     Module = invoiceDto
                 };
             }
@@ -1294,7 +1293,11 @@ namespace AutoTourism.Lodge.WinForm
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
 
             Facade.CheckIn.ICheckIn checkInServer = new Facade.CheckIn.CheckInServer(base.formDto as LodgeFac.CheckIn.FormDto);
-            Vanilla.Invoice.Facade.Dto invoiceDto = checkInServer.ReadInvoice(dto.InvoiceNumber);
+
+            InvFac.IInvoice invoice = new InvFac.Server(null);
+            InvFac.Dto invoiceDto = invoice.GetInvoice(dto.InvoiceNumber);
+
+            //Vanilla.Invoice.Facade.Dto invoiceDto = checkInServer.ReadInvoice(dto.InvoiceNumber);
 
             UtilFac.Artifact.Dto invoiceArtifact = (base.facade as Facade.CheckIn.CheckInServer).GetInvoiceArtifact(dto.InvoiceNumber);
 

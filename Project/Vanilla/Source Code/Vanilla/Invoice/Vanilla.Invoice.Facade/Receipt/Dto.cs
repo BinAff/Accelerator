@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Vanilla.Invoice.Facade.Receipt
 {
-    class Dto
+    public class Dto
     {
+        public DateTime Date { get; set; }
+        public string InvoiceNumber { get; set; }
+        public double Advance { get; set; }
+        public double Discount { get; set; }
+        public Buyer.Dto Buyer { get; set; }
+        public Seller.Dto Seller { get; set; }
+        
+        public List<LineItem.Dto> ProductList { get; set; }
     }
 }

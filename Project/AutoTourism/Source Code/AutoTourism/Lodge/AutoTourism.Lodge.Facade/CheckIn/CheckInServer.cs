@@ -464,25 +464,26 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return true;
         }
 
-        private InvFac.Dto ReadInvoice(String invoiceNumber)
-        {
-            InvFac.Dto invoiceDto = null;
-            //Crystal.Invoice.Component.IInvoice invoice = new Crystal.Invoice.Component.Server(new Crystal.Invoice.Component.Data());
-            //ReturnObject<Crystal.Invoice.Component.Data> retVal = invoice.GetInvoice(invoiceNumber);
+        //private InvFac.Dto ReadInvoice(String invoiceNumber)
+        //{
+        //    InvFac.Dto invoiceDto = null;
+        //    //Crystal.Invoice.Component.IInvoice invoice = new Crystal.Invoice.Component.Server(new Crystal.Invoice.Component.Data());
+        //    //ReturnObject<Crystal.Invoice.Component.Data> retVal = invoice.GetInvoice(invoiceNumber);
 
-            InvFac.IInvoice invoice = new InvFac.Server(null);
-            ReturnObject<Crystal.Invoice.Component.Data> retVal = invoice.GetInvoice(invoiceNumber);
+        //    InvFac.IInvoice invoice = new InvFac.Server(null);
+        //    invoice.GetInvoice(invoiceNumber);
+        //    //ReturnObject<Crystal.Invoice.Component.Data> retVal = invoice.GetInvoice(invoiceNumber);
 
-            if (retVal != null)
-                invoiceDto = new InvFac.Server(null).Convert(retVal.Value) as InvFac.Dto;
+        //    //if (retVal != null)
+        //    //    invoiceDto = new InvFac.Server(null).Convert(retVal.Value) as InvFac.Dto;
 
-            return invoiceDto;
-        }
+        //    return invoiceDto;
+        //}
         
-        InvFac.Dto ICheckIn.ReadInvoice(string invoiceNumber)
-        {
-            return this.ReadInvoice(invoiceNumber);
-        }
+        //InvFac.Dto ICheckIn.ReadInvoice(string invoiceNumber)
+        //{
+        //    return this.ReadInvoice(invoiceNumber);
+        //}
 
         protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData)
         {

@@ -71,7 +71,7 @@ namespace Vanilla.Invoice.WinForm
             //Disabled initially, enabled after generation
             //new Invoice().ShowDialog();            
           
-            System.Windows.Forms.Form form = new Vanilla.Invoice.WinForm.Invoice();           
+            System.Windows.Forms.Form form = new Vanilla.Invoice.WinForm.InvoiceReceipt();           
             form.ShowDialog();           
         }
 
