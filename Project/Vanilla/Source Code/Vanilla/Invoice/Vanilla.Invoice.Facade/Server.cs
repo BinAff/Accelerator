@@ -152,11 +152,28 @@ namespace Vanilla.Invoice.Facade
                         description = lineItem.Description,
                         unitRate = lineItem.UnitRate,
                         count = lineItem.Count,
-                        total = lineItem.Total
+                        total = lineItem.Total,
+                        TaxList = PopulateTaxToLineItem(lineItem.TaxList)
                     });
                 }
             }
             return productList;
+        }
+
+        private List<Taxation.Dto> PopulateTaxToLineItem(List<BinAff.Core.Data> taxList)
+        {
+            List<Taxation.Dto> taxLst = new List<Taxation.Dto>();
+            foreach (BinAff.Core.Data data in taxList)
+            {
+                Crystal.Invoice.Component.Taxation.Data taxData = data as Crystal.Invoice.Component.Taxation.Data;
+                taxLst.Add(new Taxation.Dto 
+                {
+                    Name = taxData.Name,
+                    isPercentage = taxData.isPercentage,
+                    Amount = taxData.Amount
+                });
+            }
+            return taxLst;
         }
 
         private List<Vanilla.Invoice.Facade.Taxation.Dto> GetTaxation(List<BinAff.Core.Data> taxationList)
@@ -227,10 +244,22 @@ namespace Vanilla.Invoice.Facade
             return taxList;
         }
 
-        ReturnObject<Crystal.Invoice.Component.Data> IInvoice.GetInvoice(String invoiceNumber)
-        {            
+        //ReturnObject<Crystal.Invoice.Component.Data> IInvoice.GetInvoice(String invoiceNumber)
+        //{            
+        //    InvoiceCrys.IInvoice invoice = new InvoiceCrys.Server(new InvoiceCrys.Data());
+        //    return invoice.GetInvoice(invoiceNumber);
+        //}
+
+        Dto IInvoice.GetInvoice(String invoiceNumber)
+        {
+            Dto dto = null;
             InvoiceCrys.IInvoice invoice = new InvoiceCrys.Server(new InvoiceCrys.Data());
-            return invoice.GetInvoice(invoiceNumber);
+            ReturnObject<Crystal.Invoice.Component.Data> retVal = invoice.GetInvoice(invoiceNumber);
+
+            if (retVal != null)            
+              dto =  this.Convert(retVal.Value) as Dto;
+
+            return dto;
         }
 
         public ReturnObject<Boolean> GenerateInvoice()
@@ -511,3 +540,70 @@ namespace Vanilla.Invoice.Facade
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

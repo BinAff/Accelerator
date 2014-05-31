@@ -121,6 +121,32 @@ namespace Crystal.Invoice.Component.LineItem
             return retVal;
         }
 
+        protected override bool ReadAfter()
+        {
+            this.CreateCommand("[Invoice].[LineItemTaxationRead]");
+            this.AddInParameter("@LineItemId", DbType.Int64, this.Data.Id);
+
+            DataSet ds = this.ExecuteDataSet();
+            (this.Data as Data).TaxList = new List<BinAff.Core.Data>();
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow row in ds.Tables[0].Rows)
+                {
+                    Invoice.Component.Taxation.Data data = new Taxation.Data
+                    {
+                        Id = Convert.IsDBNull(row["LineItemId"]) ? 0 : Convert.ToInt64(row["LineItemId"]),
+                        Name = Convert.IsDBNull(row["TaxName"]) ? String.Empty : Convert.ToString(row["TaxName"]),
+                        Amount = Convert.IsDBNull(row["TaxAmount"]) ? 0 : Convert.ToDouble(row["TaxAmount"]),
+                        isPercentage = Convert.IsDBNull(row["IsPercentage"]) ? true : Convert.ToBoolean(row["IsPercentage"])
+                    };
+
+                    (this.Data as Data).TaxList.Add(data);
+                }
+            }
+
+            return true;
+        }
+
     }
 
 }
