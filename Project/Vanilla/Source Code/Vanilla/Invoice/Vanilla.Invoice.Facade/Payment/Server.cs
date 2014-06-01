@@ -53,6 +53,14 @@ namespace Vanilla.Invoice.Facade.Payment
             }
             return paymentList;
         }
+
+        //public Dto GetInvoice(String invoiceNumber)
+        //{
+        //    Facade.IInvoice invoiceServer = new Facade.Server(new Facade.FormDto());
+        //    Facade.Dto invoiceDto = invoiceServer.GetInvoice(invoiceNumber);
+
+        //    return this.ConvertToReceiptDto(invoiceDto);
+        //}
                 
     }
 }
