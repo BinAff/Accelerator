@@ -99,6 +99,10 @@
     <EmbeddedResource Include="InvoiceForm.resx">
       <DependentUpon>InvoiceForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="InvoiceReceipt.rdlc" />
+    <EmbeddedResource Include="InvoiceReceipt.resx">
+      <DependentUpon>InvoiceReceipt.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Payment.resx">
       <DependentUpon>Payment.cs</DependentUpon>
     </EmbeddedResource>
