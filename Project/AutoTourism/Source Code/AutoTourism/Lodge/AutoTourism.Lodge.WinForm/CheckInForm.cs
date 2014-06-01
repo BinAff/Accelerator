@@ -541,6 +541,12 @@ namespace AutoTourism.Lodge.WinForm
             this.Close();
         }
 
+        private void btnPay_Click(object sender, EventArgs e)
+        {
+            FrmWin.Document form = new Vanilla.Invoice.WinForm.PaymentForm();        
+            form.ShowDialog();
+        }
+
         void form_ArtifactSaved(UtilFac.Artifact.Dto document)
         {
             base.RaiseChildArtifactSaved(document);
@@ -1392,7 +1398,6 @@ namespace AutoTourism.Lodge.WinForm
             CheckIn = 10001,
             CheckOut = 10002
         }
-
     }
 
 }
