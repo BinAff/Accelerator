@@ -1,5 +1,6 @@
 ﻿using System;
 using BinAff.Core;
+using System.Collections.Generic;
 
 namespace Vanilla.Invoice.Facade.Receipt
 {
@@ -27,6 +28,25 @@ namespace Vanilla.Invoice.Facade.Receipt
             };
         }
 
+        public Double CalculateTaxAmount(List<Taxation.Dto> taxList, String taxName, Double total)
+        {
+            Double taxValue = 0;
+
+            foreach (Taxation.Dto dto in taxList)
+            {
+                if (taxName == dto.Name)
+                {
+                    if (dto.isPercentage)
+                        taxValue = total * (dto.Amount / 100);
+                    else
+                        taxValue = dto.Amount;
+
+                    break;
+                }
+            }
+
+            return taxValue;
+        }
       
     }
 }

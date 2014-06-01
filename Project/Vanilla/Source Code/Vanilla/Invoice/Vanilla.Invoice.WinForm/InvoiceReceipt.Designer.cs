@@ -28,11 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.rvInvoiceReceipt = new Microsoft.Reporting.WinForms.ReportViewer();
+            this.SuspendLayout();
+            // 
+            // rvInvoiceReceipt
+            // 
+            this.rvInvoiceReceipt.Location = new System.Drawing.Point(2, 2);
+            this.rvInvoiceReceipt.Name = "rvInvoiceReceipt";
+            this.rvInvoiceReceipt.Size = new System.Drawing.Size(895, 540);
+            this.rvInvoiceReceipt.TabIndex = 0;
+            // 
+            // InvoiceReceipt
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(895, 536);
+            this.Controls.Add(this.rvInvoiceReceipt);
+            this.Name = "InvoiceReceipt";
             this.Text = "InvoiceReceipt";
+            this.Load += new System.EventHandler(this.InvoiceReceipt_Load);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private Microsoft.Reporting.WinForms.ReportViewer rvInvoiceReceipt;
     }
 }

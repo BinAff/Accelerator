@@ -666,7 +666,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 {
                     if (dto.Id == roomId)
                     {
-                        roomDescription = dto.Category.Name + ", " + dto.Type.Name + ", " + (dto.IsAirconditioned ? "AC" : "Non AC");
+                        roomDescription = "Room No - " + dto.Number.ToString() + " :" + dto.Category.Name + ", " + dto.Type.Name + ", " + (dto.IsAirconditioned ? "AC" : "Non AC");
                         break;
                     }
                 }
