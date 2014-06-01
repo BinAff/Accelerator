@@ -108,7 +108,7 @@ namespace Vanilla.Invoice.WinForm
 
             this.SetPaymentGridViewSettings();
 
-            this.LoadProductData();
+            //this.LoadProductData();
            
 
             Facade.Payment.Server server = new Facade.Payment.Server(this.formDto);
@@ -128,78 +128,78 @@ namespace Vanilla.Invoice.WinForm
         }
               
 
-        private void LoadProductData()
-        {
-            for (int i = 0; i < dgvProduct.Columns.Count; i++)
-                dgvProduct.Columns[i].ReadOnly = true;
+        //private void LoadProductData()
+        //{
+        //    for (int i = 0; i < dgvProduct.Columns.Count; i++)
+        //        dgvProduct.Columns[i].ReadOnly = true;
 
-            dgvProduct.Columns[0].DataPropertyName = "Start";
-            dgvProduct.Columns[1].DataPropertyName = "End";
-            dgvProduct.Columns[2].DataPropertyName = "Description";
-            dgvProduct.Columns[3].DataPropertyName = "UnitRate";
-            dgvProduct.Columns[4].DataPropertyName = "Count";
-            dgvProduct.Columns[5].DataPropertyName = "Total";
-            dgvProduct.MultiSelect = false;
+        //    dgvProduct.Columns[0].DataPropertyName = "Start";
+        //    dgvProduct.Columns[1].DataPropertyName = "End";
+        //    dgvProduct.Columns[2].DataPropertyName = "Description";
+        //    dgvProduct.Columns[3].DataPropertyName = "UnitRate";
+        //    dgvProduct.Columns[4].DataPropertyName = "Count";
+        //    dgvProduct.Columns[5].DataPropertyName = "Total";
+        //    dgvProduct.MultiSelect = false;
 
-            List<Data> invoiceList = new List<Data>();
-            Double lineItemTotal = 0;
-            foreach (Facade.LineItem.Dto lineItem in this.formDto.ProductList)
-            {
-                invoiceList.Add(new Data
-                {
-                    Start = lineItem.startDate.ToShortDateString(),
-                    End = lineItem.endDate.ToShortDateString(),
-                    Description = lineItem.description,
-                    UnitRate = lineItem.unitRate.ToString(),
-                    Count = lineItem.count.ToString(),
-                    Total = lineItem.total.ToString()
-                });
-                lineItemTotal += lineItem.total;
-            }
+        //    List<Data> invoiceList = new List<Data>();
+        //    Double lineItemTotal = 0;
+        //    foreach (Facade.LineItem.Dto lineItem in this.formDto.ProductList)
+        //    {
+        //        invoiceList.Add(new Data
+        //        {
+        //            Start = lineItem.startDate.ToShortDateString(),
+        //            End = lineItem.endDate.ToShortDateString(),
+        //            Description = lineItem.description,
+        //            UnitRate = lineItem.unitRate.ToString(),
+        //            Count = lineItem.count.ToString(),
+        //            Total = lineItem.total.ToString()
+        //        });
+        //        lineItemTotal += lineItem.total;
+        //    }
 
-            dgvProduct.DataSource = invoiceList;
+        //    dgvProduct.DataSource = invoiceList;
 
-            this.LoadTax(lineItemTotal);
+        //    this.LoadTax(lineItemTotal);
            
-        }
+        //}
 
-        private void LoadTax(Double total)
-        {
-            //Facade.Dto invoiceDto = base.Artifact.Module as Vanilla.Invoice.Facade.Dto;
+        //private void LoadTax(Double total)
+        //{
+        //    //Facade.Dto invoiceDto = base.Artifact.Module as Vanilla.Invoice.Facade.Dto;
 
-            Facade.IInvoice invoiceServer = new Facade.Server(null);
-            List<Table> taxList = invoiceServer.CalulateTaxList(total, this.formDto.TaxationList);
-            dgvTax.ColumnHeadersVisible = false;
-            for (int i = 0; i < dgvTax.Columns.Count; i++)
-                dgvTax.Columns[i].ReadOnly = true;
+        //    Facade.IInvoice invoiceServer = new Facade.Server(null);
+        //    List<Table> taxList = invoiceServer.CalulateTaxList(total, this.formDto.TaxationList);
+        //    dgvTax.ColumnHeadersVisible = false;
+        //    for (int i = 0; i < dgvTax.Columns.Count; i++)
+        //        dgvTax.Columns[i].ReadOnly = true;
 
-            dgvTax.Columns[0].DataPropertyName = "Name";
-            dgvTax.Columns[1].DataPropertyName = "Value";
+        //    dgvTax.Columns[0].DataPropertyName = "Name";
+        //    dgvTax.Columns[1].DataPropertyName = "Value";
 
-            dgvProduct.MultiSelect = false;
-            dgvTax.DataSource = taxList;
+        //    dgvProduct.MultiSelect = false;
+        //    dgvTax.DataSource = taxList;
 
-            Double totalAfterTax = total;
-            if (taxList != null && taxList.Count > 0)
-            {
-                foreach (Table tax in taxList)
-                    totalAfterTax += tax.Value;
-            }
-            txtTotal.Text = totalAfterTax.ToString();
-            txtAdvance.Text = this.formDto.Advance.ToString();
-            txtGrandTotal.Text = (totalAfterTax - this.formDto.Advance).ToString();
-        }
+        //    Double totalAfterTax = total;
+        //    if (taxList != null && taxList.Count > 0)
+        //    {
+        //        foreach (Table tax in taxList)
+        //            totalAfterTax += tax.Value;
+        //    }
+        //    txtTotal.Text = totalAfterTax.ToString();
+        //    txtAdvance.Text = this.formDto.Advance.ToString();
+        //    txtGrandTotal.Text = (totalAfterTax - this.formDto.Advance).ToString();
+        //}
 
         private void txtDiscount_TextChanged(object sender, EventArgs e)
         {
-            //Facade.Dto invoiceDto = base.Artifact.Module as Vanilla.Invoice.Facade.Dto;
-            Double discount = 0;
+            ////Facade.Dto invoiceDto = base.Artifact.Module as Vanilla.Invoice.Facade.Dto;
+            //Double discount = 0;
 
-            if (ValidationRule.IsDouble(txtDiscount.Text))
-                discount = Convert.ToDouble(txtDiscount.Text);
+            //if (ValidationRule.IsDouble(txtDiscount.Text))
+            //    discount = Convert.ToDouble(txtDiscount.Text);
 
-            if (ValidationRule.IsDouble(txtDiscount.Text))
-                txtGrandTotal.Text = (Convert.ToDouble(txtTotal.Text) - this.formDto.Advance - discount).ToString();
+            //if (ValidationRule.IsDouble(txtDiscount.Text))
+            //    txtGrandTotal.Text = (Convert.ToDouble(txtTotal.Text) - this.formDto.Advance - discount).ToString();
             
         }
         
@@ -393,19 +393,19 @@ namespace Vanilla.Invoice.WinForm
         {
             //Facade.Dto invoiceDto = base.Artifact.Module as Vanilla.Invoice.Facade.Dto;
 
-            if (this.ValidateMakePayment())
-            {
-                //call crystal invoice
-                //invoiceDto.invoiceNumber = Common.GenerateInvoiceNumber();
-                //invoiceDto.paymentList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
-                //invoiceDto.discount = txtDiscount.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtDiscount.Text);
-                //this.formDto.InvoiceNumber = Common.GenerateInvoiceNumber();
-                this.formDto.PaymentList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
-                this.formDto.Discount = txtDiscount.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtDiscount.Text);
+            //if (this.ValidateMakePayment())
+            //{
+            //    //call crystal invoice
+            //    //invoiceDto.invoiceNumber = Common.GenerateInvoiceNumber();
+            //    //invoiceDto.paymentList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
+            //    //invoiceDto.discount = txtDiscount.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtDiscount.Text);
+            //    //this.formDto.InvoiceNumber = Common.GenerateInvoiceNumber();
+            //    this.formDto.PaymentList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
+            //    this.formDto.Discount = txtDiscount.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtDiscount.Text);
 
-                this.Close();
+            //    this.Close();
 
-            }
+            //}
         }
 
         private Boolean ValidateMakePayment()

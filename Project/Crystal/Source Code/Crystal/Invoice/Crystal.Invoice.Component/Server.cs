@@ -82,6 +82,11 @@ namespace Crystal.Invoice.Component
             };
         }
 
+        Int64 IInvoice.GetInvoiceId(string invoiceNumber)
+        {
+            return new Dao((Data)this.Data).ReadInvoiceId(invoiceNumber);            
+        }
+
     }
 
 }

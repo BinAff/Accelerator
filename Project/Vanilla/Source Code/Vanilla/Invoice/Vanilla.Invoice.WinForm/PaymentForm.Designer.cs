@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dgvPayment = new System.Windows.Forms.DataGridView();
             this.PaymentType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -35,11 +36,11 @@
             this.Remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnPay = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtPaymentAmount = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtInvoiceNumber = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtInvoiceDate = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtAmount = new System.Windows.Forms.TextBox();
             this.lblAmount = new System.Windows.Forms.Label();
@@ -52,8 +53,10 @@
             this.txtLastFourDigit = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btnPrint = new System.Windows.Forms.Button();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPayment)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvPayment
@@ -68,6 +71,7 @@
             this.dgvPayment.Name = "dgvPayment";
             this.dgvPayment.Size = new System.Drawing.Size(647, 111);
             this.dgvPayment.TabIndex = 124;
+            this.dgvPayment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPayment_CellContentClick);
             // 
             // PaymentType
             // 
@@ -109,14 +113,14 @@
             this.label1.TabIndex = 130;
             this.label1.Text = "Amount to be Paid";
             // 
-            // textBox1
+            // txtPaymentAmount
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(559, 8);
-            this.textBox1.MaxLength = 4;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 129;
+            this.txtPaymentAmount.Enabled = false;
+            this.txtPaymentAmount.Location = new System.Drawing.Point(559, 8);
+            this.txtPaymentAmount.MaxLength = 4;
+            this.txtPaymentAmount.Name = "txtPaymentAmount";
+            this.txtPaymentAmount.Size = new System.Drawing.Size(100, 20);
+            this.txtPaymentAmount.TabIndex = 129;
             // 
             // label3
             // 
@@ -128,14 +132,14 @@
             this.label3.TabIndex = 132;
             this.label3.Text = "Invoice number";
             // 
-            // textBox2
+            // txtInvoiceNumber
             // 
-            this.textBox2.Enabled = false;
-            this.textBox2.Location = new System.Drawing.Point(105, 8);
-            this.textBox2.MaxLength = 4;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 131;
+            this.txtInvoiceNumber.Enabled = false;
+            this.txtInvoiceNumber.Location = new System.Drawing.Point(105, 8);
+            this.txtInvoiceNumber.MaxLength = 4;
+            this.txtInvoiceNumber.Name = "txtInvoiceNumber";
+            this.txtInvoiceNumber.Size = new System.Drawing.Size(100, 20);
+            this.txtInvoiceNumber.TabIndex = 131;
             // 
             // label4
             // 
@@ -147,14 +151,14 @@
             this.label4.TabIndex = 134;
             this.label4.Text = "Invoice Date";
             // 
-            // textBox3
+            // txtInvoiceDate
             // 
-            this.textBox3.Enabled = false;
-            this.textBox3.Location = new System.Drawing.Point(327, 8);
-            this.textBox3.MaxLength = 4;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 133;
+            this.txtInvoiceDate.Enabled = false;
+            this.txtInvoiceDate.Location = new System.Drawing.Point(327, 8);
+            this.txtInvoiceDate.MaxLength = 4;
+            this.txtInvoiceDate.Name = "txtInvoiceDate";
+            this.txtInvoiceDate.Size = new System.Drawing.Size(100, 20);
+            this.txtInvoiceDate.TabIndex = 133;
             // 
             // groupBox1
             // 
@@ -198,6 +202,7 @@
             this.btnChange.TabIndex = 134;
             this.btnChange.Text = "Change";
             this.btnChange.UseVisualStyleBackColor = true;
+            this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
             // 
             // btnAdd
             // 
@@ -207,6 +212,7 @@
             this.btnAdd.TabIndex = 133;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // cboPaymentType
             // 
@@ -271,6 +277,10 @@
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
+            // 
             // PaymentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -279,11 +289,11 @@
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.txtInvoiceDate);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.txtInvoiceNumber);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtPaymentAmount);
             this.Controls.Add(this.dgvPayment);
             this.Controls.Add(this.btnPay);
             this.Name = "PaymentForm";
@@ -291,6 +301,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvPayment)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -305,11 +316,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
         private System.Windows.Forms.Button btnPay;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtPaymentAmount;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtInvoiceNumber;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtInvoiceDate;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtAmount;
         private System.Windows.Forms.Label lblAmount;
@@ -322,6 +333,7 @@
         private System.Windows.Forms.TextBox txtLastFourDigit;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnPrint;
+        private System.Windows.Forms.ErrorProvider errorProvider;
 
     }
 }

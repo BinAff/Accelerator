@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using BinAff.Core;
-using ArtfCrys = Crystal.Navigator.Component.Artifact;
+
+using CryInv = Crystal.Invoice.Component;
+using System.Transactions;
 
 namespace Vanilla.Invoice.Facade.Payment
 {
@@ -54,13 +54,54 @@ namespace Vanilla.Invoice.Facade.Payment
             return paymentList;
         }
 
-        //public Dto GetInvoice(String invoiceNumber)
-        //{
-        //    Facade.IInvoice invoiceServer = new Facade.Server(new Facade.FormDto());
-        //    Facade.Dto invoiceDto = invoiceServer.GetInvoice(invoiceNumber);
+        public ReturnObject<Boolean> MakePayment(List<Dto> paymentList,String invoiceNumber)
+        {
+            ReturnObject<Boolean> ret = new ReturnObject<bool> { Value = true };
+            List<BinAff.Core.Data> paymentDataList = this.ConvertPayment(paymentList);
+            
+            Facade.IInvoice invoiceServer = new Facade.Server(new Facade.FormDto());
+            Int64 invoiceId = invoiceServer.GetInvoiceId(invoiceNumber);
 
-        //    return this.ConvertToReceiptDto(invoiceDto);
-        //}
+            using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
+            {
+                foreach (BinAff.Core.Data payment in paymentDataList)
+                {
+                    if (ret.Value)
+                    {
+                        (payment as CryInv.Payment.Data).Invoice = new CryInv.Data { Id = invoiceId };
+                        ICrud crud = new CryInv.Payment.Server(payment as CryInv.Payment.Data);
+                        ret = crud.Save();
+                    }
+                    break;
+                }
+
+                if (ret.Value)
+                    T.Complete();
+            }
+
+            return ret;
+        }
+
+        private List<BinAff.Core.Data> ConvertPayment(List<Payment.Dto> paymentList)
+        {
+            List<BinAff.Core.Data> paymentDataList = new List<Data>();
+            if (paymentList != null && paymentList.Count > 0)
+            {
+                foreach (Vanilla.Invoice.Facade.Payment.Dto dto in paymentList)
+                {
+                    paymentDataList.Add(new Crystal.Invoice.Component.Payment.Data
+                    {
+                        //Id = dto.Id,
+                        Type = new Crystal.Invoice.Component.Payment.Type.Data { Id = dto.Type.Id },
+                        CardNumber = dto.cardNumber,
+                        Remark = dto.remark,
+                        Amount = dto.amount,
+                    });
+                }
+            }
+            return paymentDataList;
+        }
+
                 
     }
 }
