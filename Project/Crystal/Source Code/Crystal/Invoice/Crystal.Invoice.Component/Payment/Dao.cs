@@ -27,7 +27,10 @@ namespace Crystal.Invoice.Component.Payment
         }
 
         protected override void AssignParameter(string procedureName)
-        {   
+        {
+            base.AddInParameter("@InvoiceId", DbType.Int64, ((Data)this.Data).Invoice.Id);
+            base.AddInParameter("@Amount", DbType.Double, ((Data)this.Data).Amount);
+
             base.AddInParameter("@CardNumber", DbType.String, ((Data)this.Data).CardNumber);
             base.AddInParameter("@Remark", DbType.String, ((Data)this.Data).Remark);
             base.AddInParameter("@PaymentTypeId", DbType.Int64, ((Data)this.Data).Type.Id);

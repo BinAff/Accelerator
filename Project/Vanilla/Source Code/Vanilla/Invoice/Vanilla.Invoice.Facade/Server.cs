@@ -262,6 +262,12 @@ namespace Vanilla.Invoice.Facade
             return dto;
         }
 
+        Int64 IInvoice.GetInvoiceId(String invoiceNumber)
+        {           
+            InvoiceCrys.IInvoice invoice = new InvoiceCrys.Server(new InvoiceCrys.Data());
+            return invoice.GetInvoiceId(invoiceNumber);
+        }
+
         public ReturnObject<Boolean> GenerateInvoice()
         {
             ReturnObject<Boolean> ret = new ReturnObject<bool>();
@@ -538,6 +544,7 @@ namespace Vanilla.Invoice.Facade
             
             return taxLst;
         }
+
     }
 }
 
