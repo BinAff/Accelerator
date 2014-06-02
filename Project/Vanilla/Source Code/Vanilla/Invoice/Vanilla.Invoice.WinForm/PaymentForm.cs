@@ -22,6 +22,13 @@ namespace Vanilla.Invoice.WinForm
         {
             InitializeComponent();
             this.SetPaymentGridViewSettings();
+
+            this.txtInvoiceNumber.Text = "INVO-30-05-201412910";
+            this.formDto.InvoiceDto = new Facade.Dto 
+            {
+                invoiceNumber = "INVO-30-05-201412910"
+            };
+
             this.LoadForm();
         }
 
@@ -208,8 +215,7 @@ namespace Vanilla.Invoice.WinForm
         {
             BinAff.Facade.Library.Server facade = new PayFac.Server(formDto);
             facade.LoadForm();
-
-            this.txtInvoiceNumber.Text = "INVO-30-05-201412910";
+                       
             this.txtInvoiceDate.Text = "11-11-2014";
             this.txtPaymentAmount.Text = "5000";
 

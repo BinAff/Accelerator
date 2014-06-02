@@ -10,5 +10,6 @@ namespace Vanilla.Invoice.Facade
         //ReturnObject<Crystal.Invoice.Component.Data> GetInvoice(String invoiceNumber);
         Dto GetInvoice(String invoiceNumber);
         Int64 GetInvoiceId(String invoiceNumber);
+        List<Payment.Dto> ReadPaymentForInvoice(String invoiceNumber);
     }
 }

@@ -2,6 +2,7 @@
 
 using BinAff.Core;
 using CrysArtfObserver = Crystal.Navigator.Component.Artifact.Observer;
+using System.Collections.Generic;
 
 namespace Crystal.Invoice.Component
 {
@@ -51,13 +52,7 @@ namespace Crystal.Invoice.Component
             };
             
         }
-
-        //ReturnObject<List<BinAff.Core.Data>> IInvoice.GetList(DateTime startDate, DateTime endDate)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-
+               
         //private ReturnObject<List<BinAff.Core.Data>> GetSalesData(DateTime startDate, DateTime endDate)
         //{
         //    ReturnObject<List<BinAff.Core.Data>> retList = new ReturnObject<List<BinAff.Core.Data>>
@@ -67,11 +62,7 @@ namespace Crystal.Invoice.Component
 
         //    return retList;
         //}
-
-        //ReturnObject<List<Data>> IInvoice.GetList(DateTime startDate, DateTime endDate)
-        //{
-        //    throw new NotImplementedException();
-        //}
+               
 
         ReturnObject<Data> IInvoice.GetInvoice(string invoiceNumber)
         {   
@@ -87,6 +78,23 @@ namespace Crystal.Invoice.Component
             return new Dao((Data)this.Data).ReadInvoiceId(invoiceNumber);            
         }
 
+        List<Payment.Data> IInvoice.ReadInvoicePayment(string invoiceNumber)
+        {
+            List<Payment.Data> paymentList = new List<Payment.Data>();
+            Int64 invoiceId = new Dao((Data)this.Data).ReadInvoiceId(invoiceNumber);
+
+            if (invoiceId > 0)
+            {
+                List<BinAff.Core.Data> paymentDataList = new Payment.Server(null).ReadPayment(invoiceId);
+                if (paymentDataList != null && paymentDataList.Count > 0)
+                {
+                    foreach (BinAff.Core.Data data in paymentDataList)
+                        paymentList.Add(data as Payment.Data);
+                }
+                
+            }
+            return paymentList;
+        }
     }
 
 }
