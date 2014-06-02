@@ -45,6 +45,11 @@ namespace Crystal.Invoice.Component.Payment
                 row = ds.Tables[0].Rows[0];
 
                 dt.Id = data.Id;
+                dt.Invoice = new Component.Data
+                {
+                    Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"])
+                };
+                dt.Amount = Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]);
                 dt.Date = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]);
                 dt.CardNumber = Convert.IsDBNull(row["CardNumber"]) ? String.Empty : Convert.ToString(row["CardNumber"]);
                 dt.Remark = Convert.IsDBNull(row["Remark"]) ? String.Empty : Convert.ToString(row["Remark"]);
@@ -67,6 +72,11 @@ namespace Crystal.Invoice.Component.Payment
                     ret.Add(new Data
                     {
                         Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
+                        Invoice = new Component.Data
+                                    {
+                                        Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"])
+                                    },
+                        Amount = Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]),
                         Date = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]),
                         CardNumber = Convert.IsDBNull(row["CardNumber"]) ? String.Empty : Convert.ToString(row["CardNumber"]),
                         Remark = Convert.IsDBNull(row["Remark"]) ? String.Empty : Convert.ToString(row["Remark"]),
@@ -101,6 +111,14 @@ namespace Crystal.Invoice.Component.Payment
 
             this.CloseConnection();
             return dataList;
+        }
+
+        public List<BinAff.Core.Data> ReadPayment(Int64 invoiceId)
+        {           
+            this.CreateCommand("[Invoice].[PaymentInvoiceRead]");
+            this.AddInParameter("@InvoiceId", DbType.Int64, invoiceId);
+            DataSet ds = this.ExecuteDataSet();            
+            return this.CreateDataObjectList(ds);
         }
 
     }

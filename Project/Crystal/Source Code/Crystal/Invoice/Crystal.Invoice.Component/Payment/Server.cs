@@ -89,6 +89,11 @@ namespace Crystal.Invoice.Component.Payment
             return ret;
         }
 
+        public List<BinAff.Core.Data> ReadPayment(Int64 invoiceId)
+        {
+            return new Dao(null).ReadPayment(invoiceId);
+        }
+
     }
 
 }

@@ -268,6 +268,14 @@ namespace Vanilla.Invoice.Facade
             return invoice.GetInvoiceId(invoiceNumber);
         }
 
+        List<Payment.Dto> IInvoice.ReadPaymentForInvoice(String invoiceNumber)
+        {           
+            InvoiceCrys.IInvoice invoice = new InvoiceCrys.Server(new InvoiceCrys.Data());
+            List<InvoiceCrys.Payment.Data> paymentDataList = invoice.ReadInvoicePayment(invoiceNumber);
+          
+            return new Payment.Server(new Payment.FormDto()).ConvertPayment(paymentDataList);
+        }
+
         public ReturnObject<Boolean> GenerateInvoice()
         {
             ReturnObject<Boolean> ret = new ReturnObject<bool>();

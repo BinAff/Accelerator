@@ -12,8 +12,10 @@ namespace Vanilla.Invoice.Facade.Payment
         //public List<Taxation.Dto> TaxationList { get; set; }
 
         //public String InvoiceNumber { get; set; }
-        //public List<Dto> PaymentList { get; set; }
+        public List<Dto> PaymentList { get; set; }
         //public Double Discount { get; set; }
-        //public Vanilla.Utility.Facade.Module.FormDto ModuleFormDto { get; set; }    
+        //public Vanilla.Utility.Facade.Module.FormDto ModuleFormDto { get; set; }   
+
+        public Facade.Dto InvoiceDto { get; set; }
     }
 }

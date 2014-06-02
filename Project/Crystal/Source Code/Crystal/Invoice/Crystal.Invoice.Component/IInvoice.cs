@@ -12,6 +12,7 @@ namespace Crystal.Invoice.Component
         //ReturnObject<List<Data>> GetList(DateTime startDate, DateTime endDate);
         ReturnObject<Data> GetInvoice(String invoiceNumber);
         Int64 GetInvoiceId(String invoiceNumber);
+        List<Payment.Data> ReadInvoicePayment(String invoiceNumber);
     }
 
 }

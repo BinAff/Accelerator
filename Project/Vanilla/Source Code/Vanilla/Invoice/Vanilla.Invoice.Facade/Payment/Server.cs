@@ -19,18 +19,35 @@ namespace Vanilla.Invoice.Facade.Payment
         {
             FormDto formDto = this.FormDto as FormDto;
             formDto.typeList = this.ReadAllPaymentType();
+
+            if (formDto.InvoiceDto != null && !String.IsNullOrEmpty(formDto.InvoiceDto.invoiceNumber))
+                formDto.PaymentList = this.ReadPayments(formDto.InvoiceDto.invoiceNumber);
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            //throw new NotImplementedException();
-            return new BinAff.Facade.Library.Dto();
+            CryInv.Payment.Data paymentData = data as CryInv.Payment.Data;
+            return new Payment.Dto
+            {
+                Id = paymentData.Id,
+                Type = new Type.Dto { Id = paymentData.Type.Id },
+                cardNumber = paymentData.CardNumber,
+                remark = paymentData.Remark,
+                amount = paymentData.Amount
+            };
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            //throw new NotImplementedException();
-            return new Data();
+            Payment.Dto paymentDto = dto as Payment.Dto;
+            return new Crystal.Invoice.Component.Payment.Data
+            {
+                Id = dto.Id,
+                Type = new Crystal.Invoice.Component.Payment.Type.Data { Id = paymentDto.Type.Id },
+                CardNumber = paymentDto.cardNumber,
+                Remark = paymentDto.remark,
+                Amount = paymentDto.amount
+            };
         }
                
         private List<Type.Dto> ReadAllPaymentType()
@@ -82,24 +99,37 @@ namespace Vanilla.Invoice.Facade.Payment
             return ret;
         }
 
-        private List<BinAff.Core.Data> ConvertPayment(List<Payment.Dto> paymentList)
+        public List<BinAff.Core.Data> ConvertPayment(List<Payment.Dto> paymentList)
         {
             List<BinAff.Core.Data> paymentDataList = new List<Data>();
             if (paymentList != null && paymentList.Count > 0)
             {
                 foreach (Vanilla.Invoice.Facade.Payment.Dto dto in paymentList)
-                {
-                    paymentDataList.Add(new Crystal.Invoice.Component.Payment.Data
-                    {
-                        //Id = dto.Id,
-                        Type = new Crystal.Invoice.Component.Payment.Type.Data { Id = dto.Type.Id },
-                        CardNumber = dto.cardNumber,
-                        Remark = dto.remark,
-                        Amount = dto.amount,
-                    });
+                {                 
+                    paymentDataList.Add(this.Convert(dto));
                 }
             }
             return paymentDataList;
+        }
+
+        public List<Payment.Dto> ConvertPayment(List<CryInv.Payment.Data> paymentList)
+        {
+            List<Payment.Dto> paymentDtoList = new List<Payment.Dto>();
+            if (paymentList != null && paymentList.Count > 0)
+            {
+                foreach (CryInv.Payment.Data data in paymentList)
+                {
+                    paymentDtoList.Add(this.Convert(data) as Payment.Dto);
+                }
+            }
+            return paymentDtoList;
+        }
+
+
+        private List<Dto> ReadPayments(String invoiceNumber)
+        {
+            Facade.IInvoice invoiceServer = new Facade.Server(new Facade.FormDto());
+            return invoiceServer.ReadPaymentForInvoice(invoiceNumber);
         }
 
                 
