@@ -28,13 +28,36 @@ namespace Vanilla.Invoice.Facade.Payment
         {
             CryInv.Payment.Data paymentData = data as CryInv.Payment.Data;
             return new Payment.Dto
-            {
-                Id = paymentData.Id,
-                Type = new Type.Dto { Id = paymentData.Type.Id },
-                cardNumber = paymentData.CardNumber,
-                remark = paymentData.Remark,
-                amount = paymentData.Amount
-            };
+                                {
+                                    Id = paymentData.Id,
+                                    Type = new Type.Dto { Id = paymentData.Type.Id },
+                                    cardNumber = paymentData.CardNumber,
+                                    remark = paymentData.Remark,
+                                    amount = paymentData.Amount
+                                };
+
+            //Payment.Dto dto = new Payment.Dto
+            //                    {
+            //                        Id = paymentData.Id,
+            //                        Type = new Type.Dto { Id = paymentData.Type.Id },
+            //                        cardNumber = paymentData.CardNumber,
+            //                        remark = paymentData.Remark,
+            //                        amount = paymentData.Amount
+            //                    };
+
+            //if ((this.FormDto as FormDto).typeList != null && (this.FormDto as FormDto).typeList.Count > 0)
+            //{
+            //    foreach (Type.Dto type in (this.FormDto as FormDto).typeList)
+            //    {
+            //        if (type.Id == dto.Type.Id)
+            //        {
+            //            dto.paymentType = type.Name;
+            //            break;
+            //        }
+            //    }
+            //}
+
+            //return dto;            
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
@@ -124,14 +147,25 @@ namespace Vanilla.Invoice.Facade.Payment
             }
             return paymentDtoList;
         }
-
-
+        
         private List<Dto> ReadPayments(String invoiceNumber)
         {
             Facade.IInvoice invoiceServer = new Facade.Server(new Facade.FormDto());
             return invoiceServer.ReadPaymentForInvoice(invoiceNumber);
         }
 
-                
+        public String GetPaymentName(Int64 paymentId, List<Type.Dto> paymentTypeList)
+        {
+            String typeName = String.Empty;
+            foreach (Type.Dto dto in paymentTypeList)
+            {
+                if (dto.Id == paymentId)
+                {
+                    typeName = dto.Name;
+                }
+            }
+            return typeName;
+        }
+
     }
 }
