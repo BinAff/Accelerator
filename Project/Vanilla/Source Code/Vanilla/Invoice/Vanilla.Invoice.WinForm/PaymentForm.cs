@@ -228,6 +228,29 @@ namespace Vanilla.Invoice.WinForm
                 this.cboPaymentType.DisplayMember = "Name";
                 this.cboPaymentType.SelectedIndex = 0;
             }
+
+            if (formDto.PaymentList != null && formDto.PaymentList.Count > 0)
+            {
+                foreach (Facade.Payment.Dto dto in formDto.PaymentList)
+                {
+                    dto.paymentType = (facade as PayFac.Server).GetPaymentName(dto.Type.Id, formDto.typeList);
+                }
+
+                dgvPayment.DataSource = null;
+                dgvPayment.DataSource = formDto.PaymentList;
+
+                cboPaymentType.Enabled = false;
+                txtLastFourDigit.Enabled = false;
+                txtRemark.Enabled = false;
+                txtAmount.Enabled = false;
+                dgvPayment.Enabled = false;
+                btnPay.Enabled = false;
+                btnAdd.Enabled = false;
+                btnChange.Enabled = false;
+            }
+            else
+                btnPrint.Enabled = false;
+
         }
 
         private void dgvPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
