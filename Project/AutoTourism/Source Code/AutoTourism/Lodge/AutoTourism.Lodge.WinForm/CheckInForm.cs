@@ -543,8 +543,9 @@ namespace AutoTourism.Lodge.WinForm
 
         private void btnPay_Click(object sender, EventArgs e)
         {
-            FrmWin.Document form = new Vanilla.Invoice.WinForm.PaymentForm();        
-            form.ShowDialog();
+            //FrmWin.Document form = new Vanilla.Invoice.WinForm.PaymentForm();        
+            //form.ShowDialog();
+            new Vanilla.Invoice.WinForm.PaymentForm().ShowDialog();
         }
 
         void form_ArtifactSaved(UtilFac.Artifact.Dto document)
