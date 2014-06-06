@@ -58,16 +58,15 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnOK = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.txtArtifactPath = new System.Windows.Forms.TextBox();
-            this.lblFilePath = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cboNationList = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // bttnRemove
             // 
             this.bttnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bttnRemove.Location = new System.Drawing.Point(294, 135);
+            this.bttnRemove.Location = new System.Drawing.Point(241, 185);
             this.bttnRemove.Name = "bttnRemove";
             this.bttnRemove.Size = new System.Drawing.Size(32, 22);
             this.bttnRemove.TabIndex = 13;
@@ -77,16 +76,16 @@
             // 
             // txtMobile
             // 
-            this.txtMobile.Location = new System.Drawing.Point(143, 137);
+            this.txtMobile.Location = new System.Drawing.Point(142, 186);
             this.txtMobile.MaxLength = 12;
             this.txtMobile.Name = "txtMobile";
-            this.txtMobile.Size = new System.Drawing.Size(131, 20);
+            this.txtMobile.Size = new System.Drawing.Size(92, 20);
             this.txtMobile.TabIndex = 10;
             // 
             // txtMobilePrefix
             // 
             this.txtMobilePrefix.Enabled = false;
-            this.txtMobilePrefix.Location = new System.Drawing.Point(106, 137);
+            this.txtMobilePrefix.Location = new System.Drawing.Point(105, 186);
             this.txtMobilePrefix.Name = "txtMobilePrefix";
             this.txtMobilePrefix.Size = new System.Drawing.Size(31, 20);
             this.txtMobilePrefix.TabIndex = 999;
@@ -96,7 +95,7 @@
             // btnAddContact
             // 
             this.btnAddContact.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddContact.Location = new System.Drawing.Point(294, 114);
+            this.btnAddContact.Location = new System.Drawing.Point(241, 162);
             this.btnAddContact.Name = "btnAddContact";
             this.btnAddContact.Size = new System.Drawing.Size(32, 22);
             this.btnAddContact.TabIndex = 11;
@@ -106,16 +105,16 @@
             // 
             // txtStd
             // 
-            this.txtStd.Location = new System.Drawing.Point(143, 114);
+            this.txtStd.Location = new System.Drawing.Point(142, 163);
             this.txtStd.MaxLength = 5;
             this.txtStd.Name = "txtStd";
-            this.txtStd.Size = new System.Drawing.Size(39, 20);
+            this.txtStd.Size = new System.Drawing.Size(31, 20);
             this.txtStd.TabIndex = 8;
             // 
             // txtIsd
             // 
             this.txtIsd.Enabled = false;
-            this.txtIsd.Location = new System.Drawing.Point(106, 114);
+            this.txtIsd.Location = new System.Drawing.Point(105, 163);
             this.txtIsd.Name = "txtIsd";
             this.txtIsd.Size = new System.Drawing.Size(31, 20);
             this.txtIsd.TabIndex = 999;
@@ -126,23 +125,23 @@
             // 
             this.lstContact.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lstContact.FormattingEnabled = true;
-            this.lstContact.Location = new System.Drawing.Point(344, 114);
+            this.lstContact.Location = new System.Drawing.Point(278, 163);
             this.lstContact.Name = "lstContact";
-            this.lstContact.Size = new System.Drawing.Size(168, 43);
+            this.lstContact.Size = new System.Drawing.Size(169, 43);
             this.lstContact.TabIndex = 12;
             // 
             // txtLandLine
             // 
-            this.txtLandLine.Location = new System.Drawing.Point(188, 114);
+            this.txtLandLine.Location = new System.Drawing.Point(179, 163);
             this.txtLandLine.MaxLength = 10;
             this.txtLandLine.Name = "txtLandLine";
-            this.txtLandLine.Size = new System.Drawing.Size(86, 20);
+            this.txtLandLine.Size = new System.Drawing.Size(55, 20);
             this.txtLandLine.TabIndex = 9;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 117);
+            this.label5.Location = new System.Drawing.Point(8, 166);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(89, 13);
             this.label5.TabIndex = 104;
@@ -152,23 +151,23 @@
             // 
             this.cboIdentityProofType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboIdentityProofType.FormattingEnabled = true;
-            this.cboIdentityProofType.Location = new System.Drawing.Point(106, 188);
+            this.cboIdentityProofType.Location = new System.Drawing.Point(105, 239);
             this.cboIdentityProofType.Name = "cboIdentityProofType";
             this.cboIdentityProofType.Size = new System.Drawing.Size(168, 21);
             this.cboIdentityProofType.TabIndex = 15;
             // 
             // txtIdentityProofName
             // 
-            this.txtIdentityProofName.Location = new System.Drawing.Point(294, 188);
+            this.txtIdentityProofName.Location = new System.Drawing.Point(279, 239);
             this.txtIdentityProofName.MaxLength = 20;
             this.txtIdentityProofName.Name = "txtIdentityProofName";
-            this.txtIdentityProofName.Size = new System.Drawing.Size(218, 20);
+            this.txtIdentityProofName.Size = new System.Drawing.Size(168, 20);
             this.txtIdentityProofName.TabIndex = 16;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(10, 191);
+            this.label8.Location = new System.Drawing.Point(8, 242);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(69, 13);
             this.label8.TabIndex = 101;
@@ -176,7 +175,7 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(106, 163);
+            this.txtEmail.Location = new System.Drawing.Point(105, 213);
             this.txtEmail.MaxLength = 50;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(168, 20);
@@ -185,7 +184,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 166);
+            this.label7.Location = new System.Drawing.Point(8, 216);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(33, 13);
             this.label7.TabIndex = 99;
@@ -193,7 +192,7 @@
             // 
             // txtPin
             // 
-            this.txtPin.Location = new System.Drawing.Point(344, 91);
+            this.txtPin.Location = new System.Drawing.Point(279, 135);
             this.txtPin.MaxLength = 8;
             this.txtPin.Name = "txtPin";
             this.txtPin.Size = new System.Drawing.Size(168, 20);
@@ -202,7 +201,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(295, 95);
+            this.label4.Location = new System.Drawing.Point(230, 138);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(22, 13);
             this.label4.TabIndex = 97;
@@ -211,7 +210,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(293, 42);
+            this.label3.Location = new System.Drawing.Point(230, 85);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 96;
@@ -220,7 +219,7 @@
             // txtCity
             // 
             this.txtCity.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.txtCity.Location = new System.Drawing.Point(344, 65);
+            this.txtCity.Location = new System.Drawing.Point(279, 109);
             this.txtCity.MaxLength = 20;
             this.txtCity.Name = "txtCity";
             this.txtCity.Size = new System.Drawing.Size(168, 20);
@@ -229,7 +228,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(293, 69);
+            this.label2.Location = new System.Drawing.Point(230, 112);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(24, 13);
             this.label2.TabIndex = 94;
@@ -240,7 +239,7 @@
             this.cboState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.cboState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboState.FormattingEnabled = true;
-            this.cboState.Location = new System.Drawing.Point(344, 38);
+            this.cboState.Location = new System.Drawing.Point(279, 82);
             this.cboState.Name = "cboState";
             this.cboState.Size = new System.Drawing.Size(168, 21);
             this.cboState.TabIndex = 5;
@@ -248,51 +247,51 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 38);
+            this.label1.Location = new System.Drawing.Point(9, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(45, 13);
+            this.label1.Size = new System.Drawing.Size(99, 13);
             this.label1.TabIndex = 92;
-            this.label1.Text = "Address";
+            this.label1.Text = "Permanent Address";
             // 
             // txtAdds
             // 
             this.txtAdds.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.txtAdds.Location = new System.Drawing.Point(106, 38);
+            this.txtAdds.Location = new System.Drawing.Point(12, 58);
             this.txtAdds.MaxLength = 255;
             this.txtAdds.Multiline = true;
             this.txtAdds.Name = "txtAdds";
-            this.txtAdds.Size = new System.Drawing.Size(168, 73);
+            this.txtAdds.Size = new System.Drawing.Size(212, 97);
             this.txtAdds.TabIndex = 4;
             // 
             // txtLName
             // 
-            this.txtLName.Location = new System.Drawing.Point(391, 12);
+            this.txtLName.Location = new System.Drawing.Point(307, 9);
             this.txtLName.MaxLength = 20;
             this.txtLName.Name = "txtLName";
-            this.txtLName.Size = new System.Drawing.Size(121, 20);
+            this.txtLName.Size = new System.Drawing.Size(140, 20);
             this.txtLName.TabIndex = 3;
             // 
             // txtMName
             // 
-            this.txtMName.Location = new System.Drawing.Point(272, 12);
+            this.txtMName.Location = new System.Drawing.Point(196, 9);
             this.txtMName.MaxLength = 20;
             this.txtMName.Name = "txtMName";
-            this.txtMName.Size = new System.Drawing.Size(113, 20);
+            this.txtMName.Size = new System.Drawing.Size(105, 20);
             this.txtMName.TabIndex = 2;
             // 
             // txtFName
             // 
             this.txtFName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.txtFName.Location = new System.Drawing.Point(106, 12);
+            this.txtFName.Location = new System.Drawing.Point(53, 9);
             this.txtFName.MaxLength = 20;
             this.txtFName.Name = "txtFName";
-            this.txtFName.Size = new System.Drawing.Size(160, 20);
+            this.txtFName.Size = new System.Drawing.Size(137, 20);
             this.txtFName.TabIndex = 1;
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(10, 12);
+            this.lblName.Location = new System.Drawing.Point(9, 12);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 86;
@@ -304,7 +303,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(528, 41);
+            this.btnOK.Location = new System.Drawing.Point(453, 38);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 1000;
@@ -314,7 +313,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(528, 12);
+            this.btnRefresh.Location = new System.Drawing.Point(453, 9);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 1001;
@@ -322,39 +321,32 @@
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
-            // button1
+            // label6
             // 
-            this.button1.Location = new System.Drawing.Point(529, 212);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1004;
-            this.button1.Text = "Browse";
-            this.button1.UseVisualStyleBackColor = true;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(230, 58);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(43, 13);
+            this.label6.TabIndex = 1002;
+            this.label6.Text = "Country";
             // 
-            // txtArtifactPath
+            // cboNationList
             // 
-            this.txtArtifactPath.Location = new System.Drawing.Point(106, 215);
-            this.txtArtifactPath.Name = "txtArtifactPath";
-            this.txtArtifactPath.Size = new System.Drawing.Size(406, 20);
-            this.txtArtifactPath.TabIndex = 1003;
-            // 
-            // lblFilePath
-            // 
-            this.lblFilePath.AutoSize = true;
-            this.lblFilePath.Location = new System.Drawing.Point(10, 218);
-            this.lblFilePath.Name = "lblFilePath";
-            this.lblFilePath.Size = new System.Drawing.Size(51, 13);
-            this.lblFilePath.TabIndex = 1002;
-            this.lblFilePath.Text = "File Path:";
+            this.cboNationList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.cboNationList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboNationList.FormattingEnabled = true;
+            this.cboNationList.Location = new System.Drawing.Point(278, 55);
+            this.cboNationList.Name = "cboNationList";
+            this.cboNationList.Size = new System.Drawing.Size(168, 21);
+            this.cboNationList.TabIndex = 1003;
             // 
             // CustomerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(616, 247);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.txtArtifactPath);
-            this.Controls.Add(this.lblFilePath);
+            this.ClientSize = new System.Drawing.Size(537, 268);
+            this.Controls.Add(this.cboNationList);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtAdds);
@@ -424,8 +416,7 @@
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox txtArtifactPath;
-        private System.Windows.Forms.Label lblFilePath;
+        private System.Windows.Forms.ComboBox cboNationList;
+        private System.Windows.Forms.Label label6;
     }
 }

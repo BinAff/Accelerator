@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using BinAff.Core;
 using BinAff.Utility;
 
+using AccFac = Vanilla.Guardian.Facade.Account;
 using CustFac = AutoTourism.Customer.Facade;
 using ConfRuleFac = AutoTourism.Configuration.Rule.Facade;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using UtilFac = Vanilla.Utility.Facade;
 using FormWin = Vanilla.Form.WinForm;
 using DocFac = Vanilla.Utility.Facade.Document;
@@ -102,7 +104,7 @@ namespace AutoTourism.Customer.WinForm
             this.trvForm = trvForm;
         }
 
-        public CustomerForm(UtilFac.Artifact.Dto artifact)
+        public CustomerForm(ArtfFac.Dto artifact)
             : base(artifact)
         {
             InitializeComponent();
@@ -315,7 +317,7 @@ namespace AutoTourism.Customer.WinForm
                 this.cboIdentityProofType.ValueMember = "Id";
                 this.cboIdentityProofType.SelectedIndex = -1;
             }
-            this.txtArtifactPath.ReadOnly = true;
+            //this.txtArtifactPath.ReadOnly = true;
             //if (this.isLoadedFromRoomReservationForm)
             //{
             //    this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("CUST", (this.formDto as Facade.FormDto).ModuleFormDto.FormModuleList, "Form");
@@ -686,22 +688,22 @@ namespace AutoTourism.Customer.WinForm
 
         private Boolean SaveArtifact()
         {
-            this.formDto.Document.Path = this.txtArtifactPath.Text;
-            Vanilla.Utility.Facade.Artifact.Dto artifactDto = new Vanilla.Utility.Facade.Artifact.Dto
+            //this.formDto.Document.Path = this.txtArtifactPath.Text;
+            ArtfFac.Dto artifactDto = new ArtfFac.Dto
             {
                 Module = this.formDto.Dto,
-                Style = Vanilla.Utility.Facade.Artifact.Type.Document,
-                AuditInfo = new UtilFac.Artifact.Audit.Dto
+                Style = ArtfFac.Type.Document,
+                AuditInfo = new ArtfFac.Audit.Dto
                 {
                     Version = 1,
                     CreatedBy = new Table
                     {
-                        Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Id,
-                        Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as Vanilla.Guardian.Facade.Account.Dto).Profile.Name
+                        Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as AccFac.Dto).Id,
+                        Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as AccFac.Dto).Profile.Name
                     },
                     CreatedAt = DateTime.Now,
                 },
-                Category = Vanilla.Utility.Facade.Artifact.Category.Form,
+                Category = ArtfFac.Category.Form,
                 Path = this.formDto.Document.Path
             };
             new CustFac.Server(this.formDto as Facade.FormDto).SaveArtifactForCustomer(artifactDto);
