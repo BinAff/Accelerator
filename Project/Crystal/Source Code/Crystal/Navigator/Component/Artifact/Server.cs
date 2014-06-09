@@ -46,7 +46,7 @@ namespace Crystal.Navigator.Component.Artifact
 
             Crud module = this.CreateModuleServerInstance((this.Data as Data).ComponentData);
             module.Type = ChildType.Independent;
-            module.IsReadOnly = true;
+            //module.IsReadOnly = true;
             base.AddChild(module);
         }
 
