@@ -252,7 +252,18 @@ namespace Vanilla.Utility.Facade.Artifact
 
         public override void Delete()
         {
-            ReturnObject<Boolean> ret = this.ModuleArtifactComponent.Delete();
+            ReturnObject<Boolean> ret = new ReturnObject<bool>();
+            FormDto formDto = this.FormDto as FormDto;
+            Module.Definition.Dto moduleDef = formDto.Dto.ComponentDefinition;
+            if (moduleDef.Code == "CUST")
+            {
+                ReturnObject<CrysArtf.Data> retVal = ((Crystal.Navigator.Component.Artifact.IArtifact)this.ModuleArtifactComponent).ReadWithParent();
+                if (retVal != null)                
+                    ret = this.ValidateCustomerForDelete(retVal.Value);                
+            }
+            else
+                ret = this.ModuleArtifactComponent.Delete();
+
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
@@ -432,6 +443,11 @@ namespace Vanilla.Utility.Facade.Artifact
         public String GetParentArtifactPath(Dto artifactDto)
         {
             return this.GetParentArtifact(artifactDto).Path;
+        }
+
+        public virtual ReturnObject<Boolean> ValidateCustomerForDelete(BinAff.Core.Data data)
+        {
+            return new ReturnObject<bool>();
         }
 
     }
