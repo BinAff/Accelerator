@@ -17,6 +17,7 @@ namespace AutoTourism.Customer.Facade
         public Table State { get; set; }
         public String City { get; set; }
         public Int32 Pin { get; set; }
+        public Table Country { get; set; }
         public String Email { get; set; }
         public Table IdentityProofType { get; set; }
         public String IdentityProofName { get; set; }
@@ -35,7 +36,27 @@ namespace AutoTourism.Customer.Facade
                 return name;
             }
         }
-        
+
+        public String FullAddress
+        {
+            get
+            {
+                String adds = this.Address;
+                if (!String.IsNullOrEmpty(this.City)) adds += Environment.NewLine + this.City;
+                if (this.State != null && !String.IsNullOrEmpty(this.State.Name)) adds += Environment.NewLine + this.State;
+                if (this.Pin != 0) adds += Environment.NewLine + "Pin : " + this.Pin;
+                if (this.Country != null && !String.IsNullOrEmpty(this.Country.Name)) adds += Environment.NewLine + this.Country;
+                return adds;
+            }
+        }
+
+        public String IdentityProof
+        {
+            get
+            {
+                return this.IdentityProofType.Name + " - " + this.IdentityProofName;
+            }
+        }        
         
     }
 

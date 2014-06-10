@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cboRoomList = new System.Windows.Forms.ComboBox();
             this.btnRemoveRoom = new System.Windows.Forms.Button();
@@ -61,20 +60,15 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
-            this.btnPickReservation = new System.Windows.Forms.Button();
-            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.btnOk = new System.Windows.Forms.Button();
-            this.btnAddReservation = new System.Windows.Forms.Button();
             this.lblBookingFrom = new System.Windows.Forms.Label();
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
             this.dtFromTime = new System.Windows.Forms.DateTimePicker();
             this.btnCheckOut = new System.Windows.Forms.Button();
             this.btnGenerateInvoice = new System.Windows.Forms.Button();
             this.btnPay = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -394,50 +388,6 @@
             this.lblName.TabIndex = 22;
             this.lblName.Text = "Name";
             // 
-            // btnPickReservation
-            // 
-            this.btnPickReservation.Location = new System.Drawing.Point(12, 12);
-            this.btnPickReservation.Name = "btnPickReservation";
-            this.btnPickReservation.Size = new System.Drawing.Size(154, 23);
-            this.btnPickReservation.TabIndex = 97;
-            this.btnPickReservation.Text = "Pick Reservation";
-            this.btnPickReservation.UseVisualStyleBackColor = true;
-            this.btnPickReservation.Click += new System.EventHandler(this.btnPickReservation_Click);
-            // 
-            // errorProvider
-            // 
-            this.errorProvider.ContainerControl = this;
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Location = new System.Drawing.Point(652, 12);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 108;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // btnOk
-            // 
-            this.btnOk.Location = new System.Drawing.Point(653, 41);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 109;
-            this.btnOk.Text = "CheckIn";
-            this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
-            // btnAddReservation
-            // 
-            this.btnAddReservation.Location = new System.Drawing.Point(172, 12);
-            this.btnAddReservation.Name = "btnAddReservation";
-            this.btnAddReservation.Size = new System.Drawing.Size(154, 23);
-            this.btnAddReservation.TabIndex = 110;
-            this.btnAddReservation.Text = "Add Reservation";
-            this.btnAddReservation.UseVisualStyleBackColor = true;
-            this.btnAddReservation.Click += new System.EventHandler(this.btnAddReservation_Click);
-            // 
             // lblBookingFrom
             // 
             this.lblBookingFrom.AutoSize = true;
@@ -466,31 +416,37 @@
             // 
             // btnCheckOut
             // 
-            this.btnCheckOut.Location = new System.Drawing.Point(653, 70);
+            this.btnCheckOut.Font = new System.Drawing.Font("Wingdings 3", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnCheckOut.Location = new System.Drawing.Point(657, 156);
             this.btnCheckOut.Name = "btnCheckOut";
-            this.btnCheckOut.Size = new System.Drawing.Size(75, 23);
+            this.btnCheckOut.Size = new System.Drawing.Size(34, 34);
             this.btnCheckOut.TabIndex = 127;
-            this.btnCheckOut.Text = "Check Out";
+            this.btnCheckOut.Text = "R";
+            this.toolTip.SetToolTip(this.btnCheckOut, "Check Out");
             this.btnCheckOut.UseVisualStyleBackColor = true;
             this.btnCheckOut.Click += new System.EventHandler(this.btnCheckOut_Click);
             // 
             // btnGenerateInvoice
             // 
-            this.btnGenerateInvoice.Location = new System.Drawing.Point(654, 99);
+            this.btnGenerateInvoice.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnGenerateInvoice.Location = new System.Drawing.Point(657, 190);
             this.btnGenerateInvoice.Name = "btnGenerateInvoice";
-            this.btnGenerateInvoice.Size = new System.Drawing.Size(75, 23);
+            this.btnGenerateInvoice.Size = new System.Drawing.Size(34, 34);
             this.btnGenerateInvoice.TabIndex = 128;
-            this.btnGenerateInvoice.Text = "Invoice";
+            this.btnGenerateInvoice.Text = "2";
+            this.toolTip.SetToolTip(this.btnGenerateInvoice, "Generate Invoice");
             this.btnGenerateInvoice.UseVisualStyleBackColor = true;
             this.btnGenerateInvoice.Click += new System.EventHandler(this.btnGenerateInvoice_Click);
             // 
             // btnPay
             // 
-            this.btnPay.Location = new System.Drawing.Point(654, 128);
+            this.btnPay.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnPay.Location = new System.Drawing.Point(657, 224);
             this.btnPay.Name = "btnPay";
-            this.btnPay.Size = new System.Drawing.Size(75, 23);
+            this.btnPay.Size = new System.Drawing.Size(34, 34);
             this.btnPay.TabIndex = 129;
-            this.btnPay.Text = "Pay";
+            this.btnPay.Text = "<";
+            this.toolTip.SetToolTip(this.btnPay, "Pay Invoice");
             this.btnPay.UseVisualStyleBackColor = true;
             this.btnPay.Click += new System.EventHandler(this.btnPay_Click);
             // 
@@ -498,7 +454,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(736, 310);
+            this.ClientSize = new System.Drawing.Size(691, 310);
             this.Controls.Add(this.btnPay);
             this.Controls.Add(this.btnGenerateInvoice);
             this.Controls.Add(this.cboAC);
@@ -511,10 +467,6 @@
             this.Controls.Add(this.dtFromTime);
             this.Controls.Add(this.dtFrom);
             this.Controls.Add(this.lblBookingFrom);
-            this.Controls.Add(this.btnAddReservation);
-            this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.btnRefresh);
-            this.Controls.Add(this.btnPickReservation);
             this.Controls.Add(this.txtRooms);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
@@ -528,11 +480,34 @@
             this.Name = "CheckInForm";
             this.ShowInTaskbar = false;
             this.Text = "Check In Form";
+            this.Load += new System.EventHandler(this.CheckInForm_Load);
+            this.Controls.SetChildIndex(this.txtPersons, 0);
+            this.Controls.SetChildIndex(this.label4, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
+            this.Controls.SetChildIndex(this.label6, 0);
+            this.Controls.SetChildIndex(this.txtAdvance, 0);
+            this.Controls.SetChildIndex(this.groupBox2, 0);
+            this.Controls.SetChildIndex(this.txtDays, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.groupBox1, 0);
+            this.Controls.SetChildIndex(this.txtRooms, 0);
+            this.Controls.SetChildIndex(this.lblBookingFrom, 0);
+            this.Controls.SetChildIndex(this.dtFrom, 0);
+            this.Controls.SetChildIndex(this.dtFromTime, 0);
+            this.Controls.SetChildIndex(this.lblCategory, 0);
+            this.Controls.SetChildIndex(this.cboCategory, 0);
+            this.Controls.SetChildIndex(this.lblType, 0);
+            this.Controls.SetChildIndex(this.cboType, 0);
+            this.Controls.SetChildIndex(this.lblAC, 0);
+            this.Controls.SetChildIndex(this.btnCheckOut, 0);
+            this.Controls.SetChildIndex(this.cboAC, 0);
+            this.Controls.SetChildIndex(this.btnGenerateInvoice, 0);
+            this.Controls.SetChildIndex(this.btnPay, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -562,15 +537,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.Button btnPickReservation;
-        private System.Windows.Forms.ErrorProvider errorProvider;
-        private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.ComboBox cboType;
         private System.Windows.Forms.Label lblType;
         private System.Windows.Forms.Label lblCategory;
         private System.Windows.Forms.ComboBox cboCategory;
-        private System.Windows.Forms.Button btnAddReservation;
         private System.Windows.Forms.Label lblAC;
         private System.Windows.Forms.ComboBox cboAC;
         private System.Windows.Forms.Label lblBookingFrom;

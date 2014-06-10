@@ -37,6 +37,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -44,8 +45,22 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Vanilla.Invoice.Facade, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Vanilla\Source Code\Vanilla\Reference\Lib\Vanilla.Invoice.Facade.dll</HintPath>
+    </Reference>
+    <Reference Include="Vanilla.Invoice.WinForm, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Vanilla\Source Code\Vanilla\Reference\Lib\Vanilla.Invoice.WinForm.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomerFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomerFile.Designer.cs">
+      <DependentUpon>CustomerFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomerRegister.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +75,9 @@
     <Compile Include="Splash.designer.cs">
       <DependentUpon>Splash.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CustomerFile.resx">
+      <DependentUpon>CustomerFile.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CustomerRegister.resx">
       <DependentUpon>CustomerRegister.cs</DependentUpon>
     </EmbeddedResource>

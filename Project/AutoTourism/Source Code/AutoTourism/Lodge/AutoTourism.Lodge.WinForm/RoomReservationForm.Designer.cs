@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -38,7 +37,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
-            this.btnPickCustomer = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
             this.txtDays = new System.Windows.Forms.TextBox();
@@ -46,8 +44,6 @@
             this.txtMale = new System.Windows.Forms.TextBox();
             this.txtRooms = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtAdvance = new System.Windows.Forms.TextBox();
             this.cboRoomList = new System.Windows.Forms.ComboBox();
             this.cboSelectedRoom = new System.Windows.Forms.ComboBox();
             this.btnAddRoom = new System.Windows.Forms.Button();
@@ -59,13 +55,9 @@
             this.lblTotalRooms = new System.Windows.Forms.Label();
             this.cboType = new System.Windows.Forms.ComboBox();
             this.cboCategory = new System.Windows.Forms.ComboBox();
-            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.dtFromTime = new System.Windows.Forms.DateTimePicker();
-            this.btnOk = new System.Windows.Forms.Button();
-            this.btnRefresh = new System.Windows.Forms.Button();
             this.btnCancelOpen = new System.Windows.Forms.Button();
             this.lblReservationStatus = new System.Windows.Forms.Label();
-            this.btnAddCustomer = new System.Windows.Forms.Button();
             this.cboAC = new System.Windows.Forms.ComboBox();
             this.txtStatus = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -74,7 +66,6 @@
             this.txtChild = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.txtInfant = new System.Windows.Forms.TextBox();
-            this.toolTips = new System.Windows.Forms.ToolTip(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -82,11 +73,12 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.txtRemarks = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtReservationNo = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
+            this.btnAdvancePayment = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -181,16 +173,6 @@
             this.lblName.TabIndex = 22;
             this.lblName.Text = "Name";
             // 
-            // btnPickCustomer
-            // 
-            this.btnPickCustomer.Location = new System.Drawing.Point(132, 249);
-            this.btnPickCustomer.Name = "btnPickCustomer";
-            this.btnPickCustomer.Size = new System.Drawing.Size(119, 23);
-            this.btnPickCustomer.TabIndex = 17;
-            this.btnPickCustomer.Text = "Pick Customer";
-            this.btnPickCustomer.UseVisualStyleBackColor = true;
-            this.btnPickCustomer.Click += new System.EventHandler(this.btnPickCustomer_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -205,14 +187,14 @@
             this.dtFrom.Checked = false;
             this.dtFrom.Location = new System.Drawing.Point(48, 38);
             this.dtFrom.Name = "dtFrom";
-            this.dtFrom.Size = new System.Drawing.Size(196, 20);
+            this.dtFrom.Size = new System.Drawing.Size(206, 20);
             this.dtFrom.TabIndex = 1;
             this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
             // 
             // txtDays
             // 
             this.txtDays.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtDays.Location = new System.Drawing.Point(390, 37);
+            this.txtDays.Location = new System.Drawing.Point(400, 37);
             this.txtDays.MaxLength = 3;
             this.txtDays.Name = "txtDays";
             this.txtDays.Size = new System.Drawing.Size(32, 20);
@@ -222,7 +204,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(324, 41);
+            this.label2.Location = new System.Drawing.Point(334, 40);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(60, 13);
             this.label2.TabIndex = 82;
@@ -230,7 +212,6 @@
             // 
             // txtMale
             // 
-            this.txtMale.BackColor = System.Drawing.SystemColors.Window;
             this.txtMale.Location = new System.Drawing.Point(137, 64);
             this.txtMale.MaxLength = 3;
             this.txtMale.Name = "txtMale";
@@ -255,28 +236,8 @@
             this.label4.TabIndex = 86;
             this.label4.Text = "No of Rooms";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 284);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(114, 13);
-            this.label6.TabIndex = 88;
-            this.label6.Text = "Advance Amount (Rs.)";
-            // 
-            // txtAdvance
-            // 
-            this.txtAdvance.BackColor = System.Drawing.SystemColors.Window;
-            this.txtAdvance.Location = new System.Drawing.Point(132, 284);
-            this.txtAdvance.MaxLength = 10;
-            this.txtAdvance.Name = "txtAdvance";
-            this.txtAdvance.Size = new System.Drawing.Size(119, 20);
-            this.txtAdvance.TabIndex = 18;
-            this.txtAdvance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
             // cboRoomList
             // 
-            this.cboRoomList.BackColor = System.Drawing.SystemColors.Window;
             this.cboRoomList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboRoomList.FormattingEnabled = true;
             this.cboRoomList.Location = new System.Drawing.Point(8, 19);
@@ -287,7 +248,6 @@
             // 
             // cboSelectedRoom
             // 
-            this.cboSelectedRoom.BackColor = System.Drawing.SystemColors.Window;
             this.cboSelectedRoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.cboSelectedRoom.FormattingEnabled = true;
             this.cboSelectedRoom.Location = new System.Drawing.Point(174, 19);
@@ -377,7 +337,7 @@
             this.cboType.Size = new System.Drawing.Size(147, 21);
             this.cboType.Sorted = true;
             this.cboType.TabIndex = 10;
-            this.toolTips.SetToolTip(this.cboType, "Room Type");
+            this.toolTip.SetToolTip(this.cboType, "Room Type");
             this.cboType.SelectedIndexChanged += new System.EventHandler(this.cboType_SelectedIndexChanged);
             // 
             // cboCategory
@@ -389,49 +349,27 @@
             this.cboCategory.Size = new System.Drawing.Size(147, 21);
             this.cboCategory.Sorted = true;
             this.cboCategory.TabIndex = 9;
-            this.toolTips.SetToolTip(this.cboCategory, "Room Category");
+            this.toolTip.SetToolTip(this.cboCategory, "Room Category");
             this.cboCategory.SelectedIndexChanged += new System.EventHandler(this.cboCategory_SelectedIndexChanged);
-            // 
-            // errorProvider
-            // 
-            this.errorProvider.ContainerControl = this;
             // 
             // dtFromTime
             // 
             this.dtFromTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtFromTime.Location = new System.Drawing.Point(250, 38);
+            this.dtFromTime.Location = new System.Drawing.Point(260, 38);
             this.dtFromTime.Name = "dtFromTime";
             this.dtFromTime.ShowUpDown = true;
             this.dtFromTime.Size = new System.Drawing.Size(68, 20);
             this.dtFromTime.TabIndex = 2;
             // 
-            // btnOk
-            // 
-            this.btnOk.Location = new System.Drawing.Point(558, 41);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 20;
-            this.btnOk.Text = "OK";
-            this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Location = new System.Drawing.Point(558, 12);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 22;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
             // btnCancelOpen
             // 
-            this.btnCancelOpen.Location = new System.Drawing.Point(558, 70);
+            this.btnCancelOpen.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnCancelOpen.Location = new System.Drawing.Point(563, 156);
             this.btnCancelOpen.Name = "btnCancelOpen";
-            this.btnCancelOpen.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelOpen.Size = new System.Drawing.Size(34, 34);
             this.btnCancelOpen.TabIndex = 21;
-            this.btnCancelOpen.Text = "Cancel";
+            this.btnCancelOpen.Text = "Í";
+            this.toolTip.SetToolTip(this.btnCancelOpen, "Cancel Reservation");
             this.btnCancelOpen.UseVisualStyleBackColor = true;
             this.btnCancelOpen.Click += new System.EventHandler(this.btnCancelOpen_Click);
             // 
@@ -444,16 +382,6 @@
             this.lblReservationStatus.TabIndex = 98;
             this.lblReservationStatus.Text = "Status";
             // 
-            // btnAddCustomer
-            // 
-            this.btnAddCustomer.Location = new System.Drawing.Point(12, 249);
-            this.btnAddCustomer.Name = "btnAddCustomer";
-            this.btnAddCustomer.Size = new System.Drawing.Size(110, 23);
-            this.btnAddCustomer.TabIndex = 16;
-            this.btnAddCustomer.Text = "Add Customer";
-            this.btnAddCustomer.UseVisualStyleBackColor = true;
-            this.btnAddCustomer.Click += new System.EventHandler(this.btnAddCustomer_Click);
-            // 
             // cboAC
             // 
             this.cboAC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -464,7 +392,7 @@
             this.cboAC.Name = "cboAC";
             this.cboAC.Size = new System.Drawing.Size(148, 21);
             this.cboAC.TabIndex = 11;
-            this.toolTips.SetToolTip(this.cboAC, "Appliance");
+            this.toolTip.SetToolTip(this.cboAC, "Appliance");
             this.cboAC.SelectedIndexChanged += new System.EventHandler(this.cboAC_SelectedIndexChanged);
             // 
             // txtStatus
@@ -487,7 +415,6 @@
             // 
             // txtFemale
             // 
-            this.txtFemale.BackColor = System.Drawing.SystemColors.Window;
             this.txtFemale.Location = new System.Drawing.Point(222, 64);
             this.txtFemale.MaxLength = 3;
             this.txtFemale.Name = "txtFemale";
@@ -505,7 +432,6 @@
             // 
             // txtChild
             // 
-            this.txtChild.BackColor = System.Drawing.SystemColors.Window;
             this.txtChild.Location = new System.Drawing.Point(296, 64);
             this.txtChild.MaxLength = 3;
             this.txtChild.Name = "txtChild";
@@ -523,7 +449,6 @@
             // 
             // txtInfant
             // 
-            this.txtInfant.BackColor = System.Drawing.SystemColors.Window;
             this.txtInfant.Location = new System.Drawing.Point(374, 64);
             this.txtInfant.MaxLength = 3;
             this.txtInfant.Name = "txtInfant";
@@ -592,32 +517,44 @@
             this.txtRemarks.Size = new System.Drawing.Size(184, 139);
             this.txtRemarks.TabIndex = 19;
             // 
-            // textBox2
+            // txtReservationNo
             // 
-            this.textBox2.Location = new System.Drawing.Point(115, 12);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(129, 20);
-            this.textBox2.TabIndex = 999;
-            this.textBox2.TabStop = false;
+            this.txtReservationNo.Location = new System.Drawing.Point(115, 12);
+            this.txtReservationNo.Name = "txtReservationNo";
+            this.txtReservationNo.ReadOnly = true;
+            this.txtReservationNo.Size = new System.Drawing.Size(139, 20);
+            this.txtReservationNo.TabIndex = 999;
+            this.txtReservationNo.TabStop = false;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(12, 16);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(97, 13);
+            this.label17.Size = new System.Drawing.Size(104, 13);
             this.label17.TabIndex = 1003;
-            this.label17.Text = "Reference Number";
+            this.label17.Text = "Reservation Number";
+            // 
+            // btnAdvancePayment
+            // 
+            this.btnAdvancePayment.Location = new System.Drawing.Point(12, 277);
+            this.btnAdvancePayment.Name = "btnAdvancePayment";
+            this.btnAdvancePayment.Size = new System.Drawing.Size(239, 24);
+            this.btnAdvancePayment.TabIndex = 1004;
+            this.btnAdvancePayment.Text = "Advance Payment...";
+            this.btnAdvancePayment.UseVisualStyleBackColor = true;
+            this.btnAdvancePayment.Click += new System.EventHandler(this.btnAdvancePayment_Click);
             // 
             // RoomReservationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(645, 455);
-            this.Controls.Add(this.textBox2);
+            this.ClientSize = new System.Drawing.Size(597, 450);
+            this.Controls.Add(this.btnAdvancePayment);
+            this.Controls.Add(this.txtReservationNo);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.txtRemarks);
+            this.Controls.Add(this.btnCancelOpen);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.txtFilteredAvailableRoomCount);
@@ -631,8 +568,6 @@
             this.Controls.Add(this.label12);
             this.Controls.Add(this.txtChild);
             this.Controls.Add(this.lblTotalRooms);
-            this.Controls.Add(this.btnAddCustomer);
-            this.Controls.Add(this.btnPickCustomer);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.cboAC);
             this.Controls.Add(this.txtFemale);
@@ -640,9 +575,6 @@
             this.Controls.Add(this.cboType);
             this.Controls.Add(this.lblReservationStatus);
             this.Controls.Add(this.cboCategory);
-            this.Controls.Add(this.btnCancelOpen);
-            this.Controls.Add(this.btnRefresh);
-            this.Controls.Add(this.btnOk);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txtRooms);
@@ -652,18 +584,52 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dtFromTime);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.txtAdvance);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.txtMale);
             this.Controls.Add(this.dtFrom);
             this.Name = "RoomReservationForm";
             this.ShowInTaskbar = false;
             this.Text = "Room Reservation Form";
             this.Load += new System.EventHandler(this.RoomBookingForm_Load);
+            this.Controls.SetChildIndex(this.dtFrom, 0);
+            this.Controls.SetChildIndex(this.txtMale, 0);
+            this.Controls.SetChildIndex(this.groupBox2, 0);
+            this.Controls.SetChildIndex(this.dtFromTime, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
+            this.Controls.SetChildIndex(this.txtDays, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.txtRooms, 0);
+            this.Controls.SetChildIndex(this.groupBox1, 0);
+            this.Controls.SetChildIndex(this.label4, 0);
+            this.Controls.SetChildIndex(this.cboCategory, 0);
+            this.Controls.SetChildIndex(this.lblReservationStatus, 0);
+            this.Controls.SetChildIndex(this.cboType, 0);
+            this.Controls.SetChildIndex(this.txtStatus, 0);
+            this.Controls.SetChildIndex(this.txtFemale, 0);
+            this.Controls.SetChildIndex(this.cboAC, 0);
+            this.Controls.SetChildIndex(this.label9, 0);
+            this.Controls.SetChildIndex(this.lblTotalRooms, 0);
+            this.Controls.SetChildIndex(this.txtChild, 0);
+            this.Controls.SetChildIndex(this.label12, 0);
+            this.Controls.SetChildIndex(this.label10, 0);
+            this.Controls.SetChildIndex(this.label13, 0);
+            this.Controls.SetChildIndex(this.txtInfant, 0);
+            this.Controls.SetChildIndex(this.label14, 0);
+            this.Controls.SetChildIndex(this.lblAvailableRooms, 0);
+            this.Controls.SetChildIndex(this.txtFilteredRoomCount, 0);
+            this.Controls.SetChildIndex(this.label11, 0);
+            this.Controls.SetChildIndex(this.txtFilteredAvailableRoomCount, 0);
+            this.Controls.SetChildIndex(this.label15, 0);
+            this.Controls.SetChildIndex(this.label16, 0);
+            this.Controls.SetChildIndex(this.btnCancelOpen, 0);
+            this.Controls.SetChildIndex(this.txtRemarks, 0);
+            this.Controls.SetChildIndex(this.label17, 0);
+            this.Controls.SetChildIndex(this.txtReservationNo, 0);
+            this.Controls.SetChildIndex(this.btnAdvancePayment, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -683,8 +649,6 @@
         private System.Windows.Forms.TextBox txtMale;
         private System.Windows.Forms.TextBox txtRooms;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtAdvance;
         private System.Windows.Forms.ComboBox cboRoomList;
         private System.Windows.Forms.ComboBox cboSelectedRoom;
         private System.Windows.Forms.Button btnAddRoom;
@@ -694,16 +658,11 @@
         private System.Windows.Forms.TextBox txtAdds;
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button btnPickCustomer;
-        private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.DateTimePicker dtFromTime;
-        private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnCancelOpen;
         private System.Windows.Forms.ComboBox cboType;
         private System.Windows.Forms.ComboBox cboCategory;
         private System.Windows.Forms.Label lblReservationStatus;
-        private System.Windows.Forms.Button btnAddCustomer;
         private System.Windows.Forms.ComboBox cboAC;
         private System.Windows.Forms.Label lblAvailableRooms;
         private System.Windows.Forms.Label lblTotalRooms;
@@ -716,7 +675,6 @@
         private System.Windows.Forms.TextBox txtChild;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtFemale;
-        private System.Windows.Forms.ToolTip toolTips;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
@@ -724,7 +682,8 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox txtRemarks;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtReservationNo;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button btnAdvancePayment;
     }
 }

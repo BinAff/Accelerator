@@ -111,6 +111,7 @@ namespace AutoTourism.Customer.WinForm
         }
       
         public CustomerForm(CustFac.Dto dto)
+            : base()
         {
             InitializeComponent();       
         }
@@ -120,6 +121,9 @@ namespace AutoTourism.Customer.WinForm
         private void CustomerForm_Load(object sender, System.EventArgs e)
         {
             if (DesignMode) return;
+            base.DisablePickAncestorButton();
+            base.DisableAddAncestorButton();
+            base.AncestorName = "...";
             //if loaded form room reservation form , then populate the modules
             //if (this.isLoadedFromRoomReservationForm)
             //{
@@ -260,16 +264,7 @@ namespace AutoTourism.Customer.WinForm
             }
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            errorProvider.Clear();
-            this.txtStd.Text = String.Empty;
-            this.txtLandLine.Text = String.Empty;
-            this.txtMobile.Text = String.Empty;
-            base.RefreshFrom();
-        }
-
-        private void btnOK_Click(object sender, EventArgs e)
+        protected override void Ok()
         {
             if (base.Save())
             {
@@ -277,6 +272,14 @@ namespace AutoTourism.Customer.WinForm
                 base.IsModified = true;
                 this.Close();
             }
+        }
+
+        protected override void RefreshFormBefore()
+        {
+            errorProvider.Clear();
+            this.txtStd.Text = String.Empty;
+            this.txtLandLine.Text = String.Empty;
+            this.txtMobile.Text = String.Empty;
         }
 
         protected override void Compose()
@@ -525,33 +528,31 @@ namespace AutoTourism.Customer.WinForm
 
         protected override void AssignDto()
         {
-            PopulateDataToForm();
-            //if (base.formDto.Dto == null) base.formDto.Dto = new CustFac.Dto();
-            
-            //CustFac.Dto dto = base.formDto.Dto as CustFac.Dto;
+            if (base.formDto.Dto == null) base.formDto.Dto = new CustFac.Dto();
+            CustFac.Dto dto = base.formDto.Dto as CustFac.Dto;
 
-            //dto.Id = dto == null ? 0 : dto.Id;
-            ////this.dto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
-            ////{
-            ////    Id = ((Table)cboInitial.SelectedItem).Id,
-            ////};
-            //dto.FirstName = txtFName.Text.Trim();
-            //dto.MiddleName = txtMName.Text.Trim();
-            //dto.LastName = txtLName.Text.Trim();
-            //dto.Address = txtAdds.Text.Trim();
-            //dto.State = cboState.SelectedIndex == -1 ? null : new Table()
+            dto.Id = dto == null ? 0 : dto.Id;
+            //this.dto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
             //{
-            //    Id = ((Table)cboState.SelectedItem).Id,
+            //    Id = ((Table)cboInitial.SelectedItem).Id,
             //};
-            //dto.City = txtCity.Text.Trim();
-            //dto.Pin = txtPin.Text == String.Empty ? 0 : Convert.ToInt32(txtPin.Text);
-            //dto.ContactNumberList = GetContactNumberDtoList();
-            //dto.Email = txtEmail.Text.Trim();
-            //dto.IdentityProofType = cboIdentityProofType.SelectedIndex == -1 ? null : new Table()
-            //{
-            //    Id = ((Table)cboIdentityProofType.SelectedItem).Id,
-            //};
-            //dto.IdentityProofName = txtIdentityProofName.Text.Trim();
+            dto.FirstName = txtFName.Text.Trim();
+            dto.MiddleName = txtMName.Text.Trim();
+            dto.LastName = txtLName.Text.Trim();
+            dto.Address = txtAdds.Text.Trim();
+            dto.State = cboState.SelectedIndex == -1 ? null : new Table
+            {
+                Id = (cboState.SelectedItem as Table).Id,
+            };
+            dto.City = txtCity.Text.Trim();
+            dto.Pin = txtPin.Text == String.Empty ? 0 : Convert.ToInt32(txtPin.Text);
+            dto.ContactNumberList = GetContactNumberDtoList();
+            dto.Email = txtEmail.Text.Trim();
+            dto.IdentityProofType = cboIdentityProofType.SelectedIndex == -1 ? null : new Table
+            {
+                Id = (cboIdentityProofType.SelectedItem as Table).Id,
+            };
+            dto.IdentityProofName = txtIdentityProofName.Text.Trim();
         }
 
         protected override Boolean SaveAfter()

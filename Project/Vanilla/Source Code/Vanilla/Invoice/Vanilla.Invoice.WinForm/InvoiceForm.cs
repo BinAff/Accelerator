@@ -20,6 +20,7 @@ namespace Vanilla.Invoice.WinForm
     {
 
         public InvoiceForm()
+            : base()
         {
             InitializeComponent();
         }
@@ -28,42 +29,6 @@ namespace Vanilla.Invoice.WinForm
             : base(artifact)
         {
             InitializeComponent();            
-        }
-
-        private void btnGenerate_Click(object sender, EventArgs e)
-        {
-            //Will be disabled after generation
-
-            Facade.Dto dto = base.Artifact.Module as Facade.Dto;
-
-            if (Convert.ToDouble(txtGrandTotal.Text) < 1)
-            {
-                new PresentationLibrary.MessageBox
-                {
-                    DialogueType = PresentationLibrary.MessageBox.Type.Error,
-                    Heading = "Splash",
-                }.Show(new List<String> { "Invalid amount. Please check the payment amount?" });
-
-                return;
-            }
-
-            if (ValidationRule.IsDouble(txtDiscount.Text))
-                dto.discount = Convert.ToDouble(txtDiscount.Text);
-
-            this.RegisterArtifactObserver();
-            ReturnObject<Boolean> ret = (base.facade as Facade.Server).GenerateInvoice();
-
-            if (!ret.Value)
-            {
-                new PresentationLibrary.MessageBox
-                {
-                    DialogueType = PresentationLibrary.MessageBox.Type.Error,
-                    Heading = "Splash",
-                }.Show(ret.MessageList);
-            }
-
-            this.Tag = ret.Value;
-            this.Close();
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
@@ -109,7 +74,7 @@ namespace Vanilla.Invoice.WinForm
             }
             else
             {
-                btnGenerate.Enabled = false;
+                base.DisableOkButton();
                 txtDiscount.Enabled = false;
                 txtInvoice.Text = dto.invoiceNumber;
                 txtDate.Text = dto.date.ToString();
@@ -178,6 +143,42 @@ namespace Vanilla.Invoice.WinForm
             }
         }
 
+        protected override void Ok()
+        {
+            //Will be disabled after generation
+
+            Facade.Dto dto = base.Artifact.Module as Facade.Dto;
+
+            if (Convert.ToDouble(txtGrandTotal.Text) < 1)
+            {
+                new PresentationLibrary.MessageBox
+                {
+                    DialogueType = PresentationLibrary.MessageBox.Type.Error,
+                    Heading = "Splash",
+                }.Show(new List<String> { "Invalid amount. Please check the payment amount?" });
+
+                return;
+            }
+
+            if (ValidationRule.IsDouble(txtDiscount.Text))
+                dto.discount = Convert.ToDouble(txtDiscount.Text);
+
+            this.RegisterArtifactObserver();
+            ReturnObject<Boolean> ret = (base.facade as Facade.Server).GenerateInvoice();
+
+            if (!ret.Value)
+            {
+                new PresentationLibrary.MessageBox
+                {
+                    DialogueType = PresentationLibrary.MessageBox.Type.Error,
+                    Heading = "Splash",
+                }.Show(ret.MessageList);
+            }
+
+            this.Tag = ret.Value;
+            this.Close();
+        }
+
         private void txtDiscount_TextChanged(object sender, EventArgs e)
         {
             Facade.Dto dto = base.Artifact.Module as Facade.Dto;
@@ -192,6 +193,7 @@ namespace Vanilla.Invoice.WinForm
                 txtGrandTotal.Text = (total - dto.advance - discount).ToString();
             }
         }
+
     }
 
 }

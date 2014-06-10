@@ -25,6 +25,15 @@ namespace Vanilla.Form.WinForm
         
         protected DocFac.Dto InitialDto { get; private set; }
 
+        protected String AncestorName
+        {
+            set
+            {
+                this.toolTip.SetToolTip(this.btnAddAncestor, this.toolTip.GetToolTip(this.btnAddAncestor) + " " + value);
+                this.toolTip.SetToolTip(this.btnPickAncestor, this.toolTip.GetToolTip(this.btnPickAncestor) + " " + value);
+            }
+        }
+        
         public delegate void OnArtifactSaved(ArtfFac.Dto document);
         public event OnArtifactSaved ArtifactSaved;
 
@@ -43,6 +52,7 @@ namespace Vanilla.Form.WinForm
             : base()
         {
             InitializeComponent();
+            this.btnExpandCollapse.BringToFront();
         }
 
         public Document(ArtfFac.Dto artifact)
@@ -69,6 +79,42 @@ namespace Vanilla.Form.WinForm
                     this.PopulateDataToForm();
                 }
                 if(this.ArtifactSaved != null) this.ArtifactSaved(this.formDto.Document);
+            }
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            this.Ok();
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            this.RefreshForm();
+        }
+
+        private void btnPickAncestor_Click(object sender, EventArgs e)
+        {
+            this.PickAnsestor();
+        }
+
+        private void btnAddAncestor_Click(object sender, EventArgs e)
+        {
+            this.AddAnsestor();
+        }
+
+        private void btnExpandCollapse_Click(object sender, EventArgs e)
+        {
+            if (this.btnExpandCollapse.Text == "×")
+            {
+                this.pnlAttachment.Visible = true;
+                this.pnlAttachment.BringToFront();
+                this.pnlAttachment.Left = this.pnlRight.Right - this.pnlAttachment.Size.Width;
+                this.btnExpandCollapse.Text = "Ö";
+            }
+            else
+            {
+                this.pnlAttachment.Visible = false;
+                this.btnExpandCollapse.Text = "×";
             }
         }
 
@@ -138,18 +184,57 @@ namespace Vanilla.Form.WinForm
             return this.SaveAfter();
         }
 
-        protected void RefreshFrom()
+        /// <summary>
+        /// Add method to refresh the form
+        /// </summary>
+        protected void RefreshForm()
         {
-            if (this.formDto.Dto.Id > 0)
+            this.RefreshFormBefore();
+            if (this.formDto.Dto != null && this.formDto.Dto.Id > 0)
             {
                 this.RevertForm();
-                this.AssignDto();
-                //this.PopulateDataToForm();
+                //this.AssignDto();
+                this.PopulateDataToForm();
             }
             else
             {
                 this.ClearForm();
             }
+            this.RefreshFormAfter();
+        }
+
+        protected virtual void RefreshFormBefore()
+        {
+            
+        }
+
+        protected virtual void RefreshFormAfter()
+        {
+            
+        }
+
+        /// <summary>
+        /// Add method when Ok buton is clicked
+        /// </summary>
+        protected virtual void Ok()
+        {
+
+        }
+
+        /// <summary>
+        /// Add method to pick existing ancestor artifact
+        /// </summary>
+        protected virtual void PickAnsestor()
+        {
+            
+        }
+
+        /// <summary>
+        /// Add method to add new ancestor artifact
+        /// </summary>
+        protected virtual void AddAnsestor()
+        {
+            
         }
 
         protected virtual void LoadForm()
@@ -214,6 +299,60 @@ namespace Vanilla.Form.WinForm
         {
             return true;
         }
+
+        #region Visual Control
+
+        protected void EnableRefreshButton()
+        {
+            this.btnRefresh.Enabled = true;
+        }
+
+        protected void DisableRefreshButton()
+        {
+            this.btnRefresh.Enabled = false;
+        }
+
+        protected void EnableOkButton()
+        {
+            this.btnOk.Enabled = true;
+        }
+
+        protected void DisableOkButton()
+        {
+            this.btnOk.Enabled = false;
+        }
+
+        protected void EnableAddAncestorButton()
+        {
+            this.btnAddAncestor.Enabled = true;
+        }
+
+        protected void DisableAddAncestorButton()
+        {
+            this.btnAddAncestor.Enabled = false;
+        }
+
+        protected void FocusAddAncestor()
+        {
+            this.btnAddAncestor.Focus();
+        }
+
+        protected void EnablePickAncestorButton()
+        {
+            this.btnPickAncestor.Enabled = true;
+        }
+
+        protected void DisablePickAncestorButton()
+        {
+            this.btnPickAncestor.Enabled = false;
+        }
+
+        protected void FocusPickAncestor()
+        {
+            this.btnPickAncestor.Focus();
+        }
+
+        #endregion
 
     }
 

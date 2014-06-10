@@ -79,6 +79,12 @@
     <Compile Include="RoomReservationRegister.Designer.cs">
       <DependentUpon>RoomReservationRegister.cs</DependentUpon>
     </Compile>
+    <Compile Include="Stay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Stay.Designer.cs">
+      <DependentUpon>Stay.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="BookingDetails.resx">
@@ -98,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RoomReservationRegister.resx">
       <DependentUpon>RoomReservationRegister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stay.resx">
+      <DependentUpon>Stay.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

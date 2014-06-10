@@ -65,7 +65,7 @@
       <DependentUpon>CustomerRule.cs</DependentUpon>
     </Compile>
     <Compile Include="PersonalInformation.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PersonalInformation.Designer.cs">
       <DependentUpon>PersonalInformation.cs</DependentUpon>

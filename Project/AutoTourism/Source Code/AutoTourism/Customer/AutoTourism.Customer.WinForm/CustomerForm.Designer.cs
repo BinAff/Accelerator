@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.bttnRemove = new System.Windows.Forms.Button();
             this.txtMobile = new System.Windows.Forms.TextBox();
             this.txtMobilePrefix = new System.Windows.Forms.TextBox();
@@ -55,9 +54,6 @@
             this.txtMName = new System.Windows.Forms.TextBox();
             this.txtFName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
-            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.btnOK = new System.Windows.Forms.Button();
-            this.btnRefresh = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.cboNationList = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -297,30 +293,6 @@
             this.lblName.TabIndex = 86;
             this.lblName.Text = "Name";
             // 
-            // errorProvider
-            // 
-            this.errorProvider.ContainerControl = this;
-            // 
-            // btnOK
-            // 
-            this.btnOK.Location = new System.Drawing.Point(453, 38);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 1000;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Location = new System.Drawing.Point(453, 9);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 1001;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -344,11 +316,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(537, 268);
+            this.ClientSize = new System.Drawing.Size(492, 268);
             this.Controls.Add(this.cboNationList);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.btnRefresh);
-            this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtAdds);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.txtFName);
@@ -379,6 +349,34 @@
             this.ShowInTaskbar = false;
             this.Text = "Customer Registration Form";
             this.Load += new System.EventHandler(this.CustomerForm_Load);
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.cboState, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.txtCity, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
+            this.Controls.SetChildIndex(this.label4, 0);
+            this.Controls.SetChildIndex(this.txtPin, 0);
+            this.Controls.SetChildIndex(this.label7, 0);
+            this.Controls.SetChildIndex(this.txtEmail, 0);
+            this.Controls.SetChildIndex(this.label8, 0);
+            this.Controls.SetChildIndex(this.txtIdentityProofName, 0);
+            this.Controls.SetChildIndex(this.cboIdentityProofType, 0);
+            this.Controls.SetChildIndex(this.label5, 0);
+            this.Controls.SetChildIndex(this.txtLandLine, 0);
+            this.Controls.SetChildIndex(this.lstContact, 0);
+            this.Controls.SetChildIndex(this.txtIsd, 0);
+            this.Controls.SetChildIndex(this.txtStd, 0);
+            this.Controls.SetChildIndex(this.btnAddContact, 0);
+            this.Controls.SetChildIndex(this.txtMobilePrefix, 0);
+            this.Controls.SetChildIndex(this.txtMobile, 0);
+            this.Controls.SetChildIndex(this.bttnRemove, 0);
+            this.Controls.SetChildIndex(this.txtLName, 0);
+            this.Controls.SetChildIndex(this.txtMName, 0);
+            this.Controls.SetChildIndex(this.txtFName, 0);
+            this.Controls.SetChildIndex(this.lblName, 0);
+            this.Controls.SetChildIndex(this.txtAdds, 0);
+            this.Controls.SetChildIndex(this.label6, 0);
+            this.Controls.SetChildIndex(this.cboNationList, 0);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -413,9 +411,6 @@
         private System.Windows.Forms.TextBox txtMName;
         private System.Windows.Forms.TextBox txtFName;
         private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.ErrorProvider errorProvider;
-        private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.ComboBox cboNationList;
         private System.Windows.Forms.Label label6;
     }

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvTax = new System.Windows.Forms.DataGridView();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,16 +40,15 @@
             this.txtTotal = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnGenerate = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.txtInvoice = new System.Windows.Forms.TextBox();
             this.txtDate = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.pnlTax = new System.Windows.Forms.Panel();
+            this.pnlBottom = new System.Windows.Forms.Panel();
+            this.pnlTop = new System.Windows.Forms.Panel();
             this.dgvProduct = new System.Windows.Forms.DataGridView();
             this.Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.End = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,13 +59,11 @@
             this.ServiceTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LuxuaryTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TotalAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel3 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTax)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel4.SuspendLayout();
+            this.pnlTax.SuspendLayout();
+            this.pnlBottom.SuspendLayout();
+            this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).BeginInit();
-            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvTax
@@ -93,7 +90,7 @@
             // txtAdvance
             // 
             this.txtAdvance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAdvance.Location = new System.Drawing.Point(966, 31);
+            this.txtAdvance.Location = new System.Drawing.Point(985, 31);
             this.txtAdvance.Name = "txtAdvance";
             this.txtAdvance.ReadOnly = true;
             this.txtAdvance.Size = new System.Drawing.Size(118, 20);
@@ -103,7 +100,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(910, 31);
+            this.label7.Location = new System.Drawing.Point(929, 31);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(50, 13);
             this.label7.TabIndex = 161;
@@ -112,7 +109,7 @@
             // txtGrandTotal
             // 
             this.txtGrandTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtGrandTotal.Location = new System.Drawing.Point(965, 83);
+            this.txtGrandTotal.Location = new System.Drawing.Point(984, 83);
             this.txtGrandTotal.Name = "txtGrandTotal";
             this.txtGrandTotal.ReadOnly = true;
             this.txtGrandTotal.Size = new System.Drawing.Size(118, 20);
@@ -122,7 +119,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(896, 86);
+            this.label4.Location = new System.Drawing.Point(915, 86);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(63, 13);
             this.label4.TabIndex = 159;
@@ -131,7 +128,7 @@
             // txtDiscount
             // 
             this.txtDiscount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDiscount.Location = new System.Drawing.Point(966, 57);
+            this.txtDiscount.Location = new System.Drawing.Point(985, 57);
             this.txtDiscount.Name = "txtDiscount";
             this.txtDiscount.Size = new System.Drawing.Size(118, 20);
             this.txtDiscount.TabIndex = 158;
@@ -140,7 +137,7 @@
             // txtTotal
             // 
             this.txtTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTotal.Location = new System.Drawing.Point(965, 5);
+            this.txtTotal.Location = new System.Drawing.Point(984, 5);
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
             this.txtTotal.Size = new System.Drawing.Size(118, 20);
@@ -150,7 +147,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(911, 60);
+            this.label3.Location = new System.Drawing.Point(930, 60);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 13);
             this.label3.TabIndex = 156;
@@ -160,49 +157,42 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(928, 8);
+            this.label1.Location = new System.Drawing.Point(947, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(31, 13);
             this.label1.TabIndex = 155;
             this.label1.Text = "Total";
             // 
-            // btnGenerate
-            // 
-            this.btnGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGenerate.Location = new System.Drawing.Point(846, 109);
-            this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(75, 23);
-            this.btnGenerate.TabIndex = 163;
-            this.btnGenerate.Text = "Generate";
-            this.btnGenerate.UseVisualStyleBackColor = true;
-            this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
-            // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(1008, 109);
+            this.btnCancel.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnCancel.Location = new System.Drawing.Point(1111, 156);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(34, 34);
             this.btnCancel.TabIndex = 164;
-            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Text = "Í";
+            this.toolTip.SetToolTip(this.btnCancel, "Cancel Invoice");
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnPrint
             // 
             this.btnPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrint.Location = new System.Drawing.Point(927, 109);
+            this.btnPrint.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnPrint.Location = new System.Drawing.Point(1111, 190);
             this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(75, 23);
+            this.btnPrint.Size = new System.Drawing.Size(34, 34);
             this.btnPrint.TabIndex = 165;
-            this.btnPrint.Text = "Print";
+            this.btnPrint.Text = "7";
+            this.toolTip.SetToolTip(this.btnPrint, "Print Invoice");
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 9);
+            this.label2.Location = new System.Drawing.Point(12, 15);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 13);
             this.label2.TabIndex = 166;
@@ -211,7 +201,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(798, 9);
+            this.label5.Location = new System.Drawing.Point(818, 15);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(68, 13);
             this.label5.TabIndex = 167;
@@ -219,7 +209,7 @@
             // 
             // txtInvoice
             // 
-            this.txtInvoice.Location = new System.Drawing.Point(100, 6);
+            this.txtInvoice.Location = new System.Drawing.Point(100, 12);
             this.txtInvoice.Name = "txtInvoice";
             this.txtInvoice.ReadOnly = true;
             this.txtInvoice.Size = new System.Drawing.Size(208, 20);
@@ -227,52 +217,49 @@
             // 
             // txtDate
             // 
-            this.txtDate.Location = new System.Drawing.Point(872, 6);
+            this.txtDate.Location = new System.Drawing.Point(892, 12);
             this.txtDate.Name = "txtDate";
             this.txtDate.ReadOnly = true;
             this.txtDate.Size = new System.Drawing.Size(208, 20);
             this.txtDate.TabIndex = 169;
             // 
-            // panel1
+            // pnlTax
             // 
-            this.panel1.Controls.Add(this.dgvTax);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 292);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1092, 95);
-            this.panel1.TabIndex = 170;
-            this.panel1.Visible = false;
+            this.pnlTax.Controls.Add(this.dgvTax);
+            this.pnlTax.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlTax.Location = new System.Drawing.Point(0, 292);
+            this.pnlTax.Name = "pnlTax";
+            this.pnlTax.Size = new System.Drawing.Size(1111, 95);
+            this.pnlTax.TabIndex = 170;
+            this.pnlTax.Visible = false;
             // 
-            // panel2
+            // pnlBottom
             // 
-            this.panel2.Controls.Add(this.btnPrint);
-            this.panel2.Controls.Add(this.btnCancel);
-            this.panel2.Controls.Add(this.btnGenerate);
-            this.panel2.Controls.Add(this.txtAdvance);
-            this.panel2.Controls.Add(this.label7);
-            this.panel2.Controls.Add(this.txtGrandTotal);
-            this.panel2.Controls.Add(this.label4);
-            this.panel2.Controls.Add(this.txtDiscount);
-            this.panel2.Controls.Add(this.txtTotal);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 387);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1092, 140);
-            this.panel2.TabIndex = 171;
+            this.pnlBottom.Controls.Add(this.txtAdvance);
+            this.pnlBottom.Controls.Add(this.label7);
+            this.pnlBottom.Controls.Add(this.txtGrandTotal);
+            this.pnlBottom.Controls.Add(this.label4);
+            this.pnlBottom.Controls.Add(this.txtDiscount);
+            this.pnlBottom.Controls.Add(this.txtTotal);
+            this.pnlBottom.Controls.Add(this.label3);
+            this.pnlBottom.Controls.Add(this.label1);
+            this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlBottom.Location = new System.Drawing.Point(0, 387);
+            this.pnlBottom.Name = "pnlBottom";
+            this.pnlBottom.Size = new System.Drawing.Size(1111, 140);
+            this.pnlBottom.TabIndex = 171;
             // 
-            // panel4
+            // pnlTop
             // 
-            this.panel4.Controls.Add(this.txtDate);
-            this.panel4.Controls.Add(this.txtInvoice);
-            this.panel4.Controls.Add(this.label5);
-            this.panel4.Controls.Add(this.label2);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1092, 31);
-            this.panel4.TabIndex = 173;
+            this.pnlTop.Controls.Add(this.txtDate);
+            this.pnlTop.Controls.Add(this.txtInvoice);
+            this.pnlTop.Controls.Add(this.label5);
+            this.pnlTop.Controls.Add(this.label2);
+            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlTop.Location = new System.Drawing.Point(0, 0);
+            this.pnlTop.Name = "pnlTop";
+            this.pnlTop.Size = new System.Drawing.Size(1111, 40);
+            this.pnlTop.TabIndex = 173;
             // 
             // dgvProduct
             // 
@@ -290,10 +277,10 @@
             this.LuxuaryTax,
             this.TotalAmount});
             this.dgvProduct.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvProduct.Location = new System.Drawing.Point(10, 0);
+            this.dgvProduct.Location = new System.Drawing.Point(0, 40);
             this.dgvProduct.Name = "dgvProduct";
             this.dgvProduct.ReadOnly = true;
-            this.dgvProduct.Size = new System.Drawing.Size(1072, 261);
+            this.dgvProduct.Size = new System.Drawing.Size(1111, 487);
             this.dgvProduct.TabIndex = 174;
             // 
             // Start
@@ -317,8 +304,8 @@
             // 
             // Description
             // 
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Description.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Description.DefaultCellStyle = dataGridViewCellStyle1;
             this.Description.HeaderText = "Description";
             this.Description.MaxInputLength = 500;
             this.Description.MinimumWidth = 300;
@@ -375,35 +362,32 @@
             this.TotalAmount.Name = "TotalAmount";
             this.TotalAmount.ReadOnly = true;
             // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.dgvProduct);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 31);
-            this.panel3.Name = "panel3";
-            this.panel3.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.panel3.Size = new System.Drawing.Size(1092, 261);
-            this.panel3.TabIndex = 175;
-            // 
             // InvoiceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1092, 527);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel4);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.panel2);
+            this.ClientSize = new System.Drawing.Size(1145, 527);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnPrint);
+            this.Controls.Add(this.pnlTax);
+            this.Controls.Add(this.pnlBottom);
+            this.Controls.Add(this.dgvProduct);
+            this.Controls.Add(this.pnlTop);
             this.Name = "InvoiceForm";
             this.Text = "Invoice Generation Form";
+            this.Controls.SetChildIndex(this.pnlTop, 0);
+            this.Controls.SetChildIndex(this.dgvProduct, 0);
+            this.Controls.SetChildIndex(this.pnlBottom, 0);
+            this.Controls.SetChildIndex(this.pnlTax, 0);
+            this.Controls.SetChildIndex(this.btnPrint, 0);
+            this.Controls.SetChildIndex(this.btnCancel, 0);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTax)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
+            this.pnlTax.ResumeLayout(false);
+            this.pnlBottom.ResumeLayout(false);
+            this.pnlBottom.PerformLayout();
+            this.pnlTop.ResumeLayout(false);
+            this.pnlTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).EndInit();
-            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -419,7 +403,6 @@
         private System.Windows.Forms.TextBox txtTotal;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnGenerate;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn value;
@@ -428,9 +411,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtInvoice;
         private System.Windows.Forms.TextBox txtDate;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel pnlTax;
+        private System.Windows.Forms.Panel pnlBottom;
+        private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.DataGridView dgvProduct;
         private System.Windows.Forms.DataGridViewTextBoxColumn Start;
         private System.Windows.Forms.DataGridViewTextBoxColumn End;
@@ -441,6 +424,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ServiceTax;
         private System.Windows.Forms.DataGridViewTextBoxColumn LuxuaryTax;
         private System.Windows.Forms.DataGridViewTextBoxColumn TotalAmount;
-        private System.Windows.Forms.Panel panel3;
     }
 }
