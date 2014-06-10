@@ -253,18 +253,19 @@ namespace Vanilla.Utility.Facade.Artifact
         public override void Delete()
         {
             ReturnObject<Boolean> ret = new ReturnObject<bool>();
-            FormDto formDto = this.FormDto as FormDto;
-            Module.Definition.Dto moduleDef = formDto.Dto.ComponentDefinition;
-            if (moduleDef.Code == "CUST")
-            {
-                ReturnObject<CrysArtf.Data> retVal = ((Crystal.Navigator.Component.Artifact.IArtifact)this.ModuleArtifactComponent).ReadWithParent();
-                if (retVal != null)                
-                    ret = this.ValidateCustomerForDelete(retVal.Value);                
-            }
-            else
-                ret = this.ModuleArtifactComponent.Delete();
+            //FormDto formDto = this.FormDto as FormDto;
+            //Module.Definition.Dto moduleDef = formDto.Dto.ComponentDefinition;
+            //if (moduleDef.Code == "CUST")
+            //{
+            //    ReturnObject<CrysArtf.Data> retVal = ((Crystal.Navigator.Component.Artifact.IArtifact)this.ModuleArtifactComponent).ReadWithParent();
+            //    if (retVal != null)                
+            //        ret = this.ValidateCustomerForDelete(retVal.Value);                
+            //}
+            //else
+            //    ret = this.ModuleArtifactComponent.Delete();
 
-            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+            ret = this.ModuleArtifactComponent.Delete();
+            //this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
         public override void Read()
