@@ -14,6 +14,7 @@ namespace AutoTourism
 {
     public partial class CustomerRegister : Form
     {
+
         private RuleFacade.Dto ruleDto;
 
         public CustomerRegister()
@@ -29,55 +30,32 @@ namespace AutoTourism
 
         private void CustomerRegister_Load(object sender, EventArgs e)
         {
-            PersonalInformation personalInformation = new PersonalInformation
-            {
-                TopLevel = false,
-                Dock = DockStyle.Fill,
-                FormBorderStyle = FormBorderStyle.None,
-                BackColor = System.Drawing.Color.White
-            };
-            panel1.Controls.Add(personalInformation);
-            personalInformation.Show();
-
-            foreach (Control control in personalInformation.Controls)
-            {
-                if (control.Name == "cboCustomer")
-                {
-                    (control as ComboBox).MouseClick += CustomerRegister_MouseClick;
-                    break;
-                }
-            }
+            //foreach (Control control in ucPersonalInformation.Controls)
+            //{
+            //    if (control.Name == "cboCustomer")
+            //    {
+            //        (control as ComboBox).MouseClick += CustomerRegister_MouseClick;
+            //        break;
+            //    }
+            //}
         }
 
-        void CustomerRegister_MouseClick(object sender, MouseEventArgs e)
-        {            
-            PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
-            
-            foreach (Control control in personalInformation.Controls)
-            {
-                if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
-                {
-                    //load booking data
-                    LoadBookingDetail((CustomerFacade.Dto)(control as ComboBox).SelectedItem);
-                    break;
-                }
-            }
-        }
+        //void CustomerRegister_MouseClick(object sender, MouseEventArgs e)
+        //{
+        //    foreach (Control control in ucPersonalInformation.Controls)
+        //    {
+        //        if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
+        //        {
+        //            //load booking data
+        //            LoadBookingDetail((CustomerFacade.Dto)(control as ComboBox).SelectedItem);
+        //            break;
+        //        }
+        //    }
+        //}
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
-
-            //clear customer form
-            foreach (Control control in personalInformation.Controls)
-            {
-                if (control.Name == "cboCustomer")
-                    (control as ComboBox).SelectedIndex = -1;
-                else if (control.Name == "lblIdProofTypeName")
-                    (control as Label).Text = String.Empty;
-                else if (control.GetType() == typeof(TextBox))                
-                    (control as TextBox).Text = String.Empty;
-            }
+            this.ucPersonalInformation.Clear();
 
             //clear booking detail grid
             DataGridView dgvBooking = null;
@@ -98,33 +76,31 @@ namespace AutoTourism
         }
 
         private void btnChange_Click(object sender, EventArgs e)
-        {           
-            PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;
-            foreach (Control control in personalInformation.Controls)
-            {
-                if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
-                {
-                    CustomerFacade.Dto customerDto = (CustomerFacade.Dto)(control as ComboBox).SelectedItem;
-                    new CustomerForm(customerDto).ShowDialog();
-                    break;
-                }
-            }
+        {
+            //foreach (Control control in personalInformation.Controls)
+            //{
+            //    if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
+            //    {
+            //        CustomerFacade.Dto customerDto = (CustomerFacade.Dto)(control as ComboBox).SelectedItem;
+            //        new CustomerForm(customerDto).ShowDialog();
+            //        break;
+            //    }
+            //}
         }
 
         private void btnBook_Click(object sender, EventArgs e)
         {
-            PersonalInformation personalInformation = panel1.Controls[0] as PersonalInformation;            
-            foreach (Control control in personalInformation.Controls)
-            {
-                if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
-                {                   
-                    //new RoomReservationForm(new LodgeFacade.RoomReservation.Dto
-                    //                            {
-                    //                                Customer = (CustomerFacade.Dto)(control as ComboBox).SelectedItem
-                    //                            }, this.ruleDto).ShowDialog();
-                    break;
-                }
-            }
+            //foreach (Control control in personalInformation.Controls)
+            //{
+            //    if (control.Name == "cboCustomer" && ((control as ComboBox).SelectedIndex != -1))
+            //    {                   
+            //        //new RoomReservationForm(new LodgeFacade.RoomReservation.Dto
+            //        //                            {
+            //        //                                Customer = (CustomerFacade.Dto)(control as ComboBox).SelectedItem
+            //        //                            }, this.ruleDto).ShowDialog();
+            //        break;
+            //    }
+            //}
         }       
        
         private void LoadBookingDetail(CustomerFacade.Dto customerDto)
@@ -176,16 +152,17 @@ namespace AutoTourism
 
         private String GetRooms(List<CustomerFacade.Lodge.Room.Dto> roomList)
         {
-            if (roomList == null || roomList.Count == 0)
-                return String.Empty;
+            if (roomList == null || roomList.Count == 0) return String.Empty;
 
             StringBuilder strbRoom = new StringBuilder();
             foreach (CustomerFacade.Lodge.Room.Dto room in roomList)
+            {
                 strbRoom.Append(", " + room.Number.ToString());
+            }
 
             return strbRoom.ToString().Substring(1);
         }
 
-       
     }
+
 }

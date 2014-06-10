@@ -84,7 +84,8 @@ namespace AutoTourism.Lodge.WinForm
         #region Events
 
         private void RoomBookingForm_Load(object sender, System.EventArgs e)
-        {          
+        {
+            base.AncestorName = "Customer";
             ////set default date format
             //this.dtFrom.Format = DateTimePickerFormat.Custom;
             //this.dtFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
@@ -105,36 +106,6 @@ namespace AutoTourism.Lodge.WinForm
             //}
 
             //LoadForm();
-        }  
-
-        private void btnPickCustomer_Click(object sender, System.EventArgs e)
-        {
-            //Type type = Type.GetType("AutoTourism.Customer.WinForm.CustomerRegister, AutoTourism.Customer.WinForm", true);
-            //Form form = (Form)Activator.CreateInstance(type);
-            Form form = new AutoTourism.Customer.WinForm.CustomerRegister();
-            form.ShowDialog(this);
-
-            if (form.Tag != null)
-            {
-                this.PopulateCustomerData(form.Tag as CustFac.Dto);
-            }
-        }
-
-        private void btnAddCustomer_Click(object sender, EventArgs e)
-        {
-            ArtfFac.Dto cutomerArtifact = new ArtfFac.Dto();
-            FormWin.Document form = new AutoTourism.Customer.WinForm.CustomerForm(cutomerArtifact);
-            form.ArtifactSaved += form_ArtifactSaved;
-            form.ShowDialog(this);
-            if (form.Artifact != null && form.Artifact.Module != null)
-            {
-                this.PopulateCustomerData(form.Artifact.Module as CustFac.Dto);
-            }
-        }
-
-        private void form_ArtifactSaved(ArtfFac.Dto document)
-        {
-            base.RaiseChildArtifactSaved(document);
         }
 
         private void btnAddRoom_Click(object sender, EventArgs e)
@@ -155,39 +126,6 @@ namespace AutoTourism.Lodge.WinForm
         private void cboSelectedRoom_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.RemoveRoom();
-        }
-
-        private void btnOk_Click(object sender, EventArgs e)
-        {
-            //if (this.SaveReservationData())
-            //{
-            //    if (this.isLoadedFromCheckInForm) this.SaveArtifact();
-
-            //    base.IsModified = true;
-            //    this.Close();
-            //}
-           
-            if (base.Save())
-            {
-                base.Artifact.Module = base.formDto.Dto;
-                base.IsModified = true;
-                this.Close();
-            }
-           
-        }
-
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            errorProvider.Clear();
-            if (this.formDto.Dto != null && this.formDto.Dto.Id > 0)
-            {
-                this.ResetLoad();
-            }
-            else
-            {
-                this.Clear();
-            }
-            this.PopulateFilteredRoomList();
         }
 
         private void btnCancelOpen_Click(object sender, EventArgs e)
@@ -239,6 +177,11 @@ namespace AutoTourism.Lodge.WinForm
         {
             this.ValidateBookedRoomsAndPopulate();
             this.LoadRoomReservationStatusLevels();
+        }
+
+        private void btnAdvancePayment_Click(object sender, EventArgs e)
+        {
+            //TO DO :: Open advance payment form
         }
 
         #endregion
@@ -323,6 +266,69 @@ namespace AutoTourism.Lodge.WinForm
             }
         }
 
+        protected override void RevertForm()
+        {
+            //Revert the form to the original form when it is loaded
+        }
+
+        protected override void RefreshFormBefore()
+        {
+            errorProvider.Clear();
+        }
+
+        protected override void RefreshFormAfter()
+        {
+            this.PopulateFilteredRoomList();
+        }
+
+        protected override void Ok()
+        {
+            //if (this.SaveReservationData())
+            //{
+            //    if (this.isLoadedFromCheckInForm) this.SaveArtifact();
+
+            //    base.IsModified = true;
+            //    this.Close();
+            //}
+
+            if (base.Save())
+            {
+                base.Artifact.Module = base.formDto.Dto;
+                base.IsModified = true;
+                this.Close();
+            }
+        }
+
+        protected override void PickAnsestor()
+        {
+            //Type type = Type.GetType("AutoTourism.Customer.WinForm.CustomerRegister, AutoTourism.Customer.WinForm", true);
+            //Form form = (Form)Activator.CreateInstance(type);
+            Form form = new AutoTourism.Customer.WinForm.CustomerRegister();
+            form.ShowDialog(this);
+
+            if (form.Tag != null)
+            {
+                this.PopulateCustomerData(form.Tag as CustFac.Dto);
+            }
+        }
+
+        protected override void AddAnsestor()
+        {
+            ArtfFac.Dto cutomerArtifact = new ArtfFac.Dto();
+            FormWin.Document form = new AutoTourism.Customer.WinForm.CustomerForm(cutomerArtifact);
+            form.ArtifactSaved += form_ArtifactSaved;
+            form.ShowDialog(this);
+            if (form.Artifact != null && form.Artifact.Module != null)
+            {
+                this.PopulateCustomerData(form.Artifact.Module as CustFac.Dto);
+            }
+        }
+
+        private void form_ArtifactSaved(ArtfFac.Dto document)
+        {
+            base.RaiseChildArtifactSaved(document);
+        }
+
         private void PopulateCustomerData(CustFac.Dto customerData)
         {
             //Fac.FormDto formDto = base.formDto as Fac.FormDto;
@@ -389,7 +395,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.txtDays.Text = dto.NoOfDays == 0 ? String.Empty : dto.NoOfDays.ToString();
                 this.txtMale.Text = dto.NoOfPersons == 0 ? String.Empty : dto.NoOfPersons.ToString();
                 this.txtRooms.Text = dto.NoOfRooms == 0 ? String.Empty : dto.NoOfRooms.ToString();
-                this.txtAdvance.Text = dto.Advance == 0 ? String.Empty : Converter.ConvertToIndianCurrency(dto.Advance);
+                //this.txtAdvance.Text = dto.Advance == 0 ? String.Empty : Converter.ConvertToIndianCurrency(dto.Advance);
                 this.cboSelectedRoom.DataSource = dto.RoomList;
                 this.cboSelectedRoom.DisplayMember = "Number";
                 this.cboSelectedRoom.ValueMember = "Id";
@@ -440,10 +446,10 @@ namespace AutoTourism.Lodge.WinForm
         {
             errorProvider.Clear();
 
-            this.btnPickCustomer.Enabled = false;
-            this.btnAddCustomer.Enabled = false;
-            this.btnRefresh.Enabled = false;
-            this.btnOk.Enabled = false;
+            base.DisablePickAncestorButton();
+            base.DisableAddAncestorButton();
+            base.DisableRefreshButton();
+            base.DisableOkButton();
             this.btnCancelOpen.Enabled = false;
             this.btnAddRoom.Enabled = false;
             this.btnRemoveRoom.Enabled = false;
@@ -456,7 +462,7 @@ namespace AutoTourism.Lodge.WinForm
             this.txtDays.Enabled = false;
             this.txtMale.Enabled = false;
             this.txtRooms.Enabled = false;
-            this.txtAdvance.Enabled = false;
+            //this.txtAdvance.Enabled = false;
                         
             this.cboRoomList.Enabled = false;
             this.cboSelectedRoom.Enabled = false;
@@ -473,7 +479,7 @@ namespace AutoTourism.Lodge.WinForm
             this.txtDays.Text = String.Empty;
             this.txtMale.Text = String.Empty;
             this.txtRooms.Text = String.Empty;
-            this.txtAdvance.Text = String.Empty;
+            //this.txtAdvance.Text = String.Empty;
             this.cboSelectedRoom.DataSource = null;
             
             this.dtFrom.Value = DateTime.Now;
@@ -580,7 +586,7 @@ namespace AutoTourism.Lodge.WinForm
             dto.NoOfDays = Convert.ToInt16(txtDays.Text);
             dto.NoOfPersons = Convert.ToInt16(txtMale.Text);
             dto.NoOfRooms = Convert.ToInt16(txtRooms.Text);
-            dto.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));
+            //dto.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));
             //dto.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<RoomCatFac.Dto>)[this.cboCategory.SelectedIndex].Id };
             dto.RoomCategory = this.cboCategory.SelectedItem == null ? null : new Table { Id = (this.cboCategory.SelectedItem as RoomCatFac.Dto).Id };
             //dto.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<RoomTypFac.Dto>)[this.cboType.SelectedIndex].Id };
@@ -618,6 +624,7 @@ namespace AutoTourism.Lodge.WinForm
             dto.RoomList = this.cboSelectedRoom.Items.Count == 0 ? null : (List<RoomFac.Dto>)this.cboSelectedRoom.DataSource;
         
         }
+
         //private Boolean SaveReservationData()
         //{
             //Boolean retVal = this.ValidateBooking();
@@ -755,8 +762,8 @@ namespace AutoTourism.Lodge.WinForm
 
             if (String.IsNullOrEmpty(this.txtName.Text))
             {
-                this.errorProvider.SetError(this.btnPickCustomer, "Select a customer for reservation.");
-                this.btnPickCustomer.Focus();
+                this.errorProvider.SetError(this.txtName, "Select a customer for reservation.");
+                base.FocusPickAncestor();
                 return false;
             }
             else if (ValidationRule.IsDateLessThanToday(this.dtFrom.Value))
@@ -801,12 +808,12 @@ namespace AutoTourism.Lodge.WinForm
                 this.txtRooms.Focus();
                 return false;
             }
-            else if (!ValidationRule.IsDecimal(String.IsNullOrEmpty(this.txtAdvance.Text) ? "0" : this.txtAdvance.Text.Trim().Replace(",", "")))
-            {
-                this.errorProvider.SetError(this.txtAdvance, "Entered '" + this.txtAdvance.Text + "' is Invalid.");
-                this.txtAdvance.Focus();
-                return false;
-            }
+            //else if (!ValidationRule.IsDecimal(String.IsNullOrEmpty(this.txtAdvance.Text) ? "0" : this.txtAdvance.Text.Trim().Replace(",", "")))
+            //{
+            //    this.errorProvider.SetError(this.txtAdvance, "Entered '" + this.txtAdvance.Text + "' is Invalid.");
+            //    this.txtAdvance.Focus();
+            //    return false;
+            //}
             else if (ValidationRule.IsDateLessThanToday(this.dtFrom.Value))
             {
                 this.errorProvider.SetError(this.dtFrom, "Booking from date cannot be less than today.");

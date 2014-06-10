@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace AutoTourism
+namespace Vanilla.Invoice.WinForm
 {
-    public partial class Customer : Form
+    public partial class CommercialInstruments : UserControl
     {
-        public Customer()
+        public CommercialInstruments()
         {
             InitializeComponent();
         }

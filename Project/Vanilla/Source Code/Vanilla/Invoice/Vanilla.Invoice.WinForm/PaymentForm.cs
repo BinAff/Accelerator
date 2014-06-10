@@ -23,7 +23,7 @@ namespace Vanilla.Invoice.WinForm
             InitializeComponent();
             this.SetPaymentGridViewSettings();
 
-            this.txtInvoiceNumber.Text = "INVO-30-05-201412910";
+            //this.txtInvoiceNumber.Text = "INVO-30-05-201412910";
             this.formDto.InvoiceDto = new Facade.Dto 
             {
                 invoiceNumber = "INVO-30-05-201412910"
@@ -38,15 +38,15 @@ namespace Vanilla.Invoice.WinForm
         //    InitializeComponent();
         //}
 
-        private void btnPay_Click(object sender, EventArgs e)
+        private void btnOk_Click(object sender, EventArgs e)
         {
-            if (this.ValidateMakePayment())
+            if (this.ValidateForm())
             {
-                ReturnObject<Boolean> ret = new PayFac.Server(formDto).MakePayment(dgvPayment.DataSource as List<Facade.Payment.Dto>, txtInvoiceNumber.Text);            
+                //ReturnObject<Boolean> ret = new PayFac.Server(formDto).MakePayment(dgvPayment.DataSource as List<Facade.Payment.Dto>, txtInvoiceNumber.Text);
                 this.Close();
             }
         }
-
+        
         private void btnPrint_Click(object sender, EventArgs e)
         {
 
@@ -216,8 +216,8 @@ namespace Vanilla.Invoice.WinForm
             BinAff.Facade.Library.Server facade = new PayFac.Server(formDto);
             facade.LoadForm();
                        
-            this.txtInvoiceDate.Text = "11-11-2014";
-            this.txtPaymentAmount.Text = "5000";
+            //this.txtInvoiceDate.Text = "11-11-2014";
+            //this.txtPaymentAmount.Text = "5000";
 
             //--populate payment type category
             this.cboPaymentType.DataSource = null;
@@ -244,7 +244,7 @@ namespace Vanilla.Invoice.WinForm
                 txtRemark.Enabled = false;
                 txtAmount.Enabled = false;
                 dgvPayment.Enabled = false;
-                btnPay.Enabled = false;
+                btnOk.Enabled = false;
                 btnAdd.Enabled = false;
                 btnChange.Enabled = false;
             }
@@ -317,7 +317,7 @@ namespace Vanilla.Invoice.WinForm
             }
         }
 
-        private Boolean ValidateMakePayment()
+        private Boolean ValidateForm()
         {
             if (dgvPayment.DataSource == null)
             {
@@ -336,7 +336,7 @@ namespace Vanilla.Invoice.WinForm
                 foreach (Facade.Payment.Dto dto in paymentDtoList)
                     paymentTotal += dto.amount;
 
-                if (Convert.ToDouble(txtPaymentAmount.Text) != paymentTotal)
+                if (Convert.ToDouble(this.txtAmount.Text) != paymentTotal)
                 {
                     DialogResult result = MessageBox.Show("Total payment amount is not matching with bill total.Do you want to make the payment?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == System.Windows.Forms.DialogResult.No)

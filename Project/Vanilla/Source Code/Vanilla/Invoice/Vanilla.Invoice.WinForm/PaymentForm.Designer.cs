@@ -30,17 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgvPayment = new System.Windows.Forms.DataGridView();
-            this.PaymentType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LastFourDigit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnPay = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtPaymentAmount = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtInvoiceNumber = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtInvoiceDate = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtAmount = new System.Windows.Forms.TextBox();
             this.lblAmount = new System.Windows.Forms.Label();
@@ -54,9 +43,23 @@
             this.label6 = new System.Windows.Forms.Label();
             this.btnPrint = new System.Windows.Forms.Button();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.PaymentType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LastFourDigit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.Select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.InvoiceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InvoiceNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InvoiceAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InvoiceRemarks = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnOk = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPayment)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvPayment
@@ -67,98 +70,11 @@
             this.Amount,
             this.LastFourDigit,
             this.Remark});
-            this.dgvPayment.Location = new System.Drawing.Point(12, 152);
+            this.dgvPayment.Location = new System.Drawing.Point(12, 215);
             this.dgvPayment.Name = "dgvPayment";
             this.dgvPayment.Size = new System.Drawing.Size(647, 111);
             this.dgvPayment.TabIndex = 124;
             this.dgvPayment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPayment_CellContentClick);
-            // 
-            // PaymentType
-            // 
-            this.PaymentType.HeaderText = "PaymentType";
-            this.PaymentType.Name = "PaymentType";
-            // 
-            // Amount
-            // 
-            this.Amount.HeaderText = "Amount";
-            this.Amount.Name = "Amount";
-            // 
-            // LastFourDigit
-            // 
-            this.LastFourDigit.HeaderText = "Last Four Digit";
-            this.LastFourDigit.Name = "LastFourDigit";
-            // 
-            // Remark
-            // 
-            this.Remark.HeaderText = "Remark";
-            this.Remark.Name = "Remark";
-            // 
-            // btnPay
-            // 
-            this.btnPay.Location = new System.Drawing.Point(503, 269);
-            this.btnPay.Name = "btnPay";
-            this.btnPay.Size = new System.Drawing.Size(75, 23);
-            this.btnPay.TabIndex = 121;
-            this.btnPay.Text = "Pay";
-            this.btnPay.UseVisualStyleBackColor = true;
-            this.btnPay.Click += new System.EventHandler(this.btnPay_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Enabled = false;
-            this.label1.Location = new System.Drawing.Point(459, 11);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 13);
-            this.label1.TabIndex = 130;
-            this.label1.Text = "Amount to be Paid";
-            // 
-            // txtPaymentAmount
-            // 
-            this.txtPaymentAmount.Enabled = false;
-            this.txtPaymentAmount.Location = new System.Drawing.Point(559, 8);
-            this.txtPaymentAmount.MaxLength = 4;
-            this.txtPaymentAmount.Name = "txtPaymentAmount";
-            this.txtPaymentAmount.Size = new System.Drawing.Size(100, 20);
-            this.txtPaymentAmount.TabIndex = 129;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Enabled = false;
-            this.label3.Location = new System.Drawing.Point(10, 11);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 13);
-            this.label3.TabIndex = 132;
-            this.label3.Text = "Invoice number";
-            // 
-            // txtInvoiceNumber
-            // 
-            this.txtInvoiceNumber.Enabled = false;
-            this.txtInvoiceNumber.Location = new System.Drawing.Point(105, 8);
-            this.txtInvoiceNumber.MaxLength = 4;
-            this.txtInvoiceNumber.Name = "txtInvoiceNumber";
-            this.txtInvoiceNumber.Size = new System.Drawing.Size(100, 20);
-            this.txtInvoiceNumber.TabIndex = 131;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Enabled = false;
-            this.label4.Location = new System.Drawing.Point(237, 11);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 13);
-            this.label4.TabIndex = 134;
-            this.label4.Text = "Invoice Date";
-            // 
-            // txtInvoiceDate
-            // 
-            this.txtInvoiceDate.Enabled = false;
-            this.txtInvoiceDate.Location = new System.Drawing.Point(327, 8);
-            this.txtInvoiceDate.MaxLength = 4;
-            this.txtInvoiceDate.Name = "txtInvoiceDate";
-            this.txtInvoiceDate.Size = new System.Drawing.Size(100, 20);
-            this.txtInvoiceDate.TabIndex = 133;
             // 
             // groupBox1
             // 
@@ -172,7 +88,7 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtLastFourDigit);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Location = new System.Drawing.Point(12, 34);
+            this.groupBox1.Location = new System.Drawing.Point(12, 97);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(647, 112);
             this.groupBox1.TabIndex = 135;
@@ -180,7 +96,7 @@
             // 
             // txtAmount
             // 
-            this.txtAmount.Location = new System.Drawing.Point(536, 51);
+            this.txtAmount.Location = new System.Drawing.Point(536, 45);
             this.txtAmount.Name = "txtAmount";
             this.txtAmount.Size = new System.Drawing.Size(100, 20);
             this.txtAmount.TabIndex = 136;
@@ -188,7 +104,7 @@
             // lblAmount
             // 
             this.lblAmount.AutoSize = true;
-            this.lblAmount.Location = new System.Drawing.Point(487, 54);
+            this.lblAmount.Location = new System.Drawing.Point(487, 51);
             this.lblAmount.Name = "lblAmount";
             this.lblAmount.Size = new System.Drawing.Size(43, 13);
             this.lblAmount.TabIndex = 135;
@@ -244,15 +160,15 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(381, 27);
+            this.label5.Location = new System.Drawing.Point(433, 22);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(149, 13);
+            this.label5.Size = new System.Drawing.Size(97, 13);
             this.label5.TabIndex = 129;
-            this.label5.Text = "Last Four Digit of card number";
+            this.label5.Text = "Reference Number";
             // 
             // txtLastFourDigit
             // 
-            this.txtLastFourDigit.Location = new System.Drawing.Point(536, 24);
+            this.txtLastFourDigit.Location = new System.Drawing.Point(536, 19);
             this.txtLastFourDigit.MaxLength = 4;
             this.txtLastFourDigit.Name = "txtLastFourDigit";
             this.txtLastFourDigit.Size = new System.Drawing.Size(100, 20);
@@ -269,7 +185,7 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.Location = new System.Drawing.Point(584, 269);
+            this.btnPrint.Location = new System.Drawing.Point(665, 70);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(75, 23);
             this.btnPrint.TabIndex = 166;
@@ -281,27 +197,118 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
+            // PaymentType
+            // 
+            this.PaymentType.HeaderText = "Payment Type";
+            this.PaymentType.Name = "PaymentType";
+            // 
+            // Amount
+            // 
+            this.Amount.HeaderText = "Amount";
+            this.Amount.Name = "Amount";
+            // 
+            // LastFourDigit
+            // 
+            this.LastFourDigit.HeaderText = "Last Four Digit";
+            this.LastFourDigit.Name = "LastFourDigit";
+            // 
+            // Remark
+            // 
+            this.Remark.HeaderText = "Remark";
+            this.Remark.Name = "Remark";
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Select,
+            this.InvoiceDate,
+            this.InvoiceNo,
+            this.InvoiceAmount,
+            this.InvoiceRemarks});
+            this.dataGridView1.Location = new System.Drawing.Point(12, 25);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(647, 66);
+            this.dataGridView1.TabIndex = 167;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(79, 13);
+            this.label1.TabIndex = 168;
+            this.label1.Text = "Unpaid Invoice";
+            // 
+            // Select
+            // 
+            this.Select.FillWeight = 30F;
+            this.Select.HeaderText = "";
+            this.Select.Name = "Select";
+            this.Select.Width = 30;
+            // 
+            // InvoiceDate
+            // 
+            this.InvoiceDate.HeaderText = "Invoice Date";
+            this.InvoiceDate.Name = "InvoiceDate";
+            // 
+            // InvoiceNo
+            // 
+            this.InvoiceNo.FillWeight = 120F;
+            this.InvoiceNo.HeaderText = "Invoice Number";
+            this.InvoiceNo.Name = "InvoiceNo";
+            this.InvoiceNo.Width = 120;
+            // 
+            // InvoiceAmount
+            // 
+            this.InvoiceAmount.HeaderText = "Amount";
+            this.InvoiceAmount.Name = "InvoiceAmount";
+            // 
+            // InvoiceRemarks
+            // 
+            this.InvoiceRemarks.FillWeight = 230F;
+            this.InvoiceRemarks.HeaderText = "Remarks";
+            this.InvoiceRemarks.Name = "InvoiceRemarks";
+            this.InvoiceRemarks.Width = 230;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(665, 12);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btnRefresh.TabIndex = 170;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            // 
+            // btnOk
+            // 
+            this.btnOk.Location = new System.Drawing.Point(665, 41);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.TabIndex = 169;
+            this.btnOk.Text = "OK";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
             // PaymentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(668, 298);
+            this.ClientSize = new System.Drawing.Size(749, 339);
+            this.Controls.Add(this.btnRefresh);
+            this.Controls.Add(this.btnOk);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtInvoiceDate);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtInvoiceNumber);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtPaymentAmount);
             this.Controls.Add(this.dgvPayment);
-            this.Controls.Add(this.btnPay);
             this.Name = "PaymentForm";
             this.Text = "Payment Form";
             ((System.ComponentModel.ISupportInitialize)(this.dgvPayment)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -310,17 +317,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvPayment;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PaymentType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LastFourDigit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
-        private System.Windows.Forms.Button btnPay;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtPaymentAmount;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtInvoiceNumber;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtInvoiceDate;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtAmount;
         private System.Windows.Forms.Label lblAmount;
@@ -334,6 +330,19 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PaymentType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LastFourDigit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Remark;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Select;
+        private System.Windows.Forms.DataGridViewTextBoxColumn InvoiceDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn InvoiceNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn InvoiceAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn InvoiceRemarks;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button btnOk;
 
     }
 }
