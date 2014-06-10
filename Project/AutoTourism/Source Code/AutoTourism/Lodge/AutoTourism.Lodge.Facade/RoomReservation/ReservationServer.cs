@@ -42,6 +42,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             //    //CustAuto.ICustomer autoCustomer = new CustAuto.Server(null);
             //    //formDto.Dto.Customer = ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(formDto.Dto.Id));
             //}
+           
         }
 
         public Customer.Facade.Dto GetCustomerDtoForReservation(Int64 reservationId)
@@ -592,6 +593,21 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         {
             return "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data, Crystal.Lodge.Component";
         }
+
+        //private ReturnObject<Boolean> DeleteSample()
+        //{
+        //    RoomRsvCrys.Server server = new RoomRsvCrys.Server(new RoomRsvCrys.Data { Id = 51 });
+
+        //    BinAff.Core.Observer.IRegistrar reg = new Crystal.Lodge.Observer.RoomReservation();
+        //    ReturnObject<Boolean> ret = reg.Register(server);
+
+        //    BinAff.Core.Observer.ISubject subject = server;
+        //    ReturnObject<Boolean> notify = subject.NotifyObserver();
+
+        //    return notify;            
+        //}
+
+
 
         //-- RoomStaus ID is mapped with database table RoomReservationStatus
         public enum RoomStatus
