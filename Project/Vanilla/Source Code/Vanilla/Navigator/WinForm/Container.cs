@@ -171,7 +171,7 @@ namespace Vanilla.Navigator.WinForm
 
         private void connectionTimer_Tick(object sender, EventArgs e)
         {
-            this.ShowConnectionStatus();
+            //this.ShowConnectionStatus();
         }
 
         private void Container_Resize(object sender, EventArgs e)
