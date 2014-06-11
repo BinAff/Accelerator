@@ -252,20 +252,29 @@ namespace Vanilla.Utility.Facade.Artifact
 
         public override void Delete()
         {
-            ReturnObject<Boolean> ret = new ReturnObject<bool>();
-            //FormDto formDto = this.FormDto as FormDto;
-            //Module.Definition.Dto moduleDef = formDto.Dto.ComponentDefinition;
-            //if (moduleDef.Code == "CUST")
-            //{
-            //    ReturnObject<CrysArtf.Data> retVal = ((Crystal.Navigator.Component.Artifact.IArtifact)this.ModuleArtifactComponent).ReadWithParent();
-            //    if (retVal != null)                
-            //        ret = this.ValidateCustomerForDelete(retVal.Value);                
-            //}
-            //else
-            //    ret = this.ModuleArtifactComponent.Delete();
+           
+          
+            FormDto formDto = this.FormDto as FormDto;
+            Module.Definition.Dto moduleDef = formDto.Dto.ComponentDefinition;
+                        
+            BinAff.Core.Data data = null;
 
-            ret = this.ModuleArtifactComponent.Delete();
-            //this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+            if (moduleDef.Code == "CUST")
+            {
+                ReturnObject<CrysArtf.Data> retVal = ((Crystal.Navigator.Component.Artifact.IArtifact)this.ModuleArtifactComponent).ReadWithParent();
+                if (retVal != null)
+                    data = retVal.Value.ComponentData;
+            }
+            else
+                data = new Data { Id = moduleDef.Id };
+
+            ReturnObject<Boolean> ret = this.ModuleFacade.validateDelete(data);
+           
+            if (ret.Value)
+                ret = this.ModuleArtifactComponent.Delete();
+                        
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+            this.IsError = !ret.Value;
         }
 
         public override void Read()
@@ -445,12 +454,6 @@ namespace Vanilla.Utility.Facade.Artifact
         {
             return this.GetParentArtifact(artifactDto).Path;
         }
-
-        public virtual ReturnObject<Boolean> ValidateCustomerForDelete(BinAff.Core.Data data)
-        {
-            return new ReturnObject<bool>();
-        }
-
     }
 
 }

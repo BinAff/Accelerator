@@ -382,6 +382,31 @@ namespace AutoTourism.Customer.Facade
             return "AutoTourism.Component.Customer.Navigator.Artifact.Data, AutoTourism.Component.Customer";
         }
 
+        public override ReturnObject<bool> validateDelete(Data moduleData)
+        {          
+            ReturnObject<bool> ret = new ReturnObject<bool> { Value = true };
+            LodgeCrys.Room.Reserver.Data reservationData = (moduleData as CustAuto.Data).RoomReserver;
+            LodgeCrys.Room.CheckInContainer.Data checkInData = (moduleData as CustAuto.Data).Checkin;         
+
+            if (reservationData != null && reservationData.AllList != null && reservationData.AllList.Count > 0)
+            {
+                ret.Value = false;
+                ret.MessageList = new System.Collections.Generic.List<Message> { 
+                    new BinAff.Core.Message("Customer has reservation.",Message.Type.Information)
+                };
+            }
+            else if (checkInData != null && checkInData.AllList != null && checkInData.AllList.Count > 0)
+            {
+                ret.Value = false;
+                ret.MessageList = new System.Collections.Generic.List<Message> { 
+                    new BinAff.Core.Message("Customer has checkIn.",Message.Type.Information)
+                };
+            }
+
+            return ret;
+        }
+       
+
     }
 
 }
