@@ -28,31 +28,35 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+            this.components = new System.ComponentModel.Container();
             this.pnlAttachment = new System.Windows.Forms.Panel();
             this.dgvAttachmentList = new System.Windows.Forms.DataGridView();
             this.AttachedFormName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AttachedFormType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnExpandCollapse = new System.Windows.Forms.Button();
-            this.btnOk = new System.Windows.Forms.Button();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.pnlRight = new System.Windows.Forms.Panel();
-            this.btnAddAncestor = new System.Windows.Forms.Button();
-            this.btnPickAncestor = new System.Windows.Forms.Button();
-            this.toolTip = new System.Windows.Forms.ToolTip();
-            this.errorProvider = new System.Windows.Forms.ErrorProvider();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.btnRefresh = new System.Windows.Forms.ToolStripButton();
+            this.btnOk = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnPickAncestor = new System.Windows.Forms.ToolStripButton();
+            this.btnAddAncestor = new System.Windows.Forms.ToolStripButton();
+            this.btnExpandCollapse = new System.Windows.Forms.ToolStripButton();
+            this.btnAttach = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
-            this.pnlRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlAttachment
             // 
             this.pnlAttachment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlAttachment.Controls.Add(this.dgvAttachmentList);
-            this.pnlAttachment.Location = new System.Drawing.Point(15, 234);
+            this.pnlAttachment.Location = new System.Drawing.Point(924, 565);
             this.pnlAttachment.Name = "pnlAttachment";
-            this.pnlAttachment.Size = new System.Drawing.Size(411, 161);
+            this.pnlAttachment.Size = new System.Drawing.Size(26, 15);
             this.pnlAttachment.TabIndex = 7;
             this.pnlAttachment.Visible = false;
             // 
@@ -65,7 +69,7 @@
             this.dgvAttachmentList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvAttachmentList.Location = new System.Drawing.Point(0, 0);
             this.dgvAttachmentList.Name = "dgvAttachmentList";
-            this.dgvAttachmentList.Size = new System.Drawing.Size(411, 161);
+            this.dgvAttachmentList.Size = new System.Drawing.Size(26, 15);
             this.dgvAttachmentList.TabIndex = 0;
             // 
             // AttachedFormName
@@ -82,98 +86,121 @@
             this.AttachedFormType.Name = "AttachedFormType";
             this.AttachedFormType.Width = 150;
             // 
-            // btnExpandCollapse
-            // 
-            this.btnExpandCollapse.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnExpandCollapse.Font = new System.Drawing.Font("Wingdings 3", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnExpandCollapse.Location = new System.Drawing.Point(0, 0);
-            this.btnExpandCollapse.Margin = new System.Windows.Forms.Padding(0);
-            this.btnExpandCollapse.Name = "btnExpandCollapse";
-            this.btnExpandCollapse.Size = new System.Drawing.Size(34, 20);
-            this.btnExpandCollapse.TabIndex = 6;
-            this.btnExpandCollapse.Text = "×";
-            this.toolTip.SetToolTip(this.btnExpandCollapse, "Attachments");
-            this.btnExpandCollapse.UseVisualStyleBackColor = true;
-            this.btnExpandCollapse.Click += new System.EventHandler(this.btnExpandCollapse_Click);
-            // 
-            // btnOk
-            // 
-            this.btnOk.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnOk.Font = new System.Drawing.Font("Wingdings", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnOk.Location = new System.Drawing.Point(0, 54);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(34, 34);
-            this.btnOk.TabIndex = 5;
-            this.btnOk.Text = "ü";
-            this.toolTip.SetToolTip(this.btnOk, "Ok");
-            this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnRefresh.Font = new System.Drawing.Font("Wingdings 3", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnRefresh.Location = new System.Drawing.Point(0, 20);
-            this.btnRefresh.Margin = new System.Windows.Forms.Padding(0);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(34, 34);
-            this.btnRefresh.TabIndex = 4;
-            this.btnRefresh.Text = "Q";
-            this.toolTip.SetToolTip(this.btnRefresh, "Refresh form");
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // pnlRight
-            // 
-            this.pnlRight.Controls.Add(this.btnAddAncestor);
-            this.pnlRight.Controls.Add(this.btnPickAncestor);
-            this.pnlRight.Controls.Add(this.btnOk);
-            this.pnlRight.Controls.Add(this.btnRefresh);
-            this.pnlRight.Controls.Add(this.btnExpandCollapse);
-            this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(392, 0);
-            this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(34, 432);
-            this.pnlRight.TabIndex = 8;
-            // 
-            // btnAddAncestor
-            // 
-            this.btnAddAncestor.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnAddAncestor.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnAddAncestor.Location = new System.Drawing.Point(0, 122);
-            this.btnAddAncestor.Name = "btnAddAncestor";
-            this.btnAddAncestor.Size = new System.Drawing.Size(34, 34);
-            this.btnAddAncestor.TabIndex = 8;
-            this.btnAddAncestor.Text = "Ç";
-            this.toolTip.SetToolTip(this.btnAddAncestor, "Add");
-            this.btnAddAncestor.UseVisualStyleBackColor = true;
-            this.btnAddAncestor.Click += new System.EventHandler(this.btnAddAncestor_Click);
-            // 
-            // btnPickAncestor
-            // 
-            this.btnPickAncestor.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnPickAncestor.Font = new System.Drawing.Font("Wingdings 3", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnPickAncestor.Location = new System.Drawing.Point(0, 88);
-            this.btnPickAncestor.Margin = new System.Windows.Forms.Padding(0);
-            this.btnPickAncestor.Name = "btnPickAncestor";
-            this.btnPickAncestor.Size = new System.Drawing.Size(34, 34);
-            this.btnPickAncestor.TabIndex = 7;
-            this.btnPickAncestor.Text = "Ì";
-            this.toolTip.SetToolTip(this.btnPickAncestor, "Pick");
-            this.btnPickAncestor.UseVisualStyleBackColor = true;
-            this.btnPickAncestor.Click += new System.EventHandler(this.btnPickAncestor_Click);
-            // 
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
+            // 
+            // toolStrip
+            // 
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnRefresh,
+            this.btnOk,
+            this.toolStripSeparator1,
+            this.btnPickAncestor,
+            this.btnAddAncestor,
+            this.btnExpandCollapse,
+            this.btnAttach,
+            this.toolStripSeparator3});
+            this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.toolStrip.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip.Size = new System.Drawing.Size(962, 31);
+            this.toolStrip.TabIndex = 100;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.AutoSize = false;
+            this.btnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnRefresh.Font = new System.Drawing.Font("Wingdings 3", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(28, 28);
+            this.btnRefresh.Text = "Q";
+            this.btnRefresh.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.btnRefresh.ToolTipText = "Refresh";
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnOk
+            // 
+            this.btnOk.AutoSize = false;
+            this.btnOk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnOk.Font = new System.Drawing.Font("Wingdings", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnOk.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(28, 28);
+            this.btnOk.Text = "ü";
+            this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.btnOk.ToolTipText = "Ok";
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
+            // 
+            // btnPickAncestor
+            // 
+            this.btnPickAncestor.AutoSize = false;
+            this.btnPickAncestor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnPickAncestor.Font = new System.Drawing.Font("Wingdings 3", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnPickAncestor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPickAncestor.Name = "btnPickAncestor";
+            this.btnPickAncestor.Size = new System.Drawing.Size(28, 28);
+            this.btnPickAncestor.Text = "Ì";
+            this.btnPickAncestor.ToolTipText = "Pick ";
+            this.btnPickAncestor.Click += new System.EventHandler(this.btnPickAncestor_Click);
+            // 
+            // btnAddAncestor
+            // 
+            this.btnAddAncestor.AutoSize = false;
+            this.btnAddAncestor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnAddAncestor.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnAddAncestor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddAncestor.Name = "btnAddAncestor";
+            this.btnAddAncestor.Size = new System.Drawing.Size(28, 28);
+            this.btnAddAncestor.Text = "Ç";
+            this.btnAddAncestor.ToolTipText = "Add ";
+            this.btnAddAncestor.Click += new System.EventHandler(this.btnAddAncestor_Click);
+            // 
+            // btnExpandCollapse
+            // 
+            this.btnExpandCollapse.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnExpandCollapse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnExpandCollapse.Font = new System.Drawing.Font("Wingdings 3", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnExpandCollapse.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnExpandCollapse.Name = "btnExpandCollapse";
+            this.btnExpandCollapse.Size = new System.Drawing.Size(23, 28);
+            this.btnExpandCollapse.Text = "×";
+            this.btnExpandCollapse.ToolTipText = "Show Attachments";
+            this.btnExpandCollapse.Click += new System.EventHandler(this.btnExpandCollapse_Click);
+            // 
+            // btnAttach
+            // 
+            this.btnAttach.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnAttach.AutoSize = false;
+            this.btnAttach.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnAttach.Font = new System.Drawing.Font("Webdings", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnAttach.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAttach.Name = "btnAttach";
+            this.btnAttach.Size = new System.Drawing.Size(28, 28);
+            this.btnAttach.Text = "\'";
+            this.btnAttach.ToolTipText = "Attach";
+            this.btnAttach.Click += new System.EventHandler(this.btnAttach_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
             // 
             // Document
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(426, 432);
+            this.ClientSize = new System.Drawing.Size(962, 592);
+            this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.pnlAttachment);
-            this.Controls.Add(this.pnlRight);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "Document";
@@ -181,9 +208,11 @@
             this.Shown += new System.EventHandler(this.Document_Shown);
             this.pnlAttachment.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).EndInit();
-            this.pnlRight.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 
@@ -191,16 +220,19 @@
 
         private System.Windows.Forms.Panel pnlAttachment;
         private System.Windows.Forms.DataGridView dgvAttachmentList;
-        private System.Windows.Forms.Button btnExpandCollapse;
-        private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Panel pnlRight;
         protected System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.Button btnAddAncestor;
-        private System.Windows.Forms.Button btnPickAncestor;
         private System.Windows.Forms.DataGridViewTextBoxColumn AttachedFormName;
         private System.Windows.Forms.DataGridViewTextBoxColumn AttachedFormType;
         protected System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.ToolStripButton btnRefresh;
+        private System.Windows.Forms.ToolStripButton btnOk;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton btnPickAncestor;
+        private System.Windows.Forms.ToolStripButton btnAddAncestor;
+        private System.Windows.Forms.ToolStripButton btnExpandCollapse;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton btnAttach;
+        private System.Windows.Forms.ToolStrip toolStrip;
 
     }
 }

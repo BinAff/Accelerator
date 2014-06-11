@@ -28,29 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cboRoomList = new System.Windows.Forms.ComboBox();
-            this.btnRemoveRoom = new System.Windows.Forms.Button();
-            this.cmbCheckInRoom = new System.Windows.Forms.ComboBox();
-            this.txtTotalRoomWithFilter = new System.Windows.Forms.TextBox();
-            this.btnAddRoom = new System.Windows.Forms.Button();
-            this.txtAvailableRooms = new System.Windows.Forms.TextBox();
-            this.lblTotalRoomWithFilter = new System.Windows.Forms.Label();
-            this.lblAvailableRoom = new System.Windows.Forms.Label();
-            this.cboAC = new System.Windows.Forms.ComboBox();
-            this.lblAC = new System.Windows.Forms.Label();
-            this.cboType = new System.Windows.Forms.ComboBox();
-            this.lblType = new System.Windows.Forms.Label();
-            this.lblCategory = new System.Windows.Forms.Label();
-            this.cboCategory = new System.Windows.Forms.ComboBox();
-            this.txtAdvance = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtRooms = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtPersons = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.txtFilteredRoomCount = new System.Windows.Forms.TextBox();
+            this.lblTotalRooms = new System.Windows.Forms.Label();
+            this.txtFilteredAvailableRoomCount = new System.Windows.Forms.TextBox();
+            this.lblAvailableRooms = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtMale = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtDays = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.txtFemale = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtChild = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtInfant = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtReservationNo = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtReservationRemarks = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.cboAccessory = new System.Windows.Forms.ComboBox();
+            this.txtStatus = new System.Windows.Forms.TextBox();
+            this.cboType = new System.Windows.Forms.ComboBox();
+            this.lblReservationStatus = new System.Windows.Forms.Label();
+            this.cboCategory = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -60,240 +65,299 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
-            this.lblBookingFrom = new System.Windows.Forms.Label();
-            this.dtFrom = new System.Windows.Forms.DateTimePicker();
+            this.txtRooms = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtDays = new System.Windows.Forms.TextBox();
             this.dtFromTime = new System.Windows.Forms.DateTimePicker();
-            this.btnCheckOut = new System.Windows.Forms.Button();
-            this.btnGenerateInvoice = new System.Windows.Forms.Button();
-            this.btnPay = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cboRoomList = new System.Windows.Forms.ComboBox();
+            this.btnRemoveRoom = new System.Windows.Forms.Button();
+            this.cboSelectedRoom = new System.Windows.Forms.ComboBox();
+            this.btnAddRoom = new System.Windows.Forms.Button();
+            this.dtFrom = new System.Windows.Forms.DateTimePicker();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
-            this.groupBox2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox2
+            // label6
             // 
-            this.groupBox2.Controls.Add(this.cboRoomList);
-            this.groupBox2.Controls.Add(this.btnRemoveRoom);
-            this.groupBox2.Controls.Add(this.cmbCheckInRoom);
-            this.groupBox2.Controls.Add(this.txtTotalRoomWithFilter);
-            this.groupBox2.Controls.Add(this.btnAddRoom);
-            this.groupBox2.Controls.Add(this.txtAvailableRooms);
-            this.groupBox2.Controls.Add(this.lblTotalRoomWithFilter);
-            this.groupBox2.Controls.Add(this.lblAvailableRoom);
-            this.groupBox2.ForeColor = System.Drawing.Color.Black;
-            this.groupBox2.Location = new System.Drawing.Point(15, 98);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(293, 199);
-            this.groupBox2.TabIndex = 107;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Room";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(8, 223);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(67, 13);
+            this.label6.TabIndex = 1030;
+            this.label6.Text = "Total Guests";
             // 
-            // cboRoomList
+            // groupBox4
             // 
-            this.cboRoomList.BackColor = System.Drawing.SystemColors.Window;
-            this.cboRoomList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-            this.cboRoomList.FormattingEnabled = true;
-            this.cboRoomList.Location = new System.Drawing.Point(11, 43);
-            this.cboRoomList.Name = "cboRoomList";
-            this.cboRoomList.Size = new System.Drawing.Size(108, 150);
-            this.cboRoomList.TabIndex = 90;
+            this.groupBox4.Controls.Add(this.txtFilteredRoomCount);
+            this.groupBox4.Controls.Add(this.lblTotalRooms);
+            this.groupBox4.Controls.Add(this.txtFilteredAvailableRoomCount);
+            this.groupBox4.Controls.Add(this.lblAvailableRooms);
+            this.groupBox4.Location = new System.Drawing.Point(547, 274);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(295, 50);
+            this.groupBox4.TabIndex = 1029;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Current Status";
             // 
-            // btnRemoveRoom
+            // txtFilteredRoomCount
             // 
-            this.btnRemoveRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveRoom.Location = new System.Drawing.Point(130, 73);
-            this.btnRemoveRoom.Name = "btnRemoveRoom";
-            this.btnRemoveRoom.Size = new System.Drawing.Size(32, 22);
-            this.btnRemoveRoom.TabIndex = 93;
-            this.btnRemoveRoom.Text = "◄";
-            this.btnRemoveRoom.UseVisualStyleBackColor = true;
-            this.btnRemoveRoom.Click += new System.EventHandler(this.btnRemoveRoom_Click);
+            this.txtFilteredRoomCount.Location = new System.Drawing.Point(75, 19);
+            this.txtFilteredRoomCount.Name = "txtFilteredRoomCount";
+            this.txtFilteredRoomCount.ReadOnly = true;
+            this.txtFilteredRoomCount.Size = new System.Drawing.Size(32, 20);
+            this.txtFilteredRoomCount.TabIndex = 999;
+            this.txtFilteredRoomCount.TabStop = false;
             // 
-            // cmbCheckInRoom
+            // lblTotalRooms
             // 
-            this.cmbCheckInRoom.BackColor = System.Drawing.SystemColors.Window;
-            this.cmbCheckInRoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-            this.cmbCheckInRoom.FormattingEnabled = true;
-            this.cmbCheckInRoom.Location = new System.Drawing.Point(171, 43);
-            this.cmbCheckInRoom.Name = "cmbCheckInRoom";
-            this.cmbCheckInRoom.Size = new System.Drawing.Size(108, 150);
-            this.cmbCheckInRoom.TabIndex = 91;
+            this.lblTotalRooms.AutoSize = true;
+            this.lblTotalRooms.Location = new System.Drawing.Point(6, 22);
+            this.lblTotalRooms.Name = "lblTotalRooms";
+            this.lblTotalRooms.Size = new System.Drawing.Size(67, 13);
+            this.lblTotalRooms.TabIndex = 106;
+            this.lblTotalRooms.Text = "Total Rooms";
             // 
-            // txtTotalRoomWithFilter
+            // txtFilteredAvailableRoomCount
             // 
-            this.txtTotalRoomWithFilter.Enabled = false;
-            this.txtTotalRoomWithFilter.Location = new System.Drawing.Point(100, 17);
-            this.txtTotalRoomWithFilter.Name = "txtTotalRoomWithFilter";
-            this.txtTotalRoomWithFilter.Size = new System.Drawing.Size(19, 20);
-            this.txtTotalRoomWithFilter.TabIndex = 124;
+            this.txtFilteredAvailableRoomCount.Location = new System.Drawing.Point(253, 19);
+            this.txtFilteredAvailableRoomCount.Name = "txtFilteredAvailableRoomCount";
+            this.txtFilteredAvailableRoomCount.ReadOnly = true;
+            this.txtFilteredAvailableRoomCount.Size = new System.Drawing.Size(32, 20);
+            this.txtFilteredAvailableRoomCount.TabIndex = 999;
+            this.txtFilteredAvailableRoomCount.TabStop = false;
             // 
-            // btnAddRoom
+            // lblAvailableRooms
             // 
-            this.btnAddRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRoom.Location = new System.Drawing.Point(130, 43);
-            this.btnAddRoom.Name = "btnAddRoom";
-            this.btnAddRoom.Size = new System.Drawing.Size(32, 22);
-            this.btnAddRoom.TabIndex = 92;
-            this.btnAddRoom.Text = "►";
-            this.btnAddRoom.UseVisualStyleBackColor = true;
-            this.btnAddRoom.Click += new System.EventHandler(this.btnAddRoom_Click);
+            this.lblAvailableRooms.AutoSize = true;
+            this.lblAvailableRooms.Location = new System.Drawing.Point(161, 22);
+            this.lblAvailableRooms.Name = "lblAvailableRooms";
+            this.lblAvailableRooms.Size = new System.Drawing.Size(86, 13);
+            this.lblAvailableRooms.TabIndex = 108;
+            this.lblAvailableRooms.Text = "Available Rooms";
             // 
-            // txtAvailableRooms
+            // groupBox3
             // 
-            this.txtAvailableRooms.Enabled = false;
-            this.txtAvailableRooms.Location = new System.Drawing.Point(260, 19);
-            this.txtAvailableRooms.Name = "txtAvailableRooms";
-            this.txtAvailableRooms.Size = new System.Drawing.Size(19, 20);
-            this.txtAvailableRooms.TabIndex = 100;
+            this.groupBox3.Controls.Add(this.txtMale);
+            this.groupBox3.Controls.Add(this.label3);
+            this.groupBox3.Controls.Add(this.txtFemale);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.txtChild);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.txtInfant);
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Location = new System.Drawing.Point(94, 223);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(447, 46);
+            this.groupBox3.TabIndex = 1028;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Details";
             // 
-            // lblTotalRoomWithFilter
+            // txtMale
             // 
-            this.lblTotalRoomWithFilter.AutoSize = true;
-            this.lblTotalRoomWithFilter.Location = new System.Drawing.Point(8, 20);
-            this.lblTotalRoomWithFilter.Name = "lblTotalRoomWithFilter";
-            this.lblTotalRoomWithFilter.Size = new System.Drawing.Size(67, 13);
-            this.lblTotalRoomWithFilter.TabIndex = 123;
-            this.lblTotalRoomWithFilter.Text = "Total Rooms";
+            this.txtMale.Location = new System.Drawing.Point(42, 19);
+            this.txtMale.MaxLength = 3;
+            this.txtMale.Name = "txtMale";
+            this.txtMale.Size = new System.Drawing.Size(32, 20);
+            this.txtMale.TabIndex = 12;
             // 
-            // lblAvailableRoom
+            // label3
             // 
-            this.lblAvailableRoom.AutoSize = true;
-            this.lblAvailableRoom.Location = new System.Drawing.Point(168, 20);
-            this.lblAvailableRoom.Name = "lblAvailableRoom";
-            this.lblAvailableRoom.Size = new System.Drawing.Size(86, 13);
-            this.lblAvailableRoom.TabIndex = 122;
-            this.lblAvailableRoom.Text = "Available Rooms";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(30, 13);
+            this.label3.TabIndex = 84;
+            this.label3.Text = "Male";
             // 
-            // cboAC
+            // txtFemale
             // 
-            this.cboAC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboAC.FormattingEnabled = true;
-            this.cboAC.Location = new System.Drawing.Point(522, 71);
-            this.cboAC.Name = "cboAC";
-            this.cboAC.Size = new System.Drawing.Size(123, 21);
-            this.cboAC.TabIndex = 99;
-            this.cboAC.SelectedIndexChanged += new System.EventHandler(this.cboAC_SelectedIndexChanged);
+            this.txtFemale.Location = new System.Drawing.Point(127, 19);
+            this.txtFemale.MaxLength = 3;
+            this.txtFemale.Name = "txtFemale";
+            this.txtFemale.Size = new System.Drawing.Size(32, 20);
+            this.txtFemale.TabIndex = 13;
             // 
-            // lblAC
+            // label9
             // 
-            this.lblAC.AutoSize = true;
-            this.lblAC.Location = new System.Drawing.Point(462, 75);
-            this.lblAC.Name = "lblAC";
-            this.lblAC.Size = new System.Drawing.Size(54, 13);
-            this.lblAC.TabIndex = 98;
-            this.lblAC.Text = "Appliance";
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(80, 22);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 13);
+            this.label9.TabIndex = 114;
+            this.label9.Text = "Female";
+            // 
+            // txtChild
+            // 
+            this.txtChild.Location = new System.Drawing.Point(201, 19);
+            this.txtChild.MaxLength = 3;
+            this.txtChild.Name = "txtChild";
+            this.txtChild.Size = new System.Drawing.Size(32, 20);
+            this.txtChild.TabIndex = 14;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(165, 22);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(30, 13);
+            this.label10.TabIndex = 116;
+            this.label10.Text = "Child";
+            // 
+            // txtInfant
+            // 
+            this.txtInfant.Location = new System.Drawing.Point(279, 19);
+            this.txtInfant.MaxLength = 3;
+            this.txtInfant.Name = "txtInfant";
+            this.txtInfant.Size = new System.Drawing.Size(32, 20);
+            this.txtInfant.TabIndex = 15;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(239, 22);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(34, 13);
+            this.label11.TabIndex = 118;
+            this.label11.Text = "Infant";
+            // 
+            // txtReservationNo
+            // 
+            this.txtReservationNo.Location = new System.Drawing.Point(95, 35);
+            this.txtReservationNo.Name = "txtReservationNo";
+            this.txtReservationNo.ReadOnly = true;
+            this.txtReservationNo.Size = new System.Drawing.Size(146, 20);
+            this.txtReservationNo.TabIndex = 1025;
+            this.txtReservationNo.TabStop = false;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(8, 36);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(81, 13);
+            this.label17.TabIndex = 1027;
+            this.label17.Text = "Reservation No";
+            // 
+            // txtReservationRemarks
+            // 
+            this.txtReservationRemarks.Location = new System.Drawing.Point(650, 330);
+            this.txtReservationRemarks.Multiline = true;
+            this.txtReservationRemarks.Name = "txtReservationRemarks";
+            this.txtReservationRemarks.ReadOnly = true;
+            this.txtReservationRemarks.Size = new System.Drawing.Size(192, 109);
+            this.txtReservationRemarks.TabIndex = 1015;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(544, 333);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(109, 13);
+            this.label16.TabIndex = 1026;
+            this.label16.Text = "Reservation Remarks";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(9, 197);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(56, 13);
+            this.label14.TabIndex = 1021;
+            this.label14.Text = "Accessory";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(8, 170);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(31, 13);
+            this.label13.TabIndex = 1020;
+            this.label13.Text = "Type";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(9, 143);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(49, 13);
+            this.label12.TabIndex = 1019;
+            this.label12.Text = "Category";
+            // 
+            // cboAccessory
+            // 
+            this.cboAccessory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboAccessory.FormattingEnabled = true;
+            this.cboAccessory.Items.AddRange(new object[] {
+            "All"});
+            this.cboAccessory.Location = new System.Drawing.Point(94, 194);
+            this.cboAccessory.Name = "cboAccessory";
+            this.cboAccessory.Size = new System.Drawing.Size(148, 21);
+            this.cboAccessory.TabIndex = 1014;
+            this.toolTip.SetToolTip(this.cboAccessory, "Appliance");
+            this.cboAccessory.SelectedIndexChanged += new System.EventHandler(this.cboAccessory_SelectedIndexChanged);
+            // 
+            // txtStatus
+            // 
+            this.txtStatus.Location = new System.Drawing.Point(725, 36);
+            this.txtStatus.Name = "txtStatus";
+            this.txtStatus.ReadOnly = true;
+            this.txtStatus.Size = new System.Drawing.Size(117, 20);
+            this.txtStatus.TabIndex = 1024;
+            this.txtStatus.TabStop = false;
             // 
             // cboType
             // 
             this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboType.FormattingEnabled = true;
-            this.cboType.Location = new System.Drawing.Point(247, 71);
+            this.cboType.Location = new System.Drawing.Point(94, 167);
             this.cboType.Name = "cboType";
-            this.cboType.Size = new System.Drawing.Size(209, 21);
-            this.cboType.TabIndex = 97;
+            this.cboType.Size = new System.Drawing.Size(147, 21);
+            this.cboType.Sorted = true;
+            this.cboType.TabIndex = 1013;
+            this.toolTip.SetToolTip(this.cboType, "Room Type");
             this.cboType.SelectedIndexChanged += new System.EventHandler(this.cboType_SelectedIndexChanged);
             // 
-            // lblType
+            // lblReservationStatus
             // 
-            this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(210, 75);
-            this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(31, 13);
-            this.lblType.TabIndex = 96;
-            this.lblType.Text = "Type";
-            // 
-            // lblCategory
-            // 
-            this.lblCategory.AutoSize = true;
-            this.lblCategory.Location = new System.Drawing.Point(15, 75);
-            this.lblCategory.Name = "lblCategory";
-            this.lblCategory.Size = new System.Drawing.Size(49, 13);
-            this.lblCategory.TabIndex = 95;
-            this.lblCategory.Text = "Category";
+            this.lblReservationStatus.AutoSize = true;
+            this.lblReservationStatus.Location = new System.Drawing.Point(682, 38);
+            this.lblReservationStatus.Name = "lblReservationStatus";
+            this.lblReservationStatus.Size = new System.Drawing.Size(37, 13);
+            this.lblReservationStatus.TabIndex = 1023;
+            this.lblReservationStatus.Text = "Status";
             // 
             // cboCategory
             // 
             this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCategory.FormattingEnabled = true;
-            this.cboCategory.Location = new System.Drawing.Point(101, 71);
+            this.cboCategory.Location = new System.Drawing.Point(94, 140);
             this.cboCategory.Name = "cboCategory";
-            this.cboCategory.Size = new System.Drawing.Size(103, 21);
-            this.cboCategory.TabIndex = 94;
+            this.cboCategory.Size = new System.Drawing.Size(147, 21);
+            this.cboCategory.Sorted = true;
+            this.cboCategory.TabIndex = 1012;
+            this.toolTip.SetToolTip(this.cboCategory, "Room Category");
             this.cboCategory.SelectedIndexChanged += new System.EventHandler(this.cboCategory_SelectedIndexChanged);
-            // 
-            // txtAdvance
-            // 
-            this.txtAdvance.BackColor = System.Drawing.SystemColors.Window;
-            this.txtAdvance.Location = new System.Drawing.Point(522, 12);
-            this.txtAdvance.MaxLength = 10;
-            this.txtAdvance.Name = "txtAdvance";
-            this.txtAdvance.Size = new System.Drawing.Size(123, 20);
-            this.txtAdvance.TabIndex = 106;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(395, 17);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(114, 13);
-            this.label6.TabIndex = 105;
-            this.label6.Text = "Advance Amount (Rs.)";
-            // 
-            // txtRooms
-            // 
-            this.txtRooms.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.txtRooms.Location = new System.Drawing.Point(613, 44);
-            this.txtRooms.MaxLength = 3;
-            this.txtRooms.Name = "txtRooms";
-            this.txtRooms.Size = new System.Drawing.Size(32, 20);
-            this.txtRooms.TabIndex = 104;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(538, 48);
+            this.label4.Location = new System.Drawing.Point(8, 116);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(69, 13);
-            this.label4.TabIndex = 103;
-            this.label4.Text = "No of Rooms";
-            // 
-            // txtPersons
-            // 
-            this.txtPersons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.txtPersons.Location = new System.Drawing.Point(500, 44);
-            this.txtPersons.MaxLength = 4;
-            this.txtPersons.Name = "txtPersons";
-            this.txtPersons.Size = new System.Drawing.Size(32, 20);
-            this.txtPersons.TabIndex = 102;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(420, 48);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 13);
-            this.label3.TabIndex = 101;
-            this.label3.Text = "No of Persons";
-            // 
-            // txtDays
-            // 
-            this.txtDays.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.txtDays.Location = new System.Drawing.Point(382, 44);
-            this.txtDays.MaxLength = 4;
-            this.txtDays.Name = "txtDays";
-            this.txtDays.Size = new System.Drawing.Size(32, 20);
-            this.txtDays.TabIndex = 99;
-            this.txtDays.TextChanged += new System.EventHandler(this.txtDays_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(316, 48);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 13);
-            this.label2.TabIndex = 97;
-            this.label2.Text = "No of Days";
+            this.label4.Size = new System.Drawing.Size(67, 13);
+            this.label4.TabIndex = 1018;
+            this.label4.Text = "Total Rooms";
             // 
             // groupBox1
             // 
@@ -305,28 +369,27 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtName);
             this.groupBox1.Controls.Add(this.lblName);
-            this.groupBox1.Enabled = false;
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(319, 98);
+            this.groupBox1.Location = new System.Drawing.Point(547, 62);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(272, 199);
-            this.groupBox1.TabIndex = 96;
+            this.groupBox1.Size = new System.Drawing.Size(295, 207);
+            this.groupBox1.TabIndex = 1007;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Customer Details";
             // 
             // txtEmail
             // 
-            this.txtEmail.BackColor = System.Drawing.SystemColors.Window;
-            this.txtEmail.ForeColor = System.Drawing.Color.Black;
-            this.txtEmail.Location = new System.Drawing.Point(104, 164);
+            this.txtEmail.Location = new System.Drawing.Point(103, 175);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(154, 20);
-            this.txtEmail.TabIndex = 85;
+            this.txtEmail.ReadOnly = true;
+            this.txtEmail.Size = new System.Drawing.Size(182, 20);
+            this.txtEmail.TabIndex = 999;
+            this.txtEmail.TabStop = false;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 167);
+            this.label8.Location = new System.Drawing.Point(8, 178);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(33, 13);
             this.label8.TabIndex = 84;
@@ -334,18 +397,18 @@
             // 
             // txtAdds
             // 
-            this.txtAdds.BackColor = System.Drawing.SystemColors.Window;
-            this.txtAdds.ForeColor = System.Drawing.Color.Black;
-            this.txtAdds.Location = new System.Drawing.Point(104, 94);
+            this.txtAdds.Location = new System.Drawing.Point(103, 94);
             this.txtAdds.Multiline = true;
             this.txtAdds.Name = "txtAdds";
-            this.txtAdds.Size = new System.Drawing.Size(154, 64);
-            this.txtAdds.TabIndex = 83;
+            this.txtAdds.ReadOnly = true;
+            this.txtAdds.Size = new System.Drawing.Size(182, 75);
+            this.txtAdds.TabIndex = 999;
+            this.txtAdds.TabStop = false;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 97);
+            this.label7.Location = new System.Drawing.Point(8, 97);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(45, 13);
             this.label7.TabIndex = 82;
@@ -353,18 +416,18 @@
             // 
             // lstContact
             // 
-            this.lstContact.BackColor = System.Drawing.SystemColors.Window;
-            this.lstContact.ForeColor = System.Drawing.Color.Black;
+            this.lstContact.BackColor = System.Drawing.SystemColors.Control;
             this.lstContact.FormattingEnabled = true;
-            this.lstContact.Location = new System.Drawing.Point(104, 45);
+            this.lstContact.Location = new System.Drawing.Point(103, 45);
             this.lstContact.Name = "lstContact";
-            this.lstContact.Size = new System.Drawing.Size(154, 43);
-            this.lstContact.TabIndex = 81;
+            this.lstContact.Size = new System.Drawing.Size(182, 43);
+            this.lstContact.TabIndex = 999;
+            this.lstContact.TabStop = false;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 42);
+            this.label5.Location = new System.Drawing.Point(8, 42);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(89, 13);
             this.label5.TabIndex = 80;
@@ -372,142 +435,259 @@
             // 
             // txtName
             // 
-            this.txtName.BackColor = System.Drawing.SystemColors.Window;
-            this.txtName.ForeColor = System.Drawing.Color.Black;
-            this.txtName.Location = new System.Drawing.Point(104, 19);
+            this.txtName.Location = new System.Drawing.Point(103, 19);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(154, 20);
-            this.txtName.TabIndex = 23;
+            this.txtName.ReadOnly = true;
+            this.txtName.Size = new System.Drawing.Size(182, 20);
+            this.txtName.TabIndex = 999;
+            this.txtName.TabStop = false;
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(9, 22);
+            this.lblName.Location = new System.Drawing.Point(8, 22);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 22;
             this.lblName.Text = "Name";
             // 
-            // lblBookingFrom
+            // txtRooms
             // 
-            this.lblBookingFrom.AutoSize = true;
-            this.lblBookingFrom.Location = new System.Drawing.Point(15, 48);
-            this.lblBookingFrom.Name = "lblBookingFrom";
-            this.lblBookingFrom.Size = new System.Drawing.Size(72, 13);
-            this.lblBookingFrom.TabIndex = 114;
-            this.lblBookingFrom.Text = "Booking From";
+            this.txtRooms.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
+            this.txtRooms.Location = new System.Drawing.Point(94, 113);
+            this.txtRooms.MaxLength = 3;
+            this.txtRooms.Name = "txtRooms";
+            this.txtRooms.Size = new System.Drawing.Size(32, 20);
+            this.txtRooms.TabIndex = 1011;
             // 
-            // dtFrom
+            // label1
             // 
-            this.dtFrom.Location = new System.Drawing.Point(101, 44);
-            this.dtFrom.Name = "dtFrom";
-            this.dtFrom.Size = new System.Drawing.Size(102, 20);
-            this.dtFrom.TabIndex = 115;
-            this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 62);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.TabIndex = 1017;
+            this.label1.Text = "From";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 91);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 13);
+            this.label2.TabIndex = 1016;
+            this.label2.Text = "No of Days";
+            // 
+            // txtDays
+            // 
+            this.txtDays.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
+            this.txtDays.Location = new System.Drawing.Point(94, 87);
+            this.txtDays.MaxLength = 3;
+            this.txtDays.Name = "txtDays";
+            this.txtDays.Size = new System.Drawing.Size(32, 20);
+            this.txtDays.TabIndex = 1010;
+            this.txtDays.TextChanged += new System.EventHandler(this.txtDays_TextChanged);
             // 
             // dtFromTime
             // 
             this.dtFromTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtFromTime.Location = new System.Drawing.Point(209, 44);
+            this.dtFromTime.Location = new System.Drawing.Point(246, 61);
             this.dtFromTime.Name = "dtFromTime";
             this.dtFromTime.ShowUpDown = true;
-            this.dtFromTime.Size = new System.Drawing.Size(101, 20);
-            this.dtFromTime.TabIndex = 116;
+            this.dtFromTime.Size = new System.Drawing.Size(68, 20);
+            this.dtFromTime.TabIndex = 1009;
             // 
-            // btnCheckOut
+            // groupBox2
             // 
-            this.btnCheckOut.Font = new System.Drawing.Font("Wingdings 3", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnCheckOut.Location = new System.Drawing.Point(657, 156);
-            this.btnCheckOut.Name = "btnCheckOut";
-            this.btnCheckOut.Size = new System.Drawing.Size(34, 34);
-            this.btnCheckOut.TabIndex = 127;
-            this.btnCheckOut.Text = "R";
-            this.toolTip.SetToolTip(this.btnCheckOut, "Check Out");
-            this.btnCheckOut.UseVisualStyleBackColor = true;
-            this.btnCheckOut.Click += new System.EventHandler(this.btnCheckOut_Click);
+            this.groupBox2.Controls.Add(this.cboRoomList);
+            this.groupBox2.Controls.Add(this.btnRemoveRoom);
+            this.groupBox2.Controls.Add(this.cboSelectedRoom);
+            this.groupBox2.Controls.Add(this.btnAddRoom);
+            this.groupBox2.ForeColor = System.Drawing.Color.Black;
+            this.groupBox2.Location = new System.Drawing.Point(246, 87);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(295, 135);
+            this.groupBox2.TabIndex = 1022;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Preffered Room";
             // 
-            // btnGenerateInvoice
+            // cboRoomList
             // 
-            this.btnGenerateInvoice.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnGenerateInvoice.Location = new System.Drawing.Point(657, 190);
-            this.btnGenerateInvoice.Name = "btnGenerateInvoice";
-            this.btnGenerateInvoice.Size = new System.Drawing.Size(34, 34);
-            this.btnGenerateInvoice.TabIndex = 128;
-            this.btnGenerateInvoice.Text = "2";
-            this.toolTip.SetToolTip(this.btnGenerateInvoice, "Generate Invoice");
-            this.btnGenerateInvoice.UseVisualStyleBackColor = true;
-            this.btnGenerateInvoice.Click += new System.EventHandler(this.btnGenerateInvoice_Click);
+            this.cboRoomList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
+            this.cboRoomList.FormattingEnabled = true;
+            this.cboRoomList.Location = new System.Drawing.Point(8, 19);
+            this.cboRoomList.Name = "cboRoomList";
+            this.cboRoomList.Size = new System.Drawing.Size(111, 111);
+            this.cboRoomList.TabIndex = 8;
             // 
-            // btnPay
+            // btnRemoveRoom
             // 
-            this.btnPay.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnPay.Location = new System.Drawing.Point(657, 224);
-            this.btnPay.Name = "btnPay";
-            this.btnPay.Size = new System.Drawing.Size(34, 34);
-            this.btnPay.TabIndex = 129;
-            this.btnPay.Text = "<";
-            this.toolTip.SetToolTip(this.btnPay, "Pay Invoice");
-            this.btnPay.UseVisualStyleBackColor = true;
-            this.btnPay.Click += new System.EventHandler(this.btnPay_Click);
+            this.btnRemoveRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemoveRoom.Location = new System.Drawing.Point(131, 81);
+            this.btnRemoveRoom.Name = "btnRemoveRoom";
+            this.btnRemoveRoom.Size = new System.Drawing.Size(32, 22);
+            this.btnRemoveRoom.TabIndex = 11;
+            this.btnRemoveRoom.Text = "◄";
+            this.btnRemoveRoom.UseVisualStyleBackColor = true;
+            this.btnRemoveRoom.Click += new System.EventHandler(this.btnRemoveRoom_Click);
+            // 
+            // cboSelectedRoom
+            // 
+            this.cboSelectedRoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
+            this.cboSelectedRoom.FormattingEnabled = true;
+            this.cboSelectedRoom.Location = new System.Drawing.Point(174, 19);
+            this.cboSelectedRoom.Name = "cboSelectedRoom";
+            this.cboSelectedRoom.Size = new System.Drawing.Size(107, 111);
+            this.cboSelectedRoom.TabIndex = 10;
+            // 
+            // btnAddRoom
+            // 
+            this.btnAddRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddRoom.Location = new System.Drawing.Point(131, 53);
+            this.btnAddRoom.Name = "btnAddRoom";
+            this.btnAddRoom.Size = new System.Drawing.Size(32, 22);
+            this.btnAddRoom.TabIndex = 9;
+            this.btnAddRoom.Text = "►";
+            this.btnAddRoom.UseVisualStyleBackColor = true;
+            this.btnAddRoom.Click += new System.EventHandler(this.btnAddRoom_Click);
+            // 
+            // dtFrom
+            // 
+            this.dtFrom.Checked = false;
+            this.dtFrom.Location = new System.Drawing.Point(95, 61);
+            this.dtFrom.Name = "dtFrom";
+            this.dtFrom.Size = new System.Drawing.Size(147, 20);
+            this.dtFrom.TabIndex = 1008;
+            this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(94, 333);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(447, 50);
+            this.textBox1.TabIndex = 1031;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(8, 336);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(66, 13);
+            this.label15.TabIndex = 1032;
+            this.label15.Text = "Arrived From";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(8, 278);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(46, 13);
+            this.label18.TabIndex = 1034;
+            this.label18.Text = "Purpose";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(95, 389);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(447, 50);
+            this.textBox3.TabIndex = 1035;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(8, 392);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(49, 13);
+            this.label19.TabIndex = 1036;
+            this.label19.Text = "Remarks";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(94, 275);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(447, 50);
+            this.textBox2.TabIndex = 1033;
             // 
             // CheckInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(691, 310);
-            this.Controls.Add(this.btnPay);
-            this.Controls.Add(this.btnGenerateInvoice);
-            this.Controls.Add(this.cboAC);
-            this.Controls.Add(this.btnCheckOut);
-            this.Controls.Add(this.lblAC);
+            this.ClientSize = new System.Drawing.Size(856, 450);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.txtReservationNo);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.txtReservationRemarks);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.cboAccessory);
+            this.Controls.Add(this.txtStatus);
             this.Controls.Add(this.cboType);
-            this.Controls.Add(this.lblType);
+            this.Controls.Add(this.lblReservationStatus);
             this.Controls.Add(this.cboCategory);
-            this.Controls.Add(this.lblCategory);
-            this.Controls.Add(this.dtFromTime);
-            this.Controls.Add(this.dtFrom);
-            this.Controls.Add(this.lblBookingFrom);
-            this.Controls.Add(this.txtRooms);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.txtRooms);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtDays);
+            this.Controls.Add(this.dtFromTime);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.txtAdvance);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtPersons);
+            this.Controls.Add(this.dtFrom);
             this.Name = "CheckInForm";
             this.ShowInTaskbar = false;
             this.Text = "Check In Form";
             this.Load += new System.EventHandler(this.CheckInForm_Load);
-            this.Controls.SetChildIndex(this.txtPersons, 0);
-            this.Controls.SetChildIndex(this.label4, 0);
-            this.Controls.SetChildIndex(this.label3, 0);
-            this.Controls.SetChildIndex(this.label6, 0);
-            this.Controls.SetChildIndex(this.txtAdvance, 0);
+            this.Controls.SetChildIndex(this.dtFrom, 0);
             this.Controls.SetChildIndex(this.groupBox2, 0);
+            this.Controls.SetChildIndex(this.dtFromTime, 0);
             this.Controls.SetChildIndex(this.txtDays, 0);
             this.Controls.SetChildIndex(this.label2, 0);
-            this.Controls.SetChildIndex(this.groupBox1, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.txtRooms, 0);
-            this.Controls.SetChildIndex(this.lblBookingFrom, 0);
-            this.Controls.SetChildIndex(this.dtFrom, 0);
-            this.Controls.SetChildIndex(this.dtFromTime, 0);
-            this.Controls.SetChildIndex(this.lblCategory, 0);
+            this.Controls.SetChildIndex(this.groupBox1, 0);
+            this.Controls.SetChildIndex(this.label4, 0);
             this.Controls.SetChildIndex(this.cboCategory, 0);
-            this.Controls.SetChildIndex(this.lblType, 0);
+            this.Controls.SetChildIndex(this.lblReservationStatus, 0);
             this.Controls.SetChildIndex(this.cboType, 0);
-            this.Controls.SetChildIndex(this.lblAC, 0);
-            this.Controls.SetChildIndex(this.btnCheckOut, 0);
-            this.Controls.SetChildIndex(this.cboAC, 0);
-            this.Controls.SetChildIndex(this.btnGenerateInvoice, 0);
-            this.Controls.SetChildIndex(this.btnPay, 0);
+            this.Controls.SetChildIndex(this.txtStatus, 0);
+            this.Controls.SetChildIndex(this.cboAccessory, 0);
+            this.Controls.SetChildIndex(this.label12, 0);
+            this.Controls.SetChildIndex(this.label13, 0);
+            this.Controls.SetChildIndex(this.label14, 0);
+            this.Controls.SetChildIndex(this.label16, 0);
+            this.Controls.SetChildIndex(this.txtReservationRemarks, 0);
+            this.Controls.SetChildIndex(this.label17, 0);
+            this.Controls.SetChildIndex(this.txtReservationNo, 0);
+            this.Controls.SetChildIndex(this.groupBox3, 0);
+            this.Controls.SetChildIndex(this.groupBox4, 0);
+            this.Controls.SetChildIndex(this.label6, 0);
+            this.Controls.SetChildIndex(this.label15, 0);
+            this.Controls.SetChildIndex(this.textBox1, 0);
+            this.Controls.SetChildIndex(this.label18, 0);
+            this.Controls.SetChildIndex(this.textBox2, 0);
+            this.Controls.SetChildIndex(this.label19, 0);
+            this.Controls.SetChildIndex(this.textBox3, 0);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -515,19 +695,34 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox cboRoomList;
-        private System.Windows.Forms.Button btnRemoveRoom;
-        private System.Windows.Forms.ComboBox cmbCheckInRoom;
-        private System.Windows.Forms.Button btnAddRoom;
-        private System.Windows.Forms.TextBox txtAdvance;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtRooms;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtPersons;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox txtFilteredRoomCount;
+        private System.Windows.Forms.Label lblTotalRooms;
+        private System.Windows.Forms.TextBox txtFilteredAvailableRoomCount;
+        private System.Windows.Forms.Label lblAvailableRooms;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox txtMale;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtDays;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtFemale;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtChild;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtInfant;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtReservationNo;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox txtReservationRemarks;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox cboAccessory;
+        private System.Windows.Forms.TextBox txtStatus;
+        private System.Windows.Forms.ComboBox cboType;
+        private System.Windows.Forms.Label lblReservationStatus;
+        private System.Windows.Forms.ComboBox cboCategory;
+        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label label8;
@@ -537,21 +732,23 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.ComboBox cboType;
-        private System.Windows.Forms.Label lblType;
-        private System.Windows.Forms.Label lblCategory;
-        private System.Windows.Forms.ComboBox cboCategory;
-        private System.Windows.Forms.Label lblAC;
-        private System.Windows.Forms.ComboBox cboAC;
-        private System.Windows.Forms.Label lblBookingFrom;
-        private System.Windows.Forms.DateTimePicker dtFrom;
+        private System.Windows.Forms.TextBox txtRooms;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtDays;
         private System.Windows.Forms.DateTimePicker dtFromTime;
-        private System.Windows.Forms.TextBox txtAvailableRooms;
-        private System.Windows.Forms.Label lblAvailableRoom;
-        private System.Windows.Forms.TextBox txtTotalRoomWithFilter;
-        private System.Windows.Forms.Label lblTotalRoomWithFilter;
-        private System.Windows.Forms.Button btnCheckOut;
-        private System.Windows.Forms.Button btnGenerateInvoice;
-        private System.Windows.Forms.Button btnPay;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ComboBox cboRoomList;
+        private System.Windows.Forms.Button btnRemoveRoom;
+        private System.Windows.Forms.ComboBox cboSelectedRoom;
+        private System.Windows.Forms.Button btnAddRoom;
+        private System.Windows.Forms.DateTimePicker dtFrom;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox textBox2;
+
     }
 }

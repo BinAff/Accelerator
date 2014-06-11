@@ -25,6 +25,7 @@ namespace AutoTourism.Lodge.WinForm
     {
 
         private RuleFac.ConfigurationRuleDto configRuleDto;
+        private ToolStripButton btnCancelOpen;
         //private Boolean isLoadedFromCheckInForm = false;
         //private TreeView trvForm;
 
@@ -86,6 +87,10 @@ namespace AutoTourism.Lodge.WinForm
         private void RoomBookingForm_Load(object sender, System.EventArgs e)
         {
             base.AncestorName = "Customer";
+            base.AttachmentName = "Advance Payment";
+            base.AddToolStripSeparator();
+            this.btnCancelOpen = base.AddToolStripButton("Í", "Wingdings 2", "Cancel Reservation");
+            this.btnCancelOpen.Click += btnCancelOpen_Click;
             ////set default date format
             //this.dtFrom.Format = DateTimePickerFormat.Custom;
             //this.dtFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
@@ -178,12 +183,7 @@ namespace AutoTourism.Lodge.WinForm
             this.ValidateBookedRoomsAndPopulate();
             this.LoadRoomReservationStatusLevels();
         }
-
-        private void btnAdvancePayment_Click(object sender, EventArgs e)
-        {
-            //TO DO :: Open advance payment form
-        }
-
+        
         #endregion
 
         protected override void LoadForm()
@@ -324,6 +324,11 @@ namespace AutoTourism.Lodge.WinForm
             }
         }
 
+        protected override void AttachDocument()
+        {
+            //TO DO :: Open advance payment form
+        }
+
         private void form_ArtifactSaved(ArtfFac.Dto document)
         {
             base.RaiseChildArtifactSaved(document);
@@ -432,12 +437,14 @@ namespace AutoTourism.Lodge.WinForm
                 if (dto.BookingStatusId == Convert.ToInt64(Status.Open))
                 {
                     txtStatus.Text = "Open";
-                    btnCancelOpen.Text = "Cancel";
+                    this.btnCancelOpen.Text = "Í";
+                    this.btnCancelOpen.ToolTipText = "Cancel";
                 }
                 else if (dto.BookingStatusId == Convert.ToInt64(Status.Canceled))
                 {
                     txtStatus.Text = "Cancel";
-                    btnCancelOpen.Text = "Re Open";
+                    this.btnCancelOpen.Text = "N";
+                    this.btnCancelOpen.ToolTipText = "Reopen";
                 }
             }
         }
@@ -1111,7 +1118,7 @@ namespace AutoTourism.Lodge.WinForm
                 if (filteredRoomList != null)
                     filteredTotalRoomCount = filteredRoomList.Count;
             }
-            txtFilteredRoomCount.Text = filteredTotalRoomCount.ToString();
+            this.txtFilteredRoomCount.Text = filteredTotalRoomCount.ToString();
 
             if (IsNoOfDaysExists())
             {

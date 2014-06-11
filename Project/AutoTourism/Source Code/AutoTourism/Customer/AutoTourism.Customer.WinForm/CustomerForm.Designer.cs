@@ -62,7 +62,7 @@
             // bttnRemove
             // 
             this.bttnRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bttnRemove.Location = new System.Drawing.Point(241, 185);
+            this.bttnRemove.Location = new System.Drawing.Point(240, 209);
             this.bttnRemove.Name = "bttnRemove";
             this.bttnRemove.Size = new System.Drawing.Size(32, 22);
             this.bttnRemove.TabIndex = 13;
@@ -72,7 +72,7 @@
             // 
             // txtMobile
             // 
-            this.txtMobile.Location = new System.Drawing.Point(142, 186);
+            this.txtMobile.Location = new System.Drawing.Point(141, 210);
             this.txtMobile.MaxLength = 12;
             this.txtMobile.Name = "txtMobile";
             this.txtMobile.Size = new System.Drawing.Size(92, 20);
@@ -81,7 +81,7 @@
             // txtMobilePrefix
             // 
             this.txtMobilePrefix.Enabled = false;
-            this.txtMobilePrefix.Location = new System.Drawing.Point(105, 186);
+            this.txtMobilePrefix.Location = new System.Drawing.Point(104, 210);
             this.txtMobilePrefix.Name = "txtMobilePrefix";
             this.txtMobilePrefix.Size = new System.Drawing.Size(31, 20);
             this.txtMobilePrefix.TabIndex = 999;
@@ -91,7 +91,7 @@
             // btnAddContact
             // 
             this.btnAddContact.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddContact.Location = new System.Drawing.Point(241, 162);
+            this.btnAddContact.Location = new System.Drawing.Point(240, 186);
             this.btnAddContact.Name = "btnAddContact";
             this.btnAddContact.Size = new System.Drawing.Size(32, 22);
             this.btnAddContact.TabIndex = 11;
@@ -101,7 +101,7 @@
             // 
             // txtStd
             // 
-            this.txtStd.Location = new System.Drawing.Point(142, 163);
+            this.txtStd.Location = new System.Drawing.Point(141, 187);
             this.txtStd.MaxLength = 5;
             this.txtStd.Name = "txtStd";
             this.txtStd.Size = new System.Drawing.Size(31, 20);
@@ -110,7 +110,7 @@
             // txtIsd
             // 
             this.txtIsd.Enabled = false;
-            this.txtIsd.Location = new System.Drawing.Point(105, 163);
+            this.txtIsd.Location = new System.Drawing.Point(104, 187);
             this.txtIsd.Name = "txtIsd";
             this.txtIsd.Size = new System.Drawing.Size(31, 20);
             this.txtIsd.TabIndex = 999;
@@ -121,14 +121,14 @@
             // 
             this.lstContact.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.lstContact.FormattingEnabled = true;
-            this.lstContact.Location = new System.Drawing.Point(278, 163);
+            this.lstContact.Location = new System.Drawing.Point(277, 187);
             this.lstContact.Name = "lstContact";
             this.lstContact.Size = new System.Drawing.Size(169, 43);
             this.lstContact.TabIndex = 12;
             // 
             // txtLandLine
             // 
-            this.txtLandLine.Location = new System.Drawing.Point(179, 163);
+            this.txtLandLine.Location = new System.Drawing.Point(178, 187);
             this.txtLandLine.MaxLength = 10;
             this.txtLandLine.Name = "txtLandLine";
             this.txtLandLine.Size = new System.Drawing.Size(55, 20);
@@ -137,7 +137,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 166);
+            this.label5.Location = new System.Drawing.Point(7, 190);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(89, 13);
             this.label5.TabIndex = 104;
@@ -147,14 +147,14 @@
             // 
             this.cboIdentityProofType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboIdentityProofType.FormattingEnabled = true;
-            this.cboIdentityProofType.Location = new System.Drawing.Point(105, 239);
+            this.cboIdentityProofType.Location = new System.Drawing.Point(104, 263);
             this.cboIdentityProofType.Name = "cboIdentityProofType";
             this.cboIdentityProofType.Size = new System.Drawing.Size(168, 21);
             this.cboIdentityProofType.TabIndex = 15;
             // 
             // txtIdentityProofName
             // 
-            this.txtIdentityProofName.Location = new System.Drawing.Point(279, 239);
+            this.txtIdentityProofName.Location = new System.Drawing.Point(278, 263);
             this.txtIdentityProofName.MaxLength = 20;
             this.txtIdentityProofName.Name = "txtIdentityProofName";
             this.txtIdentityProofName.Size = new System.Drawing.Size(168, 20);
@@ -163,7 +163,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 242);
+            this.label8.Location = new System.Drawing.Point(7, 266);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(69, 13);
             this.label8.TabIndex = 101;
@@ -171,7 +171,7 @@
             // 
             // txtEmail
             // 
-            this.txtEmail.Location = new System.Drawing.Point(105, 213);
+            this.txtEmail.Location = new System.Drawing.Point(104, 237);
             this.txtEmail.MaxLength = 50;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(168, 20);
@@ -180,7 +180,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 216);
+            this.label7.Location = new System.Drawing.Point(7, 240);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(33, 13);
             this.label7.TabIndex = 99;
@@ -188,7 +188,7 @@
             // 
             // txtPin
             // 
-            this.txtPin.Location = new System.Drawing.Point(279, 135);
+            this.txtPin.Location = new System.Drawing.Point(278, 159);
             this.txtPin.MaxLength = 8;
             this.txtPin.Name = "txtPin";
             this.txtPin.Size = new System.Drawing.Size(168, 20);
@@ -197,7 +197,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(230, 138);
+            this.label4.Location = new System.Drawing.Point(229, 162);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(22, 13);
             this.label4.TabIndex = 97;
@@ -206,7 +206,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(230, 85);
+            this.label3.Location = new System.Drawing.Point(229, 109);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 96;
@@ -215,7 +215,7 @@
             // txtCity
             // 
             this.txtCity.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.txtCity.Location = new System.Drawing.Point(279, 109);
+            this.txtCity.Location = new System.Drawing.Point(278, 133);
             this.txtCity.MaxLength = 20;
             this.txtCity.Name = "txtCity";
             this.txtCity.Size = new System.Drawing.Size(168, 20);
@@ -224,7 +224,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(230, 112);
+            this.label2.Location = new System.Drawing.Point(229, 136);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(24, 13);
             this.label2.TabIndex = 94;
@@ -235,7 +235,7 @@
             this.cboState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.cboState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboState.FormattingEnabled = true;
-            this.cboState.Location = new System.Drawing.Point(279, 82);
+            this.cboState.Location = new System.Drawing.Point(278, 106);
             this.cboState.Name = "cboState";
             this.cboState.Size = new System.Drawing.Size(168, 21);
             this.cboState.TabIndex = 5;
@@ -243,7 +243,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 38);
+            this.label1.Location = new System.Drawing.Point(8, 62);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 13);
             this.label1.TabIndex = 92;
@@ -252,7 +252,7 @@
             // txtAdds
             // 
             this.txtAdds.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.txtAdds.Location = new System.Drawing.Point(12, 58);
+            this.txtAdds.Location = new System.Drawing.Point(11, 82);
             this.txtAdds.MaxLength = 255;
             this.txtAdds.Multiline = true;
             this.txtAdds.Name = "txtAdds";
@@ -261,7 +261,7 @@
             // 
             // txtLName
             // 
-            this.txtLName.Location = new System.Drawing.Point(307, 9);
+            this.txtLName.Location = new System.Drawing.Point(306, 33);
             this.txtLName.MaxLength = 20;
             this.txtLName.Name = "txtLName";
             this.txtLName.Size = new System.Drawing.Size(140, 20);
@@ -269,7 +269,7 @@
             // 
             // txtMName
             // 
-            this.txtMName.Location = new System.Drawing.Point(196, 9);
+            this.txtMName.Location = new System.Drawing.Point(195, 33);
             this.txtMName.MaxLength = 20;
             this.txtMName.Name = "txtMName";
             this.txtMName.Size = new System.Drawing.Size(105, 20);
@@ -278,7 +278,7 @@
             // txtFName
             // 
             this.txtFName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.txtFName.Location = new System.Drawing.Point(53, 9);
+            this.txtFName.Location = new System.Drawing.Point(52, 33);
             this.txtFName.MaxLength = 20;
             this.txtFName.Name = "txtFName";
             this.txtFName.Size = new System.Drawing.Size(137, 20);
@@ -287,7 +287,7 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(9, 12);
+            this.lblName.Location = new System.Drawing.Point(8, 36);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(35, 13);
             this.lblName.TabIndex = 86;
@@ -296,7 +296,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(230, 58);
+            this.label6.Location = new System.Drawing.Point(229, 82);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(43, 13);
             this.label6.TabIndex = 1002;
@@ -307,7 +307,7 @@
             this.cboNationList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.cboNationList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboNationList.FormattingEnabled = true;
-            this.cboNationList.Location = new System.Drawing.Point(278, 55);
+            this.cboNationList.Location = new System.Drawing.Point(277, 79);
             this.cboNationList.Name = "cboNationList";
             this.cboNationList.Size = new System.Drawing.Size(168, 21);
             this.cboNationList.TabIndex = 1003;
@@ -316,7 +316,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(492, 268);
+            this.ClientSize = new System.Drawing.Size(455, 291);
             this.Controls.Add(this.cboNationList);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txtAdds);

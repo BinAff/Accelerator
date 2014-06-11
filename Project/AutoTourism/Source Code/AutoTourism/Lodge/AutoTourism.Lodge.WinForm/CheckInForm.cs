@@ -35,7 +35,8 @@ namespace AutoTourism.Lodge.WinForm
         private Int32 totalBookings = 0;
         private Int32 availableRooms = 0;
 
-        private TreeView trvForm;
+        //private TreeView trvForm;
+        ToolStripButton btnCheckOut, btnGenerateInvoice, btnPay;
 
         public CheckInForm()
             : base()
@@ -85,6 +86,13 @@ namespace AutoTourism.Lodge.WinForm
         private void CheckInForm_Load(object sender, EventArgs e)
         {
             base.AncestorName = "Room Reservation";
+            base.AddToolStripSeparator();
+            this.btnCheckOut = base.AddToolStripButton("R", "Wingdings 3", "Checkout");
+            this.btnCheckOut.Click += btnCheckOut_Click;
+            this.btnGenerateInvoice = base.AddToolStripButton("2", "Wingdings 2", "Generate Invoice");
+            this.btnGenerateInvoice.Click += btnGenerateInvoice_Click;
+            this.btnPay = base.AddToolStripButton("<", "Wingdings 2", "Pay");
+            this.btnPay.Click += btnPay_Click;
         }
 
         private void btnCheckOut_Click(object sender, EventArgs e)
@@ -205,7 +213,7 @@ namespace AutoTourism.Lodge.WinForm
             this.LoadRoomReservationStatusLevels();
         }
 
-        private void cboAC_SelectedIndexChanged(object sender, EventArgs e)
+        private void cboAccessory_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.PopulateFilteredRoomList();
             this.LoadRoomReservationStatusLevels();
@@ -231,7 +239,7 @@ namespace AutoTourism.Lodge.WinForm
             if (this.cboRoomList.SelectedIndex != -1)
             {
                 roomDto = (RoomFac.Dto)this.cboRoomList.SelectedItem;
-                this.AddToList(roomDto, cmbCheckInRoom);
+                this.AddToList(roomDto, cboSelectedRoom);
                 this.RemoveFromList(roomDto, cboRoomList);
             }
         }
@@ -239,11 +247,11 @@ namespace AutoTourism.Lodge.WinForm
         private void btnRemoveRoom_Click(object sender, EventArgs e)
         {
             RoomFac.Dto roomDto = null;
-            if (this.cmbCheckInRoom.SelectedIndex != -1)
+            if (this.cboSelectedRoom.SelectedIndex != -1)
             {
-                roomDto = (RoomFac.Dto)this.cmbCheckInRoom.SelectedItem;
+                roomDto = (RoomFac.Dto)this.cboSelectedRoom.SelectedItem;
                 this.AddToList(roomDto, cboRoomList);
-                this.RemoveFromList(roomDto, cmbCheckInRoom);
+                this.RemoveFromList(roomDto, cboSelectedRoom);
             }
         }
 
@@ -321,15 +329,15 @@ namespace AutoTourism.Lodge.WinForm
                 this.cboType.SelectedIndex = 0;
             }
 
-            this.cboAC.DataSource = new List<Table>
+            this.cboAccessory.DataSource = new List<Table>
             {
                 new Table { Id = 0, Name = "All" },
                 new Table { Id = 1, Name = "AC" },
                 new Table { Id = 2, Name = "Non AC" },
             };
-            this.cboAC.ValueMember = "Id";
-            this.cboAC.DisplayMember = "Name";
-            this.cboAC.SelectedIndex = 0;
+            this.cboAccessory.ValueMember = "Id";
+            this.cboAccessory.DisplayMember = "Name";
+            this.cboAccessory.SelectedIndex = 0;
         }
 
         protected override void PopulateDataToForm()
@@ -396,16 +404,16 @@ namespace AutoTourism.Lodge.WinForm
                 this.txtDays.Focus();
                 return false;
             }
-            else if (String.IsNullOrEmpty(this.txtPersons.Text.Trim()))
+            else if (String.IsNullOrEmpty(this.txtMale.Text.Trim()))
             {
-                this.errorProvider.SetError(this.txtPersons, "Please enter persons.");
-                this.txtPersons.Focus();
+                this.errorProvider.SetError(this.txtMale, "Please enter persons.");
+                this.txtMale.Focus();
                 return false;
             }
-            else if (!(new Regex(@"^[0-9]*$").IsMatch(this.txtPersons.Text.Trim())) || Convert.ToInt16(this.txtPersons.Text) == 0)
+            else if (!(new Regex(@"^[0-9]*$").IsMatch(this.txtMale.Text.Trim())) || Convert.ToInt16(this.txtMale.Text) == 0)
             {
-                this.errorProvider.SetError(this.txtPersons, "Entered " + this.txtPersons.Text + " is Invalid.");
-                this.txtPersons.Focus();
+                this.errorProvider.SetError(this.txtMale, "Entered " + this.txtMale.Text + " is Invalid.");
+                this.txtMale.Focus();
                 return false;
             }
             else if (String.IsNullOrEmpty(this.txtRooms.Text.Trim()))
@@ -420,28 +428,28 @@ namespace AutoTourism.Lodge.WinForm
                 this.txtRooms.Focus();
                 return false;
             }
-            else if (!ValidationRule.IsDecimal(this.txtAdvance.Text.Trim() == String.Empty ? "0" : this.txtAdvance.Text.Trim().Replace(",", "")))
+            //else if (!ValidationRule.IsDecimal(this.txtAdvance.Text.Trim() == String.Empty ? "0" : this.txtAdvance.Text.Trim().Replace(",", "")))
+            //{
+            //    this.errorProvider.SetError(this.txtAdvance, "Entered " + this.txtAdvance.Text + " is Invalid.");
+            //    this.txtAdvance.Focus();
+            //    return false;
+            //}
+            else if (this.cboSelectedRoom.DataSource == null || this.cboSelectedRoom.Items.Count == 0)
             {
-                this.errorProvider.SetError(this.txtAdvance, "Entered " + this.txtAdvance.Text + " is Invalid.");
-                this.txtAdvance.Focus();
+                this.errorProvider.SetError(this.cboSelectedRoom, "Select rooms for checkin.");
+                this.cboSelectedRoom.Focus();
                 return false;
             }
-            else if (this.cmbCheckInRoom.DataSource == null || this.cmbCheckInRoom.Items.Count == 0)
+            else if (this.cboSelectedRoom.Items.Count > Convert.ToInt32(this.txtRooms.Text.Trim()))
             {
-                this.errorProvider.SetError(this.cmbCheckInRoom, "Select rooms for checkin.");
-                this.cmbCheckInRoom.Focus();
-                return false;
-            }
-            else if (this.cmbCheckInRoom.Items.Count > Convert.ToInt32(this.txtRooms.Text.Trim()))
-            {
-                this.errorProvider.SetError(this.cmbCheckInRoom, "Selected rooms cannot be greater than the no of rooms.");
-                this.cmbCheckInRoom.Focus();
+                this.errorProvider.SetError(this.cboSelectedRoom, "Selected rooms cannot be greater than the no of rooms.");
+                this.cboSelectedRoom.Focus();
                 return false;
             }
             else if (Convert.ToInt32(this.txtRooms.Text.Trim()) > this.availableRooms)
             {
                 this.errorProvider.SetError(this.txtRooms, "No of rooms cannot be greater than available rooms.");
-                this.cmbCheckInRoom.Focus();
+                this.cboSelectedRoom.Focus();
                 return false;
             }
             return retVal;
@@ -463,13 +471,13 @@ namespace AutoTourism.Lodge.WinForm
             dto.Reservation.BookingFrom = DateTime.Now;
 
             dto.Reservation.NoOfDays = Convert.ToInt16(this.txtDays.Text);
-            dto.Reservation.NoOfPersons = Convert.ToInt16(this.txtPersons.Text);
+            dto.Reservation.NoOfPersons = Convert.ToInt16(this.txtMale.Text);
             dto.Reservation.NoOfRooms = Convert.ToInt16(this.txtRooms.Text);
-            dto.Reservation.Advance = this.txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(this.txtAdvance.Text.Replace(",", ""));
+            //dto.Reservation.Advance = this.txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(this.txtAdvance.Text.Replace(",", ""));
             dto.Reservation.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<RoomFac.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
             dto.Reservation.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<RoomFac.Type.Dto>)[this.cboType.SelectedIndex].Id };
-            dto.Reservation.ACPreference = this.cboAC.SelectedIndex;
-            dto.Reservation.RoomList = (List<RoomFac.Dto>)this.cmbCheckInRoom.DataSource;
+            dto.Reservation.ACPreference = this.cboAccessory.SelectedIndex;
+            dto.Reservation.RoomList = (List<RoomFac.Dto>)this.cboSelectedRoom.DataSource;
             
         }
         
@@ -531,13 +539,13 @@ namespace AutoTourism.Lodge.WinForm
             //    this.formDto.dto.Reservation.BookingFrom = DateTime.Now;
 
             //    this.formDto.dto.Reservation.NoOfDays = Convert.ToInt16(txtDays.Text);
-            //    this.formDto.dto.Reservation.NoOfPersons = Convert.ToInt16(txtPersons.Text);
+            //    this.formDto.dto.Reservation.NoOfPersons = Convert.ToInt16(txtMale.Text);
             //    this.formDto.dto.Reservation.NoOfRooms = Convert.ToInt16(txtRooms.Text);
             //    this.formDto.dto.Reservation.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));
             //    this.formDto.dto.Reservation.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<RoomFac.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
             //    this.formDto.dto.Reservation.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<RoomFac.Type.Dto>)[this.cboType.SelectedIndex].Id };
             //    this.formDto.dto.Reservation.ACPreference = this.cboAC.SelectedIndex;
-            //    this.formDto.dto.Reservation.RoomList = (List<RoomFac.Dto>)cmbCheckInRoom.DataSource;
+            //    this.formDto.dto.Reservation.RoomList = (List<RoomFac.Dto>)cboSelectedRoom.DataSource;
 
             //    BinAff.Facade.Library.Server facade = new LodgeFac.CheckIn.CheckInServer(formDto);
 
@@ -659,16 +667,16 @@ namespace AutoTourism.Lodge.WinForm
         //        txtDays.Focus();
         //        return false;
         //    }
-        //    else if (String.IsNullOrEmpty(txtPersons.Text.Trim()))
+        //    else if (String.IsNullOrEmpty(txtMale.Text.Trim()))
         //    {
-        //        errorProvider.SetError(txtPersons, "Please enter persons.");
-        //        txtPersons.Focus();
+        //        errorProvider.SetError(txtMale, "Please enter persons.");
+        //        txtMale.Focus();
         //        return false;
         //    }
-        //    else if (!(new Regex(@"^[0-9]*$").IsMatch(txtPersons.Text.Trim())) || Convert.ToInt16(txtPersons.Text) == 0)
+        //    else if (!(new Regex(@"^[0-9]*$").IsMatch(txtMale.Text.Trim())) || Convert.ToInt16(txtMale.Text) == 0)
         //    {
-        //        errorProvider.SetError(txtPersons, "Entered " + txtPersons.Text + " is Invalid.");
-        //        txtPersons.Focus();
+        //        errorProvider.SetError(txtMale, "Entered " + txtMale.Text + " is Invalid.");
+        //        txtMale.Focus();
         //        return false;
         //    }
         //    else if (String.IsNullOrEmpty(txtRooms.Text.Trim()))
@@ -689,22 +697,22 @@ namespace AutoTourism.Lodge.WinForm
         //        txtAdvance.Focus();
         //        return false;
         //    }
-        //    else if (cmbCheckInRoom.DataSource == null || cmbCheckInRoom.Items.Count == 0)
+        //    else if (cboSelectedRoom.DataSource == null || cboSelectedRoom.Items.Count == 0)
         //    {
-        //        errorProvider.SetError(cmbCheckInRoom, "Select rooms for checkin.");
-        //        cmbCheckInRoom.Focus();
+        //        errorProvider.SetError(cboSelectedRoom, "Select rooms for checkin.");
+        //        cboSelectedRoom.Focus();
         //        return false;
         //    }
-        //    else if (cmbCheckInRoom.Items.Count > Convert.ToInt32(txtRooms.Text.Trim()))
+        //    else if (cboSelectedRoom.Items.Count > Convert.ToInt32(txtRooms.Text.Trim()))
         //    {
-        //        errorProvider.SetError(cmbCheckInRoom, "Selected rooms cannot be greater than the no of rooms.");
-        //        cmbCheckInRoom.Focus();
+        //        errorProvider.SetError(cboSelectedRoom, "Selected rooms cannot be greater than the no of rooms.");
+        //        cboSelectedRoom.Focus();
         //        return false;
         //    }
         //    else if (Convert.ToInt32(txtRooms.Text.Trim()) > this.availableRooms)
         //    {
         //        errorProvider.SetError(txtRooms, "No of rooms cannot be greater than available rooms.");
-        //        cmbCheckInRoom.Focus();
+        //        cboSelectedRoom.Focus();
         //        return false;
         //    }
         //    return retVal;
@@ -767,9 +775,9 @@ namespace AutoTourism.Lodge.WinForm
             }
 
             this.txtDays.Text = dto.Reservation.NoOfDays.ToString();
-            this.txtPersons.Text = dto.Reservation.NoOfPersons.ToString();
+            this.txtMale.Text = dto.Reservation.NoOfPersons.ToString();
             this.txtRooms.Text = dto.Reservation.NoOfRooms.ToString();
-            this.txtAdvance.Text = dto.Reservation.Advance == 0 ? String.Empty : dto.Reservation.Advance.ToString();
+            //this.txtAdvance.Text = dto.Reservation.Advance == 0 ? String.Empty : dto.Reservation.Advance.ToString();
 
             if (dto.Reservation.RoomCategory != null && dto.Reservation.RoomCategory.Id > 0)
             {
@@ -803,7 +811,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.cboType.SelectedIndex = 0;
             }
 
-            this.cboAC.SelectedIndex = dto.Reservation.ACPreference;
+            this.cboAccessory.SelectedIndex = dto.Reservation.ACPreference;
 
             //populate customer data
             this.txtName.Text = dto.CustomerDisplayName;
@@ -873,12 +881,12 @@ namespace AutoTourism.Lodge.WinForm
                 AvailableRoomList = null;
             }
 
-            this.cmbCheckInRoom.DataSource = SelectedRoomList;
+            this.cboSelectedRoom.DataSource = SelectedRoomList;
             if (SelectedRoomList != null && SelectedRoomList.Count > 0)
             {
-                this.cmbCheckInRoom.DisplayMember = "Number";
-                this.cmbCheckInRoom.ValueMember = "Id";
-                this.cmbCheckInRoom.SelectedIndex = -1;
+                this.cboSelectedRoom.DisplayMember = "Number";
+                this.cboSelectedRoom.ValueMember = "Id";
+                this.cboSelectedRoom.SelectedIndex = -1;
             }
 
             this.cboRoomList.DataSource = AvailableRoomList;
@@ -908,7 +916,7 @@ namespace AutoTourism.Lodge.WinForm
                 roomTypeId = lstType[this.cboType.SelectedIndex].Id;
             }
 
-            acPreference = this.cboAC.SelectedIndex;
+            acPreference = this.cboAccessory.SelectedIndex;
 
             LodgeFac.RoomReservation.IReservation reservation = new LodgeFac.RoomReservation.ReservationServer(null);
             Boolean isValidRoom = reservation.ValidateRoomWithCategoryTypeAndACPreference(roomDto, roomCategoryId, roomTypeId, acPreference);
@@ -1028,7 +1036,7 @@ namespace AutoTourism.Lodge.WinForm
                 roomTypeId = lstType[this.cboType.SelectedIndex].Id;
             }
 
-            acPreference = this.cboAC.SelectedIndex;
+            acPreference = this.cboAccessory.SelectedIndex;
 
             Int32 filteredRoomCount = 0;
             Int32 filteredReservedRoomCount = 0;
@@ -1051,7 +1059,7 @@ namespace AutoTourism.Lodge.WinForm
                 }
             }
             //lblTotalRoomCount.Text = "Total no of rooms for the selected category, type and AC preference = " + TotalRoomsWithMatchingCategoryTypeAndACPreference.ToString();
-            this.txtTotalRoomWithFilter.Text = filteredRoomCount.ToString();
+            this.txtFilteredRoomCount.Text = filteredRoomCount.ToString();
 
             if (IsNoOfDaysExists())
             {
@@ -1072,14 +1080,14 @@ namespace AutoTourism.Lodge.WinForm
                 this.availableRooms = (AvailableRoomsCount > totalAvailableRooms) ? totalAvailableRooms : AvailableRoomsCount;
 
                 //lblAvailableRooms.Text = "No of Rooms available for booking = " + this.availableRooms.ToString();
-                txtAvailableRooms.Text = this.availableRooms.ToString();
+                txtFilteredAvailableRoomCount.Text = this.availableRooms.ToString();
 
                 if (this.availableRooms == 0) this.cboRoomList.DataSource = null;
 
             }
             else
             {
-                this.txtAvailableRooms.Text = String.Empty;
+                this.txtFilteredAvailableRoomCount.Text = String.Empty;
                 //lblTotalBookedRoomCount.Text = String.Empty;
                 //lblAvailableRooms.Text = String.Empty;
                 this.availableRooms = 0;
@@ -1101,21 +1109,21 @@ namespace AutoTourism.Lodge.WinForm
         {
             //txtTotalRoom.Text = String.Empty;
             //txtTotalBooked.Text = String.Empty;
-            txtTotalRoomWithFilter.Text = String.Empty;
-            txtAvailableRooms.Text = String.Empty;
+            txtFilteredRoomCount.Text = String.Empty;
+            txtFilteredAvailableRoomCount.Text = String.Empty;
 
             dtFrom.Value = DateTime.Now;
             dtFromTime.Value = DateTime.Now;
 
             txtDays.Text = String.Empty;
-            txtPersons.Text = String.Empty;
+            txtMale.Text = String.Empty;
             txtRooms.Text = String.Empty;
-            txtAdvance.Text = String.Empty;
-            cmbCheckInRoom.DataSource = null;
+            //txtAdvance.Text = String.Empty;
+            cboSelectedRoom.DataSource = null;
 
             this.cboCategory.SelectedIndex = 0;
             this.cboType.SelectedIndex = 0;
-            this.cboAC.SelectedIndex = 0;
+            this.cboAccessory.SelectedIndex = 0;
 
             txtName.Text = String.Empty;
             lstContact.DataSource = null;
@@ -1378,14 +1386,14 @@ namespace AutoTourism.Lodge.WinForm
             dtFrom.Enabled = false;
             dtFromTime.Enabled = false;
             txtDays.Enabled = false;
-            txtPersons.Enabled = false;
+            txtMale.Enabled = false;
             txtRooms.Enabled = false;
-            txtAdvance.Enabled = false;
+            //txtAdvance.Enabled = false;
             cboCategory.Enabled = false;
             cboType.Enabled = false;
-            cboAC.Enabled = false;
+            cboAccessory.Enabled = false;
             cboRoomList.Enabled = false;
-            cmbCheckInRoom.Enabled = false;
+            cboSelectedRoom.Enabled = false;
             btnAddRoom.Enabled = false;
             btnRemoveRoom.Enabled = false;
         }
