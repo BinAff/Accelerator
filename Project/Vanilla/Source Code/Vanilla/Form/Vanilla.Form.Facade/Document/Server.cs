@@ -77,8 +77,8 @@ namespace Vanilla.Form.Facade.Document
 
         protected abstract ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData);
         protected abstract ArtfCrys.Observer.DocumentComponent GetComponentServer();
-        protected abstract String GetComponentDataType();
-
+        protected abstract String GetComponentDataType();        
+       
     }
 
 }

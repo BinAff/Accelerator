@@ -72,6 +72,11 @@ namespace BinAff.Facade.Library
         /// </summary>
         public abstract Core.Data Convert(Dto dto);
 
+        public virtual ReturnObject<bool> validateDelete(Data moduleData)
+        {
+            return new ReturnObject<bool> { Value = true };
+        }
+ 
     }
 
 }

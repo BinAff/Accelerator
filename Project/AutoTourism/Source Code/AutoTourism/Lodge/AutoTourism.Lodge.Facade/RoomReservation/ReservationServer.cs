@@ -594,18 +594,18 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data, Crystal.Lodge.Component";
         }
 
-        //private ReturnObject<Boolean> DeleteSample()
-        //{
-        //    RoomRsvCrys.Server server = new RoomRsvCrys.Server(new RoomRsvCrys.Data { Id = 51 });
+        public override ReturnObject<bool> validateDelete(Data moduleData)
+        {
+            RoomRsvCrys.Server server = new RoomRsvCrys.Server(new RoomRsvCrys.Data { Id = moduleData.Id });
 
-        //    BinAff.Core.Observer.IRegistrar reg = new Crystal.Lodge.Observer.RoomReservation();
-        //    ReturnObject<Boolean> ret = reg.Register(server);
+            BinAff.Core.Observer.IRegistrar reg = new Crystal.Lodge.Observer.RoomReservation();
+            ReturnObject<Boolean> ret = reg.Register(server);
 
-        //    BinAff.Core.Observer.ISubject subject = server;
-        //    ReturnObject<Boolean> notify = subject.NotifyObserver();
+            BinAff.Core.Observer.ISubject subject = server;
+            ReturnObject<Boolean> notify = subject.NotifyObserver();
 
-        //    return notify;            
-        //}
+            return notify;            
+        }
 
 
 
