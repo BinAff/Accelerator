@@ -263,7 +263,7 @@ namespace Vanilla.Utility.WinForm.Extender
 
             
         }
-
+              
         private static void UpdateTagArtifact(String pathOfParent, TreeNode node, String pathSeperator)
         {
             Facade.Artifact.Dto nodeArtifact = node.Tag as Facade.Artifact.Dto;
