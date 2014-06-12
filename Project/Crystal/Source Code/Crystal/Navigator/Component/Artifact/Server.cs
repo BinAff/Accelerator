@@ -43,11 +43,12 @@ namespace Crystal.Navigator.Component.Artifact
                 Type = ChildType.Independent,
                 IsReadOnly = true,
             });
-
+            
             Crud module = this.CreateModuleServerInstance((this.Data as Data).ComponentData);
             module.Type = ChildType.Independent;
-            //module.IsReadOnly = true;
-            base.AddChild(module);
+            module.IsReadOnly = base.actionType != Action.Delete;
+            base.AddChild(module);           
+
         }
 
         protected override ReturnObject<Boolean> DeleteBefore()

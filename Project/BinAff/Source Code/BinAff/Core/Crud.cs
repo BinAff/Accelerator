@@ -28,7 +28,8 @@ namespace BinAff.Core
             }
         }
 
-        private Action actionType;
+        //private Action actionType;
+        protected Action actionType;
 
         /// <summary>
         /// 

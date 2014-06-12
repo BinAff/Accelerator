@@ -1287,58 +1287,35 @@ namespace Vanilla.Utility.WinForm
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this Folder/Document?", "Delete", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                if(this.currentArtifact.Style == ArtfFac.Type.Document)
-                   retVal = this.DeleteDocument(this.currentArtifact);
-
+                if (this.currentArtifact.Style == ArtfFac.Type.Document)
+                    retVal = this.DeleteDocument(this.currentArtifact);
 
                 if (!retVal)
-                { 
+                {
                     new PresLib.MessageBox
                     {
                         DialogueType = PresLib.MessageBox.Type.Error,
                         Heading = "Splash",
                     }.Show("Document contains transactional information. Cannot be deleted.");
                 }
+                else
+                {
+                    //remove artifact from parent after successful deletion
+                    new ArtfFac.Server(new ArtfFac.FormDto()).RemoveArtifactFromParent(this.currentArtifact);                 
 
-                //TreeView trv = this.GetActiveTreeView();
+                    //ReBind the listview after removing the list item
+                    Facade.Artifact.Dto parentArtifact = new ArtfFac.Server(new ArtfFac.FormDto()).GetParentArtifact(this.currentArtifact);
+                    this.lsvContainer.AttachChildren(parentArtifact, isDocumentFirst);
+                }
 
-                //TreeNode node = null;
-                //TreeNode selectedNode = null;
-
-                //if (this.currentArtifact.Style == ArtfFac.Type.Document)
-                //{
-                //    node = trv.FindNode(this.GetParent(this.currentArtifact));
-                //}
-                //else
-                //{
-                //    selectedNode = trv.FindNode(this.currentArtifact);
-                //    node = selectedNode.Parent;
-                //}
-
-                //if ((this.menuClickSource == MenuClickSource.ListView) && (this.currentArtifact.Style == ArtfFac.Type.Document))
-                //{
-                //    this.DeleteDocument(this.currentArtifact);
-                //}
-                //else
-                //{
-                //    Boolean retVal = true;
-                //    this.DeleteFolder(this.currentArtifact, retVal);
-                //}
-                //this.currentArtifact = this.GetArtifact(node.Tag);
-
-                //this.lsvContainer.AttachChildren(this.currentArtifact, isDocumentFirst);
-
-                //if (selectedNode != null)
-                //{
-                //    trv.SelectedNode = selectedNode.Parent;
-                //    trv.Nodes.Remove(selectedNode);
-                //}
+               
             }
             else if (dialogResult == DialogResult.No)
             {
                 return;
             }
         }
+
 
         private Boolean DeleteDocument(ArtfFac.Dto artifact)
         {
@@ -1390,35 +1367,7 @@ namespace Vanilla.Utility.WinForm
             //retVal = this.DeleteItem(artifact, node.Parent);
 
         }
-
-        //private Boolean DeleteItem(ArtfFac.Dto artifact, TreeNode parentNode)
-        //{
-        //    this.formDto.ModuleFormDto.CurrentArtifact = new ArtfFac.FormDto
-        //    {
-        //        Dto = artifact,
-        //    };
-
-        //    this.facade = new Facade.Register.Server(this.formDto);
-        //    this.facade.Delete();
-
-        //    if (!this.facade.IsError)
-        //    {
-        //        this.GetParent(artifact).Children.Remove(artifact);
-        //    }
-        //    else
-        //    {
-        //        new PresLib.MessageBox
-        //        {
-        //            DialogueType = PresLib.MessageBox.Type.Error,
-        //            Heading = "Splash",
-        //        }.Show("Document contains transactional information. Cannot be deleted.");
-
-        //        return false;
-        //    }
-
-        //    return true;
-        //}
-
+               
         public void SelectAll()
         {
             foreach (ListViewItem item in this.lsvContainer.Items)

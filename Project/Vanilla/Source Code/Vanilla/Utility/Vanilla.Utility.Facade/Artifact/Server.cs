@@ -454,6 +454,20 @@ namespace Vanilla.Utility.Facade.Artifact
         {
             return this.GetParentArtifact(artifactDto).Path;
         }
+
+        public void RemoveArtifactFromParent(Dto artifact)
+        {
+            Dto parentArtifact = null;
+
+            if (artifact.Parent.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+                parentArtifact = (artifact.Parent as Facade.Module.Dto).Artifact;
+            else
+                parentArtifact = artifact.Parent as Facade.Artifact.Dto;
+
+            if (parentArtifact != null)
+                parentArtifact.Children.Remove(artifact);
+        }
+
     }
 
 }
