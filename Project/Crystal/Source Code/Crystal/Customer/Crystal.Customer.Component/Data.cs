@@ -17,11 +17,11 @@ namespace Crystal.Customer.Component
         public String IdentityProof { get; set; }
 
         //public Configuration.Component.Initial.Data Initial { get; set; }
+        public Configuration.Component.Country.Data Country { get; set; }
         public Configuration.Component.State.Data State { get; set; }
         public Configuration.Component.IdentityProofType.Data IdentityProofType { get; set; }
 
         public List<ContactNumber.Data> ContactNumberList { get; set; }
-
         public List<Characteristic.Data> CharacteristicList { get; set; }
         
     }

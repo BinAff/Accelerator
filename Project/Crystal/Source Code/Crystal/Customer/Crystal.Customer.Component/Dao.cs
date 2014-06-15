@@ -33,6 +33,7 @@ namespace Crystal.Customer.Component
             base.AddInParameter("@MiddleName", DbType.String, ((Data)this.Data).MiddleName == null ? String.Empty : ((Data)this.Data).MiddleName);
             base.AddInParameter("@LastName", DbType.String, ((Data)this.Data).LastName == null ? String.Empty : ((Data)this.Data).LastName);
             base.AddInParameter("@Address", DbType.String, ((Data)this.Data).Address);
+            base.AddInParameter("@CountryId", DbType.Int64, ((Data)this.Data).Country.Id);
             base.AddInParameter("@StateId", DbType.Int64, ((Data)this.Data).State.Id);
             base.AddInParameter("@City", DbType.String, ((Data)this.Data).City);
             base.AddInParameter("@Pin", DbType.Int32, ((Data)this.Data).Pin);
@@ -53,6 +54,10 @@ namespace Crystal.Customer.Component
             dt.MiddleName = Convert.IsDBNull(dr["MiddleName"]) ? String.Empty : Convert.ToString(dr["MiddleName"]);
             dt.LastName = Convert.IsDBNull(dr["LastName"]) ? String.Empty : Convert.ToString(dr["LastName"]);
             dt.Address = Convert.IsDBNull(dr["Address"]) ? String.Empty : Convert.ToString(dr["Address"]);
+            dt.Country = Convert.IsDBNull(dr["CountryId"]) ? null : new Configuration.Component.Country.Data()
+            {
+                Id = Convert.ToInt64(dr["CountryId"]),
+            };
             dt.State = Convert.IsDBNull(dr["StateId"]) ? null : new Configuration.Component.State.Data()
             {
                 Id = Convert.ToInt64(dr["StateId"]),

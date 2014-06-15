@@ -27,7 +27,8 @@ namespace AutoTourism.Customer.Facade
         {
             FormDto formDto = this.FormDto as FormDto;
             //formDto.InitialList = this.ReadAllInitial();
-            formDto.StateList = this.ReadAllState().Value;
+            //formDto.StateList = this.ReadAllState().Value;
+            formDto.CountryList = this.ReadAllCountry().Value;
             formDto.IdentityProofTypeList = this.ReadAllIdentityProof().Value;
             formDto.DtoList = this.ReadAllCustomer().Value;
             formDto.RuleDto = this.ReadCustomerRule().Value;
@@ -48,6 +49,11 @@ namespace AutoTourism.Customer.Facade
                 MiddleName = customer.MiddleName,
                 LastName = customer.LastName,
                 Address = customer.Address,
+                Country = customer.Country == null ? null : new Table()
+                {
+                    Id = customer.Country.Id,
+                    Name = customer.Country.Name,
+                },
                 State = customer.State == null ? null : new Table()
                 {
                     Id = customer.State.Id,
@@ -80,6 +86,10 @@ namespace AutoTourism.Customer.Facade
                 MiddleName = customer.MiddleName,
                 LastName = customer.LastName,
                 Address = customer.Address,
+                Country = customer.Country == null ? null : new ConfigCrys.Country.Data()
+                {
+                    Id = customer.Country.Id,
+                },
                 State = customer.State == null ? null : new ConfigCrys.State.Data()
                 {
                     Id = customer.State.Id,
@@ -159,7 +169,53 @@ namespace AutoTourism.Customer.Facade
         //    return ret;
         //}
 
+        private ReturnObject<List<Table>> ReadAllCountry()
+        {
+            ICrud crud = new ConfigCrys.Country.Server(null);
+            ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
+
+            ReturnObject<List<Table>> ret = new ReturnObject<List<Table>>
+            {
+                Value = new List<Table>()
+            };
+
+            //Populate data in dto from business entity
+            foreach (ConfigCrys.Country.Data data in dataList.Value)
+            {
+                ret.Value.Add(new Table
+                {
+                    Id = data.Id,
+                    Name = data.Name
+                });
+            }
+
+            return ret;
+        }
+
         private ReturnObject<List<Table>> ReadAllState()
+        {
+            ICrud crud = new ConfigCrys.State.Server(null);
+            ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
+
+            ReturnObject<List<Table>> ret = new ReturnObject<List<Table>>
+            {
+                Value = new List<Table>()
+            };
+
+            //Populate data in dto from business entity
+            foreach (ConfigCrys.State.Data data in dataList.Value)
+            {
+                ret.Value.Add(new Table
+                {
+                    Id = data.Id,
+                    Name = data.Name
+                });
+            }
+
+            return ret;
+        }
+
+        public ReturnObject<List<Table>> ReadStateForCountry(Int64 countryId)
         {
             ICrud crud = new ConfigCrys.State.Server(null);
             ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
@@ -382,11 +438,15 @@ namespace AutoTourism.Customer.Facade
             return "AutoTourism.Component.Customer.Navigator.Artifact.Data, AutoTourism.Component.Customer";
         }
 
-        public override ReturnObject<bool> validateDelete(Data moduleData)
-        {          
+        public override ReturnObject<bool> ValidateDelete(Data moduleData)
+        {
             ReturnObject<bool> ret = new ReturnObject<bool> { Value = true };
+
+            //ICrud autoCustmer = new CustAuto.Server(new CustAuto.Data { Id = moduleData.Id });
+            //ReturnObject<Data> retData = autoCustmer.Read();
+
             LodgeCrys.Room.Reserver.Data reservationData = (moduleData as CustAuto.Data).RoomReserver;
-            LodgeCrys.Room.CheckInContainer.Data checkInData = (moduleData as CustAuto.Data).Checkin;         
+            LodgeCrys.Room.CheckInContainer.Data checkInData = (moduleData as CustAuto.Data).Checkin;
 
             if (reservationData != null && reservationData.AllList != null && reservationData.AllList.Count > 0)
             {
@@ -405,7 +465,6 @@ namespace AutoTourism.Customer.Facade
 
             return ret;
         }
-       
 
     }
 

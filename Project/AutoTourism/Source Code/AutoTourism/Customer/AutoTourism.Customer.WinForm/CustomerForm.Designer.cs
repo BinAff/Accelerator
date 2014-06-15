@@ -65,7 +65,7 @@
             this.bttnRemove.Location = new System.Drawing.Point(240, 209);
             this.bttnRemove.Name = "bttnRemove";
             this.bttnRemove.Size = new System.Drawing.Size(32, 22);
-            this.bttnRemove.TabIndex = 13;
+            this.bttnRemove.TabIndex = 14;
             this.bttnRemove.Text = "X";
             this.bttnRemove.UseVisualStyleBackColor = true;
             this.bttnRemove.Click += new System.EventHandler(this.bttnRemove_Click);
@@ -76,7 +76,7 @@
             this.txtMobile.MaxLength = 12;
             this.txtMobile.Name = "txtMobile";
             this.txtMobile.Size = new System.Drawing.Size(92, 20);
-            this.txtMobile.TabIndex = 10;
+            this.txtMobile.TabIndex = 11;
             // 
             // txtMobilePrefix
             // 
@@ -94,7 +94,7 @@
             this.btnAddContact.Location = new System.Drawing.Point(240, 186);
             this.btnAddContact.Name = "btnAddContact";
             this.btnAddContact.Size = new System.Drawing.Size(32, 22);
-            this.btnAddContact.TabIndex = 11;
+            this.btnAddContact.TabIndex = 12;
             this.btnAddContact.Text = " ►";
             this.btnAddContact.UseVisualStyleBackColor = true;
             this.btnAddContact.Click += new System.EventHandler(this.btnAddContact_Click);
@@ -105,7 +105,7 @@
             this.txtStd.MaxLength = 5;
             this.txtStd.Name = "txtStd";
             this.txtStd.Size = new System.Drawing.Size(31, 20);
-            this.txtStd.TabIndex = 8;
+            this.txtStd.TabIndex = 9;
             // 
             // txtIsd
             // 
@@ -124,7 +124,7 @@
             this.lstContact.Location = new System.Drawing.Point(277, 187);
             this.lstContact.Name = "lstContact";
             this.lstContact.Size = new System.Drawing.Size(169, 43);
-            this.lstContact.TabIndex = 12;
+            this.lstContact.TabIndex = 13;
             // 
             // txtLandLine
             // 
@@ -132,7 +132,7 @@
             this.txtLandLine.MaxLength = 10;
             this.txtLandLine.Name = "txtLandLine";
             this.txtLandLine.Size = new System.Drawing.Size(55, 20);
-            this.txtLandLine.TabIndex = 9;
+            this.txtLandLine.TabIndex = 10;
             // 
             // label5
             // 
@@ -150,7 +150,7 @@
             this.cboIdentityProofType.Location = new System.Drawing.Point(104, 263);
             this.cboIdentityProofType.Name = "cboIdentityProofType";
             this.cboIdentityProofType.Size = new System.Drawing.Size(168, 21);
-            this.cboIdentityProofType.TabIndex = 15;
+            this.cboIdentityProofType.TabIndex = 16;
             // 
             // txtIdentityProofName
             // 
@@ -158,7 +158,7 @@
             this.txtIdentityProofName.MaxLength = 20;
             this.txtIdentityProofName.Name = "txtIdentityProofName";
             this.txtIdentityProofName.Size = new System.Drawing.Size(168, 20);
-            this.txtIdentityProofName.TabIndex = 16;
+            this.txtIdentityProofName.TabIndex = 17;
             // 
             // label8
             // 
@@ -175,7 +175,7 @@
             this.txtEmail.MaxLength = 50;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(168, 20);
-            this.txtEmail.TabIndex = 14;
+            this.txtEmail.TabIndex = 15;
             // 
             // label7
             // 
@@ -192,7 +192,7 @@
             this.txtPin.MaxLength = 8;
             this.txtPin.Name = "txtPin";
             this.txtPin.Size = new System.Drawing.Size(168, 20);
-            this.txtPin.TabIndex = 7;
+            this.txtPin.TabIndex = 8;
             // 
             // label4
             // 
@@ -219,7 +219,7 @@
             this.txtCity.MaxLength = 20;
             this.txtCity.Name = "txtCity";
             this.txtCity.Size = new System.Drawing.Size(168, 20);
-            this.txtCity.TabIndex = 6;
+            this.txtCity.TabIndex = 7;
             // 
             // label2
             // 
@@ -238,7 +238,7 @@
             this.cboState.Location = new System.Drawing.Point(278, 106);
             this.cboState.Name = "cboState";
             this.cboState.Size = new System.Drawing.Size(168, 21);
-            this.cboState.TabIndex = 5;
+            this.cboState.TabIndex = 6;
             // 
             // label1
             // 
@@ -310,7 +310,8 @@
             this.cboNationList.Location = new System.Drawing.Point(277, 79);
             this.cboNationList.Name = "cboNationList";
             this.cboNationList.Size = new System.Drawing.Size(168, 21);
-            this.cboNationList.TabIndex = 1003;
+            this.cboNationList.TabIndex = 5;
+            this.cboNationList.SelectedIndexChanged += new System.EventHandler(this.cboNationList_SelectedIndexChanged);
             // 
             // CustomerForm
             // 

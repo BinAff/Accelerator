@@ -70,31 +70,7 @@ namespace AutoTourism.Component.Customer
           ICrud crud = new Crystal.Invoice.Component.Server(invoiceData);
           return crud.Save();
         }
-
-        //protected override ReturnObject<bool> DeleteBefore()
-        //{
-        //    ReturnObject<bool> ret = new ReturnObject<bool> { Value = true };
-        //    Lodge.Room.Reserver.Data reservationData = (this.dataAccess.Data as Data).RoomReserver;
-        //    Lodge.Room.CheckInContainer.Data checkInData = (this.dataAccess.Data as Data).Checkin;
-
-        //    if (reservationData != null && reservationData.AllList != null && reservationData.AllList.Count > 0)
-        //    {
-        //        ret.Value = false;
-        //        ret.MessageList = new System.Collections.Generic.List<Message> { 
-        //            new BinAff.Core.Message("Customer has reservation.",Message.Type.Information)
-        //        };
-        //    }
-        //    else if (checkInData != null && checkInData.AllList != null && checkInData.AllList.Count > 0)
-        //    {
-        //        ret.Value = false;
-        //        ret.MessageList = new System.Collections.Generic.List<Message> { 
-        //            new BinAff.Core.Message("Customer has checkIn.",Message.Type.Information)
-        //        };
-        //    }
-
-        //    return ret;
-        //}
-        
+                
     }
 
 }

@@ -594,7 +594,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data, Crystal.Lodge.Component";
         }
 
-        public override ReturnObject<bool> validateDelete(Data moduleData)
+        public override ReturnObject<bool> ValidateDelete(Data moduleData)
         {
             RoomRsvCrys.Server server = new RoomRsvCrys.Server(new RoomRsvCrys.Data { Id = moduleData.Id });
 
