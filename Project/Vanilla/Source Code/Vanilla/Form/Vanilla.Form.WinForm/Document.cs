@@ -231,8 +231,7 @@ namespace Vanilla.Form.WinForm
             this.RefreshFormBefore();
             if (this.formDto.Dto != null && this.formDto.Dto.Id > 0)
             {
-                this.RevertForm();
-                //this.AssignDto();
+                this.RevertForm();          
                 this.PopulateDataToForm();
             }
             else

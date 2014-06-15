@@ -282,6 +282,11 @@ namespace AutoTourism.Customer.WinForm
             this.txtMobile.Text = String.Empty;
         }
 
+        protected override void RefreshFormAfter()
+        {
+            this.txtFName.Focus();
+        }
+
         protected override void Compose()
         {
             base.formDto = new Facade.FormDto
@@ -299,56 +304,44 @@ namespace AutoTourism.Customer.WinForm
             this.customerRule = formDto.RuleDto;
             this.SetMandatoryRule();
 
-            //if (formDto.InitialList != null && formDto.InitialList.Count > 0)
-            //{
-            //    this.cboInitial.DataSource = formDto.InitialList;
-            //    this.cboInitial.DisplayMember = "Name";
-            //    this.cboInitial.ValueMember = "Id";
-            //    this.cboInitial.SelectedIndex = -1;
-            //}
-            if (formDto.StateList != null && formDto.StateList.Count > 0)
+            if (formDto.CountryList != null && formDto.CountryList.Count > 0)
             {
-                this.cboState.DataSource = formDto.StateList;
-                this.cboState.DisplayMember = "Name";
-                this.cboState.ValueMember = "Id";
-                this.cboState.SelectedIndex = -1;
+                this.cboNationList.DataSource = formDto.CountryList;
+                this.cboNationList.DisplayMember = "Name";
+                this.cboNationList.ValueMember = "Id";
+                this.cboNationList.SelectedIndex = -1;
             }
+
             if (formDto.IdentityProofTypeList != null && formDto.IdentityProofTypeList.Count > 0)
             {
                 this.cboIdentityProofType.DataSource = formDto.IdentityProofTypeList;
                 this.cboIdentityProofType.DisplayMember = "Name";
                 this.cboIdentityProofType.ValueMember = "Id";
                 this.cboIdentityProofType.SelectedIndex = -1;
-            }
-            //this.txtArtifactPath.ReadOnly = true;
-            //if (this.isLoadedFromRoomReservationForm)
-            //{
-            //    this.txtArtifactPath.Text = new Vanilla.Utility.Facade.Module.Server(null).GetRootLevelModulePath("CUST", (this.formDto as Facade.FormDto).ModuleFormDto.FormModuleList, "Form");
-            //}
-            //else
-            //{
-            //    this.txtArtifactPath.Text = this.formDto.Dto.artifactPath;
-            //}
+            }           
         }
 
         protected override void PopulateDataToForm()
         {
             CustFac.Dto dto = this.formDto.Dto as CustFac.Dto;
-            //if (this.dto.Initial != null && this.dto.Initial.Id > 0)
-            //{
-            //    for (int i = 0; i < cboInitial.Items.Count; i++)
-            //    {
-            //        if (this.dto.Initial.Id == ((Table)cboInitial.Items[i]).Id)
-            //        {
-            //            cboInitial.SelectedIndex = i;
-            //            break;
-            //        }
-            //    }
-            //}
+            
             this.txtFName.Text = dto.FirstName;
             this.txtMName.Text = dto.MiddleName;
             this.txtLName.Text = dto.LastName;
             this.txtAdds.Text = dto.Address;
+            if (dto.Country != null && dto.Country.Id > 0)
+            {
+                for (int i = 0; i < cboNationList.Items.Count; i++)
+                {
+                    if (dto.Country.Id == ((Table)cboNationList.Items[i]).Id)
+                    {
+                        this.cboNationList.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
+            else this.cboNationList.SelectedIndex = -1;
+
             if (dto.State != null && dto.State.Id > 0)
             {
                 for (int i = 0; i < cboState.Items.Count; i++)
@@ -360,6 +353,8 @@ namespace AutoTourism.Customer.WinForm
                     }
                 }
             }
+            else this.cboState.SelectedIndex = -1;
+
             this.txtCity.Text = dto.City;
             this.txtPin.Text = dto.Pin == 0 ? String.Empty : dto.Pin.ToString();
             if (dto.ContactNumberList != null && dto.ContactNumberList.Count > 0)
@@ -390,16 +385,16 @@ namespace AutoTourism.Customer.WinForm
             if (dto.Id > 0)
             {
                 return new CustFac.Dto
-                {
-                    //Initial = dto.Initial == null ? null : new Table
-                    //{
-                    //    Id = dto.Initial.Id,
-                    //    Name = dto.Initial.Name
-                    //},
+                {                    
                     FirstName = dto.FirstName,
                     MiddleName = dto.MiddleName,
                     LastName = dto.LastName,
                     Address = dto.Address,
+                    Country = dto.Country == null ? null : new Table
+                    {
+                        Id = dto.Country.Id,
+                        Name = dto.Country.Name
+                    },
                     State = dto.State == null ? null : new Table
                     {
                         Id = dto.State.Id,
@@ -452,6 +447,12 @@ namespace AutoTourism.Customer.WinForm
             {
                 errorProvider.SetError(txtAdds, "Please enter address.");
                 txtAdds.Focus();
+                return false;
+            }
+            else if (cboNationList.SelectedIndex == -1)
+            {
+                errorProvider.SetError(cboNationList, "Please select a nation.");
+                cboNationList.Focus();
                 return false;
             }
             else if (cboState.SelectedIndex == -1)
@@ -532,14 +533,15 @@ namespace AutoTourism.Customer.WinForm
             CustFac.Dto dto = base.formDto.Dto as CustFac.Dto;
 
             dto.Id = dto == null ? 0 : dto.Id;
-            //this.dto.Initial = cboInitial.SelectedIndex == -1 ? null : new Table()
-            //{
-            //    Id = ((Table)cboInitial.SelectedItem).Id,
-            //};
+           
             dto.FirstName = txtFName.Text.Trim();
             dto.MiddleName = txtMName.Text.Trim();
             dto.LastName = txtLName.Text.Trim();
             dto.Address = txtAdds.Text.Trim();
+            dto.Country = cboNationList.SelectedIndex == -1 ? null : new Table
+            {
+                Id = (cboNationList.SelectedItem as Table).Id,
+            };
             dto.State = cboState.SelectedIndex == -1 ? null : new Table
             {
                 Id = (cboState.SelectedItem as Table).Id,
@@ -573,6 +575,7 @@ namespace AutoTourism.Customer.WinForm
             this.txtMName.Text = String.Empty;
             this.txtLName.Text = String.Empty;
             this.txtAdds.Text = String.Empty;
+            this.cboNationList.SelectedIndex = -1;
             this.cboState.SelectedIndex = -1;
             this.txtCity.Text = String.Empty;
             this.txtPin.Text = String.Empty;           
@@ -587,15 +590,16 @@ namespace AutoTourism.Customer.WinForm
             CustFac.Dto initialDto = base.InitialDto as CustFac.Dto;
             CustFac.Dto dto = this.formDto.Dto as CustFac.Dto;
             
-            //this.dto.Initial = this.refreshDto.Initial == null ? null : new Table
-            //{
-            //    Id = this.dto.Initial.Id,
-            //    Name = this.dto.Initial.Name
-            //};
+           
             dto.FirstName = initialDto.FirstName;
             dto.MiddleName = initialDto.MiddleName;
             dto.LastName = initialDto.LastName;
             dto.Address = initialDto.Address;
+            dto.Country = initialDto.Country == null ? null : new Table
+            {
+                Id = initialDto.Country.Id,
+                Name = initialDto.Country.Name
+            };
             dto.State = initialDto.State == null ? null : new Table
             {
                 Id = initialDto.State.Id,
@@ -722,6 +726,23 @@ namespace AutoTourism.Customer.WinForm
             (this.trvForm.Nodes[customerNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children.Add(artifactDto);
             artifactDto.Parent = this.trvForm.Nodes[customerNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto;
             return true;
+        }
+
+        private void cboNationList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboNationList.SelectedItem != null)
+            {
+                Int64 countryId = ((cboNationList.SelectedItem) as Table).Id;
+                ReturnObject<List<Table>> retVal = new CustFac.Server(new CustFac.FormDto()).ReadStateForCountry(countryId);
+                List<Table> stateList = retVal.Value;
+                if (stateList != null && stateList.Count > 0)
+                {
+                    this.cboState.DataSource = stateList;
+                    this.cboState.DisplayMember = "Name";
+                    this.cboState.ValueMember = "Id";
+                    this.cboState.SelectedIndex = -1;
+                }
+            }
         }
 
     }

@@ -36,6 +36,10 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Country\Dao.cs" />
+    <Compile Include="Country\Data.cs" />
+    <Compile Include="Country\Server.cs" />
+    <Compile Include="Country\Validator.cs" />
     <Compile Include="IdentityProofType\Dao.cs" />
     <Compile Include="IdentityProofType\Data.cs" />
     <Compile Include="IdentityProofType\Server.cs" />
