@@ -1792,8 +1792,8 @@ namespace Vanilla.Utility.WinForm
 
                 String fileName = this.GetArtifactName(selectedNode, ArtfFac.Type.Document);
                 //component.artifactPath = this.currentArtifact.Path + fileName;
-                component.fileName = fileName;
-                component.trvForm = trv;
+                //component.fileName = fileName;
+                //component.trvForm = trv;
 
                 this.AddArtifact(ArtfFac.Type.Document, fileName, component, new ModDefFac.Dto
                 {

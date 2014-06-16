@@ -43,7 +43,7 @@ namespace Vanilla.Utility.WinForm
 
         private void ShowDocumentForm(Facade.Artifact.Dto document)
         {
-            document.Module.artifactPath = document.Path;
+            //document.Module.artifactPath = document.Path;
             Document doc = this.GetDocumentForm(document);
             doc.MdiParent = this.Owner as System.Windows.Forms.Form;
             doc.AuditInfoChanged += doc_AuditInfoChanged;

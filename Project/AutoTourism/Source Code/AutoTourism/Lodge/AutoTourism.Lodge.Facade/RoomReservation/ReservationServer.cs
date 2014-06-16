@@ -560,18 +560,18 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 {
                     Id = room.Id,
                     Action = room.Action,
-                    artifactPath = room.artifactPath,
+                    //artifactPath = room.artifactPath,
                     Building = room.Building,
                     Category = room.Category,
                     Description = room.Description,
-                    fileName = room.fileName,
+                    //fileName = room.fileName,
                     Floor = room.Floor,
                     ImageList = room.ImageList,
                     IsAirconditioned = room.IsAirconditioned,
                     Name = room.Name,
                     Number = room.Number,
                     StatusId = room.StatusId,
-                    trvForm = room.trvForm,
+                    //trvForm = room.trvForm,
                     Type = room.Type
                 });
 

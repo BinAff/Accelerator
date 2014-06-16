@@ -355,7 +355,7 @@ namespace Vanilla.Utility.WinForm
         {
             currentArtifact.ComponentDefinition.ComponentFormType = this.facade.GetComponentFormType(currentArtifact.ComponentDefinition.Code); 
             Type type = Type.GetType(currentArtifact.ComponentDefinition.ComponentFormType, true);
-            currentArtifact.Module.artifactPath = currentArtifact.Path;
+            //currentArtifact.Module.artifactPath = currentArtifact.Path;
             return (Document)Activator.CreateInstance(type, currentArtifact);
         }
 
