@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.rvInvoice = new Microsoft.Reporting.WinForms.ReportViewer();
+            this.rvReceipt = new Microsoft.Reporting.WinForms.ReportViewer();
             this.SuspendLayout();
             // 
-            // rvInvoice
+            // rvReceipt
             // 
-            this.rvInvoice.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rvInvoice.Location = new System.Drawing.Point(0, 0);
-            this.rvInvoice.Name = "rvInvoice";
-            this.rvInvoice.Size = new System.Drawing.Size(747, 438);
-            this.rvInvoice.TabIndex = 0;
+            this.rvReceipt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rvReceipt.Location = new System.Drawing.Point(0, 0);
+            this.rvReceipt.Name = "rvReceipt";
+            this.rvReceipt.Size = new System.Drawing.Size(747, 438);
+            this.rvReceipt.TabIndex = 0;
             // 
             // PaymentReceipt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(747, 438);
-            this.Controls.Add(this.rvInvoice);
+            this.Controls.Add(this.rvReceipt);
             this.Name = "PaymentReceipt";
             this.Text = "Payment Receipt";
             this.Load += new System.EventHandler(this.PaymentReceipt_Load);
@@ -54,6 +54,6 @@
 
         #endregion
 
-        private Microsoft.Reporting.WinForms.ReportViewer rvInvoice;
+        private Microsoft.Reporting.WinForms.ReportViewer rvReceipt;
     }
 }

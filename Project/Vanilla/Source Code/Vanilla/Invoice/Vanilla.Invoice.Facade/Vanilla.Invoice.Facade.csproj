@@ -37,6 +37,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdvancePayment\Dto.cs" />
+    <Compile Include="AdvancePayment\FormDto.cs" />
+    <Compile Include="AdvancePayment\Server.cs" />
     <Compile Include="Buyer\Dto.cs" />
     <Compile Include="Dto.cs" />
     <Compile Include="FormDto.cs" />

@@ -11,7 +11,7 @@ namespace Vanilla.Invoice.WinForm
         private void PaymentReceipt_Load(object sender, System.EventArgs e)
         {
 
-            this.rvInvoice.RefreshReport();
+            this.rvReceipt.RefreshReport();
         }
     }
 }

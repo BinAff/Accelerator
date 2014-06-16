@@ -53,6 +53,12 @@
     <Compile Include="AdvancePaymentForm.Designer.cs">
       <DependentUpon>AdvancePaymentForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdvancePaymentReceipt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdvancePaymentReceipt.Designer.cs">
+      <DependentUpon>AdvancePaymentReceipt.cs</DependentUpon>
+    </Compile>
     <Compile Include="CommercialInstruments.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -103,6 +109,12 @@
     <Compile Include="Taxation.Designer.cs">
       <DependentUpon>Taxation.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AdvancePaymentForm.resx">
+      <DependentUpon>AdvancePaymentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdvancePaymentReceipt.resx">
+      <DependentUpon>AdvancePaymentReceipt.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AdvanceReceipt.rdlc" />
     <EmbeddedResource Include="CommercialInstruments.resx">
       <DependentUpon>CommercialInstruments.cs</DependentUpon>

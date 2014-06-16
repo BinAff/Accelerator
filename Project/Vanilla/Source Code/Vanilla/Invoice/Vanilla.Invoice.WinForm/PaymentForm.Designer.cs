@@ -30,6 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgvPayment = new System.Windows.Forms.DataGridView();
+            this.PaymentType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LastFourDigit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtAmount = new System.Windows.Forms.TextBox();
             this.lblAmount = new System.Windows.Forms.Label();
@@ -43,17 +47,13 @@
             this.label6 = new System.Windows.Forms.Label();
             this.btnPrint = new System.Windows.Forms.Button();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.PaymentType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.LastFourDigit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Remark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
             this.Select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.InvoiceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InvoiceNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InvoiceAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InvoiceRemarks = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPayment)).BeginInit();
@@ -75,6 +75,26 @@
             this.dgvPayment.Size = new System.Drawing.Size(647, 111);
             this.dgvPayment.TabIndex = 124;
             this.dgvPayment.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPayment_CellContentClick);
+            // 
+            // PaymentType
+            // 
+            this.PaymentType.HeaderText = "Payment Type";
+            this.PaymentType.Name = "PaymentType";
+            // 
+            // Amount
+            // 
+            this.Amount.HeaderText = "Amount";
+            this.Amount.Name = "Amount";
+            // 
+            // LastFourDigit
+            // 
+            this.LastFourDigit.HeaderText = "Last Four Digit";
+            this.LastFourDigit.Name = "LastFourDigit";
+            // 
+            // Remark
+            // 
+            this.Remark.HeaderText = "Remark";
+            this.Remark.Name = "Remark";
             // 
             // groupBox1
             // 
@@ -112,21 +132,23 @@
             // 
             // btnChange
             // 
-            this.btnChange.Location = new System.Drawing.Point(564, 77);
+            this.btnChange.Font = new System.Drawing.Font("Wingdings", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnChange.Location = new System.Drawing.Point(607, 71);
             this.btnChange.Name = "btnChange";
-            this.btnChange.Size = new System.Drawing.Size(75, 23);
+            this.btnChange.Size = new System.Drawing.Size(29, 29);
             this.btnChange.TabIndex = 134;
-            this.btnChange.Text = "Change";
+            this.btnChange.Text = "?";
             this.btnChange.UseVisualStyleBackColor = true;
             this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(483, 77);
+            this.btnAdd.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnAdd.Location = new System.Drawing.Point(572, 72);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.Size = new System.Drawing.Size(29, 29);
             this.btnAdd.TabIndex = 133;
-            this.btnAdd.Text = "Add";
+            this.btnAdd.Text = "Ç";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
@@ -197,26 +219,6 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
-            // PaymentType
-            // 
-            this.PaymentType.HeaderText = "Payment Type";
-            this.PaymentType.Name = "PaymentType";
-            // 
-            // Amount
-            // 
-            this.Amount.HeaderText = "Amount";
-            this.Amount.Name = "Amount";
-            // 
-            // LastFourDigit
-            // 
-            this.LastFourDigit.HeaderText = "Last Four Digit";
-            this.LastFourDigit.Name = "LastFourDigit";
-            // 
-            // Remark
-            // 
-            this.Remark.HeaderText = "Remark";
-            this.Remark.Name = "Remark";
-            // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -230,15 +232,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(647, 66);
             this.dataGridView1.TabIndex = 167;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 13);
-            this.label1.TabIndex = 168;
-            this.label1.Text = "Unpaid Invoice";
             // 
             // Select
             // 
@@ -270,6 +263,15 @@
             this.InvoiceRemarks.HeaderText = "Remarks";
             this.InvoiceRemarks.Name = "InvoiceRemarks";
             this.InvoiceRemarks.Width = 230;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(79, 13);
+            this.label1.TabIndex = 168;
+            this.label1.Text = "Unpaid Invoice";
             // 
             // btnRefresh
             // 

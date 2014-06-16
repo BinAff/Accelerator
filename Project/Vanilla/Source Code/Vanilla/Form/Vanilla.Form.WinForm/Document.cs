@@ -338,9 +338,16 @@ namespace Vanilla.Form.WinForm
             return true;
         }
 
-        protected virtual void AttachDocument()
+        protected virtual Document AttachDocument()
         {
-            
+            Document attachment = this.GetAttachment();
+            attachment.ShowDialog();
+            return attachment;
+        }
+
+        protected virtual Document GetAttachment()
+        {
+            return new Document();
         }
 
         #region Visual Control
@@ -393,6 +400,26 @@ namespace Vanilla.Form.WinForm
         protected void FocusPickAncestor()
         {
             this.btnPickAncestor.Select();
+        }
+
+        protected void EnableAttachButton()
+        {
+            this.btnAttach.Enabled = true;
+        }
+
+        protected void DisableAttachButton()
+        {
+            this.btnAttach.Enabled = false;
+        }
+
+        protected void EnableShowAttachmentButton()
+        {
+            this.btnExpandCollapse.Enabled = true;
+        }
+
+        protected void DisableShowAttachmentButton()
+        {
+            this.btnExpandCollapse.Enabled = false;
         }
 
         protected void AddToolStripSeparator()

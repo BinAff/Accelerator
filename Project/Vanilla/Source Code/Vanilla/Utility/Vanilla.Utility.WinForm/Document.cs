@@ -7,6 +7,8 @@ namespace Vanilla.Utility.WinForm
     public partial class Document : Form
     {
 
+        private Boolean isNewDocument;
+
         protected Facade.Document.FormDto formDto;
         protected Facade.Document.Server facade;
 
@@ -67,8 +69,11 @@ namespace Vanilla.Utility.WinForm
 
         private void Document_Shown(object sender, EventArgs e)
         {
-            if (DesignMode) return;
             if (this.Artifact == null || this.Artifact.Id == 0)
+            {
+                this.isNewDocument = true;
+            }
+            if (this.isNewDocument)
             {
                 this.Visible = false;
                 SaveDialog saveDialogue = this.GetSaveDialogue();
@@ -81,8 +86,23 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        private void Document_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        private void Document_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (this.isNewDocument && this.IsModified)
+            {
+                ////this.Visible = false;
+                //SaveDialog saveDialogue = this.GetSaveDialogue();
+                //if (saveDialogue != null)
+                //{
+                //    saveDialogue.Document = this.formDto.Document;
+                //    saveDialogue.ShowDialog(this);
+                //}
+                ////this.Visible = true;
+            }
+        }
+
+        private void Document_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {            
             if (this.AuditInfoChanged != null && this.IsModified) this.AuditInfoChanged(this);
         }
 

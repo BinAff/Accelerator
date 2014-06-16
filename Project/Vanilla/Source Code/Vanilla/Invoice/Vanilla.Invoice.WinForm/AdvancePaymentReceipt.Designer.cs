@@ -1,6 +1,6 @@
 ﻿namespace Vanilla.Invoice.WinForm
 {
-    partial class InvoiceReceipt
+    partial class AdvancePaymentReceipt
     {
         /// <summary>
         /// Required designer variable.
@@ -33,20 +33,22 @@
             // 
             // rvReceipt
             // 
-            this.rvReceipt.Location = new System.Drawing.Point(2, 2);
+            this.rvReceipt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rvReceipt.LocalReport.ReportEmbeddedResource = "Vanilla.Invoice.WinForm.AdvanceReceipt.rdlc";
+            this.rvReceipt.Location = new System.Drawing.Point(0, 0);
             this.rvReceipt.Name = "rvReceipt";
-            this.rvReceipt.Size = new System.Drawing.Size(895, 540);
+            this.rvReceipt.Size = new System.Drawing.Size(715, 409);
             this.rvReceipt.TabIndex = 0;
             // 
-            // InvoiceReceipt
+            // AdvancePaymentReceipt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(895, 536);
+            this.ClientSize = new System.Drawing.Size(715, 409);
             this.Controls.Add(this.rvReceipt);
-            this.Name = "InvoiceReceipt";
-            this.Text = "Invoice Receipt";
-            this.Load += new System.EventHandler(this.InvoiceReceipt_Load);
+            this.Name = "AdvancePaymentReceipt";
+            this.Text = "Advance Payment Receipt";
+            this.Load += new System.EventHandler(this.AdvancePaymentReceipt_Load);
             this.ResumeLayout(false);
 
         }
