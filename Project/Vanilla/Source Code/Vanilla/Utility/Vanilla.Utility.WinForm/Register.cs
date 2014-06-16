@@ -1028,7 +1028,13 @@ namespace Vanilla.Utility.WinForm
 
         private void cmnuDelete_Click(object sender, EventArgs e)
         {
+            //this line of code will retian the list item focus , while the pop up is opened
+            lsvContainer.HideSelection = false;
+            //lsvContainer.Enabled = false;
+
             this.Delete();
+
+            //lsvContainer.Enabled = true;
         }
 
         private void cmnuRename_Click(object sender, EventArgs e)
@@ -1284,7 +1290,12 @@ namespace Vanilla.Utility.WinForm
         {
             Boolean retVal = true;
 
-            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this Folder/Document?", "Delete", MessageBoxButtons.YesNo);
+            String Msg = "Are you sure you want to delete ";
+            Msg += this.currentArtifact.Style == ArtfFac.Type.Document ? "Document" : "Folder" ;
+            Msg += ", " + this.currentArtifact.FileName + "?";
+
+
+            DialogResult dialogResult = MessageBox.Show(Msg, "Delete", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 if (this.currentArtifact.Style == ArtfFac.Type.Document)
@@ -1301,14 +1312,14 @@ namespace Vanilla.Utility.WinForm
                 else
                 {
                     //remove artifact from parent after successful deletion
-                    new ArtfFac.Server(new ArtfFac.FormDto()).RemoveArtifactFromParent(this.currentArtifact);                 
+                    new ArtfFac.Server(new ArtfFac.FormDto()).RemoveArtifactFromParent(this.currentArtifact);
 
                     //ReBind the listview after removing the list item
                     Facade.Artifact.Dto parentArtifact = new ArtfFac.Server(new ArtfFac.FormDto()).GetParentArtifact(this.currentArtifact);
                     this.lsvContainer.AttachChildren(parentArtifact, isDocumentFirst);
                 }
 
-               
+
             }
             else if (dialogResult == DialogResult.No)
             {
