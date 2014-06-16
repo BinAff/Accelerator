@@ -27,12 +27,12 @@ namespace Vanilla.Invoice.WinForm
 
             List<Data> LineItemList = this.FormLineItemData(receipt.ProductList);
 
-            this.rvInvoiceReceipt.DocumentMapCollapsed = true;
-            this.rvInvoiceReceipt.ShowPrintButton = false;
+            this.rvReceipt.DocumentMapCollapsed = true;
+            this.rvReceipt.ShowPrintButton = false;
             String path = System.IO.Directory.GetCurrentDirectory();
             path = Application.StartupPath + "\\Report\\InvoiceReceipt.rdlc";
 
-            this.rvInvoiceReceipt.LocalReport.ReportPath = path;
+            this.rvReceipt.LocalReport.ReportPath = path;
             //string sDataSourceName = "InvoiceReceipt";
 
             String lineItemTotal = String.Empty;
@@ -51,15 +51,15 @@ namespace Vanilla.Invoice.WinForm
             //p[11] = new ReportParameter("Tax", "4"); //Change
             //p[12] = new ReportParameter("Advance", receipt.Advance.ToString());
 
-            this.rvInvoiceReceipt.LocalReport.SetParameters(p);
+            this.rvReceipt.LocalReport.SetParameters(p);
 
             Microsoft.Reporting.WinForms.ReportDataSource rptDataSoruce = new Microsoft.Reporting.WinForms.ReportDataSource();
             rptDataSoruce.Name = "InvoiceReceipt";
             rptDataSoruce.Value = LineItemList;
 
-            this.rvInvoiceReceipt.Visible = true;
-            this.rvInvoiceReceipt.LocalReport.DataSources.Add(rptDataSoruce);
-            this.rvInvoiceReceipt.RefreshReport();
+            this.rvReceipt.Visible = true;
+            this.rvReceipt.LocalReport.DataSources.Add(rptDataSoruce);
+            this.rvReceipt.RefreshReport();
             
         }
 
@@ -91,7 +91,7 @@ namespace Vanilla.Invoice.WinForm
         private void InvoiceReceipt_Load(object sender, EventArgs e)
         {
 
-            this.rvInvoiceReceipt.RefreshReport();
+            this.rvReceipt.RefreshReport();
         }
        
     }

@@ -10,6 +10,7 @@ using FormWin = Vanilla.Form.WinForm;
 using UtilFac = Vanilla.Utility.Facade;
 using DocFac = Vanilla.Utility.Facade.Document;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using InvWin = Vanilla.Invoice.WinForm;
 
 using Fac = AutoTourism.Lodge.Facade.RoomReservation;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
@@ -324,9 +325,9 @@ namespace AutoTourism.Lodge.WinForm
             }
         }
 
-        protected override void AttachDocument()
+        protected override FormWin.Document GetAttachment()
         {
-            //TO DO :: Open advance payment form
+            return new InvWin.AdvancePaymentForm();
         }
 
         private void form_ArtifactSaved(ArtfFac.Dto document)

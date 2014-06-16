@@ -16,6 +16,8 @@ namespace Vanilla.Invoice.WinForm
     public partial class AdvancePaymentForm : FormWin.Document
     {
 
+        private ToolStripButton btnPrint;
+
         public AdvancePaymentForm()
         {
             InitializeComponent();
@@ -26,6 +28,29 @@ namespace Vanilla.Invoice.WinForm
         {
             InitializeComponent();            
         }
+
+        #region
+
+        private void AdvancePaymentForm_Load(object sender, EventArgs e)
+        {
+            base.DisableAddAncestorButton();
+            base.DisablePickAncestorButton();
+            base.AncestorName = "...";
+            base.DisableAttachButton();
+            base.DisableShowAttachmentButton();
+            base.AttachmentName = "...";
+
+            base.AddToolStripSeparator();
+            this.btnPrint = base.AddToolStripButton("6", "Wingdings 2", "Print Receipt");
+            this.btnPrint.Click += btnPrint_Click;
+        }
+
+        void btnPrint_Click(object sender, EventArgs e)
+        {
+            new AdvancePaymentReceipt().ShowDialog();
+        }
+
+        #endregion
 
         protected override void Compose()
         {
@@ -57,7 +82,7 @@ namespace Vanilla.Invoice.WinForm
         {
 
         }
-
+        
     }
 
 }

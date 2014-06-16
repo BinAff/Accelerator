@@ -123,7 +123,10 @@ namespace AutoTourism.Customer.WinForm
             if (DesignMode) return;
             base.DisablePickAncestorButton();
             base.DisableAddAncestorButton();
+            base.DisableAttachButton();
+            base.DisableShowAttachmentButton();
             base.AncestorName = "...";
+            base.AttachmentName = "...";
             //if loaded form room reservation form , then populate the modules
             //if (this.isLoadedFromRoomReservationForm)
             //{
