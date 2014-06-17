@@ -73,6 +73,7 @@ namespace AutoTourism.Lodge.WinForm
         public RoomReservationForm(Fac.Dto dto)
         {
             InitializeComponent();
+
             //this.dto = dto;
             //this.trvForm = this.dto.trvForm;
 
@@ -188,8 +189,9 @@ namespace AutoTourism.Lodge.WinForm
         #endregion
 
         protected override void LoadForm()
-
         {
+            this.SetDefault();
+
             Fac.FormDto formDto = base.formDto as Fac.FormDto;
             base.facade.LoadForm();
 
@@ -280,6 +282,7 @@ namespace AutoTourism.Lodge.WinForm
         protected override void RefreshFormAfter()
         {
             this.PopulateFilteredRoomList();
+            txtDays.Focus();
         }
 
         protected override void Ok()
@@ -399,7 +402,7 @@ namespace AutoTourism.Lodge.WinForm
                     dtFromTime.Value = dto.BookingFrom;
                 }
                 this.txtDays.Text = dto.NoOfDays == 0 ? String.Empty : dto.NoOfDays.ToString();
-                this.txtMale.Text = dto.NoOfPersons == 0 ? String.Empty : dto.NoOfPersons.ToString();
+                //this.txtMale.Text = dto.NoOfPersons == 0 ? String.Empty : dto.NoOfPersons.ToString();
                 this.txtRooms.Text = dto.NoOfRooms == 0 ? String.Empty : dto.NoOfRooms.ToString();
                 //this.txtAdvance.Text = dto.Advance == 0 ? String.Empty : Converter.ConvertToIndianCurrency(dto.Advance);
                 this.cboSelectedRoom.DataSource = dto.RoomList;
@@ -477,26 +480,31 @@ namespace AutoTourism.Lodge.WinForm
             this.cboAC.Enabled = false;
         }
 
-        private void Clear()
-        {            
+        protected override void ClearForm()
+        {
             this.txtName.Text = String.Empty;
             this.lstContact.DataSource = null;
             this.txtAdds.Text = String.Empty;
             this.txtEmail.Text = String.Empty;
-            
+
             this.txtDays.Text = String.Empty;
             this.txtMale.Text = String.Empty;
             this.txtRooms.Text = String.Empty;
-            //this.txtAdvance.Text = String.Empty;
+        
             this.cboSelectedRoom.DataSource = null;
-            
+
             this.dtFrom.Value = DateTime.Now;
             this.dtFromTime.Value = DateTime.Now;
 
             this.cboCategory.SelectedIndex = 0;
             this.cboType.SelectedIndex = 0;
             this.cboAC.SelectedIndex = 0;
-        }
+
+            txtChild.Text = String.Empty;
+            txtInfant.Text = String.Empty;
+            txtFemale.Text = String.Empty;
+            txtRemarks.Text = String.Empty;
+        }       
 
         private void ResetLoad()
         {
@@ -583,54 +591,28 @@ namespace AutoTourism.Lodge.WinForm
 
         protected override void AssignDto()
         {
-            //if ((base.formDto as Fac.FormDto).Dto == null)
-            //    (base.formDto as Fac.FormDto).Dto = new Fac.Dto();
-
             Fac.Dto dto = (base.formDto as Fac.FormDto).Dto as Fac.Dto;
 
             dto.Id = dto == null ? 0 : dto.Id;
 
             dto.BookingFrom = new DateTime(dtFrom.Value.Year, dtFrom.Value.Month, dtFrom.Value.Day, dtFromTime.Value.Hour, dtFromTime.Value.Minute, dtFromTime.Value.Second);
-            dto.NoOfDays = Convert.ToInt16(txtDays.Text);
-            dto.NoOfPersons = Convert.ToInt16(txtMale.Text);
+            dto.NoOfDays = Convert.ToInt16(txtDays.Text);          
             dto.NoOfRooms = Convert.ToInt16(txtRooms.Text);
-            //dto.Advance = txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(txtAdvance.Text.Replace(",", ""));
-            //dto.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<RoomCatFac.Dto>)[this.cboCategory.SelectedIndex].Id };
+
+            //non-mandatory drop down
             dto.RoomCategory = this.cboCategory.SelectedItem == null ? null : new Table { Id = (this.cboCategory.SelectedItem as RoomCatFac.Dto).Id };
-            //dto.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<RoomTypFac.Dto>)[this.cboType.SelectedIndex].Id };
             dto.RoomType = this.cboType.SelectedItem == null ? null : new Table { Id = (this.cboType.SelectedItem as RoomTypFac.Dto).Id };
             dto.ACPreference = this.cboAC.SelectedIndex;
-            dto.BookingStatusId = Convert.ToInt64(Status.Open);
-            //dto.Customer = new CustFac.Dto
-            //{
-            //    Id = dto.Customer.Id,
-            //    FirstName = dto.Customer.FirstName,
-            //    MiddleName = dto.Customer.MiddleName,
-            //    LastName = dto.Customer.LastName,
-            //    Address = dto.Customer.Address,
-            //    City = dto.Customer.City,
-            //    Pin = dto.Customer.Pin,
-            //    Email = dto.Customer.Email,
-            //    IdentityProofType = new Table
-            //    {
-            //        Id = dto.Customer.IdentityProofType.Id,
-            //        Name = dto.Customer.IdentityProofType.Name
-            //    },
-            //    IdentityProofName = dto.Customer.IdentityProofName,
-            //    State = new Table
-            //    {
-            //        Id = dto.Customer.State.Id,
-            //        Name = dto.Customer.State.Name
-            //    },
-            //    ContactNumberList = dto.Customer.ContactNumberList,
-            //    //Initial = new Table 
-            //    //{
-            //    //    Id = this.dto.Customer.Initial.Id,
-            //    //    Name = this.dto.Customer.Initial.Name
-            //    //}                        
-            //};
-            dto.RoomList = this.cboSelectedRoom.Items.Count == 0 ? null : (List<RoomFac.Dto>)this.cboSelectedRoom.DataSource;
-        
+
+            //non-mandatory textBox
+            dto.NoOfMale = String.IsNullOrEmpty(txtMale.Text.Trim()) ? 0 : Convert.ToInt32(txtMale.Text);
+            dto.NoOfFemale = String.IsNullOrEmpty(txtFemale.Text.Trim()) ? 0 : Convert.ToInt32(txtFemale.Text);
+            dto.NoOfChild = String.IsNullOrEmpty(txtChild.Text.Trim()) ? 0 : Convert.ToInt32(txtChild.Text);
+            dto.NoOfInfant = String.IsNullOrEmpty(txtInfant.Text.Trim()) ? 0 : Convert.ToInt32(txtInfant.Text);
+            dto.Remark = txtRemarks.Text.Trim();
+            
+            dto.BookingStatusId = Convert.ToInt64(Status.Open);            
+            dto.RoomList = this.cboSelectedRoom.Items.Count == 0 ? null : (List<RoomFac.Dto>)this.cboSelectedRoom.DataSource;        
         }
 
         //private Boolean SaveReservationData()
@@ -792,12 +774,12 @@ namespace AutoTourism.Lodge.WinForm
                 this.txtDays.Focus();
                 return false;
             }
-            else if (String.IsNullOrEmpty(this.txtMale.Text))
-            {
-                this.errorProvider.SetError(this.txtMale, "Please enter persons.");
-                this.txtMale.Focus();
-                return false;
-            }
+            //else if (String.IsNullOrEmpty(this.txtMale.Text))
+            //{
+            //    this.errorProvider.SetError(this.txtMale, "Please enter persons.");
+            //    this.txtMale.Focus();
+            //    return false;
+            //}
             else if (!(new Regex(@"^[0-9]*$").IsMatch(this.txtMale.Text.Trim())))
             {
                 this.errorProvider.SetError(this.txtMale, "Entered '" + this.txtMale.Text + "' is Invalid.");
@@ -1161,6 +1143,13 @@ namespace AutoTourism.Lodge.WinForm
             Open = 10001,
             Closed = 10002,
             Canceled = 10003
+        }
+
+        private void SetDefault()
+        {
+            //set default date format
+            this.dtFrom.Format = DateTimePickerFormat.Custom;
+            this.dtFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
         }
        
     }

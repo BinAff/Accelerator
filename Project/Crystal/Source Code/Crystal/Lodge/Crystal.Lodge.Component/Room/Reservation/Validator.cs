@@ -25,8 +25,8 @@ namespace Crystal.Lodge.Component.Room.Reservation
             if (data.NoOfDays == 0)
                 retMsg.Add(new Message("No of days cannot be 0.", Message.Type.Error));
 
-            if (data.NoOfPersons == 0)
-                retMsg.Add(new Message("No of persons cannot be 0.", Message.Type.Error));
+            //if (data.NoOfPersons == 0)
+            //    retMsg.Add(new Message("No of persons cannot be 0.", Message.Type.Error));
 
             if (data.NoOfRooms == 0)
                 retMsg.Add(new Message("No of rooms cannot be 0.", Message.Type.Error));

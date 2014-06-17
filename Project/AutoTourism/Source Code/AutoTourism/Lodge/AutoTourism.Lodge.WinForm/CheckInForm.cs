@@ -471,7 +471,7 @@ namespace AutoTourism.Lodge.WinForm
             dto.Reservation.BookingFrom = DateTime.Now;
 
             dto.Reservation.NoOfDays = Convert.ToInt16(this.txtDays.Text);
-            dto.Reservation.NoOfPersons = Convert.ToInt16(this.txtMale.Text);
+            //dto.Reservation.NoOfPersons = Convert.ToInt16(this.txtMale.Text);
             dto.Reservation.NoOfRooms = Convert.ToInt16(this.txtRooms.Text);
             //dto.Reservation.Advance = this.txtAdvance.Text.Trim() == String.Empty ? 0 : Convert.ToDouble(this.txtAdvance.Text.Replace(",", ""));
             dto.Reservation.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<RoomFac.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
@@ -775,7 +775,7 @@ namespace AutoTourism.Lodge.WinForm
             }
 
             this.txtDays.Text = dto.Reservation.NoOfDays.ToString();
-            this.txtMale.Text = dto.Reservation.NoOfPersons.ToString();
+            //this.txtMale.Text = dto.Reservation.NoOfPersons.ToString();
             this.txtRooms.Text = dto.Reservation.NoOfRooms.ToString();
             //this.txtAdvance.Text = dto.Reservation.Advance == 0 ? String.Empty : dto.Reservation.Advance.ToString();
 
@@ -975,9 +975,9 @@ namespace AutoTourism.Lodge.WinForm
             {
                 Id = roomReservationRegisterDto.Id,
                 NoOfDays = roomReservationRegisterDto.NoOfDays,
-                NoOfPersons = roomReservationRegisterDto.NoOfPersons,
+                //NoOfPersons = roomReservationRegisterDto.NoOfPersons,
                 NoOfRooms = roomReservationRegisterDto.NoOfRooms,
-                Advance = roomReservationRegisterDto.Advance,
+                //Advance = roomReservationRegisterDto.Advance,
                 RoomCategory = roomReservationRegisterDto.RoomCategory,
                 RoomType = roomReservationRegisterDto.RoomType,
                 ACPreference = roomReservationRegisterDto.ACPreference,

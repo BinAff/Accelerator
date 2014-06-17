@@ -375,6 +375,11 @@ namespace AutoTourism.Customer.Facade
                     MiddleName = ((CustCrys.Data)data).MiddleName,
                     LastName = ((CustCrys.Data)data).LastName,
                     Address = ((CustCrys.Data)data).Address,
+                    Country = ((CustCrys.Data)data).Country == null ? null : new Table()
+                    {
+                        Id = ((CustCrys.Data)data).Country.Id,
+                        Name = ((CustCrys.Data)data).Country.Name,
+                    },
                     State = ((CustCrys.Data)data).State == null ? null : new Table()
                     {
                         Id = ((CustCrys.Data)data).State.Id,
