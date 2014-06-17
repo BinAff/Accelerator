@@ -67,10 +67,10 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             {
                 Id = data.Id,
                 NoOfDays = reservation.NoOfDays,
-                NoOfPersons = reservation.NoOfPersons,
+                //NoOfPersons = reservation.NoOfPersons,
                 NoOfRooms = reservation.NoOfRooms,
                 BookingFrom = reservation.ActivityDate,
-                Advance = reservation.Advance,                
+                //Advance = reservation.Advance,                
                 BookingStatusId = reservation.Status == null ? 0 : reservation.Status.Id,
                 RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList),
                 RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
@@ -89,9 +89,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             {
                 Id = dto.Id,
                 NoOfDays = reservation.NoOfDays,
-                NoOfPersons = reservation.NoOfPersons,
+                //NoOfPersons = reservation.NoOfPersons,
                 NoOfRooms = reservation.NoOfRooms,
-                Advance = reservation.Advance,
+                //Advance = reservation.Advance,
                 ActivityDate = reservation.BookingFrom,
                 Date = DateTime.Now,
                 ProductList = reservation.RoomList == null ? null : GetRoomDataList(reservation.RoomList),
@@ -174,6 +174,11 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 Pin = dto.Customer.Pin,
                 Email = dto.Customer.Email,
                 IdentityProof = dto.Customer.IdentityProofName == null ? String.Empty : dto.Customer.IdentityProofName,
+                Country = dto.Customer.Country == null ? null : new Crystal.Configuration.Component.Country.Data
+                {
+                    Id = dto.Customer.Country.Id,
+                    Name = dto.Customer.Country.Name
+                },
                 State = dto.Customer.State == null ? null : new Crystal.Configuration.Component.State.Data
                 {
                     Id = dto.Customer.State.Id,
@@ -447,9 +452,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             {
                 BookingFrom = reservationDto.BookingFrom,
                 NoOfDays = reservationDto.NoOfDays,
-                NoOfPersons = reservationDto.NoOfPersons,
+                //NoOfPersons = reservationDto.NoOfPersons,
                 NoOfRooms = reservationDto.NoOfRooms,
-                Advance = reservationDto.Advance,
+                //Advance = reservationDto.Advance,
                 BookingStatusId = reservationDto.BookingStatusId,
                 RoomCategory = reservationDto.RoomCategory == null ? null : new Table
                 {

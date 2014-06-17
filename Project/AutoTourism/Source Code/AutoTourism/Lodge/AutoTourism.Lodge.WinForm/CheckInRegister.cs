@@ -189,7 +189,7 @@ namespace AutoTourism.Lodge.WinForm
             //populate reservation data
             txtFromDate.Text = dto.StartDate.ToString();//
             txtDays.Text = dto.Reservation.NoOfDays == 0 ? String.Empty : dto.Reservation.NoOfDays.ToString();
-            txtPersons.Text = dto.Reservation.NoOfPersons == 0 ? String.Empty : dto.Reservation.NoOfPersons.ToString();
+            //txtPersons.Text = dto.Reservation.NoOfPersons == 0 ? String.Empty : dto.Reservation.NoOfPersons.ToString();
             txtRooms.Text = dto.Reservation.NoOfRooms == 0 ? String.Empty : dto.Reservation.NoOfRooms.ToString();
             txtAdvance.Text = dto.Advance == 0 ? String.Empty : Converter.ConvertToIndianCurrency(dto.Advance);
             lstRooms.DataSource = dto.Reservation.RoomList;

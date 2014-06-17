@@ -54,7 +54,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return new CrystalLodge.Room.CheckIn.Data
             {
                 Id = dto.Id,
-                Advance = checkIn.Reservation.Advance,
+                //Advance = checkIn.Reservation.Advance,
                 Reservation = new RoomReservation.ReservationServer(null).Convert(checkIn.Reservation) as CrystalLodge.Room.Reservation.Data,
                 ActivityDate = checkIn.Date,
                 Status = new CrystalCustomer.Action.Status.Data
@@ -78,10 +78,10 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 {
                     Id = reservation.Id,
                     NoOfDays = reservation.NoOfDays,
-                    NoOfPersons = reservation.NoOfPersons,
+                    //NoOfPersons = reservation.NoOfPersons,
                     NoOfRooms = reservation.NoOfRooms,
                     BookingFrom = reservation.ActivityDate,
-                    Advance = reservation.Advance,
+                    //Advance = reservation.Advance,
                     BookingStatusId = reservation.Status.Id,
                     RoomList = reservation.ProductList == null ? null : new LodgeFacade.RoomReservation.ReservationServer(null).GetRoomDtoList(reservation.ProductList),
                     RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
@@ -512,7 +512,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             ////////////////////////////////////////////////////////////////////////////////////////////
 
             //InvFac.Dto invoiceDto = new InvFac.Dto();
-            invoiceDto.advance = dto.Reservation.Advance;
+            //invoiceDto.advance = dto.Reservation.Advance;
             invoiceDto.buyer = dto.Reservation.Customer == null ? null : new InvFac.Buyer.Dto
             {
                 Name = dto.Reservation.Customer.Name,
