@@ -1290,23 +1290,41 @@ namespace Vanilla.Utility.WinForm
         {
             Boolean retVal = true;
 
-            String Msg = "Are you sure you want to delete ";
-            Msg += this.currentArtifact.Style == ArtfFac.Type.Document ? "Document" : "Folder" ;
-            Msg += ", " + this.currentArtifact.FileName + "?";
+            String artifact = String.Empty;
+            switch (this.currentArtifact.Style)
+            {
+                case ArtfFac.Type.Document:
+                    switch (this.currentArtifact.Category)
+                    {
+                        case ArtfFac.Category.Form:
+                            artifact = "form";
+                            break;
+                        case ArtfFac.Category.Report:
+                            artifact = "report";
+                            break;
+                    }
+                    break;
+                case ArtfFac.Type.Folder:
+                    artifact = "folder";
+                    break;
+            }
 
+            String Msg = String.Format("Are you sure you want to delete {0}: {1}?", artifact, this.currentArtifact.FullFileName);
 
-            DialogResult dialogResult = MessageBox.Show(Msg, "Delete", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show(this, Msg, "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
                 if (this.currentArtifact.Style == ArtfFac.Type.Document)
                     retVal = this.DeleteDocument(this.currentArtifact);
+                //else
+                //    retVal = this.DeleteFolder(this.currentArtifact, true);
 
                 if (!retVal)
                 {
                     new PresLib.MessageBox
                     {
                         DialogueType = PresLib.MessageBox.Type.Error,
-                        Heading = "Splash",
+                        Heading = "Navigator",
                     }.Show("Document contains transactional information. Cannot be deleted.");
                 }
                 else
@@ -1318,8 +1336,6 @@ namespace Vanilla.Utility.WinForm
                     Facade.Artifact.Dto parentArtifact = new ArtfFac.Server(new ArtfFac.FormDto()).GetParentArtifact(this.currentArtifact);
                     this.lsvContainer.AttachChildren(parentArtifact, isDocumentFirst);
                 }
-
-
             }
             else if (dialogResult == DialogResult.No)
             {
