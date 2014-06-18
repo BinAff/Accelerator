@@ -64,11 +64,13 @@ namespace Vanilla.Utility.WinForm
         public Document()
         {
             InitializeComponent();
+            if (DesignMode) return;
             this.Compose();
         }
 
         private void Document_Shown(object sender, EventArgs e)
         {
+            if (DesignMode) return;
             if (this.Artifact == null || this.Artifact.Id == 0)
             {
                 this.isNewDocument = true;
