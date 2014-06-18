@@ -387,12 +387,6 @@ namespace AutoTourism.Lodge.WinForm
                     this.lstContact.SelectedIndex = -1;
                     this.txtAdds.Text = dto.Customer.Address;
                     this.txtEmail.Text = dto.Customer.Email;
-
-                    ////populating customer in refresh dto
-                    //if (this.refreshDto != null)
-                    //{
-                    //    this.refreshDto.Customer = reservation.CloneCustomer(dto.Customer);
-                    //}
                 }
 
                 //populate booking data
@@ -401,8 +395,7 @@ namespace AutoTourism.Lodge.WinForm
                     dtFrom.Value = dto.BookingFrom;
                     dtFromTime.Value = dto.BookingFrom;
                 }
-                this.txtDays.Text = dto.NoOfDays == 0 ? String.Empty : dto.NoOfDays.ToString();
-                //this.txtMale.Text = dto.NoOfPersons == 0 ? String.Empty : dto.NoOfPersons.ToString();
+                this.txtDays.Text = dto.NoOfDays == 0 ? String.Empty : dto.NoOfDays.ToString();           
                 this.txtRooms.Text = dto.NoOfRooms == 0 ? String.Empty : dto.NoOfRooms.ToString();
                 //this.txtAdvance.Text = dto.Advance == 0 ? String.Empty : Converter.ConvertToIndianCurrency(dto.Advance);
                 this.cboSelectedRoom.DataSource = dto.RoomList;
@@ -449,6 +442,20 @@ namespace AutoTourism.Lodge.WinForm
                     txtStatus.Text = "Cancel";
                     this.btnCancelOpen.Text = "N";
                     this.btnCancelOpen.ToolTipText = "Reopen";
+                }
+                               
+                this.txtMale.Text = dto.NoOfMale == 0 ? String.Empty : dto.NoOfMale.ToString();
+                this.txtFemale.Text = dto.NoOfFemale == 0 ? String.Empty : dto.NoOfFemale.ToString();
+                this.txtChild.Text = dto.NoOfChild == 0 ? String.Empty : dto.NoOfChild.ToString();
+                this.txtInfant.Text = dto.NoOfInfant == 0 ? String.Empty : dto.NoOfInfant.ToString();
+                this.txtRemarks.Text = dto.Remark.ToString();
+               
+                if (dto.RoomList != null && dto.RoomList.Count > 0)
+                {
+                    this.cboSelectedRoom.DataSource = dto.RoomList;
+                    this.cboSelectedRoom.DisplayMember = "Number";
+                    this.cboSelectedRoom.ValueMember = "Id";
+                    this.cboSelectedRoom.SelectedIndex = -1;
                 }
             }
         }
@@ -1094,8 +1101,7 @@ namespace AutoTourism.Lodge.WinForm
             if (formDto.roomList != null && formDto.roomList.Count > 0)
             {
                 filteredRoomList = reservation.FilterRoomList(formDto.roomList, 0, 0, 0);
-                this.totalRooms = filteredRoomList.Count;
-                //lblTotalRoomsLodge.Text = "Total Rooms : = " + filteredRoomList.Count.ToString();
+                this.totalRooms = filteredRoomList.Count;              
 
                 filteredRoomList = reservation.FilterRoomList(formDto.roomList, roomCategoryId, roomTypeId, acPreference);
                 if (filteredRoomList != null)
@@ -1106,14 +1112,10 @@ namespace AutoTourism.Lodge.WinForm
             if (IsNoOfDaysExists())
             {
                 Int64 reservationId = formDto.Dto == null ? 0 : formDto.Dto.Id;
-                this.totalBookings = reservation.GetReservedRoomList(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId);
-                //txtTotalBooking.Text = this.totalBookings.ToString();
+                this.totalBookings = reservation.GetReservedRoomList(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId);             
 
                 filteredTotalBookedRoomCount = reservation.GetReservedRoomList(dtFrom.Value, dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)), reservationId, roomCategoryId, roomTypeId, acPreference);
-                //lblTotalBookedRoomCount.Text = "Total no of rooms booked for the selected category, type and AC preference from " +
-                //    dtFrom.Value.ToShortDateString() + " and " + dtFrom.Value.AddDays(Convert.ToInt32(txtDays.Text)).ToShortDateString() + " = " +
-                //    TotalRoomsBookedWithMatchingCategoryTypeAndACPreference.ToString();
-
+             
                 availableRoomCount = filteredTotalRoomCount - filteredTotalBookedRoomCount;
                 Int32 totalAvailableRooms = this.totalRooms - this.totalBookings;
                 this.availableRooms = (availableRoomCount > totalAvailableRooms) ? totalAvailableRooms : availableRoomCount;
@@ -1125,8 +1127,7 @@ namespace AutoTourism.Lodge.WinForm
 
             }
             else
-            {
-                //lblTotalBookedRoomCount.Text = String.Empty;
+            {                
                 txtFilteredAvailableRoomCount.Text = String.Empty;
                 this.availableRooms = 0;
             }

@@ -218,7 +218,7 @@
             this.txtMale.MaxLength = 3;
             this.txtMale.Name = "txtMale";
             this.txtMale.Size = new System.Drawing.Size(32, 20);
-            this.txtMale.TabIndex = 12;
+            this.txtMale.TabIndex = 8;
             // 
             // txtRooms
             // 
@@ -245,7 +245,7 @@
             this.cboRoomList.Location = new System.Drawing.Point(8, 19);
             this.cboRoomList.Name = "cboRoomList";
             this.cboRoomList.Size = new System.Drawing.Size(111, 111);
-            this.cboRoomList.TabIndex = 8;
+            this.cboRoomList.TabIndex = 13;
             this.cboRoomList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cboRoomList_MouseDoubleClick);
             // 
             // cboSelectedRoom
@@ -255,7 +255,7 @@
             this.cboSelectedRoom.Location = new System.Drawing.Point(174, 19);
             this.cboSelectedRoom.Name = "cboSelectedRoom";
             this.cboSelectedRoom.Size = new System.Drawing.Size(107, 111);
-            this.cboSelectedRoom.TabIndex = 10;
+            this.cboSelectedRoom.TabIndex = 16;
             this.cboSelectedRoom.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cboSelectedRoom_MouseDoubleClick);
             // 
             // btnAddRoom
@@ -264,7 +264,7 @@
             this.btnAddRoom.Location = new System.Drawing.Point(131, 53);
             this.btnAddRoom.Name = "btnAddRoom";
             this.btnAddRoom.Size = new System.Drawing.Size(32, 22);
-            this.btnAddRoom.TabIndex = 9;
+            this.btnAddRoom.TabIndex = 14;
             this.btnAddRoom.Text = "►";
             this.btnAddRoom.UseVisualStyleBackColor = true;
             this.btnAddRoom.Click += new System.EventHandler(this.btnAddRoom_Click);
@@ -275,7 +275,7 @@
             this.btnRemoveRoom.Location = new System.Drawing.Point(131, 81);
             this.btnRemoveRoom.Name = "btnRemoveRoom";
             this.btnRemoveRoom.Size = new System.Drawing.Size(32, 22);
-            this.btnRemoveRoom.TabIndex = 11;
+            this.btnRemoveRoom.TabIndex = 15;
             this.btnRemoveRoom.Text = "◄";
             this.btnRemoveRoom.UseVisualStyleBackColor = true;
             this.btnRemoveRoom.Click += new System.EventHandler(this.btnRemoveRoom_Click);
@@ -409,7 +409,7 @@
             this.txtFemale.MaxLength = 3;
             this.txtFemale.Name = "txtFemale";
             this.txtFemale.Size = new System.Drawing.Size(32, 20);
-            this.txtFemale.TabIndex = 13;
+            this.txtFemale.TabIndex = 9;
             // 
             // label10
             // 
@@ -426,7 +426,7 @@
             this.txtChild.MaxLength = 3;
             this.txtChild.Name = "txtChild";
             this.txtChild.Size = new System.Drawing.Size(32, 20);
-            this.txtChild.TabIndex = 14;
+            this.txtChild.TabIndex = 10;
             // 
             // label11
             // 
@@ -443,7 +443,7 @@
             this.txtInfant.MaxLength = 3;
             this.txtInfant.Name = "txtInfant";
             this.txtInfant.Size = new System.Drawing.Size(32, 20);
-            this.txtInfant.TabIndex = 15;
+            this.txtInfant.TabIndex = 11;
             // 
             // label3
             // 
@@ -496,7 +496,7 @@
             this.txtRemarks.Multiline = true;
             this.txtRemarks.Name = "txtRemarks";
             this.txtRemarks.Size = new System.Drawing.Size(447, 50);
-            this.txtRemarks.TabIndex = 19;
+            this.txtRemarks.TabIndex = 12;
             // 
             // txtReservationNo
             // 

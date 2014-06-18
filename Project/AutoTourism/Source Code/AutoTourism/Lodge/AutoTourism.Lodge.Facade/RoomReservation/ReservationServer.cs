@@ -78,7 +78,12 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 //IsAC = reservation.IsAC,
                 ACPreference = reservation.ACPreference,
                 BookingDate = reservation.Date,
-                isCheckedIn = reservation.IsCheckedIn               
+                isCheckedIn = reservation.IsCheckedIn,
+                NoOfMale = reservation.NoOfMale,
+                NoOfFemale = reservation.NoOfFemale,
+                NoOfChild = reservation.NoOfChild,
+                NoOfInfant = reservation.NoOfInfant,
+                Remark = reservation.Remark
             };
         }
 
@@ -103,7 +108,12 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 Description = String.Empty,//description will be added later if required
                 RoomCategory = reservation.RoomCategory == null ? null : new LodgeCrys.Room.Category.Data { Id = reservation.RoomCategory.Id },
                 RoomType = reservation.RoomType == null ? null : new LodgeCrys.Room.Type.Data { Id = reservation.RoomType.Id },
-                ACPreference = reservation.ACPreference
+                ACPreference = reservation.ACPreference,
+                NoOfMale = reservation.NoOfMale,
+                NoOfFemale = reservation.NoOfFemale,
+                NoOfChild = reservation.NoOfChild,
+                NoOfInfant = reservation.NoOfInfant,
+                Remark = reservation.Remark
             };
         }
 
