@@ -32,12 +32,10 @@ namespace Crystal.Lodge.Component.Room.Reservation
         protected override void AssignParameter(String procedureName)
         {
             base.AssignParameter(procedureName);
-            base.AddInParameter("@NoOfDays", DbType.Int16, ((Data)this.Data).NoOfDays);
-            base.AddInParameter("@NoOfPersons", DbType.Int16, ((Data)this.Data).NoOfPersons);
+            base.AddInParameter("@NoOfDays", DbType.Int16, ((Data)this.Data).NoOfDays);          
             base.AddInParameter("@NoOfRooms", DbType.Int16, ((Data)this.Data).NoOfRooms);
             base.AddInParameter("@Description", DbType.String, ((Data)this.Data).Description);
-            base.AddInParameter("@Advance", DbType.Double, ((Data)this.Data).Advance);
-
+        
             if (((Data)this.Data).RoomCategory != null && ((Data)this.Data).RoomCategory.Id > 0)
                 base.AddInParameter("@RoomCategoryId", DbType.Int64,((Data)this.Data).RoomCategory.Id);
 
@@ -45,6 +43,12 @@ namespace Crystal.Lodge.Component.Room.Reservation
                 base.AddInParameter("@RoomTypeId", DbType.Int64, ((Data)this.Data).RoomType.Id);
 
             base.AddInParameter("@ACPreference", DbType.Int16, ((Data)this.Data).ACPreference);
+
+            base.AddInParameter("@NoOfMale", DbType.Int16, ((Data)this.Data).NoOfMale);
+            base.AddInParameter("@NoOfFemale", DbType.Int16, ((Data)this.Data).NoOfFemale);
+            base.AddInParameter("@NoOfChild", DbType.Int16, ((Data)this.Data).NoOfChild);
+            base.AddInParameter("@NoOfInfant", DbType.Int16, ((Data)this.Data).NoOfInfant);
+            base.AddInParameter("@Remark", DbType.String, ((Data)this.Data).Remark);
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
@@ -55,15 +59,20 @@ namespace Crystal.Lodge.Component.Room.Reservation
             dt.Date = Convert.IsDBNull(dr["CreatedDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CreatedDate"]);           
             dt.ActivityDate = Convert.IsDBNull(dr["BookingFrom"]) ? DateTime.MinValue : Convert.ToDateTime(dr["BookingFrom"]);                       
             dt.NoOfDays = Convert.ToInt16(dr["NoOfDays"]);
-            dt.NoOfPersons = Convert.ToInt16(dr["NoOfPersons"]);
+            //dt.NoOfPersons = Convert.ToInt16(dr["NoOfPersons"]);
             dt.NoOfRooms = Convert.ToInt16(dr["NoOfRooms"]);
             dt.Description = Convert.IsDBNull(dr["Description"]) ? String.Empty : Convert.ToString(dr["Description"]);
-            dt.Advance = Convert.IsDBNull(dr["Advance"]) ? 0 : Convert.ToDouble(dr["Advance"]);
+            //dt.Advance = Convert.IsDBNull(dr["Advance"]) ? 0 : Convert.ToDouble(dr["Advance"]);
             dt.Date = Convert.IsDBNull(dr["CreatedDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CreatedDate"]);
             dt.IsCheckedIn = Convert.ToBoolean(dr["IsCheckedIn"]);
             dt.RoomCategory = Convert.IsDBNull(dr["RoomCategoryId"]) ? null : new Category.Data { Id = Convert.ToInt64(dr["RoomCategoryId"]) };
             dt.RoomType = Convert.IsDBNull(dr["RoomTypeId"]) ? null : new Type.Data { Id = Convert.ToInt64(dr["RoomTypeId"]) };
-            dt.ACPreference = Convert.IsDBNull(dr["AcRoomPreference"]) ? 0 :  Convert.ToInt32(dr["AcRoomPreference"]) ;            
+            dt.ACPreference = Convert.IsDBNull(dr["AcRoomPreference"]) ? 0 :  Convert.ToInt32(dr["AcRoomPreference"]) ;
+            dt.NoOfMale = Convert.IsDBNull(dr["NoOfMale"]) ? 0 : Convert.ToInt32(dr["NoOfMale"]);
+            dt.NoOfFemale = Convert.IsDBNull(dr["NoOfFemale"]) ? 0 : Convert.ToInt32(dr["NoOfFemale"]);
+            dt.NoOfChild = Convert.IsDBNull(dr["NoOfChild"]) ? 0 : Convert.ToInt32(dr["NoOfChild"]);
+            dt.NoOfInfant = Convert.IsDBNull(dr["NoOfInfant"]) ? 0 : Convert.ToInt32(dr["NoOfInfant"]);
+            dt.Remark = Convert.IsDBNull(dr["Remark"]) ? String.Empty : dr["Remark"].ToString(); 
             
             return dt;
         }
