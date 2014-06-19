@@ -83,7 +83,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 NoOfFemale = reservation.NoOfFemale,
                 NoOfChild = reservation.NoOfChild,
                 NoOfInfant = reservation.NoOfInfant,
-                Remark = reservation.Remark
+                Remark = reservation.Remark,
+                ReservationNo = reservation.ReservationNo
             };
         }
 
@@ -298,7 +299,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         }
 
-        private ReturnObject<Boolean> UpdateReservationStatus()
+        public ReturnObject<Boolean> ChangeReservationStatus()
         {
             Dto reservationDto = (this.FormDto as FormDto).Dto as Dto;
 
@@ -332,13 +333,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             (this.FormDto as FormDto).ModuleFormDto.Dto = reservationModuleDto;
             Vanilla.Utility.Facade.Module.Server moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto);
             moduleFacade.Add();                       
-        }
+        }        
         
-        ReturnObject<Boolean> IReservation.ChangeReservationStatus()
-        {
-            return this.UpdateReservationStatus();
-        }
-
         ReturnObject<List<LodgeConfigFac.Room.Dto>> IReservation.GetBookedRooms(DateTime startDate, DateTime endDate)
         {
             Crystal.Customer.Component.Action.IAction reservation = new Crystal.Lodge.Component.Room.Reservation.Server(null);
@@ -609,9 +605,12 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data, Crystal.Lodge.Component";
         }
 
-        public override ReturnObject<bool> ValidateDelete(Data moduleData)
+        public override ReturnObject<bool> ValidateDelete(Data data)
         {
-            RoomRsvCrys.Server server = new RoomRsvCrys.Server(new RoomRsvCrys.Data { Id = moduleData.Id });
+            Int64 ArtifactId = data.Id;
+            Int64 ReservationId = this.ReadReservationId(ArtifactId);
+
+            RoomRsvCrys.Server server = new RoomRsvCrys.Server(new RoomRsvCrys.Data { Id = ReservationId });
 
             BinAff.Core.Observer.IRegistrar reg = new Crystal.Lodge.Observer.RoomReservation();
             ReturnObject<Boolean> ret = reg.Register(server);
@@ -622,7 +621,10 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return notify;            
         }
 
-
+        private Int64 ReadReservationId(Int64 ArtifactId)
+        {
+            return 127;
+        }
 
         //-- RoomStaus ID is mapped with database table RoomReservationStatus
         public enum RoomStatus

@@ -23,6 +23,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
         public Int32 NoOfChild { get; set; }
         public Int32 NoOfInfant { get; set; }
         public String Remark { get; set; }
+        public String ReservationNo { get; set; }
     }
 
 }

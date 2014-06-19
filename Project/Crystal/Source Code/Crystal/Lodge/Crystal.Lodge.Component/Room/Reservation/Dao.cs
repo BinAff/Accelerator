@@ -110,6 +110,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
         protected override Boolean ReadAfter()
         {
             Data data = this.Data as Data;
+            data.ReservationNo = this.ReadReservationNo(data.Id);
 
             this.CreateCommand("[Lodge].[RoomReservationDetailsRead]");     
             this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
@@ -132,6 +133,11 @@ namespace Crystal.Lodge.Component.Room.Reservation
             }
 
             return true;
+        }
+
+        private String ReadReservationNo(Int64 reservationId)
+        {
+            return "Res-" + reservationId.ToString();
         }
 
         private Boolean InsertRoomList()
