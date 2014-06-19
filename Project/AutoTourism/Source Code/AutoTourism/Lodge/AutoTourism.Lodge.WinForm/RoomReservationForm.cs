@@ -136,24 +136,24 @@ namespace AutoTourism.Lodge.WinForm
         }
 
         private void btnCancelOpen_Click(object sender, EventArgs e)
-        {
-            //if (this.formDto != null && this.formDto.Dto != null)
-            //{
-            //    Status status = btnCancelOpen.Text == "Cancel" ? Status.Canceled : Status.Open;
+        { 
+            if (this.formDto != null && this.formDto.Dto != null)
+            {
+                Fac.Dto dto = this.formDto.Dto as Fac.Dto;
 
-            //    //validation required when re-opening a room
-            //    Boolean isOpenCancel = !(status == Status.Open && !this.ValidateBooking());
+                Status status = txtStatus.Text == "Cancel" ? Status.Canceled : Status.Open;
+                //validation required when re-opening a room
+                Boolean isOpenCancel = !(status == Status.Open && !this.ValidateForm());
 
-            //    if (isOpenCancel)
-            //    {
-            //        Fac.IReservation reservation = new Fac.ReservationServer(this.formDto);
-            //        reservation.ChangeReservationStatus();
-            //        this.formDto.Dto.BookingStatusId = Convert.ToInt64(status);
-            //        this.dto.BookingStatusId = this.formDto.Dto.BookingStatusId;
-            //        base.IsModified = true;
-            //        this.Close();
-            //    }                
-            //}
+                if (isOpenCancel)
+                {     
+                    dto.BookingStatusId = (txtStatus.Text == "Cancel") ?  Convert.ToInt64(Status.Open) : Convert.ToInt64(Status.Canceled);
+                    (this.facade as Fac.ReservationServer).ChangeReservationStatus();                    
+                  
+                    base.IsModified = true;
+                    this.Close();
+                }
+            }
         }
 
         private void cboCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -449,6 +449,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.txtChild.Text = dto.NoOfChild == 0 ? String.Empty : dto.NoOfChild.ToString();
                 this.txtInfant.Text = dto.NoOfInfant == 0 ? String.Empty : dto.NoOfInfant.ToString();
                 this.txtRemarks.Text = dto.Remark.ToString();
+                this.txtReservationNo.Text = dto.ReservationNo;
                
                 if (dto.RoomList != null && dto.RoomList.Count > 0)
                 {
@@ -477,11 +478,15 @@ namespace AutoTourism.Lodge.WinForm
 
             this.dtFrom.Enabled = false;
             this.dtFromTime.Enabled = false;
-            this.txtDays.Enabled = false;
-            this.txtMale.Enabled = false;
-            this.txtRooms.Enabled = false;
-            //this.txtAdvance.Enabled = false;
-                        
+            this.txtDays.ReadOnly = true;
+            this.txtMale.ReadOnly = true;
+            this.txtFemale.ReadOnly = true;
+            this.txtChild.ReadOnly = true;
+            this.txtInfant.ReadOnly = true;
+            this.txtRemarks.ReadOnly = true;
+
+            this.txtRooms.ReadOnly = true;
+                                   
             this.cboRoomList.Enabled = false;
             this.cboSelectedRoom.Enabled = false;
             this.cboAC.Enabled = false;

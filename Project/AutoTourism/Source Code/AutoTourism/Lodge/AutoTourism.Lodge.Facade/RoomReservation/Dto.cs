@@ -27,6 +27,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public Int32 NoOfChild { get; set; }
         public Int32 NoOfInfant { get; set; }
         public String Remark { get; set; }
+        public String ReservationNo { get; set; }
 
         public Int64 BookingStatusId { get; set; }
         public Boolean isCheckedIn { get; set; }        

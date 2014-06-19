@@ -265,7 +265,7 @@ namespace Vanilla.Utility.Facade.Artifact
                     data = retVal.Value.ComponentData;
             }
             else
-                data = new Data { Id = moduleDef.Id };
+                data = new Data { Id = formDto.Dto.Id }; // set the artifactId
 
             ReturnObject<Boolean> ret = this.ModuleFacade.ValidateDelete(data);
            
