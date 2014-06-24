@@ -533,6 +533,11 @@ namespace Vanilla.Invoice.Facade
             return "Crystal.Invoice.Component.Navigator.Artifact.Data, Crystal.Invoice.Component";
         }
 
+        public override string GetComponentCode()
+        {
+            return "INVO";
+        }
+
         private List<BinAff.Core.Data> ConvertTaxList(List<Taxation.Dto> taxList)
         {
             List<BinAff.Core.Data> taxLst = new List<Data>();

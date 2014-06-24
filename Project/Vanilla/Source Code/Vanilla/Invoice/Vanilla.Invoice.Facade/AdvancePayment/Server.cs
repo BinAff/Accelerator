@@ -172,6 +172,11 @@ namespace Vanilla.Invoice.Facade.AdvancePayment
         {
             throw new NotImplementedException();
         }
+        
+        public override String GetComponentCode()
+        {
+            return "APMT"; //Not in database
+        }
 
     }
 

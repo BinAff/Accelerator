@@ -21,7 +21,6 @@ namespace AutoTourism.Customer.WinForm
 
         private ConfRuleFac.CustomerRuleDto customerRule;
         private Boolean isLoadedFromRoomReservationForm = false;
-        //private System.Windows.Forms.TreeView trvForm;
 
         #region Rule property
 
@@ -96,13 +95,6 @@ namespace AutoTourism.Customer.WinForm
         #endregion
 
         #region Constructor
-
-        //public CustomerForm(System.Windows.Forms.TreeView trvForm)
-        //{
-        //    InitializeComponent();
-        //    this.isLoadedFromRoomReservationForm = true;
-        //    this.trvForm = trvForm;
-        //}
 
         public CustomerForm(ArtfFac.Dto artifact)
             : base(artifact)
@@ -297,7 +289,6 @@ namespace AutoTourism.Customer.WinForm
                 ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto(),
             };            
             base.facade = new CustFac.Server(base.formDto as Facade.FormDto);
-            base.ComponentCode = "CUST";
         }
 
         protected override void LoadForm()
@@ -697,7 +688,6 @@ namespace AutoTourism.Customer.WinForm
 
         private Boolean SaveArtifact()
         {
-            //this.formDto.Document.Path = this.txtArtifactPath.Text;
             ArtfFac.Dto artifactDto = new ArtfFac.Dto
             {
                 Module = this.formDto.Dto,
@@ -716,19 +706,6 @@ namespace AutoTourism.Customer.WinForm
                 Path = this.formDto.Document.Path
             };
             new CustFac.Server(this.formDto as Facade.FormDto).SaveArtifactForCustomer(artifactDto);
-
-            //-Add artifact to customer node
-            //Int16 customerNodePosition = 0;
-            //for (int i = 0; i < this.trvForm.Nodes.Count; i++)
-            //{
-            //    if (this.trvForm.Nodes[i].Text == "Customer")
-            //    {
-            //        break;
-            //    }
-            //    customerNodePosition++;
-            //}
-            //(this.trvForm.Nodes[customerNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children.Add(artifactDto);
-            //artifactDto.Parent = this.trvForm.Nodes[customerNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto;
             return true;
         }
 

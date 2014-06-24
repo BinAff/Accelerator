@@ -31,5 +31,10 @@ namespace Vanilla.Utility.Facade.Document
             return (this.FormDto as FormDto).Dto;
         }
 
+        public virtual String GetComponentCode()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

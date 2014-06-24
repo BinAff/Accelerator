@@ -851,6 +851,11 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return productTaxList;
         }
 
+        public override string GetComponentCode()
+        {
+            return "LCHK";
+        }
+
         public enum CheckInStatus
         {
             CheckIn = 10001,

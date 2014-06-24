@@ -443,7 +443,7 @@ namespace AutoTourism.Customer.Facade
             return "AutoTourism.Component.Customer.Navigator.Artifact.Data, AutoTourism.Component.Customer";
         }
 
-        public override ReturnObject<bool> ValidateDelete(Data moduleData)
+        public override ReturnObject<Boolean> ValidateDelete(Data moduleData)
         {
             ReturnObject<bool> ret = new ReturnObject<bool> { Value = true };
 
@@ -469,6 +469,11 @@ namespace AutoTourism.Customer.Facade
             }
 
             return ret;
+        }
+
+        public override String GetComponentCode()
+        {
+            return "CUST";
         }
 
     }
