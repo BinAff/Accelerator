@@ -6,12 +6,15 @@ using BinAff.Core;
 using BinAff.Presentation.Library.Extension;
 
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using ModDefFac = Vanilla.Utility.Facade.Module.Definition;
 
 namespace Vanilla.Utility.WinForm
 {
 
     public partial class Dialog : Form
     {
+
+        public Boolean IsActionDone { get; protected set; }
 
         public ArtfFac.Category Category
         {
@@ -24,6 +27,8 @@ namespace Vanilla.Utility.WinForm
                 this.ucRegister.Category = value;
             }
         }
+
+        public ModDefFac.Dto ModuleForFilter { get; set; }
 
         public ArtfFac.Dto Document { get; protected internal set; }
 
@@ -52,6 +57,7 @@ namespace Vanilla.Utility.WinForm
         {
             this.btnAction.Text = this.SetActionName();
             this.ucRegister.Category = this.Category;
+            this.ucRegister.TreeFilter = this.ModuleForFilter;
             this.ucRegister.DocumentClicked += ucRegister_DocumentClicked;
 
             this.cboExtension.DisplayMember = "Name";

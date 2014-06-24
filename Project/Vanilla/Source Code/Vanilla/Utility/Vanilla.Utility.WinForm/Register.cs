@@ -23,6 +23,10 @@ namespace Vanilla.Utility.WinForm
 
         public DialogueMode DialogueMode { get; set; }
 
+        public ArtfFac.Category Category { get; set; }
+
+        public ModDefFac.Dto TreeFilter { get; set; }
+
         /// <summary>
         /// Selected document or folder
         /// </summary>
@@ -79,8 +83,6 @@ namespace Vanilla.Utility.WinForm
                 }
             }
         }
-
-        public ArtfFac.Category Category { get; set; }
 
         #region Exposed events
 
@@ -1632,26 +1634,29 @@ namespace Vanilla.Utility.WinForm
         private void LoadModules(String currentTab)
         {
             TreeView current = new TreeView();
-            TreeNode[] tree = new TreeNode[this.formDto.Dto.Modules.Count];
+            TreeNode[] tree = this.DialogueMode == WinForm.DialogueMode.None ? new TreeNode[this.formDto.Dto.Modules.Count] //Navigator view
+                : new TreeNode[1]; //Dialogue box view
             Int16 i = 0;
+            switch (currentTab)
+            {
+                case "Form": current = this.trvForm;
+                    break;
+                case "Catalogue": current = this.trvCatalogue;
+                    break;
+                case "Report": current = this.trvReport;
+                    break;
+                default: current = this.trvForm;
+                    break;
+            }
             foreach (ModFac.Dto module in this.formDto.Dto.Modules)
             {
-                switch (currentTab)
-                {
-                    case "Form": current = this.trvForm;
-                        break;
-                    case "Catalogue": current = this.trvCatalogue;
-                        break;
-                    case "Report": current = this.trvReport;
-                        break;
-                    default: current = this.trvForm;
-                        break;
-                }
+                if (this.DialogueMode != WinForm.DialogueMode.None && this.TreeFilter.Code != module.Code) continue;
                 tree[i] = this.trvForm.CreateTreeNodes(module.Artifact);
                 tree[i++].Tag = module;
             }
+            
             current.Nodes.Clear();
-            current.Nodes.AddRange(tree);
+            if (tree != null) current.Nodes.AddRange(tree);
         }
 
         private void SelectNode(String selectedNodePath)

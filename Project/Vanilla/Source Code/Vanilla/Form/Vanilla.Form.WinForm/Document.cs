@@ -10,6 +10,7 @@ using AccFac = Vanilla.Guardian.Facade.Account;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using DocFac = Vanilla.Utility.Facade.Document;
 using UtilWin = Vanilla.Utility.WinForm;
+using CacheWin = Vanilla.Utility.Facade.Cache;
 
 namespace Vanilla.Form.WinForm
 {
@@ -43,6 +44,8 @@ namespace Vanilla.Form.WinForm
                 this.btnAttach.ToolTipText += " " + value;
             }
         }
+
+        public String ComponentCode { get; protected set; }
         
         public delegate void OnArtifactSaved(ArtfFac.Dto document);
         public event OnArtifactSaved ArtifactSaved;
@@ -68,6 +71,11 @@ namespace Vanilla.Form.WinForm
             :this()
         {
             base.formDto.Document = artifact;
+            if (base.Artifact != null)
+            {
+                base.Artifact.ComponentDefinition = (BinAff.Facade.Cache.Server.Current.Cache["Main"] as CacheWin.Dto).ComponentDefinitionList.FindLast(
+                    (p) => { return p.Code == this.ComponentCode; });
+            }
         }
 
         private void Document_Shown(object sender, EventArgs e)

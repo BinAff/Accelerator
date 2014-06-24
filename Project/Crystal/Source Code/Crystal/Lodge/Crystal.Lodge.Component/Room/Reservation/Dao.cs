@@ -34,7 +34,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
             base.AssignParameter(procedureName);
             base.AddInParameter("@NoOfDays", DbType.Int16, ((Data)this.Data).NoOfDays);          
             base.AddInParameter("@NoOfRooms", DbType.Int16, ((Data)this.Data).NoOfRooms);
-            base.AddInParameter("@Description", DbType.String, ((Data)this.Data).Description);
+            //base.AddInParameter("@Description", DbType.String, ((Data)this.Data).Description);
         
             if (((Data)this.Data).RoomCategory != null && ((Data)this.Data).RoomCategory.Id > 0)
                 base.AddInParameter("@RoomCategoryId", DbType.Int64,((Data)this.Data).RoomCategory.Id);
@@ -61,7 +61,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
             dt.NoOfDays = Convert.ToInt16(dr["NoOfDays"]);
             //dt.NoOfPersons = Convert.ToInt16(dr["NoOfPersons"]);
             dt.NoOfRooms = Convert.ToInt16(dr["NoOfRooms"]);
-            dt.Description = Convert.IsDBNull(dr["Description"]) ? String.Empty : Convert.ToString(dr["Description"]);
+            //dt.Description = Convert.IsDBNull(dr["Description"]) ? String.Empty : Convert.ToString(dr["Description"]);
             //dt.Advance = Convert.IsDBNull(dr["Advance"]) ? 0 : Convert.ToDouble(dr["Advance"]);
             dt.Date = Convert.IsDBNull(dr["CreatedDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CreatedDate"]);
             dt.IsCheckedIn = Convert.ToBoolean(dr["IsCheckedIn"]);

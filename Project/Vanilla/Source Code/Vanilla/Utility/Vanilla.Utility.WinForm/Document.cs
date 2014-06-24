@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+using ModFac = Vanilla.Utility.Facade.Module;
+
 namespace Vanilla.Utility.WinForm
 {
 
@@ -82,9 +84,15 @@ namespace Vanilla.Utility.WinForm
                 if (saveDialogue != null)
                 {
                     saveDialogue.Document = this.formDto.Document;
+                    saveDialogue.ModuleForFilter = this.Artifact.ComponentDefinition;
                     saveDialogue.ShowDialog(this);
+                    if (saveDialogue.IsActionDone)
+                    {
+                        this.Visible = true;
+                        return;
+                    }
                 }
-                this.Visible = true;
+                this.Close(); //Save dialogue box didn't appear or closed
             }
         }
 
