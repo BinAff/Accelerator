@@ -36,6 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(635, 429);
             this.Name = "SaveDialog";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Save";
             this.Load += new System.EventHandler(this.SaveDialog_Load);
             this.ResumeLayout(false);
