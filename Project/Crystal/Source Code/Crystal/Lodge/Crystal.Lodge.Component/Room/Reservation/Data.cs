@@ -8,7 +8,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
     {
         public Int32 NoOfDays { get; set; }
         //public Int32 NoOfPersons { get; set; }
-        public Int32 NoOfRooms { get; set; }      
+        public Int32 NoOfRooms { get; set; }
         public String Description { get; set; }
         //public Double Advance { get; set; }
         public Boolean IsCheckedIn { get; set; }

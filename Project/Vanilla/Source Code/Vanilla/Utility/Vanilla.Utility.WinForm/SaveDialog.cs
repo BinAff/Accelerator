@@ -51,6 +51,7 @@ namespace Vanilla.Utility.WinForm
                 }
             };
             new Fac.Server(formDto).Add();
+            base.IsActionDone = true;
             //this.Document = formDto.Document;
         }
 
