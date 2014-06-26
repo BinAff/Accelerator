@@ -1012,7 +1012,8 @@ namespace AutoTourism.Lodge.WinForm
 
         private List<RoomFac.Dto> GetBookedRoomList(DateTime startDate, DateTime endDate)
         {
-            return (new LodgeFac.RoomReservation.ReservationServer(null) as LodgeFac.RoomReservation.IReservation).GetBookedRooms(startDate, endDate).Value;
+            //return (new LodgeFac.RoomReservation.ReservationServer(null) as LodgeFac.RoomReservation.IReservation).GetBookedRooms(startDate, endDate).Value;
+            return new List<RoomFac.Dto>();
         }
 
         private void LoadRoomReservationStatusLevels()

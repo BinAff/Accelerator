@@ -245,7 +245,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
             this.CloseConnection();
             return retVal;
         }
-
+       
     }
 
 }

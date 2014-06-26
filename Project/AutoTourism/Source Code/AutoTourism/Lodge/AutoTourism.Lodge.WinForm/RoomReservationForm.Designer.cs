@@ -49,7 +49,7 @@
             this.btnAddRoom = new System.Windows.Forms.Button();
             this.btnRemoveRoom = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.txtFilteredAvailableRoomCount = new System.Windows.Forms.TextBox();
+            this.txtAvailableRoomCount = new System.Windows.Forms.TextBox();
             this.txtFilteredRoomCount = new System.Windows.Forms.TextBox();
             this.lblAvailableRooms = new System.Windows.Forms.Label();
             this.lblTotalRooms = new System.Windows.Forms.Label();
@@ -294,14 +294,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preffered Room";
             // 
-            // txtFilteredAvailableRoomCount
+            // txtAvailableRoomCount
             // 
-            this.txtFilteredAvailableRoomCount.Location = new System.Drawing.Point(253, 19);
-            this.txtFilteredAvailableRoomCount.Name = "txtFilteredAvailableRoomCount";
-            this.txtFilteredAvailableRoomCount.ReadOnly = true;
-            this.txtFilteredAvailableRoomCount.Size = new System.Drawing.Size(32, 20);
-            this.txtFilteredAvailableRoomCount.TabIndex = 999;
-            this.txtFilteredAvailableRoomCount.TabStop = false;
+            this.txtAvailableRoomCount.Location = new System.Drawing.Point(253, 19);
+            this.txtAvailableRoomCount.Name = "txtAvailableRoomCount";
+            this.txtAvailableRoomCount.ReadOnly = true;
+            this.txtAvailableRoomCount.Size = new System.Drawing.Size(32, 20);
+            this.txtAvailableRoomCount.TabIndex = 999;
+            this.txtAvailableRoomCount.TabStop = false;
             // 
             // txtFilteredRoomCount
             // 
@@ -537,7 +537,7 @@
             // 
             this.groupBox4.Controls.Add(this.txtFilteredRoomCount);
             this.groupBox4.Controls.Add(this.lblTotalRooms);
-            this.groupBox4.Controls.Add(this.txtFilteredAvailableRoomCount);
+            this.groupBox4.Controls.Add(this.txtAvailableRoomCount);
             this.groupBox4.Controls.Add(this.lblAvailableRooms);
             this.groupBox4.Location = new System.Drawing.Point(551, 273);
             this.groupBox4.Name = "groupBox4";
@@ -656,7 +656,7 @@
         private System.Windows.Forms.Label lblAvailableRooms;
         private System.Windows.Forms.Label lblTotalRooms;
         private System.Windows.Forms.TextBox txtFilteredRoomCount;
-        private System.Windows.Forms.TextBox txtFilteredAvailableRoomCount;
+        private System.Windows.Forms.TextBox txtAvailableRoomCount;
         private System.Windows.Forms.TextBox txtStatus;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtInfant;
