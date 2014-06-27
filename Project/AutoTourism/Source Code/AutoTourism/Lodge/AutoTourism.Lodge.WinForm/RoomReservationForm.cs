@@ -26,7 +26,7 @@ namespace AutoTourism.Lodge.WinForm
     {
 
         private RuleFac.ConfigurationRuleDto configRuleDto;
-        private ToolStripButton btnCancelOpen;     
+        private ToolStripButton btnCancel;     
 
         //private List<RoomFac.Dto> bookedRooms;           
         
@@ -68,8 +68,8 @@ namespace AutoTourism.Lodge.WinForm
             base.AncestorName = "Customer";
             base.AttachmentName = "Advance Payment";
             base.AddToolStripSeparator();
-            this.btnCancelOpen = base.AddToolStripButton("Í", "Wingdings 2", "Cancel Reservation");
-            this.btnCancelOpen.Click += btnCancelOpen_Click;
+            this.btnCancel = base.AddToolStripButton("Í", "Wingdings 2", "Cancel Reservation");
+            this.btnCancel.Click += btnCancel_Click;
             ////set default date format
             //this.dtFrom.Format = DateTimePickerFormat.Custom;
             //this.dtFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
@@ -112,7 +112,7 @@ namespace AutoTourism.Lodge.WinForm
             this.RemoveRoom();
         }
 
-        private void btnCancelOpen_Click(object sender, EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         { 
             if (this.formDto != null && this.formDto.Dto != null)
             {
@@ -289,13 +289,13 @@ namespace AutoTourism.Lodge.WinForm
             else if (formDto.Dto != null && (formDto.Dto as Fac.Dto).BookingStatusId == Convert.ToInt64(Status.Canceled))
             {
                 this.DisableFormControls();
-                //btnCancelOpen.Enabled = true;
+                //btnCancel.Enabled = true;
             }
 
             //Hide open cancel button for new reservation
             if (formDto.Dto == null || formDto.Dto.Id == 0)
             {
-                this.btnCancelOpen.Visible = false;
+                this.btnCancel.Visible = false;
             }
         }
 
@@ -462,18 +462,18 @@ namespace AutoTourism.Lodge.WinForm
 
                 cboAC.SelectedIndex = dto.ACPreference;
 
-                if (dto.BookingStatusId == Convert.ToInt64(Status.Open))
-                {
-                    txtStatus.Text = "Open";
-                    this.btnCancelOpen.Text = "Í";
-                    this.btnCancelOpen.ToolTipText = "Cancel";
-                }
-                else if (dto.BookingStatusId == Convert.ToInt64(Status.Canceled))
-                {
-                    txtStatus.Text = "Cancel";
-                    this.btnCancelOpen.Text = "N";
-                    this.btnCancelOpen.ToolTipText = "Reopen";
-                }
+                //if (dto.BookingStatusId == Convert.ToInt64(Status.Open))
+                //{
+                //    txtStatus.Text = "Open";
+                //    this.btnCancel.Text = "Í";
+                //    this.btnCancel.ToolTipText = "Cancel";
+                //}
+                //else if (dto.BookingStatusId == Convert.ToInt64(Status.Canceled))
+                //{
+                //    txtStatus.Text = "Cancel";
+                //    this.btnCancel.Text = "N";
+                //    this.btnCancel.ToolTipText = "Reopen";
+                //}
                                
                 this.txtMale.Text = dto.NoOfMale == 0 ? String.Empty : dto.NoOfMale.ToString();
                 this.txtFemale.Text = dto.NoOfFemale == 0 ? String.Empty : dto.NoOfFemale.ToString();
@@ -499,7 +499,7 @@ namespace AutoTourism.Lodge.WinForm
             base.DisableAddAncestorButton();
             base.DisableRefreshButton();
             base.DisableOkButton();
-            this.btnCancelOpen.Enabled = false;
+            this.btnCancel.Enabled = false;
             this.btnAddRoom.Enabled = false;
             this.btnRemoveRoom.Enabled = false;
 
