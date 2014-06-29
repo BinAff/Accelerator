@@ -74,6 +74,7 @@ namespace Crystal.Navigator.Component.Artifact
         protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
             Data dt = (Data)data;
+           
             dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
             dt.FileName = Convert.IsDBNull(dr["FileName"]) ? String.Empty : Convert.ToString(dr["FileName"]);
             dt.Extension = Convert.IsDBNull(dr["Extension"]) ? String.Empty : Convert.ToString(dr["Extension"]);

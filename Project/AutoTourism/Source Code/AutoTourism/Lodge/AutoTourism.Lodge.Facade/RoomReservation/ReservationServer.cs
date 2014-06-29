@@ -140,8 +140,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         private void Save()
         {
-            //ReturnObject<Boolean> retVal = this.ValidateSaveUpdate();
-
             Boolean isNew = (this.FormDto as FormDto).Dto.Id == 0;
             using (System.Transactions.TransactionScope T = new System.Transactions.TransactionScope())
             {
@@ -313,7 +311,14 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                     Id = reservationDto.BookingStatusId
                 }            
             });
-            return roomReservation.UpdateStatus();
+            ReturnObject<Boolean> ret = roomReservation.UpdateStatus();
+            if (ret.Value)
+            {
+                if (this.componentServer == null) this.componentServer = this.GetComponentServer();
+                (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForUpdate();
+            }
+
+            return ret;
         }
 
         public void SaveArtifactForReservation(Vanilla.Utility.Facade.Artifact.Dto artifactDto)
@@ -335,63 +340,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             (this.FormDto as FormDto).ModuleFormDto.Dto = reservationModuleDto;
             Vanilla.Utility.Facade.Module.Server moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto);
             moduleFacade.Add();                       
-        }
-
-        //public ReturnObject<List<LodgeConfigFac.Room.Dto>> GetBookedRooms(DateTime startDate, DateTime endDate,Int64 reservationId)
-        //{
-        //    Crystal.Customer.Component.Action.IAction reservation = new Crystal.Lodge.Component.Room.Reservation.Server(null);
-        //    ReturnObject<List<Crystal.Customer.Component.Action.Data>> ret = reservation.Search(new Crystal.Customer.Component.Action.Status.Data { Id = System.Convert.ToInt64(RoomStatus.Open) }, startDate, endDate);
-
-        //    List<LodgeConfigFac.Room.Dto> lstRoomDto = new List<LodgeConfigFac.Room.Dto>();
-
-        //    if (ret.Value != null)
-        //    {
-        //        foreach (Crystal.Customer.Component.Action.Data roomData in ret.Value)
-        //        {
-        //            if (roomData.ProductList != null && roomData.ProductList.Count > 0)
-        //            {
-        //                foreach (LodgeCrys.Room.Data data in roomData.ProductList)
-        //                {
-        //                    if (data.Id > 0)
-        //                        lstRoomDto.Add(new LodgeConfigFac.Room.Dto { Id = data.Id });
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    return new ReturnObject<List<LodgeConfigFac.Room.Dto>>
-        //    {
-        //        Value = lstRoomDto
-        //    };
-        //}
-
-        //ReturnObject<List<LodgeConfigFac.Room.Dto>> IReservation.GetBookedRooms(DateTime startDate, DateTime endDate)
-        //{
-        //    Crystal.Customer.Component.Action.IAction reservation = new Crystal.Lodge.Component.Room.Reservation.Server(null);
-        //    ReturnObject<List<Crystal.Customer.Component.Action.Data>> ret = reservation.Search(new Crystal.Customer.Component.Action.Status.Data { Id = System.Convert.ToInt64(RoomStatus.Open) }, startDate, endDate);
-
-        //    List<LodgeConfigFac.Room.Dto> lstRoomDto = new List<LodgeConfigFac.Room.Dto>();
-
-        //    if (ret.Value != null)
-        //    {
-        //        foreach (Crystal.Customer.Component.Action.Data roomData in ret.Value)
-        //        {
-        //            if (roomData.ProductList != null && roomData.ProductList.Count > 0)
-        //            {
-        //                foreach (LodgeCrys.Room.Data data in roomData.ProductList)
-        //                {
-        //                    if(data.Id > 0)
-        //                        lstRoomDto.Add(new LodgeConfigFac.Room.Dto { Id = data.Id });
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    return new ReturnObject<List<LodgeConfigFac.Room.Dto>>
-        //    {
-        //        Value = lstRoomDto
-        //    };
-        //}
+        }              
 
         Boolean IReservation.ValidateRoomWithCategoryTypeAndACPreference(LodgeConfigFac.Room.Dto room, Int64 categoryId, Int64 typeId, Int32 acPreference)
         {
@@ -445,19 +394,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 {
                     if (reservationData.Id != reservationId && ValidateRoomWithCategoryTypeAndACPreference(reservationData, categoryId, typeId, acPreference))
                         retVal += reservationData.NoOfRooms;
-                }
-
-                //foreach (Crystal.Customer.Component.Action.Data actionData in ret.Value)
-                //{
-                //    if (actionData.Id != reservationId && actionData.ProductList != null && actionData.ProductList.Count > 0)
-                //    {
-                //        foreach (LodgeCrys.Room.Data data in actionData.ProductList)
-                //        {
-                //            if(ValidateRoomWithCategoryTypeAndACPreference(data,categoryId,typeId,acPreference))
-                //                retVal += 1;
-                //        }
-                //    }
-                //}
+                }                
             }
 
             return retVal;      
@@ -654,37 +591,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         private Int64 ReadReservationId(Int64 ArtifactId)
         {
             return 127;
-        }
-
-        //private ReturnObject<Boolean> ValidateSaveUpdate()
-        //{
-        //    ReturnObject<Boolean> retVal = new ReturnObject<bool>();
-
-        //    Dto dto = (this.FormDto as FormDto).Dto as Dto;            
-
-        //    //get total no of rooms with the current filter[matching category, type and compliance]
-        //    Int32 totalRooms = this.GetTotalNoRooms();
-            
-        //    //Get total no of rooms having reservation with the current filter[matching category, type and compliance]
-        //    Int32 totalReservedRooms = this.GetTotalNoBookedRooms(dto);           
-
-        //    //Available rooms for reservation with the current filter[matching category, type and compliance]
-        //    Int32 AvailableRoomsForReservation = totalRooms - totalReservedRooms;
-        //    if (AvailableRoomsForReservation <= 0)
-        //    { 
-        //        //return with validation message
-        //    }
-
-        //    //if current reservation has preferred rooms ******---------------
-
-        //    //get no of reserved rooms
-
-        //    //Check whether the rooms are already booked in any reservation
-
-        //    //****************************************************************                     
-
-        //    return retVal;
-        //}
+        }               
 
         public Int32 GetTotalNoRooms()
         {

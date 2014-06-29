@@ -107,6 +107,7 @@ namespace AutoTourism.Lodge.WinForm
 
                 if (isOpenCancel)
                 {
+                    base.RegisterArtifactObserver();
                     dto.BookingStatusId = BookingStatusId;
                     (this.facade as Fac.ReservationServer).ChangeReservationStatus();                    
                   
