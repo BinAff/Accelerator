@@ -92,19 +92,7 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
             base.CloseConnection();
             return status;
         }
-
-        protected override bool DeleteAfter()
-        {          
-            Boolean status = true;
-            Int64 ReservationId = (this.Data as Crystal.Navigator.Component.Artifact.Data).ComponentData.Id;            
-            base.CreateCommand("[AutoTourism].[CustomerRoomReservationLinkDelete]");
-            base.AddInParameter("@RoomReservationId", DbType.Int64, ReservationId);
-            Int32 ret = base.ExecuteNonQuery();
-            if (ret == -2146232060) status = false;//Foreign key violation
-            base.CloseConnection();
-            return status;
-        }
-
+        
         protected override ReturnObject<Boolean> UpdateArtifactModuleLink()
         {
             Boolean status = true;
