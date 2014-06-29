@@ -33,8 +33,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
         {
             base.AssignParameter(procedureName);
             base.AddInParameter("@NoOfDays", DbType.Int16, ((Data)this.Data).NoOfDays);          
-            base.AddInParameter("@NoOfRooms", DbType.Int16, ((Data)this.Data).NoOfRooms);
-            //base.AddInParameter("@Description", DbType.String, ((Data)this.Data).Description);
+            base.AddInParameter("@NoOfRooms", DbType.Int16, ((Data)this.Data).NoOfRooms);        
         
             if (((Data)this.Data).RoomCategory != null && ((Data)this.Data).RoomCategory.Id > 0)
                 base.AddInParameter("@RoomCategoryId", DbType.Int64,((Data)this.Data).RoomCategory.Id);
@@ -104,7 +103,12 @@ namespace Crystal.Lodge.Component.Room.Reservation
 
         protected override Boolean DeleteBefore()
         {
-            return this.DeleteRoomList();
+            Boolean retVal = true;
+
+            retVal = this.DeleteCustomerRoomReservationLink();
+            if (retVal) retVal = this.DeleteRoomList();
+
+            return retVal;
         }
 
         protected override Boolean ReadAfter()
@@ -244,6 +248,17 @@ namespace Crystal.Lodge.Component.Room.Reservation
 
             this.CloseConnection();
             return retVal;
+        }
+
+        private bool DeleteCustomerRoomReservationLink()
+        {
+            Boolean status = true;         
+            base.CreateCommand("[AutoTourism].[CustomerRoomReservationLinkDelete]");
+            base.AddInParameter("@RoomReservationId", DbType.Int64, this.Data.Id);
+            Int32 ret = base.ExecuteNonQuery();
+            if (ret == -2146232060) status = false;//Foreign key violation
+            base.CloseConnection();
+            return status;
         }
        
     }
