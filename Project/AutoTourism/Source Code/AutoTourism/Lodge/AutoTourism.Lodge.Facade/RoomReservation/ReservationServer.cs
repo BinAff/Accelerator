@@ -301,23 +301,32 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         public ReturnObject<Boolean> ChangeReservationStatus()
         {
+            ReturnObject<Boolean> ret = new ReturnObject<bool>();
             Dto reservationDto = (this.FormDto as FormDto).Dto as Dto;
 
-            CustCrys.Action.IAction roomReservation = new LodgeCrys.Room.Reservation.Server(new LodgeCrys.Room.Reservation.Data 
-            {
-                Id = reservationDto.Id,
-                Status = new CustCrys.Action.Status.Data
+            if (this.componentServer == null) this.componentServer = this.GetComponentServer();
+
+            LodgeCrys.Room.Reservation.Data reservationData = (this.componentServer as LodgeCrys.Room.Reservation.Server).Data as LodgeCrys.Room.Reservation.Data;
+            reservationData.Status = new CustCrys.Action.Status.Data
                 {
-                    Id = reservationDto.BookingStatusId
-                }            
-            });
-            ReturnObject<Boolean> ret = roomReservation.UpdateStatus();
-            if (ret.Value)
+                    Id = ((this.FormDto as FormDto).Dto as Dto).BookingStatusId
+                };
+
+            using (System.Transactions.TransactionScope T = new System.Transactions.TransactionScope())
             {
-                if (this.componentServer == null) this.componentServer = this.GetComponentServer();
-                (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForUpdate();
+                ret = (this.componentServer as CustCrys.Action.IAction).UpdateStatus();
+                if (ret.Value)
+                {
+                    ret = (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForUpdate();
+
+                    if (ret.Value)
+                    {
+                        this.UpdateAuditInformation();
+                        T.Complete();
+                    }
+                }
+
             }
-            this.UpdateAuditInformation();
             return ret;
         }
 
