@@ -112,6 +112,7 @@ namespace AutoTourism.Lodge.WinForm
                     (this.facade as Fac.ReservationServer).ChangeReservationStatus();                    
                   
                     base.IsModified = true;
+                    base.RaiseAuditInfoChanged(this);
                     this.Close();
                 }
             }
