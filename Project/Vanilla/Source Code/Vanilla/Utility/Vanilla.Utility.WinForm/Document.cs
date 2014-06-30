@@ -16,6 +16,14 @@ namespace Vanilla.Utility.WinForm
 
         public delegate void OnAuditInfoChanged(Document document);
         public event OnAuditInfoChanged AuditInfoChanged;
+        protected virtual void RaiseAuditInfoChanged(Document document)
+        {
+            OnAuditInfoChanged del = AuditInfoChanged;
+            if (del != null)
+            {
+                del(document);
+            }
+        }
 
         public Facade.Artifact.Dto Artifact
         {

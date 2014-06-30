@@ -317,7 +317,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 if (this.componentServer == null) this.componentServer = this.GetComponentServer();
                 (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForUpdate();
             }
-
+            this.UpdateAuditInformation();
             return ret;
         }
 

@@ -132,7 +132,15 @@ namespace Vanilla.Utility.Facade.Artifact
                 };
                 tree.ModifiedAt = artifactDto.AuditInfo.ModifiedAt;
             }
-            tree.ParentId = artifactDto.Parent.Id;
+            if (String.Compare(artifactDto.Parent.GetType().FullName, "Vanilla.Utility.Facade.Module.Dto") == 0)
+            {
+                tree.ParentId = null;
+            }
+            else
+            {
+                tree.ParentId = artifactDto.Parent.Id;
+            }
+            
             return tree;
         }
 
