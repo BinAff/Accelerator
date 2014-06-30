@@ -18,6 +18,7 @@ using CustFac = AutoTourism.Customer.Facade;
 using RoomFac = AutoTourism.Lodge.Configuration.Facade.Room;
 using RoomCatFac = AutoTourism.Lodge.Configuration.Facade.Room.Category;
 using RoomTypFac = AutoTourism.Lodge.Configuration.Facade.Room.Type;
+using AccFac = Vanilla.Guardian.Facade.Account;
 
 namespace AutoTourism.Lodge.WinForm
 {
@@ -89,57 +90,43 @@ namespace AutoTourism.Lodge.WinForm
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
-        { 
+        {           
             if (this.formDto != null && this.formDto.Dto != null)
             {
-                Fac.Dto dto = this.formDto.Dto as Fac.Dto;
-
-                Boolean isOpenCancel = true;
+                Fac.Dto dto = this.formDto.Dto as Fac.Dto;              
                 Int64 BookingStatusId = (txtStatus.Text == "Cancel") ? Convert.ToInt64(Status.Open) : Convert.ToInt64(Status.Canceled);
 
-                //if (BookingStatusId == Convert.ToInt64(Status.Open))
-                //{
-                //    //isOpenCancel = this.ValidateReservation();
-                //}
-                //Status status = txtStatus.Text == "Cancel" ? Status.Canceled : Status.Open;                
-                ////validation required when re-opening a room
-                //Boolean isOpenCancel = !(status == Status.Open && !this.ValidateForm());
-
-                if (isOpenCancel)
+                base.formDto.Document.AuditInfo.ModifiedBy = new Table
                 {
-                    base.RegisterArtifactObserver();
-                    dto.BookingStatusId = BookingStatusId;
-                    (this.facade as Fac.ReservationServer).ChangeReservationStatus();                    
+                    Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as AccFac.Dto).Id,
+                    Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as AccFac.Dto).Profile.Name
+                };
+                base.formDto.Document.AuditInfo.ModifiedAt = DateTime.Now;
+              
+                base.RegisterArtifactObserver();
+                dto.BookingStatusId = BookingStatusId;
+                (this.facade as Fac.ReservationServer).ChangeReservationStatus();                    
                   
-                    base.IsModified = true;
-                    base.RaiseAuditInfoChanged(this);
-                    this.Close();
-                }
+                base.IsModified = true;
+                base.RaiseAuditInfoChanged(this);
+                this.Close();
+               
             }
         }
                       
         private void cboCategory_SelectedIndexChanged(object sender, EventArgs e)
         {            
             this.FilterAndPopulateRoomList();
-
-            //this.PopulateFilteredRoomList();
-            //this.LoadRoomReservationStatusLevels();
         }
              
         private void cboType_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.FilterAndPopulateRoomList();
-
-            //this.PopulateFilteredRoomList();
-            //this.LoadRoomReservationStatusLevels();
         }
 
         private void cboAC_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.FilterAndPopulateRoomList();
-
-            //this.PopulateFilteredRoomList();
-            //this.LoadRoomReservationStatusLevels();
         }
 
         private void dtFrom_ValueChanged(object sender, EventArgs e)
@@ -328,6 +315,16 @@ namespace AutoTourism.Lodge.WinForm
                 else cboType.SelectedIndex = 0;
 
                 cboAC.SelectedIndex = dto.ACPreference;
+
+                if (dto.BookingStatusId == Convert.ToInt64(Status.Open))
+                {
+                    txtStatus.Text = "Open";                   
+                }
+                else if (dto.BookingStatusId == Convert.ToInt64(Status.Canceled))
+                {
+                    txtStatus.Text = "Cancel";                   
+                }
+               
 
                 //if (dto.BookingStatusId == Convert.ToInt64(Status.Open))
                 //{
