@@ -432,11 +432,10 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         {
             return new Dto
             {
+                Id = reservationDto.Id,
                 BookingFrom = reservationDto.BookingFrom,
-                NoOfDays = reservationDto.NoOfDays,
-                //NoOfPersons = reservationDto.NoOfPersons,
-                NoOfRooms = reservationDto.NoOfRooms,
-                //Advance = reservationDto.Advance,
+                NoOfDays = reservationDto.NoOfDays,              
+                NoOfRooms = reservationDto.NoOfRooms,             
                 BookingStatusId = reservationDto.BookingStatusId,
                 RoomCategory = reservationDto.RoomCategory == null ? null : new Table
                 {
@@ -449,7 +448,13 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                     Name = reservationDto.RoomType.Name
                 },
                 ACPreference = reservationDto.ACPreference,
-                RoomList = reservationDto.RoomList == null ? null : this.CloneRoomList(reservationDto.RoomList)
+                NoOfMale = reservationDto.NoOfMale,
+                NoOfFemale = reservationDto.NoOfFemale,
+                NoOfChild = reservationDto.NoOfChild,
+                NoOfInfant = reservationDto.NoOfInfant,
+                Remark = reservationDto.Remark,
+                RoomList = reservationDto.RoomList == null ? null : this.CloneRoomList(reservationDto.RoomList),
+                Customer = reservationDto.Customer
             };
         }
 

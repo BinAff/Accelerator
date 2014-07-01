@@ -153,7 +153,7 @@ namespace AutoTourism.Lodge.WinForm
             if (this.configRuleDto.DateFormat != null)            
                 this.dtFrom.CustomFormat = this.configRuleDto.DateFormat;
             
-            //--populate room category
+            //--populate room category        
             this.cboCategory.DataSource = null;
             if (formDto.CategoryList != null && formDto.CategoryList.Count > 0)
             {
@@ -167,7 +167,7 @@ namespace AutoTourism.Lodge.WinForm
                 this.cboCategory.DisplayMember = "Name";
                 this.cboCategory.SelectedIndex = 0;  
             }
-
+        
             //--populate room type
             this.cboType.DataSource = null;
             if (formDto.TypeList != null && formDto.TypeList.Count > 0)
@@ -206,6 +206,12 @@ namespace AutoTourism.Lodge.WinForm
         protected override void RefreshFormBefore()
         {
             errorProvider.Clear();
+        }
+
+        protected override void RevertForm()
+        {
+            return;
+            //(base.formDto as Fac.FormDto).Dto = this.CloneDto(this.InitialDto) as Fac.Dto;
         }
 
         protected override void RefreshFormAfter()
@@ -259,7 +265,8 @@ namespace AutoTourism.Lodge.WinForm
         protected override void PopulateDataToForm()
         {           
             Fac.FormDto formDto = this.formDto as Fac.FormDto;
-            Fac.Dto dto = this.formDto.Dto as Fac.Dto;        
+            //Fac.Dto dto = this.formDto.Dto as Fac.Dto;        
+            Fac.Dto dto = this.CloneDto(this.InitialDto) as Fac.Dto;   
 
             //populate customer data
             if (dto != null && dto.Id > 0)
