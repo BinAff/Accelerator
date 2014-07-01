@@ -599,7 +599,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         private Int64 ReadReservationId(Int64 ArtifactId)
         {
-            return 127;
+            RoomRsvCrys.Server server = new RoomRsvCrys.Server(null);
+            return server.ReadReservationId(ArtifactId);
         }               
 
         public Int32 GetTotalNoRooms()

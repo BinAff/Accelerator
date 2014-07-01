@@ -260,6 +260,22 @@ namespace Crystal.Lodge.Component.Room.Reservation
             base.CloseConnection();
             return status;
         }
+
+        public Int64 ReadReservationId(Int64 ArtifactId)
+        {
+            Int64 RoomReservationId = 0;
+            this.CreateCommand("[Lodge].[ReadRoomReservationId]");
+            this.AddInParameter("@ArtifactId", DbType.Int64, ArtifactId);
+
+            DataSet ds = this.ExecuteDataSet();
+
+            if (ds.Tables.Count > 0)
+            {
+                RoomReservationId = Convert.IsDBNull(ds.Tables[0].Rows[0]["RoomReservationId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["RoomReservationId"]);               
+            }
+
+            return RoomReservationId;
+        }
        
     }
 
