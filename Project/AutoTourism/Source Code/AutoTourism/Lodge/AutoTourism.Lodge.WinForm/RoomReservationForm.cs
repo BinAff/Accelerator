@@ -148,7 +148,11 @@ namespace AutoTourism.Lodge.WinForm
             Fac.FormDto formDto = base.formDto as Fac.FormDto;
             Fac.Dto Dto = formDto.Dto as Fac.Dto;
             base.facade.LoadForm();
-           
+
+            //customer data is getting read at load, so updating the initial dto for customer
+            if (Dto.Id > 0)        
+                (this.InitialDto as Fac.Dto).Customer = Dto.Customer;
+
             this.configRuleDto = formDto.configurationRuleDto;
             if (this.configRuleDto.DateFormat != null)            
                 this.dtFrom.CustomFormat = this.configRuleDto.DateFormat;
@@ -194,9 +198,9 @@ namespace AutoTourism.Lodge.WinForm
             this.cboAC.DisplayMember = "Name";
             this.cboAC.SelectedIndex = 0;                     
                 
-            //disable the controls if the reservation is checked in or the reservation has been cancelled
-            if ((Dto.isCheckedIn) || (Dto.BookingStatusId == Convert.ToInt64(Status.Canceled)))
-                this.DisableFormControls();            
+            ////disable the controls if the reservation is checked in or the reservation has been cancelled
+            //if ((Dto.isCheckedIn) || (Dto.BookingStatusId == Convert.ToInt64(Status.Canceled)))
+            //    this.DisableFormControls();            
 
             //Hide open cancel button for new reservation
             if (Dto.Id == 0)            
@@ -266,7 +270,20 @@ namespace AutoTourism.Lodge.WinForm
         {           
             Fac.FormDto formDto = this.formDto as Fac.FormDto;
             //Fac.Dto dto = this.formDto.Dto as Fac.Dto;        
-            Fac.Dto dto = this.CloneDto(this.InitialDto) as Fac.Dto;   
+            Fac.Dto dto = this.CloneDto(this.InitialDto) as Fac.Dto;
+
+            //disable the controls if the reservation is checked in or the reservation has been cancelled
+            if ((dto.isCheckedIn) || (dto.BookingStatusId == Convert.ToInt64(Status.Canceled)))
+                this.DisableFormControls();
+
+            if (dto.BookingStatusId == Convert.ToInt64(Status.Open))
+            {
+                txtStatus.Text = "Open";
+            }
+            else if (dto.BookingStatusId == Convert.ToInt64(Status.Canceled))
+            {
+                txtStatus.Text = "Cancel";
+            }
 
             //populate customer data
             if (dto != null && dto.Id > 0)
@@ -323,14 +340,7 @@ namespace AutoTourism.Lodge.WinForm
 
                 cboAC.SelectedIndex = dto.ACPreference;
 
-                if (dto.BookingStatusId == Convert.ToInt64(Status.Open))
-                {
-                    txtStatus.Text = "Open";                   
-                }
-                else if (dto.BookingStatusId == Convert.ToInt64(Status.Canceled))
-                {
-                    txtStatus.Text = "Cancel";                   
-                }
+                
                
 
                 //if (dto.BookingStatusId == Convert.ToInt64(Status.Open))
