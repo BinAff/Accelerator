@@ -38,11 +38,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             {
                 (formDto.Dto as Facade.RoomReservation.Dto).Customer = this.GetCustomerDtoForReservation(formDto.Dto.Id);
             }
-            //{                
-            //    //CustAuto.ICustomer autoCustomer = new CustAuto.Server(null);
-            //    //formDto.Dto.Customer = ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(formDto.Dto.Id));
-            //}
-           
         }
 
         public Customer.Facade.Dto GetCustomerDtoForReservation(Int64 reservationId)
@@ -433,6 +428,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return new Dto
             {
                 Id = reservationDto.Id,
+                ReservationNo = reservationDto.ReservationNo,
                 BookingFrom = reservationDto.BookingFrom,
                 NoOfDays = reservationDto.NoOfDays,              
                 NoOfRooms = reservationDto.NoOfRooms,             
