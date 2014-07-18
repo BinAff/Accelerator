@@ -90,7 +90,6 @@ namespace Vanilla.Utility.Facade.Module
         public String ArtifactComponentAssembly { get; set; }
         public String ModuleDataType { get; set; }
 
-
         internal Helper GetObjects()
         {
             switch (this.moduleDef.Code)
@@ -102,14 +101,10 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactDataType = "AutoTourism.Component.Customer.Navigator.Artifact.Data";
                     this.ArtifactComponentType = "AutoTourism.Component.Customer.Navigator.Artifact.Server";
                     this.ModuleDataType = "AutoTourism.Component.Customer.Data, AutoTourism.Component.Customer";
-                    //this.ModuleFacade = new AutoTourism.Customer.Facade.Server(null);
-
                     Type typeCustomerServer = Type.GetType("AutoTourism.Customer.Facade.Server,AutoTourism.Customer.Facade", true);
                     Type typeCustomerDto = Type.GetType("AutoTourism.Customer.Facade.FormDto,AutoTourism.Customer.Facade", true);
                     BinAff.Facade.Library.FormDto customerDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeCustomerDto);
                     this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeCustomerServer, customerDto);
-
-
                     break;
 
                 case "LRSV"://Need to change
@@ -119,13 +114,10 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactDataType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data";
                     this.ArtifactComponentType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Lodge.Component.Room.Reservation.Data, Crystal.Lodge.Component";
-                    //this.ModuleFacade = new AutoTourism.Lodge.Facade.RoomReservation.ReservationServer(null);                  
-
                     Type typeReservationServer = Type.GetType("AutoTourism.Lodge.Facade.RoomReservation.ReservationServer,AutoTourism.Lodge.Facade", true);
                     Type typeReservationDto = Type.GetType("AutoTourism.Lodge.Facade.RoomReservation.FormDto,AutoTourism.Lodge.Facade", true);
                     BinAff.Facade.Library.FormDto reservationDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeReservationDto);
                     this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeReservationServer, reservationDto);
-
                     break;
 
                 case "LCHK"://Need to change
@@ -135,8 +127,6 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactDataType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data";
                     this.ArtifactComponentType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Lodge.Component.Room.CheckIn.Data, Crystal.Lodge.Component";
-                    //this.ModuleFacade = new AutoTourism.Lodge.Facade.CheckIn.CheckInServer(null);
-
                     Type typeCheckInServer = Type.GetType("AutoTourism.Lodge.Facade.CheckIn.CheckInServer,AutoTourism.Lodge.Facade", true);
                     Type typeCheckInDto = Type.GetType("AutoTourism.Lodge.Facade.CheckIn.FormDto,AutoTourism.Lodge.Facade", true);
                     BinAff.Facade.Library.FormDto checkInDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeCheckInDto);
@@ -150,12 +140,24 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactDataType = "Crystal.Invoice.Component.Navigator.Artifact.Data";
                     this.ArtifactComponentType = "Crystal.Invoice.Component.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Invoice.Component.Data, Crystal.Invoice.Component";
-                    
                     Type typeInvoiceServer = Type.GetType("Vanilla.Invoice.Facade.Server,Vanilla.Invoice.Facade", true);
                     Type typeInvoiceDto = Type.GetType("Vanilla.Invoice.Facade.FormDto,Vanilla.Invoice.Facade", true);
                     BinAff.Facade.Library.FormDto invoiceDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typeInvoiceDto);
                     this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typeInvoiceServer, invoiceDto);
-                    break;          
+                    break;
+
+                case "PAMT":
+                    this.ModuleFormType = "Vanilla.Invoice.WinForm.PaymentForm, Vanilla.Invoice.WinForm";
+                    this.ModuleFormDtoType = "Vanilla.Invoice.Facade.Payment.Dto, Vanilla.Invoice.Facade";
+                    this.ArtifactComponentAssembly = "Crystal.Invoice.Component";
+                    this.ArtifactDataType = "Crystal.Invoice.Component.Payment.Navigator.Artifact.Data";
+                    this.ArtifactComponentType = "Crystal.Invoice.Component.Payment.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Invoice.Component.Payment.Data, Crystal.Invoice.Component";
+                    Type typePaymentServer = Type.GetType("Vanilla.Invoice.Facade.Payment.Server, Vanilla.Invoice.Facade", true);
+                    Type typePaymentDto = Type.GetType("Vanilla.Invoice.Facade.Payment.FormDto, Vanilla.Invoice.Facade", true);
+                    BinAff.Facade.Library.FormDto paymentDto = (BinAff.Facade.Library.FormDto)Activator.CreateInstance(typePaymentDto);
+                    this.ModuleFacade = (BinAff.Facade.Library.Server)Activator.CreateInstance(typePaymentServer, paymentDto);
+                    break;
                 default:
                     //helper.FormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
                     //helper.Artifact = new AutotourismCustomerArtifact.Server(new AutotourismCustomerArtifact.Data

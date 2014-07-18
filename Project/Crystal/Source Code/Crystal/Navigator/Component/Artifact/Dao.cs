@@ -11,6 +11,10 @@ namespace Crystal.Navigator.Component.Artifact
     public abstract class Dao : BinAff.Core.Dao
     {
 
+        public String CreateComponentLinkSPName { get; set; }
+
+        public String UpdateComponentLinkSPName { get; set; }
+
         public Dao(Data data) 
             : base(data)
         {
@@ -181,9 +185,9 @@ namespace Crystal.Navigator.Component.Artifact
             return base.Read();
         }
 
-        protected override bool CreateAfter()
+        protected override Boolean CreateAfter()
         {
-            bool status = true;
+            Boolean status = true;
             Data artifactData = Data as Data;
 
             //avoiding insert during update
@@ -198,21 +202,47 @@ namespace Crystal.Navigator.Component.Artifact
                 if (ret == -2146232060) status = false;//Foreign key violation
 
                 if (status)
-                    status = this.CreateAfterModuleArtifactLink();
+                    status = this.CreateComponentLink();
             }
 
             return status;
         }
 
-        protected virtual bool CreateAfterModuleArtifactLink()
+        protected virtual Boolean CreateComponentLink()
         {
-            return true;
+            Boolean status = true;
+
+            Data artifactData = base.Data as Data;
+            base.CreateCommand(this.CreateComponentLinkSPName);
+            if (artifactData.ComponentData.Id == 0)
+            {
+                base.AddInParameter("@ComponentId", DbType.Int64, DBNull.Value);
+            }
+            else
+            {
+                base.AddInParameter("@ComponentId", DbType.Int64, artifactData.ComponentData.Id);
+            }
+            base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
+            base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
+            Int32 ret = base.ExecuteNonQuery();
+            if (ret == -2146232060) status = false;//Foreign key violation
+            return status;
         }
 
-        protected internal virtual ReturnObject<bool> UpdateArtifactModuleLink()
+        protected internal virtual Boolean UpdateComponentLink()
         {
-            return new ReturnObject<bool> { Value = true };
+            Boolean status = true;
+            Data artifactData = base.Data as Data;
+
+            base.CreateCommand(this.UpdateComponentLinkSPName);
+            base.AddInParameter("@ComponentId", DbType.Int64, artifactData.ComponentData.Id);
+            base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
+            Int32 ret = base.ExecuteNonQuery();
+            if (ret == -2146232060) status = false;//Foreign key violation
+
+            return status;
         }
+
     }
 
 }

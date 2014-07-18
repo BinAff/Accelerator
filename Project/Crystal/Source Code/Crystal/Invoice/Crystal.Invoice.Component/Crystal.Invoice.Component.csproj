@@ -58,6 +58,10 @@
     <Compile Include="Payment\Data.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Payment\Navigator\Artifacts\Dao.cs" />
+    <Compile Include="Payment\Navigator\Artifacts\Data.cs" />
+    <Compile Include="Payment\Navigator\Artifacts\Server.cs" />
+    <Compile Include="Payment\Navigator\Artifacts\Validator.cs" />
     <Compile Include="Payment\Server.cs">
       <SubType>Code</SubType>
     </Compile>

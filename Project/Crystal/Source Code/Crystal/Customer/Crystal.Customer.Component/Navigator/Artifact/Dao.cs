@@ -32,11 +32,6 @@ namespace Crystal.Customer.Component.Navigator.Artifact
             return status;
         }
 
-        protected override ReturnObject<bool> UpdateArtifactModuleLink()
-        {
-            return base.UpdateArtifactModuleLink();
-        }
-
     }
 
 }

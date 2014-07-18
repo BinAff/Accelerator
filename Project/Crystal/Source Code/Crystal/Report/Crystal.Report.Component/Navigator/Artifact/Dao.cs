@@ -7,7 +7,6 @@ namespace Crystal.Report.Component.Navigator.Artifact
     public abstract class Dao : Crystal.Navigator.Component.Artifact.Dao
     {
 
-        protected String CreateComponentLinkSPName { get; set; }
         protected String ReadComponentLinkSPName { get; set; }
         protected String DeleteComponentLinkSPName { get; set; }
 
@@ -19,7 +18,7 @@ namespace Crystal.Report.Component.Navigator.Artifact
 
         protected abstract override BinAff.Core.Data CreateDataObject(long id, Crystal.Navigator.Component.Artifact.Category category);
 
-        protected override Boolean CreateAfterModuleArtifactLink()
+        protected override Boolean CreateComponentLink()
         {
             Boolean status = true;
 

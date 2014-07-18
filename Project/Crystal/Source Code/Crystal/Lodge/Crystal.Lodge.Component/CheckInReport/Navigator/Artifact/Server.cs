@@ -1,11 +1,11 @@
-﻿using System;
-using CrystalNavigator = Crystal.Navigator.Component;
-using BinAff.Core;
+﻿using BinAff.Core;
 
 namespace Crystal.Lodge.Component.CheckInReport.Navigator.Artifact
 {
-    public class Server : CrystalNavigator.Artifact.Server
+
+    public class Server : Crystal.Report.Component.Navigator.Artifact.Server
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -27,7 +27,6 @@ namespace Crystal.Lodge.Component.CheckInReport.Navigator.Artifact
             };
         }
 
-
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
             return new Server(data as Data);
@@ -38,18 +37,14 @@ namespace Crystal.Lodge.Component.CheckInReport.Navigator.Artifact
             return new CheckInReport.Server(moduleData as CheckInReport.Data);
         }
 
-        protected override ReturnObject<Boolean> DeleteAfter()
+        protected override ICrud GetComponentServer()
         {
-            if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)
+            return new CheckInReport.Server(new CheckInReport.Data
             {
-                ICrud crud = new CheckInReport.Server(new CheckInReport.Data
-                {
-                    Id = (this.Data as Data).ComponentData.Id
-                });
-                return crud.Delete();
-            }
-
-            return base.DeleteAfter();
+                Id = (this.Data as Data).ComponentData.Id
+            });
         }
+
     }
+
 }

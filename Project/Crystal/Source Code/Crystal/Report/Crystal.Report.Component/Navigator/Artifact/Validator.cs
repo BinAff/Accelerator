@@ -14,11 +14,6 @@ namespace Crystal.Report.Component.Navigator.Artifact
 
         }
 
-        protected override List<Message> Validate()
-        {
-            return base.Validate();
-        }
-
     }
 
 }

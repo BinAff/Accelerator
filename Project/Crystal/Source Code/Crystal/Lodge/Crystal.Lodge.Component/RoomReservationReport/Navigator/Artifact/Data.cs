@@ -1,8 +1,9 @@
-﻿using CrystalNavigator = Crystal.Navigator.Component;
-
-namespace Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact
+﻿namespace Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact
 {
-    public class Data : CrystalNavigator.Artifact.Data
+
+    public class Data : Crystal.Report.Component.Navigator.Artifact.Data
     {
+
     }
+
 }

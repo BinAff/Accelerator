@@ -1,6 +1,5 @@
 ﻿using System;
-using CrystalNavigator = Crystal.Navigator.Component;
-using System.Data;
+using ArtfComp = Crystal.Navigator.Component.Artifact;
 
 namespace Crystal.Customer.Component.Report.Navigator.Artifact
 {
@@ -17,9 +16,9 @@ namespace Crystal.Customer.Component.Report.Navigator.Artifact
         protected override void Compose()
         {
             base.Compose();
-            this.CreateComponentLinkSPName = "Customer.InsertCustomerReportForArtifact";
-            this.ReadComponentLinkSPName = "Customer.ReadCustomerReportForArtifact";
-            this.DeleteComponentLinkSPName = "Customer.DeleteCustomerReportForArtifact";
+            base.CreateComponentLinkSPName = "Customer.CustomerReportArtifactInsertLink";
+            base.ReadComponentLinkSPName = "Customer.ReadCustomerReportForArtifact";
+            base.DeleteComponentLinkSPName = "Customer.DeleteCustomerReportForArtifact";
         }
 
         protected override BinAff.Core.Data GetComponentData(Int64 reportId)
@@ -30,7 +29,7 @@ namespace Crystal.Customer.Component.Report.Navigator.Artifact
             };
         }
 
-        protected override BinAff.Core.Data CreateDataObject(Int64 id, CrystalNavigator.Artifact.Category category)
+        protected override BinAff.Core.Data CreateDataObject(Int64 id, ArtfComp.Category category)
         {
             return new Data
             {

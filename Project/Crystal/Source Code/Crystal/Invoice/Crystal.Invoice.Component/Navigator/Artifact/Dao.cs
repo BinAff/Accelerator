@@ -21,6 +21,8 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
         {
             base.Compose();
             this.DeleteArtifactLinkSPName = "[Invoice].[DeleteInvoiceFormForArtifact]";
+            base.CreateComponentLinkSPName = "Invoice.InvoiceArtifactInsertLink";
+            base.UpdateComponentLinkSPName = "Invoice.InvoiceArtifactUpdateLink";
         }
 
         protected override Boolean ReadBefore()
@@ -53,27 +55,27 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
             };
         }
 
-        protected override Boolean CreateAfterModuleArtifactLink()
-        {
-            Boolean status = true;
+        //protected override Boolean CreateAfterModuleArtifactLink()
+        //{
+        //    Boolean status = true;
 
-            Data artifactData = Data as Data;
-            base.CreateCommand("[Invoice].[InsertInvoiceFormForArtifact]");
-            if (artifactData.ComponentData.Id == 0)
-            {
-                base.AddInParameter("@InvoiceId", DbType.Int64, DBNull.Value);
-            }
-            else
-            {
-                base.AddInParameter("@InvoiceId", DbType.Int64, artifactData.ComponentData.Id);
-            }
-            base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
-            base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
-            Int32 ret = base.ExecuteNonQuery();
-            if (ret == -2146232060) status = false;//Foreign key violation
+        //    Data artifactData = Data as Data;
+        //    base.CreateCommand("[Invoice].[InsertInvoiceFormForArtifact]");
+        //    if (artifactData.ComponentData.Id == 0)
+        //    {
+        //        base.AddInParameter("@InvoiceId", DbType.Int64, DBNull.Value);
+        //    }
+        //    else
+        //    {
+        //        base.AddInParameter("@InvoiceId", DbType.Int64, artifactData.ComponentData.Id);
+        //    }
+        //    base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
+        //    base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
+        //    Int32 ret = base.ExecuteNonQuery();
+        //    if (ret == -2146232060) status = false;//Foreign key violation
 
-            return status;
-        }
+        //    return status;
+        //}
 
         protected override bool DeleteBefore()
         {
@@ -95,19 +97,19 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
 
         }
 
-        protected override ReturnObject<Boolean> UpdateArtifactModuleLink()
-        {
-            Boolean status = true;
-            Data artifactData = Data as Data;
+        //protected override ReturnObject<Boolean> UpdateArtifactModuleLink()
+        //{
+        //    Boolean status = true;
+        //    Data artifactData = Data as Data;
 
-            base.CreateCommand("[Invoice].[UpdateInvoiceFormForArtifact]");
-            base.AddInParameter("@InvoiceId", DbType.Int64, artifactData.ComponentData.Id);
-            base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
-            Int32 ret = base.ExecuteNonQuery();
-            if (ret == -2146232060) status = false;//Foreign key violation
+        //    base.CreateCommand("[Invoice].[UpdateInvoiceFormForArtifact]");
+        //    base.AddInParameter("@InvoiceId", DbType.Int64, artifactData.ComponentData.Id);
+        //    base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
+        //    Int32 ret = base.ExecuteNonQuery();
+        //    if (ret == -2146232060) status = false;//Foreign key violation
 
-            return new ReturnObject<Boolean> { Value = status };
-        }
+        //    return new ReturnObject<Boolean> { Value = status };
+        //}
 
         public Data GetArtifactForInvoiceNumber(String invoiceNumber)
         {           

@@ -1,8 +1,9 @@
-﻿using CrystalNavigator = Crystal.Navigator.Component;
-
-namespace Crystal.Invoice.Component.Report.Navigator.Artifact
+﻿namespace Crystal.Invoice.Component.Report.Navigator.Artifact
 {
-    public class Data : CrystalNavigator.Artifact.Data
+
+    public class Data : Crystal.Report.Component.Navigator.Artifact.Data
     {
+
     }
+
 }

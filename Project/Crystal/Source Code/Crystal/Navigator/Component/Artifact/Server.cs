@@ -179,17 +179,20 @@ namespace Crystal.Navigator.Component.Artifact
 
         ReturnObject<Boolean> IArtifact.UpdaterModuleArtifactLink()
         {
-            return (this.DataAccess as Dao).UpdateArtifactModuleLink();
+            return new ReturnObject<Boolean>
+            {
+                Value = (this.DataAccess as Dao).UpdateComponentLink()
+            };
         }
 
-        BinAff.Core.ReturnObject<Boolean> Observer.IObserver.UpdateArtifactComponentLink(Data subject)
+        ReturnObject<Boolean> Observer.IObserver.UpdateArtifactComponentLink(Data subject)
         {
-            BinAff.Core.ReturnObject<Boolean> ret = (this.DataAccess as Dao).UpdateArtifactModuleLink();
-            if (!ret.HasError())
+            Boolean ret = (this.DataAccess as Dao).UpdateComponentLink();
+            if (ret) this.Read();
+            return new ReturnObject<Boolean>
             {
-                this.Read();
-            }
-            return ret;
+                Value = ret
+            };
         }
 
         BinAff.Core.ReturnObject<Boolean> Observer.IObserver.UpdateAfterComponentUpdate(Data subject)
