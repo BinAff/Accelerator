@@ -1,11 +1,10 @@
-﻿using System;
-using CrystalNavigator = Crystal.Navigator.Component;
-using BinAff.Core;
+﻿using BinAff.Core;
 
 namespace Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact
 {
-    public class Server : CrystalNavigator.Artifact.Server
+    public class Server : Crystal.Report.Component.Navigator.Artifact.Server
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -26,8 +25,7 @@ namespace Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact
                 Category = (this.Data as Data).Category
             };
         }
-
-
+        
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
             return new Server(data as Data);
@@ -38,18 +36,14 @@ namespace Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact
             return new RoomReservationReport.Server(moduleData as RoomReservationReport.Data);
         }
 
-        protected override ReturnObject<Boolean> DeleteAfter()
+        protected override ICrud GetComponentServer()
         {
-            if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)
+            return new RoomReservationReport.Server(new RoomReservationReport.Data
             {
-                ICrud crud = new RoomReservationReport.Server(new RoomReservationReport.Data
-                {
-                    Id = (this.Data as Data).ComponentData.Id
-                });
-                return crud.Delete();
-            }
-
-            return base.DeleteAfter();
+                Id = (this.Data as Data).ComponentData.Id
+            });
         }
+
     }
+
 }

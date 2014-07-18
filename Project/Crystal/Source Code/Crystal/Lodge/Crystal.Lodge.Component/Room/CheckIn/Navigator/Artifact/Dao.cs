@@ -20,6 +20,8 @@ namespace Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact
         {
             base.Compose();
             this.DeleteArtifactLinkSPName = "[Lodge].[DeleteCheckInFormForArtifact]";
+            base.CreateComponentLinkSPName = "Lodge.CheckInArtifactInsertLink";
+            base.UpdateComponentLinkSPName = "Lodge.CheckInArtifactUpdateLink";
         }
 
         protected override bool ReadBefore()
@@ -52,27 +54,27 @@ namespace Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact
             };
         }
 
-        protected override Boolean CreateAfterModuleArtifactLink()
-        {
-            Boolean status = true;
+        //protected override Boolean CreateAfterModuleArtifactLink()
+        //{
+        //    Boolean status = true;
 
-            Data artifactData = Data as Data;
-            base.CreateCommand("[Lodge].[InsertCheckInFormForArtifact]");
-            if (artifactData.ComponentData.Id == 0)
-            {
-                base.AddInParameter("@CheckInId", DbType.Int64, DBNull.Value);
-            }
-            else
-            {
-                base.AddInParameter("@CheckInId", DbType.Int64, artifactData.ComponentData.Id);
-            }
-            base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
-            base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
-            Int32 ret = base.ExecuteNonQuery();
-            if (ret == -2146232060) status = false;//Foreign key violation
+        //    Data artifactData = Data as Data;
+        //    base.CreateCommand("[Lodge].[InsertCheckInFormForArtifact]");
+        //    if (artifactData.ComponentData.Id == 0)
+        //    {
+        //        base.AddInParameter("@CheckInId", DbType.Int64, DBNull.Value);
+        //    }
+        //    else
+        //    {
+        //        base.AddInParameter("@CheckInId", DbType.Int64, artifactData.ComponentData.Id);
+        //    }
+        //    base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
+        //    base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
+        //    Int32 ret = base.ExecuteNonQuery();
+        //    if (ret == -2146232060) status = false;//Foreign key violation
 
-            return status;
-        }
+        //    return status;
+        //}
         
         protected override bool DeleteBefore()
         {
@@ -94,18 +96,20 @@ namespace Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact
 
         }
 
-        protected override ReturnObject<Boolean> UpdateArtifactModuleLink()
-        {
-            Boolean status = true;
-            Data artifactData = Data as Data;
+        //protected override ReturnObject<Boolean> UpdateArtifactModuleLink()
+        //{
+        //    Boolean status = true;
+        //    Data artifactData = Data as Data;
 
-            base.CreateCommand("[Lodge].[UpdateCheckInFormForArtifact]");
-            base.AddInParameter("@CheckInId", DbType.Int64, artifactData.ComponentData.Id);
-            base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
-            Int32 ret = base.ExecuteNonQuery();
-            if (ret == -2146232060) status = false;//Foreign key violation
+        //    base.CreateCommand("[Lodge].[UpdateCheckInFormForArtifact]");
+        //    base.AddInParameter("@CheckInId", DbType.Int64, artifactData.ComponentData.Id);
+        //    base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
+        //    Int32 ret = base.ExecuteNonQuery();
+        //    if (ret == -2146232060) status = false;//Foreign key violation
 
-            return new ReturnObject<Boolean> { Value = status };
-        }
+        //    return new ReturnObject<Boolean> { Value = status };
+        //}
+
     }
+
 }

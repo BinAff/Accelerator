@@ -4,8 +4,10 @@ using BinAff.Core;
 
 namespace Crystal.Invoice.Component.Report.Navigator.Artifact
 {
-    public class Server : CrystalNavigator.Artifact.Server
+
+    public class Server : Crystal.Report.Component.Navigator.Artifact.Server
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -27,7 +29,6 @@ namespace Crystal.Invoice.Component.Report.Navigator.Artifact
             };
         }
 
-
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
             return new Server(data as Data);
@@ -38,18 +39,14 @@ namespace Crystal.Invoice.Component.Report.Navigator.Artifact
             return new Invoice.Component.Report.Server(moduleData as Invoice.Component.Report.Data);
         }
 
-        protected override ReturnObject<Boolean> DeleteAfter()
+        protected override ICrud GetComponentServer()
         {
-            if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)
+            return new Invoice.Component.Report.Server(new Invoice.Component.Report.Data
             {
-                ICrud crud = new Invoice.Component.Report.Server(new Invoice.Component.Report.Data
-                {
-                    Id = (this.Data as Data).ComponentData.Id
-                });
-                return crud.Delete();
-            }
-
-            return base.DeleteAfter();
+                Id = (this.Data as Data).ComponentData.Id
+            });
         }
+
     }
+
 }

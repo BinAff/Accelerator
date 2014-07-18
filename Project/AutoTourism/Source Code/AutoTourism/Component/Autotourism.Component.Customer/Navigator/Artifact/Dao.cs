@@ -19,7 +19,18 @@ namespace AutoTourism.Component.Customer.Navigator.Artifact
         protected override void Compose()
         {
             base.Compose();
-            base.DeleteArtifactLinkSPName = "[Customer].[DeleteFormForArtifact]";    
+            base.DeleteArtifactLinkSPName = "[Customer].[DeleteFormForArtifact]";
+            base.CreateComponentLinkSPName = "Customer.CustomerArtifactInsertLink";
+            base.UpdateComponentLinkSPName = "Customer.CustomerArtifactUpdateLink";
+        }
+
+        protected override BinAff.Core.Data CreateDataObject(Int64 id, Crystal.Navigator.Component.Artifact.Category category)
+        {
+            return new Data
+            {
+                Id = id,
+                Category = category,
+            };
         }
 
         protected override bool ReadBefore()
@@ -43,65 +54,46 @@ namespace AutoTourism.Component.Customer.Navigator.Artifact
             return true;
         }
 
-        protected override BinAff.Core.Data CreateDataObject(Int64 id, Crystal.Navigator.Component.Artifact.Category category)
-        {
-            return new Data
-            {
-                Id = id,
-                Category = category,
-            };
-        }
+        //protected override Boolean CreateAfterModuleArtifactLink()
+        //{
+        //    Boolean status = true;
 
-        protected override Boolean CreateAfterModuleArtifactLink()
-        {
-            Boolean status = true;
+        //    Data artifactData = Data as Data;
+        //    base.CreateCommand("[Customer].[InsertFormForArtifact]");
+        //    if (artifactData.ComponentData.Id == 0)
+        //    {
+        //        base.AddInParameter("@CustomerId", DbType.Int64, DBNull.Value);
+        //    }
+        //    else
+        //    {
+        //        base.AddInParameter("@CustomerId", DbType.Int64, artifactData.ComponentData.Id);
+        //    }
+        //    base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
+        //    base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
+        //    Int32 ret = base.ExecuteNonQuery();
+        //    if (ret == -2146232060) status = false;//Foreign key violation
 
-            Data artifactData = Data as Data;
-            base.CreateCommand("[Customer].[InsertFormForArtifact]");
-            if (artifactData.ComponentData.Id == 0)
-            {
-                base.AddInParameter("@CustomerId", DbType.Int64, DBNull.Value);
-            }
-            else
-            {
-                base.AddInParameter("@CustomerId", DbType.Int64, artifactData.ComponentData.Id);
-            }
-            base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
-            base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
-            Int32 ret = base.ExecuteNonQuery();
-            if (ret == -2146232060) status = false;//Foreign key violation
+        //    return status;
+        //}
 
-            return status;
-        }
-              
-        protected override bool DeleteAfter()
-        {
-            return base.DeleteAfter();
-        }
+        //protected override ReturnObject<Boolean> UpdateArtifactModuleLink()
+        //{
+        //    Boolean status = true;
 
-        protected override bool DeleteBefore()
-        {
-            return base.DeleteArtifactLink();
-        }
+        //    Data artifactData = Data as Data;
 
-        protected override ReturnObject<bool> UpdateArtifactModuleLink()
-        {
-            Boolean status = true;
+        //    base.CreateCommand("[Customer].[UpdateFormForArtifact]");
+        //    base.AddInParameter("@CustomerId", DbType.Int64, artifactData.ComponentData.Id);
+        //    base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
 
-            Data artifactData = Data as Data;
+        //    Int32 ret = base.ExecuteNonQuery();
+        //    if (ret == -2146232060) status = false;//Foreign key violation
 
-            base.CreateCommand("[Customer].[UpdateFormForArtifact]");
-            base.AddInParameter("@CustomerId", DbType.Int64, artifactData.ComponentData.Id);
-            base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
-
-            Int32 ret = base.ExecuteNonQuery();
-            if (ret == -2146232060) status = false;//Foreign key violation
-
-            return new ReturnObject<bool> 
-            {
-                Value = status
-            };            
-        }
+        //    return new ReturnObject<Boolean> 
+        //    {
+        //        Value = status
+        //    };            
+        //}
 
     }
 
