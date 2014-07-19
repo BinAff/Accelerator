@@ -7,9 +7,6 @@ namespace Crystal.Report.Component.Navigator.Artifact
     public abstract class Dao : Crystal.Navigator.Component.Artifact.Dao
     {
 
-        protected String ReadComponentLinkSPName { get; set; }
-        protected String DeleteComponentLinkSPName { get; set; }
-
         public Dao(Data data)
             : base(data)
         {
@@ -57,27 +54,6 @@ namespace Crystal.Report.Component.Navigator.Artifact
                 }
             }
             return true;
-        }
-
-        protected abstract BinAff.Core.Data GetComponentData(Int64 reportId);
-
-        protected override Boolean DeleteBefore()
-        {
-            return this.DeleteArtifactLink();
-        }
-
-        private Boolean DeleteArtifactLink()
-        {
-            Boolean status = true;
-            base.CreateCommand(this.DeleteComponentLinkSPName);
-            base.AddInParameter("@Id", DbType.Int64, this.Data.Id);
-
-            Int32 ret = base.ExecuteNonQuery();
-            if (ret == -2146232060) status = false;//Foreign key violation
-
-            base.CloseConnection();
-
-            return status;
         }
 
     }
