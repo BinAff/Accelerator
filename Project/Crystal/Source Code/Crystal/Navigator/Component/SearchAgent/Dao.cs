@@ -71,6 +71,11 @@ namespace Crystal.Navigator.Component.SearchAgent
             return dt;
         }
 
+        protected override BinAff.Core.Data GetComponentData(long componentId)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 
 }

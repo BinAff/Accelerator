@@ -3,7 +3,6 @@ using System.Data;
 using System.Collections.Generic;
 
 using GuardianAcc = Crystal.Guardian.Component.Account;
-using BinAff.Core;
 
 namespace Crystal.Navigator.Component.Artifact
 {
@@ -11,9 +10,13 @@ namespace Crystal.Navigator.Component.Artifact
     public abstract class Dao : BinAff.Core.Dao
     {
 
-        public String CreateComponentLinkSPName { get; set; }
+        protected String CreateComponentLinkSPName { get; set; }
 
-        public String UpdateComponentLinkSPName { get; set; }
+        protected String UpdateComponentLinkSPName { get; set; }
+
+        protected String DeleteComponentLinkSPName { get; set; }
+
+        protected String ReadComponentLinkSPName { get; set; }
 
         public Dao(Data data) 
             : base(data)
@@ -111,6 +114,92 @@ namespace Crystal.Navigator.Component.Artifact
             return dt;
         }
 
+        protected abstract BinAff.Core.Data CreateDataObject(Int64 id, Category category);        
+
+        public override BinAff.Core.Data Read()
+        {
+            if (this.Data != null &&
+                !String.IsNullOrEmpty((this.Data as Data).Path) && (this.Data as Data).CreatedBy == null)
+            {
+                this.CreateConnection();
+                this.CreateCommand("Navigator.ArtifactReadForPath");
+                this.AddInParameter("@Path", DbType.String, (this.Data as Data).Path);
+
+                DataSet ds = this.ExecuteDataSet();
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    this.Data.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
+                }
+                
+                this.CloseConnection();
+            }
+            return base.Read();
+        }
+
+        protected override Boolean ReadBefore()
+        {
+            base.CreateConnection();
+            base.CreateCommand(this.ReadComponentLinkSPName);
+            base.AddInParameter("@ArtifactId", DbType.Int64, this.Data.Id);
+
+            DataSet ds = this.ExecuteDataSet();
+            this.CloseConnection();
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                Int64 reportId = Convert.IsDBNull(ds.Tables[0].Rows[0]["ComponentId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["ComponentId"]);
+                if (reportId > 0)
+                {
+                    (this.Data as Data).ComponentData = this.GetComponentData(reportId);
+                }
+            }
+            return true;
+        }
+
+        protected abstract BinAff.Core.Data GetComponentData(Int64 componentId);
+
+        protected override Boolean CreateAfter()
+        {
+            Boolean status = true;
+            Data artifactData = Data as Data;
+
+            //avoiding insert during update
+            if (artifactData.ModifiedBy == null)
+            {
+                base.CreateCommand("[Navigator].[ArtifactModuleLinkInsertForModule]");
+                base.AddInParameter("@ArtifactId", DbType.Int64, Data.Id);
+                base.AddInParameter("@ModuleId", DbType.String, artifactData.ComponentDefinition.Id);
+                base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
+                Int32 ret = base.ExecuteNonQuery();
+
+                if (ret == -2146232060) status = false;//Foreign key violation
+
+                if (status)
+                    status = this.CreateComponentLink();
+            }
+
+            return status;
+        }
+
+        protected override Boolean DeleteBefore()
+        {
+            return this.DeleteComponentLink();
+        }
+
+        public Boolean DeleteComponentLink()
+        {
+            Boolean status = true;
+            base.CreateCommand(this.DeleteComponentLinkSPName);
+            base.AddInParameter("@Id", DbType.Int64, this.Data.Id);
+
+            Int32 ret = base.ExecuteNonQuery();
+            if (ret == -2146232060) status = false;//Foreign key violation
+
+            base.CloseConnection();
+
+            return status;
+        }
+
         internal List<BinAff.Core.Data> ReadArtifactListForMudule()
         {
             this.CreateCommand("Navigator.ArtifactModuleLinkReadForModule");
@@ -160,52 +249,6 @@ namespace Crystal.Navigator.Component.Artifact
                 }
             }
             return artifactList;
-        }
-
-        protected abstract BinAff.Core.Data CreateDataObject(Int64 id, Category category);        
-
-        public override BinAff.Core.Data Read()
-        {
-            if (this.Data != null &&
-                !String.IsNullOrEmpty((this.Data as Data).Path) && (this.Data as Data).CreatedBy == null)
-            {
-                this.CreateConnection();
-                this.CreateCommand("Navigator.ArtifactReadForPath");
-                this.AddInParameter("@Path", DbType.String, (this.Data as Data).Path);
-
-                DataSet ds = this.ExecuteDataSet();
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
-                    DataRow dr = ds.Tables[0].Rows[0];
-                    this.Data.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
-                }
-                
-                this.CloseConnection();
-            }
-            return base.Read();
-        }
-
-        protected override Boolean CreateAfter()
-        {
-            Boolean status = true;
-            Data artifactData = Data as Data;
-
-            //avoiding insert during update
-            if (artifactData.ModifiedBy == null)
-            {
-                base.CreateCommand("[Navigator].[ArtifactModuleLinkInsertForModule]");
-                base.AddInParameter("@ArtifactId", DbType.Int64, Data.Id);
-                base.AddInParameter("@ModuleId", DbType.String, artifactData.ComponentDefinition.Id);
-                base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
-                Int32 ret = base.ExecuteNonQuery();
-
-                if (ret == -2146232060) status = false;//Foreign key violation
-
-                if (status)
-                    status = this.CreateComponentLink();
-            }
-
-            return status;
         }
 
         protected virtual Boolean CreateComponentLink()
