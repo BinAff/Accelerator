@@ -443,15 +443,18 @@ namespace AutoTourism.Customer.Facade
             return "AutoTourism.Component.Customer.Navigator.Artifact.Data, AutoTourism.Component.Customer";
         }
 
-        public override ReturnObject<Boolean> ValidateDelete(Data moduleData)
+        public override ReturnObject<Boolean> ValidateDelete()
         {
             ReturnObject<bool> ret = new ReturnObject<bool> { Value = true };
 
-            //ICrud autoCustmer = new CustAuto.Server(new CustAuto.Data { Id = moduleData.Id });
-            //ReturnObject<Data> retData = autoCustmer.Read();
+            Int64 ArtifactId = this.Data.Id;
+            Int64 CustomerId = this.ReadCustomerId(ArtifactId);
 
-            LodgeCrys.Room.Reserver.Data reservationData = (moduleData as CustAuto.Data).RoomReserver;
-            LodgeCrys.Room.CheckInContainer.Data checkInData = (moduleData as CustAuto.Data).Checkin;
+            ICrud autoCustmer = new CustAuto.Server(new CustAuto.Data { Id = CustomerId });
+            ReturnObject<Data> retData = autoCustmer.Read();
+
+            LodgeCrys.Room.Reserver.Data reservationData = (retData.Value as CustAuto.Data).RoomReserver;
+            LodgeCrys.Room.CheckInContainer.Data checkInData = (retData.Value as CustAuto.Data).Checkin;
 
             if (reservationData != null && reservationData.AllList != null && reservationData.AllList.Count > 0)
             {
@@ -475,6 +478,11 @@ namespace AutoTourism.Customer.Facade
         {
             return "CUST";
         }
+
+        private Int64 ReadCustomerId(Int64 ArtifactId)
+        {
+            return new CustAuto.Server(null).ReadCustomerId(ArtifactId);            
+        }     
 
     }
 

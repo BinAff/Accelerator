@@ -46,7 +46,7 @@ namespace AutoTourism.Lodge.Facade.CheckInRegister
                     Id = data.Id,
                     CheckInDate = ((CrystalLodge.Room.CheckIn.Data)data).ActivityDate,                    
                     //InvoiceId = ((Crystal.Lodge.CheckIn.Data)data).InvoiceId,
-                    Advance = ((CrystalLodge.Room.CheckIn.Data)data).Advance,
+                    //Advance = ((CrystalLodge.Room.CheckIn.Data)data).Advance,
                     Reservation = GetReservationDto(((CrystalLodge.Room.CheckIn.Data)data).Reservation),
 
                 };

@@ -92,6 +92,10 @@ namespace Crystal.Lodge.Component.Room.Reservation
             return new Dao((Data)this.Data).ReadReservationId(ArtifactId);
         }
 
+        public ReturnObject<Boolean> RevertReservationAfterCheckIn()
+        {
+            return new Dao((Data)this.Data).RevertReservationAfterCheckIn();
+        }
     }
 
 }
