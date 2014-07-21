@@ -8,6 +8,7 @@ namespace BinAff.Facade.Library
 
     public abstract class Server
     {
+        public Data Data { get; set; }
 
         /// <summary>
         /// Data structure of the form
@@ -72,7 +73,7 @@ namespace BinAff.Facade.Library
         /// </summary>
         public abstract Core.Data Convert(Dto dto);
 
-        public virtual ReturnObject<bool> ValidateDelete(Data moduleData)
+        public virtual ReturnObject<bool> ValidateDelete()
         {
             return new ReturnObject<bool> { Value = true };
         }

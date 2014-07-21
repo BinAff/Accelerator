@@ -32,7 +32,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.txtFilteredRoomCount = new System.Windows.Forms.TextBox();
             this.lblTotalRooms = new System.Windows.Forms.Label();
-            this.txtFilteredAvailableRoomCount = new System.Windows.Forms.TextBox();
+            this.txtAvailableRoomCount = new System.Windows.Forms.TextBox();
             this.lblAvailableRooms = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtMale = new System.Windows.Forms.TextBox();
@@ -50,7 +50,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.cboAccessory = new System.Windows.Forms.ComboBox();
+            this.cboAC = new System.Windows.Forms.ComboBox();
             this.txtStatus = new System.Windows.Forms.TextBox();
             this.cboType = new System.Windows.Forms.ComboBox();
             this.lblReservationStatus = new System.Windows.Forms.Label();
@@ -76,12 +76,12 @@
             this.cboSelectedRoom = new System.Windows.Forms.ComboBox();
             this.btnAddRoom = new System.Windows.Forms.Button();
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtArrivedFrom = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtCheckInRemark = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtPurpose = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -102,7 +102,7 @@
             // 
             this.groupBox4.Controls.Add(this.txtFilteredRoomCount);
             this.groupBox4.Controls.Add(this.lblTotalRooms);
-            this.groupBox4.Controls.Add(this.txtFilteredAvailableRoomCount);
+            this.groupBox4.Controls.Add(this.txtAvailableRoomCount);
             this.groupBox4.Controls.Add(this.lblAvailableRooms);
             this.groupBox4.Location = new System.Drawing.Point(547, 274);
             this.groupBox4.Name = "groupBox4";
@@ -129,14 +129,14 @@
             this.lblTotalRooms.TabIndex = 106;
             this.lblTotalRooms.Text = "Total Rooms";
             // 
-            // txtFilteredAvailableRoomCount
+            // txtAvailableRoomCount
             // 
-            this.txtFilteredAvailableRoomCount.Location = new System.Drawing.Point(253, 19);
-            this.txtFilteredAvailableRoomCount.Name = "txtFilteredAvailableRoomCount";
-            this.txtFilteredAvailableRoomCount.ReadOnly = true;
-            this.txtFilteredAvailableRoomCount.Size = new System.Drawing.Size(32, 20);
-            this.txtFilteredAvailableRoomCount.TabIndex = 999;
-            this.txtFilteredAvailableRoomCount.TabStop = false;
+            this.txtAvailableRoomCount.Location = new System.Drawing.Point(253, 19);
+            this.txtAvailableRoomCount.Name = "txtAvailableRoomCount";
+            this.txtAvailableRoomCount.ReadOnly = true;
+            this.txtAvailableRoomCount.Size = new System.Drawing.Size(32, 20);
+            this.txtAvailableRoomCount.TabIndex = 999;
+            this.txtAvailableRoomCount.TabStop = false;
             // 
             // lblAvailableRooms
             // 
@@ -295,18 +295,18 @@
             this.label12.TabIndex = 1019;
             this.label12.Text = "Category";
             // 
-            // cboAccessory
+            // cboAC
             // 
-            this.cboAccessory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboAccessory.FormattingEnabled = true;
-            this.cboAccessory.Items.AddRange(new object[] {
+            this.cboAC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboAC.FormattingEnabled = true;
+            this.cboAC.Items.AddRange(new object[] {
             "All"});
-            this.cboAccessory.Location = new System.Drawing.Point(94, 194);
-            this.cboAccessory.Name = "cboAccessory";
-            this.cboAccessory.Size = new System.Drawing.Size(148, 21);
-            this.cboAccessory.TabIndex = 1014;
-            this.toolTip.SetToolTip(this.cboAccessory, "Appliance");
-            this.cboAccessory.SelectedIndexChanged += new System.EventHandler(this.cboAccessory_SelectedIndexChanged);
+            this.cboAC.Location = new System.Drawing.Point(94, 194);
+            this.cboAC.Name = "cboAC";
+            this.cboAC.Size = new System.Drawing.Size(148, 21);
+            this.cboAC.TabIndex = 1014;
+            this.toolTip.SetToolTip(this.cboAC, "Appliance");
+            this.cboAC.SelectedIndexChanged += new System.EventHandler(this.cboAccessory_SelectedIndexChanged);
             // 
             // txtStatus
             // 
@@ -560,13 +560,13 @@
             this.dtFrom.TabIndex = 1008;
             this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
             // 
-            // textBox1
+            // txtArrivedFrom
             // 
-            this.textBox1.Location = new System.Drawing.Point(94, 333);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(447, 50);
-            this.textBox1.TabIndex = 1031;
+            this.txtArrivedFrom.Location = new System.Drawing.Point(94, 333);
+            this.txtArrivedFrom.Multiline = true;
+            this.txtArrivedFrom.Name = "txtArrivedFrom";
+            this.txtArrivedFrom.Size = new System.Drawing.Size(447, 50);
+            this.txtArrivedFrom.TabIndex = 1031;
             // 
             // label15
             // 
@@ -586,13 +586,13 @@
             this.label18.TabIndex = 1034;
             this.label18.Text = "Purpose";
             // 
-            // textBox3
+            // txtCheckInRemark
             // 
-            this.textBox3.Location = new System.Drawing.Point(95, 389);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(447, 50);
-            this.textBox3.TabIndex = 1035;
+            this.txtCheckInRemark.Location = new System.Drawing.Point(95, 389);
+            this.txtCheckInRemark.Multiline = true;
+            this.txtCheckInRemark.Name = "txtCheckInRemark";
+            this.txtCheckInRemark.Size = new System.Drawing.Size(447, 50);
+            this.txtCheckInRemark.TabIndex = 1035;
             // 
             // label19
             // 
@@ -603,24 +603,24 @@
             this.label19.TabIndex = 1036;
             this.label19.Text = "Remarks";
             // 
-            // textBox2
+            // txtPurpose
             // 
-            this.textBox2.Location = new System.Drawing.Point(94, 275);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(447, 50);
-            this.textBox2.TabIndex = 1033;
+            this.txtPurpose.Location = new System.Drawing.Point(94, 275);
+            this.txtPurpose.Multiline = true;
+            this.txtPurpose.Name = "txtPurpose";
+            this.txtPurpose.Size = new System.Drawing.Size(447, 50);
+            this.txtPurpose.TabIndex = 1033;
             // 
             // CheckInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(856, 450);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.txtCheckInRemark);
             this.Controls.Add(this.label19);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.txtPurpose);
             this.Controls.Add(this.label18);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtArrivedFrom);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox4);
@@ -632,7 +632,7 @@
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.cboAccessory);
+            this.Controls.Add(this.cboAC);
             this.Controls.Add(this.txtStatus);
             this.Controls.Add(this.cboType);
             this.Controls.Add(this.lblReservationStatus);
@@ -663,7 +663,7 @@
             this.Controls.SetChildIndex(this.lblReservationStatus, 0);
             this.Controls.SetChildIndex(this.cboType, 0);
             this.Controls.SetChildIndex(this.txtStatus, 0);
-            this.Controls.SetChildIndex(this.cboAccessory, 0);
+            this.Controls.SetChildIndex(this.cboAC, 0);
             this.Controls.SetChildIndex(this.label12, 0);
             this.Controls.SetChildIndex(this.label13, 0);
             this.Controls.SetChildIndex(this.label14, 0);
@@ -675,11 +675,11 @@
             this.Controls.SetChildIndex(this.groupBox4, 0);
             this.Controls.SetChildIndex(this.label6, 0);
             this.Controls.SetChildIndex(this.label15, 0);
-            this.Controls.SetChildIndex(this.textBox1, 0);
+            this.Controls.SetChildIndex(this.txtArrivedFrom, 0);
             this.Controls.SetChildIndex(this.label18, 0);
-            this.Controls.SetChildIndex(this.textBox2, 0);
+            this.Controls.SetChildIndex(this.txtPurpose, 0);
             this.Controls.SetChildIndex(this.label19, 0);
-            this.Controls.SetChildIndex(this.textBox3, 0);
+            this.Controls.SetChildIndex(this.txtCheckInRemark, 0);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -699,7 +699,7 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox txtFilteredRoomCount;
         private System.Windows.Forms.Label lblTotalRooms;
-        private System.Windows.Forms.TextBox txtFilteredAvailableRoomCount;
+        private System.Windows.Forms.TextBox txtAvailableRoomCount;
         private System.Windows.Forms.Label lblAvailableRooms;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox txtMale;
@@ -717,7 +717,7 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.ComboBox cboAccessory;
+        private System.Windows.Forms.ComboBox cboAC;
         private System.Windows.Forms.TextBox txtStatus;
         private System.Windows.Forms.ComboBox cboType;
         private System.Windows.Forms.Label lblReservationStatus;
@@ -743,12 +743,12 @@
         private System.Windows.Forms.ComboBox cboSelectedRoom;
         private System.Windows.Forms.Button btnAddRoom;
         private System.Windows.Forms.DateTimePicker dtFrom;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtArrivedFrom;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtCheckInRemark;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtPurpose;
 
     }
 }

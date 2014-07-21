@@ -109,12 +109,51 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         {            
             return ((Dao)this.dataAccess).ModifyCheckInStatus(statusId);
         }
-
-
+        
         ReturnObject<bool> ICheckIn.UpdateInvoiceNumber(string invoiceNumber)
         {
             return ((Dao)this.dataAccess).UpdateInvoiceNumber(invoiceNumber);
         }
+
+        public Int64 ReadCheckInId(Int64 ArtifactId)
+        {
+            return new Dao((Data)this.Data).ReadCheckInId(ArtifactId);
+        }
+
+        protected override ReturnObject<bool> DeleteAfter()
+        {            
+            return new Reservation.Server(new Reservation.Data { Id = (this.Data as Data).Reservation.Id }).RevertReservationAfterCheckIn();
+        }
+
+        public ReturnObject<Boolean> IsCheckInDeletable()
+        {
+            ReturnObject<Boolean> retVal = new ReturnObject<bool> 
+            { 
+                MessageList = new List<Message>()
+            };
+            ReturnObject<BinAff.Core.Data> retObj = base.Read();
+
+            Data data = retObj.Value as Data;
+            if (data.Status.Id == 10002)
+                retVal.MessageList.Add(new Message 
+                { 
+                    Category = Message.Type.Error,
+                    Description = "Checkin is changed to checkout."
+                });
+
+            if(DateTime.Compare(data.Date,DateTime.Today) != 0)
+                retVal.MessageList.Add(new Message
+                {
+                    Category = Message.Type.Error,
+                    Description = "Checkin is more than a day."
+                });
+
+            if (retVal.MessageList != null && retVal.MessageList.Count > 0)
+                retVal.Value = false;
+
+            return retVal;
+        }
+            
     }
 
 }

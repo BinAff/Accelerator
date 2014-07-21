@@ -30,8 +30,12 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         protected override void AssignParameter(String procedureName)
         {
             base.AssignParameter(procedureName);
-            base.AddInParameter("@Advance", DbType.Double, ((Data)this.Data).Advance);         
+            //base.AddInParameter("@Advance", DbType.Double, ((Data)this.Data).Advance);         
             base.AddInParameter("@ReservationId", DbType.Int64, ((Data)this.Data).Reservation.Id);
+
+            base.AddInParameter("@Purpose", DbType.String, ((Data)this.Data).Purpose);
+            base.AddInParameter("@ArrivedFrom", DbType.String, ((Data)this.Data).ArrivedFrom);
+            base.AddInParameter("@Remark", DbType.Int64, ((Data)this.Data).Remark);
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
@@ -39,7 +43,7 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             base.CreateDataObject(dr, data);
             Data dt = (Data)data;
             
-            dt.Advance = Convert.IsDBNull(dr["Advance"]) ? 0 : Convert.ToDouble(dr["Advance"]);
+            //dt.Advance = Convert.IsDBNull(dr["Advance"]) ? 0 : Convert.ToDouble(dr["Advance"]);
             dt.invoiceNumber = Convert.IsDBNull(dr["InvoiceNumber"]) ? String.Empty : Convert.ToString(dr["InvoiceNumber"]);
             dt.Reservation = Convert.IsDBNull(dr["ReservationId"]) ? null : new Crystal.Lodge.Component.Room.Reservation.Data() 
             { 
@@ -47,6 +51,9 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             };
             dt.ActivityDate = Convert.IsDBNull(dr["CheckInDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CheckInDate"]);
             dt.Date = Convert.IsDBNull(dr["CreatedDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CreatedDate"]);
+            dt.Purpose = Convert.IsDBNull(dr["Purpose"]) ? String.Empty : Convert.ToString(dr["Purpose"]);
+            dt.ArrivedFrom = Convert.IsDBNull(dr["ArrivedFrom"]) ? String.Empty : Convert.ToString(dr["ArrivedFrom"]);
+            dt.Remark = Convert.IsDBNull(dr["Remark"]) ? String.Empty : Convert.ToString(dr["Remark"]);
 
             return dt;
         }
@@ -62,24 +69,13 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             ICrud roomServer = new Room.Server(roomData);
             roomServer.Read();
             return roomData;
-        }
-
-        protected override Boolean CreateAfter()
-        {
-            return this.InsertRoomList();
-        }
-
-        protected override Boolean UpdateAfter()
-        {
-            if(this.DeleteRoomList())
-                return this.InsertRoomList();
-            return false;
-        }
+        }       
 
         protected override Boolean DeleteBefore()
         {
-            return this.DeleteRoomList();
+          return this.DeleteCustomerRoomCheckInLink();
         }
+
 
         protected override Boolean ReadAfter()
         {
@@ -108,47 +104,47 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             return true;
         }
 
-        private Boolean InsertRoomList()
-        {
-            Data data = this.Data as Data;
-            Boolean retVal = true;
-            Int64 reservationId = 0;
-            if (data.ProductList != null)
-            {          
-                foreach(BinAff.Core.Data roomData in data.ProductList){
-                    this.CreateCommand("[Lodge].[RoomReservationDetailsInsert]");
-                    this.AddInParameter("@RoomId", DbType.Int64, roomData.Id);
-                    //this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
-                    this.AddInParameter("@ReservationId", DbType.Int64, data.Reservation.Id);
-                    this.AddInParameter("@Id", DbType.Int64, reservationId);
-                    Int32 ret = this.ExecuteNonQuery();
+        //private Boolean InsertRoomList()
+        //{
+        //    Data data = this.Data as Data;
+        //    Boolean retVal = true;
+        //    Int64 reservationId = 0;
+        //    if (data.ProductList != null)
+        //    {          
+        //        foreach(BinAff.Core.Data roomData in data.ProductList){
+        //            this.CreateCommand("[Lodge].[RoomReservationDetailsInsert]");
+        //            this.AddInParameter("@RoomId", DbType.Int64, roomData.Id);
+        //            //this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
+        //            this.AddInParameter("@ReservationId", DbType.Int64, data.Reservation.Id);
+        //            this.AddInParameter("@Id", DbType.Int64, reservationId);
+        //            Int32 ret = this.ExecuteNonQuery();
 
-                    if (ret == -2146232060)
-                        return false;//Foreign key violation
-                    else
-                        retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
-                }               
-            }
+        //            if (ret == -2146232060)
+        //                return false;//Foreign key violation
+        //            else
+        //                retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+        //        }               
+        //    }
 
-            return retVal;
-        }
+        //    return retVal;
+        //}
 
-        private Boolean DeleteRoomList()
-        {
-            Data data = this.Data as Data;
-            Boolean retVal = true;          
+        //private Boolean DeleteRoomList()
+        //{
+        //    Data data = this.Data as Data;
+        //    Boolean retVal = true;          
            
-            this.CreateCommand("[Lodge].[RoomReservationDetailsDelete]");           
-            this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
-            Int32 ret = this.ExecuteNonQuery();
+        //    this.CreateCommand("[Lodge].[RoomReservationDetailsDelete]");           
+        //    this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
+        //    Int32 ret = this.ExecuteNonQuery();
 
-            if (ret == -2146232060)
-                retVal = false;//Foreign key violation
-            else
-                retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;                
+        //    if (ret == -2146232060)
+        //        retVal = false;//Foreign key violation
+        //    else
+        //        retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;                
 
-            return retVal;
-        }
+        //    return retVal;
+        //}
 
         internal List<Data> IsReservationDeletable(Reservation.Data data)
         {
@@ -244,8 +240,10 @@ namespace Crystal.Lodge.Component.Room.CheckIn
 
         internal List<Room.Data> ReadCheckedInRoomList()
         {
+            Data data = (Data)base.Data;
             List<Room.Data> roomDataList = new List<Room.Data>();
             this.CreateCommand("[Lodge].[ReadAllCheckInRooms]");
+            this.AddInParameter("@ReservationId", DbType.Int64, data.Reservation.Id);
             DataSet ds = this.ExecuteDataSet();
 
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -259,6 +257,33 @@ namespace Crystal.Lodge.Component.Room.CheckIn
                 }
             }
             return roomDataList;
+        }
+                
+        private bool DeleteCustomerRoomCheckInLink()
+        {
+            Boolean status = true;
+            base.CreateCommand("[AutoTourism].[CustomerRoomCheckInLinkDelete]");
+            base.AddInParameter("@RoomCheckInId", DbType.Int64, this.Data.Id);
+            Int32 ret = base.ExecuteNonQuery();
+            if (ret == -2146232060) status = false;//Foreign key violation
+            base.CloseConnection();
+            return status;
+        }
+
+        public Int64 ReadCheckInId(Int64 ArtifactId)
+        {
+            Int64 RoomReservationId = 0;
+            this.CreateCommand("[Lodge].[ReadRoomCheckInId]");
+            this.AddInParameter("@ArtifactId", DbType.Int64, ArtifactId);
+
+            DataSet ds = this.ExecuteDataSet();
+
+            if (ds.Tables.Count > 0)
+            {
+                RoomReservationId = Convert.IsDBNull(ds.Tables[0].Rows[0]["CheckInId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["CheckInId"]);
+            }
+
+            return RoomReservationId;
         }
 
     }

@@ -70,6 +70,11 @@ namespace AutoTourism.Component.Customer
           ICrud crud = new Crystal.Invoice.Component.Server(invoiceData);
           return crud.Save();
         }
+
+        public Int64 ReadCustomerId(Int64 ArtifactId)
+        {
+            return new Dao((Data)this.Data).ReadCustomerId(ArtifactId);
+        }
                 
     }
 

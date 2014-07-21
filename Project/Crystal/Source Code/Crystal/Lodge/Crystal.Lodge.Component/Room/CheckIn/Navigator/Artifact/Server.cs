@@ -39,15 +39,15 @@ namespace Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact
             return new Crystal.Lodge.Component.Room.CheckIn.Server(moduleData as Crystal.Lodge.Component.Room.CheckIn.Data);
         }
 
-        protected override ReturnObject<bool> DeleteAfter()
-        {
-            if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)
-            {
-                ICrud crud = new Crystal.Lodge.Component.Room.CheckIn.Server(new Crystal.Lodge.Component.Room.CheckIn.Data() { Id = (this.Data as Data).ComponentData.Id });
-                return crud.Delete();
-            }
+        //protected override ReturnObject<bool> DeleteAfter()
+        //{
+        //    if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)
+        //    {
+        //        ICrud crud = new Crystal.Lodge.Component.Room.CheckIn.Server(new Crystal.Lodge.Component.Room.CheckIn.Data() { Id = (this.Data as Data).ComponentData.Id });
+        //        return crud.Delete();
+        //    }
 
-            return base.DeleteAfter();
-        }
+        //    return base.DeleteAfter();
+        //}
     }
 }

@@ -12,7 +12,13 @@ namespace AutoTourism.Lodge.WinForm
 
     public partial class RoomReservationRegister : Form
     {
-
+        public enum LodgeReservationStatus
+        {
+            Open = 10001,
+            //Close = 10002,
+            Cancel = 10003,
+            CheckIn = 10004
+        }
         //private RuleFacade.ConfigurationRuleDto configurationRuleDto;
 
         public RoomReservationRegister()
@@ -144,9 +150,9 @@ namespace AutoTourism.Lodge.WinForm
             //populate reservation data
             txtFromDate.Text = dto.BookingFrom.ToString();//
             txtDays.Text = dto.NoOfDays == 0 ? String.Empty : dto.NoOfDays.ToString();
-            txtPersons.Text = dto.NoOfPersons == 0 ? String.Empty : dto.NoOfPersons.ToString();
+            //txtPersons.Text = dto.NoOfPersons == 0 ? String.Empty : dto.NoOfPersons.ToString();
             txtRooms.Text = dto.NoOfRooms == 0 ? String.Empty : dto.NoOfRooms.ToString();
-            txtAdvance.Text = dto.Advance == 0 ? String.Empty : Converter.ConvertToIndianCurrency(dto.Advance);
+            //txtAdvance.Text = dto.Advance == 0 ? String.Empty : Converter.ConvertToIndianCurrency(dto.Advance);
             lstRooms.DataSource = dto.RoomList;
             lstRooms.DisplayMember = "Number";
             lstRooms.ValueMember = "Id";
@@ -248,15 +254,7 @@ namespace AutoTourism.Lodge.WinForm
                 }
             }
             
-        }
-
-        public enum LodgeReservationStatus
-        {
-            Open = 10001,
-            Close = 10002,
-            Cancel = 10003,
-            CheckIn = 10004
-        }
+        }       
                
     }
 

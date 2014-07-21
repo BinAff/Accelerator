@@ -235,6 +235,22 @@ namespace AutoTourism.Component.Customer
             return customerId;
         }
 
+        public Int64 ReadCustomerId(Int64 ArtifactId)
+        {
+            Int64 CustomerId = 0;
+            this.CreateCommand("[Customer].[ReadCustomerId]");
+            this.AddInParameter("@ArtifactId", DbType.Int64, ArtifactId);
+
+            DataSet ds = this.ExecuteDataSet();
+
+            if (ds.Tables.Count > 0)
+            {
+                CustomerId = Convert.IsDBNull(ds.Tables[0].Rows[0]["CustomerId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["CustomerId"]);
+            }
+
+            return CustomerId;
+        }
+
     }
 
 }

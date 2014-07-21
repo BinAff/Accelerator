@@ -71,7 +71,8 @@ namespace Crystal.Lodge.Component.Room.Reservation
             dt.NoOfFemale = Convert.IsDBNull(dr["NoOfFemale"]) ? 0 : Convert.ToInt32(dr["NoOfFemale"]);
             dt.NoOfChild = Convert.IsDBNull(dr["NoOfChild"]) ? 0 : Convert.ToInt32(dr["NoOfChild"]);
             dt.NoOfInfant = Convert.IsDBNull(dr["NoOfInfant"]) ? 0 : Convert.ToInt32(dr["NoOfInfant"]);
-            dt.Remark = Convert.IsDBNull(dr["Remark"]) ? String.Empty : dr["Remark"].ToString(); 
+            dt.Remark = Convert.IsDBNull(dr["Remark"]) ? String.Empty : dr["Remark"].ToString();
+            dt.ReservationNo = dt.Id > 0 ? this.ReadReservationNo(dt.Id) : String.Empty;
             
             return dt;
         }
@@ -239,6 +240,27 @@ namespace Crystal.Lodge.Component.Room.Reservation
             this.CreateCommand("[Lodge].[UpdateReservationStatus]");
             this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
             this.AddInParameter("@ReservationStatusId", DbType.Int64, data.Status.Id);
+            Int32 ret = this.ExecuteNonQuery();
+
+            if (ret == -2146232060)
+                retVal.Value = false;//Foreign key violation
+            else
+                retVal.Value = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+
+            this.CloseConnection();
+            return retVal;
+        }
+
+
+        public ReturnObject<Boolean> RevertReservationAfterCheckIn()
+        {
+            ReturnObject<Boolean> retVal = new ReturnObject<Boolean>();
+            Data data = this.Data as Data;
+
+            this.CreateConnection();
+            this.CreateCommand("[Lodge].[UpdateReservationAfterCheckIn]");
+            this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
+         
             Int32 ret = this.ExecuteNonQuery();
 
             if (ret == -2146232060)

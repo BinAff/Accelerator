@@ -21,7 +21,7 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             Data data = (Data)base.Data;
            
             //check whether any room is already checked In
-            List<Room.Data> checkInRoomList = new Dao(null).ReadCheckedInRoomList();
+            List<Room.Data> checkInRoomList = new Dao(data).ReadCheckedInRoomList();
             if(checkInRoomList != null && checkInRoomList.Count > 0)
             {
                 foreach (Room.Data room in ((Crystal.Customer.Component.Action.Data)(data.Reservation)).ProductList)

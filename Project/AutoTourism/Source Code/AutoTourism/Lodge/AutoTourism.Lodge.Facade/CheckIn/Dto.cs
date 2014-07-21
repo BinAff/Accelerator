@@ -13,6 +13,10 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public String InvoiceNumber { get; set; }
         public LodgeFacade.RoomReservation.Dto Reservation { get; set; }
         public String CustomerDisplayName { get; set; }
+        public String Purpose { get; set; }
+        public String ArrivedFrom { get; set; }
+        public String Remark { get; set; }
+
         
     }
 

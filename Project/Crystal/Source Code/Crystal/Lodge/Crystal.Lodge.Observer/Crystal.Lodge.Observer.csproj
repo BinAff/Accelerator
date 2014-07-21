@@ -42,6 +42,7 @@
     <Compile Include="Reservation.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="RoomCategory.cs" />
+    <Compile Include="RoomCheckIn.cs" />
     <Compile Include="RoomReservation.cs" />
     <Compile Include="RoomStatus.cs" />
     <Compile Include="RoomType.cs" />
