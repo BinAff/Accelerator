@@ -59,6 +59,15 @@ namespace Crystal.Navigator.Component.Artifact
             return base.DeleteBefore();
         }
 
+        protected override ReturnObject<Boolean> DeleteAfter()
+        {
+            if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)
+            {
+                return (this.CreateModuleServerInstance((this.Data as Data).ComponentData) as ICrud).Delete();
+            }
+            return base.DeleteAfter();
+        }
+
         protected abstract BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData);
 
         ReturnObject<Data> IArtifact.FormTree()

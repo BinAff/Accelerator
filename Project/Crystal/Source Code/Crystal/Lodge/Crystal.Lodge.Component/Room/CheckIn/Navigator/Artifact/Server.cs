@@ -1,11 +1,11 @@
-﻿
-using BinAff.Core;
-using CrystalNavigator = Crystal.Navigator.Component;
+﻿using ArtfComp = Crystal.Navigator.Component.Artifact;
 
 namespace Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact
 {
-    public class Server : CrystalNavigator.Artifact.Server
+
+    public class Server : ArtfComp.Server
     {
+
         public Server(Data data)
             : base(data)
         {
@@ -16,8 +16,8 @@ namespace Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact
         {
             this.Name = "Lodge CheckIn " + (this.Data as Data).Category.ToString();
             (this.Data as Data).Extension = "frm";
-            this.DataAccess = new Dao((Data)this.Data);
-            this.Validator = new Validator((Data)this.Data);
+            this.DataAccess = new Dao(this.Data as Data);
+            this.Validator = new Validator(this.Data as Data);
         }
 
         protected override BinAff.Core.Data CreateDataObject()
@@ -39,15 +39,6 @@ namespace Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact
             return new Crystal.Lodge.Component.Room.CheckIn.Server(moduleData as Crystal.Lodge.Component.Room.CheckIn.Data);
         }
 
-        //protected override ReturnObject<bool> DeleteAfter()
-        //{
-        //    if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)
-        //    {
-        //        ICrud crud = new Crystal.Lodge.Component.Room.CheckIn.Server(new Crystal.Lodge.Component.Room.CheckIn.Data() { Id = (this.Data as Data).ComponentData.Id });
-        //        return crud.Delete();
-        //    }
-
-        //    return base.DeleteAfter();
-        //}
     }
+
 }
