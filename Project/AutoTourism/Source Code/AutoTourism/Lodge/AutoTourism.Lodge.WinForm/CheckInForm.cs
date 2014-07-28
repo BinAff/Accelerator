@@ -419,8 +419,10 @@ namespace AutoTourism.Lodge.WinForm
             dto.Reservation.NoOfRooms = Convert.ToInt16(this.txtRooms.Text);
 
             //non-mandatory drop down       
-            dto.Reservation.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<RoomFac.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
-            dto.Reservation.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<RoomFac.Type.Dto>)[this.cboType.SelectedIndex].Id };
+            //dto.Reservation.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.DataSource as List<RoomFac.Category.Dto>)[this.cboCategory.SelectedIndex].Id };
+            //dto.Reservation.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.DataSource as List<RoomFac.Type.Dto>)[this.cboType.SelectedIndex].Id };
+            dto.Reservation.RoomCategory = this.cboCategory.SelectedIndex == -1 ? null : new Table { Id = (this.cboCategory.SelectedItem as RoomFac.Category.Dto).Id };
+            dto.Reservation.RoomType = this.cboType.SelectedIndex == -1 ? null : new Table { Id = (this.cboType.SelectedItem as RoomFac.Type.Dto).Id };
             dto.Reservation.ACPreference = this.cboAC.SelectedIndex;
 
             //non-mandatory textBox
@@ -486,6 +488,37 @@ namespace AutoTourism.Lodge.WinForm
             (base.formDto as Fac.FormDto).Dto = this.CloneDto(this.InitialDto) as Fac.Dto;
         }
 
+        protected override void ClearForm()
+        {
+            dtFrom.Value = DateTime.Now;
+            dtFromTime.Value = DateTime.Now;
+            txtDays.Text = String.Empty;
+            txtRooms.Text = String.Empty;
+            this.cboCategory.SelectedIndex = 0;
+            this.cboType.SelectedIndex = 0;
+            this.cboAC.SelectedIndex = 0;
+            txtMale.Text = String.Empty;
+            txtFemale.Text = String.Empty;
+            txtChild.Text = String.Empty;
+            txtInfant.Text = String.Empty;
+            txtPurpose.Text = String.Empty;
+            txtArrivedFrom.Text = String.Empty;
+            txtCheckInRemark.Text = String.Empty;
+            cboRoomList.DataSource = null;
+            cboSelectedRoom.DataSource = null;
+            
+
+            txtReservationNo.Text = String.Empty;
+            txtStatus.Text = String.Empty;
+            txtName.Text = String.Empty;
+            lstContact.DataSource = null;
+            txtAdds.Text = String.Empty;
+            txtEmail.Text = String.Empty;
+            txtFilteredRoomCount.Text = String.Empty;
+            txtAvailableRoomCount.Text = String.Empty;
+            txtReservationRemarks.Text = String.Empty;
+
+        }
         #endregion
 
         #region Private
@@ -499,35 +532,7 @@ namespace AutoTourism.Lodge.WinForm
             //this.formDto.dto.Reservation.Customer = reservation.CloneCustomer(this.refreshDto.Reservation.Customer);
 
             //this.LoadCheckInData();
-        }
-
-        private void Clear()
-        {
-            //txtTotalRoom.Text = String.Empty;
-            //txtTotalBooked.Text = String.Empty;
-            txtFilteredRoomCount.Text = String.Empty;
-            txtAvailableRoomCount.Text = String.Empty;
-
-            dtFrom.Value = DateTime.Now;
-            dtFromTime.Value = DateTime.Now;
-
-            txtDays.Text = String.Empty;
-            txtMale.Text = String.Empty;
-            txtRooms.Text = String.Empty;
-            //txtAdvance.Text = String.Empty;
-            cboSelectedRoom.DataSource = null;
-
-            this.cboCategory.SelectedIndex = 0;
-            this.cboType.SelectedIndex = 0;
-            this.cboAC.SelectedIndex = 0;
-
-            txtName.Text = String.Empty;
-            lstContact.DataSource = null;
-            txtAdds.Text = String.Empty;
-            txtEmail.Text = String.Empty;
-
-            //this.formDto.dto = new LodgeFac.CheckIn.Dto();
-        }
+        }       
 
         private UtilFac.Artifact.Dto GetInvoiceArtifact()
         {
@@ -645,7 +650,7 @@ namespace AutoTourism.Lodge.WinForm
             (this.facade as Fac.CheckInServer).PopulateRoomWithCriteria();
             this.PopulateRoomList();
 
-            if (formDto.RoomList != null && formDto.RoomList.Count > 0)
+            if ((formDto.RoomList != null && formDto.RoomList.Count > 0) ||  (formDto.SelectedRoomList != null && formDto.SelectedRoomList.Count > 0))
             {              
                 txtFilteredRoomCount.Text = (this.facade as Fac.CheckInServer).GetTotalNoRooms().ToString();
 
@@ -990,12 +995,6 @@ namespace AutoTourism.Lodge.WinForm
             cboRoom.ValueMember = "Id";
             cboRoom.SelectedIndex = -1;
         }
-
-        //private List<RoomFac.Dto> GetBookedRoomList(DateTime startDate, DateTime endDate)
-        //{
-        //    //return (new LodgeFac.RoomReservation.ReservationServer(null) as LodgeFac.RoomReservation.IReservation).GetBookedRooms(startDate, endDate).Value;
-        //    return new List<RoomFac.Dto>();
-        //}
 
         #endregion
 
