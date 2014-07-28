@@ -353,28 +353,30 @@ namespace AutoTourism.Lodge.WinForm
 
         protected override void ClearForm()
         {
+            this.dtFrom.Value = DateTime.Now;
+            this.dtFromTime.Value = DateTime.Now;
+            this.txtDays.Text = String.Empty;
+            this.txtRooms.Text = String.Empty;
+            this.cboCategory.SelectedIndex = 0;
+            this.cboType.SelectedIndex = 0;
+            this.cboAC.SelectedIndex = 0;
+            this.cboRoomList.DataSource = null;
+            this.cboSelectedRoom.DataSource = null;            
+            this.txtMale.Text = String.Empty;
+            this.txtFemale.Text = String.Empty;
+            this.txtChild.Text = String.Empty;
+            this.txtInfant.Text = String.Empty;
+            this.txtRemarks.Text = String.Empty;
+
+
+            this.txtStatus.Text = String.Empty;
             this.txtName.Text = String.Empty;
             this.lstContact.DataSource = null;
             this.txtAdds.Text = String.Empty;
             this.txtEmail.Text = String.Empty;
+            this.txtFilteredRoomCount.Text = String.Empty;
+            this.txtAvailableRoomCount.Text = String.Empty;
 
-            this.txtDays.Text = String.Empty;
-            this.txtMale.Text = String.Empty;
-            this.txtRooms.Text = String.Empty;
-        
-            this.cboSelectedRoom.DataSource = null;
-
-            this.dtFrom.Value = DateTime.Now;
-            this.dtFromTime.Value = DateTime.Now;
-
-            this.cboCategory.SelectedIndex = 0;
-            this.cboType.SelectedIndex = 0;
-            this.cboAC.SelectedIndex = 0;
-
-            txtChild.Text = String.Empty;
-            txtInfant.Text = String.Empty;
-            txtFemale.Text = String.Empty;
-            txtRemarks.Text = String.Empty;
         }               
 
         protected override void AssignDto()
@@ -589,8 +591,8 @@ namespace AutoTourism.Lodge.WinForm
 
             (this.facade as Fac.ReservationServer).PopulateRoomWithCriteria();
             this.PopulateRoomList();
-
-            if (formDto.RoomList != null && formDto.RoomList.Count > 0)
+         
+            if ((formDto.RoomList != null && formDto.RoomList.Count > 0) || (formDto.SelectedRoomList != null && formDto.SelectedRoomList.Count > 0))
             {
                 txtFilteredRoomCount.Text = (this.facade as Fac.ReservationServer).GetTotalNoRooms().ToString();
 
