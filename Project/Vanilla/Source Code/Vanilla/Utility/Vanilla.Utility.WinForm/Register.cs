@@ -1759,25 +1759,26 @@ namespace Vanilla.Utility.WinForm
         private String GetArtifactName(TreeNode node, ArtfFac.Type type)
         {
             ArtfFac.Dto artifactDto = this.GetArtifact(node.Tag);
-
+            
             String fileName = type == ArtfFac.Type.Document?
                 "New " + this.tbcCategory.SelectedTab.Text : "New Folder";
 
             if (artifactDto.Children == null) return fileName;
 
+            String retFileName = fileName;
             Boolean isExists = false;
             for (int i = 0; i <= artifactDto.Children.Count; i++)
             {
                 isExists = false;
                 if (i > 0)
                 {
-                    fileName += " (" + i + ")";
+                    retFileName = fileName + " (" + i + ")";
                 }
 
                 //Find duplicate name
                 foreach (ArtfFac.Dto childArtifact in artifactDto.Children)
                 {
-                    if (String.Compare(childArtifact.FileName, fileName, true) == 0)
+                    if (String.Compare(childArtifact.FileName, retFileName, true) == 0)
                     {
                         isExists = true;
                         break;
@@ -1787,7 +1788,7 @@ namespace Vanilla.Utility.WinForm
                 if (!isExists) break;
             }
 
-            return fileName;
+            return retFileName;
         }
 
         public void AddFolder()
