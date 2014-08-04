@@ -50,7 +50,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
                 Dto regDto = this.Convert(new RoomReservation.ReservationServer(null).Convert(data));
                 
                 //Filter reservation :  avoid reservations without customer
-                if (regDto.Customer != null)
+                if (regDto.Customer != null && !regDto.isCheckedIn)              
                     bookingList.Add(regDto);
             }
 
@@ -85,6 +85,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
                 RoomType = reservation.RoomType,
                 ACPreference = reservation.ACPreference,
                 BookingDate = reservation.BookingDate,
+                isCheckedIn = reservation.isCheckedIn,
                 Room = reservation.RoomList == null ? String.Empty : this.GetRooms(reservation.RoomList)
             };
 
