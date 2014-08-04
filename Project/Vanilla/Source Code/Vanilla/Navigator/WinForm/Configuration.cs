@@ -40,6 +40,11 @@ namespace Vanilla.Navigator.WinForm
         {
             this.lsvConfiguration.Items.Clear();
             this.lsvConfiguration.LargeImageList = this.imgIcons;
+            //this.lsvConfiguration.Items.Add(new ListViewItem("Rule")
+            //{
+            //    Tag = new Vanilla.Configuration.WinForm.Rule(),
+            //    ImageKey = "Customer",
+            //});
             this.lsvConfiguration.Items.Add(new ListViewItem("Customer")
             {
                 Tag = this.InstantiateObject("AutoTourism.Customer.WinForm.CustomerRule", "AutoTourism.Customer.WinForm"),
