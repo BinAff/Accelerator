@@ -6,16 +6,18 @@ using BinAff.Core;
 
 using CrystalLodge = Crystal.Lodge.Component;
 using CrystalCustomer = Crystal.Customer.Component;
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
+using RoomChkCrys = Crystal.Lodge.Component.Room.CheckIn;
+using ChkArtfCrys = Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact;
+
+using InvFac = Vanilla.Invoice.Facade;
+using DocFac = Vanilla.Form.Facade.Document;
 
 using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
 using RuleFacade = AutoTourism.Configuration.Rule.Facade;
 using LodgeFacade = AutoTourism.Lodge.Facade;
-using ArtfCrys = Crystal.Navigator.Component.Artifact;
-using RoomChkCrys = Crystal.Lodge.Component.Room.CheckIn;
 using CustAuto = AutoTourism.Component.Customer;
-using InvFac = Vanilla.Invoice.Facade;
 using TarrifFac = AutoTourism.Lodge.Configuration.Facade.Tariff;
-using DocFac = Vanilla.Form.Facade.Document;
 using LodgeConfigFac = AutoTourism.Lodge.Configuration.Facade;
 //using AutoTourism.Lodge.Facade.RoomReservation;
 
@@ -59,11 +61,9 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Dto checkIn = dto as Dto;
-            return new CrystalLodge.Room.CheckIn.Data
+            RoomChkCrys.Data data = new RoomChkCrys.Data
             {
                 Id = dto.Id,
-                //Advance = checkIn.Reservation.Advance,
-                Reservation = new RoomReservation.ReservationServer(null).Convert(checkIn.Reservation) as CrystalLodge.Room.Reservation.Data,
                 ActivityDate = checkIn.Date,
                 Status = new CrystalCustomer.Action.Status.Data
                 {
@@ -73,6 +73,11 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 ArrivedFrom = checkIn.ArrivedFrom,
                 Remark = checkIn.Remark
             };
+            if (checkIn.Reservation != null)
+            {
+                data.Reservation = new RoomReservation.ReservationServer(null).Convert(checkIn.Reservation) as CrystalLodge.Room.Reservation.Data;
+            }
+            return data;
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
@@ -428,7 +433,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    return paymentDataList;
         //}
 
-        public ReturnObject<bool> UpdateInvoiceNumber(String invoiceNumber)
+        public ReturnObject<Boolean> UpdateInvoiceNumber(String invoiceNumber)
         {
             Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
             CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = dto.Id });
@@ -493,18 +498,28 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData)
         {
-            return new RoomChkCrys.Navigator.Artifact.Server(artifactData as RoomChkCrys.Navigator.Artifact.Data);
+            return new ChkArtfCrys.Server(artifactData as ChkArtfCrys.Data);
         }
 
-        protected override ArtfCrys.Observer.DocumentComponent GetComponentServer()
+        protected override ICrud GetComponentServer()
         {
             this.componentServer = new RoomChkCrys.Server(this.Convert((this.FormDto as FormDto).Dto) as RoomChkCrys.Data);
-            return this.componentServer as ArtfCrys.Observer.DocumentComponent;
+            return this.componentServer;
         }
 
         protected override String GetComponentDataType()
         {
             return "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data, Crystal.Lodge.Component";
+        }
+
+        protected override ArtfCrys.Data GetArtifactData(Int64 artifactId)
+        {
+            return new ChkArtfCrys.Data { Id = artifactId };
+        }
+
+        protected override BinAff.Core.Observer.IRegistrar GetRegisterer()
+        {
+            return new Crystal.Lodge.Observer.RoomCheckIn();
         }
 
         public void PopulateInvoiceDto(InvFac.Dto invoiceDto)
@@ -974,41 +989,12 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             formDto.RoomList = reservFormDto.RoomList;           
         }
         
-        public override ReturnObject<bool> ValidateDelete()
-        {
-            Int64 ArtifactId = this.Data.Id;
-            Int64 CheckInId = this.ReadCheckInId(ArtifactId);
-
-            RoomChkCrys.Server server = new RoomChkCrys.Server(new RoomChkCrys.Data { Id = CheckInId });
-
-            BinAff.Core.Observer.IRegistrar reg = new Crystal.Lodge.Observer.RoomCheckIn();
-            ReturnObject<Boolean> ret = reg.Register(server);
-
-            BinAff.Core.Observer.ISubject subject = server;
-            ReturnObject<Boolean> notify = subject.NotifyObserver();
-
-            if (notify.Value)            
-                notify = server.IsCheckInDeletable();            
-
-            return notify;            
-        }
-
-        public override void Delete()
-        {
-            RoomChkCrys.Navigator.Artifact.Data data = new RoomChkCrys.Navigator.Artifact.Data
-            {
-                Id = this.Data.Id,
-                Category = ArtfCrys.Category.Form,
-                Children = new List<Data>()
-            };
-            ReturnObject<Boolean> retVal = (new RoomChkCrys.Navigator.Artifact.Server(data) as BinAff.Core.ICrud).Delete();
-        }
-
         private Int64 ReadCheckInId(Int64 ArtifactId)
         {
             RoomChkCrys.Server server = new RoomChkCrys.Server(null);
             return server.ReadCheckInId(ArtifactId);
-        }        
+        }
+        
     }
 
 }

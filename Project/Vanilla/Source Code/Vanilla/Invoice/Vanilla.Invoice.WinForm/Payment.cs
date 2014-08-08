@@ -116,9 +116,9 @@ namespace Vanilla.Invoice.WinForm
 
             //--populate payment type category
             this.cboPaymentType.DataSource = null;
-            if (formDto.typeList != null && formDto.typeList.Count > 0)
+            if (formDto.TypeList != null && formDto.TypeList.Count > 0)
             {
-                this.cboPaymentType.DataSource = formDto.typeList;
+                this.cboPaymentType.DataSource = formDto.TypeList;
                 this.cboPaymentType.ValueMember = "Id";
                 this.cboPaymentType.DisplayMember = "Name";
                 this.cboPaymentType.SelectedIndex = 0;
@@ -210,12 +210,12 @@ namespace Vanilla.Invoice.WinForm
                 List<Facade.Payment.Dto> paymentDto = dgvPayment.DataSource == null ? new List<Facade.Payment.Dto>() : dgvPayment.DataSource as List<Facade.Payment.Dto>;
                 paymentDto.Add(new Facade.Payment.Dto
                 {
-                    paymentType = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name,
-                    cardNumber = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name == "Cash" ? String.Empty : txtLastFourDigit.Text.Trim(),
-                    remark = txtRemark.Text.Trim(),
-                    amount = Convert.ToDouble(txtAmount.Text),
+                    PaymentType = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name,
+                    ReferenceNumber = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name == "Cash" ? String.Empty : txtLastFourDigit.Text.Trim(),
+                    Remark = txtRemark.Text.Trim(),
+                    Amount = Convert.ToDouble(txtAmount.Text),
 
-                    Type = (Facade.Payment.Type.Dto)cboPaymentType.SelectedItem
+                    Type = cboPaymentType.SelectedItem as Table
                 });
 
                 dgvPayment.DataSource = null;
@@ -259,7 +259,7 @@ namespace Vanilla.Invoice.WinForm
                     List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
                     foreach (Facade.Payment.Dto paymentDto in paymentDtoList)
                     {
-                        if (paymentDto.paymentType == "Cash")
+                        if (paymentDto.PaymentType == "Cash")
                         {
                             errorProvider.SetError(cboPaymentType, "System will allow only one cash transaction.");
                             cboPaymentType.Focus();
@@ -275,7 +275,7 @@ namespace Vanilla.Invoice.WinForm
                     List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
                     foreach (Facade.Payment.Dto paymentDto in paymentDtoList)
                     {
-                        if (paymentDto.paymentType == ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name && paymentDto.cardNumber == txtLastFourDigit.Text.Trim())
+                        if (paymentDto.PaymentType == ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name && paymentDto.ReferenceNumber == txtLastFourDigit.Text.Trim())
                         {
                             errorProvider.SetError(cboPaymentType, "Same card cannot be used more than once.");
                             cboPaymentType.Focus();
@@ -342,11 +342,11 @@ namespace Vanilla.Invoice.WinForm
             {
                 dgvPayment.Rows[e.RowIndex].Selected = true;
                 Facade.Payment.Dto paymentDto = paymentDtoList[e.RowIndex];
-                txtLastFourDigit.Text = paymentDto.cardNumber;
-                txtRemark.Text = paymentDto.remark;
-                txtAmount.Text = paymentDto.amount.ToString();
+                txtLastFourDigit.Text = paymentDto.ReferenceNumber;
+                txtRemark.Text = paymentDto.Remark;
+                txtAmount.Text = paymentDto.Amount.ToString();
 
-                if (this.formDto.typeList != null && this.formDto.typeList.Count > 0)
+                if (this.formDto.TypeList != null && this.formDto.TypeList.Count > 0)
                 {
                     for (int i = 0; i < cboPaymentType.Items.Count; i++)
                     {
@@ -378,10 +378,10 @@ namespace Vanilla.Invoice.WinForm
             {
                 List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
                 Facade.Payment.Dto selectedDto = paymentDtoList[dgvPayment.SelectedRows[0].Index];
-                selectedDto.cardNumber = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name == "Cash" ? String.Empty : txtLastFourDigit.Text.Trim();
-                selectedDto.amount = Convert.ToDouble(txtAmount.Text);
-                selectedDto.remark = txtRemark.Text.Trim();
-                selectedDto.paymentType = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name;
+                selectedDto.ReferenceNumber = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name == "Cash" ? String.Empty : txtLastFourDigit.Text.Trim();
+                selectedDto.Amount = Convert.ToDouble(txtAmount.Text);
+                selectedDto.Remark = txtRemark.Text.Trim();
+                selectedDto.PaymentType = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name;
 
                 dgvPayment.DataSource = null;
                 dgvPayment.DataSource = paymentDtoList;
@@ -425,7 +425,7 @@ namespace Vanilla.Invoice.WinForm
                 Double paymentTotal = 0;
                 List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
                 foreach (Facade.Payment.Dto dto in paymentDtoList)
-                    paymentTotal += dto.amount;
+                    paymentTotal += dto.Amount;
 
                 if (Convert.ToDouble(txtGrandTotal.Text) != paymentTotal)
                 {

@@ -39,7 +39,7 @@ namespace AutoTourism.Lodge.WinForm
         public RoomReservationForm(ArtfFac.Dto artifact)
             : base(artifact)
         {
-            InitializeComponent();           
+            InitializeComponent();
         }
 
         protected override void Compose()
@@ -79,12 +79,12 @@ namespace AutoTourism.Lodge.WinForm
             this.RemoveRoom();
         }
 
-        //private void cboRoomList_MouseDoubleClick(object sender, MouseEventArgs e)
-        //{
-        //    this.AddRoom();
-        //}
+        private void lstRoomList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.AddRoom();
+        }
 
-        private void cboSelectedRoom_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void lstSelectedRoom_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.RemoveRoom();
         }
@@ -254,7 +254,7 @@ namespace AutoTourism.Lodge.WinForm
 
         protected override FormWin.Document GetAttachment()
         {
-            return new InvWin.AdvancePaymentForm();
+            return new InvWin.PaymentForm(new ArtfFac.Dto());
         }
 
         private void form_ArtifactSaved(ArtfFac.Dto document)
@@ -360,8 +360,8 @@ namespace AutoTourism.Lodge.WinForm
             this.cboCategory.SelectedIndex = 0;
             this.cboType.SelectedIndex = 0;
             this.cboAC.SelectedIndex = 0;
-            this.cboRoomList.DataSource = null;
-            this.cboSelectedRoom.DataSource = null;            
+            this.lstRoomList.DataSource = null;
+            this.lstSelectedRoom.DataSource = null;            
             this.txtMale.Text = String.Empty;
             this.txtFemale.Text = String.Empty;
             this.txtChild.Text = String.Empty;
@@ -401,7 +401,7 @@ namespace AutoTourism.Lodge.WinForm
             dto.Remark = txtRemarks.Text.Trim();
             
             dto.BookingStatusId = Convert.ToInt64(Status.Open);            
-            dto.RoomList = this.cboSelectedRoom.Items.Count == 0 ? null : (List<RoomFac.Dto>)this.cboSelectedRoom.DataSource;        
+            dto.RoomList = this.lstSelectedRoom.Items.Count == 0 ? null : (List<RoomFac.Dto>)this.lstSelectedRoom.DataSource;        
         }
 
         protected override Boolean ValidateForm()
@@ -469,16 +469,16 @@ namespace AutoTourism.Lodge.WinForm
                 this.txtInfant.Focus();
                 return false;
             }          
-            else if (this.cboSelectedRoom.Items.Count > Convert.ToInt32(this.txtRooms.Text.Trim()))
+            else if (this.lstSelectedRoom.Items.Count > Convert.ToInt32(this.txtRooms.Text.Trim()))
             {
-                this.errorProvider.SetError(this.cboSelectedRoom, "Selected rooms cannot be greater than the no of rooms.");
-                this.cboSelectedRoom.Focus();
+                this.errorProvider.SetError(this.lstSelectedRoom, "Selected rooms cannot be greater than the no of rooms.");
+                this.lstSelectedRoom.Focus();
                 return false;
             }
             else if (Convert.ToInt32(this.txtRooms.Text.Trim()) > Convert.ToInt32(this.txtAvailableRoomCount.Text))
             {
                 this.errorProvider.SetError(this.txtRooms, "No of rooms cannot be greater than available rooms.");
-                this.cboSelectedRoom.Focus();
+                this.lstSelectedRoom.Focus();
                 return false;
             }
             else if (String.IsNullOrEmpty(this.txtAvailableRoomCount.Text) || Convert.ToInt32(this.txtAvailableRoomCount.Text) <= 0)
@@ -529,8 +529,8 @@ namespace AutoTourism.Lodge.WinForm
 
             this.txtRooms.ReadOnly = true;
 
-            this.cboRoomList.Enabled = false;
-            this.cboSelectedRoom.Enabled = false;
+            this.lstRoomList.Enabled = false;
+            this.lstSelectedRoom.Enabled = false;
             this.cboAC.Enabled = false;
         }
 
@@ -564,18 +564,18 @@ namespace AutoTourism.Lodge.WinForm
 
         private void AddRoom()
         {
-            if (cboRoomList.SelectedIndex != -1)
+            if (lstRoomList.SelectedIndex != -1)
             {
-                (this.facade as Fac.ReservationServer).RemoveRoomFromAllRoomList((RoomFac.Dto)cboRoomList.SelectedItem);
+                (this.facade as Fac.ReservationServer).RemoveRoomFromAllRoomList((RoomFac.Dto)lstRoomList.SelectedItem);
                 this.PopulateRoomList();
             }
         }
 
         private void RemoveRoom()
         {
-            if (cboSelectedRoom.SelectedIndex != -1)
+            if (lstSelectedRoom.SelectedIndex != -1)
             {
-                (this.facade as Fac.ReservationServer).AddRoomToAllRoomList((RoomFac.Dto)cboSelectedRoom.SelectedItem);
+                (this.facade as Fac.ReservationServer).AddRoomToAllRoomList((RoomFac.Dto)lstSelectedRoom.SelectedItem);
                 this.PopulateRoomList();
             }
         }
@@ -618,28 +618,23 @@ namespace AutoTourism.Lodge.WinForm
             Fac.FormDto formDto = (base.formDto as Fac.FormDto) as Fac.FormDto;
             Fac.Dto dto = (base.formDto as Fac.FormDto).Dto as Fac.Dto;
 
-            this.cboRoomList.DataSource = null;
+            this.lstRoomList.DataSource = null;
             if (formDto.RoomList != null && formDto.RoomList.Count > 0)
             {
-                this.cboRoomList.DataSource = formDto.RoomList;
-                this.cboRoomList.DisplayMember = "Number";
-                this.cboRoomList.ValueMember = "Id";
-                this.cboRoomList.SelectedIndex = -1;
+                this.lstRoomList.DataSource = formDto.RoomList;
+                this.lstRoomList.DisplayMember = "Number";
+                this.lstRoomList.ValueMember = "Id";
+                this.lstRoomList.SelectedIndex = -1;
             }
 
-            this.cboSelectedRoom.DataSource = null;
+            this.lstSelectedRoom.DataSource = null;
             if (formDto.SelectedRoomList != null && formDto.SelectedRoomList.Count > 0)
             {
-                this.cboSelectedRoom.DataSource = formDto.SelectedRoomList;
-                this.cboSelectedRoom.DisplayMember = "Number";
-                this.cboSelectedRoom.ValueMember = "Id";
-                this.cboSelectedRoom.SelectedIndex = -1;
+                this.lstSelectedRoom.DataSource = formDto.SelectedRoomList;
+                this.lstSelectedRoom.DisplayMember = "Number";
+                this.lstSelectedRoom.ValueMember = "Id";
+                this.lstSelectedRoom.SelectedIndex = -1;
             }
-        }
-
-        private void cboRoomList_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-
         }
        
     }

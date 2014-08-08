@@ -137,6 +137,27 @@ namespace BinAff.Core
             return ds;
         }
 
+        protected virtual T ExecuteScalar<T>()
+        {
+            try
+            {
+                Object ret = this.command.ExecuteScalar();
+                if (ret == null || String.IsNullOrEmpty(ret.ToString()))
+                {
+                    return default(T);
+                }
+                else
+                {
+                    return (T)ret;
+                }
+            }
+            catch (InvalidCastException)
+            {
+                //Log
+                throw;
+            }
+        }
+
         protected virtual DataTable ExecuteDataTable()
         {
             DataTable dt = new DataTable();

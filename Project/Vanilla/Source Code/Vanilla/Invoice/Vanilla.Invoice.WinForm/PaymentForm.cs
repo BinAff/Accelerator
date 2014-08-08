@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Text.RegularExpressions; 
-using BinAff.Utility;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Windows.Forms;
+
+using BinAff.Utility;
 using BinAff.Core;
+using BinAff.Presentation.Library.Extension;
 
 using FormWin = Vanilla.Form.WinForm;
 using UtilFac = Vanilla.Utility.Facade;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using DocFac = Vanilla.Utility.Facade.Document;
 using PayFac = Vanilla.Invoice.Facade.Payment;
 using PresentationLibrary = BinAff.Presentation.Library;
@@ -14,17 +17,14 @@ using PresentationLibrary = BinAff.Presentation.Library;
 namespace Vanilla.Invoice.WinForm
 {
 
-    //public partial class PaymentForm : FormWin.Document
-    public partial class PaymentForm : System.Windows.Forms.Form
+    public partial class PaymentForm : FormWin.Document
     {
-        PayFac.FormDto formDto = new PayFac.FormDto();
+
         public PaymentForm()
         {
             InitializeComponent();
             this.SetPaymentGridViewSettings();
-
-            //this.txtInvoiceNumber.Text = "INVO-30-05-201412910";
-            this.formDto.InvoiceDto = new Facade.Dto 
+            (base.formDto as PayFac.FormDto).InvoiceDto = new Facade.Dto 
             {
                 invoiceNumber = "INVO-30-05-201412910"
             };
@@ -32,19 +32,141 @@ namespace Vanilla.Invoice.WinForm
             this.LoadForm();
         }
 
-        //public PaymentForm(UtilFac.Artifact.Dto artifact)
-        //    : base(artifact)
+        public PaymentForm(ArtfFac.Dto artifact)
+            : base(artifact)
+        {
+            InitializeComponent();
+            this.SetPaymentGridViewSettings();
+            (base.formDto as PayFac.FormDto).InvoiceDto = new Facade.Dto
+            {
+                invoiceNumber = "INVO-30-05-201412910"
+            };
+        }
+
+        //private void btnOk_Click(object sender, EventArgs e)
         //{
-        //    InitializeComponent();
+        //    if (this.ValidateForm())
+        //    {
+        //        //ReturnObject<Boolean> ret = new PayFac.Server(formDto).MakePayment(dgvPayment.DataSource as List<Facade.Payment.Dto>, txtInvoiceNumber.Text);
+        //        this.Close();
+        //    }
         //}
 
-        private void btnOk_Click(object sender, EventArgs e)
+        protected override void Compose()
         {
-            if (this.ValidateForm())
+            this.formDto = new PayFac.FormDto
             {
-                //ReturnObject<Boolean> ret = new PayFac.Server(formDto).MakePayment(dgvPayment.DataSource as List<Facade.Payment.Dto>, txtInvoiceNumber.Text);
+                Dto = new PayFac.Dto()
+            };
+
+            this.facade = new PayFac.Server(this.formDto as PayFac.FormDto);
+        }
+
+        protected override void Ok()
+        {
+            if (base.Save())
+            {
+                base.Artifact.Module = base.formDto.Dto;
+                base.IsModified = true;
                 this.Close();
             }
+        }
+
+        protected override void LoadForm()
+        {
+            PayFac.FormDto formDto = base.formDto as PayFac.FormDto;
+            base.facade.LoadForm();
+
+            this.cboPaymentType.DisplayMember = "Name";
+            this.cboPaymentType.Bind(formDto.TypeList);
+            if (formDto.PaymentList != null && formDto.PaymentList.Count > 0)
+            {
+                foreach (Facade.Payment.Dto dto in formDto.PaymentList)
+                {
+                    dto.PaymentType = (facade as PayFac.Server).GetPaymentName(dto.Type.Id, formDto.TypeList);
+                }
+
+                this.dgvPayment.DataSource = null;
+                this.dgvPayment.DataSource = formDto.PaymentList;
+
+                this.cboPaymentType.Enabled = false;
+                this.txtLastFourDigit.Enabled = false;
+                this.txtRemark.Enabled = false;
+                this.txtAmount.Enabled = false;
+                this.dgvPayment.Enabled = false;
+                base.DisableOkButton();
+                this.btnAdd.Enabled = false;
+                this.btnChange.Enabled = false;
+            }
+            else
+            {
+                btnPrint.Enabled = false;
+            }
+
+            //this.cboPaymentType.DataSource = null;
+            //if (formDto.typeList != null && formDto.typeList.Count > 0)
+            //{
+            //    this.cboPaymentType.DataSource = formDto.typeList;
+            //    this.cboPaymentType.ValueMember = "Id";
+            //    this.cboPaymentType.DisplayMember = "Name";
+            //    this.cboPaymentType.SelectedIndex = 0;
+            //}
+
+        }
+
+        protected override void ClearForm()
+        {
+            this.cboPaymentType.SelectedIndex = 0;
+            this.txtAmount.Text = String.Empty;
+            this.txtLastFourDigit.Text = String.Empty;
+            this.txtRemark.Text = String.Empty;
+        }
+
+        protected override DocFac.Dto CloneDto(DocFac.Dto source)
+        {
+            return source.Clone() as DocFac.Dto;
+        }
+
+        protected override void PopulateDataToForm()
+        {
+
+        }
+
+        protected override Boolean ValidateForm()
+        {
+            if (dgvPayment.DataSource == null)
+            {
+                new PresentationLibrary.MessageBox
+                {
+                    DialogueType = PresentationLibrary.MessageBox.Type.Error,
+                    Heading = "Splash",
+                }.Show(new List<String> { "No payment data exists." });
+
+                return false;
+            }
+            else
+            {
+                Double paymentTotal = 0;
+                List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
+                foreach (Facade.Payment.Dto dto in paymentDtoList)
+                    paymentTotal += dto.Amount;
+
+                if (Convert.ToDouble(this.txtAmount.Text) != paymentTotal)
+                {
+                    DialogResult result = MessageBox.Show("Total payment amount is not matching with bill total.Do you want to make the payment?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == System.Windows.Forms.DialogResult.No)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        protected override void AssignDto()
+        {
+
         }
         
         private void btnPrint_Click(object sender, EventArgs e)
@@ -59,17 +181,34 @@ namespace Vanilla.Invoice.WinForm
                 List<Facade.Payment.Dto> paymentDto = dgvPayment.DataSource == null ? new List<Facade.Payment.Dto>() : dgvPayment.DataSource as List<Facade.Payment.Dto>;
                 paymentDto.Add(new Facade.Payment.Dto
                 {
-                    paymentType = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name,
-                    cardNumber = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name == "Cash" ? String.Empty : txtLastFourDigit.Text.Trim(),
-                    remark = txtRemark.Text.Trim(),
-                    amount = Convert.ToDouble(txtAmount.Text),
+                    PaymentType = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name,
+                    ReferenceNumber = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name == "Cash" ? String.Empty : txtLastFourDigit.Text.Trim(),
+                    Remark = txtRemark.Text.Trim(),
+                    Amount = Convert.ToDouble(txtAmount.Text),
 
-                    Type = (Facade.Payment.Type.Dto)cboPaymentType.SelectedItem
+                    Type = cboPaymentType.SelectedItem as Table
                 });
 
                 dgvPayment.DataSource = null;
                 dgvPayment.DataSource = paymentDto;
-                this.Clear();
+                this.ClearForm();
+            }
+        }
+
+        private void btnChange_Click(object sender, EventArgs e)
+        {
+            if (this.ValidatePayment())
+            {
+                List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
+                Facade.Payment.Dto selectedDto = paymentDtoList[dgvPayment.SelectedRows[0].Index];
+                selectedDto.ReferenceNumber = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name == "Cash" ? String.Empty : txtLastFourDigit.Text.Trim();
+                selectedDto.Amount = Convert.ToDouble(txtAmount.Text);
+                selectedDto.Remark = txtRemark.Text.Trim();
+                selectedDto.PaymentType = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name;
+
+                dgvPayment.DataSource = null;
+                dgvPayment.DataSource = paymentDtoList;
+                this.ClearForm();
             }
         }
 
@@ -108,7 +247,7 @@ namespace Vanilla.Invoice.WinForm
                     List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
                     foreach (Facade.Payment.Dto paymentDto in paymentDtoList)
                     {
-                        if (paymentDto.paymentType == "Cash")
+                        if (paymentDto.PaymentType == "Cash")
                         {
                             errorProvider.SetError(cboPaymentType, "System will allow only one cash transaction.");
                             cboPaymentType.Focus();
@@ -124,7 +263,7 @@ namespace Vanilla.Invoice.WinForm
                     List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
                     foreach (Facade.Payment.Dto paymentDto in paymentDtoList)
                     {
-                        if (paymentDto.paymentType == ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name && paymentDto.cardNumber == txtLastFourDigit.Text.Trim())
+                        if (paymentDto.PaymentType == ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name && paymentDto.ReferenceNumber == txtLastFourDigit.Text.Trim())
                         {
                             errorProvider.SetError(cboPaymentType, "Same card cannot be used more than once.");
                             cboPaymentType.Focus();
@@ -135,15 +274,7 @@ namespace Vanilla.Invoice.WinForm
             }
             return true;
         }
-
-        private void Clear()
-        {
-            this.cboPaymentType.SelectedIndex = 0;
-            txtLastFourDigit.Text = String.Empty;
-            txtRemark.Text = String.Empty;
-            txtAmount.Text = String.Empty;
-        }
-
+        
         private void SetPaymentGridViewSettings()
         {
             for (int i = 0; i < dgvPayment.Columns.Count; i++)
@@ -151,10 +282,10 @@ namespace Vanilla.Invoice.WinForm
 
             dgvPayment.MultiSelect = false;
 
-            dgvPayment.Columns[0].DataPropertyName = "paymentType";
-            dgvPayment.Columns[1].DataPropertyName = "amount";
-            dgvPayment.Columns[2].DataPropertyName = "cardNumber";
-            dgvPayment.Columns[3].DataPropertyName = "remark";
+            dgvPayment.Columns[0].DataPropertyName = "PaymentType";
+            dgvPayment.Columns[1].DataPropertyName = "Amount";
+            dgvPayment.Columns[2].DataPropertyName = "ReferenceNumber";
+            dgvPayment.Columns[3].DataPropertyName = "Remark";
             dgvPayment.AutoGenerateColumns = false;
 
             DataGridViewLinkColumn Editlink = new DataGridViewLinkColumn();
@@ -174,85 +305,6 @@ namespace Vanilla.Invoice.WinForm
             dgvPayment.Columns.Add(Deletelink);
         }
 
-        //protected override void Compose()
-        //{
-        //    //base.formDto = new Facade.FormDto
-        //    //{
-        //    //    ModuleFormDto = new UtilFac.Module.FormDto(),
-        //    //    Dto = new Facade.Dto()
-        //    //};
-        //}
-
-        //protected override DocFac.Dto CloneDto(DocFac.Dto source)
-        //{
-        //    return new DocFac.Dto();
-        //}
-
-        //protected override void LoadForm()
-        //{
-        //    //BinAff.Facade.Library.Server facade = new Facade.Server(formDto);
-        //    //facade.LoadForm();
-
-        //    //Facade.FormDto formDto = base.formDto as Facade.FormDto;
-        //    //base.facade.LoadForm();
-        //}
-
-        //protected override void PopulateDataToForm()
-        //{
-
-        //}
-
-        //protected override Boolean ValidateForm()
-        //{
-        //    return true;
-        //}
-
-        //protected override void AssignDto()
-        //{
-        //}
-
-        protected void LoadForm()
-        {
-            BinAff.Facade.Library.Server facade = new PayFac.Server(formDto);
-            facade.LoadForm();
-                       
-            //this.txtInvoiceDate.Text = "11-11-2014";
-            //this.txtPaymentAmount.Text = "5000";
-
-            //--populate payment type category
-            this.cboPaymentType.DataSource = null;
-            if (formDto.typeList != null && formDto.typeList.Count > 0)
-            {
-                this.cboPaymentType.DataSource = formDto.typeList;
-                this.cboPaymentType.ValueMember = "Id";
-                this.cboPaymentType.DisplayMember = "Name";
-                this.cboPaymentType.SelectedIndex = 0;
-            }
-
-            if (formDto.PaymentList != null && formDto.PaymentList.Count > 0)
-            {
-                foreach (Facade.Payment.Dto dto in formDto.PaymentList)
-                {
-                    dto.paymentType = (facade as PayFac.Server).GetPaymentName(dto.Type.Id, formDto.typeList);
-                }
-
-                dgvPayment.DataSource = null;
-                dgvPayment.DataSource = formDto.PaymentList;
-
-                cboPaymentType.Enabled = false;
-                txtLastFourDigit.Enabled = false;
-                txtRemark.Enabled = false;
-                txtAmount.Enabled = false;
-                dgvPayment.Enabled = false;
-                btnOk.Enabled = false;
-                btnAdd.Enabled = false;
-                btnChange.Enabled = false;
-            }
-            else
-                btnPrint.Enabled = false;
-
-        }
-
         private void dgvPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             //Facade.Payment.FormDto formDto = base.formDto as Facade.Payment.FormDto;
@@ -270,11 +322,11 @@ namespace Vanilla.Invoice.WinForm
             {
                 dgvPayment.Rows[e.RowIndex].Selected = true;
                 Facade.Payment.Dto paymentDto = paymentDtoList[e.RowIndex];
-                txtLastFourDigit.Text = paymentDto.cardNumber;
-                txtRemark.Text = paymentDto.remark;
-                txtAmount.Text = paymentDto.amount.ToString();
+                txtLastFourDigit.Text = paymentDto.ReferenceNumber;
+                txtRemark.Text = paymentDto.Remark;
+                txtAmount.Text = paymentDto.Amount.ToString();
 
-                if (this.formDto.typeList != null && this.formDto.typeList.Count > 0)
+                if ((base.formDto as PayFac.FormDto).TypeList != null && (base.formDto as PayFac.FormDto).TypeList.Count > 0)
                 {
                     for (int i = 0; i < cboPaymentType.Items.Count; i++)
                     {
@@ -299,56 +351,7 @@ namespace Vanilla.Invoice.WinForm
 
             return paymentDtoList;
         }
-
-        private void btnChange_Click(object sender, EventArgs e)
-        {
-            if (this.ValidatePayment())
-            {
-                List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
-                Facade.Payment.Dto selectedDto = paymentDtoList[dgvPayment.SelectedRows[0].Index];
-                selectedDto.cardNumber = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name == "Cash" ? String.Empty : txtLastFourDigit.Text.Trim();
-                selectedDto.amount = Convert.ToDouble(txtAmount.Text);
-                selectedDto.remark = txtRemark.Text.Trim();
-                selectedDto.paymentType = ((Facade.Payment.Type.Dto)cboPaymentType.SelectedItem).Name;
-
-                dgvPayment.DataSource = null;
-                dgvPayment.DataSource = paymentDtoList;
-                this.Clear();
-            }
-        }
-
-        private Boolean ValidateForm()
-        {
-            if (dgvPayment.DataSource == null)
-            {
-                new PresentationLibrary.MessageBox
-                {
-                    DialogueType = PresentationLibrary.MessageBox.Type.Error,
-                    Heading = "Splash",
-                }.Show(new List<String> { "No payment data exists." });
-
-                return false;
-            }
-            else
-            {
-                Double paymentTotal = 0;
-                List<Facade.Payment.Dto> paymentDtoList = dgvPayment.DataSource as List<Facade.Payment.Dto>;
-                foreach (Facade.Payment.Dto dto in paymentDtoList)
-                    paymentTotal += dto.amount;
-
-                if (Convert.ToDouble(this.txtAmount.Text) != paymentTotal)
-                {
-                    DialogResult result = MessageBox.Show("Total payment amount is not matching with bill total.Do you want to make the payment?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (result == System.Windows.Forms.DialogResult.No)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
+        
     }
 
 }
