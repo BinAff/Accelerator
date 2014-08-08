@@ -259,34 +259,12 @@ namespace Vanilla.Utility.Facade.Artifact
         }
 
         public override void Delete()
-        { 
+        {
             FormDto formDto = this.FormDto as FormDto;
             this.ModuleFacade.Data = new Data { Id = formDto.Dto.Id };
-
-            //Module.Definition.Dto moduleDef = formDto.Dto.ComponentDefinition;
-                        
-            //BinAff.Core.Data data = null;
-
-            //customer block is not removed since customerid is not available :  only artifact id is present [Need to check with other module and finalize the process]
-            //if (moduleDef.Code == "CUST")
-            //{
-            //    ReturnObject<CrysArtf.Data> retVal = ((Crystal.Navigator.Component.Artifact.IArtifact)this.ModuleArtifactComponent).ReadWithParent();
-            //    if (retVal != null)
-            //        data = retVal.Value.ComponentData;
-            //}
-            //else
-            //    data = new Data { Id = formDto.Dto.Id }; // set the artifactId
-
-            ReturnObject<Boolean> ret = this.ModuleFacade.ValidateDelete();
-
-            //if (ret.Value)
-            //    ret = this.ModuleArtifactComponent.Delete();
-
-            if (ret.Value)
-                this.ModuleFacade.Delete();            
-           
-            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
-            this.IsError = !ret.Value;
+            this.ModuleFacade.Delete();
+            this.DisplayMessageList = this.ModuleFacade.DisplayMessageList;
+            this.IsError = this.ModuleFacade.IsError;
         }
 
         public override void Read()

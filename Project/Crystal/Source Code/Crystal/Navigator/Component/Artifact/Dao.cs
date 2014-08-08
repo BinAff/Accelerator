@@ -139,19 +139,10 @@ namespace Crystal.Navigator.Component.Artifact
 
         protected override Boolean ReadBefore()
         {
-            base.CreateConnection();
-            base.CreateCommand(this.ReadComponentLinkSPName);
-            base.AddInParameter("@ArtifactId", DbType.Int64, this.Data.Id);
-
-            DataSet ds = this.ExecuteDataSet();
-            this.CloseConnection();
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            Int64 componentId = this.ReadComponentLink();
+            if (componentId > 0)
             {
-                Int64 reportId = Convert.IsDBNull(ds.Tables[0].Rows[0]["ComponentId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["ComponentId"]);
-                if (reportId > 0)
-                {
-                    (this.Data as Data).ComponentData = this.GetComponentData(reportId);
-                }
+                (this.Data as Data).ComponentData = this.GetComponentData(componentId);
             }
             return true;
         }
@@ -184,21 +175,7 @@ namespace Crystal.Navigator.Component.Artifact
         protected override Boolean DeleteBefore()
         {
             return this.DeleteComponentLink();
-        }
-
-        public Boolean DeleteComponentLink()
-        {
-            Boolean status = true;
-            base.CreateCommand(this.DeleteComponentLinkSPName);
-            base.AddInParameter("@Id", DbType.Int64, this.Data.Id);
-
-            Int32 ret = base.ExecuteNonQuery();
-            if (ret == -2146232060) status = false;//Foreign key violation
-
-            base.CloseConnection();
-
-            return status;
-        }
+        }        
 
         internal List<BinAff.Core.Data> ReadArtifactListForMudule()
         {
@@ -272,6 +249,16 @@ namespace Crystal.Navigator.Component.Artifact
             return status;
         }
 
+        protected internal virtual Int64 ReadComponentLink()
+        {
+            base.CreateConnection();
+            base.CreateCommand(this.ReadComponentLinkSPName);
+            base.AddInParameter("@ArtifactId", DbType.Int64, this.Data.Id);
+            Int64 componentId = Convert.ToInt64(this.ExecuteScalar<Decimal>());
+            this.CloseConnection();
+            return componentId;
+        }
+
         protected internal virtual Boolean UpdateComponentLink()
         {
             Boolean status = true;
@@ -282,6 +269,20 @@ namespace Crystal.Navigator.Component.Artifact
             base.AddInParameter("@ArtifactId", DbType.String, artifactData.Id);
             Int32 ret = base.ExecuteNonQuery();
             if (ret == -2146232060) status = false;//Foreign key violation
+
+            return status;
+        }
+
+        public Boolean DeleteComponentLink()
+        {
+            Boolean status = true;
+            base.CreateCommand(this.DeleteComponentLinkSPName);
+            base.AddInParameter("@Id", DbType.Int64, this.Data.Id);
+
+            Int32 ret = base.ExecuteNonQuery();
+            if (ret == -2146232060) status = false;//Foreign key violation
+
+            base.CloseConnection();
 
             return status;
         }

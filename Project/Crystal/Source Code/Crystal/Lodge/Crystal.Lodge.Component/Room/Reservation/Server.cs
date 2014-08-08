@@ -87,9 +87,9 @@ namespace Crystal.Lodge.Component.Room.Reservation
             return new Dao((Data)this.Data).ModifyReservationToOccupied();
         }
 
-        public Int64 ReadReservationId(Int64 ArtifactId)
+        public Int64 ReadIdForArtifact(Int64 artifactId)
         {
-            return new Dao((Data)this.Data).ReadReservationId(ArtifactId);
+            return new Dao(this.Data as Data).ReadReservationId(artifactId);
         }
 
         public ReturnObject<Boolean> RevertReservationAfterCheckIn()

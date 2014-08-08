@@ -1032,11 +1032,7 @@ namespace Vanilla.Utility.WinForm
         {
             //this line of code will retian the list item focus , while the pop up is opened
             lsvContainer.HideSelection = false;
-            //lsvContainer.Enabled = false;
-
             this.Delete();
-
-            //lsvContainer.Enabled = true;
         }
 
         private void cmnuRename_Click(object sender, EventArgs e)
@@ -1290,8 +1286,6 @@ namespace Vanilla.Utility.WinForm
 
         public void Delete()
         {
-            Boolean retVal = true;
-
             String artifact = String.Empty;
             switch (this.currentArtifact.Style)
             {
@@ -1316,18 +1310,17 @@ namespace Vanilla.Utility.WinForm
             DialogResult dialogResult = MessageBox.Show(this, Msg, "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                if (this.currentArtifact.Style == ArtfFac.Type.Document)
-                    retVal = this.DeleteDocument(this.currentArtifact);
-                //else
-                //    retVal = this.DeleteFolder(this.currentArtifact, true);
+                List<String> messageList = this.currentArtifact.Style == ArtfFac.Type.Document ?
+                    this.DeleteDocument(this.currentArtifact) :
+                    this.DeleteFolder(this.currentArtifact);
 
-                if (!retVal)
+                if (messageList != null && messageList.Count > 0)
                 {
                     new PresLib.MessageBox
                     {
                         DialogueType = PresLib.MessageBox.Type.Error,
                         Heading = "Navigator",
-                    }.Show("Document contains transactional information. Cannot be deleted.");
+                    }.Show(messageList);
                 }
                 else
                 {
@@ -1337,6 +1330,10 @@ namespace Vanilla.Utility.WinForm
                     //ReBind the listview after removing the list item
                     Facade.Artifact.Dto parentArtifact = new ArtfFac.Server(new ArtfFac.FormDto()).GetParentArtifact(this.currentArtifact);
                     this.lsvContainer.AttachChildren(parentArtifact, isDocumentFirst);
+                    if (this.currentArtifact.Style == ArtfFac.Type.Folder)
+                    {
+                        this.GetActiveTreeView().RemoveNode(this.GetActiveTreeView().FindNode(this.currentArtifact));
+                    }
                 }
             }
             else if (dialogResult == DialogResult.No)
@@ -1346,16 +1343,8 @@ namespace Vanilla.Utility.WinForm
         }
 
 
-        private Boolean DeleteDocument(ArtfFac.Dto artifact)
+        private List<String> DeleteDocument(ArtfFac.Dto artifact)
         {
-            //Boolean retVal = true;
-            //TreeNode parentNode = this.trvForm.FindNode(this.GetParent(artifact));
-
-            //if (parentNode != null)
-            //{
-            //    retVal = this.DeleteItem(artifact, parentNode);
-            //}
-
             this.formDto.ModuleFormDto.CurrentArtifact = new ArtfFac.FormDto
             {
                 Dto = artifact,
@@ -1364,37 +1353,32 @@ namespace Vanilla.Utility.WinForm
             this.facade = new Facade.Register.Server(this.formDto);
             this.facade.Delete();
 
-            return (!this.facade.IsError);
+            return this.facade.DisplayMessageList;
         }
 
-        private void DeleteFolder(ArtfFac.Dto artifact, Boolean retVal)
+        private List<String> DeleteFolder(ArtfFac.Dto artifact)
         {
-            if (!retVal)
-                return;
-
-            //Delete the children
             if (artifact.Children != null)
             {
                 while (artifact.Children.Count > 0)
                 {
                     if (artifact.Children[0].Style == ArtfFac.Type.Folder)
-                        this.DeleteFolder(artifact.Children[0], retVal);
+                    {
+                        this.DeleteFolder(artifact.Children[0]);
+                    }
                     else
                     {
-                        retVal = this.DeleteDocument(artifact.Children[0]);
-                        if (!retVal)
-                            break;
+                        List<String> messageList = this.DeleteDocument(artifact.Children[0]);
+                        if (messageList != null && messageList.Count > 0)
+                        {
+                            messageList.Add("Data may be deleted partially.");
+                            return messageList;
+                        }
                     }
+                    artifact.Children.RemoveAt(0);
                 }
             }
-
-
-            //Delete Own
-            TreeNode node = null;
-            //node = this.FindTreeNodeFromTag(artifact, this.trvForm.Nodes, node);
-            node = this.trvForm.FindNode(artifact);
-            //retVal = this.DeleteItem(artifact, node.Parent);
-
+            return this.DeleteDocument(artifact);
         }
                
         public void SelectAll()

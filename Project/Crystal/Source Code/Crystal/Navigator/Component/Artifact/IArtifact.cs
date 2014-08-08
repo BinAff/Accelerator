@@ -12,6 +12,8 @@ namespace Crystal.Navigator.Component.Artifact
         ReturnObject<Data> FormTree();
         ReturnObject<Boolean> UpdaterModuleArtifactLink();
         ReturnObject<Data> ReadWithParent();
+        Int64 ReadComponentId();
+
     }
 
 }

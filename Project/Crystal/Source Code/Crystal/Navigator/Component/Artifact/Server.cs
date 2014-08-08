@@ -108,6 +108,11 @@ namespace Crystal.Navigator.Component.Artifact
             return ret;
         }
 
+        Int64 IArtifact.ReadComponentId()
+        {
+            return (this.DataAccess as Dao).ReadComponentLink();
+        }
+
         /// <summary>
         /// Form artifact tree from database related record
         /// </summary>

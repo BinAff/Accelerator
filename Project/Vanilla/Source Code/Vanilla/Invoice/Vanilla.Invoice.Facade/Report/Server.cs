@@ -4,6 +4,7 @@ using BinAff.Core;
 
 using CrysInvRpt = Crystal.Invoice.Component.Report;
 using CrysRpt = Crystal.Report.Component;
+//using Crystal.Navigator.Component.Artifact.Observer;
 
 namespace Vanilla.Invoice.Facade.Report
 {
@@ -82,6 +83,16 @@ namespace Vanilla.Invoice.Facade.Report
                 BuyerContactNo = reportData.BuyerContactNo,
             };
         }
+
+        //protected override DocumentComponent GetComponentServer()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //protected override string GetComponentDataType()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
     }
 

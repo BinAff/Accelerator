@@ -6,7 +6,7 @@ using BinAff.Utility;
 using CrystalCustomer = Crystal.Customer.Component;
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
 using InvoiceCrys = Crystal.Invoice.Component;
-
+using InvArtfComp = Crystal.Invoice.Component.Navigator.Artifact;
 
 namespace Vanilla.Invoice.Facade
 {
@@ -205,10 +205,10 @@ namespace Vanilla.Invoice.Facade
                     paymentDtoList.Add(new Vanilla.Invoice.Facade.Payment.Dto
                     {
                         Id = paymentData.Id,
-                        Type = new Payment.Type.Dto { Id = paymentData.Type.Id },
-                        cardNumber = paymentData.CardNumber,
-                        remark = paymentData.Remark,
-                        amount = paymentData.Amount,
+                        Type = new Table { Id = paymentData.Type.Id },
+                        ReferenceNumber = paymentData.CardNumber,
+                        Remark = paymentData.Remark,
+                        Amount = paymentData.Amount,
                     });
                 }
             }
@@ -273,7 +273,7 @@ namespace Vanilla.Invoice.Facade
             InvoiceCrys.IInvoice invoice = new InvoiceCrys.Server(new InvoiceCrys.Data());
             List<InvoiceCrys.Payment.Data> paymentDataList = invoice.ReadInvoicePayment(invoiceNumber);
           
-            return new Payment.Server(new Payment.FormDto()).ConvertPayment(paymentDataList);
+            return new Payment.Server(new Payment.FormDto()).Convert(paymentDataList);
         }
 
         public ReturnObject<Boolean> GenerateInvoice()
@@ -522,10 +522,10 @@ namespace Vanilla.Invoice.Facade
             return new InvoiceCrys.Navigator.Artifact.Server(artifactData as InvoiceCrys.Navigator.Artifact.Data);
         }
 
-        protected override ArtfCrys.Observer.DocumentComponent GetComponentServer()
+        protected override ICrud GetComponentServer()
         {
             this.componentServer = new InvoiceCrys.Server(this.Convert((this.FormDto as FormDto).Dto) as InvoiceCrys.Data);
-            return this.componentServer as ArtfCrys.Observer.DocumentComponent;
+            return this.componentServer;
         }
 
         protected override String GetComponentDataType()
@@ -536,6 +536,11 @@ namespace Vanilla.Invoice.Facade
         public override string GetComponentCode()
         {
             return "INVO";
+        }
+
+        protected override ArtfCrys.Data GetArtifactData(Int64 artifactId)
+        {
+            return new InvArtfComp.Data { Id = artifactId };
         }
 
         private List<BinAff.Core.Data> ConvertTaxList(List<Taxation.Dto> taxList)
@@ -557,7 +562,7 @@ namespace Vanilla.Invoice.Facade
             
             return taxLst;
         }
-
+                
     }
 }
 

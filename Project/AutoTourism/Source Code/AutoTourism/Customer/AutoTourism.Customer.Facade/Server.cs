@@ -9,6 +9,7 @@ using ConfigCrys = Crystal.Configuration.Component;
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
 
 using CustAuto = AutoTourism.Component.Customer;
+using CustArtfAuto = AutoTourism.Component.Customer.Navigator.Artifact;
 using RuleAuto = AutoTourism.Configuration.Rule.Facade;
 
 namespace AutoTourism.Customer.Facade
@@ -429,13 +430,13 @@ namespace AutoTourism.Customer.Facade
 
         protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData)
         {
-            return new CustAuto.Navigator.Artifact.Server(artifactData as CustAuto.Navigator.Artifact.Data);
+            return new CustArtfAuto.Server(artifactData as CustArtfAuto.Data);
         }
 
-        protected override ArtfCrys.Observer.DocumentComponent GetComponentServer()
+        protected override ICrud GetComponentServer()
         {
             this.componentServer = new CustAuto.Server(this.Convert((this.FormDto as FormDto).Dto) as CustAuto.Data);
-            return this.componentServer as ArtfCrys.Observer.DocumentComponent;
+            return this.componentServer;
         }
 
         protected override String GetComponentDataType()
@@ -445,32 +446,25 @@ namespace AutoTourism.Customer.Facade
 
         public override ReturnObject<Boolean> ValidateDelete()
         {
-            ReturnObject<bool> ret = new ReturnObject<bool> { Value = true };
+            ReturnObject<Boolean> ret = new ReturnObject<Boolean> { Value = true };
 
-            Int64 ArtifactId = this.Data.Id;
-            Int64 CustomerId = this.ReadCustomerId(ArtifactId);
-
-            ICrud autoCustmer = new CustAuto.Server(new CustAuto.Data { Id = CustomerId });
-            ReturnObject<Data> retData = autoCustmer.Read();
+            Int64 componentId = this.ReadComponentIdForArtifact(this.Data.Id);
+            if (componentId == 0) return ret;
+            ReturnObject<Data> retData = (new CustAuto.Server(new CustAuto.Data { Id = componentId }) as ICrud).Read();
 
             LodgeCrys.Room.Reserver.Data reservationData = (retData.Value as CustAuto.Data).RoomReserver;
             LodgeCrys.Room.CheckInContainer.Data checkInData = (retData.Value as CustAuto.Data).Checkin;
-
+            ret.MessageList = new List<Message>();
             if (reservationData != null && reservationData.AllList != null && reservationData.AllList.Count > 0)
             {
                 ret.Value = false;
-                ret.MessageList = new System.Collections.Generic.List<Message> { 
-                    new BinAff.Core.Message("Customer has reservation.",Message.Type.Information)
-                };
+                ret.MessageList.Add(new Message("Customer has reservation.", Message.Type.Error));
             }
-            else if (checkInData != null && checkInData.AllList != null && checkInData.AllList.Count > 0)
+            if (checkInData != null && checkInData.AllList != null && checkInData.AllList.Count > 0)
             {
                 ret.Value = false;
-                ret.MessageList = new System.Collections.Generic.List<Message> { 
-                    new BinAff.Core.Message("Customer has checkIn.",Message.Type.Information)
-                };
+                ret.MessageList.Add(new Message("Customer has checkIn.", Message.Type.Error));
             }
-
             return ret;
         }
 
@@ -479,10 +473,10 @@ namespace AutoTourism.Customer.Facade
             return "CUST";
         }
 
-        private Int64 ReadCustomerId(Int64 ArtifactId)
+        protected override ArtfCrys.Data GetArtifactData(Int64 artifactId)
         {
-            return new CustAuto.Server(null).ReadCustomerId(ArtifactId);            
-        }     
+            return new CustArtfAuto.Data { Id = artifactId };
+        }
 
     }
 

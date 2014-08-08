@@ -17,10 +17,10 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
         protected override void Compose()
         {
             base.Compose();
-            base.CreateComponentLinkSPName = "Lodge.ReservationArtifactInsertLink";
+            base.CreateComponentLinkSPName = "Lodge.RoomReservationArtifactInsertLink";
             base.ReadComponentLinkSPName = "Lodge.RoomReservationArtifactReadLink";
-            base.UpdateComponentLinkSPName = "Lodge.ReservationArtifactUpdateLink";
-            this.DeleteComponentLinkSPName = "Lodge.ReservationArtifactDeleteLink";
+            base.UpdateComponentLinkSPName = "Lodge.RoomReservationArtifactUpdateLink";
+            this.DeleteComponentLinkSPName = "Lodge.RoomReservationArtifactDeleteLink";
         }
 
         protected override BinAff.Core.Data CreateDataObject(Int64 id, ArtfComp.Category category)

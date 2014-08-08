@@ -190,10 +190,10 @@ namespace AutoTourism.Component.Customer
                     {
                         Id = Convert.IsDBNull(row["RoomReservationId"]) ? 0 : Convert.ToInt64(row["RoomReservationId"]),
                     };
-                    ////TO DO: Need to check why read is required. some createchildren is missing.
-                    //BinAff.Core.ICrud server = new Crystal.Lodge.Component.Room.Reservation.Server(data);
-                    //server.Read();
-                    //(this.Data as Data).RoomReserver.AllList.Add(data);
+                    //TO DO: Need to check why read is required. some createchildren is missing.
+                    BinAff.Core.ICrud server = new Crystal.Lodge.Component.Room.Reservation.Server(data);
+                    server.Read();
+                    (this.Data as Data).RoomReserver.AllList.Add(data);
                 }
             }
         }
@@ -233,22 +233,6 @@ namespace AutoTourism.Component.Customer
                 customerId = Convert.ToInt64(ds.Tables[0].Rows[0]["CustomerId"]);
             }
             return customerId;
-        }
-
-        public Int64 ReadCustomerId(Int64 ArtifactId)
-        {
-            Int64 CustomerId = 0;
-            this.CreateCommand("[Customer].[ReadCustomerId]");
-            this.AddInParameter("@ArtifactId", DbType.Int64, ArtifactId);
-
-            DataSet ds = this.ExecuteDataSet();
-
-            if (ds.Tables.Count > 0)
-            {
-                CustomerId = Convert.IsDBNull(ds.Tables[0].Rows[0]["CustomerId"]) ? 0 : Convert.ToInt64(ds.Tables[0].Rows[0]["CustomerId"]);
-            }
-
-            return CustomerId;
         }
 
     }

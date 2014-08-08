@@ -1,9 +1,18 @@
 ﻿using System;
 
+using BinAff.Core;
+
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
+
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
+
 namespace Vanilla.Utility.Facade.Document
 {
+
     public class Server : BinAff.Facade.Library.Server
     {
+
+        protected BinAff.Core.ICrud componentServer;
 
         public Server(FormDto formDto)
             : base(formDto)
@@ -37,4 +46,5 @@ namespace Vanilla.Utility.Facade.Document
         }
 
     }
+
 }

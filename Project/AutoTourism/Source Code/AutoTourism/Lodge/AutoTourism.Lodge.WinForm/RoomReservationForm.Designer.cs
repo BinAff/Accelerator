@@ -44,8 +44,6 @@
             this.txtMale = new System.Windows.Forms.TextBox();
             this.txtRooms = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.cboRoomList = new System.Windows.Forms.ComboBox();
-            this.cboSelectedRoom = new System.Windows.Forms.ComboBox();
             this.btnAddRoom = new System.Windows.Forms.Button();
             this.btnRemoveRoom = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -76,6 +74,8 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.lstRoomList = new System.Windows.Forms.ListBox();
+            this.lstSelectedRoom = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -238,26 +238,6 @@
             this.label4.TabIndex = 86;
             this.label4.Text = "Total Rooms";
             // 
-            // cboRoomList
-            // 
-            this.cboRoomList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-            this.cboRoomList.FormattingEnabled = true;
-            this.cboRoomList.Location = new System.Drawing.Point(8, 19);
-            this.cboRoomList.Name = "cboRoomList";
-            this.cboRoomList.Size = new System.Drawing.Size(111, 111);
-            this.cboRoomList.TabIndex = 13;
-            this.cboRoomList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cboRoomList_MouseDoubleClick);
-            // 
-            // cboSelectedRoom
-            // 
-            this.cboSelectedRoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-            this.cboSelectedRoom.FormattingEnabled = true;
-            this.cboSelectedRoom.Location = new System.Drawing.Point(174, 19);
-            this.cboSelectedRoom.Name = "cboSelectedRoom";
-            this.cboSelectedRoom.Size = new System.Drawing.Size(107, 111);
-            this.cboSelectedRoom.TabIndex = 16;
-            this.cboSelectedRoom.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cboSelectedRoom_MouseDoubleClick);
-            // 
             // btnAddRoom
             // 
             this.btnAddRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -282,9 +262,9 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.cboRoomList);
+            this.groupBox2.Controls.Add(this.lstSelectedRoom);
+            this.groupBox2.Controls.Add(this.lstRoomList);
             this.groupBox2.Controls.Add(this.btnRemoveRoom);
-            this.groupBox2.Controls.Add(this.cboSelectedRoom);
             this.groupBox2.Controls.Add(this.btnAddRoom);
             this.groupBox2.ForeColor = System.Drawing.Color.Black;
             this.groupBox2.Location = new System.Drawing.Point(250, 86);
@@ -555,6 +535,24 @@
             this.label6.TabIndex = 1006;
             this.label6.Text = "Total Guests";
             // 
+            // lstRoomList
+            // 
+            this.lstRoomList.FormattingEnabled = true;
+            this.lstRoomList.Location = new System.Drawing.Point(14, 17);
+            this.lstRoomList.Name = "lstRoomList";
+            this.lstRoomList.Size = new System.Drawing.Size(107, 108);
+            this.lstRoomList.TabIndex = 17;
+            this.lstRoomList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstRoomList_MouseDoubleClick);
+            // 
+            // lstSelectedRoom
+            // 
+            this.lstSelectedRoom.FormattingEnabled = true;
+            this.lstSelectedRoom.Location = new System.Drawing.Point(183, 17);
+            this.lstSelectedRoom.Name = "lstSelectedRoom";
+            this.lstSelectedRoom.Size = new System.Drawing.Size(106, 108);
+            this.lstSelectedRoom.TabIndex = 18;
+            this.lstSelectedRoom.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstSelectedRoom_MouseDoubleClick);
+            // 
             // RoomReservationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -639,8 +637,6 @@
         private System.Windows.Forms.TextBox txtMale;
         private System.Windows.Forms.TextBox txtRooms;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cboRoomList;
-        private System.Windows.Forms.ComboBox cboSelectedRoom;
         private System.Windows.Forms.Button btnAddRoom;
         private System.Windows.Forms.Button btnRemoveRoom;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -675,5 +671,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ListBox lstRoomList;
+        private System.Windows.Forms.ListBox lstSelectedRoom;
     }
 }

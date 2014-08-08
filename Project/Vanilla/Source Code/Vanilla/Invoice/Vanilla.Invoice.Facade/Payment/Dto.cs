@@ -1,19 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
+using BinAff.Core;
+
+using FrmFac = Vanilla.Form.Facade.Document;
 
 namespace Vanilla.Invoice.Facade.Payment
 {
-    public class Dto : BinAff.Facade.Library.Dto
-    {
-        public DateTime date { get; set; }
-        public String cardNumber { get; set; }
-        public String remark { get; set; }
-        public Double amount {get;set;}
-        public String paymentType { get; set; }
 
-        public Type.Dto Type { get; set; }
+    public class Dto : FrmFac.Dto
+    {
+
+        /// <summary>
+        /// Date of payment
+        /// </summary>
+        public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Card number / Check number / DD Number
+        /// </summary>
+        public String ReferenceNumber { get; set; }
+
+        /// <summary>
+        /// Advance amount
+        /// </summary>
+        public Double Amount { get; set; }
+
+        /// <summary>
+        /// Additional remarks
+        /// </summary>
+        public String Remark { get; set; }
+
+        public String PaymentType { get; set; }
+
+        public Table Type { get; set; }
+
     }
     
 }

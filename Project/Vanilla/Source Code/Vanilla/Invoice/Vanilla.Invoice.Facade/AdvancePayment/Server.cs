@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 
-using PaymentComp = Crystal.Invoice.Component.Payment;
-using PaymentTypComp = Crystal.Invoice.Component.Payment.Type;
+using AdvPmtComp = Crystal.Invoice.Component.AdvancePayment;
+using AdvPmtArtfComp = Crystal.Invoice.Component.AdvancePayment.Navigator.Artifact;
+using PmtTypeComp = Crystal.Invoice.Component.Payment.Type;
 using ArtfComp = Crystal.Navigator.Component.Artifact;
 
 using DocFac = Vanilla.Form.Facade.Document;
@@ -32,48 +33,48 @@ namespace Vanilla.Invoice.Facade.AdvancePayment
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            PaymentComp.Data paymentData = data as PaymentComp.Data;
+            AdvPmtComp.Data advPmt = data as AdvPmtComp.Data;
             return new Dto
             {
-                Id = paymentData.Id,
+                Id = advPmt.Id,
                 Type = new Table
                 {
-                    Id = paymentData.Type.Id,
-                    Name = paymentData.Type.Name,
+                    Id = advPmt.Type.Id,
+                    Name = advPmt.Type.Name,
                 },
-                ReferenceNumber = paymentData.CardNumber,
-                Remark = paymentData.Remark,
-                Amount = paymentData.Amount
+                ReferenceNumber = advPmt.CardNumber,
+                Remark = advPmt.Remark,
+                Amount = advPmt.Amount
             };          
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            Payment.Dto paymentDto = dto as Payment.Dto;
-            return new Crystal.Invoice.Component.Payment.Data
+            Dto paymentDto = dto as Dto;
+            return new AdvPmtComp.Data
             {
                 Id = dto.Id,
-                Type = new PaymentTypComp.Data
+                Type = new PmtTypeComp.Data
                 {
                     Id = paymentDto.Type.Id,
                     Name = paymentDto.Type.Name,
                 },
-                CardNumber = paymentDto.cardNumber,
-                Remark = paymentDto.remark,
-                Amount = paymentDto.amount
+                CardNumber = paymentDto.ReferenceNumber,
+                Remark = paymentDto.Remark,
+                Amount = paymentDto.Amount
             };
         }
                
         private List<Table> ReadAllPaymentType()
         {
             List<Table> typeDtoList = new List<Table>();
-            ReturnObject<List<Data>> typeList = (new PaymentTypComp.Server(null) as ICrud).ReadAll();
+            ReturnObject<List<Data>> typeList = (new PmtTypeComp.Server(null) as ICrud).ReadAll();
 
             if (typeList != null && typeList.Value != null && typeList.Value.Count > 0)
             {
                 foreach (BinAff.Core.Data data in typeList.Value)
                 {
-                    PaymentTypComp.Data typeData = data as PaymentTypComp.Data;
+                    PmtTypeComp.Data typeData = data as PmtTypeComp.Data;
                     typeDtoList.Add(new Table
                     {
                         Id = typeData.Id,
@@ -84,10 +85,10 @@ namespace Vanilla.Invoice.Facade.AdvancePayment
             return typeDtoList;
         }
 
-        public ReturnObject<Boolean> MakePayment(List<Dto> paymentList, String invoiceNumber)
+        public ReturnObject<Boolean> MakePayment(List<Dto> advancePaymentList, String invoiceNumber)
         {
             ReturnObject<Boolean> ret = new ReturnObject<bool> { Value = true };
-            //List<BinAff.Core.Data> paymentDataList = this.ConvertPayment(paymentList);
+            List<BinAff.Core.Data> advancePaymentDataList = this.ConvertPayment(advancePaymentList);
             
             //Facade.IInvoice invoiceServer = new Facade.Server(new Facade.FormDto());
             //Int64 invoiceId = invoiceServer.GetInvoiceId(invoiceNumber);
@@ -112,30 +113,30 @@ namespace Vanilla.Invoice.Facade.AdvancePayment
             return ret;
         }
 
-        public List<BinAff.Core.Data> ConvertPayment(List<Payment.Dto> paymentList)
+        public List<BinAff.Core.Data> ConvertPayment(List<Dto> advancePaymentList)
         {
-            List<BinAff.Core.Data> paymentDataList = new List<Data>();
-            if (paymentList != null && paymentList.Count > 0)
+            List<BinAff.Core.Data> advancePaymentDataList = new List<Data>();
+            if (advancePaymentList != null && advancePaymentList.Count > 0)
             {
-                foreach (Vanilla.Invoice.Facade.Payment.Dto dto in paymentList)
-                {                 
-                    paymentDataList.Add(this.Convert(dto));
+                foreach (Dto dto in advancePaymentList)
+                {
+                    advancePaymentDataList.Add(this.Convert(dto));
                 }
             }
-            return paymentDataList;
+            return advancePaymentDataList;
         }
 
-        public List<Payment.Dto> ConvertPayment(List<PaymentComp.Data> paymentList)
+        public List<Dto> ConvertPayment(List<AdvPmtComp.Data> advancePaymentList)
         {
-            List<Payment.Dto> paymentDtoList = new List<Payment.Dto>();
-            if (paymentList != null && paymentList.Count > 0)
+            List<Dto> advancePaymentDtoList = new List<Dto>();
+            if (advancePaymentList != null && advancePaymentList.Count > 0)
             {
-                foreach (PaymentComp.Data data in paymentList)
+                foreach (AdvPmtComp.Data data in advancePaymentList)
                 {
-                    paymentDtoList.Add(this.Convert(data) as Payment.Dto);
+                    advancePaymentDtoList.Add(this.Convert(data) as Dto);
                 }
             }
-            return paymentDtoList;
+            return advancePaymentDtoList;
         }
         
         private List<Dto> ReadPayments(String invoiceNumber)
@@ -160,22 +161,28 @@ namespace Vanilla.Invoice.Facade.AdvancePayment
 
         protected override ArtfComp.Server GetArtifactServer(Data artifactData)
         {
-            throw new NotImplementedException();
+            return new AdvPmtArtfComp.Server(artifactData as AdvPmtArtfComp.Data);
         }
 
-        protected override ArtfComp.Observer.DocumentComponent GetComponentServer()
+        protected override ICrud GetComponentServer()
         {
-            throw new NotImplementedException();
+            this.componentServer = new AdvPmtComp.Server(this.Convert((this.FormDto as FormDto).Dto) as AdvPmtComp.Data);
+            return this.componentServer;
         }
 
         protected override string GetComponentDataType()
         {
-            throw new NotImplementedException();
+            return "Crystal.Invoice.Component.AdvancePayment.Navigator.Artifact.Data, Crystal.Invoice.Component";
         }
         
         public override String GetComponentCode()
         {
-            return "APMT"; //Not in database
+            return "APMT";
+        }
+        
+        protected override ArtfComp.Data GetArtifactData(Int64 artifactId)
+        {
+            return new AdvPmtArtfComp.Data { Id = artifactId };
         }
 
     }
