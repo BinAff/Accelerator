@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 
 using ModFac = Vanilla.Utility.Facade.Module;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
 
 namespace Vanilla.Utility.WinForm
 {
@@ -19,6 +20,28 @@ namespace Vanilla.Utility.WinForm
         protected virtual void RaiseAuditInfoChanged(Document document)
         {
             OnAuditInfoChanged del = AuditInfoChanged;
+            if (del != null)
+            {
+                del(document);
+            }
+        }
+
+        public delegate void OnArtifactSaved(ArtfFac.Dto document);
+        public event OnArtifactSaved ArtifactSaved;
+        protected virtual void RaiseArtifactSaved(ArtfFac.Dto document)
+        {
+            OnArtifactSaved del = ArtifactSaved;
+            if (del != null)
+            {
+                del(document);
+            }
+        }
+
+        public delegate void OnChildArtifactSaved(ArtfFac.Dto document);
+        public event OnChildArtifactSaved ChildArtifactSaved;
+        protected virtual void RaiseChildArtifactSaved(ArtfFac.Dto document)
+        {
+            OnChildArtifactSaved del = ChildArtifactSaved;
             if (del != null)
             {
                 del(document);
@@ -89,6 +112,8 @@ namespace Vanilla.Utility.WinForm
             {
                 this.Visible = false;
                 SaveDialog saveDialogue = this.GetSaveDialogue();
+                saveDialogue.FolderSaved += saveDialogue_FolderSaved;
+                
                 if (saveDialogue != null)
                 {
                     saveDialogue.Document = this.formDto.Document;
@@ -104,6 +129,11 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        void saveDialogue_FolderSaved(Facade.Artifact.Dto document)
+        {
+            this.ArtifactSaved(document);
+        }
+
         private void Document_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.isNewDocument && this.IsModified)
@@ -116,7 +146,7 @@ namespace Vanilla.Utility.WinForm
                 //    saveDialogue.ShowDialog(this);
                 //}
                 ////this.Visible = true;
-            }
+            }            
         }
 
         private void Document_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)

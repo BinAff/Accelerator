@@ -92,8 +92,8 @@ namespace Vanilla.Utility.WinForm
         public delegate void OnReportLoad(ArtfFac.Dto currentArtifact);
         public event OnReportLoad ReportLoad;
 
-        public delegate Document OnReportAdded(ArtfFac.Dto currentArtifact, Facade.Register.Server registerFacade, FacLib.Dto moduleFormDto);
-        public event OnReportAdded ReportAdded;
+        //public delegate Document OnReportAdded(ArtfFac.Dto currentArtifact, Facade.Register.Server registerFacade, FacLib.Dto moduleFormDto);
+        //public event OnReportAdded ReportAdded;
 
         public delegate void OnReportCategoryGet(ArtfFac.Dto currentArtifact, String categoryName);
         public event OnReportCategoryGet ReportCategoryGet;
@@ -109,6 +109,9 @@ namespace Vanilla.Utility.WinForm
 
         public delegate void OnArtifactClicked();
         public event OnArtifactClicked ArtifactClicked;
+
+        public delegate void OnFolderSaved(ArtfFac.Dto folder);
+        public event OnFolderSaved FolderSaved;
 
         #endregion
 
@@ -158,6 +161,7 @@ namespace Vanilla.Utility.WinForm
             //Show only proper tab
             if (this.DialogueMode != DialogueMode.None)
             {
+                this.cmnuForm.Enabled = false;
                 switch (this.Category)
                 {
                     case ArtfFac.Category.Form:
@@ -181,6 +185,14 @@ namespace Vanilla.Utility.WinForm
             ArtfFac.Dto parentArtifact = this.GetParent(document);
             TreeView currrentTreeView = this.GetActiveTreeView();
             TreeNode parentNode = currrentTreeView.FindNode(parentArtifact);
+            if (document.Style == ArtfFac.Type.Folder)
+            {
+                parentNode.Nodes.Add(new TreeNode
+                {
+                    Tag = document,
+                    Text = document.FileName,
+                });
+            }
             ArtfFac.Dto parentArtf = this.GetArtifact(parentNode.Tag);
             if(parentArtf.Children == null) parentArtf.Children = new List<ArtfFac.Dto>();
             parentArtf.Children.Add(document);
@@ -1342,7 +1354,6 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-
         private List<String> DeleteDocument(ArtfFac.Dto artifact)
         {
             this.formDto.ModuleFormDto.CurrentArtifact = new ArtfFac.FormDto
@@ -1943,6 +1954,10 @@ namespace Vanilla.Utility.WinForm
                 if (type == ArtfFac.Type.Folder)
                 {
                     parentNode.Nodes.Add(newNode);
+                    if (this.DialogueMode != WinForm.DialogueMode.None)
+                    {
+                        this.FolderSaved(this.formDto.ModuleFormDto.CurrentArtifact.Dto);
+                    }
                 }
 
                 this.lsvContainer.AttachChild(this.formDto.ModuleFormDto.CurrentArtifact.Dto);

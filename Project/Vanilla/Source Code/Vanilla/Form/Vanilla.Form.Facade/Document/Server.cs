@@ -76,8 +76,9 @@ namespace Vanilla.Form.Facade.Document
             if (componentId == 0) return new ReturnObject<Boolean> { Value = true }; //No component attached with artifact
             this.componentServer = this.GetComponentServer();
             (this.componentServer as Crud).Data.Id = componentId;
-
-            ReturnObject<Boolean> ret = this.GetRegisterer().Register(this.componentServer as BinAff.Core.Observer.ISubject);
+            BinAff.Core.Observer.IRegistrar registrar = this.GetRegisterer();
+            if (registrar == null) return new ReturnObject<Boolean> { Value = true };
+            ReturnObject<Boolean> ret = registrar.Register(this.componentServer as BinAff.Core.Observer.ISubject);
             return (this.componentServer as BinAff.Core.Observer.ISubject).NotifyObserver();
         }
 

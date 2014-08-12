@@ -66,6 +66,10 @@
     <Compile Include="Payment\Data.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Payment\LineItem\Dao.cs" />
+    <Compile Include="Payment\LineItem\Data.cs" />
+    <Compile Include="Payment\LineItem\Server.cs" />
+    <Compile Include="Payment\LineItem\Validator.cs" />
     <Compile Include="Payment\Navigator\Artifacts\Dao.cs" />
     <Compile Include="Payment\Navigator\Artifacts\Data.cs" />
     <Compile Include="Payment\Navigator\Artifacts\Server.cs" />
@@ -97,6 +101,17 @@
     <Compile Include="Taxation\Server.cs" />
     <Compile Include="Taxation\Slab\Dao.cs" />
     <Compile Include="Taxation\Slab\Data.cs" />
+    <Content Include="Payment\DB\Delete.sql" />
+    <Content Include="Payment\DB\Insert.sql" />
+    <Content Include="Payment\DB\Read.sql" />
+    <Content Include="Payment\DB\ReadAll.sql" />
+    <Content Include="Payment\DB\Update.sql" />
+    <Content Include="Payment\LineItem\DB\Delete.sql" />
+    <Content Include="Payment\LineItem\DB\Insert.sql" />
+    <Content Include="Payment\LineItem\DB\Read.sql" />
+    <Content Include="Payment\LineItem\DB\ReadAll.sql" />
+    <Content Include="Payment\LineItem\DB\ReadForParent.sql" />
+    <Content Include="Payment\LineItem\DB\Update.sql" />
     <Content Include="Taxation\Slab\Database\ReadForParent.sql" />
     <Compile Include="Taxation\Slab\Server.cs" />
     <Compile Include="Taxation\Slab\Validator.cs" />

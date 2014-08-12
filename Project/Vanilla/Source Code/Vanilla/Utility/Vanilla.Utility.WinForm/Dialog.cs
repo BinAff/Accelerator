@@ -48,6 +48,9 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        public delegate void OnFolderSaved(ArtfFac.Dto document);
+        public event OnFolderSaved FolderSaved;
+
         public Dialog()
         {
             InitializeComponent();
@@ -81,6 +84,11 @@ namespace Vanilla.Utility.WinForm
             this.txtDocName.Text = this.ucRegister.CurrentArtifact.FullFileName;
         }
 
+        private void ucRegister_FolderSaved(ArtfFac.Dto folder)
+        {
+            this.FolderSaved(folder);
+        }
+
         private void btnAction_Click(object sender, EventArgs e)
         {
             this.DoAction();
@@ -107,7 +115,7 @@ namespace Vanilla.Utility.WinForm
         {
             throw new NotImplementedException();
         }
-
+        
     }
 
 }

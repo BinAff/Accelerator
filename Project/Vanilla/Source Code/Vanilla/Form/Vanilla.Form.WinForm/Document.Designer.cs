@@ -31,8 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.pnlAttachment = new System.Windows.Forms.Panel();
             this.dgvAttachmentList = new System.Windows.Forms.DataGridView();
-            this.AttachedFormName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AttachedFormType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
@@ -44,6 +42,8 @@
             this.btnExpandCollapse = new System.Windows.Forms.ToolStripButton();
             this.btnAttach = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewLinkColumn();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -62,29 +62,18 @@
             // 
             // dgvAttachmentList
             // 
+            this.dgvAttachmentList.AllowUserToAddRows = false;
+            this.dgvAttachmentList.AllowUserToResizeRows = false;
             this.dgvAttachmentList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAttachmentList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.AttachedFormName,
-            this.AttachedFormType});
+            this.Path,
+            this.Delete});
             this.dgvAttachmentList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvAttachmentList.Location = new System.Drawing.Point(0, 0);
+            this.dgvAttachmentList.MultiSelect = false;
             this.dgvAttachmentList.Name = "dgvAttachmentList";
             this.dgvAttachmentList.Size = new System.Drawing.Size(26, 15);
             this.dgvAttachmentList.TabIndex = 0;
-            // 
-            // AttachedFormName
-            // 
-            this.AttachedFormName.FillWeight = 200F;
-            this.AttachedFormName.HeaderText = "Name";
-            this.AttachedFormName.Name = "AttachedFormName";
-            this.AttachedFormName.Width = 200;
-            // 
-            // AttachedFormType
-            // 
-            this.AttachedFormType.FillWeight = 150F;
-            this.AttachedFormType.HeaderText = "Type";
-            this.AttachedFormType.Name = "AttachedFormType";
-            this.AttachedFormType.Width = 150;
             // 
             // errorProvider
             // 
@@ -180,6 +169,7 @@
             this.btnAttach.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.btnAttach.AutoSize = false;
             this.btnAttach.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnAttach.Enabled = false;
             this.btnAttach.Font = new System.Drawing.Font("Webdings", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
             this.btnAttach.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAttach.Name = "btnAttach";
@@ -193,6 +183,22 @@
             this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
+            // 
+            // Path
+            // 
+            this.Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Path.HeaderText = "Full Path";
+            this.Path.Name = "Path";
+            this.Path.ReadOnly = true;
+            // 
+            // Delete
+            // 
+            this.Delete.FillWeight = 50F;
+            this.Delete.HeaderText = "Action";
+            this.Delete.Name = "Delete";
+            this.Delete.ReadOnly = true;
+            this.Delete.Text = "Delete";
+            this.Delete.Width = 50;
             // 
             // Document
             // 
@@ -221,8 +227,6 @@
         private System.Windows.Forms.Panel pnlAttachment;
         private System.Windows.Forms.DataGridView dgvAttachmentList;
         protected System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AttachedFormName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AttachedFormType;
         protected System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.ToolStripButton btnRefresh;
         private System.Windows.Forms.ToolStripButton btnOk;
@@ -233,6 +237,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton btnAttach;
         private System.Windows.Forms.ToolStrip toolStrip;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Path;
+        private System.Windows.Forms.DataGridViewLinkColumn Delete;
 
     }
 }

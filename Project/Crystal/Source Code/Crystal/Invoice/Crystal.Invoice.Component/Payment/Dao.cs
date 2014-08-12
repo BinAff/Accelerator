@@ -16,24 +16,27 @@ namespace Crystal.Invoice.Component.Payment
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "[Invoice].[PaymentInsert]";
+            base.CreateStoredProcedure = "Invoice.PaymentInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Invoice].[PaymentRead]";
-            base.ReadAllStoredProcedure = "[Invoice].[PaymentReadAll]";
-            base.UpdateStoredProcedure = "[Invoice].[PaymentUpdate]";
+            base.ReadStoredProcedure = "Invoice.PaymentRead";
+            base.ReadAllStoredProcedure = "Invoice.PaymentReadAll";
+            base.UpdateStoredProcedure = "Invoice.PaymentUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "[Invoice].[PaymentDelete]";
+            base.DeleteStoredProcedure = "Invoice.PaymentDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
         protected override void AssignParameter(string procedureName)
         {
-            base.AddInParameter("@InvoiceId", DbType.Int64, ((Data)this.Data).Invoice.Id);
-            base.AddInParameter("@Amount", DbType.Double, ((Data)this.Data).Amount);
-
-            base.AddInParameter("@CardNumber", DbType.String, ((Data)this.Data).CardNumber);
-            base.AddInParameter("@Remark", DbType.String, ((Data)this.Data).Remark);
-            base.AddInParameter("@PaymentTypeId", DbType.Int64, ((Data)this.Data).Type.Id);
+            Data data = this.Data as Data;
+            if (data.Invoice == null || data.Invoice.Id == 0)
+            {
+                base.AddInParameter("@InvoiceId", DbType.Int64, DBNull.Value);
+            }
+            else
+            {
+                base.AddInParameter("@InvoiceId", DbType.Int64, data.Invoice.Id);
+            }
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
@@ -49,14 +52,7 @@ namespace Crystal.Invoice.Component.Payment
                 {
                     Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"])
                 };
-                dt.Amount = Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]);
                 dt.Date = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]);
-                dt.CardNumber = Convert.IsDBNull(row["CardNumber"]) ? String.Empty : Convert.ToString(row["CardNumber"]);
-                dt.Remark = Convert.IsDBNull(row["Remark"]) ? String.Empty : Convert.ToString(row["Remark"]);
-                dt.Type = new Type.Data()
-                {
-                    Id = Convert.IsDBNull(row["PaymentTypeId"]) ? 0 : Convert.ToInt64(row["PaymentTypeId"])
-                };
             }
             return dt;
         }
@@ -73,17 +69,10 @@ namespace Crystal.Invoice.Component.Payment
                     {
                         Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
                         Invoice = new Component.Data
-                                    {
-                                        Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"])
-                                    },
-                        Amount = Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]),
-                        Date = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]),
-                        CardNumber = Convert.IsDBNull(row["CardNumber"]) ? String.Empty : Convert.ToString(row["CardNumber"]),
-                        Remark = Convert.IsDBNull(row["Remark"]) ? String.Empty : Convert.ToString(row["Remark"]),
-                        Type = new Type.Data()
                         {
-                            Id = Convert.IsDBNull(row["PaymentTypeId"]) ? 0 : Convert.ToInt64(row["PaymentTypeId"])
+                            Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"])
                         },
+                        Date = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]),
                     });
                 }
             }
@@ -92,33 +81,35 @@ namespace Crystal.Invoice.Component.Payment
 
         public List<Data> IsPaymentTypeDeletable(Payment.Type.Data paymentType)
         {
-            List<Data> dataList = new List<Data>();
-            this.CreateConnection();
-            this.CreateCommand("[Invoice].[IsPaymentTypeDeletable]");
-            this.AddInParameter("@PaymentTypeId", DbType.Int64, paymentType.Id);
-            DataSet ds = this.ExecuteDataSet();
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    dataList.Add(new Data
-                    {
-                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
-                        CardNumber = Convert.IsDBNull(row["CardNumber"]) ? String.Empty : Convert.ToString(row["CardNumber"])
-                    });
-                }
-            }
+            //List<Data> dataList = new List<Data>();
+            //this.CreateConnection();
+            //this.CreateCommand("[Invoice].[IsPaymentTypeDeletable]");
+            //this.AddInParameter("@PaymentTypeId", DbType.Int64, paymentType.Id);
+            //DataSet ds = this.ExecuteDataSet();
+            //if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            //{
+            //    foreach (DataRow row in ds.Tables[0].Rows)
+            //    {
+            //        dataList.Add(new Data
+            //        {
+            //            Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
+            //            CardNumber = Convert.IsDBNull(row["CardNumber"]) ? String.Empty : Convert.ToString(row["CardNumber"])
+            //        });
+            //    }
+            //}
 
-            this.CloseConnection();
-            return dataList;
+            //this.CloseConnection();
+            //return dataList;
+            throw new NotImplementedException();
         }
 
         public List<BinAff.Core.Data> ReadPayment(Int64 invoiceId)
         {           
-            this.CreateCommand("[Invoice].[PaymentInvoiceRead]");
-            this.AddInParameter("@InvoiceId", DbType.Int64, invoiceId);
-            DataSet ds = this.ExecuteDataSet();            
-            return this.CreateDataObjectList(ds);
+            //this.CreateCommand("[Invoice].[PaymentInvoiceRead]");
+            //this.AddInParameter("@InvoiceId", DbType.Int64, invoiceId);
+            //DataSet ds = this.ExecuteDataSet();            
+            //return this.CreateDataObjectList(ds);
+            throw new NotImplementedException();
         }
 
     }

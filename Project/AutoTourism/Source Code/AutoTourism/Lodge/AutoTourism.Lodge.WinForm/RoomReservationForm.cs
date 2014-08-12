@@ -225,7 +225,7 @@ namespace AutoTourism.Lodge.WinForm
             {
                 base.Artifact.Module = base.formDto.Dto;
                 base.IsModified = true;
-                this.Close();
+                //this.Close();
             }
         }
              
