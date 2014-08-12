@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BinAff.Core;
-using BinAff.Utility;
 
 namespace Crystal.Invoice.Component.Payment
 {
@@ -17,10 +16,12 @@ namespace Crystal.Invoice.Component.Payment
         protected override List<Message> Validate()
         {
             List<Message> retMsg = new List<Message>();
-            Data data = (Data)base.Data;
-           
-            if (ValidationRule.IsNullOrEmpty(data.Type))
-                retMsg.Add(new Message("Payment Type cannot be empty.", Message.Type.Error));          
+            Data data = base.Data as Data;
+
+            if (data.LineItemList == null || data.LineItemList.Count == 0)
+            {
+                retMsg.Add(new Message("List of payment cannot be empty.", Message.Type.Error));
+            }
 
             return retMsg;
         }

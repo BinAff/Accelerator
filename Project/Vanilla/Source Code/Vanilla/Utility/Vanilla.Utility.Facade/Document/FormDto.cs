@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Vanilla.Utility.Facade.Document
 {
@@ -34,6 +35,14 @@ namespace Vanilla.Utility.Facade.Document
             }
         }
 
+        public List<AttachmentSummery> AttachmentSummeryList { get; set; }
+
+    }
+
+    public struct AttachmentSummery
+    {
+        public String Path { get; set; }
+        public String Action { get; set; }
     }
 
 }

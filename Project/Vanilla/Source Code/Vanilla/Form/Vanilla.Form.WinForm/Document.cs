@@ -44,20 +44,17 @@ namespace Vanilla.Form.WinForm
                 this.btnAttach.ToolTipText += " " + value;
             }
         }
-        
-        public delegate void OnArtifactSaved(ArtfFac.Dto document);
-        public event OnArtifactSaved ArtifactSaved;
 
-        public delegate void OnChildArtifactSaved(ArtfFac.Dto document);
-        public event OnChildArtifactSaved ChildArtifactSaved;
-        protected virtual void RaiseChildArtifactSaved(ArtfFac.Dto document)
-        {
-            OnChildArtifactSaved del = ChildArtifactSaved;
-            if (del != null)
-            {
-                del(document);
-            }
-        }
+        //public delegate void OnChildArtifactSaved(ArtfFac.Dto document);
+        //public event OnChildArtifactSaved ChildArtifactSaved;
+        //protected virtual void RaiseChildArtifactSaved(ArtfFac.Dto document)
+        //{
+        //    OnChildArtifactSaved del = ChildArtifactSaved;
+        //    if (del != null)
+        //    {
+        //        del(document);
+        //    }
+        //}
 
         public Document()
             : base()
@@ -82,6 +79,10 @@ namespace Vanilla.Form.WinForm
             if (this.Artifact != null && this.Artifact.Id != 0)
             {
                 this.SetTitle();
+                if (this.Artifact.Module != null && this.Artifact.Module.Id != 0)
+                {
+                    this.btnAttach.Enabled = true;
+                }
                 this.formDto.Document = this.Artifact;
                 if (this.Artifact.Module != null)
                 {
@@ -93,7 +94,12 @@ namespace Vanilla.Form.WinForm
                 {
                     this.PopulateDataToForm();
                 }
-                if(this.ArtifactSaved != null) this.ArtifactSaved(this.formDto.Document);
+                this.RaiseArtifactSaved(this.formDto.Document);
+                
+                this.dgvAttachmentList.ReadOnly = true;
+                this.dgvAttachmentList.AutoGenerateColumns = false;
+                this.dgvAttachmentList.Columns[0].DataPropertyName = "Path";
+                this.dgvAttachmentList.Columns[1].DataPropertyName = "Action";
             }
         }
         //public delegate void AsyncProcessDelegate();
@@ -120,6 +126,16 @@ namespace Vanilla.Form.WinForm
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.Ok();
+            if (this.IsModified)
+            {
+                DialogResult answer = MessageBox.Show("Do yo want to attach any document?", "Question", MessageBoxButtons.YesNo);
+                if (answer == System.Windows.Forms.DialogResult.Yes)
+                {
+                    this.btnAttach.Enabled = true;
+                    return;
+                }
+            }
+            this.Close();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -139,7 +155,22 @@ namespace Vanilla.Form.WinForm
 
         private void btnAttach_Click(object sender, EventArgs e)
         {
-            this.AttachDocument();
+            Document attachment = this.AttachDocument();
+            this.RaiseArtifactSaved(this.formDto.Document);
+            if (attachment.Artifact.Id != 0) //Add to the attachment list
+            {
+                if (this.formDto.AttachmentSummeryList == null)
+                {
+                    this.formDto.AttachmentSummeryList = new System.Collections.Generic.List<DocFac.AttachmentSummery>();
+                }
+                this.formDto.AttachmentSummeryList.Add(new DocFac.AttachmentSummery
+                {
+                    Path = attachment.Artifact.FullPath,
+                    Action = "Delete",
+                });
+                this.dgvAttachmentList.DataSource = null;
+                this.dgvAttachmentList.DataSource = this.formDto.AttachmentSummeryList;
+            }
         }
 
         private void btnExpandCollapse_Click(object sender, EventArgs e)
@@ -347,8 +378,14 @@ namespace Vanilla.Form.WinForm
         protected virtual Document AttachDocument()
         {
             Document attachment = this.GetAttachment();
+            attachment.ArtifactSaved += attachment_ArtifactSaved;
             attachment.ShowDialog();
             return attachment;
+        }
+
+        void attachment_ArtifactSaved(ArtfFac.Dto document)
+        {
+            this.RaiseChildArtifactSaved(document);
         }
 
         protected virtual Document GetAttachment()

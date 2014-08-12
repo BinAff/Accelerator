@@ -1,16 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Crystal.Invoice.Component.Payment
 {
 
     public class Data : BinAff.Core.Data
     {
-        public DateTime Date { get; set; }
-        public String CardNumber { get; set; }
-        public String Remark { get; set; }
-        public Double Amount { get; set; }
 
-        public Type.Data Type { get; set; }
+        public DateTime Date { get; set; }
+
+        public List<BinAff.Core.Data> LineItemList { get; set; }
 
         public Component.Data Invoice { get; set; }
 

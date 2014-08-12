@@ -44,6 +44,10 @@
       <Project>{D25DF173-3451-49AA-9570-269B2880C393}</Project>
       <Name>BinAff.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Navigator\Component\Crystal.Navigator.Component.csproj">
+      <Project>{3e089798-771d-44f3-8a99-c990ab47a0b4}</Project>
+      <Name>Crystal.Navigator.Component</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Crystal.Invoice.Component\Crystal.Invoice.Component.csproj">
       <Project>{ca372d03-699e-4d6a-80fa-567940bfa130}</Project>
       <Name>Crystal.Invoice.Component</Name>

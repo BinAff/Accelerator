@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using BinAff.Core;
 
-using ArtfObsCrys = Crystal.Navigator.Component.Artifact.Observer;
-
-namespace Crystal.Invoice.Component.Payment
+namespace Crystal.Invoice.Component.Payment.LineItem
 {
 
-    public class Server : ArtfObsCrys.DocumentComponent
+    public class Server : BinAff.Core.Observer.ObserverSubjectCrud
     {
 
         public Server(Data data)
@@ -19,11 +16,11 @@ namespace Crystal.Invoice.Component.Payment
 
         protected override void Compose()
         {
-            this.Name = "Payment";
+            this.Name = "Payment Line Item";
             this.DataAccess = new Dao(this.Data as Data);
             this.Validator = new Validator(this.Data as Data);
         }
-        
+
         protected override BinAff.Core.Data CreateDataObject()
         {
             return new Data();
@@ -36,11 +33,14 @@ namespace Crystal.Invoice.Component.Payment
 
         protected override void CreateChildren()
         {
-            base.AddChildren(new LineItem.Server(null)
+            base.CreateChildren();
+
+            base.AddChild(new Type.Server(((Data)Data).Type)
             {
-                IsReadOnly = false,
-                Type = ChildType.Dependent,
-            }, (this.Data as Data).LineItemList);           
+                IsReadOnly = true,
+                Type = ChildType.Independent,
+            });
+
         }
 
         protected override ReturnObject<Boolean> IsSubjectDeletable(BinAff.Core.Data subject)
@@ -56,10 +56,9 @@ namespace Crystal.Invoice.Component.Payment
             //            MessageList = { new Message("Unknown deletable type detected.", Message.Type.Error) }
             //        };
             //}
-
             return new ReturnObject<Boolean> { Value = true };
         }
-        
+
         //private ReturnObject<Boolean> IsPaymentTypeDeletable(Crystal.Invoice.Component.Payment.Type.Data subject)
         //{
         //    return MakeReturnObject(((Dao)this.DataAccess).IsPaymentTypeDeletable(subject));
@@ -84,11 +83,6 @@ namespace Crystal.Invoice.Component.Payment
         //    }
         //    return ret;
         //}
-
-        public List<BinAff.Core.Data> ReadPayment(Int64 invoiceId)
-        {
-            return new Dao(null).ReadPayment(invoiceId);
-        }
 
     }
 

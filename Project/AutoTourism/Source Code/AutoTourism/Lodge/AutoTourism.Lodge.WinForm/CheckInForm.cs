@@ -442,19 +442,12 @@ namespace AutoTourism.Lodge.WinForm
         
         protected override void Ok()
         {
-            //if (this.SaveCheckInData())
-            //{
-            //    this.dto.StatusId = Convert.ToInt64(CheckInStatus.CheckIn);
-            //    base.IsModified = true;
-            //    this.Close();
-            //}
-
             if (base.Save())
             {
                 Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
                 //dto.StatusId = Convert.ToInt64(CheckInStatus.CheckIn);
                 base.IsModified = true;
-                this.Close();
+                //this.Close();
             }
         }
 

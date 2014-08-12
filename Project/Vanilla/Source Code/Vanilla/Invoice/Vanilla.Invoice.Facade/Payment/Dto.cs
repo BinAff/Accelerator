@@ -1,6 +1,5 @@
 ﻿using System;
-
-using BinAff.Core;
+using System.Collections.Generic;
 
 using FrmFac = Vanilla.Form.Facade.Document;
 
@@ -15,24 +14,23 @@ namespace Vanilla.Invoice.Facade.Payment
         /// </summary>
         public DateTime Date { get; set; }
 
-        /// <summary>
-        /// Card number / Check number / DD Number
-        /// </summary>
-        public String ReferenceNumber { get; set; }
+        public List<LineItem> LineItemList { get; set; }
 
-        /// <summary>
-        /// Advance amount
-        /// </summary>
-        public Double Amount { get; set; }
-
-        /// <summary>
-        /// Additional remarks
-        /// </summary>
-        public String Remark { get; set; }
-
-        public String PaymentType { get; set; }
-
-        public Table Type { get; set; }
+        public Double TotalAmount
+        {
+            get
+            {
+                Double totalAmount = 0;
+                if (this.LineItemList != null && this.LineItemList.Count > 0)
+                {
+                    foreach (LineItem lineItem in this.LineItemList)
+                    {
+                        totalAmount += lineItem.Amount;
+                    }
+                }
+                return totalAmount;
+            }
+        }
 
     }
     

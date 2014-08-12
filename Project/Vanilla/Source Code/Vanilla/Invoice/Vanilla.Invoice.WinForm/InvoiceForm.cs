@@ -176,7 +176,7 @@ namespace Vanilla.Invoice.WinForm
             }
 
             this.Tag = ret.Value;
-            this.Close();
+            //this.Close();
         }
 
         private void txtDiscount_TextChanged(object sender, EventArgs e)

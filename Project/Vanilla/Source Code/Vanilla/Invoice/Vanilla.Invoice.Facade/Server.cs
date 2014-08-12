@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using BinAff.Core;
 using BinAff.Utility;
 
+using PayCrys = Crystal.Invoice.Component.Payment;
 using CrystalCustomer = Crystal.Customer.Component;
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
 using InvoiceCrys = Crystal.Invoice.Component;
 using InvArtfComp = Crystal.Invoice.Component.Navigator.Artifact;
 
+using PayVan = Vanilla.Invoice.Facade.Payment;
+
 namespace Vanilla.Invoice.Facade
 {
+
     public class Server : Vanilla.Form.Facade.Document.Server, IInvoice
     {
+
         public Server(FormDto formDto)
             : base(formDto)
         {
@@ -75,24 +80,25 @@ namespace Vanilla.Invoice.Facade
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);             
         }
 
-        private List<Payment.Type.Dto> ReadAllPaymentType()
+        private List<Table> ReadAllPaymentType()
         {
-            List<Payment.Type.Dto> paymentList = new List<Payment.Type.Dto>();
-            ICrud crud = new Crystal.Invoice.Component.Payment.Type.Server(null);
-            ReturnObject<List<Data>> paymentDataList = crud.ReadAll();
+            return new Payment.Server(null).ReadAllPaymentType();
+            //List<Table> paymentList = new List<Table>();
+            //ICrud crud = new Crystal.Invoice.Component.Payment.Type.Server(null);
+            //ReturnObject<List<Data>> paymentDataList = crud.ReadAll();
 
-            if (paymentDataList != null && paymentDataList.Value != null && paymentDataList.Value.Count > 0)
-            {
-                foreach (BinAff.Core.Data data in paymentDataList.Value)
-                {
-                    Crystal.Invoice.Component.Payment.Type.Data typeData = data as Crystal.Invoice.Component.Payment.Type.Data;
-                    paymentList.Add(new Payment.Type.Dto { 
-                        Id = typeData.Id,
-                        Name = typeData.Name
-                    });
-                }
-            }
-            return paymentList;
+            //if (paymentDataList != null && paymentDataList.Value != null && paymentDataList.Value.Count > 0)
+            //{
+            //    foreach (BinAff.Core.Data data in paymentDataList.Value)
+            //    {
+            //        Crystal.Invoice.Component.Payment.Type.Data typeData = data as Crystal.Invoice.Component.Payment.Type.Data;
+            //        paymentList.Add(new Payment.Type.Dto { 
+            //            Id = typeData.Id,
+            //            Name = typeData.Name
+            //        });
+            //    }
+            //}
+            //return paymentList;
         }
                
         public void SaveArtifactForReservation(Vanilla.Utility.Facade.Artifact.Dto artifactDto)
@@ -195,25 +201,28 @@ namespace Vanilla.Invoice.Facade
             return taxationDtoList;
         }
 
-        private List<Vanilla.Invoice.Facade.Payment.Dto> GetPayments(List<BinAff.Core.Data> paymentList)
-        {
-            List<Vanilla.Invoice.Facade.Payment.Dto> paymentDtoList = new List<Vanilla.Invoice.Facade.Payment.Dto>();
-            if (paymentList != null && paymentList.Count > 0)
-            {
-                foreach (Crystal.Invoice.Component.Payment.Data paymentData in paymentList)
-                {
-                    paymentDtoList.Add(new Vanilla.Invoice.Facade.Payment.Dto
-                    {
-                        Id = paymentData.Id,
-                        Type = new Table { Id = paymentData.Type.Id },
-                        ReferenceNumber = paymentData.CardNumber,
-                        Remark = paymentData.Remark,
-                        Amount = paymentData.Amount,
-                    });
-                }
-            }
-            return paymentDtoList;
-        }
+        //private PayVan.Dto GetPayments(List<BinAff.Core.Data> paymentList)
+        //{
+        //    List<PayVan.LineItem> paymentDtoList = new List<PayVan.LineItem>();
+        //    if (paymentList != null && paymentList.Count > 0)
+        //    {
+        //        foreach (Crystal.Invoice.Component.Payment.Data paymentData in paymentList)
+        //        {
+        //            paymentDtoList.Add(new Vanilla.Invoice.Facade.Payment.LineItem
+        //            {
+        //                Id = paymentData.Id,
+        //                Type = new Table { Id = paymentData.Type.Id },
+        //                Reference = paymentData.CardNumber,
+        //                Remark = paymentData.Remark,
+        //                Amount = paymentData.Amount,
+        //            });
+        //        }
+        //    }
+        //    return new PayVan.Dto
+        //    {
+        //        PaymentList = paymentDtoList
+        //    };
+        //}
 
         List<Table> IInvoice.CalulateTaxList(double total, List<Taxation.Dto> taxationList)
         {
@@ -268,10 +277,10 @@ namespace Vanilla.Invoice.Facade
             return invoice.GetInvoiceId(invoiceNumber);
         }
 
-        List<Payment.Dto> IInvoice.ReadPaymentForInvoice(String invoiceNumber)
+        List<PayVan.Dto> IInvoice.ReadPaymentListForInvoice(String invoiceNumber)
         {           
             InvoiceCrys.IInvoice invoice = new InvoiceCrys.Server(new InvoiceCrys.Data());
-            List<InvoiceCrys.Payment.Data> paymentDataList = invoice.ReadInvoicePayment(invoiceNumber);
+            List<PayCrys.Data> paymentDataList = invoice.ReadInvoicePayment(invoiceNumber);
           
             return new Payment.Server(new Payment.FormDto()).Convert(paymentDataList);
         }

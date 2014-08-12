@@ -42,7 +42,7 @@ namespace Vanilla.Utility.Facade.SaveDialog
             formDto.Document.Category = formDto.Dto.Parent.Category;
             formDto.Document.ComponentDefinition = formDto.Dto.Parent.ComponentDefinition;
             formDto.Document.Parent = formDto.Dto.Parent;
-            formDto.Document.Path = formDto.Dto.Parent.Path + navRule.PathSeperator + formDto.Dto.DocumentName;
+            formDto.Document.Path = formDto.Dto.Parent.Path + formDto.Dto.DocumentName;
             formDto.Document.AuditInfo = new ArtfFac.Audit.Dto
             {
                 Version = 1,

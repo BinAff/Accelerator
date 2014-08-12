@@ -28,39 +28,70 @@ namespace Vanilla.Invoice.Facade.Payment
             FormDto formDto = this.FormDto as FormDto;
             formDto.TypeList = this.ReadAllPaymentType();
 
-            if (formDto.InvoiceDto != null && !String.IsNullOrEmpty(formDto.InvoiceDto.invoiceNumber))
-            {
-                formDto.PaymentList = this.ReadPayments(formDto.InvoiceDto.invoiceNumber);
-            }
+            //if (formDto.InvoiceDto != null && !String.IsNullOrEmpty(formDto.InvoiceDto.invoiceNumber))
+            //{
+            //    (formDto.Dto as Payment.Dto).LineItemList = this.ReadPayments(formDto.InvoiceDto.invoiceNumber);
+            //}
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
             PayComp.Data paymentData = data as PayComp.Data;
-            return new Payment.Dto
+            Payment.Dto paymentDto = new Payment.Dto
             {
                 Id = paymentData.Id,
-                Type = new Table { Id = paymentData.Type.Id },
-                ReferenceNumber = paymentData.CardNumber,
-                Remark = paymentData.Remark,
-                Amount = paymentData.Amount
+                Date = paymentData.Date,
             };
-
-            //Add invoice if present
-         
+            if (paymentData.LineItemList != null && paymentData.LineItemList.Count > 0)
+            {
+                paymentDto.LineItemList = new List<LineItem>();
+                foreach (PayComp.LineItem.Data lineItem in paymentData.LineItemList)
+                {
+                    paymentDto.LineItemList.Add(new LineItem
+                    {
+                        Id = lineItem.Id,
+                        Type = new Table { Id = lineItem.Type.Id },
+                        Reference = lineItem.Reference,
+                        Remark = lineItem.Remark,
+                        Amount = lineItem.Amount
+                    });
+                }
+            }
+            if (paymentData.Invoice != null)
+            {
+                //
+            }
+            return paymentDto;         
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Payment.Dto paymentDto = dto as Payment.Dto;
-            return new PayComp.Data
+            PayComp.Data paymentData = new PayComp.Data
             {
-                Id = dto.Id,
-                Type = new PayComp.Type.Data { Id = paymentDto.Type.Id },
-                CardNumber = paymentDto.ReferenceNumber,
-                Remark = paymentDto.Remark,
-                Amount = paymentDto.Amount
+                Id = paymentDto.Id,
+                Date = paymentDto.Date,
             };
+            if (paymentDto.LineItemList != null && paymentDto.LineItemList.Count > 0)
+            {
+                paymentData.LineItemList = new List<Data>();
+                foreach (LineItem lineItem in paymentDto.LineItemList)
+                {
+                    paymentData.LineItemList.Add(new PayComp.LineItem.Data
+                    {
+                        Id = lineItem.Id,
+                        Reference = lineItem.Reference,
+                        Amount = lineItem.Amount,
+                        Remark = lineItem.Remark,
+                        Type = new PayComp.Type.Data
+                        {
+                            Id = lineItem.Type.Id
+                        },
+                    });
+                }
+
+            }
+            return paymentData;
         }
 
         public override string GetComponentCode()
@@ -70,8 +101,7 @@ namespace Vanilla.Invoice.Facade.Payment
 
         protected override ICrud GetComponentServer()
         {
-            this.componentServer = new PayComp.Server(this.Convert((this.FormDto as FormDto).Dto) as PayComp.Data);
-            return this.componentServer;
+            return new PayComp.Server(this.Convert((this.FormDto as FormDto).Dto) as PayComp.Data);
         }
 
         protected override string GetComponentDataType()
@@ -79,44 +109,52 @@ namespace Vanilla.Invoice.Facade.Payment
             return "Crystal.Invoice.Component.Payment.Navigator.Artifact.Data, Crystal.Invoice.Component";
         }
 
-        protected override Crystal.Navigator.Component.Artifact.Server GetArtifactServer(Data artifactData)
+        protected override ArtfCrys.Server GetArtifactServer(Data artifactData)
         {
             return new PayArtfComp.Server(artifactData as PayArtfComp.Data);
         }
-        
-        public override void Delete()
+
+        protected override ArtfCrys.Data GetArtifactData(Int64 artifactId)
         {
-            PayArtfComp.Data data = new PayArtfComp.Data
-            {
-                Id = this.Data.Id,
-                Category = ArtfCrys.Category.Form,
-                Children = new List<Data>()
-            };
-            ReturnObject<Boolean> retVal = (new PayArtfComp.Server(data) as BinAff.Core.ICrud).Delete();
+            return new PayArtfComp.Data { Id = artifactId };
         }
 
-        public override ReturnObject<Boolean> ValidateDelete()
+        protected override BinAff.Core.Observer.IRegistrar GetRegisterer()
         {
-            Int64 componentId = this.ReadComponentIdForArtifact(this.Data.Id);
+            return null;
+        }
 
-            if (componentId == 0) return new ReturnObject<Boolean> { Value = true }; //No component attached with artifact
+        public List<BinAff.Core.Data> Convert(List<Payment.Dto> paymentList)
+        {
+            List<BinAff.Core.Data> paymentDataList = new List<Data>();
+            if (paymentList != null && paymentList.Count > 0)
+            {
+                foreach (Vanilla.Invoice.Facade.Payment.Dto dto in paymentList)
+                {
+                    paymentDataList.Add(this.Convert(dto));
+                }
+            }
+            return paymentDataList;
+        }
 
-            //BinAff.Core.Observer.ISubject server = new PayComp.Server(new PayComp.Data { Id = componentId });
-            BinAff.Core.Observer.ISubject server = this.GetComponentServer() as BinAff.Core.Observer.ISubject;
-            server.RegisterObserver(new InvComp.Server(null));////////
-            ReturnObject<Boolean> notify = server.NotifyObserver();
-
-            return notify;
+        public List<Payment.Dto> Convert(List<PayComp.Data> paymentList)
+        {
+            List<Dto> paymentDtoList = new List<Dto>();
+            foreach (PayComp.Data data in paymentList)
+            {
+                paymentDtoList.Add(this.Convert(data) as Payment.Dto);
+            }
+            return paymentDtoList;
         }
         
         private List<Dto> ReadPayments(String invoiceNumber)
         {
-            return (new Facade.Server(new Facade.FormDto()) as Facade.IInvoice).ReadPaymentForInvoice(invoiceNumber);
+            return (new Facade.Server(new Facade.FormDto()) as Facade.IInvoice).ReadPaymentListForInvoice(invoiceNumber);
         }
                
-        private List<Type.Dto> ReadAllPaymentType()
+        public List<Table> ReadAllPaymentType()
         {
-            List<Type.Dto> typeList = new List<Type.Dto>();
+            List<Table> typeList = new List<Table>();
             ICrud crud = new PayComp.Type.Server(null);
             ReturnObject<List<Data>> typeDataList = crud.ReadAll();
 
@@ -125,7 +163,7 @@ namespace Vanilla.Invoice.Facade.Payment
                 foreach (BinAff.Core.Data data in typeDataList.Value)
                 {
                     PayComp.Type.Data typeData = data as PayComp.Type.Data;
-                    typeList.Add(new Payment.Type.Dto
+                    typeList.Add(new Table
                     {
                         Id = typeData.Id,
                         Name = typeData.Name
@@ -165,36 +203,10 @@ namespace Vanilla.Invoice.Facade.Payment
             return ret;
         }
 
-        public List<BinAff.Core.Data> Convert(List<Payment.Dto> paymentList)
-        {
-            List<BinAff.Core.Data> paymentDataList = new List<Data>();
-            if (paymentList != null && paymentList.Count > 0)
-            {
-                foreach (Vanilla.Invoice.Facade.Payment.Dto dto in paymentList)
-                {                 
-                    paymentDataList.Add(this.Convert(dto));
-                }
-            }
-            return paymentDataList;
-        }
-
-        public List<Payment.Dto> Convert(List<PayComp.Data> paymentList)
-        {
-            List<Payment.Dto> paymentDtoList = new List<Payment.Dto>();
-            if (paymentList != null && paymentList.Count > 0)
-            {
-                foreach (PayComp.Data data in paymentList)
-                {
-                    paymentDtoList.Add(this.Convert(data) as Payment.Dto);
-                }
-            }
-            return paymentDtoList;
-        }
-        
-        public String GetPaymentName(Int64 paymentId, List<Type.Dto> paymentTypeList)
+        public String GetPaymentName(Int64 paymentId, List<Table> paymentTypeList)
         {
             String typeName = String.Empty;
-            foreach (Type.Dto dto in paymentTypeList)
+            foreach (Table dto in paymentTypeList)
             {
                 if (dto.Id == paymentId)
                 {
@@ -202,11 +214,6 @@ namespace Vanilla.Invoice.Facade.Payment
                 }
             }
             return typeName;
-        }
-        
-        protected override ArtfCrys.Data GetArtifactData(long artifactId)
-        {
-            return new PayArtfComp.Data { Id = artifactId };
         }
 
     }
