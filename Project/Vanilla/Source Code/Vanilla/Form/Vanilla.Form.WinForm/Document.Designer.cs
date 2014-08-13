@@ -162,7 +162,7 @@
             this.btnExpandCollapse.Size = new System.Drawing.Size(23, 28);
             this.btnExpandCollapse.Text = "×";
             this.btnExpandCollapse.ToolTipText = "Show Attachments";
-            this.btnExpandCollapse.Click += new System.EventHandler(this.btnExpandCollapse_Click);
+            this.btnExpandCollapse.Click += new System.EventHandler(this.btnExpandCollapseAttachment_Click);
             // 
             // btnAttach
             // 

@@ -9,6 +9,8 @@ using CustCrys = Crystal.Customer.Component;
 using RoomRsvCrys = Crystal.Lodge.Component.Room.Reservation;
 using RoomRsvArtf = Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact;
 
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
+
 using LodgeConfigFac = AutoTourism.Lodge.Configuration.Facade;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
 using CustAuto = AutoTourism.Component.Customer;
@@ -268,7 +270,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 {
                     if (room.Number == arrRoomNo[i])
                     {
-                        if (!isRoomExist(room, sortedRoomList))
+                        if (!IsRoomExist(room, sortedRoomList))
                         {
                             sortedRoomList.Add(room);
                             break;
@@ -670,7 +672,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                                     continue;
                             }
 
-                            if (isRoomExist(room, AllBookedRoom))
+                            if (IsRoomExist(room, AllBookedRoom))
                                 continue;
 
                             AllBookedRoom.Add(new LodgeConfigFac.Room.Dto { Id = room.Id });
@@ -683,14 +685,14 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             }
         }
 
-        private Boolean isRoomExist(LodgeConfigFac.Room.Dto room, List<LodgeConfigFac.Room.Dto> RoomList)
+        private Boolean IsRoomExist(LodgeConfigFac.Room.Dto room, List<LodgeConfigFac.Room.Dto> roomList)
         {
             Boolean blnValue = false;
-            if (RoomList == null || RoomList.Count == 0)
+            if (roomList == null || roomList.Count == 0)
                 blnValue = false;
             else
             {
-                foreach (LodgeConfigFac.Room.Dto dto in RoomList)
+                foreach (LodgeConfigFac.Room.Dto dto in roomList)
                 {
                     if (room.Id == dto.Id)
                     {
@@ -714,7 +716,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             {
                 foreach (LodgeConfigFac.Room.Dto room in allRoomList)
                 {
-                    if (!isRoomExist(room, AllBookedRoom))
+                    if (!IsRoomExist(room, AllBookedRoom))
                         UnOccupiedRoomList.Add(room);
                 }
             }

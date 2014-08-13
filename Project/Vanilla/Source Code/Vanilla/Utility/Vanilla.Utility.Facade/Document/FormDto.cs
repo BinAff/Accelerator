@@ -41,6 +41,7 @@ namespace Vanilla.Utility.Facade.Document
 
     public struct AttachmentSummery
     {
+        public Artifact.Dto Artifact { get; set; }
         public String Path { get; set; }
         public String Action { get; set; }
     }

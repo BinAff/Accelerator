@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using BinAff.Core;
-using System;
-using BinAff.Core.Observer;
-using System.Transactions;
 
 namespace Crystal.Lodge.Component.Room.Reservation
 {
@@ -96,6 +94,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
         {
             return new Dao((Data)this.Data).RevertReservationAfterCheckIn();
         }
+
     }
 
 }
