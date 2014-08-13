@@ -18,6 +18,12 @@ namespace Crystal.Navigator.Component.Artifact
 
         protected String ReadComponentLinkSPName { get; set; }
 
+        protected String CreateAttachmentLinkSPName { get; set; }
+
+        protected String DeleteAttachmentLinkSPName { get; set; }
+
+        protected String ReadAttachmentLinkSPName { get; set; }
+
         public Dao(Data data) 
             : base(data)
         {
@@ -278,6 +284,54 @@ namespace Crystal.Navigator.Component.Artifact
             Boolean status = true;
             base.CreateCommand(this.DeleteComponentLinkSPName);
             base.AddInParameter("@Id", DbType.Int64, this.Data.Id);
+
+            Int32 ret = base.ExecuteNonQuery();
+            if (ret == -2146232060) status = false;//Foreign key violation
+
+            base.CloseConnection();
+
+            return status;
+        }
+
+        protected internal virtual Boolean CreateAttachmentLink(Data attachment)
+        {
+            Boolean status = true;
+            base.CreateCommand(this.CreateAttachmentLinkSPName);
+            base.AddInParameter("@AttachmentId", DbType.Int64, attachment.Id);
+            base.AddInParameter("@Id", DbType.String, base.Data.Id);
+            Int32 ret = base.ExecuteNonQuery();
+            this.CloseConnection();
+            if (ret == -2146232060) status = false;//Foreign key violation
+            return status;
+        }
+
+        protected internal virtual List<Data> ReadAttachmentLink()
+        {
+            List<Data> ret = new List<Data>();
+            base.CreateConnection();
+            base.CreateCommand(this.ReadAttachmentLinkSPName);
+            base.AddInParameter("@Id", DbType.Int64, this.Data.Id);
+            DataSet ds = this.ExecuteDataSet();
+            //Read artifacts
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    base.CreateCommand("Navigator.ArtifactRead");
+                    base.AddInParameter("@Id", DbType.Int64, dr[0]);
+                    DataSet ds1 = this.ExecuteDataSet();
+                    ret.Add(CreateDataObject(ds1.Tables[0].Rows[0], new Data()) as Data);
+                }
+            }
+            this.CloseConnection();
+            return ret;
+        }
+
+        public Boolean DeleteAttachmentLink(Data attachment)
+        {
+            Boolean status = true;
+            base.CreateCommand(this.DeleteAttachmentLinkSPName);
+            base.AddInParameter("@AttachmentId", DbType.Int64, attachment.Id);
 
             Int32 ret = base.ExecuteNonQuery();
             if (ret == -2146232060) status = false;//Foreign key violation

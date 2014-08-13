@@ -45,17 +45,6 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        //public delegate void OnChildArtifactSaved(ArtfFac.Dto document);
-        //public event OnChildArtifactSaved ChildArtifactSaved;
-        //protected virtual void RaiseChildArtifactSaved(ArtfFac.Dto document)
-        //{
-        //    OnChildArtifactSaved del = ChildArtifactSaved;
-        //    if (del != null)
-        //    {
-        //        del(document);
-        //    }
-        //}
-
         public Document()
             : base()
         {
@@ -95,11 +84,16 @@ namespace Vanilla.Form.WinForm
                     this.PopulateDataToForm();
                 }
                 this.RaiseArtifactSaved(this.formDto.Document);
-                
+
+
+                (this.facade as Facade.Document.Server).RetrieveAttachmentList();
+                //formDto.AttachmentSummeryList = base.GetAttachmentList();
                 this.dgvAttachmentList.ReadOnly = true;
                 this.dgvAttachmentList.AutoGenerateColumns = false;
                 this.dgvAttachmentList.Columns[0].DataPropertyName = "Path";
                 this.dgvAttachmentList.Columns[1].DataPropertyName = "Action";
+
+                this.dgvAttachmentList.DataSource = this.formDto.AttachmentSummeryList;
             }
         }
         //public delegate void AsyncProcessDelegate();
@@ -157,23 +151,19 @@ namespace Vanilla.Form.WinForm
         {
             Document attachment = this.AttachDocument();
             this.RaiseArtifactSaved(this.formDto.Document);
-            if (attachment.Artifact.Id != 0) //Add to the attachment list
+            if (attachment.Artifact.Id != 0) 
             {
-                if (this.formDto.AttachmentSummeryList == null)
+                //If existing component, save relationship with attachment
+                if (this.Artifact.Id != 0)
                 {
-                    this.formDto.AttachmentSummeryList = new System.Collections.Generic.List<DocFac.AttachmentSummery>();
+                    (this.facade as Facade.Document.Server).AddAttachmentLink(attachment.Artifact);
                 }
-                this.formDto.AttachmentSummeryList.Add(new DocFac.AttachmentSummery
-                {
-                    Path = attachment.Artifact.FullPath,
-                    Action = "Delete",
-                });
-                this.dgvAttachmentList.DataSource = null;
-                this.dgvAttachmentList.DataSource = this.formDto.AttachmentSummeryList;
+
+                this.BindAttachmentList(attachment);
             }
         }
 
-        private void btnExpandCollapse_Click(object sender, EventArgs e)
+        private void btnExpandCollapseAttachment_Click(object sender, EventArgs e)
         {
             if (this.btnExpandCollapse.Text == "×")
             {
@@ -205,6 +195,20 @@ namespace Vanilla.Form.WinForm
             DocFac.Dto dto = this.formDto.Dto as DocFac.Dto;
 
             this.Text += " :: " + this.formDto.DocumentName;
+        }
+
+        private void BindAttachmentList(Document attachment)
+        {
+            if (this.formDto.AttachmentSummeryList == null)
+            {
+                this.formDto.AttachmentSummeryList = new System.Collections.Generic.List<DocFac.AttachmentSummery>();
+            }
+            this.formDto.AttachmentSummeryList.Add(new DocFac.AttachmentSummery
+            {
+                Path = attachment.Artifact.FullPath,
+                Action = "Delete",
+            });
+            this.dgvAttachmentList.DataSource = this.formDto.AttachmentSummeryList;
         }
 
         protected void RegisterArtifactObserver()

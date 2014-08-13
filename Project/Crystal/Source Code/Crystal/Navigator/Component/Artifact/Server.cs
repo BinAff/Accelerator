@@ -113,6 +113,75 @@ namespace Crystal.Navigator.Component.Artifact
             return (this.DataAccess as Dao).ReadComponentLink();
         }
 
+        ReturnObject<Boolean> IArtifact.CreateAttachmentLink(Data attachment)
+        {
+            return this.CreateAttachmentLink(attachment);
+        }
+
+        ReturnObject<List<Data>> IArtifact.ReadAttachmentLink()
+        {
+            return this.ReadAttachmentLink();
+        }
+
+        ReturnObject<Boolean> IArtifact.DeleteAttachmentLink(Data attachment)
+        {
+            return this.DeleteAttachmentLink(attachment);
+        }
+
+        protected virtual ReturnObject<Boolean> CreateAttachmentLink(Data attachment)
+        {
+            ReturnObject<Boolean> ret = new ReturnObject<bool>
+            {
+                Value = (this.DataAccess as Dao).CreateAttachmentLink(attachment)
+            };
+            if (ret.Value)
+            {
+                ret.MessageList = new List<Message>
+                {
+                    new Message("Attachment linked successfully.", Message.Type.Error)
+                };
+            }
+            else
+            {
+                ret.MessageList = new List<Message>
+                {
+                    new Message("Unable to link attachment.", Message.Type.Error)
+                };
+            }
+            return ret;
+        }
+
+        private ReturnObject<List<Data>> ReadAttachmentLink()
+        {
+            return new ReturnObject<List<Data>>
+            {
+                Value = (this.DataAccess as Dao).ReadAttachmentLink()
+            };
+        }
+
+        private ReturnObject<bool> DeleteAttachmentLink(Data attachment)
+        {
+            ReturnObject<Boolean> ret = new ReturnObject<bool>
+            {
+                Value = (this.DataAccess as Dao).DeleteAttachmentLink(attachment)
+            };
+            if (ret.Value)
+            {
+                ret.MessageList = new List<Message>
+                {
+                    new Message("Attachment link deleted successfully.", Message.Type.Error)
+                };
+            }
+            else
+            {
+                ret.MessageList = new List<Message>
+                {
+                    new Message("Unable to delete attachment link.", Message.Type.Error)
+                };
+            }
+            return ret;
+        }
+
         /// <summary>
         /// Form artifact tree from database related record
         /// </summary>

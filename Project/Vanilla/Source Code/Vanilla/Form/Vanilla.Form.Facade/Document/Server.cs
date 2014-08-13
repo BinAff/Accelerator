@@ -14,9 +14,7 @@ namespace Vanilla.Form.Facade.Document
 
     public abstract class Server : DocFac.Server
     {
-
-        protected BinAff.Core.ICrud componentServer;
-
+        
         public Server(FormDto formDto)
             : base(formDto)
         {
@@ -80,6 +78,34 @@ namespace Vanilla.Form.Facade.Document
             if (registrar == null) return new ReturnObject<Boolean> { Value = true };
             ReturnObject<Boolean> ret = registrar.Register(this.componentServer as BinAff.Core.Observer.ISubject);
             return (this.componentServer as BinAff.Core.Observer.ISubject).NotifyObserver();
+        }
+
+        public virtual void AddAttachmentLink(ArtfFac.Dto attachment)
+        {
+            ArtfCrys.IArtifact artifactServer = this.GetArtifactServer(this.GetArtifactData((this.FormDto as FormDto).Document.Id));
+            ReturnObject<Boolean> ret = artifactServer.CreateAttachmentLink(new ArtfCrys.Data { Id = attachment.Id });
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+        }
+
+        public virtual void RetrieveAttachmentList()
+        {
+            ArtfCrys.IArtifact artifactServer = this.GetArtifactServer(this.GetArtifactData((this.FormDto as FormDto).Document.Id));
+            ReturnObject<List<ArtfCrys.Data>> ret = artifactServer.ReadAttachmentLink();
+            (this.FormDto as FormDto).AttachmentSummeryList = new List<DocFac.AttachmentSummery>();
+            foreach (ArtfCrys.Data attachment in ret.Value)
+            {
+                (this.FormDto as FormDto).AttachmentSummeryList.Add(new DocFac.AttachmentSummery
+                {
+                    Artifact = new Vanilla.Utility.Facade.Artifact.Server(null).Convert(attachment) as Vanilla.Utility.Facade.Artifact.Dto,
+                    Action = "Delete",
+                    Path = attachment.Path + "." + attachment.Extension,
+                });
+            }
+        }
+
+        protected virtual ArtfFac.Dto GetAttachmentArtifact(Int64 attachmentId)
+        {
+            throw new NotImplementedException();
         }
 
         protected virtual BinAff.Core.Observer.IRegistrar GetRegisterer()
