@@ -10,6 +10,8 @@ namespace Crystal.Guardian.Component.Account
     public class Server : Crud, IUser
     {
 
+        public Boolean IsLoginHistoryIncluded { get; set; }
+
         public Server(Data data)
             : base(data)
         {
@@ -30,7 +32,10 @@ namespace Crystal.Guardian.Component.Account
 
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
-            return new Server((Data)data);
+            return new Server((Data)data)
+            {
+                IsLoginHistoryIncluded = this.IsLoginHistoryIncluded,
+            };
         }
 
         protected override void CreateChildren()
@@ -51,12 +56,14 @@ namespace Crystal.Guardian.Component.Account
                 Type = ChildType.Dependent,
             }, (base.Data as Data).SecurityAnswerList);
 
-            base.AddChildren(new LoginHistory.Server(null)
+            if (this.IsLoginHistoryIncluded)
             {
-                Type = ChildType.Dependent,
-                IsReadOnly = true,
-            }, (base.Data as Data).LoginHistory);
-
+                base.AddChildren(new LoginHistory.Server(null)
+                {
+                    Type = ChildType.Dependent,
+                    IsReadOnly = true,
+                }, (base.Data as Data).LoginHistory);
+            }
             #region 1
             //if (((Data)Data).Roles != null && ((Data)this.Data).Roles.Count > 0)
             //{

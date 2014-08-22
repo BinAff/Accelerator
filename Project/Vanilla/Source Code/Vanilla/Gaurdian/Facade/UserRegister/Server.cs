@@ -22,7 +22,10 @@ namespace Vanilla.Guardian.Facade.UserRegister
             this.LoadRoleList();
             this.LoadRule();
 
-            ReturnObject<List<Data>> ret = (new CrysAcc.Server(null) as ICrud).ReadAll();
+            ReturnObject<List<Data>> ret = (new CrysAcc.Server(null)
+            {
+                IsLoginHistoryIncluded = true,
+            } as ICrud).ReadAll();
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError())? Message.Type.Error : Message.Type.Information);
             if (!this.IsError)
             {
