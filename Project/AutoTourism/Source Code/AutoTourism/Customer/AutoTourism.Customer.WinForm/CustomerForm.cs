@@ -118,7 +118,7 @@ namespace AutoTourism.Customer.WinForm
             base.DisableAttachButton();
             base.DisableShowAttachmentButton();
             base.AncestorName = "...";
-            base.AttachmentName = "...";
+            //base.AttachmentName = "...";
             //if loaded form room reservation form , then populate the modules
             //if (this.isLoadedFromRoomReservationForm)
             //{
@@ -259,15 +259,15 @@ namespace AutoTourism.Customer.WinForm
             }
         }
 
-        protected override void Ok()
-        {
-            if (base.Save())
-            {
-                base.Artifact.Module = base.formDto.Dto;
-                base.IsModified = true;
-                //this.Close();
-            }
-        }
+        //protected override void Ok()
+        //{
+        //    if (base.Save())
+        //    {
+        //        base.Artifact.Module = base.formDto.Dto;
+        //        base.IsModified = true;
+        //        //this.Close();
+        //    }
+        //}
 
         protected override void RefreshFormBefore()
         {
@@ -584,7 +584,6 @@ namespace AutoTourism.Customer.WinForm
         {
             CustFac.Dto initialDto = base.InitialDto as CustFac.Dto;
             CustFac.Dto dto = this.formDto.Dto as CustFac.Dto;
-            
            
             dto.FirstName = initialDto.FirstName;
             dto.MiddleName = initialDto.MiddleName;

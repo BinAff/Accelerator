@@ -94,6 +94,11 @@ namespace Vanilla.Form.Facade.Document
             (this.FormDto as FormDto).AttachmentSummeryList = new List<DocFac.AttachmentSummery>();
             foreach (ArtfCrys.Data attachment in ret.Value)
             {
+                attachment.ComponentDefinition = new Crystal.License.Component.Data
+                {
+                    Code = this.GetAttachmentComponentCode(),
+                };
+                attachment.Category = ArtfCrys.Category.Form;
                 (this.FormDto as FormDto).AttachmentSummeryList.Add(new DocFac.AttachmentSummery
                 {
                     Artifact = new Vanilla.Utility.Facade.Artifact.Server(null).Convert(attachment) as Vanilla.Utility.Facade.Artifact.Dto,
@@ -104,6 +109,11 @@ namespace Vanilla.Form.Facade.Document
         }
 
         protected virtual ArtfFac.Dto GetAttachmentArtifact(Int64 attachmentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual String GetAttachmentComponentCode()
         {
             throw new NotImplementedException();
         }

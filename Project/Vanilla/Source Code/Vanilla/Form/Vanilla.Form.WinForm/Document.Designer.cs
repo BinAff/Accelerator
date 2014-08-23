@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.pnlAttachment = new System.Windows.Forms.Panel();
             this.dgvAttachmentList = new System.Windows.Forms.DataGridView();
+            this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewLinkColumn();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
@@ -42,8 +44,6 @@
             this.btnExpandCollapse = new System.Windows.Forms.ToolStripButton();
             this.btnAttach = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewLinkColumn();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -72,8 +72,26 @@
             this.dgvAttachmentList.Location = new System.Drawing.Point(0, 0);
             this.dgvAttachmentList.MultiSelect = false;
             this.dgvAttachmentList.Name = "dgvAttachmentList";
+            this.dgvAttachmentList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAttachmentList.Size = new System.Drawing.Size(26, 15);
             this.dgvAttachmentList.TabIndex = 0;
+            this.dgvAttachmentList.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAttachmentList_CellContentDoubleClick);
+            // 
+            // Path
+            // 
+            this.Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Path.HeaderText = "Full Path";
+            this.Path.Name = "Path";
+            this.Path.ReadOnly = true;
+            // 
+            // Delete
+            // 
+            this.Delete.FillWeight = 50F;
+            this.Delete.HeaderText = "Action";
+            this.Delete.Name = "Delete";
+            this.Delete.ReadOnly = true;
+            this.Delete.Text = "Delete";
+            this.Delete.Width = 50;
             // 
             // errorProvider
             // 
@@ -156,6 +174,7 @@
             // 
             this.btnExpandCollapse.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.btnExpandCollapse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnExpandCollapse.Enabled = false;
             this.btnExpandCollapse.Font = new System.Drawing.Font("Wingdings 3", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
             this.btnExpandCollapse.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExpandCollapse.Name = "btnExpandCollapse";
@@ -183,22 +202,6 @@
             this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
-            // 
-            // Path
-            // 
-            this.Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Path.HeaderText = "Full Path";
-            this.Path.Name = "Path";
-            this.Path.ReadOnly = true;
-            // 
-            // Delete
-            // 
-            this.Delete.FillWeight = 50F;
-            this.Delete.HeaderText = "Action";
-            this.Delete.Name = "Delete";
-            this.Delete.ReadOnly = true;
-            this.Delete.Text = "Delete";
-            this.Delete.Width = 50;
             // 
             // Document
             // 

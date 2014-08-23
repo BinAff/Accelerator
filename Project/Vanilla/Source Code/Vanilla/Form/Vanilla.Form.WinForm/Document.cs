@@ -9,8 +9,10 @@ using PresLib = BinAff.Presentation.Library;
 using AccFac = Vanilla.Guardian.Facade.Account;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using DocFac = Vanilla.Utility.Facade.Document;
+using ModFac = Vanilla.Utility.Facade.Module;
 using UtilWin = Vanilla.Utility.WinForm;
-using CacheWin = Vanilla.Utility.Facade.Cache;
+using FrmWin = Vanilla.Form.WinForm;
+using CacheFac = Vanilla.Utility.Facade.Cache;
 
 namespace Vanilla.Form.WinForm
 {
@@ -39,6 +41,10 @@ namespace Vanilla.Form.WinForm
 
         protected String AttachmentName
         {
+            private get
+            {
+                return this.btnAttach.ToolTipText;
+            }
             set
             {
                 this.btnAttach.ToolTipText += " " + value;
@@ -57,10 +63,12 @@ namespace Vanilla.Form.WinForm
             base.formDto.Document = artifact;
             if (base.Artifact != null && base.Artifact.ComponentDefinition == null)
             {
-                base.Artifact.ComponentDefinition = (BinAff.Facade.Cache.Server.Current.Cache["Main"] as CacheWin.Dto).ComponentDefinitionList.FindLast(
+                base.Artifact.ComponentDefinition = (BinAff.Facade.Cache.Server.Current.Cache["Main"] as CacheFac.Dto).ComponentDefinitionList.FindLast(
                     (p) => { return p.Code == base.facade.GetComponentCode(); });
             }
         }
+
+        #region Events
 
         private void Document_Shown(object sender, EventArgs e)
         {
@@ -68,10 +76,6 @@ namespace Vanilla.Form.WinForm
             if (this.Artifact != null && this.Artifact.Id != 0)
             {
                 this.SetTitle();
-                if (this.Artifact.Module != null && this.Artifact.Module.Id != 0)
-                {
-                    this.btnAttach.Enabled = true;
-                }
                 this.formDto.Document = this.Artifact;
                 if (this.Artifact.Module != null)
                 {
@@ -85,15 +89,22 @@ namespace Vanilla.Form.WinForm
                 }
                 this.RaiseArtifactSaved(this.formDto.Document);
 
+                if (String.Compare(this.AttachmentName, "Attach", true) != 0) //Attachment is there
+                {
+                    if (this.Artifact.Module != null && this.Artifact.Module.Id != 0)
+                    {
+                        this.btnAttach.Enabled = true;
+                        this.btnExpandCollapse.Enabled = true;
+                    }
+                    (this.facade as Facade.Document.Server).RetrieveAttachmentList();
+                    //formDto.AttachmentSummeryList = base.GetAttachmentList();
+                    this.dgvAttachmentList.ReadOnly = true;
+                    this.dgvAttachmentList.AutoGenerateColumns = false;
+                    this.dgvAttachmentList.Columns[0].DataPropertyName = "Path";
+                    this.dgvAttachmentList.Columns[1].DataPropertyName = "Action";
 
-                (this.facade as Facade.Document.Server).RetrieveAttachmentList();
-                //formDto.AttachmentSummeryList = base.GetAttachmentList();
-                this.dgvAttachmentList.ReadOnly = true;
-                this.dgvAttachmentList.AutoGenerateColumns = false;
-                this.dgvAttachmentList.Columns[0].DataPropertyName = "Path";
-                this.dgvAttachmentList.Columns[1].DataPropertyName = "Action";
-
-                this.dgvAttachmentList.DataSource = this.formDto.AttachmentSummeryList;
+                    this.dgvAttachmentList.DataSource = this.formDto.AttachmentSummeryList;
+                }
             }
         }
         //public delegate void AsyncProcessDelegate();
@@ -120,7 +131,7 @@ namespace Vanilla.Form.WinForm
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.Ok();
-            if (this.IsModified)
+            if (this.IsModified && String.Compare(this.AttachmentName, "Attach", true) != 0)
             {
                 DialogResult answer = MessageBox.Show("Do yo want to attach any document?", "Question", MessageBoxButtons.YesNo);
                 if (answer == System.Windows.Forms.DialogResult.Yes)
@@ -176,13 +187,40 @@ namespace Vanilla.Form.WinForm
                 this.pnlAttachment.Left = this.Width - this.pnlAttachment.Width - 12;
                 this.pnlAttachment.Top = this.toolStrip.Bottom + 2;
                 this.btnExpandCollapse.Text = "Ö";
+                this.btnExpandCollapse.ToolTipText = "Hide Attachments";
             }
             else
             {
                 this.pnlAttachment.Visible = false;
                 this.btnExpandCollapse.Text = "×";
+                this.btnExpandCollapse.ToolTipText = "Show Attachments";
             }
         }
+
+        private void dgvAttachmentList_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            ArtfFac.Dto document = this.formDto.AttachmentSummeryList[e.RowIndex].Artifact;
+            ModFac.Server server = new ModFac.Server(new ModFac.FormDto
+            {
+                Dto = new ModFac.Dto
+                {
+                    Code = document.ComponentDefinition.Code,
+                },
+                CurrentArtifact = new ArtfFac.FormDto
+                {
+                    Dto = document,
+                },
+            });
+            document = server.ReadArtifact();
+
+            Type type = Type.GetType(document.ComponentDefinition.ComponentFormType, true);
+            FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, document);
+            form.MdiParent = this.MdiParent;
+            this.RaiseAttachmentArtifactLoaded(form);
+            form.Show();
+        }
+
+        #endregion
 
         protected override Vanilla.Utility.WinForm.SaveDialog GetSaveDialogue()
         {
@@ -208,15 +246,23 @@ namespace Vanilla.Form.WinForm
                 Path = attachment.Artifact.FullPath,
                 Action = "Delete",
             });
+            this.dgvAttachmentList.DataSource = null;
             this.dgvAttachmentList.DataSource = this.formDto.AttachmentSummeryList;
         }
 
-        protected void RegisterArtifactObserver()
+        /// <summary>
+        /// Add method when Ok buton is clicked
+        /// </summary>
+        protected virtual void Ok()
         {
-            (this.facade as Facade.Document.Server).RegisterArtifactObserver();
+            if (this.Save())
+            {
+                base.Artifact.Module = base.formDto.Dto;
+                base.IsModified = true;
+            }
         }
-
-        protected Boolean Save()
+        
+        private Boolean Save()
         {
             if (!this.ValidateForm()) return false;
             if (!this.SaveBefore()) return false;
@@ -264,6 +310,25 @@ namespace Vanilla.Form.WinForm
             return this.SaveAfter();
         }
 
+        protected void RegisterArtifactObserver()
+        {
+            (this.facade as Facade.Document.Server).RegisterArtifactObserver();
+        }
+
+        private Document AttachDocument()
+        {
+            Document attachment = this.GetAttachment();
+            attachment.ArtifactSaved += attachment_ArtifactSaved;
+            attachment.ShowDialog();
+
+            return attachment;
+        }
+
+        private void attachment_ArtifactSaved(ArtfFac.Dto document)
+        {
+            this.RaiseChildArtifactSaved(document);
+        }
+
         /// <summary>
         /// Add method to refresh the form
         /// </summary>
@@ -282,45 +347,16 @@ namespace Vanilla.Form.WinForm
             this.RefreshFormAfter();
         }
 
-        protected virtual void RefreshFormBefore()
-        {
-            
-        }
-
-        protected virtual void RefreshFormAfter()
-        {
-            
-        }
-
-        /// <summary>
-        /// Add method when Ok buton is clicked
-        /// </summary>
-        protected virtual void Ok()
-        {
-
-        }
-
-        /// <summary>
-        /// Add method to pick existing ancestor artifact
-        /// </summary>
-        protected virtual void PickAnsestor()
-        {
-            
-        }
-
-        /// <summary>
-        /// Add method to add new ancestor artifact
-        /// </summary>
-        protected virtual void AddAnsestor()
-        {
-            
-        }
-
+        #region Mandatory Hooks
+        
         protected virtual void LoadForm()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Bind form controls with data from facade
+        /// </summary>
         protected virtual void PopulateDataToForm()
         {
             throw new NotImplementedException();
@@ -334,7 +370,7 @@ namespace Vanilla.Form.WinForm
         {
             throw new NotImplementedException();
         }
-        
+
         /// <summary>
         /// Clear all data on form
         /// </summary>
@@ -369,6 +405,37 @@ namespace Vanilla.Form.WinForm
             throw new NotImplementedException();
         }
 
+
+        #endregion
+
+        #region Optional Hook
+
+        protected virtual void RefreshFormBefore()
+        {
+
+        }
+
+        protected virtual void RefreshFormAfter()
+        {
+
+        }
+
+        /// <summary>
+        /// Add method to pick existing ancestor artifact
+        /// </summary>
+        protected virtual void PickAnsestor()
+        {
+
+        }
+
+        /// <summary>
+        /// Add method to add new ancestor artifact
+        /// </summary>
+        protected virtual void AddAnsestor()
+        {
+
+        }
+
         protected virtual Boolean SaveBefore()
         {
             return true;
@@ -379,23 +446,12 @@ namespace Vanilla.Form.WinForm
             return true;
         }
 
-        protected virtual Document AttachDocument()
-        {
-            Document attachment = this.GetAttachment();
-            attachment.ArtifactSaved += attachment_ArtifactSaved;
-            attachment.ShowDialog();
-            return attachment;
-        }
-
-        void attachment_ArtifactSaved(ArtfFac.Dto document)
-        {
-            this.RaiseChildArtifactSaved(document);
-        }
-
         protected virtual Document GetAttachment()
         {
             return new Document();
         }
+
+        #endregion
 
         #region Visual Control
 

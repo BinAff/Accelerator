@@ -53,26 +53,48 @@ namespace Vanilla.Invoice.WinForm
             this.facade = new PayFac.Server(this.formDto as PayFac.FormDto);
         }
 
-        protected override void Ok()
-        {
-            if (base.Save())
-            {
-                base.Artifact.Module = base.formDto.Dto;
-                base.IsModified = true;
-                //this.Close();
-            }
-        }
+        //protected override void Ok()
+        //{
+        //    if (base.Save())
+        //    {
+        //        base.Artifact.Module = base.formDto.Dto;
+        //        base.IsModified = true;
+        //        //this.Close();
+        //    }
+        //}
 
         protected override void LoadForm()
         {
+            base.facade.LoadForm();
+        }
+
+        protected override void ClearForm()
+        {
+            this.cboPaymentType.SelectedIndex = 0;
+            this.txtAmount.Text = String.Empty;
+            this.txtLastFourDigit.Text = String.Empty;
+            this.txtRemark.Text = String.Empty;
+        }
+
+        protected override void RevertForm()
+        {
+            PayFac.Dto dto = (base.formDto as PayFac.FormDto).Dto as PayFac.Dto;
+            dto.LineItemList = (InitialDto as PayFac.Dto).LineItemList;
+        }
+
+        protected override DocFac.Dto CloneDto(DocFac.Dto source)
+        {
+            return source.Clone() as DocFac.Dto;
+        }
+
+        protected override void PopulateDataToForm()
+        {
             PayFac.FormDto formDto = base.formDto as PayFac.FormDto;
 
-            List<PayFac.LineItem> paymentList = (formDto.Dto as PayFac.Dto).LineItemList;
-
-            base.facade.LoadForm();
             this.cboPaymentType.DisplayMember = "Name";
             this.cboPaymentType.Bind(formDto.TypeList);
 
+            List<PayFac.LineItem> paymentList = (formDto.Dto as PayFac.Dto).LineItemList;
             if (paymentList != null && paymentList.Count > 0)
             {
                 foreach (PayFac.LineItem dto in paymentList)
@@ -96,39 +118,6 @@ namespace Vanilla.Invoice.WinForm
             {
                 btnPrint.Enabled = false;
             }
-
-            //this.cboPaymentType.DataSource = null;
-            //if (formDto.typeList != null && formDto.typeList.Count > 0)
-            //{
-            //    this.cboPaymentType.DataSource = formDto.typeList;
-            //    this.cboPaymentType.ValueMember = "Id";
-            //    this.cboPaymentType.DisplayMember = "Name";
-            //    this.cboPaymentType.SelectedIndex = 0;
-            //}
-
-        }
-
-        protected override void ClearForm()
-        {
-            this.cboPaymentType.SelectedIndex = 0;
-            this.txtAmount.Text = String.Empty;
-            this.txtLastFourDigit.Text = String.Empty;
-            this.txtRemark.Text = String.Empty;
-        }
-
-        protected override void RevertForm()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override DocFac.Dto CloneDto(DocFac.Dto source)
-        {
-            return source.Clone() as DocFac.Dto;
-        }
-
-        protected override void PopulateDataToForm()
-        {
-
         }
 
         protected override void AssignDto()

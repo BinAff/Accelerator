@@ -33,13 +33,7 @@ namespace AutoTourism.Lodge.WinForm
     public partial class CheckInForm : FormWin.Document
     {
 
-        private RuleFac.ConfigurationRuleDto configRuleDto;        
-
-        public enum Status
-        {
-            Open = 10001,
-            CheckOut = 10002
-        }
+        private RuleFac.ConfigurationRuleDto configRuleDto;  
       
         ToolStripButton btnCheckOut, btnGenerateInvoice, btnPay;
 
@@ -53,7 +47,6 @@ namespace AutoTourism.Lodge.WinForm
 
         private void CheckInForm_Load(object sender, EventArgs e)
         {
-            base.AncestorName = "Room Reservation";
             base.AddToolStripSeparator();
             this.btnCheckOut = base.AddToolStripButton("R", "Wingdings 3", "Checkout");
             this.btnCheckOut.Click += btnCheckOut_Click;
@@ -232,6 +225,9 @@ namespace AutoTourism.Lodge.WinForm
             };
 
             this.facade = new Fac.CheckInServer(this.formDto as Fac.FormDto);
+
+            base.AncestorName = "Room Reservation";
+            base.AttachmentName = "Advance Payment";
         }
 
         protected override DocFac.Dto CloneDto(DocFac.Dto source)
@@ -440,16 +436,16 @@ namespace AutoTourism.Lodge.WinForm
             
         }
         
-        protected override void Ok()
-        {
-            if (base.Save())
-            {
-                Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
-                //dto.StatusId = Convert.ToInt64(CheckInStatus.CheckIn);
-                base.IsModified = true;
-                //this.Close();
-            }
-        }
+        //protected override void Ok()
+        //{
+        //    if (base.Save())
+        //    {
+        //        Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
+        //        //dto.StatusId = Convert.ToInt64(CheckInStatus.CheckIn);
+        //        base.IsModified = true;
+        //        //this.Close();
+        //    }
+        //}
 
         protected override void PickAnsestor()
         {
@@ -990,6 +986,12 @@ namespace AutoTourism.Lodge.WinForm
         }
 
         #endregion
+
+        public enum Status
+        {
+            Open = 10001,
+            CheckOut = 10002
+        }
 
     }
 

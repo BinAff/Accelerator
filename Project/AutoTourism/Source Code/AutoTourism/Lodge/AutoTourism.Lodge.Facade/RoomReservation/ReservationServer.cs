@@ -135,6 +135,11 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return new Crystal.Lodge.Observer.RoomReservation();
         }
 
+        protected override String GetAttachmentComponentCode()
+        {
+            return "PAMT";
+        }
+
         #region Public
 
         public Int32 GetTotalNoRooms()
