@@ -243,11 +243,13 @@ namespace Vanilla.Form.WinForm
             }
             this.formDto.AttachmentSummeryList.Add(new DocFac.AttachmentSummery
             {
+                Artifact = attachment.Artifact,
                 Path = attachment.Artifact.FullPath,
                 Action = "Delete",
             });
             this.dgvAttachmentList.DataSource = null;
             this.dgvAttachmentList.DataSource = this.formDto.AttachmentSummeryList;
+            this.btnExpandCollapse.Enabled = true;
         }
 
         /// <summary>

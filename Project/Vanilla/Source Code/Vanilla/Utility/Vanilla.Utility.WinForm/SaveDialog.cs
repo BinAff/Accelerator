@@ -50,6 +50,8 @@ namespace Vanilla.Utility.WinForm
                     Parent = base.Register.CurrentArtifact,
                 }
             };
+            formDto.Dto.Parent = base.Register.CurrentArtifact.Style == ArtfFac.Type.Folder ?
+                base.Register.CurrentArtifact : base.Register.CurrentArtifact.Parent as ArtfFac.Dto;
             new Fac.Server(formDto).Add();
             base.IsActionDone = true;
             //this.Document = formDto.Document;
