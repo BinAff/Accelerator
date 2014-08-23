@@ -19,10 +19,10 @@ namespace Vanilla.Utility.WinForm
         public event OnAuditInfoChanged AuditInfoChanged;
         protected virtual void RaiseAuditInfoChanged(Document document)
         {
-            OnAuditInfoChanged del = AuditInfoChanged;
-            if (del != null)
+            OnAuditInfoChanged currentEvent = this.AuditInfoChanged;
+            if (currentEvent != null)
             {
-                del(document);
+                currentEvent(document);
             }
         }
 
@@ -30,10 +30,10 @@ namespace Vanilla.Utility.WinForm
         public event OnArtifactSaved ArtifactSaved;
         protected virtual void RaiseArtifactSaved(ArtfFac.Dto document)
         {
-            OnArtifactSaved del = ArtifactSaved;
-            if (del != null)
+            OnArtifactSaved currentEvent = this.ArtifactSaved;
+            if (currentEvent != null)
             {
-                del(document);
+                currentEvent(document);
             }
         }
 
@@ -41,10 +41,21 @@ namespace Vanilla.Utility.WinForm
         public event OnChildArtifactSaved ChildArtifactSaved;
         protected virtual void RaiseChildArtifactSaved(ArtfFac.Dto document)
         {
-            OnChildArtifactSaved del = ChildArtifactSaved;
-            if (del != null)
+            OnChildArtifactSaved currentEvent = this.ChildArtifactSaved;
+            if (currentEvent != null)
             {
-                del(document);
+                currentEvent(document);
+            }
+        }
+
+        public delegate void OnAttachmentArtifactLoaded(Document document);
+        public event OnAttachmentArtifactLoaded AttachmentArtifactLoaded;
+        protected virtual void RaiseAttachmentArtifactLoaded(Document document)
+        {
+            OnAttachmentArtifactLoaded currentEvent = this.AttachmentArtifactLoaded;
+            if (currentEvent != null)
+            {
+                currentEvent(document);
             }
         }
 

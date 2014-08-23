@@ -156,6 +156,7 @@ namespace Vanilla.Navigator.WinForm
             form.MdiParent = this.formExecutable;
             form.ChildArtifactSaved += form_ChildArtifactSaved;
             form.AuditInfoChanged += form_AuditInfoChanged;
+            form.AttachmentArtifactLoaded += form_AttachmentArtifactLoaded;
             form.Show();
         }
 
@@ -167,6 +168,12 @@ namespace Vanilla.Navigator.WinForm
         private void form_AuditInfoChanged(Utility.WinForm.Document document)
         {
             this.ucRegister.ChangeForFormChange(document);
+        }
+
+        void form_AttachmentArtifactLoaded(Document document)
+        {
+            document.ChildArtifactSaved += form_ChildArtifactSaved;
+            document.AuditInfoChanged += form_AuditInfoChanged;
         }
 
         private void connectionTimer_Tick(object sender, EventArgs e)

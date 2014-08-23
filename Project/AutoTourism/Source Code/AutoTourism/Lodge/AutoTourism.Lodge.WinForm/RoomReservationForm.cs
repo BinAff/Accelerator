@@ -44,13 +44,15 @@ namespace AutoTourism.Lodge.WinForm
 
         protected override void Compose()
         {
-            this.formDto = new Fac.FormDto 
+            base.formDto = new Fac.FormDto 
             {
                 ModuleFormDto = new UtilFac.Module.FormDto(),
                 Dto = new Fac.Dto()
             };
 
-            this.facade = new Fac.ReservationServer(this.formDto as Fac.FormDto);
+            base.facade = new Fac.ReservationServer(this.formDto as Fac.FormDto);
+            base.AncestorName = "Customer";
+            base.AttachmentName = "Advance Payment";
         }
               
         public RoomReservationForm(Fac.Dto dto)
@@ -62,11 +64,7 @@ namespace AutoTourism.Lodge.WinForm
 
         private void RoomBookingForm_Load(object sender, System.EventArgs e)
         {
-            base.AncestorName = "Customer";
-            base.AttachmentName = "Advance Payment";
-            base.AddToolStripSeparator();
-            this.btnCancel = base.AddToolStripButton("Í", "Wingdings 2", "Cancel Reservation");
-            this.btnCancel.Click += btnCancel_Click;           
+            
         }
 
         private void btnAddRoom_Click(object sender, EventArgs e)
@@ -143,6 +141,10 @@ namespace AutoTourism.Lodge.WinForm
         
         protected override void LoadForm()
         {
+            base.AddToolStripSeparator();
+            this.btnCancel = base.AddToolStripButton("Í", "Wingdings 2", "Cancel Reservation");
+            this.btnCancel.Click += btnCancel_Click;
+
             this.SetDefault();
 
             Fac.FormDto formDto = base.formDto as Fac.FormDto;
@@ -219,15 +221,15 @@ namespace AutoTourism.Lodge.WinForm
             txtDays.Focus();
         }
 
-        protected override void Ok()
-        {   
-            if (base.Save())
-            {
-                base.Artifact.Module = base.formDto.Dto;
-                base.IsModified = true;
-                //this.Close();
-            }
-        }
+        //protected override void Ok()
+        //{   
+        //    if (base.Save())
+        //    {
+        //        base.Artifact.Module = base.formDto.Dto;
+        //        base.IsModified = true;
+        //        //this.Close();
+        //    }
+        //}
              
         protected override void PickAnsestor()
         {           
