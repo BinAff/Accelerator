@@ -9,20 +9,17 @@ using CustCrys = Crystal.Customer.Component;
 using RoomRsvCrys = Crystal.Lodge.Component.Room.Reservation;
 using RoomRsvArtf = Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact;
 
-using ArtfFac = Vanilla.Utility.Facade.Artifact;
-
 using LodgeConfigFac = AutoTourism.Lodge.Configuration.Facade;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
 using CustAuto = AutoTourism.Component.Customer;
-using CustFac = AutoTourism.Customer.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
 
-    public class ReservationServer : Vanilla.Form.Facade.Document.Server
+    public class Server : Vanilla.Form.Facade.Document.Server
     {        
 
-        public ReservationServer(FormDto formDto)
+        public Server(FormDto formDto)
             : base(formDto)
         {
 
