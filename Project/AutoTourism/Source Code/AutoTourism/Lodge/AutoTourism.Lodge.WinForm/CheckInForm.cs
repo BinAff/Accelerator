@@ -77,7 +77,7 @@ namespace AutoTourism.Lodge.WinForm
             }
 
             //dto.Reservation.BookingStatusId = Convert.ToInt64(CheckInStatus.CheckOut);
-            (this.facade as LodgeFac.CheckIn.CheckInServer).CheckOut();
+            (this.facade as LodgeFac.CheckIn.Server).CheckOut();
 
             //dto.StatusId = Convert.ToInt64(CheckInStatus.CheckOut);
             //base.IsModified = true;
@@ -94,7 +94,7 @@ namespace AutoTourism.Lodge.WinForm
             {
                 invoiceDto.invoiceNumber = Common.GenerateInvoiceNumber();
                 invNumber = invoiceDto.invoiceNumber;
-                (base.facade as Facade.CheckIn.CheckInServer).PopulateInvoiceDto(invoiceDto);
+                (base.facade as Facade.CheckIn.Server).PopulateInvoiceDto(invoiceDto);
                 inv = new UtilFac.Artifact.Dto
                 {
                     Module = invoiceDto
@@ -108,7 +108,7 @@ namespace AutoTourism.Lodge.WinForm
             using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
             {
                 if (invNumber != String.Empty)
-                    (base.facade as Facade.CheckIn.CheckInServer).UpdateInvoiceNumber(invNumber);
+                    (base.facade as Facade.CheckIn.Server).UpdateInvoiceNumber(invNumber);
 
                 FrmWin.Document form = new Vanilla.Invoice.WinForm.InvoiceForm(inv);
                 if (inv.Id == 0) form.ArtifactSaved += form_ArtifactSaved;
@@ -222,12 +222,12 @@ namespace AutoTourism.Lodge.WinForm
                 }
             };
 
-            this.facade = new Fac.CheckInServer(this.formDto as Fac.FormDto);
+            this.facade = new Fac.Server(this.formDto as Fac.FormDto);
         }
 
         protected override DocFac.Dto CloneDto(DocFac.Dto source)
         {
-           return (this.facade as Fac.CheckInServer).CloneCheckIn(source as Fac.Dto);          
+           return (this.facade as Fac.Server).CloneCheckIn(source as Fac.Dto);          
         }
         
         protected override void LoadForm()
@@ -543,14 +543,14 @@ namespace AutoTourism.Lodge.WinForm
         {
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
 
-            Facade.CheckIn.ICheckIn checkInServer = new Facade.CheckIn.CheckInServer(base.formDto as LodgeFac.CheckIn.FormDto);
+            Facade.CheckIn.ICheckIn checkInServer = new Facade.CheckIn.Server(base.formDto as LodgeFac.CheckIn.FormDto);
 
             InvFac.IInvoice invoice = new InvFac.Server(null);
             InvFac.Dto invoiceDto = invoice.GetInvoice(dto.InvoiceNumber);
 
             //Vanilla.Invoice.Facade.Dto invoiceDto = checkInServer.ReadInvoice(dto.InvoiceNumber);
 
-            UtilFac.Artifact.Dto invoiceArtifact = (base.facade as Facade.CheckIn.CheckInServer).GetInvoiceArtifact(dto.InvoiceNumber);
+            UtilFac.Artifact.Dto invoiceArtifact = (base.facade as Facade.CheckIn.Server).GetInvoiceArtifact(dto.InvoiceNumber);
 
             return new UtilFac.Artifact.Dto
             {
@@ -635,7 +635,7 @@ namespace AutoTourism.Lodge.WinForm
             {
                 dto.Reservation.NoOfDays = Convert.ToInt16(txtDays.Text);
 
-                (this.facade as Fac.CheckInServer).RemoveAllBookedRoom();
+                (this.facade as Fac.Server).RemoveAllBookedRoom();
                 this.FilterAndPopulateRoomList();
             }
         }
@@ -652,12 +652,12 @@ namespace AutoTourism.Lodge.WinForm
             dto.Reservation.RoomType = this.cboType.SelectedItem == null ? null : new Table { Id = (this.cboType.SelectedItem as RoomTypFac.Dto).Id };
             dto.Reservation.ACPreference = this.cboAC.SelectedIndex;
 
-            (this.facade as Fac.CheckInServer).PopulateRoomWithCriteria();
+            (this.facade as Fac.Server).PopulateRoomWithCriteria();
             this.PopulateRoomList();
 
             if ((formDto.RoomList != null && formDto.RoomList.Count > 0) ||  (formDto.SelectedRoomList != null && formDto.SelectedRoomList.Count > 0))
             {              
-                txtFilteredRoomCount.Text = (this.facade as Fac.CheckInServer).GetTotalNoRooms().ToString();
+                txtFilteredRoomCount.Text = (this.facade as Fac.Server).GetTotalNoRooms().ToString();
 
                 int FilteredRoomCount = 0;
                 if (!String.IsNullOrEmpty(txtFilteredRoomCount.Text))
@@ -702,7 +702,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             if (cboRoomList.SelectedIndex != -1)
             {
-                (this.facade as Fac.CheckInServer).RemoveRoomFromAllRoomList((RoomFac.Dto)cboRoomList.SelectedItem);
+                (this.facade as Fac.Server).RemoveRoomFromAllRoomList((RoomFac.Dto)cboRoomList.SelectedItem);
                 this.PopulateRoomList();
             }
         }
@@ -711,7 +711,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             if (cboSelectedRoom.SelectedIndex != -1)
             {
-                (this.facade as Fac.CheckInServer).AddRoomToAllRoomList((RoomFac.Dto)cboSelectedRoom.SelectedItem);
+                (this.facade as Fac.Server).AddRoomToAllRoomList((RoomFac.Dto)cboSelectedRoom.SelectedItem);
                 this.PopulateRoomList();
             }
         }

@@ -4,8 +4,8 @@ using System.Transactions;
 
 using BinAff.Core;
 
-using CrystalLodge = Crystal.Lodge.Component;
-using CrystalCustomer = Crystal.Customer.Component;
+using LodgeCrys = Crystal.Lodge.Component;
+using CustCrys = Crystal.Customer.Component;
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
 using RoomChkCrys = Crystal.Lodge.Component.Room.CheckIn;
 using ChkArtfCrys = Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact;
@@ -19,21 +19,14 @@ using LodgeFacade = AutoTourism.Lodge.Facade;
 using CustAuto = AutoTourism.Component.Customer;
 using TarrifFac = AutoTourism.Lodge.Configuration.Facade.Tariff;
 using LodgeConfigFac = AutoTourism.Lodge.Configuration.Facade;
-//using AutoTourism.Lodge.Facade.RoomReservation;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
 
-    public class CheckInServer : DocFac.Server, ICheckIn
+    public class Server : DocFac.Server, ICheckIn
     {
 
-        public enum CheckInStatus
-        {
-            CheckIn = 10001,
-            CheckOut = 10002
-        }
-
-        public CheckInServer(FormDto formDto)
+        public Server(FormDto formDto)
             : base(formDto)
         {
 
@@ -65,9 +58,9 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 Id = dto.Id,
                 ActivityDate = checkIn.Date,
-                Status = new CrystalCustomer.Action.Status.Data
+                Status = new CustCrys.Action.Status.Data
                 {
-                    Id = System.Convert.ToInt64(CheckInStatus.CheckIn)
+                    Id = System.Convert.ToInt64(Status.CheckIn)
                 },
                 Purpose = checkIn.Purpose,
                 ArrivedFrom = checkIn.ArrivedFrom,
@@ -75,14 +68,14 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             };
             if (checkIn.Reservation != null)
             {
-                data.Reservation = new RoomReservation.Server(null).Convert(checkIn.Reservation) as CrystalLodge.Room.Reservation.Data;
+                data.Reservation = new RoomReservation.Server(null).Convert(checkIn.Reservation) as LodgeCrys.Room.Reservation.Data;
             }
             return data;
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            CrystalLodge.Room.CheckIn.Data checkIn = data as CrystalLodge.Room.CheckIn.Data;
+            LodgeCrys.Room.CheckIn.Data checkIn = data as LodgeCrys.Room.CheckIn.Data;
 
             //convert reservation data using Reservation server
             RoomReservation.Dto reservationDto = checkIn.Reservation == null ? null : new LodgeFacade.RoomReservation.Server(null).Convert(checkIn.Reservation) as RoomReservation.Dto;
@@ -182,12 +175,12 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                     Id = dto.Reservation.Customer.IdentityProofType.Id,
                     Name = dto.Reservation.Customer.IdentityProofType.Name
                 },                
-                Checkin = new CrystalLodge.Room.CheckInContainer.Data(),
-                RoomReserver = new CrystalLodge.Room.Reserver.Data(),
+                Checkin = new LodgeCrys.Room.CheckInContainer.Data(),
+                RoomReserver = new LodgeCrys.Room.Reserver.Data(),
             };
 
-            autoCustomer.Checkin.Active = this.Convert(dto) as CrystalCustomer.Action.Data;
-            autoCustomer.RoomReserver.Active = (autoCustomer.Checkin.Active as CrystalLodge.Room.CheckIn.Data).Reservation as CrystalCustomer.Action.Data;
+            autoCustomer.Checkin.Active = this.Convert(dto) as CustCrys.Action.Data;
+            autoCustomer.RoomReserver.Active = (autoCustomer.Checkin.Active as LodgeCrys.Room.CheckIn.Data).Reservation as CustCrys.Action.Data;
 
             autoCustomer.Checkin.Active.ProductList = dto.Reservation.RoomList == null ? null : this.GetRoomDataList(dto.Reservation.RoomList);
 
@@ -195,14 +188,14 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         }
 
         //--Duplicate function [exists in ReservationServer]
-        public List<CrystalCustomer.ContactNumber.Data> ConvertToContactNumberData(List<Table> contactNumberList)
+        public List<CustCrys.ContactNumber.Data> ConvertToContactNumberData(List<Table> contactNumberList)
         {
-            List<CrystalCustomer.ContactNumber.Data> lstContactNumber = new List<CrystalCustomer.ContactNumber.Data>();
+            List<CustCrys.ContactNumber.Data> lstContactNumber = new List<CustCrys.ContactNumber.Data>();
             if (contactNumberList != null && contactNumberList.Count > 0)
             {
                 foreach (Table table in contactNumberList)
                 {
-                    lstContactNumber.Add(new CrystalCustomer.ContactNumber.Data
+                    lstContactNumber.Add(new CustCrys.ContactNumber.Data
                     {
                         Id = table.Id,
                         ContactNumber = table.Name
@@ -219,7 +212,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             List<Data> RoomDataList = new List<Data>();
             foreach (LodgeConfFac.Room.Dto dto in RoomList)
             {
-                RoomDataList.Add(new CrystalLodge.Room.Data
+                RoomDataList.Add(new LodgeCrys.Room.Data
                 {
                     Id = dto.Id,
                     Number = dto.Number,
@@ -241,8 +234,8 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             roomReserver.Change();
 
             //update checkIn status
-            CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = dto.Id });
-            checkIn.ModifyCheckInStatus(System.Convert.ToInt64(CheckInStatus.CheckOut));
+            LodgeCrys.Room.CheckIn.ICheckIn checkIn = new LodgeCrys.Room.CheckIn.Server(new LodgeCrys.Room.CheckIn.Data { Id = dto.Id });
+            checkIn.ModifyCheckInStatus(System.Convert.ToInt64(Status.CheckOut));
         }
 
         //ReturnObject<bool> ICheckIn.PaymentInsert(InvFac.FormDto invoiceFormDto, Table currentUser, Vanilla.Utility.Facade.Artifact.Dto artifactDto)
@@ -259,14 +252,14 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    {
         //        Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
         //        {
-        //            Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
+        //            Active = this.ConvertToInvoiceData(invoiceDto) as CustCrys.Action.Data
         //        }
         //    };
 
         //    using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
         //    {
         //        //Save Invoice Data
-        //        CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
+        //        CustCrys.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
         //        ret = customer.GenerateInvoice();
 
         //        if (ret.Value)
@@ -305,14 +298,14 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    {
         //        Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
         //        {
-        //            //Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
+        //            //Active = this.ConvertToInvoiceData(invoiceDto) as CustCrys.Action.Data
         //        }
         //    };
 
         //    using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
         //    {
         //        //Save Invoice Data
-        //        CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
+        //        CustCrys.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
         //        ret = customer.GenerateInvoice();
 
         //        if (ret.Value)
@@ -436,7 +429,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public ReturnObject<Boolean> UpdateInvoiceNumber(String invoiceNumber)
         {
             Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
-            CrystalLodge.Room.CheckIn.ICheckIn checkIn = new CrystalLodge.Room.CheckIn.Server(new CrystalLodge.Room.CheckIn.Data { Id = dto.Id });
+            LodgeCrys.Room.CheckIn.ICheckIn checkIn = new LodgeCrys.Room.CheckIn.Server(new LodgeCrys.Room.CheckIn.Data { Id = dto.Id });
             return checkIn.UpdateInvoiceNumber(invoiceNumber);
         }
 
@@ -816,7 +809,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             //{
             //    Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
             //    {
-            //        Active = this.ConvertToInvoiceData(invoiceDto) as CrystalCustomer.Action.Data
+            //        Active = this.ConvertToInvoiceData(invoiceDto) as CustCrys.Action.Data
             //    }
             //};
 
@@ -828,7 +821,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 ret = invoiceServer.GenerateInvoice();
                 
                 ////Save Invoice Data
-                //CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
+                //CustCrys.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
                 //ret = customer.GenerateInvoice();
 
                 if (ret.Value)
@@ -993,6 +986,12 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         {
             RoomChkCrys.Server server = new RoomChkCrys.Server(null);
             return server.ReadCheckInId(ArtifactId);
+        }
+
+        public enum Status
+        {
+            CheckIn = 10001,
+            CheckOut = 10002
         }
         
     }
