@@ -81,7 +81,7 @@ namespace AutoTourism.Lodge.WinForm
             for (int i = 0; i < dgvCheckIn.Columns.Count; i++) dgvCheckIn.Columns[i].ReadOnly = true;
             dgvCheckIn.MultiSelect = false;
 
-            LodgeFacade.CheckInRegister.ICheckInRegister checkInRegister = new LodgeFacade.CheckInRegister.CheckInRegisterServer();
+            LodgeFacade.CheckInRegister.ICheckInRegister checkInRegister = new LodgeFacade.CheckInRegister.Server();
             ReturnObject<LodgeFacade.CheckInRegister.FormDto> ret = checkInRegister.LoadCheckInRegisterForm(Convert.ToInt64(LodgeReservationStatus.CheckIn), dtCheckIn.Value, dtBookingTo.Value);
 
 
@@ -109,7 +109,7 @@ namespace AutoTourism.Lodge.WinForm
         
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            LodgeFacade.CheckInRegister.ICheckInRegister checkInRegister = new LodgeFacade.CheckInRegister.CheckInRegisterServer();
+            LodgeFacade.CheckInRegister.ICheckInRegister checkInRegister = new LodgeFacade.CheckInRegister.Server();
             ReturnObject<List<LodgeFacade.CheckInRegister.Dto>> ret = checkInRegister.Search(Convert.ToInt64(((Table)cmbReservationStatus.SelectedItem).Id), dtCheckIn.Value, dtBookingTo.Value);
                      
             Clear();

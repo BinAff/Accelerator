@@ -11,7 +11,7 @@ using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
 namespace AutoTourism.Lodge.Facade.CheckInRegister
 {
 
-    public class CheckInRegisterServer : ICheckInRegister
+    public class Server : ICheckInRegister
     {
 
         ReturnObject<FormDto> ICheckInRegister.LoadCheckInRegisterForm(Int64 reservationStatusId, DateTime startDate, DateTime endDate)
