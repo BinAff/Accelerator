@@ -143,12 +143,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                     (p) => { return p.Code == new AutoTourism.Customer.Facade.Server(null).GetComponentCode(); }));
         }
 
-        //protected override string GetAncestorComponentCode()
-        //{
-        //    //AutoTourism.Customer.Facade
-        //    return base.GetAncestorComponentCode();
-        //}
-
         #region Public
 
         public Int32 GetTotalNoRooms()
