@@ -49,7 +49,7 @@
     <Compile Include="CheckInReport\Dto.cs" />
     <Compile Include="CheckInReport\FormDto.cs" />
     <Compile Include="CheckInReport\Server.cs" />
-    <Compile Include="CheckIn\CheckInServer.cs" />
+    <Compile Include="CheckIn\Server.cs" />
     <Compile Include="CheckIn\Dto.cs" />
     <Compile Include="CheckIn\FormDto.cs" />
     <Compile Include="CheckIn\ICheckIn.cs" />
