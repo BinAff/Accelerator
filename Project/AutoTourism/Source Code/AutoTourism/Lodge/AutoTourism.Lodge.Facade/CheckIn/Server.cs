@@ -714,7 +714,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
         private void CalculateTax(List<InvFac.LineItem.Dto> roomList)
         {
-            Taxation.ITaxation taxation = new Taxation.TaxationServer();
+            Taxation.ITaxation taxation = new Taxation.Server();
            
             foreach (InvFac.LineItem.Dto lineItem in roomList)
             {
