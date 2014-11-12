@@ -27,6 +27,19 @@ namespace Vanilla.Utility.WinForm
 
         private Container executable;
 
+        protected Boolean IsPathShown
+        {
+            get
+            {
+                return this.lblPath.Visible;
+            }
+            set
+            {
+                this.lblPath.Visible = value;
+                this.tlsPath.Visible = value;
+            }
+        }
+
         protected Container()
         {
             InitializeComponent();
@@ -67,6 +80,7 @@ namespace Vanilla.Utility.WinForm
                     this.tlsModifiedBy.Text = currentForm.AuditInfo.ModifiedBy.Name;
                     this.tlsModifiedAt.Text = currentForm.AuditInfo.ModifiedAt.ToString();
                 }
+                this.tlsPath.Text = currentForm.DocumentPath;
             }
 
         }
@@ -145,7 +159,7 @@ namespace Vanilla.Utility.WinForm
 
         #endregion
 
-        protected virtual Open GetOpenDialogue()
+        protected virtual OpenDialog GetOpenDialogue()
         {
             throw new NotImplementedException();
         }
