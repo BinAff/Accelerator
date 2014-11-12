@@ -66,6 +66,8 @@
             this.tlsModifiedBy = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblModifiedAt = new System.Windows.Forms.ToolStripStatusLabel();
             this.tlsModifiedAt = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblPath = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tlsPath = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainMenu.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -277,7 +279,9 @@
             this.lblModifiedBy,
             this.tlsModifiedBy,
             this.lblModifiedAt,
-            this.tlsModifiedAt});
+            this.tlsModifiedAt,
+            this.lblPath,
+            this.tlsPath});
             this.statusStrip.Location = new System.Drawing.Point(0, 551);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(792, 22);
@@ -359,6 +363,20 @@
             this.tlsModifiedAt.Size = new System.Drawing.Size(110, 17);
             this.tlsModifiedAt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lblPath
+            // 
+            this.lblPath.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.lblPath.Name = "lblPath";
+            this.lblPath.Size = new System.Drawing.Size(33, 13);
+            this.lblPath.Text = "Path";
+            this.lblPath.Visible = false;
+            // 
+            // tlsPath
+            // 
+            this.tlsPath.Name = "tlsPath";
+            this.tlsPath.Size = new System.Drawing.Size(0, 0);
+            this.tlsPath.Visible = false;
+            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -421,5 +439,7 @@
         private System.Windows.Forms.ToolStripStatusLabel tlsModifiedAt;
         private System.Windows.Forms.ToolStripStatusLabel lblVersion;
         private System.Windows.Forms.ToolStripStatusLabel tlsVersion;
+        private System.Windows.Forms.ToolStripStatusLabel lblPath;
+        private System.Windows.Forms.ToolStripStatusLabel tlsPath;
     }
 }
