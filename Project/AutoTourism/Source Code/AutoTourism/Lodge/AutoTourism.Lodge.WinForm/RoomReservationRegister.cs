@@ -80,7 +80,7 @@ namespace AutoTourism.Lodge.WinForm
 
         private void LoadForm()
         {
-            LodgeFacade.RoomReservationRegister.IReservationRegister reservationRegister = new LodgeFacade.RoomReservationRegister.ReservationRegisterServer();
+            LodgeFacade.RoomReservationRegister.IReservationRegister reservationRegister = new LodgeFacade.RoomReservationRegister.Server();
             ReturnObject<LodgeFacade.RoomReservationRegister.FormDto> ret = reservationRegister.LoadRegisterForm(Convert.ToInt64(LodgeReservationStatus.Open), dtBookingFrom.Value, dtBookingTo.Value);
 
             //populate rule
@@ -104,7 +104,7 @@ namespace AutoTourism.Lodge.WinForm
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            LodgeFacade.RoomReservationRegister.IReservationRegister reservationRegister = new LodgeFacade.RoomReservationRegister.ReservationRegisterServer();
+            LodgeFacade.RoomReservationRegister.IReservationRegister reservationRegister = new LodgeFacade.RoomReservationRegister.Server();
             ReturnObject<List<LodgeFacade.RoomReservationRegister.Dto>> ret = reservationRegister.Search(Convert.ToInt64(LodgeReservationStatus.Open), dtBookingFrom.Value, dtBookingTo.Value);
 
             dgvReservation.DataSource = null;
