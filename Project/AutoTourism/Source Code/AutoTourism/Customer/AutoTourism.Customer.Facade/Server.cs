@@ -31,7 +31,7 @@ namespace AutoTourism.Customer.Facade
             //formDto.StateList = this.ReadAllState().Value;
             formDto.CountryList = this.ReadAllCountry().Value;
             formDto.IdentityProofTypeList = this.ReadAllIdentityProof().Value;
-            formDto.DtoList = this.ReadAllCustomer().Value;
+            //formDto.DtoList = this.ReadAllCustomer().Value;
             formDto.RuleDto = this.ReadCustomerRule().Value;
         }
 

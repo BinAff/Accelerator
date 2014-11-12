@@ -43,7 +43,7 @@
             this.tlpFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.82796F));
             this.tlpFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 88.17204F));
             this.tlpFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
-            this.tlpFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
+            this.tlpFile.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 98F));
             this.tlpFile.Controls.Add(this.label1, 0, 0);
             this.tlpFile.Controls.Add(this.txtDocName, 1, 0);
             this.tlpFile.Controls.Add(this.cboExtension, 2, 0);
@@ -61,7 +61,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 28);
+            this.label1.Size = new System.Drawing.Size(36, 28);
             this.label1.TabIndex = 6;
             this.label1.Text = "Name";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -69,9 +69,9 @@
             // txtDocName
             // 
             this.txtDocName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtDocName.Location = new System.Drawing.Point(46, 3);
+            this.txtDocName.Location = new System.Drawing.Point(45, 3);
             this.txtDocName.Name = "txtDocName";
-            this.txtDocName.Size = new System.Drawing.Size(317, 20);
+            this.txtDocName.Size = new System.Drawing.Size(314, 20);
             this.txtDocName.TabIndex = 2;
             this.txtDocName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtDocName_KeyUp);
             // 
@@ -80,7 +80,7 @@
             this.cboExtension.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cboExtension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboExtension.FormattingEnabled = true;
-            this.cboExtension.Location = new System.Drawing.Point(369, 3);
+            this.cboExtension.Location = new System.Drawing.Point(365, 3);
             this.cboExtension.Name = "cboExtension";
             this.cboExtension.Size = new System.Drawing.Size(124, 21);
             this.cboExtension.TabIndex = 4;
@@ -88,9 +88,9 @@
             // btnAction
             // 
             this.btnAction.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnAction.Location = new System.Drawing.Point(499, 3);
+            this.btnAction.Location = new System.Drawing.Point(495, 3);
             this.btnAction.Name = "btnAction";
-            this.btnAction.Size = new System.Drawing.Size(89, 22);
+            this.btnAction.Size = new System.Drawing.Size(93, 22);
             this.btnAction.TabIndex = 5;
             this.btnAction.Text = "Action";
             this.btnAction.UseVisualStyleBackColor = true;
@@ -109,7 +109,6 @@
             this.ucRegister.Size = new System.Drawing.Size(591, 407);
             this.ucRegister.TabIndex = 0;
             this.ucRegister.TreeFilter = null;
-            this.ucRegister.FolderSaved += new Vanilla.Utility.WinForm.Register.OnFolderSaved(this.ucRegister_FolderSaved);
             // 
             // Dialog
             // 
@@ -124,7 +123,7 @@
             this.Name = "Dialog";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Load += new System.EventHandler(this.Open_Load);
+            this.Load += new System.EventHandler(this.Dialog_Load);
             this.Shown += new System.EventHandler(this.Dialog_Shown);
             this.tlpFile.ResumeLayout(false);
             this.tlpFile.PerformLayout();

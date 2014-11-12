@@ -1,6 +1,6 @@
 ﻿namespace Vanilla.Form.WinForm
 {
-    partial class Open
+    partial class OpenDialog
     {
         /// <summary>
         /// Required designer variable.

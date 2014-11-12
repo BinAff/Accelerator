@@ -6,7 +6,7 @@ using BinAff.Core;
 namespace Vanilla.Report.WinForm
 {
 
-    public partial class Open : UtilWin.Open
+    public partial class Open : UtilWin.OpenDialog
     {
 
         public Open()

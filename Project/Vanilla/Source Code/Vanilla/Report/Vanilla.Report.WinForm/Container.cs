@@ -49,7 +49,7 @@ namespace Vanilla.Report.WinForm
             return Vanilla.Report.WinForm.Container.CreateInstance(dto);
         }
 
-        protected override UtilWin.Open GetOpenDialogue()
+        protected override UtilWin.OpenDialog GetOpenDialogue()
         {
             return new Open
             {

@@ -48,7 +48,7 @@ namespace Vanilla.CommercialInstrument.WinForm
             return Vanilla.CommercialInstrument.WinForm.Container.CreateInstance(dto);
         }
 
-        protected override UtilWin.Open GetOpenDialogue()
+        protected override UtilWin.OpenDialog GetOpenDialogue()
         {
             return new Open
             {

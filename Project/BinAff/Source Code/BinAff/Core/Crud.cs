@@ -647,19 +647,8 @@ namespace BinAff.Core
 
             //Create children
             this.CreateChildren();
-            //Read dependent
-            Parallel.ForEach<ICrud>(this.dependentChildren, child =>
-            {
-                using (ReturnObject<Data> temp = child.Read())
-                {
-                    if (temp.MessageList != null && temp.MessageList.Count > 0)
-                    {
-                        if (retObj.MessageList == null) retObj.MessageList = new List<Message>();
-                        retObj.MessageList.AddRange(temp.MessageList);
-                    }
-                }
-            });
-            //foreach (ICrud child in this.dependentChildren)
+            ////Read dependent
+            //Parallel.ForEach<ICrud>(this.dependentChildren, child =>
             //{
             //    using (ReturnObject<Data> temp = child.Read())
             //    {
@@ -669,10 +658,8 @@ namespace BinAff.Core
             //            retObj.MessageList.AddRange(temp.MessageList);
             //        }
             //    }
-            //}
-
-            //Read independent
-            Parallel.ForEach<ICrud>(this.independentChildren, child =>
+            //});
+            foreach (ICrud child in this.dependentChildren)
             {
                 using (ReturnObject<Data> temp = child.Read())
                 {
@@ -682,9 +669,10 @@ namespace BinAff.Core
                         retObj.MessageList.AddRange(temp.MessageList);
                     }
                 }
-            });
+            }
 
-            //foreach (ICrud child in this.independentChildren)
+            ////Read independent
+            //Parallel.ForEach<ICrud>(this.independentChildren, child =>
             //{
             //    using (ReturnObject<Data> temp = child.Read())
             //    {
@@ -694,7 +682,19 @@ namespace BinAff.Core
             //            retObj.MessageList.AddRange(temp.MessageList);
             //        }
             //    }
-            //}
+            //});
+
+            foreach (ICrud child in this.independentChildren)
+            {
+                using (ReturnObject<Data> temp = child.Read())
+                {
+                    if (temp.MessageList != null && temp.MessageList.Count > 0)
+                    {
+                        if (retObj.MessageList == null) retObj.MessageList = new List<Message>();
+                        retObj.MessageList.AddRange(temp.MessageList);
+                    }
+                }
+            }
 
             return retObj;
         }

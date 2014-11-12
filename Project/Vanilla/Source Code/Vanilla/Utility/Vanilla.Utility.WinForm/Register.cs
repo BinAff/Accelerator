@@ -113,6 +113,9 @@ namespace Vanilla.Utility.WinForm
         public delegate void OnFolderSaved(ArtfFac.Dto folder);
         public event OnFolderSaved FolderSaved;
 
+        public delegate void OnDocumentDoubleClicked();
+        public event OnDocumentDoubleClicked DocumentDoubleClicked;
+
         #endregion
 
         public Register()
@@ -738,6 +741,7 @@ namespace Vanilla.Utility.WinForm
             {
                 case DialogueMode.None:
                 case DialogueMode.Open:
+                case DialogueMode.Search:
                     if (currentArtifact.Style == ArtfFac.Type.Folder)
                     {
                         this.OpenFolder();
@@ -745,6 +749,10 @@ namespace Vanilla.Utility.WinForm
                     else
                     {
                         this.ShowDocument();
+                        if (this.DialogueMode != WinForm.DialogueMode.None)
+                        {
+                            this.DocumentDoubleClicked();
+                        }
                     }
                     break;
                 case DialogueMode.Save:
@@ -771,13 +779,17 @@ namespace Vanilla.Utility.WinForm
         public void ShowDocument()
         {
             this.currentArtifact = this.ReadDocument(this.currentArtifact);
+            if (this.DialogueMode == DialogueMode.Search)
+            {
+                return; //No need to show form
+            }
             if (this.currentArtifact.Category == ArtfFac.Category.Report)
             {
                 this.ReportLoad(this.currentArtifact);
             }
             else
             {
-                this.FormLoad(this.currentArtifact);
+                this.FormLoad(this.currentArtifact);                
             }
             if (this.DialogueMode == DialogueMode.Open)
             {
@@ -2386,6 +2398,7 @@ namespace Vanilla.Utility.WinForm
         Open = 1,
         New = 2,
         Save = 3,
+        Search = 4
     }
 
 }

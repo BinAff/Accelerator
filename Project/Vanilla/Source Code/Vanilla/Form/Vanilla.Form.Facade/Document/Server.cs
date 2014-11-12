@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using BinAff.Core;
 
@@ -7,7 +8,7 @@ using ArtfCrys = Crystal.Navigator.Component.Artifact;
 using AccFac = Vanilla.Guardian.Facade.Account;
 using DocFac = Vanilla.Utility.Facade.Document;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
-using System.Collections.Generic;
+using ModDefFac = Vanilla.Utility.Facade.Module.Definition;
 
 namespace Vanilla.Form.Facade.Document
 {
@@ -114,6 +115,11 @@ namespace Vanilla.Form.Facade.Document
         }
 
         protected virtual String GetAttachmentComponentCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual ModDefFac.Dto GetAncestorComponentCode()
         {
             throw new NotImplementedException();
         }

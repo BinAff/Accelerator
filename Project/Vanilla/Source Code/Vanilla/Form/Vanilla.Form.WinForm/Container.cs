@@ -40,6 +40,7 @@ namespace Vanilla.Form.WinForm
         protected override void Compose()
         {
             base.facade = new Facade.Container.Server(null);
+            base.IsPathShown = true;
         }
 
         protected override UtilWin.Container CreateExecutableInstance(AccFac.Dto dto)
@@ -47,9 +48,9 @@ namespace Vanilla.Form.WinForm
             return Vanilla.Form.WinForm.Container.CreateInstance(dto);
         }
 
-        protected override UtilWin.Open GetOpenDialogue()
+        protected override UtilWin.OpenDialog GetOpenDialogue()
         {
-            return new Open
+            return new OpenDialog
             {
                 Text = "Open Form",
                 Owner = this,
