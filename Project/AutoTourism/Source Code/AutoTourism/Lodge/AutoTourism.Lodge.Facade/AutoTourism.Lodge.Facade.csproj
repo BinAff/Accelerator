@@ -42,7 +42,7 @@
     <Compile Include="BookingDetails\FormDto.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CheckInRegister\CheckInRegisterServer.cs" />
+    <Compile Include="CheckInRegister\Server.cs" />
     <Compile Include="CheckInRegister\Dto.cs" />
     <Compile Include="CheckInRegister\FormDto.cs" />
     <Compile Include="CheckInRegister\ICheckInRegister.cs" />
