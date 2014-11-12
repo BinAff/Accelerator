@@ -4,18 +4,18 @@ using System.Text;
 
 using BinAff.Core;
 
-using CrystalLodge = Crystal.Lodge.Component;
-using CrystalAction = Crystal.Customer.Component.Action;
-using CrystalReservation = Crystal.Reservation.Component;
+using LodgeCrys = Crystal.Lodge.Component;
+using ActionCrys = Crystal.Customer.Component.Action;
+using RoomRsvCrys = Crystal.Reservation.Component;
 
 using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
-using RuleFacade = AutoTourism.Configuration.Rule.Facade;
-using AutoCustomer = AutoTourism.Component.Customer;
+using RuleFac = AutoTourism.Configuration.Rule.Facade;
+using CustAuto = AutoTourism.Component.Customer;
 
 namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 {
 
-    public class ReservationRegisterServer : IReservationRegister
+    public class Server : IReservationRegister
     {
 
         ReturnObject<FormDto> IReservationRegister.LoadRegisterForm(Int64 bookingStatusId, DateTime startDate, DateTime endDate)
@@ -42,8 +42,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
         {
             List<Dto> bookingList = new List<Dto>();           
 
-            CrystalAction.IAction action = new CrystalLodge.Room.Reservation.Server(null);            
-            ReturnObject<List<CrystalAction.Data>> reservationDataList = action.Search(new CrystalAction.Status.Data { Id = bookingStatusId }, startDate, endDate);
+            ActionCrys.IAction action = new LodgeCrys.Room.Reservation.Server(null);            
+            ReturnObject<List<ActionCrys.Data>> reservationDataList = action.Search(new ActionCrys.Status.Data { Id = bookingStatusId }, startDate, endDate);
             
             foreach (Data data in reservationDataList.Value)
             {
@@ -89,9 +89,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
                 Room = reservation.RoomList == null ? String.Empty : this.GetRooms(reservation.RoomList)
             };
 
-            AutoCustomer.ICustomer autoCustomer = new AutoCustomer.Server(null);
+            CustAuto.ICustomer CustAuto = new CustAuto.Server(null);
                       
-            reservationDto.Customer = new RoomReservation.Server(null).ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(reservation.Id));
+            reservationDto.Customer = new RoomReservation.Server(null).ConvertToCustomerDto(CustAuto.GetCustomerForReservation(reservation.Id));
 
             reservationDto.ContactNumber = (reservationDto.Customer == null || reservationDto.Customer.ContactNumberList == null) ? String.Empty : this.GetCustomerContactNumber(reservationDto.Customer.ContactNumberList);
 
@@ -111,7 +111,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
                 reservationStatusList.Add(new Table()
                         {                    
                             Id = data.Id,
-                            Name = ((CrystalReservation.Status.Data)data).Name,
+                            Name = ((RoomRsvCrys.Status.Data)data).Name,
                         });
             }
 
@@ -133,14 +133,14 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
                     retVal.Add(new LodgeConfFac.Room.Dto()
                     {
                         Id = data.Id,
-                        Number = ((CrystalLodge.Room.Data)data).Number,
-                        Name = ((CrystalLodge.Room.Data)data).Name,
-                        Description = ((CrystalLodge.Room.Data)data).Description,
+                        Number = ((LodgeCrys.Room.Data)data).Number,
+                        Name = ((LodgeCrys.Room.Data)data).Name,
+                        Description = ((LodgeCrys.Room.Data)data).Description,
                         Building = new LodgeConfFac.Building.Dto()
                         {
-                            Id = ((CrystalLodge.Room.Data)data).Building.Id,                            
+                            Id = ((LodgeCrys.Room.Data)data).Building.Id,                            
                         },
-                        StatusId = ((CrystalLodge.Room.Data)data).Status.Id
+                        StatusId = ((LodgeCrys.Room.Data)data).Status.Id
                     });
                 }
             }
@@ -162,9 +162,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
             return strbRoom.ToString().IndexOf(",") > -1 ? strbRoom.ToString().Substring(1) : String.Empty;            
         }
 
-        private ReturnObject<RuleFacade.ConfigurationRuleDto> ReadConfigurationRule()
+        private ReturnObject<RuleFac.ConfigurationRuleDto> ReadConfigurationRule()
         {
-            return new RuleFacade.RuleServer().ReadConfigurationRule();
+            return new RuleFac.RuleServer().ReadConfigurationRule();
         }
 
         private String GetCustomerContactNumber(List<Table> customerContactNumberList)
