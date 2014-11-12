@@ -114,7 +114,7 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactDataType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data";
                     this.ArtifactComponentType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Lodge.Component.Room.Reservation.Data, Crystal.Lodge.Component";
-                    facadeType = Type.GetType("AutoTourism.Lodge.Facade.RoomReservation.ReservationServer,AutoTourism.Lodge.Facade", true);
+                    facadeType = Type.GetType("AutoTourism.Lodge.Facade.RoomReservation.Server,AutoTourism.Lodge.Facade", true);
                     formDtoType = Type.GetType("AutoTourism.Lodge.Facade.RoomReservation.FormDto,AutoTourism.Lodge.Facade", true);
                     break;
 
@@ -125,7 +125,7 @@ namespace Vanilla.Utility.Facade.Module
                     this.ArtifactDataType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data";
                     this.ArtifactComponentType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Lodge.Component.Room.CheckIn.Data, Crystal.Lodge.Component";
-                    facadeType = Type.GetType("AutoTourism.Lodge.Facade.CheckIn.CheckInServer,AutoTourism.Lodge.Facade", true);
+                    facadeType = Type.GetType("AutoTourism.Lodge.Facade.CheckIn.Server,AutoTourism.Lodge.Facade", true);
                     formDtoType = Type.GetType("AutoTourism.Lodge.Facade.CheckIn.FormDto,AutoTourism.Lodge.Facade", true);
                     break;
 
