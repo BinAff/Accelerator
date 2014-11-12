@@ -749,10 +749,6 @@ namespace Vanilla.Utility.WinForm
                     else
                     {
                         this.ShowDocument();
-                        if (this.DialogueMode != WinForm.DialogueMode.None)
-                        {
-                            this.DocumentDoubleClicked();
-                        }
                     }
                     break;
                 case DialogueMode.Save:
@@ -779,21 +775,24 @@ namespace Vanilla.Utility.WinForm
         public void ShowDocument()
         {
             this.currentArtifact = this.ReadDocument(this.currentArtifact);
-            if (this.DialogueMode == DialogueMode.Search)
+            if (this.DialogueMode != DialogueMode.Search)
             {
-                return; //No need to show form
+                if (this.currentArtifact.Category == ArtfFac.Category.Report)
+                {
+                    this.ReportLoad(this.currentArtifact);
+                }
+                else
+                {
+                    this.FormLoad(this.currentArtifact);
+                }
+                if (this.DialogueMode == DialogueMode.Open)
+                {
+                    this.DocumentShown();
+                }
             }
-            if (this.currentArtifact.Category == ArtfFac.Category.Report)
+            if (this.DialogueMode != WinForm.DialogueMode.None)
             {
-                this.ReportLoad(this.currentArtifact);
-            }
-            else
-            {
-                this.FormLoad(this.currentArtifact);                
-            }
-            if (this.DialogueMode == DialogueMode.Open)
-            {
-                this.DocumentShown();
+                this.DocumentDoubleClicked();
             }
         }
 
@@ -2238,15 +2237,7 @@ namespace Vanilla.Utility.WinForm
             {
                 //Need to add parent
                 //this.currentArtifact.Parent = this.GetParent(this.currentArtifact);
-                switch (this.currentArtifact.Category)
-                {
-                    case ArtfFac.Category.Form:
-                        this.FormLoad(this.currentArtifact);
-                        break;
-                    case ArtfFac.Category.Report:
-                        this.ReportLoad(this.currentArtifact);
-                        break;
-                }
+                this.ShowDocument();
             }
             else
             {
