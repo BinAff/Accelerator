@@ -75,7 +75,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             };
             if (checkIn.Reservation != null)
             {
-                data.Reservation = new RoomReservation.ReservationServer(null).Convert(checkIn.Reservation) as CrystalLodge.Room.Reservation.Data;
+                data.Reservation = new RoomReservation.Server(null).Convert(checkIn.Reservation) as CrystalLodge.Room.Reservation.Data;
             }
             return data;
         }
@@ -85,9 +85,9 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             CrystalLodge.Room.CheckIn.Data checkIn = data as CrystalLodge.Room.CheckIn.Data;
 
             //convert reservation data using Reservation server
-            RoomReservation.Dto reservationDto = checkIn.Reservation == null ? null : new LodgeFacade.RoomReservation.ReservationServer(null).Convert(checkIn.Reservation) as RoomReservation.Dto;
+            RoomReservation.Dto reservationDto = checkIn.Reservation == null ? null : new LodgeFacade.RoomReservation.Server(null).Convert(checkIn.Reservation) as RoomReservation.Dto;
             if (reservationDto != null && reservationDto.Id > 0)
-                reservationDto.Customer = new LodgeFacade.RoomReservation.ReservationServer(null).GetCustomerDtoForReservation(reservationDto.Id);
+                reservationDto.Customer = new LodgeFacade.RoomReservation.Server(null).GetCustomerDtoForReservation(reservationDto.Id);
 
             return new Dto
             {
@@ -236,7 +236,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 Dto = dto.Reservation
             };
-            LodgeFacade.RoomReservation.ReservationServer roomReserver = new LodgeFacade.RoomReservation.ReservationServer(reservationFormDto);
+            LodgeFacade.RoomReservation.Server roomReserver = new LodgeFacade.RoomReservation.Server(reservationFormDto);
             //roomReserver.RegisterArtifactObserver();//Artifact is missing. Need to attach that in Document
             roomReserver.Change();
 
@@ -888,7 +888,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 Purpose = checkInDto.Purpose,
                 ArrivedFrom = checkInDto.ArrivedFrom,
                 Remark = checkInDto.Remark,
-                Reservation = checkInDto.Reservation == null ? null: new LodgeFacade.RoomReservation.ReservationServer(new RoomReservation.FormDto()).CloneReservaion(checkInDto.Reservation)
+                Reservation = checkInDto.Reservation == null ? null: new LodgeFacade.RoomReservation.Server(new RoomReservation.FormDto()).CloneReservaion(checkInDto.Reservation)
             };
         }
 
@@ -908,7 +908,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 FilteredRoomList = formDto.FilteredRoomList,
                 AllRoomList = formDto.AllRoomList
             };
-            reservFormDto = new LodgeFacade.RoomReservation.ReservationServer(reservFormDto).RemoveAllBookedRoom();
+            reservFormDto = new LodgeFacade.RoomReservation.Server(reservFormDto).RemoveAllBookedRoom();
             formDto.FilteredRoomList = reservFormDto.FilteredRoomList;
             formDto.AvailableRoomCount = reservFormDto.AvailableRoomCount;
         }
@@ -937,7 +937,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                     BookingFrom = dto.Reservation.BookingFrom,
                 }
             };
-            reservFormDto = new LodgeFacade.RoomReservation.ReservationServer(reservFormDto).PopulateRoomWithCriteria();
+            reservFormDto = new LodgeFacade.RoomReservation.Server(reservFormDto).PopulateRoomWithCriteria();
             formDto.RoomList = reservFormDto.RoomList;
             formDto.AvailableRoomCount = reservFormDto.AvailableRoomCount;
         }
@@ -957,7 +957,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 },
                 FilteredRoomList = formDto.FilteredRoomList
             };
-            return new LodgeFacade.RoomReservation.ReservationServer(reservFormDto).GetTotalNoRooms();
+            return new LodgeFacade.RoomReservation.Server(reservFormDto).GetTotalNoRooms();
         }
 
         public void RemoveRoomFromAllRoomList(LodgeConfigFac.Room.Dto room)
@@ -971,7 +971,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             formDto.SelectedRoomList.Add(room);            
 
             if (formDto.SelectedRoomList != null && formDto.SelectedRoomList.Count > 1)
-                formDto.SelectedRoomList = new LodgeFacade.RoomReservation.ReservationServer(null).SortRoomListByRoomNo(formDto.SelectedRoomList);
+                formDto.SelectedRoomList = new LodgeFacade.RoomReservation.Server(null).SortRoomListByRoomNo(formDto.SelectedRoomList);
         }
 
         public void AddRoomToAllRoomList(LodgeConfigFac.Room.Dto room)
@@ -984,7 +984,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 SelectedRoomList = formDto.SelectedRoomList,
                 RoomList = formDto.RoomList,               
             };
-            reservFormDto = new LodgeFacade.RoomReservation.ReservationServer(reservFormDto).AddRoomToAllRoomList(room);
+            reservFormDto = new LodgeFacade.RoomReservation.Server(reservFormDto).AddRoomToAllRoomList(room);
             formDto.SelectedRoomList = reservFormDto.SelectedRoomList;
             formDto.RoomList = reservFormDto.RoomList;           
         }

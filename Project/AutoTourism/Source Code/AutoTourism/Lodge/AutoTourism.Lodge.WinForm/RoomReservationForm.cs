@@ -51,7 +51,7 @@ namespace AutoTourism.Lodge.WinForm
                 Dto = new Fac.Dto()
             };
 
-            base.facade = new Fac.ReservationServer(this.formDto as Fac.FormDto);
+            base.facade = new Fac.Server(this.formDto as Fac.FormDto);
         }
               
         public RoomReservationForm(Fac.Dto dto)
@@ -103,7 +103,7 @@ namespace AutoTourism.Lodge.WinForm
               
                 base.RegisterArtifactObserver();
                 dto.BookingStatusId = BookingStatusId;
-                (this.facade as Fac.ReservationServer).ChangeReservationStatus();                    
+                (this.facade as Fac.Server).ChangeReservationStatus();                    
                   
                 base.IsModified = true;
                 base.RaiseAuditInfoChanged(this);
@@ -235,7 +235,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             FormWin.OpenDialog search = new FormWin.OpenDialog
             {
-                ModuleForFilter = (this.facade as Fac.ReservationServer).GetAncestorComponentCode(),
+                ModuleForFilter = (this.facade as Fac.Server).GetAncestorComponentCode(),
                 Mode = FormWin.OpenDialog.ActionMode.Search,
             };
             search.ShowDialog(this);
@@ -498,7 +498,7 @@ namespace AutoTourism.Lodge.WinForm
         
         protected override DocFac.Dto CloneDto(DocFac.Dto source)
         {
-            return (this.facade as Fac.ReservationServer).CloneReservaion(source as Fac.Dto);              
+            return (this.facade as Fac.Server).CloneReservaion(source as Fac.Dto);              
         }
 
         private void SetDefault()
@@ -549,7 +549,7 @@ namespace AutoTourism.Lodge.WinForm
             {
                 dto.NoOfDays = Convert.ToInt16(txtDays.Text);
 
-                (this.facade as Fac.ReservationServer).RemoveAllBookedRoom();
+                (this.facade as Fac.Server).RemoveAllBookedRoom();
                 this.FilterAndPopulateRoomList();
             }
         }
@@ -571,7 +571,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             if (lstRoomList.SelectedIndex != -1)
             {
-                (this.facade as Fac.ReservationServer).RemoveRoomFromAllRoomList((RoomFac.Dto)lstRoomList.SelectedItem);
+                (this.facade as Fac.Server).RemoveRoomFromAllRoomList((RoomFac.Dto)lstRoomList.SelectedItem);
                 this.PopulateRoomList();
             }
         }
@@ -580,7 +580,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             if (lstSelectedRoom.SelectedIndex != -1)
             {
-                (this.facade as Fac.ReservationServer).AddRoomToAllRoomList((RoomFac.Dto)lstSelectedRoom.SelectedItem);
+                (this.facade as Fac.Server).AddRoomToAllRoomList((RoomFac.Dto)lstSelectedRoom.SelectedItem);
                 this.PopulateRoomList();
             }
         }
@@ -594,12 +594,12 @@ namespace AutoTourism.Lodge.WinForm
             dto.RoomType = this.cboType.SelectedItem == null ? null : new Table { Id = (this.cboType.SelectedItem as RoomTypFac.Dto).Id };
             dto.ACPreference = this.cboAC.SelectedIndex;
 
-            (this.facade as Fac.ReservationServer).PopulateRoomWithCriteria();
+            (this.facade as Fac.Server).PopulateRoomWithCriteria();
             this.PopulateRoomList();
          
             if ((formDto.RoomList != null && formDto.RoomList.Count > 0) || (formDto.SelectedRoomList != null && formDto.SelectedRoomList.Count > 0))
             {
-                txtFilteredRoomCount.Text = (this.facade as Fac.ReservationServer).GetTotalNoRooms().ToString();
+                txtFilteredRoomCount.Text = (this.facade as Fac.Server).GetTotalNoRooms().ToString();
 
                 int FilteredRoomCount = 0;
                 if (!String.IsNullOrEmpty(txtFilteredRoomCount.Text))

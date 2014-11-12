@@ -47,7 +47,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
             
             foreach (Data data in reservationDataList.Value)
             {
-                Dto regDto = this.Convert(new RoomReservation.ReservationServer(null).Convert(data));
+                Dto regDto = this.Convert(new RoomReservation.Server(null).Convert(data));
                 
                 //Filter reservation :  avoid reservations without customer
                 if (regDto.Customer != null && !regDto.isCheckedIn)              
@@ -91,7 +91,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 
             AutoCustomer.ICustomer autoCustomer = new AutoCustomer.Server(null);
                       
-            reservationDto.Customer = new RoomReservation.ReservationServer(null).ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(reservation.Id));
+            reservationDto.Customer = new RoomReservation.Server(null).ConvertToCustomerDto(autoCustomer.GetCustomerForReservation(reservation.Id));
 
             reservationDto.ContactNumber = (reservationDto.Customer == null || reservationDto.Customer.ContactNumberList == null) ? String.Empty : this.GetCustomerContactNumber(reservationDto.Customer.ContactNumberList);
 
