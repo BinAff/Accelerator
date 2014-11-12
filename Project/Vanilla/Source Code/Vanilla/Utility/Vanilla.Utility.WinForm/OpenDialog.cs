@@ -9,10 +9,27 @@ using ArtfFac = Vanilla.Utility.Facade.Artifact;
 namespace Vanilla.Utility.WinForm
 {
 
-    public partial class Open : Dialog
+    public partial class OpenDialog : Dialog
     {
 
-        public Open()
+        private ActionMode mode;
+        public ActionMode Mode
+        {
+            get
+            {
+                return this.mode;
+            }
+            set
+            {
+                this.mode = value;
+                if (value == ActionMode.Search)
+                {
+                    base.Register.DialogueMode = DialogueMode.Search;
+                }
+            }
+        }
+
+        public OpenDialog()
             : base()
         {
             InitializeComponent();
@@ -67,7 +84,22 @@ namespace Vanilla.Utility.WinForm
 
         protected override void DoAction()
         {
-            this.Register.ShowDocument();
+            base.Document = this.Register.CurrentArtifact;
+            switch(this.Mode)
+            {
+                case OpenDialog.ActionMode.Open:
+                    this.Register.ShowDocument();
+                    break;
+                case ActionMode.Search:
+                    break;
+            }
+            base.IsActionDone = true;
+        }
+
+        public enum ActionMode
+        {
+            Search,
+            Open
         }
 
     }

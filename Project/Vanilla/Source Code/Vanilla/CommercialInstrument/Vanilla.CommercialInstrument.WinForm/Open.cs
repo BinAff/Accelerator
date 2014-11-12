@@ -9,7 +9,7 @@ using ArtfFac = Vanilla.Utility.Facade.Artifact;
 namespace Vanilla.CommercialInstrument.WinForm
 {
 
-    public partial class Open : UtilWin.Open
+    public partial class Open : UtilWin.OpenDialog
     {
 
         public Open()

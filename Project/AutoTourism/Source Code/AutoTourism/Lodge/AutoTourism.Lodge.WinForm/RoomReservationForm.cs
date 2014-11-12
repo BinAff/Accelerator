@@ -19,6 +19,7 @@ using RoomFac = AutoTourism.Lodge.Configuration.Facade.Room;
 using RoomCatFac = AutoTourism.Lodge.Configuration.Facade.Room.Category;
 using RoomTypFac = AutoTourism.Lodge.Configuration.Facade.Room.Type;
 using AccFac = Vanilla.Guardian.Facade.Account;
+using CacheFac = Vanilla.Utility.Facade;
 
 namespace AutoTourism.Lodge.WinForm
 {
@@ -51,20 +52,19 @@ namespace AutoTourism.Lodge.WinForm
             };
 
             base.facade = new Fac.ReservationServer(this.formDto as Fac.FormDto);
-            base.AncestorName = "Customer";
-            base.AttachmentName = "Advance Payment";
         }
               
         public RoomReservationForm(Fac.Dto dto)
         {
-            InitializeComponent();        
+            InitializeComponent();
         }
 
         #region Events
 
         private void RoomBookingForm_Load(object sender, System.EventArgs e)
         {
-            
+            base.AncestorName = "Customer";
+            base.AttachmentName = "Advance Payment";
         }
 
         private void btnAddRoom_Click(object sender, EventArgs e)
@@ -232,13 +232,16 @@ namespace AutoTourism.Lodge.WinForm
         //}
              
         protected override void PickAnsestor()
-        {           
-            Form form = new AutoTourism.Customer.WinForm.CustomerRegister();
-            form.ShowDialog(this);
-
-            if (form.Tag != null)
+        {
+            FormWin.OpenDialog search = new FormWin.OpenDialog
             {
-                this.PopulateCustomerData(form.Tag as CustFac.Dto);
+                ModuleForFilter = (this.facade as Fac.ReservationServer).GetAncestorComponentCode(),
+                Mode = FormWin.OpenDialog.ActionMode.Search,
+            };
+            search.ShowDialog(this);
+            if (search.IsActionDone)
+            {
+                this.PopulateCustomerData(search.Document.Module as CustFac.Dto);
             }
         }
 

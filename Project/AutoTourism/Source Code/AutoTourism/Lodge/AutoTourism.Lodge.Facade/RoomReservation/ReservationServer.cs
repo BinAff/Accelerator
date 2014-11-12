@@ -140,6 +140,18 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return "PAMT";
         }
 
+        public override Vanilla.Utility.Facade.Module.Definition.Dto GetAncestorComponentCode()
+        {
+            return (BinAff.Facade.Cache.Server.Current.Cache["Main"] as Vanilla.Utility.Facade.Cache.Dto).ComponentDefinitionList.FindLast((
+                    (p) => { return p.Code == new AutoTourism.Customer.Facade.Server(null).GetComponentCode(); }));
+        }
+
+        //protected override string GetAncestorComponentCode()
+        //{
+        //    //AutoTourism.Customer.Facade
+        //    return base.GetAncestorComponentCode();
+        //}
+
         #region Public
 
         public Int32 GetTotalNoRooms()

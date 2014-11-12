@@ -14,6 +14,7 @@ using DocFac = Vanilla.Utility.Facade.Document;
 using InvFac = Vanilla.Invoice.Facade;
 
 using FormWin = Vanilla.Form.WinForm;
+using InvWin = Vanilla.Invoice.WinForm;
 
 using RoomCatFac = AutoTourism.Lodge.Configuration.Facade.Room.Category;
 using RoomTypFac = AutoTourism.Lodge.Configuration.Facade.Room.Type;
@@ -47,6 +48,8 @@ namespace AutoTourism.Lodge.WinForm
 
         private void CheckInForm_Load(object sender, EventArgs e)
         {
+            base.AncestorName = "Room Reservation";
+            base.AttachmentName = "Advance Payment";
             base.AddToolStripSeparator();
             this.btnCheckOut = base.AddToolStripButton("R", "Wingdings 3", "Checkout");
             this.btnCheckOut.Click += btnCheckOut_Click;
@@ -206,11 +209,6 @@ namespace AutoTourism.Lodge.WinForm
 
         #endregion
 
-        void form_ArtifactSaved(UtilFac.Artifact.Dto document)
-        {
-            base.RaiseChildArtifactSaved(document);
-        }
-
         #region Protected
 
         protected override void Compose()
@@ -225,9 +223,6 @@ namespace AutoTourism.Lodge.WinForm
             };
 
             this.facade = new Fac.CheckInServer(this.formDto as Fac.FormDto);
-
-            base.AncestorName = "Room Reservation";
-            base.AttachmentName = "Advance Payment";
         }
 
         protected override DocFac.Dto CloneDto(DocFac.Dto source)
@@ -465,6 +460,21 @@ namespace AutoTourism.Lodge.WinForm
 
             //if (form.Tag != null)
             //    this.PopulateReservationData(form);
+
+
+            ArtfFac.Dto cutomerArtifact = new ArtfFac.Dto();
+            FormWin.Document form = new AutoTourism.Lodge.WinForm.CheckInForm(cutomerArtifact);
+            form.ArtifactSaved += form_ArtifactSaved;
+            form.ShowDialog(this);
+            if (form.Artifact != null && form.Artifact.Module != null)
+            {
+                this.PopulateReservationData(form.Artifact.Module as LodgeFac.RoomReservationRegister.Dto);
+            }
+        }
+
+        void form_ArtifactSaved(UtilFac.Artifact.Dto document)
+        {
+            base.RaiseChildArtifactSaved(document);
         }
       
         protected override void RefreshFormBefore()
@@ -508,6 +518,12 @@ namespace AutoTourism.Lodge.WinForm
             txtReservationRemarks.Text = String.Empty;
 
         }
+
+        protected override FormWin.Document GetAttachment()
+        {
+            return new InvWin.PaymentForm(new ArtfFac.Dto());
+        }
+
         #endregion
 
         #region Private

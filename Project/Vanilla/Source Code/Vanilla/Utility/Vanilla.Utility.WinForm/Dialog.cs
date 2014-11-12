@@ -28,7 +28,17 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        public ModDefFac.Dto ModuleForFilter { get; set; }
+        public ModDefFac.Dto ModuleForFilter
+        {
+            get
+            {
+                return this.Register.TreeFilter;
+            }
+            set
+            {
+                this.Register.TreeFilter = value;
+            }
+        }
 
         public ArtfFac.Dto Document { get; protected internal set; }
 
@@ -48,20 +58,18 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        public delegate void OnFolderSaved(ArtfFac.Dto document);
-        public event OnFolderSaved FolderSaved;
-
         public Dialog()
         {
             InitializeComponent();
         }
 
-        private void Open_Load(object sender, System.EventArgs e)
+        private void Dialog_Load(object sender, System.EventArgs e)
         {
             this.btnAction.Text = this.SetActionName();
             this.ucRegister.Category = this.Category;
             this.ucRegister.TreeFilter = this.ModuleForFilter;
             this.ucRegister.DocumentClicked += ucRegister_DocumentClicked;
+            this.ucRegister.DocumentDoubleClicked += ucRegister_DocumentDoubleClicked;
 
             this.cboExtension.DisplayMember = "Name";
         }
@@ -84,9 +92,10 @@ namespace Vanilla.Utility.WinForm
             this.txtDocName.Text = this.ucRegister.CurrentArtifact.FullFileName;
         }
 
-        private void ucRegister_FolderSaved(ArtfFac.Dto folder)
+        void ucRegister_DocumentDoubleClicked()
         {
-            this.FolderSaved(folder);
+            this.DoAction();
+            this.Close();
         }
 
         private void btnAction_Click(object sender, EventArgs e)

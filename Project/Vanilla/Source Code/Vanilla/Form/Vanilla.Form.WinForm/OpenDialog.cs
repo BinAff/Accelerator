@@ -9,10 +9,10 @@ using ArtfFac = Vanilla.Utility.Facade.Artifact;
 namespace Vanilla.Form.WinForm
 {
 
-    public partial class Open : UtilWin.Open
+    public partial class OpenDialog : UtilWin.OpenDialog
     {
 
-        public Open()
+        public OpenDialog()
         {
             InitializeComponent();
             base.Category = ArtfFac.Category.Form;
