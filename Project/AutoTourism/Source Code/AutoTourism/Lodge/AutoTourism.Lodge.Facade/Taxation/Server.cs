@@ -8,7 +8,7 @@ using TaxCrys = Crystal.Invoice.Component.Taxation;
 namespace AutoTourism.Lodge.Facade.Taxation
 {
 
-    public class TaxationServer : ITaxation
+    public class Server : ITaxation
     {
 
         List<Dto> ITaxation.ReadLodgeTaxation(Double value)
