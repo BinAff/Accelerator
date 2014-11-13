@@ -53,7 +53,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 BookingFrom = reservation.ActivityDate,
                 //Advance = reservation.Advance,                
                 BookingStatusId = reservation.Status == null ? 0 : reservation.Status.Id,
-                RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList),
+                //RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList),
+                RoomList = reservation.ProductList == null ? null : new RoomFac.Server(null).ConvertAll<Data, RoomFac.Dto>(reservation.ProductList),
                 RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
                 RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id },
                 //IsAC = reservation.IsAC,
@@ -411,20 +412,20 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return RoomDataList;
         }
 
-        private List<RoomFac.Dto> GetRoomDtoList(List<Data> RoomList)
-        {
-            List<RoomFac.Dto> RoomDtoList = new List<RoomFac.Dto>();
-            foreach (LodgeCrys.Room.Data data in RoomList)
-            {
-                RoomDtoList.Add(new RoomFac.Dto
-                {
-                    Id = data.Id,
-                    Number = data.Number,
-                    Name = data.Name
-                });
-            }
-            return RoomDtoList;
-        }
+        //private List<RoomFac.Dto> GetRoomDtoList(List<Data> RoomList)
+        //{
+        //    List<RoomFac.Dto> RoomDtoList = new List<RoomFac.Dto>();
+        //    foreach (LodgeCrys.Room.Data data in RoomList)
+        //    {
+        //        RoomDtoList.Add(new RoomFac.Dto
+        //        {
+        //            Id = data.Id,
+        //            Number = data.Number,
+        //            Name = data.Name
+        //        });
+        //    }
+        //    return RoomDtoList;
+        //}
 
         //public void SaveArtifactForReservation(Vanilla.Utility.Facade.Artifact.Dto artifactDto)
         //{
