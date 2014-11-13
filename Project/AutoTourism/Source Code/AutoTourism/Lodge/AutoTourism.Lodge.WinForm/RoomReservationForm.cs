@@ -29,18 +29,14 @@ namespace AutoTourism.Lodge.WinForm
 
         private RuleFac.ConfigurationRuleDto configRuleDto;
         private ToolStripButton btnCancel;
-
-        public enum Status
-        {
-            Open = 10001,
-            //Closed = 10002,
-            Canceled = 10003
-        }
         
         public RoomReservationForm(ArtfFac.Dto artifact)
             : base(artifact)
         {
             InitializeComponent();
+
+            base.AncestorName = "Customer";
+            base.AttachmentName = "Advance Payment";
         }
 
         protected override void Compose()
@@ -63,8 +59,12 @@ namespace AutoTourism.Lodge.WinForm
 
         private void RoomBookingForm_Load(object sender, System.EventArgs e)
         {
-            base.AncestorName = "Customer";
-            base.AttachmentName = "Advance Payment";
+            //disable the controls if the reservation is checked in or the reservation has been cancelled
+            Fac.Dto dto = this.InitialDto as Fac.Dto;
+            if ((dto.isCheckedIn) || (dto.BookingStatusId == Convert.ToInt64(Status.Canceled)))
+            {
+                this.DisableFormControls();
+            }
         }
 
         private void btnAddRoom_Click(object sender, EventArgs e)
@@ -271,11 +271,7 @@ namespace AutoTourism.Lodge.WinForm
         {           
             Fac.FormDto formDto = this.formDto as Fac.FormDto;              
             Fac.Dto dto = this.CloneDto(this.InitialDto) as Fac.Dto;
-
-            //disable the controls if the reservation is checked in or the reservation has been cancelled
-            if ((dto.isCheckedIn) || (dto.BookingStatusId == Convert.ToInt64(Status.Canceled)))
-                this.DisableFormControls();
-            
+                        
             if (dto.isCheckedIn)
                 txtStatus.Text = "Checked In";
             else if (dto.BookingStatusId == Convert.ToInt64(Status.Open))            
@@ -516,6 +512,7 @@ namespace AutoTourism.Lodge.WinForm
             base.DisableAddAncestorButton();
             base.DisableRefreshButton();
             base.DisableOkButton();
+            base.DisableAttachButton();
             this.btnCancel.Enabled = false;
             this.btnAddRoom.Enabled = false;
             this.btnRemoveRoom.Enabled = false;
@@ -640,6 +637,13 @@ namespace AutoTourism.Lodge.WinForm
                 this.lstSelectedRoom.ValueMember = "Id";
                 this.lstSelectedRoom.SelectedIndex = -1;
             }
+        }
+
+        public enum Status
+        {
+            Open = 10001,
+            //Closed = 10002,
+            Canceled = 10003
         }
        
     }
