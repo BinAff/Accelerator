@@ -150,6 +150,7 @@
             this.cboIdentityProofType.Location = new System.Drawing.Point(104, 263);
             this.cboIdentityProofType.Name = "cboIdentityProofType";
             this.cboIdentityProofType.Size = new System.Drawing.Size(168, 21);
+            this.cboIdentityProofType.Sorted = true;
             this.cboIdentityProofType.TabIndex = 16;
             // 
             // txtIdentityProofName
@@ -238,6 +239,7 @@
             this.cboState.Location = new System.Drawing.Point(278, 106);
             this.cboState.Name = "cboState";
             this.cboState.Size = new System.Drawing.Size(168, 21);
+            this.cboState.Sorted = true;
             this.cboState.TabIndex = 6;
             // 
             // label1
@@ -310,6 +312,7 @@
             this.cboNationList.Location = new System.Drawing.Point(277, 79);
             this.cboNationList.Name = "cboNationList";
             this.cboNationList.Size = new System.Drawing.Size(168, 21);
+            this.cboNationList.Sorted = true;
             this.cboNationList.TabIndex = 5;
             this.cboNationList.SelectedIndexChanged += new System.EventHandler(this.cboNationList_SelectedIndexChanged);
             // 
