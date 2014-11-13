@@ -77,7 +77,7 @@ namespace BinAff.Facade.Library
                     ret.Add(this.Convert(data));
                 }
             }
-            return ret.ConvertAll<T>((p) => { return (T)p; });
+            return ret.ConvertAll<T>((p) => { return p as T; });
         }
 
         /// <summary>
@@ -89,6 +89,36 @@ namespace BinAff.Facade.Library
         /// Convert business data from DTO
         /// </summary>
         public abstract Core.Data Convert(Dto dto);
+
+        /// <summary>
+        /// Convert list business data to list DTO
+        /// </summary>
+        public List<T2> ConvertAll<T1, T2>(List<T1> dataList)
+            where T1 : Core.Data
+            where T2 : Dto
+        {
+            List<T2> ret = new List<T2>();
+            foreach (T1 t in dataList)
+            {
+                ret.Add(this.Convert(t) as T2);
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Convert list dto to list business data
+        /// </summary>
+        public List<T1> ConvertAll<T1, T2>(List<T2> dtoList)
+            where T1 : Core.Data
+            where T2 : Dto
+        {
+            List<T1> ret = new List<T1>();
+            foreach (T2 t in dtoList)
+            {
+                ret.Add(this.Convert(t) as T1);
+            }
+            return ret;
+        }
 
         protected virtual ICrud AssignComponentServer(Data data)
         {
