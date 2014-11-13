@@ -44,9 +44,13 @@ namespace Vanilla.Form.Facade.Document
         private void Save()
         {
             ReturnObject<Boolean> ret = this.componentServer.Save();
-            (this.FormDto as FormDto).Dto.Id = (this.componentServer as Crud).Data.Id;
-            this.UpdateAuditInformation();
-            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+            this.IsError = ret.HasError();
+            if(!this.IsError)
+            {
+                (this.FormDto as FormDto).Dto.Id = (this.componentServer as Crud).Data.Id;
+                this.UpdateAuditInformation();
+            }
+            this.DisplayMessageList = ret.GetMessage((this.IsError) ? Message.Type.Error : Message.Type.Information);
         }
 
         public override void Delete()
@@ -142,7 +146,10 @@ namespace Vanilla.Form.Facade.Document
                     AccFac.Dto acc = new AccFac.Server(null).Convert(artf.CreatedBy) as AccFac.Dto;
                     if (document.AuditInfo.CreatedBy == null) document.AuditInfo.CreatedBy = new Table();
                     document.AuditInfo.CreatedBy.Id = acc.Id;
-                    document.AuditInfo.CreatedBy.Name = acc.Profile.Name;
+                    if (acc.Profile != null)
+                    {
+                        document.AuditInfo.CreatedBy.Name = acc.Profile.Name;
+                    }
                 }
                 if (artf.ModifiedBy != null)
                 {
@@ -150,7 +157,10 @@ namespace Vanilla.Form.Facade.Document
                     AccFac.Dto acc = new AccFac.Server(null).Convert(artf.ModifiedBy) as AccFac.Dto;
                     if (document.AuditInfo.ModifiedBy == null) document.AuditInfo.ModifiedBy = new Table();
                     document.AuditInfo.ModifiedBy.Id = acc.Id;
-                    document.AuditInfo.ModifiedBy.Name = acc.Profile.Name;
+                    if (acc.Profile != null)
+                    {
+                        document.AuditInfo.ModifiedBy.Name = acc.Profile.Name;
+                    }
                 }
             }
         }

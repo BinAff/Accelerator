@@ -140,7 +140,7 @@ namespace Vanilla.Form.WinForm
                     return;
                 }
             }
-            this.Close();
+            if(this.IsModified) this.Close();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
