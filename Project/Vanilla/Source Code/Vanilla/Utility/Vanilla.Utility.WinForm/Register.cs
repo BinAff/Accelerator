@@ -1640,7 +1640,8 @@ namespace Vanilla.Utility.WinForm
         private void LoadModules(String currentTab)
         {
             TreeView current = new TreeView();
-            TreeNode[] tree = this.DialogueMode == WinForm.DialogueMode.None ? new TreeNode[this.formDto.Dto.Modules.Count] //Navigator view
+            TreeNode[] tree = this.DialogueMode == WinForm.DialogueMode.None || this.DialogueMode == WinForm.DialogueMode.Open ?
+                new TreeNode[this.formDto.Dto.Modules.Count] //Navigator view
                 : new TreeNode[1]; //Dialogue box view
             Int16 i = 0;
             switch (currentTab)
@@ -1656,7 +1657,7 @@ namespace Vanilla.Utility.WinForm
             }
             foreach (ModFac.Dto module in this.formDto.Dto.Modules)
             {
-                if (this.DialogueMode != WinForm.DialogueMode.None && this.TreeFilter.Code != module.Code) continue;
+                if (this.DialogueMode != WinForm.DialogueMode.None && this.TreeFilter != null && this.TreeFilter.Code != module.Code) continue;
                 tree[i] = this.trvForm.CreateTreeNodes(module.Artifact);
                 tree[i++].Tag = module;
             }
