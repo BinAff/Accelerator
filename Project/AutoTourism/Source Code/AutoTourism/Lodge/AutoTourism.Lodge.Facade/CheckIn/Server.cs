@@ -19,7 +19,9 @@ using LodgeFacade = AutoTourism.Lodge.Facade;
 using CustAuto = AutoTourism.Component.Customer;
 using TarrifFac = AutoTourism.Lodge.Configuration.Facade.Tariff;
 using LodgeConfigFac = AutoTourism.Lodge.Configuration.Facade;
+using RoomFac = AutoTourism.Lodge.Configuration.Facade.Room;
 using RoomCatFac = AutoTourism.Lodge.Configuration.Facade.Room.Category;
+using RoomTypeFac = AutoTourism.Lodge.Configuration.Facade.Room.Type;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
@@ -36,20 +38,15 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public override void LoadForm()
         {
             FormDto formDto = this.FormDto as FormDto;
-            formDto.AllRoomList = this.ReadAllRoom().Value;
+            formDto.AllRoomList = new RoomFac.Server(null).ReadAll<RoomFac.Dto>();
             formDto.ConfigurationRuleDto = this.ReadConfigurationRule().Value;
             formDto.CategoryList = new RoomCatFac.Server(null).ReadAll<RoomCatFac.Dto>();
-            formDto.TypeList = new LodgeConfFac.Room.Server(null).ReadAllType().Value;           
+            formDto.TypeList = new RoomTypeFac.Server(null).ReadAll<RoomTypeFac.Dto>();
         }
 
         private ReturnObject<RuleFacade.ConfigurationRuleDto> ReadConfigurationRule()
         {
             return new RuleFacade.RuleServer().ReadConfigurationRule();
-        }
-        
-        private ReturnObject<List<LodgeConfFac.Room.Dto>> ReadAllRoom()
-        {
-            return new LodgeConfFac.Room.Server(null).ReadAllRoom();
         }
         
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)

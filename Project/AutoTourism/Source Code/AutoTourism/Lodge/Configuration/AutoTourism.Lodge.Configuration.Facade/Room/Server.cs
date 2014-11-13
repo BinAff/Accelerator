@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 
 using BinAff.Core;
-
-using FacadeBuilding = AutoTourism.Lodge.Configuration.Facade.Building;
-using ComponentRoom = Crystal.Lodge.Component.Room;
-using ComponentBuilding = Crystal.Lodge.Component.Building;
-using LodgeObserver = Crystal.Lodge.Observer;
 using BinAff.Core.Observer;
+
+using CrysComp = Crystal.Lodge.Component.Room;
+using BuildingCrys = Crystal.Lodge.Component.Building;
+using LodgeObserver = Crystal.Lodge.Observer;
+
+using BuildingFac = AutoTourism.Lodge.Configuration.Facade.Building;
 
 namespace AutoTourism.Lodge.Configuration.Facade.Room
 {
@@ -24,41 +25,45 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
         public override void LoadForm()
         {
             FormDto formDto = this.FormDto as FormDto;
-            formDto.RoomList = this.ReadAllRoom().Value;
+            formDto.RoomList = this.ReadAll<Dto>();
 
-            Building.FormDto buildingFormDto = new FacadeBuilding.FormDto();
-            Building.Server buildFacade = new FacadeBuilding.Server(buildingFormDto);
+            Building.FormDto buildingFormDto = new BuildingFac.FormDto();
+            Building.Server buildFacade = new BuildingFac.Server(buildingFormDto);
             buildFacade.LoadForm();
 
-            if (this.DisplayMessageList == null)
-                this.DisplayMessageList = new List<string>();
+            if (this.DisplayMessageList == null) this.DisplayMessageList = new List<string>();
 
             this.DisplayMessageList.AddRange(buildFacade.DisplayMessageList);
             formDto.BuildingList = buildingFormDto.DtoList;
 
             formDto.CategoryList = new Category.Server(null).ReadAll<Category.Dto>();
-            formDto.TypeList = this.ReadAllType().Value;
+            formDto.TypeList = new Type.Server(null).ReadAll<Type.Dto>();
         }
 
         public override void Add()
         {
-            ComponentRoom.Data data = this.Convert((this.FormDto as FormDto).Room) as ComponentRoom.Data;
-            ReturnObject<Boolean> ret = (new ComponentRoom.Server(data) as ICrud).Save();
+            CrysComp.Data data = this.Convert((this.FormDto as FormDto).Room) as CrysComp.Data;
+            ReturnObject<Boolean> ret = (new CrysComp.Server(data) as ICrud).Save();
 
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
         public override void Change()
         {
-            ComponentRoom.Data data = this.Convert((this.FormDto as FormDto).Room) as ComponentRoom.Data;
-            ReturnObject<Boolean> ret = (new ComponentRoom.Server(data) as ICrud).Save();
+            CrysComp.Data data = this.Convert((this.FormDto as FormDto).Room) as CrysComp.Data;
+            ReturnObject<Boolean> ret = (new CrysComp.Server(data) as ICrud).Save();
 
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
 
+        protected override ICrud AssignComponentServer(Data data)
+        {
+            return new CrysComp.Server(data as CrysComp.Data);
+        }
+
         public override BinAff.Facade.Library.Dto Convert(Data data)
         {
-            ComponentRoom.Data room = data as ComponentRoom.Data;
+            CrysComp.Data room = data as CrysComp.Data;
             return new Dto
             {
                 Id = data.Id,
@@ -83,22 +88,22 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
         public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Dto room = dto as Dto;
-            return new ComponentRoom.Data
+            return new CrysComp.Data
             {
                 Id = dto.Id,
                 Number = room.Number,
                 Name = room.Name,
                 Description = room.Description,
-                Building = room.Building == null ? null : new ComponentBuilding.Data() { Id = room.Building.Id },
-                Floor = new ComponentBuilding.Floor.Data
+                Building = room.Building == null ? null : new BuildingCrys.Data() { Id = room.Building.Id },
+                Floor = new BuildingCrys.Floor.Data
                 {
                     Id = room.Floor.Id,
                     Name = room.Floor.Name
                 },
-                Category = room.Category == null ? null : new ComponentRoom.Category.Data() { Id = room.Category.Id },
-                Type = room.Type == null ? null : new ComponentRoom.Type.Data() { Id = room.Type.Id },
+                Category = room.Category == null ? null : new CrysComp.Category.Data() { Id = room.Category.Id },
+                Type = room.Type == null ? null : new CrysComp.Type.Data() { Id = room.Type.Id },
                 IsAirConditioned = room.IsAirconditioned,
-                Status = new ComponentRoom.Status.Data
+                Status = new CrysComp.Status.Data
                 {
                     Id = room.StatusId
                 },
@@ -106,7 +111,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             };
         }
 
-        #region IBuildingType
+        #region IRoom
 
         ReturnObject<Boolean> IRoom.Delete(Dto dto)
         {
@@ -118,54 +123,22 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             return this.Open(dto);
         }
 
-        ReturnObject<Boolean> IRoom.Close(FacadeBuilding.ReasonDto dto)
+        ReturnObject<Boolean> IRoom.Close(BuildingFac.ReasonDto dto)
         {
             return this.Close(dto);
         }
 
-        //ReturnObject<Boolean> IRoom.CloseWithNoCheck(FacadeBuilding.ReasonDto dto)
+        //ReturnObject<Boolean> IRoom.CloseWithNoCheck(BuildingFac.ReasonDto dto)
         //{
         //    return this.CloseWithNoCheck(dto);
         //}
 
         #endregion
 
-        /// <summary>
-        /// Function below is made public, since this will be read from  AutoTourism.Lodge.Facade.RoomReservation
-        /// </summary>
-        /// <returns></returns>
-        public ReturnObject<List<Dto>> ReadAllRoom()
-        {
-            ReturnObject<List<Dto>> retObj = new ReturnObject<List<Dto>>();
-            ICrud crud = new ComponentRoom.Server(null);
-            ReturnObject<List<Data>> lstData = crud.ReadAll();
-
-            if (lstData.HasError())
-            {
-                return new BinAff.Core.ReturnObject<List<Dto>>
-                {
-                    MessageList = lstData.MessageList
-                };
-            }
-
-            ReturnObject<List<Dto>> ret = new ReturnObject<List<Dto>>()
-            {
-                Value = new List<Dto>(),
-            };
-
-            //Populate data in dto from business entity
-            foreach (BinAff.Core.Data data in lstData.Value)
-            {
-                ret.Value.Add(this.Convert(data) as Dto);
-            }
-
-            return ret;
-        }
-
         private List<Image.Dto> GetImageList(List<BinAff.Core.Data> imageList)
         {
             List<Image.Dto> imageDtoList = new List<Image.Dto>();
-            foreach (ComponentRoom.Image.Data data in imageList)
+            foreach (CrysComp.Image.Data data in imageList)
             {
                 imageDtoList.Add(new Image.Dto
                 {
@@ -186,42 +159,10 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             }
             return floorDtoList;
         }
-
-        public ReturnObject<List<Room.Type.Dto>> ReadAllType()
-        {
-            ReturnObject<List<Room.Type.Dto>> retObj = new ReturnObject<List<Room.Type.Dto>>();
-            ICrud crud = new ComponentRoom.Type.Server(null);
-            ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
-
-            if (lstData.HasError())
-            {
-                return new ReturnObject<List<Room.Type.Dto>>
-                {
-                    MessageList = lstData.MessageList
-                };
-            }
-
-            ReturnObject<List<Room.Type.Dto>> ret = new ReturnObject<List<Room.Type.Dto>>()
-            {
-                Value = new List<Room.Type.Dto>(),
-            };
-
-            //Populate data in dto from business entity
-            foreach (BinAff.Core.Data data in lstData.Value)
-            {
-                ret.Value.Add(new Room.Type.Dto
-                {
-                    Id = data.Id,
-                    Name = ((ComponentRoom.Type.Data)data).Name,
-                });
-            }
-
-            return ret;
-        }
                
         private ReturnObject<Boolean> DeleteRoom(Dto dto)
         {           
-            ComponentRoom.Server crud = new ComponentRoom.Server(new ComponentRoom.Data
+            CrysComp.Server crud = new CrysComp.Server(new CrysComp.Data
             {
                 Id = dto.Id
             });       
@@ -236,7 +177,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             List<BinAff.Core.Data> imageDataList = new List<BinAff.Core.Data>();
             foreach (Image.Dto data in imageList)
             {
-                imageDataList.Add(new ComponentRoom.Image.Data()
+                imageDataList.Add(new CrysComp.Image.Data()
                 {
                     Id = data.Id,
                     Image = data.Image,
@@ -246,20 +187,20 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             return imageDataList;
         }
 
-        private ReturnObject<Boolean> Close(FacadeBuilding.ReasonDto dto)
+        private ReturnObject<Boolean> Close(BuildingFac.ReasonDto dto)
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
 
-            ComponentRoom.Data data = new Crystal.Lodge.Component.Room.Data
+            CrysComp.Data data = new Crystal.Lodge.Component.Room.Data
             {
                 Id = dto.Id, //room id
                 ClosureReasonList = new List<BinAff.Core.Data>(),
-                Building = new ComponentBuilding.Data
+                Building = new BuildingCrys.Data
                 {
                     Id = dto.Building.Id
                 },
             };
-            data.ClosureReasonList.Add(new ComponentRoom.ClosureReason.Data
+            data.ClosureReasonList.Add(new CrysComp.ClosureReason.Data
             {
                 Reason = dto.Reason,
                 //UserId = dto.UserAccount.Id,
@@ -267,13 +208,13 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
 
             });
 
-            ComponentRoom.IRoom crud = new ComponentRoom.Server(data);
+            CrysComp.IRoom crud = new CrysComp.Server(data);
 
             //validate checkedin rooms.  Cannot close checkedin rooms
-            List<ComponentRoom.Data> checkInRoomList = crud.GetCheckedInRoomsForBuilding();
+            List<CrysComp.Data> checkInRoomList = crud.GetCheckedInRoomsForBuilding();
             if (checkInRoomList.Count > 0)
             {
-                foreach (ComponentRoom.Data checkInData in checkInRoomList)
+                foreach (CrysComp.Data checkInData in checkInRoomList)
                 {
                     if (checkInData.Id == dto.Id)
                     {
@@ -287,10 +228,10 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             }
 
             //validate booked rooms. Notify before closing booked rooms.
-            List<ComponentRoom.Data> reservedRoomList = crud.GetBookedRoomsForBuilding();
+            List<CrysComp.Data> reservedRoomList = crud.GetBookedRoomsForBuilding();
             if (reservedRoomList.Count > 0)
             {
-                foreach (ComponentRoom.Data checkInData in reservedRoomList)
+                foreach (CrysComp.Data checkInData in reservedRoomList)
                 {
                     if (checkInData.Id == dto.Id)
                     {
@@ -306,19 +247,19 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             return crud.Close();
         }
 
-        //private ReturnObject<Boolean> CloseWithNoCheck(FacadeBuilding.ReasonDto dto)
+        //private ReturnObject<Boolean> CloseWithNoCheck(BuildingFac.ReasonDto dto)
         //{
-        //    ComponentRoom.Data data = new ComponentRoom.Data()
+        //    CrysComp.Data data = new CrysComp.Data()
         //    {
         //        ClosureReasonList = new List<BinAff.Core.Data>(),                
         //    };
-        //    data.ClosureReasonList.Add(new ComponentRoom.ClosureReason.Data()
+        //    data.ClosureReasonList.Add(new CrysComp.ClosureReason.Data()
         //    {               
         //        Reason = dto.Reason,
         //        UserId = dto.UserAccount.Id,
         //    });
 
-        //    ComponentRoom.IRoom crud = new ComponentRoom.Server(data);
+        //    CrysComp.IRoom crud = new CrysComp.Server(data);
         //    return crud.Close();
         //}
 
@@ -326,11 +267,11 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
 
-            ICrud buildingCrud = new ComponentBuilding.Server(new ComponentBuilding.Data() { Id = dto.Building.Id });
+            ICrud buildingCrud = new BuildingCrys.Server(new BuildingCrys.Data() { Id = dto.Building.Id });
             ReturnObject<BinAff.Core.Data> buildingData = buildingCrud.Read();
 
             //Cannot open open for a building which is closed
-            if (((ComponentBuilding.Data)buildingData.Value).Status.Id == System.Convert.ToInt64(BuildingStatus.Close))
+            if (((BuildingCrys.Data)buildingData.Value).Status.Id == System.Convert.ToInt64(BuildingStatus.Close))
             {
                 ret.MessageList = new List<Message>
                         {
@@ -340,7 +281,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
                 return ret;
             }
 
-            ComponentRoom.IRoom crud = new ComponentRoom.Server(new ComponentRoom.Data()
+            CrysComp.IRoom crud = new CrysComp.Server(new CrysComp.Data()
             {
                 Id = dto.Id
             });
@@ -357,4 +298,3 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
     }
 
 }
-

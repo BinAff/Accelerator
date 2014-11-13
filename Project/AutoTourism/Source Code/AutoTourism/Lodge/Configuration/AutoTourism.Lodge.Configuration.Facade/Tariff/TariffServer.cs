@@ -22,7 +22,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
         {
             FormDto formDto = this.FormDto as FormDto;
             formDto.CategoryList = new Room.Category.Server(null).ReadAll<Room.Category.Dto>();
-            formDto.TypeList = new Room.Server(null).ReadAllType().Value;
+            formDto.TypeList = new Room.Type.Server(null).ReadAll<Room.Type.Dto>();
             formDto.TariffList = this.ReadAllCurrentTariff().Value;
         }
         

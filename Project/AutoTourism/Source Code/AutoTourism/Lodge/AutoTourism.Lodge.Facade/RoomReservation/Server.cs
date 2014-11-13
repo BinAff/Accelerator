@@ -31,9 +31,9 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         {
             FormDto formDto = this.FormDto as FormDto;
             formDto.ConfigurationRule = new RuleFac.RuleServer().ReadConfigurationRule().Value;
-            formDto.AllRoomList = new RoomFac.Server(null).ReadAllRoom().Value;
+            formDto.AllRoomList = new RoomFac.Server(null).ReadAll<RoomFac.Dto>();
             formDto.CategoryList = new RoomFac.Category.Server(null).ReadAll<RoomFac.Category.Dto>();
-            formDto.TypeList = new RoomFac.Server(null).ReadAllType().Value;
+            formDto.TypeList = new RoomFac.Type.Server(null).ReadAll<RoomFac.Type.Dto>();
 
             if (formDto.Dto != null && formDto.Dto.Id > 0)
             {
@@ -396,33 +396,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             CustAuto.ICustomer server = new CustAuto.Server(null);
             return new CustFac.Server(null).Convert(server.GetCustomerForReservation(reservationId)) as CustFac.Dto;
         }
-
-        //public CustFac.Dto ConvertToCustomerDto(Crystal.Customer.Component.Data customerData)
-        //{
-        //    if (customerData == null)
-        //        return null;
-
-        //    BinAff.Facade.Library.Dto dto = new CustFac.Server(null).Convert(customerData);
-        //    return dto as CustFac.Dto;
-        //}
-
-        //public List<CustCrys.ContactNumber.Data> ConvertToContactNumberData(List<Table> contactNumberList)
-        //{
-        //    List<CustCrys.ContactNumber.Data> lstContactNumber = new List<CustCrys.ContactNumber.Data>();
-        //    if (contactNumberList != null && contactNumberList.Count > 0)
-        //    {
-        //        foreach (Table table in contactNumberList)
-        //        {
-        //            lstContactNumber.Add(new CustCrys.ContactNumber.Data
-        //            {
-        //                Id = table.Id,
-        //                ContactNumber = table.Name
-        //            });
-        //        }
-        //    }
-
-        //    return lstContactNumber;
-        //}
 
         private List<Data> GetRoomDataList(List<RoomFac.Dto> RoomList)
         {

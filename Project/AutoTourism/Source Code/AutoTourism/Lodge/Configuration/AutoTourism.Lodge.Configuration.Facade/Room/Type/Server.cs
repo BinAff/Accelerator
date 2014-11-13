@@ -72,6 +72,11 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room.Type
             formDto.Dto = this.Convert(data) as Dto;
         }
 
+        protected override ICrud AssignComponentServer(Data data)
+        {
+            return new CrysComp.Server(data as CrysComp.Data) as ICrud;
+        }
+
         public override BinAff.Facade.Library.Dto Convert(Data data)
         {
             CrysComp.Data value = data as CrysComp.Data;
