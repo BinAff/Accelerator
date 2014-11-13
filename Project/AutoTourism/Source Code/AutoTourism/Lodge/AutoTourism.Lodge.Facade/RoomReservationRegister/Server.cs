@@ -11,6 +11,7 @@ using RoomRsvCrys = Crystal.Reservation.Component;
 using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
 using CustAuto = AutoTourism.Component.Customer;
+using CustFac = AutoTourism.Customer.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 {
@@ -90,8 +91,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
             };
 
             CustAuto.ICustomer CustAuto = new CustAuto.Server(null);
-                      
-            reservationDto.Customer = new RoomReservation.Server(null).ConvertToCustomerDto(CustAuto.GetCustomerForReservation(reservation.Id));
+
+            reservationDto.Customer = new CustFac.Server(null).Convert(CustAuto.GetCustomerForReservation(reservation.Id)) as CustFac.Dto;
 
             reservationDto.ContactNumber = (reservationDto.Customer == null || reservationDto.Customer.ContactNumberList == null) ? String.Empty : this.GetCustomerContactNumber(reservationDto.Customer.ContactNumberList);
 

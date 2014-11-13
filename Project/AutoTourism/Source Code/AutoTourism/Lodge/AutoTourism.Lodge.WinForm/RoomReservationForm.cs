@@ -41,9 +41,9 @@ namespace AutoTourism.Lodge.WinForm
 
         protected override void Compose()
         {
-            base.formDto = new Fac.FormDto 
+            base.formDto = new Fac.FormDto
             {
-                ModuleFormDto = new UtilFac.Module.FormDto(),
+                //ModuleFormDto = new UtilFac.Module.FormDto(),
                 Dto = new Fac.Dto()
             };
 
@@ -152,10 +152,12 @@ namespace AutoTourism.Lodge.WinForm
             base.facade.LoadForm();
 
             //customer data is getting read at load, so updating the initial dto for customer
-            if (Dto.Id > 0)        
+            if (Dto.Id > 0)
+            {
                 (this.InitialDto as Fac.Dto).Customer = Dto.Customer;
+            }
 
-            this.configRuleDto = formDto.configurationRuleDto;
+            this.configRuleDto = formDto.ConfigurationRule;
             if (this.configRuleDto.DateFormat != null)            
                 this.dtFrom.CustomFormat = this.configRuleDto.DateFormat;
             
@@ -553,15 +555,22 @@ namespace AutoTourism.Lodge.WinForm
 
         private void PopulateCustomerData(CustFac.Dto customerData)
         {
-            (formDto.Dto as Fac.Dto).Customer = customerData;
-            this.txtName.Text = customerData.Name;
+            if (customerData != null)
+            {
+                (formDto.Dto as Fac.Dto).Customer = customerData;
+                this.txtName.Text = customerData.Name;
 
-            this.lstContact.DataSource = customerData.ContactNumberList;
-            this.lstContact.DisplayMember = "Name";
-            this.lstContact.ValueMember = "Id";
-            this.lstContact.SelectedIndex = -1;
-            this.txtAdds.Text = customerData.Address;
-            this.txtEmail.Text = customerData.Email;
+                this.lstContact.DataSource = customerData.ContactNumberList;
+                this.lstContact.DisplayMember = "Name";
+                this.lstContact.ValueMember = "Id";
+                this.lstContact.SelectedIndex = -1;
+                this.txtAdds.Text = customerData.Address;
+                this.txtEmail.Text = customerData.Email;
+            }
+            else
+            {
+                MessageBox.Show("Customer data is empty. Please enter customer data first.", "Error");
+            }
         }
 
         private void AddRoom()

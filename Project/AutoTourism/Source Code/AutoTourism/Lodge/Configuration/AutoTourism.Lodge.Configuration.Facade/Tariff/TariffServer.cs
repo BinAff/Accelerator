@@ -20,8 +20,8 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
 
         public override void LoadForm()
         {
-            FormDto formDto = this.FormDto as FormDto;            
-            formDto.CategoryList = new Room.Server(null).ReadAllCategory().Value;
+            FormDto formDto = this.FormDto as FormDto;
+            formDto.CategoryList = new Room.Category.Server(null).ReadAll<Room.Category.Dto>();
             formDto.TypeList = new Room.Server(null).ReadAllType().Value;
             formDto.TariffList = this.ReadAllCurrentTariff().Value;
         }

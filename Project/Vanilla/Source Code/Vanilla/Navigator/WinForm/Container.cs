@@ -81,7 +81,7 @@ namespace Vanilla.Navigator.WinForm
                 Interval = 2000,
             };
             this.connectionTimer.Tick += connectionTimer_Tick;
-            this.connectionTimer.Start();
+            //this.connectionTimer.Start();
 
             //Hard code :: Need to remove
             this.reportCategoryList.Add(new Report.Facade.Category.Dto { Id = 10001, Extension = "drpt", Name = "Daily" });

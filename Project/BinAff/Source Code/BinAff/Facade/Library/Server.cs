@@ -63,6 +63,17 @@ namespace BinAff.Facade.Library
             throw new NotImplementedException("Read is not implemented in Facade");
         }
 
+        public virtual List<T> ReadAll<T>() where T : Dto
+        {
+            List<Dto> ret = this.ReadAllInternal();
+            return ret.ConvertAll<T>((p) => { return (T)p; });
+        }
+
+        protected virtual List<Dto> ReadAllInternal()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Convert business data to DTO
         /// </summary>

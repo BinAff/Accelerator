@@ -70,7 +70,7 @@ namespace Vanilla.Form.WinForm
 
         #region Events
 
-        private void Document_Shown(object sender, EventArgs e)
+        private void Document_Load(object sender, EventArgs e)
         {
             if (DesignMode) return;
             if (this.Artifact != null && this.Artifact.Id != 0)
