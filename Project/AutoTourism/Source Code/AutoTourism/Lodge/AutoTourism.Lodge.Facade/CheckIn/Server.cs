@@ -19,6 +19,7 @@ using LodgeFacade = AutoTourism.Lodge.Facade;
 using CustAuto = AutoTourism.Component.Customer;
 using TarrifFac = AutoTourism.Lodge.Configuration.Facade.Tariff;
 using LodgeConfigFac = AutoTourism.Lodge.Configuration.Facade;
+using RoomCatFac = AutoTourism.Lodge.Configuration.Facade.Room.Category;
 
 namespace AutoTourism.Lodge.Facade.CheckIn
 {
@@ -37,7 +38,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             FormDto formDto = this.FormDto as FormDto;
             formDto.AllRoomList = this.ReadAllRoom().Value;
             formDto.ConfigurationRuleDto = this.ReadConfigurationRule().Value;
-            formDto.CategoryList = new LodgeConfFac.Room.Server(null).ReadAllCategory().Value;
+            formDto.CategoryList = new RoomCatFac.Server(null).ReadAll<RoomCatFac.Dto>();
             formDto.TypeList = new LodgeConfFac.Room.Server(null).ReadAllType().Value;           
         }
 
@@ -80,7 +81,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             //convert reservation data using Reservation server
             RoomReservation.Dto reservationDto = checkIn.Reservation == null ? null : new LodgeFacade.RoomReservation.Server(null).Convert(checkIn.Reservation) as RoomReservation.Dto;
             if (reservationDto != null && reservationDto.Id > 0)
-                reservationDto.Customer = new LodgeFacade.RoomReservation.Server(null).GetCustomerDtoForReservation(reservationDto.Id);
+                reservationDto.Customer = new LodgeFacade.RoomReservation.Server(null).GetCustomer(reservationDto.Id);
 
             return new Dto
             {

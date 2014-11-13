@@ -36,7 +36,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             this.DisplayMessageList.AddRange(buildFacade.DisplayMessageList);
             formDto.BuildingList = buildingFormDto.DtoList;
 
-            formDto.CategoryList = this.ReadAllCategory().Value;
+            formDto.CategoryList = new Category.Server(null).ReadAll<Category.Dto>();
             formDto.TypeList = this.ReadAllType().Value;
         }
 
@@ -65,23 +65,14 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
                 Number = room.Number,
                 Name = room.Name,
                 Description = room.Description,
-                Building = new Building.Dto
-                {
-                    Id = room.Building.Id,
-                },
+                Building = new Building.Server(null).Convert(room.Building) as Building.Dto,
                 Floor = room.Floor == null ? null : new Table
                 {
                     Id = room.Floor.Id,
                     Name = room.Floor.Name
                 },
-                Category = new Room.Category.Dto
-                {
-                    Id = room.Category.Id,
-                },
-                Type = new Room.Type.Dto
-                {
-                    Id = room.Type.Id,
-                },
+                Category = new Room.Category.Server(null).Convert(room.Category) as Room.Category.Dto,
+                Type = new Room.Type.Server(null).Convert(room.Type) as Room.Type.Dto,
                 IsAirconditioned = room.IsAirConditioned,
                 ImageList = room.ImageList == null ? null : GetImageList(room.ImageList),
                 StatusId = room.Status.Id,
@@ -150,10 +141,12 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             ReturnObject<List<Data>> lstData = crud.ReadAll();
 
             if (lstData.HasError())
+            {
                 return new BinAff.Core.ReturnObject<List<Dto>>
                 {
                     MessageList = lstData.MessageList
                 };
+            }
 
             ReturnObject<List<Dto>> ret = new ReturnObject<List<Dto>>()
             {
@@ -163,36 +156,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             //Populate data in dto from business entity
             foreach (BinAff.Core.Data data in lstData.Value)
             {
-                ret.Value.Add(new Dto
-                {
-                    Id = data.Id,
-                    Number = ((ComponentRoom.Data)data).Number,
-                    Name = ((ComponentRoom.Data)data).Name,
-                    Description = ((ComponentRoom.Data)data).Description,
-                    Building = new Building.Dto()
-                    {
-                        Id = ((ComponentRoom.Data)data).Building.Id,
-                    },
-                    Floor = ((ComponentRoom.Data)data).Floor == null ? null : new Table()
-                    {
-                        Id = ((ComponentRoom.Data)data).Floor.Id,
-                        Name = ((ComponentRoom.Data)data).Floor.Name
-                    },
-                    Category = new Room.Category.Dto()
-                    {
-                        Id = ((ComponentRoom.Data)data).Category.Id,
-                        Name = ((ComponentRoom.Data)data).Category.Name
-                    },
-                    Type = new Room.Type.Dto()
-                    {
-                        Id = ((ComponentRoom.Data)data).Type.Id,
-                        Name = ((ComponentRoom.Data)data).Type.Name
-                    },
-                    IsAirconditioned = ((ComponentRoom.Data)data).IsAirConditioned,
-                    ImageList = ((ComponentRoom.Data)data).ImageList == null ? null : GetImageList(((ComponentRoom.Data)data).ImageList),
-                    StatusId = ((ComponentRoom.Data)data).Status.Id,
-                    //IsDormitory = ((Crystal.Lodge.Component.Room.Data)data).IsDormitory,
-                });
+                ret.Value.Add(this.Convert(data) as Dto);
             }
 
             return ret;
@@ -221,38 +185,6 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
                 floorDtoList.Add(data);
             }
             return floorDtoList;
-        }
-
-        public ReturnObject<List<Room.Category.Dto>> ReadAllCategory()
-        {
-            ReturnObject<List<Room.Category.Dto>> retObj = new ReturnObject<List<Room.Category.Dto>>();
-            ICrud crud = new ComponentRoom.Category.Server(null);
-            ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
-
-            if (lstData.HasError())
-            {
-                return new ReturnObject<List<Room.Category.Dto>>
-                {
-                    MessageList = lstData.MessageList
-                };
-            }
-
-            ReturnObject<List<Room.Category.Dto>> ret = new ReturnObject<List<Room.Category.Dto>>()
-            {
-                Value = new List<Room.Category.Dto>(),
-            };
-
-            //Populate data in dto from business entity
-            foreach (BinAff.Core.Data data in lstData.Value)
-            {
-                ret.Value.Add(new Room.Category.Dto
-                {
-                    Id = data.Id,
-                    Name = ((ComponentRoom.Category.Data)data).Name,
-                });
-            }
-
-            return ret;
         }
 
         public ReturnObject<List<Room.Type.Dto>> ReadAllType()

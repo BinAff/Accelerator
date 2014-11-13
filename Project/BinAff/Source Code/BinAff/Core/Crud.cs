@@ -718,15 +718,15 @@ namespace BinAff.Core
             {
                 Value = ((Dao)this.DataAccess).ReadAll()
             };
-            //foreach (BinAff.Core.Data data in retList.Value)
-            //{
-            //    ICrud crud = this.CreateInstance(data);
-            //    crud.Read();
-            //}
-            Parallel.ForEach<BinAff.Core.Data>(retList.Value, data =>
+            foreach (BinAff.Core.Data data in retList.Value)
             {
-                (this.CreateInstance(data) as ICrud).Read();
-            });
+                ICrud crud = this.CreateInstance(data);
+                crud.Read();
+            }
+            //Parallel.ForEach<BinAff.Core.Data>(retList.Value, data =>
+            //{
+            //    (this.CreateInstance(data) as ICrud).Read();
+            //});
 
             return retList;
         }

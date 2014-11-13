@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Transactions;
 
 using BinAff.Core;
+using BinAff.Core.Observer;
 using BinAff.Utility;
 
-using CrystalComponent = Crystal.Lodge.Component.Building;
-using ComponentRoom = Crystal.Lodge.Component.Room;
-using BinAff.Core.Observer;
+using BuildingCrys = Crystal.Lodge.Component.Building;
+using RoomCrys = Crystal.Lodge.Component.Room;
 
 namespace AutoTourism.Lodge.Configuration.Facade.Building
 {
@@ -42,14 +42,14 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
 
         public override void LoadForm()
         {
-            ReturnObject<List<BinAff.Core.Data>> dataList = (new CrystalComponent.Server(null) as ICrud).ReadAll();
+            ReturnObject<List<BinAff.Core.Data>> dataList = (new BuildingCrys.Server(null) as ICrud).ReadAll();
             this.DisplayMessageList = dataList.GetMessage((this.IsError = dataList.HasError()) ? Message.Type.Error : Message.Type.Information);
 
             //Populate data in dto from business entity
             FormDto formDto = this.FormDto as FormDto;
             formDto.DtoList = new List<Dto>();
 
-            foreach (CrystalComponent.Data data in dataList.Value)
+            foreach (BuildingCrys.Data data in dataList.Value)
             {
                 formDto.DtoList.Add(this.Convert(data) as Dto);
             }
@@ -77,7 +77,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
 
         public override BinAff.Facade.Library.Dto Convert(Data data)
         {
-            CrystalComponent.Data value = data as CrystalComponent.Data;
+            BuildingCrys.Data value = data as BuildingCrys.Data;
             return new Dto
             {
                 Id = data.Id,
@@ -103,17 +103,17 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
         public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Dto value = dto as Dto;
-            return new CrystalComponent.Data
+            return new BuildingCrys.Data
             {
                 Id = value.Id,
                 Name = value.Name,
                 FloorList = this.Convert(value.FloorList),
-                Type = new CrystalComponent.Type.Data
+                Type = new BuildingCrys.Type.Data
                 {
                     Id = value.Type.Id,
                     Name = value.Type.Name,
                 },
-                Status = new CrystalComponent.Status.Data { Id = value.Status.Id }
+                Status = new BuildingCrys.Status.Data { Id = value.Status.Id }
                 //DefaultFloor = value.DefaultFloor,
                 //IsDefault = value.IsDefault,
             };
@@ -121,7 +121,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
 
         private void Save()
         {
-            ICrud crud = new CrystalComponent.Server(this.Convert((this.FormDto as FormDto).Dto) as CrystalComponent.Data);
+            ICrud crud = new BuildingCrys.Server(this.Convert((this.FormDto as FormDto).Dto) as BuildingCrys.Data);
             ReturnObject<Boolean> ret = crud.Save();
 
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
@@ -134,7 +134,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
             {
                 foreach (Table i in tableList)
                 {
-                    FloorListData.Add(new CrystalComponent.Floor.Data
+                    FloorListData.Add(new BuildingCrys.Floor.Data
                     {
                         Name = i.Name
                     });
@@ -150,10 +150,10 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
             {
                 foreach (BinAff.Core.Data data in floorList)
                 {
-                    CrystalComponent.Floor.Data floorData = (CrystalComponent.Floor.Data)data;
+                    BuildingCrys.Floor.Data floorData = (BuildingCrys.Floor.Data)data;
                     if (ValidationRule.IsInteger(floorData.Name))
                     {
-                        FloorListDto.Add(new Table()
+                        FloorListDto.Add(new Table
                         {
                             Id = floorData.Id,
                             Name = floorData.Name
@@ -166,7 +166,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
 
         public override void Delete()
         {
-            CrystalComponent.Server crud = new CrystalComponent.Server(new CrystalComponent.Data
+            BuildingCrys.Server crud = new BuildingCrys.Server(new BuildingCrys.Data
             {
                 Id = (this.FormDto as FormDto).Dto.Id
             });
@@ -181,11 +181,11 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
 
             #region Commented by Arpan... Not sure what is happening here
-            //CrystalComponent.Data data = new CrystalComponent.Data
+            //BuildingCrys.Data data = new BuildingCrys.Data
             //{
             //    ClosureReasonList = new List<Data>()                
             //};
-            //data.ClosureReasonList.Add(new CrystalComponent.ClosureReason.Data
+            //data.ClosureReasonList.Add(new BuildingCrys.ClosureReason.Data
             //{
             //    Reason = reason.Reason,               
             //    //UserId = dto.UserAccount.Id,
@@ -212,14 +212,14 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
         private ReturnObject<Boolean> CheckForCheckIn(ReasonDto reason)
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
-            ComponentRoom.IRoom roomServer = new ComponentRoom.Server(new Crystal.Lodge.Component.Room.Data
+            RoomCrys.IRoom roomServer = new RoomCrys.Server(new Crystal.Lodge.Component.Room.Data
             {
-                Building = new CrystalComponent.Data
+                Building = new BuildingCrys.Data
                 {
                     Id = reason.Building.Id,
                 }
             });
-            List<ComponentRoom.Data> checkInRoomList = roomServer.GetCheckedInRoomsForBuilding();
+            List<RoomCrys.Data> checkInRoomList = roomServer.GetCheckedInRoomsForBuilding();
             Int32 count = checkInRoomList.Count;
             if (count > 0)
             {
@@ -244,14 +244,14 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
             //validate booked rooms. Notify before closing booked rooms.
-            ComponentRoom.IRoom roomServer = new ComponentRoom.Server(new Crystal.Lodge.Component.Room.Data
+            RoomCrys.IRoom roomServer = new RoomCrys.Server(new Crystal.Lodge.Component.Room.Data
             {
-                Building = new CrystalComponent.Data
+                Building = new BuildingCrys.Data
                 {
                     Id = reason.Building.Id,
                 }
             });
-            List<ComponentRoom.Data> reservedRoomList = roomServer.GetBookedRoomsForBuilding();
+            List<RoomCrys.Data> reservedRoomList = roomServer.GetBookedRoomsForBuilding();
             Int32 count = reservedRoomList.Count;
             if (count > 0)
             {
@@ -280,24 +280,24 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
             {
                 //----------
                 //-- Close Room
-                ComponentRoom.IRoom roomServer = new ComponentRoom.Server(new Crystal.Lodge.Component.Room.Data()
+                RoomCrys.IRoom roomServer = new RoomCrys.Server(new Crystal.Lodge.Component.Room.Data()
                 {
-                    Building = new CrystalComponent.Data
+                    Building = new BuildingCrys.Data
                     {
                         Id = reason.Building.Id,
                     }
                 });
-                List<ComponentRoom.Data> checkInRoomList = roomServer.GetOpenRoomsForBuilding();
+                List<RoomCrys.Data> checkInRoomList = roomServer.GetOpenRoomsForBuilding();
                 Int32 count = checkInRoomList.Count;
                 if (count > 0)
                 {
-                    foreach (ComponentRoom.Data roomData in checkInRoomList)
+                    foreach (RoomCrys.Data roomData in checkInRoomList)
                     {
-                        ComponentRoom.Data roomServerData = new ComponentRoom.Data()
+                        RoomCrys.Data roomServerData = new RoomCrys.Data()
                         {
                             ClosureReasonList = new List<Data>()                            
                         };
-                        roomServerData.ClosureReasonList.Add(new ComponentRoom.ClosureReason.Data()
+                        roomServerData.ClosureReasonList.Add(new RoomCrys.ClosureReason.Data()
                         {                           
                             Id = roomData.Id,
                             BuildingId = reason.Id,
@@ -305,25 +305,25 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
                             UserId = reason.UserAccount.Id,
                         });
 
-                        ComponentRoom.IRoom crud = new ComponentRoom.Server(roomServerData);
+                        RoomCrys.IRoom crud = new RoomCrys.Server(roomServerData);
                         ret = crud.Close();
                         if (!ret.Value || ret.HasError()) return ret;
                     }
                 }
                 //--------------
                 //-- Close building
-                CrystalComponent.Data data = new CrystalComponent.Data
+                BuildingCrys.Data data = new BuildingCrys.Data
                 {
                     ClosureReasonList = new List<Data>(),
                     Id = reason.Building.Id
                 };
-                data.ClosureReasonList.Add(new CrystalComponent.ClosureReason.Data
+                data.ClosureReasonList.Add(new BuildingCrys.ClosureReason.Data
                 {
                     Reason = reason.Reason,                   
                     //UserId = dto.UserAccount.Id,
                 });
 
-                CrystalComponent.IBuilding buildingCrud = new CrystalComponent.Server(data);
+                BuildingCrys.IBuilding buildingCrud = new BuildingCrys.Server(data);
                 ret = buildingCrud.Close();
                 if (!ret.Value || ret.HasError()) return ret;
 
@@ -342,7 +342,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
         private void Open()
         {
             //open the closed building
-            CrystalComponent.IBuilding crud = new CrystalComponent.Server(new CrystalComponent.Data
+            BuildingCrys.IBuilding crud = new BuildingCrys.Server(new BuildingCrys.Data
             {
                 Id = (this.FormDto as FormDto).Dto.Id
             });
