@@ -11,7 +11,7 @@ namespace AutoTourism.Utility.Facade.Cache
 
         public Boolean Cache()
         {
-            BinAff.Facade.Cache.Server.Current.Cache["Autotourism"] = new Dto
+            BinAff.Facade.Cache.Server.Current.Cache["AutoTourism"] = new Dto
             {
                 RoomList = new RoomFac.Server(null).ReadAll<RoomFac.Dto>(),
             };
@@ -20,7 +20,7 @@ namespace AutoTourism.Utility.Facade.Cache
 
         public Boolean Refresh()
         {
-            Dto cache = BinAff.Facade.Cache.Server.Current.Cache["Autotourism"] as Dto;
+            Dto cache = BinAff.Facade.Cache.Server.Current.Cache["AutoTourism"] as Dto;
             cache.RoomList = new RoomFac.Server(null).ReadAll<RoomFac.Dto>();
             return true;
         }
