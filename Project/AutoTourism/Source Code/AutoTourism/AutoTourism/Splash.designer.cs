@@ -1,4 +1,4 @@
-﻿namespace AutoTourism.Presentation.Guardian
+﻿namespace AutoTourism
 {
     partial class Splash
     {

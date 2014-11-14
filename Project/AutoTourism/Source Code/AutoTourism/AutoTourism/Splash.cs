@@ -2,10 +2,10 @@
 using System.Windows.Forms;
 using System.Threading;
 using System.Configuration;
+using System.IO;
+using System.Collections.Generic;;
 
-//using AutoTourism.Presentation.Cache;
-
-namespace AutoTourism.Presentation.Guardian
+namespace AutoTourism
 {
 
     public partial class Splash : Form
@@ -36,21 +36,52 @@ namespace AutoTourism.Presentation.Guardian
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            //Thread loadRule = new Thread(new ThreadStart(
-            //    delegate()
-            //    {
-            //        //GlobalData.ReadVariables();
-            //    })
-            //);
-            //loadRule.Start();
+            this.CreateFoldersAndFiles();
+            this.LoadAutoCache();
 
-            //if (TimerCount++ == 10)
-            //{
-            //    while (loadRule.ThreadState == ThreadState.Stopped) 
-            //        loadRule.Abort();
-            //    this.Splash_Click(sender, e);
-            //}
+            new Vanilla.Navigator.Facade.Splash.Server(null).LoadForm();
+            Thread t = new Thread(delegate()
+            {
+                Application.Run(Vanilla.Navigator.WinForm.Container.CreateInstance());
+            });
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
 
+            this.Close();
+        }
+
+        private void CreateFoldersAndFiles()
+        {
+            if (!Directory.Exists(Application.StartupPath + @"\Files"))
+            {
+                Directory.CreateDirectory(Application.StartupPath + @"\Files");                
+            }
+            if (!File.Exists(Application.StartupPath + @"\Files\Recent.xml"))
+            {
+                //File.Create(Application.StartupPath + @"\Files\Recent.xml");
+                File.WriteAllLines(Application.StartupPath + @"\Files\Recent.xml", new List<String>
+                    {
+                        "<Recent>",
+                        "   <Report>",
+                        "   </Report>",
+                        "   <Form>",
+                        "   </Form>",
+                        "/<Recent>",
+                    });
+            }
+            if (!Directory.Exists(Application.StartupPath + @"\Sticky"))
+            {
+                Directory.CreateDirectory(Application.StartupPath + @"\Sticky");
+            }
+            if (!Directory.Exists(Application.StartupPath + @"\Report"))
+            {
+                Directory.CreateDirectory(Application.StartupPath + @"\Report");
+            }
+        }
+
+        private void LoadAutoCache()
+        {
+            new AutoTourism.Utility.Facade.Cache.Server().Cache();
         }
 
         private void lnkWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

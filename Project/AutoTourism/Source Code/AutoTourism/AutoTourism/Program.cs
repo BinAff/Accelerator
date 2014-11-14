@@ -23,7 +23,7 @@ namespace AutoTourism
 
                 //DateTimeHandler dateTimeManipulationHandler = new DateTimeHandler();
                 //dateTimeManipulationHandler.SystemDateChanged += handler_SystemDateChanged;
-                //if (!dateTimeManipulationHandler.Start("Splash"))
+                //if (!dateTimeManipulationHandler.Start("Navigator"))
                 //{
                 //    Quit("System date got changed after application is shutdown last time. Restore the date to continue.");
                 //    return;
@@ -36,7 +36,8 @@ namespace AutoTourism
                 //    ConfigurationManager.AppSettings["StartUpClass"] + ", " +
                 //    ConfigurationManager.AppSettings["StartUpAssembly"], true);
                 //currentForm = (Form)Activator.CreateInstance(type);
-                currentForm = Vanilla.Navigator.WinForm.Container.CreateInstance();
+                //currentForm = Vanilla.Navigator.WinForm.Container.CreateInstance();
+                currentForm = new AutoTourism.Splash();
                 Application.Run(currentForm);
             }
             catch (System.Data.SqlClient.SqlException ex)
@@ -63,7 +64,7 @@ namespace AutoTourism
         private static void Quit(String message)
         {
             FormCollection formCollection = Application.OpenForms;
-            foreach (Form frm in formCollection)
+            foreach (System.Windows.Forms.Form frm in formCollection)
             {
                 frm.BeginInvoke(new Action(() => { frm.Enabled = false; }));
             }
