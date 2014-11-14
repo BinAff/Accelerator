@@ -106,7 +106,7 @@ namespace AutoTourism.Lodge.WinForm
                 (this.facade as Fac.Server).ChangeReservationStatus();                    
                   
                 base.IsModified = true;
-                base.RaiseAuditInfoChanged(this);
+                base.RaiseAuditInfoChanged(this.Artifact);
                 this.Close();
                
             }

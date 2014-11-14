@@ -183,25 +183,25 @@ namespace Vanilla.Utility.WinForm
             return this.lsvContainer.IsExist(name);
         }
 
-        public void AttachDocument(ArtfFac.Dto document)
+        public void AttachDocument(ArtfFac.Dto artifact)
         {
-            ArtfFac.Dto parentArtifact = this.GetParent(document);
+            ArtfFac.Dto parentArtifact = this.GetParent(artifact);
             TreeView currrentTreeView = this.GetActiveTreeView();
             TreeNode parentNode = currrentTreeView.FindNode(parentArtifact);
-            if (document.Style == ArtfFac.Type.Folder)
+            if (artifact.Style == ArtfFac.Type.Folder)
             {
                 parentNode.Nodes.Add(new TreeNode
                 {
-                    Tag = document,
-                    Text = document.FileName,
+                    Tag = artifact,
+                    Text = artifact.FileName,
                 });
             }
             ArtfFac.Dto parentArtf = this.GetArtifact(parentNode.Tag);
             if(parentArtf.Children == null) parentArtf.Children = new List<ArtfFac.Dto>();
-            parentArtf.Children.Add(document);
+            parentArtf.Children.Add(artifact);
             if (currrentTreeView.SelectedNode == parentNode)
             {
-                this.lsvContainer.AttachChild(document);
+                this.lsvContainer.AttachChild(artifact);
             }
         }
 
@@ -2060,37 +2060,36 @@ namespace Vanilla.Utility.WinForm
             child.Path += pathOfParent;
         }
 
-        public void ChangeForFormChange(Document document)
+        public void ChangeForFormChange(ArtfFac.Dto artifact)
         {
-            ArtfFac.Dto parent = this.GetParent(document.Artifact);
+            ArtfFac.Dto parent = this.GetParent(artifact);
             if (parent == null) return;
             TreeNode affectedParentFolder = this.trvForm.FindNode(parent);
-            this.UpdateForDocumentChange(affectedParentFolder, document);
+            this.UpdateForDocumentChange(affectedParentFolder, artifact);
         }
 
-        public void ChangeForReportChange(Document document)
+        public void ChangeForReportChange(ArtfFac.Dto artifact)
         {
-            TreeNode affectedParentFolder = this.trvReport.FindNode(this.GetParent(document.Artifact));
-            this.UpdateForDocumentChange(affectedParentFolder, document);
+            TreeNode affectedParentFolder = this.trvReport.FindNode(this.GetParent(artifact));
+            this.UpdateForDocumentChange(affectedParentFolder, artifact);
         }
 
-        private void UpdateForDocumentChange(TreeNode affectedParentFolder, Document document)
+        private void UpdateForDocumentChange(TreeNode affectedParentFolder, ArtfFac.Dto artifact)
         {
             ArtfFac.Dto affectedArtifact = GetArtifact(affectedParentFolder.Tag).Children.FindLast((p) =>
             {
-                return p.Id == document.Artifact.Id;
+                return p.Id == artifact.Id;
             });
-            affectedArtifact.AuditInfo.Version = document.Artifact.AuditInfo.Version;
-            affectedArtifact.AuditInfo.CreatedAt = document.Artifact.AuditInfo.CreatedAt;
-            affectedArtifact.AuditInfo.CreatedBy = document.Artifact.AuditInfo.CreatedBy;
-            affectedArtifact.AuditInfo.ModifiedAt = document.Artifact.AuditInfo.ModifiedAt;
-            affectedArtifact.AuditInfo.ModifiedBy = document.Artifact.AuditInfo.ModifiedBy;
+            affectedArtifact.AuditInfo.Version = artifact.AuditInfo.Version;
+            affectedArtifact.AuditInfo.CreatedAt = artifact.AuditInfo.CreatedAt;
+            affectedArtifact.AuditInfo.CreatedBy = artifact.AuditInfo.CreatedBy;
+            affectedArtifact.AuditInfo.ModifiedAt = artifact.AuditInfo.ModifiedAt;
+            affectedArtifact.AuditInfo.ModifiedBy = artifact.AuditInfo.ModifiedBy;
 
             if (this.trvForm.SelectedNode == affectedParentFolder)
             {
-                ListViewItem affectedNode = this.lsvContainer.FindNode(document.Artifact);
-                affectedNode.ChangeListViewSubItems(document.Artifact);
-                //if (this.lsvContainer.SelectedItems[0] == affectedNode)
+                ListViewItem affectedNode = this.lsvContainer.FindNode(artifact);
+                affectedNode.ChangeListViewSubItems(artifact);
                 if (this.lsvContainer.FocusedItem == affectedNode)
                 {
                     this.ArtifactClicked();

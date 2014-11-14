@@ -15,14 +15,14 @@ namespace Vanilla.Utility.WinForm
         protected Facade.Document.FormDto formDto;
         protected Facade.Document.Server facade;
 
-        public delegate void OnAuditInfoChanged(Document document);
+        public delegate void OnAuditInfoChanged(ArtfFac.Dto artifact);
         public event OnAuditInfoChanged AuditInfoChanged;
-        protected virtual void RaiseAuditInfoChanged(Document document)
+        protected virtual void RaiseAuditInfoChanged(ArtfFac.Dto artifact)
         {
             OnAuditInfoChanged currentEvent = this.AuditInfoChanged;
             if (currentEvent != null)
             {
-                currentEvent(document);
+                currentEvent(artifact);
             }
         }
 
@@ -162,7 +162,7 @@ namespace Vanilla.Utility.WinForm
 
         private void Document_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
         {            
-            if (this.AuditInfoChanged != null && this.IsModified) this.AuditInfoChanged(this);
+            if (this.AuditInfoChanged != null && this.IsModified) this.AuditInfoChanged(this.Artifact);
         }
 
         protected virtual void Compose()
