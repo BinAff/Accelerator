@@ -67,7 +67,7 @@ namespace Vanilla.Utility.WinForm
             doc.Show();
         }
 
-        private void doc_AuditInfoChanged(Document document)
+        private void doc_AuditInfoChanged(ArtfFac.Dto artifact)
         {
 
         }

@@ -7,12 +7,13 @@ using BinAff.Facade.Cache;
 using PresLib = BinAff.Presentation.Library;
 
 using Vanilla.Tool.WinForm;
+using Vanilla.Utility.WinForm;
 using VanAcc = Vanilla.Guardian.Facade.Account;
 using UtilFac = Vanilla.Utility.Facade;
 using RptFac = Vanilla.Report.Facade;
 using RptWin = Vanilla.Report.WinForm;
 using FrmWin = Vanilla.Form.WinForm;
-using Vanilla.Utility.WinForm;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
 
 namespace Vanilla.Navigator.WinForm
 {
@@ -132,9 +133,9 @@ namespace Vanilla.Navigator.WinForm
             report.Show();
         }
 
-        private void report_AuditInfoChanged(Utility.WinForm.Document document)
+        private void report_AuditInfoChanged(ArtfFac.Dto artifact)
         {
-            this.ucRegister.ChangeForReportChange(document);
+            this.ucRegister.ChangeForReportChange(artifact);
         }
 
         private void ucRegister_ReportCategoryGet(UtilFac.Artifact.Dto currentArtifact, string categoryName)
@@ -160,14 +161,14 @@ namespace Vanilla.Navigator.WinForm
             form.Show();
         }
 
-        void form_ChildArtifactSaved(UtilFac.Artifact.Dto document)
+        void form_ChildArtifactSaved(ArtfFac.Dto artifact)
         {
-            this.ucRegister.AttachDocument(document);
+            this.ucRegister.AttachDocument(artifact);
         }
 
-        private void form_AuditInfoChanged(Utility.WinForm.Document document)
+        private void form_AuditInfoChanged(ArtfFac.Dto artifact)
         {
-            this.ucRegister.ChangeForFormChange(document);
+            this.ucRegister.ChangeForFormChange(artifact);
         }
 
         void form_AttachmentArtifactLoaded(Document document)
