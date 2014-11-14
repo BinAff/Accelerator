@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Configuration;
 using System.IO;
-using System.Collections.Generic;;
+using System.Collections.Generic;
 
 namespace AutoTourism
 {
