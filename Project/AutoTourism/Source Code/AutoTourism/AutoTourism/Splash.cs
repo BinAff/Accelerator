@@ -66,7 +66,7 @@ namespace AutoTourism
                         "   </Report>",
                         "   <Form>",
                         "   </Form>",
-                        "/<Recent>",
+                        "</Recent>",
                     });
             }
             if (!Directory.Exists(Application.StartupPath + @"\Sticky"))
