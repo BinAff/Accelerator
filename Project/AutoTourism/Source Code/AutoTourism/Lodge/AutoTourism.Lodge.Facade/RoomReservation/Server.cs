@@ -29,11 +29,12 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         public override void LoadForm()
         {
+            AutoTourism.Utility.Facade.Cache.Dto cache = BinAff.Facade.Cache.Server.Current.Cache["AutoTourism"] as AutoTourism.Utility.Facade.Cache.Dto;
             FormDto formDto = this.FormDto as FormDto;
             formDto.ConfigurationRule = new RuleFac.RuleServer().ReadConfigurationRule().Value;
-            formDto.AllRoomList = new RoomFac.Server(null).ReadAll<RoomFac.Dto>();
-            formDto.CategoryList = new RoomFac.Category.Server(null).ReadAll<RoomFac.Category.Dto>();
-            formDto.TypeList = new RoomFac.Type.Server(null).ReadAll<RoomFac.Type.Dto>();
+            formDto.AllRoomList = cache.RoomList;
+            formDto.CategoryList = cache.RoomCategoryList;
+            formDto.TypeList = cache.RoomTypeList;
 
             if (formDto.Dto != null && formDto.Dto.Id > 0)
             {
