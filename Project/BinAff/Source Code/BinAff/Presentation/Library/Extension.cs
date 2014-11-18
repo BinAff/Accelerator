@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace BinAff.Presentation.Library.Extension
@@ -17,6 +18,20 @@ namespace BinAff.Presentation.Library.Extension
                     control.Items.Add(t);
                 }
             }
+        }
+
+        public static void Bind<T>(this ListBox control, List<T> list, String displayMember)
+        {
+            control.Items.Clear();
+            if (list != null)
+            {
+                foreach (T t in list)
+                {
+                    control.Items.Add(t);
+                }
+            }
+            control.DisplayMember = displayMember;
+            control.SelectedIndex = -1;
         }
 
         public static List<T> DataSource<T>(this ListBox control)
@@ -44,6 +59,20 @@ namespace BinAff.Presentation.Library.Extension
                     control.Items.Add(t);
                 }
             }
+        }
+
+        public static void Bind<T>(this ComboBox control, List<T> list, String displayMember)
+        {
+            control.Items.Clear();
+            if (list != null)
+            {
+                foreach (T t in list)
+                {
+                    control.Items.Add(t);
+                }
+            }
+            control.DisplayMember = displayMember;
+            control.SelectedIndex = -1;
         }
 
         public static List<T> DataSource<T>(this ComboBox control)
