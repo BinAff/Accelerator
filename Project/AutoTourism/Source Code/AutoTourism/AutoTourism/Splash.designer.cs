@@ -60,6 +60,7 @@
             this.lblVersion.Size = new System.Drawing.Size(91, 17);
             this.lblVersion.TabIndex = 99;
             this.lblVersion.Text = "Version 1.0";
+            this.lblVersion.Visible = false;
             // 
             // lvlCopyright
             // 
@@ -72,6 +73,7 @@
             this.lvlCopyright.Size = new System.Drawing.Size(205, 15);
             this.lvlCopyright.TabIndex = 99;
             this.lvlCopyright.Text = "Copyright © Binary Affairs 2012";
+            this.lvlCopyright.Visible = false;
             // 
             // lnkWebsite
             // 
@@ -85,6 +87,7 @@
             this.lnkWebsite.TabIndex = 0;
             this.lnkWebsite.TabStop = true;
             this.lnkWebsite.Text = "www.binaryaffairs.com";
+            this.lnkWebsite.Visible = false;
             this.lnkWebsite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWebsite_LinkClicked);
             // 
             // lblCrystal
@@ -98,6 +101,7 @@
             this.lblCrystal.Size = new System.Drawing.Size(203, 15);
             this.lblCrystal.TabIndex = 99;
             this.lblCrystal.Text = "Powered by Crystal Framework";
+            this.lblCrystal.Visible = false;
             // 
             // lstModule
             // 
@@ -121,6 +125,7 @@
             this.lstModule.TabIndex = 99;
             this.lstModule.TabStop = false;
             this.lstModule.UseTabStops = false;
+            this.lstModule.Visible = false;
             // 
             // picSplash
             // 
@@ -132,6 +137,7 @@
             this.picSplash.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.picSplash.TabIndex = 3;
             this.picSplash.TabStop = false;
+            this.picSplash.Visible = false;
             // 
             // picBinAff
             // 
@@ -143,6 +149,7 @@
             this.picBinAff.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.picBinAff.TabIndex = 2;
             this.picBinAff.TabStop = false;
+            this.picBinAff.Visible = false;
             // 
             // picProgress
             // 
@@ -154,13 +161,13 @@
             this.picProgress.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picProgress.TabIndex = 100;
             this.picProgress.TabStop = false;
+            this.picProgress.Visible = false;
             // 
             // Splash
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.BackgroundImage = global::AutoTourism.Properties.Resources.Splash;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(707, 470);
             this.Controls.Add(this.picProgress);
