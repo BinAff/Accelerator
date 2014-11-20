@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -61,6 +62,12 @@
       <DependentUpon>Document.cs</DependentUpon>
     </Compile>
     <Compile Include="Extender\RegisterExtension.cs" />
+    <Compile Include="Loading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Loading.Designer.cs">
+      <DependentUpon>Loading.cs</DependentUpon>
+    </Compile>
     <Compile Include="OpenDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +102,9 @@
     <EmbeddedResource Include="Document.resx">
       <DependentUpon>Document.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Loading.resx">
+      <DependentUpon>Loading.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OpenDialog.resx">
       <DependentUpon>OpenDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -106,6 +116,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Register.resx">
       <DependentUpon>Register.cs</DependentUpon>
@@ -155,6 +166,9 @@
       <Project>{a10719af-5c9f-4903-ab83-089ec502eea2}</Project>
       <Name>Vanilla.Utility.Facade</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Loading.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

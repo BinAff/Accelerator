@@ -3,6 +3,7 @@ using System.Windows.Forms;
 
 using ModFac = Vanilla.Utility.Facade.Module;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using System.ComponentModel;
 
 namespace Vanilla.Utility.WinForm
 {
@@ -115,16 +116,13 @@ namespace Vanilla.Utility.WinForm
         private void Document_Load(object sender, EventArgs e)
         {
             if (DesignMode) return;
-            if (this.Artifact == null || this.Artifact.Id == 0)
-            {
-                this.isNewDocument = true;
-            }
+            if (this.Artifact == null || this.Artifact.Id == 0) this.isNewDocument = true;
             if (this.isNewDocument)
             {
                 this.Visible = false;
                 SaveDialog saveDialogue = this.GetSaveDialogue();
                 saveDialogue.FolderSaved += saveDialogue_FolderSaved;
-                
+
                 if (saveDialogue != null)
                 {
                     saveDialogue.Document = this.formDto.Document;
@@ -138,12 +136,47 @@ namespace Vanilla.Utility.WinForm
                 }
                 this.Close(); //Save dialogue box didn't appear or closed
             }
+
+            Form loadingForm = new Vanilla.Utility.WinForm.Loading
+            {
+                Dock = DockStyle.Fill,
+                TopLevel = false,
+            };
+            this.pnlLoading.Controls.Add(loadingForm);
+            loadingForm.Show();
+            this.pnlLoading.Show();
+            this.pnlLoading.BringToFront();
+
+            this.timerLoadHandler.Start();
+        }
+
+        /// <summary>
+        /// Override this method for framework level page load. This should be sealed inside framework
+        /// </summary>
+        protected virtual void LoadFormChildSealed()
+        {
+            
         }
 
         void saveDialogue_FolderSaved(Facade.Artifact.Dto document)
         {
             this.ArtifactSaved(document);
         }
+
+        private void timerLoadHandler_Tick(object sender, EventArgs e)
+        {
+            //BackgroundWorker childLoader = new BackgroundWorker();
+            //childLoader.RunWorkerCompleted += childLoader_RunWorkerCompleted;
+            //childLoader.RunWorkerAsync();
+            this.LoadFormChildSealed();
+            this.pnlLoading.Hide();
+            this.timerLoadHandler.Stop();
+        }
+
+        //void childLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //{
+        //    this.LoadFormChildSealed();
+        //}
 
         private void Document_FormClosing(object sender, FormClosingEventArgs e)
         {

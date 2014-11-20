@@ -5,12 +5,15 @@ using System.Windows.Forms;
 
 using BinAff.Core;
 using BinAff.Utility;
+using BinAff.Presentation.Library.Extension;
 
 using FormWin = Vanilla.Form.WinForm;
 using UtilFac = Vanilla.Utility.Facade;
 using DocFac = Vanilla.Utility.Facade.Document;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using InvWin = Vanilla.Invoice.WinForm;
+using AccFac = Vanilla.Guardian.Facade.Account;
+using CacheFac = Vanilla.Utility.Facade;
 
 using Fac = AutoTourism.Lodge.Facade.RoomReservation;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
@@ -18,8 +21,6 @@ using CustFac = AutoTourism.Customer.Facade;
 using RoomFac = AutoTourism.Lodge.Configuration.Facade.Room;
 using RoomCatFac = AutoTourism.Lodge.Configuration.Facade.Room.Category;
 using RoomTypFac = AutoTourism.Lodge.Configuration.Facade.Room.Type;
-using AccFac = Vanilla.Guardian.Facade.Account;
-using CacheFac = Vanilla.Utility.Facade;
 
 namespace AutoTourism.Lodge.WinForm
 {
@@ -56,16 +57,6 @@ namespace AutoTourism.Lodge.WinForm
         }
 
         #region Events
-
-        private void RoomBookingForm_Load(object sender, System.EventArgs e)
-        {
-            //disable the controls if the reservation is checked in or the reservation has been cancelled
-            Fac.Dto dto = this.InitialDto as Fac.Dto;
-            if ((dto.isCheckedIn) || (dto.BookingStatusId == Convert.ToInt64(Status.Canceled)))
-            {
-                this.DisableFormControls();
-            }
-        }
 
         private void btnAddRoom_Click(object sender, EventArgs e)
         {
@@ -148,48 +139,21 @@ namespace AutoTourism.Lodge.WinForm
             this.SetDefault();
 
             Fac.FormDto formDto = base.formDto as Fac.FormDto;
-            Fac.Dto Dto = formDto.Dto as Fac.Dto;
+            Fac.Dto dto = formDto.Dto as Fac.Dto;
             base.facade.LoadForm();
 
             //customer data is getting read at load, so updating the initial dto for customer
-            if (Dto.Id > 0)
+            if (dto.Id > 0)
             {
-                (this.InitialDto as Fac.Dto).Customer = Dto.Customer;
+                (this.InitialDto as Fac.Dto).Customer = dto.Customer;
             }
 
             this.configRuleDto = formDto.ConfigurationRule;
             if (this.configRuleDto.DateFormat != null)            
                 this.dtFrom.CustomFormat = this.configRuleDto.DateFormat;
-            
-            //--populate room category        
-            this.cboCategory.DataSource = null;
-            if (formDto.CategoryList != null && formDto.CategoryList.Count > 0)
-            {
-                formDto.CategoryList.Insert(0, new RoomCatFac.Dto
-                {
-                    Name = "All"
-                });
 
-                this.cboCategory.DataSource = formDto.CategoryList;
-                this.cboCategory.ValueMember = "Id";
-                this.cboCategory.DisplayMember = "Name";
-                this.cboCategory.SelectedIndex = 0;  
-            }
-        
-            //--populate room type
-            this.cboType.DataSource = null;
-            if (formDto.TypeList != null && formDto.TypeList.Count > 0)
-            {
-                formDto.TypeList.Insert(0, new RoomTypFac.Dto
-                {
-                    Name = "All"
-                });
-
-                this.cboType.DataSource = formDto.TypeList;
-                this.cboType.ValueMember = "Id";
-                this.cboType.DisplayMember = "Name";
-                this.cboType.SelectedIndex = 0;
-            }
+            this.cboCategory.Bind(formDto.CategoryList, "Name");
+            this.cboType.Bind(formDto.TypeList, "Name");
 
             List<Table> lstAC = new List<Table>
             {
@@ -203,9 +167,80 @@ namespace AutoTourism.Lodge.WinForm
             this.cboAC.SelectedIndex = 0;  
 
             //Hide open cancel button for new reservation
-            if (Dto.Id == 0)            
+            if (dto.Id == 0)            
                 this.btnCancel.Visible = false;
-        }       
+
+            //disable the controls if the reservation is checked in or the reservation has been cancelled
+            Fac.Dto initialDto = this.InitialDto as Fac.Dto;
+            if ((initialDto.isCheckedIn) || (initialDto.BookingStatusId == Convert.ToInt64(Status.Canceled)))
+            {
+                this.DisableFormControls();
+            }
+        }
+
+        protected override void PopulateDataToForm()
+        {
+            Fac.Dto dto = base.formDto.Dto as Fac.Dto;
+
+            if (dto.isCheckedIn)
+            {
+                txtStatus.Text = "Checked In";
+            }
+            else if (dto.BookingStatusId == Convert.ToInt64(Status.Open))
+            {
+                txtStatus.Text = "Open";
+            }
+            else if (dto.BookingStatusId == Convert.ToInt64(Status.Canceled))
+            {
+                txtStatus.Text = "Cancel";
+            }
+
+            if (dto != null && dto.Id > 0)
+            {
+                this.PopulateCustomerData(dto.Customer);
+
+                Fac.FormDto formDto = this.formDto as Fac.FormDto;
+                if (dto.RoomCategory != null && dto.RoomCategory.Id > 0)
+                {
+                    this.cboCategory.SelectedItem = formDto.CategoryList.FindLast((p) => { return p.Id == dto.RoomCategory.Id; });
+                }
+                else
+                {
+                    this.cboCategory.SelectedIndex = 0;
+                }
+
+                if (dto.RoomType != null && dto.RoomType.Id > 0)
+                {
+                    this.cboType.SelectedItem = formDto.TypeList.FindLast((p) => { return p.Id == dto.RoomType.Id; });
+                }
+                else
+                {
+                    this.cboType.SelectedIndex = 0;
+                }
+
+                cboAC.SelectedIndex = dto.ACPreference;
+
+                this.txtMale.Text = dto.NoOfMale == 0 ? String.Empty : dto.NoOfMale.ToString();
+                this.txtFemale.Text = dto.NoOfFemale == 0 ? String.Empty : dto.NoOfFemale.ToString();
+                this.txtChild.Text = dto.NoOfChild == 0 ? String.Empty : dto.NoOfChild.ToString();
+                this.txtInfant.Text = dto.NoOfInfant == 0 ? String.Empty : dto.NoOfInfant.ToString();
+                this.txtRemarks.Text = dto.Remark.ToString();
+                this.txtReservationNo.Text = dto.ReservationNo;
+
+                if (dto.RoomList != null && dto.RoomList.Count > 0) formDto.SelectedRoomList = dto.RoomList;
+
+                //populate booking data
+                if (!ValidationRule.IsMinimumDate(dto.BookingFrom))
+                {
+                    dtFrom.Value = dto.BookingFrom;
+                    dtFromTime.Value = dto.BookingFrom;
+                }
+                this.txtRooms.Text = dto.NoOfRooms == 0 ? String.Empty : dto.NoOfRooms.ToString();
+                this.txtDays.Text = dto.NoOfDays == 0 ? String.Empty : dto.NoOfDays.ToString();
+
+                //this.PopulateRoomListFromDaysAndDateChanged();
+            }
+        }
 
         protected override void RefreshFormBefore()
         {
@@ -268,91 +303,6 @@ namespace AutoTourism.Lodge.WinForm
         {
             base.RaiseChildArtifactSaved(document);
         }
-                            
-        protected override void PopulateDataToForm()
-        {           
-            Fac.FormDto formDto = this.formDto as Fac.FormDto;              
-            Fac.Dto dto = this.CloneDto(this.InitialDto) as Fac.Dto;
-                        
-            if (dto.isCheckedIn)
-                txtStatus.Text = "Checked In";
-            else if (dto.BookingStatusId == Convert.ToInt64(Status.Open))            
-                txtStatus.Text = "Open";            
-            else if (dto.BookingStatusId == Convert.ToInt64(Status.Canceled))            
-                txtStatus.Text = "Cancel";            
-
-            //populate customer data
-            if (dto != null && dto.Id > 0)
-            {
-                if (dto.Customer != null)
-                {
-                    this.txtName.Text = dto.Customer.Name;
-                    this.lstContact.DataSource = dto.Customer.ContactNumberList;
-                    this.lstContact.DisplayMember = "Name";
-                    this.lstContact.ValueMember = "Id";
-                    this.lstContact.SelectedIndex = -1;
-                    this.txtAdds.Text = dto.Customer.Address;
-                    this.txtEmail.Text = dto.Customer.Email;
-                }
-
-                ////populate booking data
-                //if (!ValidationRule.IsMinimumDate(dto.BookingFrom))
-                //{
-                //    dtFrom.Value = dto.BookingFrom;
-                //    dtFromTime.Value = dto.BookingFrom;
-                //}
-                //this.txtDays.Text = dto.NoOfDays == 0 ? String.Empty : dto.NoOfDays.ToString();           
-                this.txtRooms.Text = dto.NoOfRooms == 0 ? String.Empty : dto.NoOfRooms.ToString(); 
-
-                if (dto.RoomCategory != null && dto.RoomCategory.Id > 0)
-                {
-                    for (int i = 0; i < cboCategory.Items.Count; i++)
-                    {
-                        if (dto.RoomCategory.Id == ((RoomCatFac.Dto)cboCategory.Items[i]).Id)
-                        {
-                            cboCategory.SelectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-                else cboCategory.SelectedIndex = 0;
-
-                if (dto.RoomType != null && dto.RoomType.Id > 0)
-                {
-                    for (int i = 0; i < cboType.Items.Count; i++)
-                    {
-                        if (dto.RoomType.Id == ((RoomTypFac.Dto)cboType.Items[i]).Id)
-                        {
-                            cboType.SelectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-                else cboType.SelectedIndex = 0;
-
-                cboAC.SelectedIndex = dto.ACPreference;
-
-                this.txtMale.Text = dto.NoOfMale == 0 ? String.Empty : dto.NoOfMale.ToString();
-                this.txtFemale.Text = dto.NoOfFemale == 0 ? String.Empty : dto.NoOfFemale.ToString();
-                this.txtChild.Text = dto.NoOfChild == 0 ? String.Empty : dto.NoOfChild.ToString();
-                this.txtInfant.Text = dto.NoOfInfant == 0 ? String.Empty : dto.NoOfInfant.ToString();
-                this.txtRemarks.Text = dto.Remark.ToString();
-                this.txtReservationNo.Text = dto.ReservationNo;
-
-                if (dto.RoomList != null && dto.RoomList.Count > 0)
-                    formDto.SelectedRoomList = dto.RoomList;
-
-                //populate booking data
-                if (!ValidationRule.IsMinimumDate(dto.BookingFrom))
-                {
-                    dtFrom.Value = dto.BookingFrom;
-                    dtFromTime.Value = dto.BookingFrom;
-                }
-                this.txtDays.Text = dto.NoOfDays == 0 ? String.Empty : dto.NoOfDays.ToString();                   
-
-                //this.PopulateRoomListFromDaysAndDateChanged();
-            }
-        }
 
         protected override void ClearForm()
         {
@@ -363,23 +313,21 @@ namespace AutoTourism.Lodge.WinForm
             this.cboCategory.SelectedIndex = 0;
             this.cboType.SelectedIndex = 0;
             this.cboAC.SelectedIndex = 0;
-            this.lstRoomList.DataSource = null;
-            this.lstSelectedRoom.DataSource = null;            
+            this.lstRoomList.Items.Clear();
+            this.lstSelectedRoom.Items.Clear();            
             this.txtMale.Text = String.Empty;
             this.txtFemale.Text = String.Empty;
             this.txtChild.Text = String.Empty;
             this.txtInfant.Text = String.Empty;
             this.txtRemarks.Text = String.Empty;
 
-
             this.txtStatus.Text = String.Empty;
             this.txtName.Text = String.Empty;
-            this.lstContact.DataSource = null;
+            this.lstContact.Items.Clear();
             this.txtAdds.Text = String.Empty;
             this.txtEmail.Text = String.Empty;
             this.txtFilteredRoomCount.Text = String.Empty;
             this.txtAvailableRoomCount.Text = String.Empty;
-
         }               
 
         protected override void AssignDto()
@@ -501,7 +449,6 @@ namespace AutoTourism.Lodge.WinForm
 
         private void SetDefault()
         {
-            //set default date format
             this.dtFrom.Format = DateTimePickerFormat.Custom;
             this.dtFrom.CustomFormat = "MM/dd/yyyy"; //--MM should be in upper case
         }
@@ -560,16 +507,9 @@ namespace AutoTourism.Lodge.WinForm
                 (formDto.Dto as Fac.Dto).Customer = customerData;
                 this.txtName.Text = customerData.Name;
 
-                this.lstContact.DataSource = customerData.ContactNumberList;
-                this.lstContact.DisplayMember = "Name";
-                this.lstContact.ValueMember = "Id";
-                this.lstContact.SelectedIndex = -1;
+                this.lstContact.Bind(customerData.ContactNumberList, "Name");
                 this.txtAdds.Text = customerData.Address;
                 this.txtEmail.Text = customerData.Email;
-            }
-            else
-            {
-                MessageBox.Show("Customer data is empty. Please enter customer data first.", "Error");
             }
         }
 
@@ -602,7 +542,7 @@ namespace AutoTourism.Lodge.WinForm
 
             (this.facade as Fac.Server).PopulateRoomWithCriteria();
             this.PopulateRoomList();
-         
+
             if ((formDto.RoomList != null && formDto.RoomList.Count > 0) || (formDto.SelectedRoomList != null && formDto.SelectedRoomList.Count > 0))
             {
                 txtFilteredRoomCount.Text = (this.facade as Fac.Server).GetTotalNoRooms().ToString();
@@ -613,39 +553,19 @@ namespace AutoTourism.Lodge.WinForm
 
                 int AvailableRoomCount = FilteredRoomCount < formDto.AvailableRoomCount ? FilteredRoomCount : formDto.AvailableRoomCount;
                 txtAvailableRoomCount.Text = AvailableRoomCount.ToString();
-              
             }
             else
             {
                 txtFilteredRoomCount.Text = String.Empty;
                 txtAvailableRoomCount.Text = String.Empty;
             }
-
-
         }
 
         private void PopulateRoomList()
         {
             Fac.FormDto formDto = (base.formDto as Fac.FormDto) as Fac.FormDto;
-            Fac.Dto dto = (base.formDto as Fac.FormDto).Dto as Fac.Dto;
-
-            this.lstRoomList.DataSource = null;
-            if (formDto.RoomList != null && formDto.RoomList.Count > 0)
-            {
-                this.lstRoomList.DataSource = formDto.RoomList;
-                this.lstRoomList.DisplayMember = "Number";
-                this.lstRoomList.ValueMember = "Id";
-                this.lstRoomList.SelectedIndex = -1;
-            }
-
-            this.lstSelectedRoom.DataSource = null;
-            if (formDto.SelectedRoomList != null && formDto.SelectedRoomList.Count > 0)
-            {
-                this.lstSelectedRoom.DataSource = formDto.SelectedRoomList;
-                this.lstSelectedRoom.DisplayMember = "Number";
-                this.lstSelectedRoom.ValueMember = "Id";
-                this.lstSelectedRoom.SelectedIndex = -1;
-            }
+            this.lstRoomList.Bind(formDto.RoomList, "Number");
+            this.lstSelectedRoom.Bind(formDto.SelectedRoomList, "Number");
         }
 
         public enum Status

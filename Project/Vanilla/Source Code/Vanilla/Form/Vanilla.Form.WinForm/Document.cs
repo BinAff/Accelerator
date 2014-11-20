@@ -27,7 +27,7 @@ namespace Vanilla.Form.WinForm
                 return System.Drawing.Color.FromArgb(255, 255, 240, 240);
             }
         }
-        
+
         protected DocFac.Dto InitialDto { get; private set; }
 
         protected String AncestorName
@@ -58,7 +58,7 @@ namespace Vanilla.Form.WinForm
         }
 
         public Document(ArtfFac.Dto artifact)
-            :this()
+            : this()
         {
             base.formDto.Document = artifact;
             if (base.Artifact != null && base.Artifact.ComponentDefinition == null)
@@ -70,9 +70,8 @@ namespace Vanilla.Form.WinForm
 
         #region Events
 
-        private void Document_Load(object sender, EventArgs e)
+        protected override sealed void LoadFormChildSealed()
         {
-            if (DesignMode) return;
             if (this.Artifact != null && this.Artifact.Id != 0)
             {
                 this.SetTitle();
@@ -82,11 +81,13 @@ namespace Vanilla.Form.WinForm
                     this.formDto.Dto = this.Artifact.Module as DocFac.Dto;
                     this.InitialDto = this.CloneDto(this.formDto.Dto);
                 }
+
                 this.LoadForm();
                 if (this.formDto.Dto != null)
                 {
                     this.PopulateDataToForm();
                 }
+
                 this.RaiseArtifactSaved(this.formDto.Document);
 
                 if (String.Compare(this.AttachmentName, "Attach", true) != 0) //Attachment is there
@@ -107,30 +108,11 @@ namespace Vanilla.Form.WinForm
                 }
             }
         }
-        //public delegate void AsyncProcessDelegate();
-        //private delegate void SafeWinFormsThreadDelegate();
-        //protected void RunAsyncOperation(AsyncProcessDelegate callback)
-        //{
-        //    System.Threading.WaitCallback d = delegate(object not_used)
-        //    {
-        //        try
-        //        {
-        //            callback.Invoke();
-
-        //        }
-        //        finally
-        //        {
-        //            this.Invoke(new SafeWinFormsThreadDelegate(EndAsyncIndication));
-        //        }
-        //    };
-
-        //    BeginAsyncIndication();
-        //    System.Threading.ThreadPool.QueueUserWorkItem(d);
-        //}
 
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.Ok();
+
             if (this.IsModified && String.Compare(this.AttachmentName, "Attach", true) != 0)
             {
                 DialogResult answer = MessageBox.Show("Do yo want to attach any document?", "Question", MessageBoxButtons.YesNo);
@@ -140,7 +122,7 @@ namespace Vanilla.Form.WinForm
                     return;
                 }
             }
-            if(this.IsModified) this.Close();
+            if (this.IsModified) this.Close();
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -162,7 +144,7 @@ namespace Vanilla.Form.WinForm
         {
             Document attachment = this.AttachDocument();
             this.RaiseArtifactSaved(this.formDto.Document);
-            if (attachment.Artifact.Id != 0) 
+            if (attachment.Artifact.Id != 0)
             {
                 //If existing component, save relationship with attachment
                 if (this.Artifact.Id != 0)
@@ -263,15 +245,13 @@ namespace Vanilla.Form.WinForm
                 base.IsModified = true;
             }
         }
-        
+
         private Boolean Save()
         {
             if (!this.ValidateForm()) return false;
             if (!this.SaveBefore()) return false;
 
             this.AssignDto();
-            //this.PopulateDataToForm();
-
             if (base.formDto.Dto.Id == 0)
             {
                 base.formDto.Document.AuditInfo.CreatedBy = new Table
@@ -339,7 +319,7 @@ namespace Vanilla.Form.WinForm
             this.RefreshFormBefore();
             if (this.formDto.Dto != null && this.formDto.Dto.Id > 0)
             {
-                this.RevertForm();          
+                this.RevertForm();
                 this.PopulateDataToForm();
             }
             else
@@ -350,7 +330,7 @@ namespace Vanilla.Form.WinForm
         }
 
         #region Mandatory Hooks
-        
+
         protected virtual void LoadForm()
         {
             throw new NotImplementedException();
