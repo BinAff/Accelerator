@@ -21,17 +21,17 @@ namespace AutoTourism
 
         private void Splash_Click(object sender, EventArgs e)
         {
-            this.Close();
-            new Thread(new ThreadStart(
-                delegate()
-                {
-                    Type type = Type.GetType(
-                        ConfigurationManager.AppSettings["StartUpAssembly"] + "." +
-                        ConfigurationManager.AppSettings["StartUpClass"] + ", " +
-                        ConfigurationManager.AppSettings["StartUpAssembly"], true);
-                    Application.Run((Form)Activator.CreateInstance(type));
-                })
-            ).Start();
+            //new Thread(new ThreadStart(
+            //    delegate()
+            //    {
+            //        Type type = Type.GetType(
+            //            ConfigurationManager.AppSettings["StartUpAssembly"] + "." +
+            //            ConfigurationManager.AppSettings["StartUpClass"] + ", " +
+            //            ConfigurationManager.AppSettings["StartUpAssembly"], true);
+            //        Application.Run((Form)Activator.CreateInstance(type));
+            //    })
+            //).Start();
+            //this.Close();
         }
 
         private void timer_Tick(object sender, EventArgs e)
