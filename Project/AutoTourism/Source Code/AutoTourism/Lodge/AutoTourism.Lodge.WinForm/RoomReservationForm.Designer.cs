@@ -585,7 +585,6 @@
             this.Name = "RoomReservationForm";
             this.ShowInTaskbar = false;
             this.Text = "Room Reservation Form";
-            this.Load += new System.EventHandler(this.RoomBookingForm_Load);
             this.Controls.SetChildIndex(this.dtFrom, 0);
             this.Controls.SetChildIndex(this.groupBox2, 0);
             this.Controls.SetChildIndex(this.dtFromTime, 0);

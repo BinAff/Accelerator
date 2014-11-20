@@ -214,7 +214,6 @@
             this.MaximizeBox = false;
             this.Name = "Document";
             this.Text = "Forms";
-            this.Load += new System.EventHandler(this.Document_Load);
             this.pnlAttachment.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
