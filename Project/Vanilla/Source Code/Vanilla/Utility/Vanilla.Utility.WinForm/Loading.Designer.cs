@@ -35,11 +35,10 @@
             // picLoading
             // 
             this.picLoading.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.picLoading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picLoading.Image = global::Vanilla.Utility.WinForm.Properties.Resources.Loading;
             this.picLoading.Location = new System.Drawing.Point(0, 0);
             this.picLoading.Name = "picLoading";
-            this.picLoading.Size = new System.Drawing.Size(284, 262);
+            this.picLoading.Size = new System.Drawing.Size(35, 35);
             this.picLoading.TabIndex = 0;
             this.picLoading.TabStop = false;
             // 
@@ -55,6 +54,8 @@
             this.Opacity = 0.5D;
             this.Text = "Loading";
             this.TransparencyKey = System.Drawing.SystemColors.Control;
+            this.Load += new System.EventHandler(this.Loading_Load);
+            this.Resize += new System.EventHandler(this.Loading_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.picLoading)).EndInit();
             this.ResumeLayout(false);
 
