@@ -46,14 +46,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.picLoading);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Loading";
-            this.Opacity = 0.5D;
+            this.ShowInTaskbar = false;
             this.Text = "Loading";
-            this.TransparencyKey = System.Drawing.SystemColors.Control;
+            this.TransparencyKey = System.Drawing.Color.White;
             this.Load += new System.EventHandler(this.Loading_Load);
             this.Resize += new System.EventHandler(this.Loading_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.picLoading)).EndInit();
