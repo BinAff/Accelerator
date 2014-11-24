@@ -136,7 +136,11 @@ namespace Vanilla.Utility.WinForm
                 }
                 this.Close(); //Save dialogue box didn't appear or closed
             }
+            this.ShowLoading();
+        }
 
+        private void ShowLoading()
+        {
             Form loadingForm = new Vanilla.Utility.WinForm.Loading
             {
                 Dock = DockStyle.Fill,
