@@ -34,29 +34,21 @@ namespace AutoTourism.Lodge.WinForm
     public partial class CheckInForm : FormWin.Document
     {
 
-        private RuleFac.ConfigurationRuleDto configRuleDto;  
-      
+        private RuleFac.ConfigurationRuleDto configRuleDto;
         ToolStripButton btnCheckOut, btnGenerateInvoice, btnPay;
 
         public CheckInForm(ArtfFac.Dto artifact)
             : base(artifact)
         {
-            InitializeComponent();           
+            InitializeComponent();
+            base.AncestorName = "Room Reservation";
+            base.AttachmentName = "Advance Payment";
         }
-                
+             
         #region Events
 
         private void CheckInForm_Load(object sender, EventArgs e)
         {
-            base.AncestorName = "Room Reservation";
-            base.AttachmentName = "Advance Payment";
-            base.AddToolStripSeparator();
-            this.btnCheckOut = base.AddToolStripButton("R", "Wingdings 3", "Checkout");
-            this.btnCheckOut.Click += btnCheckOut_Click;
-            this.btnGenerateInvoice = base.AddToolStripButton("2", "Wingdings 2", "Generate Invoice");
-            this.btnGenerateInvoice.Click += btnGenerateInvoice_Click;
-            this.btnPay = base.AddToolStripButton("<", "Wingdings 2", "Pay");
-            this.btnPay.Click += btnPay_Click;
         }
 
         private void btnCheckOut_Click(object sender, EventArgs e)
@@ -232,6 +224,14 @@ namespace AutoTourism.Lodge.WinForm
         
         protected override void LoadForm()
         {
+            base.AddToolStripSeparator();
+            this.btnCheckOut = base.AddToolStripButton("R", "Wingdings 3", "Checkout");
+            this.btnCheckOut.Click += btnCheckOut_Click;
+            this.btnGenerateInvoice = base.AddToolStripButton("2", "Wingdings 2", "Generate Invoice");
+            this.btnGenerateInvoice.Click += btnGenerateInvoice_Click;
+            this.btnPay = base.AddToolStripButton("<", "Wingdings 2", "Pay");
+            this.btnPay.Click += btnPay_Click;
+
             this.SetDefault();
 
             Fac.FormDto formDto = base.formDto as Fac.FormDto;

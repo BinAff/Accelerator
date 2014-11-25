@@ -136,8 +136,11 @@ namespace Vanilla.Utility.WinForm
         public void LoadForm()
         {
             this.loadPercentage = 0;
-            Timer t = new Timer { Interval = 10 };
-            t.Tick += t_Tick;
+            //Timer t = new Timer { Interval = 10 };
+            //t.Tick += delegate(object sender, EventArgs e)
+            //{
+            //    this.loadPercentage = this.facade.GetStatus();
+            //};
 
             this.cmsExplorer.ImageList = this.imgSmallIcon;
             this.columnSorter = new PresLib.ListViewColumnSorter();
@@ -151,9 +154,9 @@ namespace Vanilla.Utility.WinForm
                 },
             });
             this.loadPercentage = 10;
-            t.Start();
+            //t.Start();
             this.facade.LoadForm();
-            t.Stop();
+            //t.Stop();
             this.loadPercentage = 90;
             this.LoadModules(tbcCategory.TabPages[0].Text);
             this.txtAddress.Text = "Form" + this.formDto.Rule.ModuleSeperator;
@@ -210,11 +213,6 @@ namespace Vanilla.Utility.WinForm
         public Int16 GetStatus()
         {
             return (Int16)Math.Abs(this.loadPercentage * 0.8);
-        }
-
-        private void t_Tick(object sender, EventArgs e)
-        {
-            this.loadPercentage = this.facade.GetStatus();
         }
 
         #endregion

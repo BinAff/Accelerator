@@ -151,7 +151,17 @@ namespace Vanilla.Utility.WinForm
             this.pnlLoading.Show();
             this.pnlLoading.BringToFront();
 
-            this.timerLoadHandler.Start();
+            Timer timerLoadHandler = new Timer
+            {
+                Interval = 1,
+            };
+            timerLoadHandler.Tick += delegate(object sender, EventArgs e)
+            {
+                this.LoadFormChildSealed();
+                this.pnlLoading.Hide();
+                timerLoadHandler.Stop();
+            };
+            timerLoadHandler.Start();
         }
 
         /// <summary>
@@ -165,16 +175,6 @@ namespace Vanilla.Utility.WinForm
         void saveDialogue_FolderSaved(Facade.Artifact.Dto document)
         {
             this.ArtifactSaved(document);
-        }
-
-        private void timerLoadHandler_Tick(object sender, EventArgs e)
-        {
-            //BackgroundWorker childLoader = new BackgroundWorker();
-            //childLoader.RunWorkerCompleted += childLoader_RunWorkerCompleted;
-            //childLoader.RunWorkerAsync();
-            this.LoadFormChildSealed();
-            this.pnlLoading.Hide();
-            this.timerLoadHandler.Stop();
         }
 
         //void childLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
