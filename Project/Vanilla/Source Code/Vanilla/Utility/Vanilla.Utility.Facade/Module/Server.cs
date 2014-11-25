@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 
-using CrystalArtifact = Crystal.Navigator.Component.Artifact;
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
 
 //using AutotourismCustomerArtifact = AutoTourism.Component.Customer.Navigator.Artifact;
 
@@ -93,8 +93,8 @@ namespace Vanilla.Utility.Facade.Module
             Artifact.Server artifactServer = new Artifact.Server(null);
             Helper helper = new Helper(module, category);
             artifactServer.ModuleFacade = helper.ModuleFacade;
-            CrystalArtifact.Data artifactData = (helper.Artifact as CrystalArtifact.Server).Data as CrystalArtifact.Data;
-            artifactData.Category = (CrystalArtifact.Category)category;
+            ArtfCrys.Data artifactData = (helper.Artifact as ArtfCrys.Server).Data as ArtfCrys.Data;
+            artifactData.Category = (ArtfCrys.Category)category;
             artifactData.Path = category.ToString() + (this.FormDto as FormDto).Rule.ModuleSeperator
                 + (this.FormDto as FormDto).Rule.PathSeperator + (this.FormDto as FormDto).Rule.PathSeperator
                 + module.Name + (this.FormDto as FormDto).Rule.PathSeperator;
@@ -129,28 +129,59 @@ namespace Vanilla.Utility.Facade.Module
         public override void Delete()
         {
             Artifact.Server artifactServer = GetArtifactFacade(Dto.ActionType.Delete);
+            this.ValidateAttachmentList(artifactServer);
+            if (this.IsError) return;
             artifactServer.Delete();
 
             this.DisplayMessageList = artifactServer.DisplayMessageList;
             this.IsError = artifactServer.IsError;
         }
 
-        private CrystalArtifact.Category Convert(Artifact.Category category)
+        public void ValidateAttachmentList(Artifact.Server artifactFacade)
         {
-            CrystalArtifact.Category ret;
+            ReturnObject<List<ArtfCrys.Data>> ret = (artifactFacade.ModuleArtifactComponent as ArtfCrys.IArtifact).ReadAttachmentLink();
+            if (this.IsError = ret.HasError())
+            {
+                if (this.DisplayMessageList == null) this.DisplayMessageList = new List<String>();
+                this.DisplayMessageList.AddRange(ret.GetMessage(Message.Type.Error));
+            }
+            else
+            {
+                if (ret.Value != null && ret.Value.Count > 0)
+                {
+                    this.IsError = true;
+                    String message = "Delete following attachments before to delete this "
+                        + (artifactFacade.ModuleArtifactComponent as BinAff.Core.Crud).Name
+                        + ". List of attachments:"
+                        + Environment.NewLine;
+                    Int16 i = 1;
+                    foreach (ArtfCrys.Data attachment in ret.Value)
+                    {
+                        message += "  " + i.ToString() + ": " + attachment.Path + "." + attachment.Extension + Environment.NewLine;
+                        i++;
+                    }
+                    if (this.DisplayMessageList == null) this.DisplayMessageList = new List<String>();
+                    this.DisplayMessageList.Add(message);
+                }
+            }
+        }
+
+        private ArtfCrys.Category Convert(Artifact.Category category)
+        {
+            ArtfCrys.Category ret;
             switch (category)
             {
                 case Artifact.Category.Form:
-                    ret = CrystalArtifact.Category.Form;
+                    ret = ArtfCrys.Category.Form;
                     break;
                 case Artifact.Category.Catalogue:
-                    ret = CrystalArtifact.Category.Catelogue;
+                    ret = ArtfCrys.Category.Catelogue;
                     break;
                 case Artifact.Category.Report:
-                    ret = CrystalArtifact.Category.Report;
+                    ret = ArtfCrys.Category.Report;
                     break;
                 default:
-                    ret = CrystalArtifact.Category.Form;
+                    ret = ArtfCrys.Category.Form;
                     break;
             }
             return ret;
@@ -186,7 +217,7 @@ namespace Vanilla.Utility.Facade.Module
             //If Document is added in Customer Node : [helper.ModuleData.Id will carry the customer id for inserting into Customer.CustomerArtifact table]
             helper.ModuleData.Id = currentArtifact.Module == null ? 0 : currentArtifact.Module.Id;
 
-            (helper.ArtifactData as CrystalArtifact.Data).ComponentDefinition = this.Convert((this.FormDto as FormDto).Dto) as Crystal.License.Component.Data;
+            (helper.ArtifactData as ArtfCrys.Data).ComponentDefinition = this.Convert((this.FormDto as FormDto).Dto) as Crystal.License.Component.Data;
 
             artifactServer.ModuleArtifactComponent = helper.ArtifactComponent;
             artifactServer.ModuleFacade = helper.ModuleFacade;
