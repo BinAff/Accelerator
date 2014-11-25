@@ -163,9 +163,9 @@ namespace Crystal.Navigator.Component.Artifact
             //avoiding insert during update
             if (artifactData.ModifiedBy == null)
             {
-                base.CreateCommand("[Navigator].[ArtifactModuleLinkInsertForModule]");
+                base.CreateCommand("[Navigator].[ArtifactComponentLinkInsertForComponent]");
                 base.AddInParameter("@ArtifactId", DbType.Int64, Data.Id);
-                base.AddInParameter("@ModuleId", DbType.String, artifactData.ComponentDefinition.Id);
+                base.AddInParameter("@ComponentId", DbType.String, artifactData.ComponentDefinition.Id);
                 base.AddInParameter("@Category", DbType.Int64, artifactData.Category);
                 Int32 ret = base.ExecuteNonQuery();
 
@@ -185,7 +185,7 @@ namespace Crystal.Navigator.Component.Artifact
 
         internal List<BinAff.Core.Data> ReadArtifactListForMudule()
         {
-            this.CreateCommand("Navigator.ArtifactComponentLinkReadForModule");
+            this.CreateCommand("Navigator.ArtifactComponentLinkReadForComponent");
             this.AddInParameter("@ComponentId", DbType.Int64, (this.Data as Data).ComponentDefinition.Id);
             this.AddInParameter("@Category", DbType.Int64, (this.Data as Data).Category);
 

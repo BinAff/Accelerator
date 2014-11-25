@@ -263,15 +263,15 @@ namespace Vanilla.Navigator.WinForm
 
         private void ShowControls()
         {
-            //Timer t = new Timer { Interval = 10 };
-            //t.Tick += delegate(object sender, EventArgs e)
-            //{
-            //    this.progressBar.Value = (Int32)Math.Abs(this.ucRegister.GetStatus() * 0.8);
-            //};
-            //t.Start();
+            Timer t = new Timer { Interval = 10 };
+            t.Tick += delegate(object sender, EventArgs e)
+            {
+                this.progressBar.Value = (Int32)Math.Abs(this.ucRegister.GetStatus() * 0.8);
+            };
+            t.Start();
             this.ucRegister.LoadForm();
 
-            //t.Stop();
+            t.Stop();
 
             this.progressBar.Value = (Int32)Math.Abs(this.progressBar.Maximum * 0.8);
             this.ucRegister.Show();
