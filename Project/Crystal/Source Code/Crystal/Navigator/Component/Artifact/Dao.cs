@@ -185,8 +185,8 @@ namespace Crystal.Navigator.Component.Artifact
 
         internal List<BinAff.Core.Data> ReadArtifactListForMudule()
         {
-            this.CreateCommand("Navigator.ArtifactModuleLinkReadForModule");
-            this.AddInParameter("@ModuleId", DbType.Int64, (this.Data as Data).ComponentDefinition.Id);
+            this.CreateCommand("Navigator.ArtifactComponentLinkReadForModule");
+            this.AddInParameter("@ComponentId", DbType.Int64, (this.Data as Data).ComponentDefinition.Id);
             this.AddInParameter("@Category", DbType.Int64, (this.Data as Data).Category);
 
             DataSet ds = this.ExecuteDataSet();

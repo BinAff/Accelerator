@@ -28,15 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.timerLoadHandler = new System.Windows.Forms.Timer(this.components);
             this.pnlLoading = new System.Windows.Forms.Panel();
             this.SuspendLayout();
-            // 
-            // timerLoadHandler
-            // 
-            this.timerLoadHandler.Interval = 1;
-            this.timerLoadHandler.Tick += new System.EventHandler(this.timerLoadHandler_Tick);
             // 
             // pnlLoading
             // 
@@ -63,7 +56,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer timerLoadHandler;
         private System.Windows.Forms.Panel pnlLoading;
     }
 }
