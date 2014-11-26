@@ -1378,7 +1378,7 @@ namespace Vanilla.Utility.WinForm
             else
             {
                 messageList.Clear();
-                messageList.Add("Data deleted successfully.");
+                messageList.Add(this.Category.ToString() + " deleted successfully.");
             }
             return !this.facade.IsError;
         }
@@ -1398,7 +1398,7 @@ namespace Vanilla.Utility.WinForm
                         Boolean result = this.DeleteDocument(artifact.Children[0], messageList);
                         if (result)
                         {
-                            messageList.Add("Data may be deleted partially.");
+                            messageList.Add(this.Category.ToString() + "s may be deleted partially.");
                             return false;
                         }
                     }
