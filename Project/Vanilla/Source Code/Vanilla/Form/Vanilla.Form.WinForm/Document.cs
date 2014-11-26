@@ -209,7 +209,7 @@ namespace Vanilla.Form.WinForm
 
                 this.RaiseArtifactSaved(this.formDto.Document);
 
-                if (String.Compare(this.AttachmentName, "Attach", true) != 0) //Attachment is there
+                if (this.formDto.Document.IsAttachmentSupported) //Attachment is there
                 {
                     if (this.Artifact.Module != null && this.Artifact.Module.Id != 0)
                     {

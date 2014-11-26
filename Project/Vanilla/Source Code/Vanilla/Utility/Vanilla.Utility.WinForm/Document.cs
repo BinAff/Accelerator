@@ -131,6 +131,7 @@ namespace Vanilla.Utility.WinForm
                     if (saveDialogue.IsActionDone)
                     {
                         this.Visible = true;
+                        this.ShowLoading();
                         return;
                     }
                 }
