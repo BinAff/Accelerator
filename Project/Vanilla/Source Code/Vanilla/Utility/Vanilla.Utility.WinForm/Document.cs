@@ -146,10 +146,11 @@ namespace Vanilla.Utility.WinForm
                 Dock = DockStyle.Fill,
                 TopLevel = false,
             };
+            this.pnlLoading.Dock = DockStyle.Fill;
+            this.pnlLoading.BringToFront();
             this.pnlLoading.Controls.Add(loadingForm);
             loadingForm.Show();
             this.pnlLoading.Show();
-            this.pnlLoading.BringToFront();
 
             Timer timerLoadHandler = new Timer
             {
