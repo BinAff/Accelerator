@@ -33,10 +33,9 @@
             // 
             // pnlLoading
             // 
-            this.pnlLoading.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLoading.Location = new System.Drawing.Point(0, 0);
+            this.pnlLoading.Location = new System.Drawing.Point(1, 519);
             this.pnlLoading.Name = "pnlLoading";
-            this.pnlLoading.Size = new System.Drawing.Size(792, 573);
+            this.pnlLoading.Size = new System.Drawing.Size(55, 54);
             this.pnlLoading.TabIndex = 0;
             // 
             // Document
