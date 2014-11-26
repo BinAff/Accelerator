@@ -76,6 +76,7 @@
             this.dgvAttachmentList.Size = new System.Drawing.Size(26, 15);
             this.dgvAttachmentList.TabIndex = 0;
             this.dgvAttachmentList.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAttachmentList_CellContentDoubleClick);
+            this.dgvAttachmentList.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAttachmentList_CellMouseClick);
             // 
             // Path
             // 
@@ -214,6 +215,8 @@
             this.MaximizeBox = false;
             this.Name = "Document";
             this.Text = "Forms";
+            this.Controls.SetChildIndex(this.pnlAttachment, 0);
+            this.Controls.SetChildIndex(this.toolStrip, 0);
             this.pnlAttachment.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();

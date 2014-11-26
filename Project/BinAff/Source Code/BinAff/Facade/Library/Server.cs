@@ -124,6 +124,12 @@ namespace BinAff.Facade.Library
         {
             throw new NotImplementedException();
         }
+
+        protected void AttachMessage<T>(ReturnObject<T> returnObject)
+        {
+            this.IsError = returnObject.HasError();
+            this.DisplayMessageList = returnObject.GetMessage(this.IsError ? Message.Type.Error : Message.Type.Information);
+        }
  
     }
 
