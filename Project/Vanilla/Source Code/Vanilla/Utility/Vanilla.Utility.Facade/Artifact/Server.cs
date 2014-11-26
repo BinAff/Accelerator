@@ -80,6 +80,7 @@ namespace Vanilla.Utility.Facade.Artifact
                     ModifiedAt = artifactData.ModifiedAt,
                 },
                 Category = (Category)artifactData.Category,
+                IsAttachmentSupported = artifactData.IsAttachmentSupported,
             };
 
             if ((data as CrysArtf.Data).Parent != null)
@@ -118,6 +119,7 @@ namespace Vanilla.Utility.Facade.Artifact
             tree.Extension = artifactDto.Extension;
             tree.Path = artifactDto.Path;   
             tree.Category = (CrysArtf.Category)artifactDto.Category;
+            tree.IsAttachmentSupported = artifactDto.IsAttachmentSupported;
             tree.Style = (artifactDto.Style == Type.Folder) ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
             tree.CreatedBy = new Crystal.Guardian.Component.Account.Data
             {

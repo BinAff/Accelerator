@@ -4,6 +4,7 @@ using System.Drawing;
 
 using BinAff.Core;
 using BinAff.Facade.Cache;
+using BinAff.Presentation.Library.Extension;
 using PresLib = BinAff.Presentation.Library;
 
 using AccFac = Vanilla.Guardian.Facade.Account;
@@ -13,6 +14,7 @@ using ModFac = Vanilla.Utility.Facade.Module;
 using UtilWin = Vanilla.Utility.WinForm;
 using FrmWin = Vanilla.Form.WinForm;
 using CacheFac = Vanilla.Utility.Facade.Cache;
+using System.Collections.Generic;
 
 namespace Vanilla.Form.WinForm
 {
@@ -70,45 +72,6 @@ namespace Vanilla.Form.WinForm
 
         #region Events
 
-        protected override sealed void LoadFormChildSealed()
-        {
-            if (this.Artifact != null && this.Artifact.Id != 0)
-            {
-                this.SetTitle();
-                this.formDto.Document = this.Artifact;
-                if (this.Artifact.Module != null)
-                {
-                    this.formDto.Dto = this.Artifact.Module as DocFac.Dto;
-                    this.InitialDto = this.CloneDto(this.formDto.Dto);
-                }
-
-                this.LoadForm();
-                if (this.formDto.Dto != null)
-                {
-                    this.PopulateDataToForm();
-                }
-
-                this.RaiseArtifactSaved(this.formDto.Document);
-
-                if (String.Compare(this.AttachmentName, "Attach", true) != 0) //Attachment is there
-                {
-                    if (this.Artifact.Module != null && this.Artifact.Module.Id != 0)
-                    {
-                        this.btnAttach.Enabled = true;
-                        this.btnExpandCollapse.Enabled = true;
-                    }
-                    (this.facade as Facade.Document.Server).RetrieveAttachmentList();
-                    //formDto.AttachmentSummeryList = base.GetAttachmentList();
-                    this.dgvAttachmentList.ReadOnly = true;
-                    this.dgvAttachmentList.AutoGenerateColumns = false;
-                    this.dgvAttachmentList.Columns[0].DataPropertyName = "Path";
-                    this.dgvAttachmentList.Columns[1].DataPropertyName = "Action";
-
-                    this.dgvAttachmentList.DataSource = this.formDto.AttachmentSummeryList;
-                }
-            }
-        }
-
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.Ok();
@@ -164,9 +127,9 @@ namespace Vanilla.Form.WinForm
                 this.pnlAttachment.BringToFront();
                 this.pnlAttachment.Width = 415;
                 this.pnlAttachment.Height = 160;
-                if (this.Width < this.pnlAttachment.Width) this.pnlAttachment.Width = this.Width - 2;
-                if (this.Height < this.pnlAttachment.Height) this.pnlAttachment.Height = this.Height - 2;
-                this.pnlAttachment.Left = this.Width - this.pnlAttachment.Width - 12;
+                if (this.Width < this.pnlAttachment.Width) this.pnlAttachment.Width = this.Width + 2;
+                if (this.Height < this.pnlAttachment.Height) this.pnlAttachment.Height = this.Height + 2;
+                this.pnlAttachment.Left = this.Width - this.pnlAttachment.Width - 22;
                 this.pnlAttachment.Top = this.toolStrip.Bottom + 2;
                 this.btnExpandCollapse.Text = "Ö";
                 this.btnExpandCollapse.ToolTipText = "Hide Attachments";
@@ -202,7 +165,76 @@ namespace Vanilla.Form.WinForm
             form.Show();
         }
 
+        private void dgvAttachmentList_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.ColumnIndex < 0 || e.RowIndex < 0) return;
+            if (e.ColumnIndex == 1)
+            {
+                //Delete Attachment
+                ArtfFac.Dto document = this.formDto.AttachmentSummeryList[e.RowIndex].Artifact;
+                (this.facade as Facade.Document.Server).DeleteAttachment(document);
+                if (this.facade.IsError) //Some problem to delete attachment
+                {
+                    new BinAff.Presentation.Library.MessageBox
+                    {
+                        Heading = "Error",
+                        DialogueType = PresLib.MessageBox.Type.Error
+                    }.Show(this.facade.DisplayMessageList);
+                    return;
+                }
+
+                this.dgvAttachmentList.Rows.RemoveAt(e.RowIndex);
+            }
+        }
+
         #endregion
+
+        protected override sealed void LoadFormChildSealed()
+        {
+            if (this.Artifact != null && this.Artifact.Id != 0)
+            {
+                this.SetTitle();
+                this.formDto.Document = this.Artifact;
+                if (this.Artifact.Module != null)
+                {
+                    this.formDto.Dto = this.Artifact.Module as DocFac.Dto;
+                    this.InitialDto = this.CloneDto(this.formDto.Dto);
+                }
+
+                this.LoadForm();
+                if (this.formDto.Dto != null)
+                {
+                    this.PopulateDataToForm();
+                }
+
+                this.RaiseArtifactSaved(this.formDto.Document);
+
+                if (String.Compare(this.AttachmentName, "Attach", true) != 0) //Attachment is there
+                {
+                    if (this.Artifact.Module != null && this.Artifact.Module.Id != 0)
+                    {
+                        this.btnAttach.Enabled = true;
+                        this.btnExpandCollapse.Enabled = true;
+                    }
+                    (this.facade as Facade.Document.Server).RetrieveAttachmentList();
+                    if (this.facade.IsError) //Some problem to retrieve attachments
+                    {
+                        new BinAff.Presentation.Library.MessageBox
+                        {
+                            Heading = "Error",
+                            DialogueType = PresLib.MessageBox.Type.Error
+                        }.Show(this.facade.DisplayMessageList);
+                        return;
+                    }
+                    this.dgvAttachmentList.ReadOnly = true;
+                    this.dgvAttachmentList.AutoGenerateColumns = false;
+                    foreach (DocFac.AttachmentSummery t in this.formDto.AttachmentSummeryList)
+                    {
+                        this.dgvAttachmentList.Rows.Add(t.Path, t.Action);
+                    }
+                }
+            }
+        }
 
         protected override Vanilla.Utility.WinForm.SaveDialog GetSaveDialogue()
         {
@@ -221,16 +253,16 @@ namespace Vanilla.Form.WinForm
         {
             if (this.formDto.AttachmentSummeryList == null)
             {
-                this.formDto.AttachmentSummeryList = new System.Collections.Generic.List<DocFac.AttachmentSummery>();
+                this.formDto.AttachmentSummeryList = new List<DocFac.AttachmentSummery>();
             }
-            this.formDto.AttachmentSummeryList.Add(new DocFac.AttachmentSummery
+            DocFac.AttachmentSummery newAttachment = new DocFac.AttachmentSummery
             {
                 Artifact = attachment.Artifact,
                 Path = attachment.Artifact.FullPath,
                 Action = "Delete",
-            });
-            this.dgvAttachmentList.DataSource = null;
-            this.dgvAttachmentList.DataSource = this.formDto.AttachmentSummeryList;
+            };
+            this.formDto.AttachmentSummeryList.Add(newAttachment);
+            this.dgvAttachmentList.Rows.Add(newAttachment.Path, newAttachment.Action);
             this.btnExpandCollapse.Enabled = true;
         }
 

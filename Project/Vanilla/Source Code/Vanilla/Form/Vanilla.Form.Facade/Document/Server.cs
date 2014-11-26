@@ -66,10 +66,7 @@ namespace Vanilla.Form.Facade.Document
                 (artfactServer.Data as ArtfCrys.Data).Category = ArtfCrys.Category.Form;
                 (artfactServer.Data as ArtfCrys.Data).Children = new List<Data>();
                 ReturnObject<Boolean> retVal = (artfactServer as BinAff.Core.ICrud).Delete();
-                if (this.IsError = retVal.HasError())
-                {
-                    this.DisplayMessageList = retVal.GetMessage(Message.Type.Error);
-                }
+                this.AttachMessage(retVal);
             }
         }
 
@@ -89,13 +86,14 @@ namespace Vanilla.Form.Facade.Document
         {
             ArtfCrys.IArtifact artifactServer = this.GetArtifactServer(this.GetArtifactData((this.FormDto as FormDto).Document.Id));
             ReturnObject<Boolean> ret = artifactServer.CreateAttachmentLink(new ArtfCrys.Data { Id = attachment.Id });
-            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
+            this.AttachMessage(ret);
         }
 
         public virtual void RetrieveAttachmentList()
         {
             ArtfCrys.IArtifact artifactServer = this.GetArtifactServer(this.GetArtifactData((this.FormDto as FormDto).Document.Id));
             ReturnObject<List<ArtfCrys.Data>> ret = artifactServer.ReadAttachmentLink();
+            this.AttachMessage(ret);
             (this.FormDto as FormDto).AttachmentSummeryList = new List<DocFac.AttachmentSummery>();
             foreach (ArtfCrys.Data attachment in ret.Value)
             {
@@ -111,6 +109,13 @@ namespace Vanilla.Form.Facade.Document
                     Path = attachment.Path + "." + attachment.Extension,
                 });
             }
+        }
+
+        public virtual void DeleteAttachment(ArtfFac.Dto attachment)
+        {
+            ArtfCrys.IArtifact artifactServer = this.GetArtifactServer(this.GetArtifactData((this.FormDto as FormDto).Document.Id));
+            ReturnObject<Boolean> ret = artifactServer.DeleteAttachmentLink(new ArtfCrys.Data { Id = attachment.Id });
+            this.AttachMessage(ret);
         }
 
         protected virtual ArtfFac.Dto GetAttachmentArtifact(Int64 attachmentId)

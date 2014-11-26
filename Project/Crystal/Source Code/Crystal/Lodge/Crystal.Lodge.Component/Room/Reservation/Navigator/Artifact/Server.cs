@@ -16,6 +16,7 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
         {
             this.Name = "Lodge Reservation " + (this.Data as Data).Category.ToString();
             (this.Data as Data).Extension = "frm";
+            (this.Data as Data).IsAttachmentSupported = true;
             this.DataAccess = new Dao((Data)this.Data);
             this.Validator = new Validator((Data)this.Data);
         }

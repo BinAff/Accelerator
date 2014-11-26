@@ -94,7 +94,6 @@ namespace Vanilla.Utility.Facade.Module
             Helper helper = new Helper(module, category);
             artifactServer.ModuleFacade = helper.ModuleFacade;
             ArtfCrys.Data artifactData = (helper.Artifact as ArtfCrys.Server).Data as ArtfCrys.Data;
-            artifactData.Category = (ArtfCrys.Category)category;
             artifactData.Path = category.ToString() + (this.FormDto as FormDto).Rule.ModuleSeperator
                 + (this.FormDto as FormDto).Rule.PathSeperator + (this.FormDto as FormDto).Rule.PathSeperator
                 + module.Name + (this.FormDto as FormDto).Rule.PathSeperator;
@@ -150,14 +149,14 @@ namespace Vanilla.Utility.Facade.Module
                 if (ret.Value != null && ret.Value.Count > 0)
                 {
                     this.IsError = true;
-                    String message = "Delete following attachments before to delete this "
-                        + (artifactFacade.ModuleArtifactComponent as BinAff.Core.Crud).Name
+                    String message = "Delete the attachments before deleting the form - "
+                        + ((artifactFacade.ModuleArtifactComponent as ArtfCrys.Server).Data as ArtfCrys.Data).FullPath
                         + ". List of attachments:"
                         + Environment.NewLine;
                     Int16 i = 1;
                     foreach (ArtfCrys.Data attachment in ret.Value)
                     {
-                        message += "  " + i.ToString() + ": " + attachment.Path + "." + attachment.Extension + Environment.NewLine;
+                        message += "  " + i.ToString() + ": " + attachment.FullPath + Environment.NewLine;
                         i++;
                     }
                     if (this.DisplayMessageList == null) this.DisplayMessageList = new List<String>();

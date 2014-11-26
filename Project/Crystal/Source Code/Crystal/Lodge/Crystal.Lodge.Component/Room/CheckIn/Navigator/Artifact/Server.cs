@@ -16,6 +16,7 @@ namespace Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact
         {
             this.Name = "Lodge CheckIn " + (this.Data as Data).Category.ToString();
             (this.Data as Data).Extension = "frm";
+            (this.Data as Data).IsAttachmentSupported = true;
             this.DataAccess = new Dao(this.Data as Data);
             this.Validator = new Validator(this.Data as Data);
         }

@@ -130,6 +130,16 @@ namespace Crystal.Navigator.Component.Artifact
 
         protected virtual ReturnObject<Boolean> CreateAttachmentLink(Data attachment)
         {
+            if (!(this.Data as Data).IsAttachmentSupported)
+            {
+                return new ReturnObject<Boolean>
+                {
+                    MessageList = new List<Message>
+                    {
+                        new Message("Attachment not supported", Message.Type.Information),
+                    }
+                };
+            }
             ReturnObject<Boolean> ret = new ReturnObject<bool>
             {
                 Value = (this.DataAccess as Dao).CreateAttachmentLink(attachment)
@@ -153,14 +163,34 @@ namespace Crystal.Navigator.Component.Artifact
 
         private ReturnObject<List<Data>> ReadAttachmentLink()
         {
+            if (!(this.Data as Data).IsAttachmentSupported)
+            {
+                return new ReturnObject<List<Data>>
+                {
+                    MessageList = new List<Message>
+                    {
+                        new Message("Attachment not supported", Message.Type.Information),
+                    }
+                };
+            }
             return new ReturnObject<List<Data>>
             {
                 Value = (this.DataAccess as Dao).ReadAttachmentLink()
             };
         }
 
-        private ReturnObject<bool> DeleteAttachmentLink(Data attachment)
+        private ReturnObject<Boolean> DeleteAttachmentLink(Data attachment)
         {
+            if (!(this.Data as Data).IsAttachmentSupported)
+            {
+                return new ReturnObject<Boolean>
+                {
+                    MessageList = new List<Message>
+                    {
+                        new Message("Attachment not supported", Message.Type.Information),
+                    }
+                };
+            }
             ReturnObject<Boolean> ret = new ReturnObject<bool>
             {
                 Value = (this.DataAccess as Dao).DeleteAttachmentLink(attachment)

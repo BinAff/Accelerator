@@ -133,6 +133,8 @@ namespace Vanilla.Utility.Facade.Artifact
             }
         }
 
+        public Boolean IsAttachmentSupported { get; set; }
+
         //private Int32 version;
         ///// <summary>
         ///// Version number

@@ -1331,19 +1331,17 @@ namespace Vanilla.Utility.WinForm
             DialogResult dialogResult = MessageBox.Show(this, Msg, "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                List<String> messageList = this.currentArtifact.Style == ArtfFac.Type.Document ?
-                    this.DeleteDocument(this.currentArtifact) :
-                    this.DeleteFolder(this.currentArtifact);
-
-                if (messageList != null && messageList.Count > 0)
+                List<String> messageList = new List<String>();
+                Boolean isDeleted = this.currentArtifact.Style == ArtfFac.Type.Document ?
+                    this.DeleteDocument(this.currentArtifact, messageList) :
+                    this.DeleteFolder(this.currentArtifact, messageList);
+                new PresLib.MessageBox
                 {
-                    new PresLib.MessageBox
-                    {
-                        DialogueType = PresLib.MessageBox.Type.Error,
-                        Heading = "Navigator",
-                    }.Show(messageList);
-                }
-                else
+                    DialogueType = PresLib.MessageBox.Type.Error,
+                    Heading = "Navigator",
+                }.Show(messageList);
+
+                if (isDeleted)
                 {
                     //remove artifact from parent after successful deletion
                     new ArtfFac.Server(new ArtfFac.FormDto()).RemoveArtifactFromParent(this.currentArtifact);
@@ -1363,7 +1361,7 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        private List<String> DeleteDocument(ArtfFac.Dto artifact)
+        private Boolean DeleteDocument(ArtfFac.Dto artifact, List<String> messageList)
         {
             this.formDto.ModuleFormDto.CurrentArtifact = new ArtfFac.FormDto
             {
@@ -1373,10 +1371,19 @@ namespace Vanilla.Utility.WinForm
             this.facade = new Facade.Register.Server(this.formDto);
             this.facade.Delete();
 
-            return this.facade.DisplayMessageList;
+            if (this.facade.IsError)
+            {
+                messageList.AddRange(this.facade.DisplayMessageList);
+            }
+            else
+            {
+                messageList.Clear();
+                messageList.Add("Data deleted successfully.");
+            }
+            return !this.facade.IsError;
         }
 
-        private List<String> DeleteFolder(ArtfFac.Dto artifact)
+        private Boolean DeleteFolder(ArtfFac.Dto artifact, List<String> messageList)
         {
             if (artifact.Children != null)
             {
@@ -1384,23 +1391,23 @@ namespace Vanilla.Utility.WinForm
                 {
                     if (artifact.Children[0].Style == ArtfFac.Type.Folder)
                     {
-                        this.DeleteFolder(artifact.Children[0]);
+                        this.DeleteFolder(artifact.Children[0], messageList);
                     }
                     else
                     {
-                        List<String> messageList = this.DeleteDocument(artifact.Children[0]);
-                        if (messageList != null && messageList.Count > 0)
+                        Boolean result = this.DeleteDocument(artifact.Children[0], messageList);
+                        if (result)
                         {
                             messageList.Add("Data may be deleted partially.");
-                            return messageList;
+                            return false;
                         }
                     }
                     artifact.Children.RemoveAt(0);
                 }
             }
-            return this.DeleteDocument(artifact);
+            return this.DeleteDocument(artifact, messageList);
         }
-               
+        
         public void SelectAll()
         {
             foreach (ListViewItem item in this.lsvContainer.Items)

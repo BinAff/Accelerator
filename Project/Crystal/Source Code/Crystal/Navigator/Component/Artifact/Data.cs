@@ -24,6 +24,14 @@ namespace Crystal.Navigator.Component.Artifact
         /// </summary>
         public String Path { get; set; }
 
+        public String FullPath
+        {
+            get
+            {
+                return this.Path + "." + this.Extension;
+            }
+        }
+
         /// <summary>
         /// Type of Arctifact
         /// </summary>
@@ -68,6 +76,8 @@ namespace Crystal.Navigator.Component.Artifact
         public Crystal.License.Component.Data ComponentDefinition { get; set; }
 
         public Category Category { get; set; }
+
+        public Boolean IsAttachmentSupported { get; set; }
 
     }
 
