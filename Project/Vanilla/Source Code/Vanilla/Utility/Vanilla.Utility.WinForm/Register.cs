@@ -1326,7 +1326,7 @@ namespace Vanilla.Utility.WinForm
                     break;
             }
 
-            String Msg = String.Format("Are you sure you want to delete {0}: {1}?", artifact, this.currentArtifact.FullFileName);
+            String Msg = String.Format("Do you want to delete {0}: {1}?", artifact, this.currentArtifact.FullFileName);
 
             DialogResult dialogResult = MessageBox.Show(this, Msg, "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
