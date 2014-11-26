@@ -199,7 +199,7 @@ namespace Crystal.Navigator.Component.Artifact
             {
                 ret.MessageList = new List<Message>
                 {
-                    new Message("Attachment link deleted successfully.", Message.Type.Error)
+                    new Message("Attachment link deleted successfully.", Message.Type.Information)
                 };
             }
             else
