@@ -472,16 +472,18 @@ namespace BinAff.Core
             if (!this.IsSkip && !this.IsReadOnly)
             {
                 retObj.Value = this.DataAccess.Create();
-                String msg;
+                Message msg = new Message();
                 if (retObj.Value)
                 {
-                    msg = String.IsNullOrEmpty(this.Name) ? "Data successfully inserted." : this.Name + " data successfully inserted.";
+                    msg.Description = String.IsNullOrEmpty(this.Name) ? "Data successfully inserted." : this.Name + " data successfully inserted.";
+                    msg.Category = Message.Type.Information;
                 }
                 else
                 {
-                    msg = String.IsNullOrEmpty(this.Name) ? "Data insertion failed." : this.Name + " data insertion failed.";
+                    msg.Description = String.IsNullOrEmpty(this.Name) ? "Data insertion failed." : this.Name + " data insertion failed.";
+                    msg.Category = Message.Type.Error;
                 }
-                retObj.MessageList.Add(new Message(msg, Message.Type.Information));
+                retObj.MessageList.Add(msg);
             }
 
             return retObj;
@@ -501,16 +503,18 @@ namespace BinAff.Core
             if (!this.IsSkip && !this.IsReadOnly)
             {
                 retObj.Value = this.DataAccess.Update();
-                String msg;
+                Message msg = new Message();
                 if (retObj.Value)
                 {
-                    msg = String.IsNullOrEmpty(this.Name) ? "Data successfully updated." : this.Name + " data successfully updated.";
+                    msg.Description = String.IsNullOrEmpty(this.Name) ? "Data successfully updated." : this.Name + " data successfully updated.";
+                    msg.Category = Message.Type.Information;
                 }
                 else
                 {
-                    msg = String.IsNullOrEmpty(this.Name) ? "Data updation failed." : this.Name + " data updation failed.";
+                    msg.Description = String.IsNullOrEmpty(this.Name) ? "Data updation failed." : this.Name + " data updation failed.";
+                    msg.Category = Message.Type.Error;
                 }
-                retObj.MessageList.Add(new Message(msg, Message.Type.Information));
+                retObj.MessageList.Add(msg);
             }
 
             return retObj;
@@ -590,16 +594,18 @@ namespace BinAff.Core
                     Value = this.DataAccess.Delete(),
                     MessageList = new List<Message>()
                 };
-                String msg;
+                Message msg = new Message();
                 if (retObj.Value)
                 {
-                    msg = String.IsNullOrEmpty(this.Name) ? "Data successfully deleted." : this.Name + " data successfully deleted.";
+                    msg.Description = String.IsNullOrEmpty(this.Name) ? "Data successfully deleted." : this.Name + " data successfully deleted.";
+                    msg.Category = Message.Type.Information;
                 }
                 else
                 {
-                    msg = String.IsNullOrEmpty(this.Name) ? "Data deletion failed." : this.Name + " data deletion failed.";
+                    msg.Description = String.IsNullOrEmpty(this.Name) ? "Data deletion failed." : this.Name + " data deletion failed.";
+                    msg.Category = Message.Type.Error;
                 }
-                retObj.MessageList.Add(new Message(msg, Message.Type.Information));
+                retObj.MessageList.Add(msg);
                 return retObj;
             }
 
