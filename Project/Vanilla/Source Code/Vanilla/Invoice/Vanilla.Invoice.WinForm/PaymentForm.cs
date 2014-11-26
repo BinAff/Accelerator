@@ -177,12 +177,12 @@ namespace Vanilla.Invoice.WinForm
                 List<PayFac.LineItem> paymentList = dgvPayment.DataSource == null ? new List<PayFac.LineItem>() : dgvPayment.DataSource as List<PayFac.LineItem>;
                 paymentList.Add(new Facade.Payment.LineItem
                 {
-                    PaymentType = (cboPaymentType.SelectedItem as Table).Name,
+                    PaymentType = (this.cboPaymentType.SelectedItem as Table).Name,
                     Reference = (cboPaymentType.SelectedItem as Table).Name == "Cash" ? String.Empty : txtLastFourDigit.Text.Trim(),
                     Remark = txtRemark.Text.Trim(),
                     Amount = Convert.ToDouble(txtAmount.Text),
 
-                    Type = cboPaymentType.SelectedItem as Table
+                    Type = this.cboPaymentType.SelectedItem as Table
                 });
 
                 dgvPayment.DataSource = null;
@@ -197,10 +197,10 @@ namespace Vanilla.Invoice.WinForm
             {
                 List<PayFac.LineItem> paymentDtoList = dgvPayment.DataSource as List<PayFac.LineItem>;
                 PayFac.LineItem selectedDto = paymentDtoList[dgvPayment.SelectedRows[0].Index];
-                selectedDto.Reference = (cboPaymentType.SelectedItem as Table).Name == "Cash" ? String.Empty : txtLastFourDigit.Text.Trim();
+                selectedDto.Reference = (this.cboPaymentType.SelectedItem as Table).Name == "Cash" ? String.Empty : txtLastFourDigit.Text.Trim();
                 selectedDto.Amount = Convert.ToDouble(txtAmount.Text);
                 selectedDto.Remark = txtRemark.Text.Trim();
-                selectedDto.PaymentType = (cboPaymentType.SelectedItem as Table).Name;
+                selectedDto.PaymentType = (this.cboPaymentType.SelectedItem as Table).Name;
 
                 dgvPayment.DataSource = null;
                 dgvPayment.DataSource = paymentDtoList;
@@ -236,7 +236,13 @@ namespace Vanilla.Invoice.WinForm
                 txtAmount.Focus();
                 return false;
             }
-            else if ((cboPaymentType.SelectedItem as Table).Name == "Cash")  //[For Cash there will be only one line item]
+            else if (this.cboPaymentType.SelectedItem == null)
+            {
+                errorProvider.SetError(this.cboPaymentType, "Payment type is not selected.");
+                this.cboPaymentType.Focus();
+                return false;
+            }
+            else if ((this.cboPaymentType.SelectedItem as Table).Name == "Cash")  //[For Cash there will be only one line item]
             {
                 if (dgvPayment.DataSource != null)
                 {
@@ -245,24 +251,24 @@ namespace Vanilla.Invoice.WinForm
                     {
                         if (paymentDto.PaymentType == "Cash")
                         {
-                            errorProvider.SetError(cboPaymentType, "System will allow only one cash transaction.");
-                            cboPaymentType.Focus();
+                            errorProvider.SetError(this.cboPaymentType, "System will allow only one cash transaction.");
+                            this.cboPaymentType.Focus();
                             return false;
                         }
                     }
                 }
             }
-            else if ((cboPaymentType.SelectedItem as Table).Name != "Cash") // same card cannot have more than one transaction
+            else if ((this.cboPaymentType.SelectedItem as Table).Name != "Cash") // same card cannot have more than one transaction
             {
                 if (dgvPayment.DataSource != null)
                 {
                     List<PayFac.LineItem> paymentDtoList = dgvPayment.DataSource as List<PayFac.LineItem>;
                     foreach (PayFac.LineItem paymentDto in paymentDtoList)
                     {
-                        if (paymentDto.PaymentType == (cboPaymentType.SelectedItem as Table).Name && paymentDto.Reference == txtLastFourDigit.Text.Trim())
+                        if (paymentDto.PaymentType == (this.cboPaymentType.SelectedItem as Table).Name && paymentDto.Reference == txtLastFourDigit.Text.Trim())
                         {
-                            errorProvider.SetError(cboPaymentType, "Same card cannot be used more than once.");
-                            cboPaymentType.Focus();
+                            errorProvider.SetError(this.cboPaymentType, "Same card cannot be used more than once.");
+                            this.cboPaymentType.Focus();
                             return false;
                         }
                     }
@@ -324,11 +330,11 @@ namespace Vanilla.Invoice.WinForm
 
                 if ((base.formDto as PayFac.FormDto).TypeList != null && (base.formDto as PayFac.FormDto).TypeList.Count > 0)
                 {
-                    for (int i = 0; i < cboPaymentType.Items.Count; i++)
+                    for (int i = 0; i < this.cboPaymentType.Items.Count; i++)
                     {
-                        if (paymentDto.Type.Id == (cboPaymentType.Items[i] as Table).Id)
+                        if (paymentDto.Type.Id == (this.cboPaymentType.Items[i] as Table).Id)
                         {
-                            cboPaymentType.SelectedIndex = i;
+                            this.cboPaymentType.SelectedIndex = i;
                             break;
                         }
                     }
