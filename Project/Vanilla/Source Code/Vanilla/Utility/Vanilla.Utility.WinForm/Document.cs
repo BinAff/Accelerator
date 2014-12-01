@@ -153,15 +153,26 @@ namespace Vanilla.Utility.WinForm
             loadingForm.Show();
             this.pnlLoading.Show();
 
+            System.Threading.Thread t = new System.Threading.Thread(new System.Threading.ThreadStart(() =>
+            {
+                this.LoadData();
+            }))
+            {
+                IsBackground = true,
+            };
+            t.Start();
             Timer timerLoadHandler = new Timer
             {
                 Interval = 1,
             };
             timerLoadHandler.Tick += delegate(object sender, EventArgs e)
             {
-                this.LoadFormChildSealed();
-                this.pnlLoading.Hide();
-                timerLoadHandler.Stop();
+                if (!t.IsAlive)
+                {
+                    this.pnlLoading.Hide();
+                    this.LoadFormChildSealed();
+                    timerLoadHandler.Stop();
+                }
             };
             timerLoadHandler.Start();
         }
@@ -212,6 +223,11 @@ namespace Vanilla.Utility.WinForm
         protected virtual SaveDialog GetSaveDialogue()
         {
             return null;
+        }
+
+        protected virtual void LoadData()
+        {
+
         }
 
     }
