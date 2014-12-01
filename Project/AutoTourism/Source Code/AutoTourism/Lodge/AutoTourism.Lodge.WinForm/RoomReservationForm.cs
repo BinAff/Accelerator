@@ -140,7 +140,6 @@ namespace AutoTourism.Lodge.WinForm
 
             Fac.FormDto formDto = base.formDto as Fac.FormDto;
             Fac.Dto dto = formDto.Dto as Fac.Dto;
-            base.facade.LoadForm();
 
             //customer data is getting read at load, so updating the initial dto for customer
             if (dto.Id > 0)
@@ -240,6 +239,11 @@ namespace AutoTourism.Lodge.WinForm
 
                 //this.PopulateRoomListFromDaysAndDateChanged();
             }
+        }
+
+        protected override void LoadData()
+        {
+            base.facade.LoadForm();
         }
 
         protected override void RefreshFormBefore()
