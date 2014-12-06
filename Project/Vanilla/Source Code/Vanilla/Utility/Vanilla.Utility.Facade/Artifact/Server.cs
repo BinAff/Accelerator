@@ -456,7 +456,7 @@ namespace Vanilla.Utility.Facade.Artifact
             else
                 parentArtifact = artifact.Parent as Facade.Artifact.Dto;
 
-            if (parentArtifact != null)
+            if (parentArtifact != null && parentArtifact.Children != null)
                 parentArtifact.Children.Remove(artifact);
         }
 
