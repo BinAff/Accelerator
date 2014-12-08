@@ -75,10 +75,11 @@ namespace BinAff.Presentation.Library
         public MessageBox()
         {
             InitializeComponent();
+            this.ShowInTaskbar = false;
         }
         public MessageBox(System.Windows.Forms.IWin32Window owner)
+            : this()
         {
-            InitializeComponent();
             this.owner = owner;
         }
 
