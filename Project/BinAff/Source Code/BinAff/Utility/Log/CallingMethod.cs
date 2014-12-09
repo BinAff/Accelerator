@@ -4,146 +4,78 @@ using System.Diagnostics;
 
 namespace BinAff.Utility.Log
 {
+
     public class CallingMethod
     {
+
         public CallingMethod(Type ignoreType)
         {
-            this.ignoreType = ignoreType;
+            this.IgnoreType = ignoreType;
             this.Initialize();
         }
 
-        private Type ignoreType;
         /// <summary>
         /// Type that will be ignored.
         /// </summary>
-        public Type IgnoreType
-        {
-            get
-            {
-                return this.ignoreType;
-            }
-        }
+        public Type IgnoreType { get; private set; }
 
-        private MethodBase method;
         /// <summary>
         /// Calling method.
         /// </summary>
-        public MethodBase Method
-        {
-            get
-            {
-                return this.method;
-            }
-        }
+        public MethodBase Method { get; private set; }
 
-        private string methodNameFull;
         /// <summary>
         /// Full name of this method, with namespace.
         /// </summary>
-        public string MethodNameFull
-        {
-            get
-            {
-                return this.methodNameFull;
-            }
-        }
+        public String MethodNameFull { get; private set; }
 
-        private string methodName;
         /// <summary>
         /// Name of this method.
         /// </summary>
-        public string MethodName
-        {
-            get
-            {
-                return this.methodName;
-            }
-        }
+        public String MethodName { get; private set; }
 
-        private int lineNumber;
         /// <summary>
         /// Line number in the file that called the method.
         /// </summary>
-        public int LineNumber
-        {
-            get
-            {
-                return this.lineNumber;
-            }
-        }
+        public Int32 LineNumber { get; private set; }
 
         /// <summary>
         /// Namespace containing the object containing this method.
         /// </summary>
-        public string Namespace
+        public String Namespace
         {
             get
             {
-                return type == null ? null : this.Type.Namespace;
+                return Type == null ? null : this.Type.Namespace;
             }
         }
 
-        private string returnName;
         /// <summary>
         /// Name of the return type.
         /// </summary>
-        public string ReturnName
-        {
-            get
-            {
-                return this.returnName;
-            }
-        }
+        public String ReturnName { get; private set; }
 
-        private string text;
         /// <summary>
         /// Full method signature, file and line number.
         /// </summary>
-        public string Text
-        {
-            get
-            {
-                return this.text;
-            }
-        }
+        public String Text { get; private set; }
 
-        private string typeNameFull;
         /// <summary>
         /// Full name of the type that contains this method,
         /// including the namespace.
         /// </summary>
-        public string TypeNameFull
-        {
-            get
-            {
-                return this.typeNameFull;
-            }
-        }
+        public String TypeNameFull { get; private set; }
 
-        private string typeName;
         /// <summary>
         /// Name of the type that contains this method,
         /// not including the namespace.
         /// </summary>
-        public string TypeName
-        {
-            get
-            {
-                return this.typeName;
-            }
-        }
+        public String TypeName { get; private set; }
 
-        private Type type;
         /// <summary>
         /// Type that contains this method.
         /// </summary>
-        public Type Type
-        {
-            get
-            {
-                return this.type;
-            }
-        }
+        public Type Type { get; private set; }
 
         /// <summary>
         /// Initializes the calling method information.
@@ -152,16 +84,16 @@ namespace BinAff.Utility.Log
         {
             //METHOD BASE
             MethodBase method = null;
-            string ignoreName = this.ignoreType == null ? null : this.ignoreType.Name;
+            String ignoreName = this.IgnoreType == null ? null : this.IgnoreType.Name;
 
             //STACK TRACE
             StackFrame stackFrame = null;
             StackTrace stackTrace = new StackTrace(true);
-            for (int i = 0; i < stackTrace.FrameCount; i++)
+            for (Int32 i = 0; i < stackTrace.FrameCount; i++)
             {
                 StackFrame sf = stackTrace.GetFrame(i);
                 method = sf.GetMethod();
-                string typeName = method.ReflectedType.Name;
+                String typeName = method.ReflectedType.Name;
                 if (String.Compare(typeName, ignoreName) == 0)
                 {
                     stackFrame = sf;
@@ -171,25 +103,26 @@ namespace BinAff.Utility.Log
 
             //METHOD
             method = stackFrame.GetMethod();
-            this.method = method;
+            this.Method = method;
             string methodString = method.ToString();
 
             //TYPE
-            this.type = method.ReflectedType;
-            this.typeName = this.type.Name;
-            this.typeNameFull = this.type.FullName;
+            this.Type = method.ReflectedType;
+            this.TypeName = this.Type.Name;
+            this.TypeNameFull = this.Type.FullName;
 
             //METHOD
-            this.methodName = method.Name;
-            this.methodNameFull = String.Concat(this.typeNameFull, ".", this.methodName);
+            this.MethodName = method.Name;
+            this.MethodNameFull = String.Concat(this.TypeNameFull, ".", this.MethodName);
 
-            this.lineNumber = stackFrame.GetFileLineNumber();
+            this.LineNumber = stackFrame.GetFileLineNumber();
         }
 
-        public override string ToString()
+        public override String ToString()
         {
             return this.Text;
         }
 
     }
+
 }
