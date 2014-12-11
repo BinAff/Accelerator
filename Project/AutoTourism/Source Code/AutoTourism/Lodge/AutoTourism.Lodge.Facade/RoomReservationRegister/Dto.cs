@@ -5,6 +5,7 @@ using BinAff.Core;
 
 using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
 using CustomerFacade = AutoTourism.Customer.Facade;
+using AutoTourism.Lodge.Facade.RoomReservation;
 
 namespace AutoTourism.Lodge.Facade.RoomReservationRegister
 {
@@ -33,7 +34,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
         public String Remark { get; set; }
         public String ReservationNo { get; set; }
         public Boolean isCheckedIn { get; set; }      
-        public Int64 BookingStatusId { get; set; }
+        public Status BookingStatus { get; set; }
 
         public String Name { get; set; }
         public String ContactNumber { get; set; }

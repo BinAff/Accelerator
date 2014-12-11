@@ -80,7 +80,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
                 ReservationNo = reservation.ReservationNo,
                 //Advance = reservation.Advance,
                 //AdvanceDisplay = reservation.Advance == 0 ? String.Empty : reservation.Advance.ToString(),
-                BookingStatusId = reservation.BookingStatusId,
+                BookingStatus = reservation.BookingStatus,
                 RoomList = reservation.RoomList,
                 RoomCategory = reservation.RoomCategory,
                 RoomType = reservation.RoomType,
