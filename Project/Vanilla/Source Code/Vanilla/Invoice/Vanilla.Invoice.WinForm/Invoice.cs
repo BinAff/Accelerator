@@ -8,27 +8,25 @@ using BinAff.Core;
 using FormWin = Vanilla.Form.WinForm;
 using UtilFac = Vanilla.Utility.Facade;
 using DocFac = Vanilla.Utility.Facade.Document;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
 
 namespace Vanilla.Invoice.WinForm
 {
-    public partial class Invoice : System.Windows.Forms.Form
+    public partial class Invoice : FormWin.Document
     {
 
-        //private Facade.Dto dto;
-        //private Facade.FormDto formDto;
         String invoiceNumber = "INVO-30-05-201404324";
+        
         public Invoice()
         {
             InitializeComponent();
-          
-            this.LoadForm();
         }
 
-        //public Invoice(UtilFac.Artifact.Dto artifact)
-        //    : base(artifact)
-        //{
-        //    InitializeComponent();            
-        //}
+        public Invoice(ArtfFac.Dto artifact)
+            : base(artifact)
+        {
+            InitializeComponent();
+        }
 
         //public Invoice()
         //{
