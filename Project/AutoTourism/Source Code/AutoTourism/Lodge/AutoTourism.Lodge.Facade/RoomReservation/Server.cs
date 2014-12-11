@@ -53,7 +53,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 NoOfRooms = reservation.NoOfRooms,
                 BookingFrom = reservation.ActivityDate,
                 //Advance = reservation.Advance,                
-                BookingStatusId = reservation.Status == null ? 0 : reservation.Status.Id,
+                BookingStatus = (Status)reservation.Status.Id,
                 //RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList),
                 RoomList = reservation.ProductList == null ? null : new RoomFac.Server(null).ConvertAll<Data, RoomFac.Dto>(reservation.ProductList),
                 RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
@@ -86,8 +86,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 ProductList = reservation.RoomList == null ? null : GetRoomDataList(reservation.RoomList),
                 Status = new Crystal.Customer.Component.Action.Status.Data
                 {
-                    //Id = System.Convert.ToInt64(RoomStatus.Open)
-                    Id = reservation.BookingStatusId
+                    Id = (Int64)reservation.BookingStatus
                 },
                 Description = String.Empty,//description will be added later if required
                 RoomCategory = reservation.RoomCategory == null ? null : new LodgeCrys.Room.Category.Data { Id = reservation.RoomCategory.Id },
@@ -309,7 +308,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 formDto.FilteredRoomList = formDto.AllRoomList;
 
             CustCrys.Action.IAction reservation = new RoomRsvCrys.Server(null);
-            ReturnObject<List<CustCrys.Action.Data>> ret = reservation.Search(new CustCrys.Action.Status.Data { Id = System.Convert.ToInt64(RoomStatus.Open) }, dto.BookingFrom, dto.BookingFrom.AddDays(dto.NoOfDays));
+            ReturnObject<List<CustCrys.Action.Data>> ret = reservation.Search(new CustCrys.Action.Status.Data { Id = System.Convert.ToInt64(Status.Open) }, dto.BookingFrom, dto.BookingFrom.AddDays(dto.NoOfDays));
 
             List<RoomFac.Dto> bookedRoomList = new List<RoomFac.Dto>();
 
@@ -372,7 +371,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             LodgeCrys.Room.Reservation.Data reservationData = (this.componentServer as LodgeCrys.Room.Reservation.Server).Data as LodgeCrys.Room.Reservation.Data;
             reservationData.Status = new CustCrys.Action.Status.Data
             {
-                Id = ((this.FormDto as FormDto).Dto as Dto).BookingStatusId
+                Id = (Int64)((this.FormDto as FormDto).Dto as Dto).BookingStatus
             };
 
             using (System.Transactions.TransactionScope T = new System.Transactions.TransactionScope())
@@ -468,7 +467,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         {
             int retVal = 0;
             Crystal.Customer.Component.Action.IAction reservation = new Crystal.Lodge.Component.Room.Reservation.Server(null);
-            ReturnObject<List<Crystal.Customer.Component.Action.Data>> ret = reservation.Search(new Crystal.Customer.Component.Action.Status.Data { Id = System.Convert.ToInt64(RoomStatus.Open) }, startDate, endDate);
+            ReturnObject<List<Crystal.Customer.Component.Action.Data>> ret = reservation.Search(new Crystal.Customer.Component.Action.Status.Data { Id = System.Convert.ToInt64(Status.Open) }, startDate, endDate);
 
             if (ret.Value != null && ret.Value.Count > 0)
             {
@@ -487,7 +486,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         {
             int retVal = 0;
             Crystal.Customer.Component.Action.IAction reservation = new Crystal.Lodge.Component.Room.Reservation.Server(null);
-            ReturnObject<List<Crystal.Customer.Component.Action.Data>> ret = reservation.Search(new Crystal.Customer.Component.Action.Status.Data { Id = System.Convert.ToInt64(RoomStatus.Open) }, startDate, endDate);
+            ReturnObject<List<Crystal.Customer.Component.Action.Data>> ret = reservation.Search(new Crystal.Customer.Component.Action.Status.Data { Id = System.Convert.ToInt64(Status.Open) }, startDate, endDate);
 
             if (ret.Value != null && ret.Value.Count > 0)
             {
@@ -512,7 +511,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                         BookingFrom = reservationDto.BookingFrom,
                         NoOfDays = reservationDto.NoOfDays,
                         NoOfRooms = reservationDto.NoOfRooms,
-                        BookingStatusId = reservationDto.BookingStatusId,
+                        BookingStatus = reservationDto.BookingStatus,
                         RoomCategory = reservationDto.RoomCategory == null ? null : new Table
                         {
                             Id = reservationDto.RoomCategory.Id,
@@ -557,7 +556,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             Dto dto = formDto.Dto as Dto;
 
             CustCrys.Action.IAction objReservation = new RoomRsvCrys.Server(null);
-            ReturnObject<List<CustCrys.Action.Data>> ret = objReservation.Search(new CustCrys.Action.Status.Data { Id = System.Convert.ToInt64(RoomStatus.Open) }, dto.BookingFrom, dto.BookingFrom.AddDays(dto.NoOfDays));
+            ReturnObject<List<CustCrys.Action.Data>> ret = objReservation.Search(new CustCrys.Action.Status.Data { Id = System.Convert.ToInt64(Status.Open) }, dto.BookingFrom, dto.BookingFrom.AddDays(dto.NoOfDays));
             List<CustCrys.Action.Data> allReservation = ret.Value as List<CustCrys.Action.Data>;
             List<RoomFac.Dto> allRoomList = formDto.AllRoomList;
 
@@ -869,7 +868,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             Int32 totalReservedRooms = 0;
             RoomRsvCrys.Data roomReservationData;
             CustCrys.Action.IAction reservation = new Crystal.Lodge.Component.Room.Reservation.Server(null);
-            ReturnObject<List<CustCrys.Action.Data>> ret = reservation.Search(new Crystal.Customer.Component.Action.Status.Data { Id = System.Convert.ToInt64(RoomStatus.Open) }, dto.BookingFrom, dto.BookingFrom.AddDays(dto.NoOfDays));
+            ReturnObject<List<CustCrys.Action.Data>> ret = reservation.Search(new Crystal.Customer.Component.Action.Status.Data { Id = System.Convert.ToInt64(Status.Open) }, dto.BookingFrom, dto.BookingFrom.AddDays(dto.NoOfDays));
 
             Boolean blnAdd = true;
             if (ret.Value != null)
@@ -1012,13 +1011,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         //}
 
         #endregion
-
-        public enum RoomStatus
-        {
-            //Mapped with database table RoomReservationStatus
-            Open = 10001,
-            Cancel = 10003
-        }
 
     }
 
