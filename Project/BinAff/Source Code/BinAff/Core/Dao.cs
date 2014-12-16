@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -12,6 +13,10 @@ namespace BinAff.Core
     /// </summary>
     public abstract class Dao : IDisposable
     {
+
+        private readonly Boolean IsTraceOn = ConfigurationManager.AppSettings["TraceOn"] == "Y";
+        private readonly String logPath = Environment.CurrentDirectory + ConfigurationManager.AppSettings["Tracepath"];
+        private Utility.Log.Server logWritter;
 
         #region Properties
 
@@ -43,6 +48,11 @@ namespace BinAff.Core
 
         protected Dao(Data data)
         {
+            if(this.IsTraceOn)
+            {
+                this.logWritter = new Utility.Log.Server(logPath, Utility.Log.Server.Type.Daily);
+            }
+            if (this.IsTraceOn)  this.logWritter.Write(this.GetType().ToString() + " DAL Start...");
             this.Data = data;
             this.Compose();
         }
@@ -107,8 +117,10 @@ namespace BinAff.Core
         {
             try
             {
+                if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " ExecuteNonQuery Start");
                 Int32 effectedRow = this.command.ExecuteNonQuery();
 
+                if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " ExecuteNonQuery End with result " + effectedRow);
                 return effectedRow;
             }
             catch (SqlException ex)
@@ -243,8 +255,10 @@ namespace BinAff.Core
         /// <returns></returns>
         public virtual Boolean Create()
         {
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " Create Start");
             Boolean status = false;
-            if (this.CreateStoredProcedure == null) throw new Exception("Insert stored procedure not specified");            
+            if (this.CreateStoredProcedure == null) throw new Exception("Insert stored procedure not specified");
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " SP - " + this.CreateStoredProcedure + ", Id - " + this.Data.Id);
             this.CreateConnection();
             if (this.CreateBefore())
             {
@@ -256,6 +270,8 @@ namespace BinAff.Core
                 if (this.Data.Id > 0) status = this.CreateAfter();                
             }
             this.CloseConnection();
+
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " Create End");
             return status;
 
             #region DAB
@@ -274,8 +290,10 @@ namespace BinAff.Core
         /// <returns></returns>
         public virtual Boolean Update()
         {
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " Update Start");
             Boolean status = false;
             if (this.UpdateStoredProcedure == null) throw new Exception("Update stored procedure not specified");
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " SP - " + this.UpdateStoredProcedure + ", Id - " + this.Data.Id);
             this.CreateConnection();
             if (this.UpdateBefore())
             {
@@ -290,6 +308,7 @@ namespace BinAff.Core
                 }
             }
             this.CloseConnection();
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " Update End");
             return status;
             #region DAB
             //this.wrapper = new WrapperDac();
@@ -308,7 +327,9 @@ namespace BinAff.Core
         /// <returns></returns>
         public virtual Data Read()
         {
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " Read Start");
             if (this.ReadStoredProcedure == null) throw new Exception("Read stored procedure not specified");
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " SP - " + this.ReadStoredProcedure + ", Id - " + this.Data.Id);
             this.CreateConnection();
             if (this.ReadBefore())
             {
@@ -320,6 +341,7 @@ namespace BinAff.Core
             }
             if (!this.ReadAfter()) this.Data = null;
             this.CloseConnection();
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " Read End");
             return this.Data;
         }
 
@@ -329,6 +351,9 @@ namespace BinAff.Core
         /// <returns></returns>
         public virtual List<BinAff.Core.Data> ReadAll()
         {
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " ReadAll Start");
+            if (this.ReadAllStoredProcedure == null) throw new Exception("ReadAll stored procedure not specified");
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " SP - " + this.ReadAllStoredProcedure);
             this.CreateConnection();
             this.CreateCommand(this.ReadAllStoredProcedure);
 
@@ -336,6 +361,7 @@ namespace BinAff.Core
             List<BinAff.Core.Data> dataList = CreateDataObjectList(ds);
             this.CloseConnection();
 
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " ReadAll End");
             return dataList;
         }
 
@@ -345,8 +371,10 @@ namespace BinAff.Core
         /// <returns></returns>
         public virtual Boolean Delete()
         {
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " Delete Start");
             Boolean status = false;
             if (this.DeleteStoredProcedure == null) throw new Exception("Delete stored procedure not specified");
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " SP - " + this.DeleteStoredProcedure + ", Id - " + this.Data.Id);
             this.CreateConnection();
             if (this.DeleteBefore())
             {
@@ -363,6 +391,7 @@ namespace BinAff.Core
                 }
             }
             this.CloseConnection();
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " Delete End");
             return status;
             #region DAB
             //bool status;
@@ -398,9 +427,11 @@ namespace BinAff.Core
         /// </summary>
         /// <param name="parentId"></param>
         /// <returns></returns>
-        public virtual Data ReadForParent() 
+        public virtual Data ReadForParent()
         {
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " ReadForParent Start");
             if (this.ReadForParentStoredProcedure == null) throw new Exception("Read for parent stored procedure not specified");
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " SP - " + this.ReadForParentStoredProcedure + ", Id - " + this.Data.Id);
             this.CreateConnection();
             this.CreateCommand(this.ReadForParentStoredProcedure);
             this.AddInParameter("@ParentId", DbType.Int64, this.ParentData.Id);
@@ -421,6 +452,7 @@ namespace BinAff.Core
                     this.AttachChildrenDataToParent(this.CreateDataObjectList(ds));
                 }
             }
+            if (this.IsTraceOn) this.logWritter.Write(this.GetType().ToString() + " ReadForParent End");
             return this.Data;
         }
 
@@ -560,7 +592,7 @@ namespace BinAff.Core
             throw new NotImplementedException();
         }
 
-        #region Hook
+        #region Optional Hook
 
         internal protected virtual Boolean CreateBefore()
         {
