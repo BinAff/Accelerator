@@ -1,20 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using BinAff.Core;
-using BinAff.Utility;
+using FacLib = BinAff.Facade.Library;
 
 using PayCrys = Crystal.Invoice.Component.Payment;
-using CrystalCustomer = Crystal.Customer.Component;
+using CustCrys = Crystal.Customer.Component;
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
-using InvoiceCrys = Crystal.Invoice.Component;
-using InvArtfComp = Crystal.Invoice.Component.Navigator.Artifact;
+using InvCrys = Crystal.Invoice.Component;
+using InvArtfCrys = Crystal.Invoice.Component.Navigator.Artifact;
 
 using PayVan = Vanilla.Invoice.Facade.Payment;
+using InvFac = Vanilla.Invoice.Facade;
+using DocFac = Vanilla.Form.Facade.Document;
+using ModFac = Vanilla.Utility.Facade.Module;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using SellerFac = Vanilla.Invoice.Facade.Seller;
+using BuyerFac = Vanilla.Invoice.Facade.Buyer;
+using LineItemFac = Vanilla.Invoice.Facade.LineItem;
+using TaxationFac = Vanilla.Invoice.Facade.Taxation;
+
+using CustAuto = AutoTourism.Component.Customer;
 
 namespace Vanilla.Invoice.Facade
 {
 
-    public class Server : Vanilla.Form.Facade.Document.Server, IInvoice
+    public class Server : DocFac.Server, IInvoice
     {
 
         public Server(FormDto formDto)
@@ -29,9 +40,9 @@ namespace Vanilla.Invoice.Facade
             //formDto.paymentTypeList = this.ReadAllPaymentType();
         }
 
-        public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
+        public override FacLib.Dto Convert(BinAff.Core.Data data)
         {
-            Crystal.Invoice.Component.Data invoiceData = data as Crystal.Invoice.Component.Data;
+            InvCrys.Data invoiceData = data as InvCrys.Data;
             return new Dto 
             {
                 Id = invoiceData.Id,
@@ -47,11 +58,11 @@ namespace Vanilla.Invoice.Facade
             };
         }
 
-        public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
+        public override BinAff.Core.Data Convert(FacLib.Dto dto)
         {
-            Vanilla.Invoice.Facade.Dto invoiceDto = dto as Vanilla.Invoice.Facade.Dto;
+            InvFac.Dto invoiceDto = dto as InvFac.Dto;
 
-            return new Crystal.Invoice.Component.Data()
+            return new InvCrys.Data
             {
                 InvoiceNumber = invoiceDto.invoiceNumber,
                 Advance = invoiceDto.advance,
@@ -65,16 +76,16 @@ namespace Vanilla.Invoice.Facade
 
         public override void Add()
         {
-            Dto invoiceDto = (this.FormDto as Vanilla.Form.Facade.Document.FormDto).Dto as Dto;
-            AutoTourism.Component.Customer.Data autoCustomer = new AutoTourism.Component.Customer.Data
+            Dto invoiceDto = (this.FormDto as DocFac.FormDto).Dto as Dto;
+            CustAuto.Data autoCustomer = new CustAuto.Data
             {
-                Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
+                Invoice = new InvCrys.InvoiceContainer.Data
                 {
-                    Active = this.Convert(invoiceDto) as CrystalCustomer.Action.Data
+                    Active = this.Convert(invoiceDto) as CustCrys.Action.Data
                 }
             };
 
-            CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
+            CustCrys.ICustomer customer = new CustAuto.Server(autoCustomer);
             ReturnObject<Boolean> ret = customer.GenerateInvoice();
 
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);             
@@ -101,29 +112,31 @@ namespace Vanilla.Invoice.Facade
             //return paymentList;
         }
                
-        public void SaveArtifactForReservation(Vanilla.Utility.Facade.Artifact.Dto artifactDto)
+        public void SaveArtifactForReservation(ArtfFac.Dto artifact)
         {
-            Vanilla.Utility.Facade.Module.Dto invoiceModuleDto = new Vanilla.Utility.Facade.Module.Server(null).GetModule("INVO", (this.FormDto as FormDto).ModuleFormDto.FormModuleList);
-            String fileName = new Vanilla.Utility.Facade.Artifact.Server(null).GetArtifactName(invoiceModuleDto.Artifact, Vanilla.Utility.Facade.Artifact.Type.Document, "Form");
-            artifactDto.FileName = fileName;
+            ModFac.Dto invoiceModuleDto = new ModFac.Server(null).GetModule("INVO", (this.FormDto as FormDto).ModuleFormDto.FormModuleList);
+            String fileName = new ArtfFac.Server(null).GetArtifactName(invoiceModuleDto.Artifact, ArtfFac.Type.Document, "Form");
+            artifact.FileName = fileName;
 
             if (invoiceModuleDto != null)
-                invoiceModuleDto.Artifact.Children.Add(artifactDto);
-
-            (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact = new Vanilla.Utility.Facade.Artifact.FormDto
             {
-                Dto = artifactDto
+                invoiceModuleDto.Artifact.Children.Add(artifact);
+            }
+
+            (this.FormDto as FormDto).ModuleFormDto.CurrentArtifact = new ArtfFac.FormDto
+            {
+                Dto = artifact
             };
 
             (this.FormDto as FormDto).ModuleFormDto.Dto = invoiceModuleDto;
-            Vanilla.Utility.Facade.Module.Server moduleFacade = new Vanilla.Utility.Facade.Module.Server((this.FormDto as FormDto).ModuleFormDto);
+            ModFac.Server moduleFacade = new ModFac.Server((this.FormDto as FormDto).ModuleFormDto);
             moduleFacade.Add();
 
         }
 
-        private Vanilla.Invoice.Facade.Seller.Dto GetSeller(Crystal.Invoice.Component.Seller seller)
+        private SellerFac.Dto GetSeller(InvCrys.Seller seller)
         {
-            return seller == null ? null : new Vanilla.Invoice.Facade.Seller.Dto
+            return seller == null ? null : new SellerFac.Dto
             {
                 Name = seller.Name,
                 Address = seller.Address,
@@ -133,9 +146,9 @@ namespace Vanilla.Invoice.Facade
             };
         }
                 
-        private Vanilla.Invoice.Facade.Buyer.Dto GetBuyer(Crystal.Invoice.Component.Buyer buyer)
+        private BuyerFac.Dto GetBuyer(InvCrys.Buyer buyer)
         {
-            return buyer == null ? null : new Vanilla.Invoice.Facade.Buyer.Dto
+            return buyer == null ? null : new BuyerFac.Dto
             {
                 Name = buyer.Name,
                 Address = buyer.Address,
@@ -144,14 +157,14 @@ namespace Vanilla.Invoice.Facade
             };
         }
              
-        private List<Vanilla.Invoice.Facade.LineItem.Dto> GetProductList(List<BinAff.Core.Data> lineItemList)
+        private List<LineItemFac.Dto> GetProductList(List<BinAff.Core.Data> lineItemList)
         {
-            List<Vanilla.Invoice.Facade.LineItem.Dto> productList = new List<Vanilla.Invoice.Facade.LineItem.Dto>();
+            List<LineItemFac.Dto> productList = new List<LineItemFac.Dto>();
             if (lineItemList != null && lineItemList.Count > 0)
             {
-                foreach (Crystal.Invoice.Component.LineItem.Data lineItem in lineItemList)
+                foreach (InvCrys.LineItem.Data lineItem in lineItemList)
                 {
-                    productList.Add(new Vanilla.Invoice.Facade.LineItem.Dto
+                    productList.Add(new LineItemFac.Dto
                     {
                         startDate = lineItem.Start,
                         endDate = lineItem.End,
@@ -159,7 +172,7 @@ namespace Vanilla.Invoice.Facade
                         unitRate = lineItem.UnitRate,
                         count = lineItem.Count,
                         total = lineItem.Total,
-                        TaxList = PopulateTaxToLineItem(lineItem.TaxList)
+                        TaxList = this.PopulateTaxToLineItem(lineItem.TaxList)
                     });
                 }
             }
@@ -169,33 +182,41 @@ namespace Vanilla.Invoice.Facade
         private List<Taxation.Dto> PopulateTaxToLineItem(List<BinAff.Core.Data> taxList)
         {
             List<Taxation.Dto> taxLst = new List<Taxation.Dto>();
-            foreach (BinAff.Core.Data data in taxList)
+            if (taxList != null && taxList.Count > 0)
             {
-                Crystal.Invoice.Component.Taxation.Data taxData = data as Crystal.Invoice.Component.Taxation.Data;
-                taxLst.Add(new Taxation.Dto 
+                foreach (InvCrys.Taxation.Data tax in taxList)
                 {
-                    Name = taxData.Name,
-                    isPercentage = taxData.isPercentage,
-                    Amount = taxData.Amount
-                });
+                    if (tax != null)
+                    {
+                        taxLst.Add(new Taxation.Dto
+                        {
+                            Name = tax.Name,
+                            isPercentage = tax.isPercentage,
+                            Amount = tax.Amount
+                        });
+                    }
+                }
             }
             return taxLst;
         }
 
-        private List<Vanilla.Invoice.Facade.Taxation.Dto> GetTaxation(List<BinAff.Core.Data> taxationList)
+        private List<TaxationFac.Dto> GetTaxation(List<BinAff.Core.Data> taxationList)
         {
-            List<Vanilla.Invoice.Facade.Taxation.Dto> taxationDtoList = new List<Vanilla.Invoice.Facade.Taxation.Dto>();
+            List<TaxationFac.Dto> taxationDtoList = new List<TaxationFac.Dto>();
             if (taxationList != null && taxationList.Count > 0)
             {
-                foreach (Crystal.Invoice.Component.Taxation.Data taxData in taxationList)
+                foreach (InvCrys.Taxation.Data tax in taxationList)
                 {
-                    taxationDtoList.Add(new Vanilla.Invoice.Facade.Taxation.Dto
+                    if (tax != null)
                     {
-                        Id = taxData.Id,
-                        Name = taxData.Name,
-                        Amount = taxData.Amount,
-                        isPercentage = taxData.isPercentage
-                    });
+                        taxationDtoList.Add(new TaxationFac.Dto
+                        {
+                            Id = tax.Id,
+                            Name = tax.Name,
+                            Amount = tax.Amount,
+                            isPercentage = tax.isPercentage
+                        });
+                    }
                 }
             }
             return taxationDtoList;
@@ -206,7 +227,7 @@ namespace Vanilla.Invoice.Facade
         //    List<PayVan.LineItem> paymentDtoList = new List<PayVan.LineItem>();
         //    if (paymentList != null && paymentList.Count > 0)
         //    {
-        //        foreach (Crystal.Invoice.Component.Payment.Data paymentData in paymentList)
+        //        foreach (InvCrys.Payment.Data paymentData in paymentList)
         //        {
         //            paymentDtoList.Add(new Vanilla.Invoice.Facade.Payment.LineItem
         //            {
@@ -224,7 +245,7 @@ namespace Vanilla.Invoice.Facade
         //    };
         //}
 
-        List<Table> IInvoice.CalulateTaxList(double total, List<Taxation.Dto> taxationList)
+        List<Table> IInvoice.CalulateTaxList(Double total, List<Taxation.Dto> taxationList)
         {
             List<Table> taxList = new List<Table>();
             String taxName = String.Empty;
@@ -232,7 +253,7 @@ namespace Vanilla.Invoice.Facade
 
             if (taxationList != null && taxationList.Count > 0)
             {
-                foreach (Facade.Taxation.Dto dto in taxationList)
+                foreach (TaxationFac.Dto dto in taxationList)
                 {
                     taxName = dto.Name;
                     if (dto.isPercentage)
@@ -240,8 +261,10 @@ namespace Vanilla.Invoice.Facade
                         taxName += " (" + dto.Amount + " %)";
                         taxValue = total * (dto.Amount / 100);
                     }
-                    else                    
+                    else
+                    {
                         taxValue = dto.Amount;
+                    }
 
                     taxList.Add(new Table
                     {
@@ -253,33 +276,32 @@ namespace Vanilla.Invoice.Facade
             return taxList;
         }
 
-        //ReturnObject<Crystal.Invoice.Component.Data> IInvoice.GetInvoice(String invoiceNumber)
+        //ReturnObject<InvCrys.Data> IInvoice.GetInvoice(String invoiceNumber)
         //{            
-        //    InvoiceCrys.IInvoice invoice = new InvoiceCrys.Server(new InvoiceCrys.Data());
+        //    InvCrys.IInvoice invoice = new InvCrys.Server(new InvCrys.Data());
         //    return invoice.GetInvoice(invoiceNumber);
         //}
 
         Dto IInvoice.GetInvoice(String invoiceNumber)
         {
             Dto dto = null;
-            InvoiceCrys.IInvoice invoice = new InvoiceCrys.Server(new InvoiceCrys.Data());
-            ReturnObject<Crystal.Invoice.Component.Data> retVal = invoice.GetInvoice(invoiceNumber);
+            InvCrys.IInvoice invoice = new InvCrys.Server(new InvCrys.Data());
+            ReturnObject<InvCrys.Data> retVal = invoice.GetInvoice(invoiceNumber);
 
-            if (retVal != null)            
-              dto =  this.Convert(retVal.Value) as Dto;
+            if (retVal != null) dto =  this.Convert(retVal.Value) as Dto;
 
             return dto;
         }
 
         Int64 IInvoice.GetInvoiceId(String invoiceNumber)
         {           
-            InvoiceCrys.IInvoice invoice = new InvoiceCrys.Server(new InvoiceCrys.Data());
+            InvCrys.IInvoice invoice = new InvCrys.Server(new InvCrys.Data());
             return invoice.GetInvoiceId(invoiceNumber);
         }
 
         List<PayVan.Dto> IInvoice.ReadPaymentListForInvoice(String invoiceNumber)
         {           
-            InvoiceCrys.IInvoice invoice = new InvoiceCrys.Server(new InvoiceCrys.Data());
+            InvCrys.IInvoice invoice = new InvCrys.Server(new InvCrys.Data());
             List<PayCrys.Data> paymentDataList = invoice.ReadInvoicePayment(invoiceNumber);
           
             return new Payment.Server(new Payment.FormDto()).Convert(paymentDataList);
@@ -292,15 +314,15 @@ namespace Vanilla.Invoice.Facade
             Dto invoiceDto = (base.FormDto as Facade.FormDto).Dto as Facade.Dto;
             //invoiceDto.invoiceNumber = Common.GenerateInvoiceNumber();
 
-            AutoTourism.Component.Customer.Data autoCustomer = new AutoTourism.Component.Customer.Data
+            CustAuto.Data autoCustomer = new CustAuto.Data
             {
-                Invoice = new Crystal.Invoice.Component.InvoiceContainer.Data
+                Invoice = new InvCrys.InvoiceContainer.Data
                 {
-                    Active = this.Convert(invoiceDto) as CrystalCustomer.Action.Data
+                    Active = this.Convert(invoiceDto) as CustCrys.Action.Data
                 }
             };
 
-            CrystalCustomer.ICustomer customer = new AutoTourism.Component.Customer.Server(autoCustomer);
+            CustCrys.ICustomer customer = new CustAuto.Server(autoCustomer);
             ret = customer.GenerateInvoice();
 
             if (ret.Value)
@@ -314,11 +336,11 @@ namespace Vanilla.Invoice.Facade
             return ret;         
         }
 
-        //private BinAff.Core.Data ConvertToInvoiceData(BinAff.Facade.Library.Dto dto)
+        //private BinAff.Core.Data ConvertToInvoiceData(FacLib.Dto dto)
         //{
         //    Vanilla.Invoice.Facade.Dto invoiceDto = dto as Vanilla.Invoice.Facade.Dto;
 
-        //    return new Crystal.Invoice.Component.Data()
+        //    return new InvCrys.Data()
         //    {
         //        InvoiceNumber = invoiceDto.invoiceNumber,
         //        Advance = invoiceDto.advance,
@@ -332,9 +354,10 @@ namespace Vanilla.Invoice.Facade
         //    };
         //}
 
-        private Crystal.Invoice.Component.Seller GetSeller(Vanilla.Invoice.Facade.Seller.Dto seller)
+        private InvCrys.Seller GetSeller(SellerFac.Dto seller)
         {
-            return new Crystal.Invoice.Component.Seller
+            if (seller == null) return null;
+            return new InvCrys.Seller
             {
                 Name = seller.Name,
                 Address = seller.Address,
@@ -344,9 +367,10 @@ namespace Vanilla.Invoice.Facade
             };
         }
 
-        private Crystal.Invoice.Component.Buyer GetBuyer(Vanilla.Invoice.Facade.Buyer.Dto buyer)
+        private InvCrys.Buyer GetBuyer(BuyerFac.Dto buyer)
         {
-            return new Crystal.Invoice.Component.Buyer
+            if (buyer == null) return null;
+            return new InvCrys.Buyer
             {
                 Name = buyer.Name,
                 Address = buyer.Address,
@@ -355,34 +379,37 @@ namespace Vanilla.Invoice.Facade
             };
         }
 
-        private List<BinAff.Core.Data> GetLineItem(List<Vanilla.Invoice.Facade.LineItem.Dto> roomList)
+        private List<BinAff.Core.Data> GetLineItem(List<LineItemFac.Dto> roomList)
         {
             List<BinAff.Core.Data> lineItemList = new List<Data>();
             if (roomList != null && roomList.Count > 0)
             {
-                foreach (Vanilla.Invoice.Facade.LineItem.Dto lineItem in roomList)
+                foreach (LineItemFac.Dto lineItem in roomList)
                 {
-                    lineItemList.Add(new Crystal.Invoice.Component.LineItem.Data
+                    if (lineItem != null)
                     {
-                        Start = lineItem.startDate,
-                        End = lineItem.endDate,
-                        Description = lineItem.description,
-                        UnitRate = lineItem.unitRate,
-                        Count = lineItem.count,
-                        Total = lineItem.total,
-                        TaxList = ConvertTaxList(lineItem.TaxList)
-                    });
+                        lineItemList.Add(new InvCrys.LineItem.Data
+                        {
+                            Start = lineItem.startDate,
+                            End = lineItem.endDate,
+                            Description = lineItem.description,
+                            UnitRate = lineItem.unitRate,
+                            Count = lineItem.count,
+                            Total = lineItem.total,
+                            TaxList = this.ConvertTaxList(lineItem.TaxList)
+                        });
+                    }
                 }
             }
             return lineItemList;
         }
 
-        //private List<BinAff.Core.Data> GetTaxation(List<Vanilla.Invoice.Facade.Taxation.Dto> taxationList)
+        //private List<BinAff.Core.Data> GetTaxation(List<TaxationFac.Dto> taxationList)
         //{
         //    List<BinAff.Core.Data> taxationDataList = new List<Data>();
         //    if (taxationList != null && taxationList.Count > 0)
         //    {
-        //        foreach (Vanilla.Invoice.Facade.Taxation.Dto dto in taxationList)
+        //        foreach (TaxationFac.Dto dto in taxationList)
         //        {
         //            taxationDataList.Add(new Crystal.Invoice.Component.Taxation.Data
         //            {
@@ -396,12 +423,12 @@ namespace Vanilla.Invoice.Facade
         //    return taxationDataList;
         //}
 
-        //private List<BinAff.Core.Data> GetPayments(List<Vanilla.Invoice.Facade.Payment.Dto> paymentList)
+        //private List<BinAff.Core.Data> GetPayments(List<PayVan.Dto> paymentList)
         //{
         //    List<BinAff.Core.Data> paymentDataList = new List<Data>();
         //    if (paymentList != null && paymentList.Count > 0)
         //    {
-        //        foreach (Vanilla.Invoice.Facade.Payment.Dto dto in paymentList)
+        //        foreach (PayVan.Dto dto in paymentList)
         //        {
         //            paymentDataList.Add(new Crystal.Invoice.Component.Payment.Data
         //            {
@@ -416,7 +443,7 @@ namespace Vanilla.Invoice.Facade
         //    return paymentDataList;
         //}
 
-        //private BinAff.Core.Data ConvertToInvoiceData(BinAff.Facade.Library.Dto dto)
+        //private BinAff.Core.Data ConvertToInvoiceData(FacLib.Dto dto)
         //{
         //    Vanilla.Invoice.Facade.Dto invoiceDto = dto as Vanilla.Invoice.Facade.Dto;
 
@@ -434,7 +461,7 @@ namespace Vanilla.Invoice.Facade
         //    };
         //}
 
-        //private Crystal.Invoice.Component.Seller GetSeller(Vanilla.Invoice.Facade.Seller.Dto seller)
+        //private Crystal.Invoice.Component.Seller GetSeller(SellerFac.Dto seller)
         //{
         //    return new Crystal.Invoice.Component.Seller
         //    {
@@ -446,7 +473,7 @@ namespace Vanilla.Invoice.Facade
         //    };
         //}
 
-        //private Crystal.Invoice.Component.Buyer GetBuyer(Vanilla.Invoice.Facade.Buyer.Dto buyer)
+        //private Crystal.Invoice.Component.Buyer GetBuyer(BuyerFac.Dto buyer)
         //{
         //    return new Crystal.Invoice.Component.Buyer
         //    {
@@ -457,12 +484,12 @@ namespace Vanilla.Invoice.Facade
         //    };
         //}
 
-        //private List<BinAff.Core.Data> GetLineItem(List<Vanilla.Invoice.Facade.LineItem.Dto> roomList)
+        //private List<BinAff.Core.Data> GetLineItem(List<LineItemFac.Dto> roomList)
         //{
         //    List<BinAff.Core.Data> lineItemList = new List<Data>();
         //    if (roomList != null && roomList.Count > 0)
         //    {
-        //        foreach (Vanilla.Invoice.Facade.LineItem.Dto lineItem in roomList)
+        //        foreach (LineItemFac.Dto lineItem in roomList)
         //        {
         //            lineItemList.Add(new Crystal.Invoice.Component.LineItem.Data
         //            {
@@ -478,12 +505,12 @@ namespace Vanilla.Invoice.Facade
         //    return lineItemList;
         //}
 
-        //private List<BinAff.Core.Data> GetTaxation(List<Vanilla.Invoice.Facade.Taxation.Dto> taxationList)
+        //private List<BinAff.Core.Data> GetTaxation(List<TaxationFac.Dto> taxationList)
         //{
         //    List<BinAff.Core.Data> taxationDataList = new List<Data>();
         //    if (taxationList != null && taxationList.Count > 0)
         //    {
-        //        foreach (Vanilla.Invoice.Facade.Taxation.Dto dto in taxationList)
+        //        foreach (TaxationFac.Dto dto in taxationList)
         //        {
         //            taxationDataList.Add(new Crystal.Invoice.Component.Taxation.Data
         //            {
@@ -497,12 +524,12 @@ namespace Vanilla.Invoice.Facade
         //    return taxationDataList;
         //}
 
-        //private List<BinAff.Core.Data> GetPayments(List<Vanilla.Invoice.Facade.Payment.Dto> paymentList)
+        //private List<BinAff.Core.Data> GetPayments(List<PayVan.Dto> paymentList)
         //{
         //    List<BinAff.Core.Data> paymentDataList = new List<Data>();
         //    if (paymentList != null && paymentList.Count > 0)
         //    {
-        //        foreach (Vanilla.Invoice.Facade.Payment.Dto dto in paymentList)
+        //        foreach (PayVan.Dto dto in paymentList)
         //        {
         //            paymentDataList.Add(new Crystal.Invoice.Component.Payment.Data
         //            {
@@ -517,23 +544,23 @@ namespace Vanilla.Invoice.Facade
         //    return paymentDataList;
         //}
 
-        public Vanilla.Utility.Facade.Artifact.Dto GetArtifactForInvoiceNumber(String invoiceNumber)
-        {            
-           Crystal.Navigator.Component.Artifact.Data  data =  new InvoiceCrys.Navigator.Artifact.Server(new InvoiceCrys.Navigator.Artifact.Data()).GetArtifactForInvoiceNumber(invoiceNumber);
+        public ArtfFac.Dto GetArtifactForInvoiceNumber(String invoiceNumber)
+        {
+            ArtfCrys.Data data = new InvArtfCrys.Server(new InvArtfCrys.Data()).GetArtifactForInvoiceNumber(invoiceNumber);
            return new Utility.Facade.Artifact.Dto 
            {
                Id = data == null ? 0 : data.Id
            };
         }
 
-        protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData)
+        protected override ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifact)
         {
-            return new InvoiceCrys.Navigator.Artifact.Server(artifactData as InvoiceCrys.Navigator.Artifact.Data);
+            return new InvArtfCrys.Server(artifact as InvArtfCrys.Data);
         }
 
         protected override ICrud GetComponentServer()
         {
-            this.componentServer = new InvoiceCrys.Server(this.Convert((this.FormDto as FormDto).Dto) as InvoiceCrys.Data);
+            this.componentServer = new InvCrys.Server(this.Convert((this.FormDto as FormDto).Dto) as InvCrys.Data);
             return this.componentServer;
         }
 
@@ -547,32 +574,39 @@ namespace Vanilla.Invoice.Facade
             return "INVO";
         }
 
+        protected override BinAff.Core.Observer.IRegistrar GetRegisterer()
+        {
+            return null;
+        }
+
         protected override ArtfCrys.Data GetArtifactData(Int64 artifactId)
         {
-            return new InvArtfComp.Data { Id = artifactId };
+            return new InvArtfCrys.Data { Id = artifactId };
         }
 
         private List<BinAff.Core.Data> ConvertTaxList(List<Taxation.Dto> taxList)
         {
-            List<BinAff.Core.Data> taxLst = new List<Data>();
-            
+            List<BinAff.Core.Data> taxLst = new List<Data>();            
             if (taxList != null && taxList.Count > 0)
             {
                 foreach (Taxation.Dto dto in taxList)
                 {
-                    taxLst.Add(new InvoiceCrys.Taxation.Data 
-                    { 
-                        Name = dto.Name,
-                        Amount = dto.Amount,
-                        isPercentage = dto.isPercentage
-                    });
+                    if (dto != null)
+                    {
+                        taxLst.Add(new InvCrys.Taxation.Data
+                        {
+                            Name = dto.Name,
+                            Amount = dto.Amount,
+                            isPercentage = dto.isPercentage
+                        });
+                    }
                 }
-            }
-            
+            }            
             return taxLst;
         }
-                
+             
     }
+
 }
 
 
