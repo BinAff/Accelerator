@@ -894,7 +894,7 @@ namespace AutoTourism.Lodge.WinForm
                 ReservationNo = roomReservationRegisterDto.ReservationNo,
 
                 Customer = roomReservationRegisterDto.Customer,
-                BookingStatusId = roomReservationRegisterDto.BookingStatusId
+                BookingStatus = roomReservationRegisterDto.BookingStatus
             };
 
             this.LoadCheckInData();
