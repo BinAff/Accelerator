@@ -1335,12 +1335,6 @@ namespace Vanilla.Utility.WinForm
                 Boolean isDeleted = this.currentArtifact.Style == ArtfFac.Type.Document ?
                     this.DeleteDocument(this.currentArtifact, messageList) :
                     this.DeleteFolder(this.currentArtifact, messageList);
-                new PresLib.MessageBox
-                {
-                    DialogueType = PresLib.MessageBox.Type.Error,
-                    Heading = "Navigator",
-                }.Show(messageList);
-
                 if (isDeleted)
                 {
                     //remove artifact from parent after successful deletion
@@ -1351,9 +1345,15 @@ namespace Vanilla.Utility.WinForm
                     this.lsvContainer.AttachChildren(parentArtifact, isDocumentFirst);
                     if (this.currentArtifact.Style == ArtfFac.Type.Folder)
                     {
-                        this.GetActiveTreeView().RemoveNode(this.GetActiveTreeView().FindNode(this.currentArtifact));
+                        TreeNode node = this.GetActiveTreeView().FindNode(this.currentArtifact);
+                        if (node != null) this.GetActiveTreeView().RemoveNode(node);
                     }
                 }
+                new PresLib.MessageBox
+                {
+                    DialogueType = isDeleted? PresLib.MessageBox.Type.Information : PresLib.MessageBox.Type.Error,
+                    Heading = "Navigator",
+                }.Show(messageList);
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -1377,6 +1377,9 @@ namespace Vanilla.Utility.WinForm
             }
             else
             {
+                ////remove artifact from parent after successful deletion
+                //new ArtfFac.Server(new ArtfFac.FormDto()).RemoveArtifactFromParent(artifact);
+
                 messageList.Clear();
                 messageList.Add(this.Category.ToString() + " deleted successfully.");
             }
@@ -1395,10 +1398,10 @@ namespace Vanilla.Utility.WinForm
                     }
                     else
                     {
-                        Boolean result = this.DeleteDocument(artifact.Children[0], messageList);
-                        if (result)
+                        if (!this.DeleteDocument(artifact.Children[0], messageList))
                         {
-                            messageList.Add(this.Category.ToString() + "s may be deleted partially.");
+                            messageList.Add("Cannot delete file: " + artifact.Children[0].FullPath);
+                            messageList.Add("Folder may be deleted partially.");
                             return false;
                         }
                     }
