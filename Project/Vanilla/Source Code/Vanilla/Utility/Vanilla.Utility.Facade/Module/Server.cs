@@ -5,12 +5,12 @@ using BinAff.Core;
 
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
 
-//using AutotourismCustomerArtifact = AutoTourism.Component.Customer.Navigator.Artifact;
-
 namespace Vanilla.Utility.Facade.Module
 {
+
     public class Server : BinAff.Facade.Library.Server
     {
+
         private Artifact.Category currentCategory;
 
         private Int16 loadPercentage;
@@ -36,31 +36,19 @@ namespace Vanilla.Utility.Facade.Module
             this.loadPercentage = 10;
             FormDto formDto = this.FormDto as FormDto;
             this.currentCategory = Artifact.Category.Form;
-            formDto.FormModuleList = this.Convert(data.FormList);
+            formDto.FormModuleList = base.ConvertAll<Data, Dto>(data.FormList);
             this.loadPercentage = 50;
             this.currentCategory = Artifact.Category.Catalogue;
-            formDto.CatalogueModuleList = this.Convert(data.CatalogueList);
+            formDto.CatalogueModuleList = base.ConvertAll<Data, Dto>(data.CatalogueList);
             this.loadPercentage = 60;
             this.currentCategory = Artifact.Category.Report;
-            formDto.ReportModuleList = this.Convert(data.ReportList);
+            formDto.ReportModuleList = base.ConvertAll<Data, Dto>(data.ReportList);
             this.loadPercentage = 100;
         }
 
         public Int16 GetStatus()
         {
             return this.loadPercentage;
-        }
-
-        private List<Module.Dto> Convert(List<Data> dataList)
-        {
-            List<Module.Dto> ret = new List<Module.Dto>();
-            foreach (Crystal.License.Component.Data module in dataList)
-            {
-                Dto moduleDto = this.Convert(module) as Dto;
-                ret.Add(moduleDto);
-            }
-
-            return ret;
         }
 
         public override BinAff.Facade.Library.Dto Convert(Data data)
@@ -72,7 +60,6 @@ namespace Vanilla.Utility.Facade.Module
                 Name = (data as Crystal.License.Component.Data).Name,
             };
             dto.Artifact = this.GetTree(dto, this.currentCategory);//mistake
-            //dto.ComponentFormType = new Helper(dto).ModuleFormType;
             dto.ComponentFormType = new Helper(dto, this.currentCategory).ModuleFormType;
 
             return dto;
