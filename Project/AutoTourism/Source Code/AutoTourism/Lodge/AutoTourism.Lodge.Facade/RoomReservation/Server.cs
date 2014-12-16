@@ -9,7 +9,8 @@ using CustCrys = Crystal.Customer.Component;
 using RoomRsvCrys = Crystal.Lodge.Component.Room.Reservation;
 using RoomRsvArtf = Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact;
 
-using LodgeConfigFac = AutoTourism.Lodge.Configuration.Facade;
+using ModDefFac = Vanilla.Utility.Facade.Module.Definition;
+
 using RoomFac = AutoTourism.Lodge.Configuration.Facade.Room;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
 using CustAuto = AutoTourism.Component.Customer;
@@ -44,21 +45,18 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            LodgeCrys.Room.Reservation.Data reservation = data as LodgeCrys.Room.Reservation.Data;
+            RoomRsvCrys.Data reservation = data as RoomRsvCrys.Data;
             return new Dto
             {
                 Id = data.Id,
                 NoOfDays = reservation.NoOfDays,
-                //NoOfPersons = reservation.NoOfPersons,
                 NoOfRooms = reservation.NoOfRooms,
                 BookingFrom = reservation.ActivityDate,
-                //Advance = reservation.Advance,                
                 BookingStatus = (Status)reservation.Status.Id,
                 //RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList),
                 RoomList = reservation.ProductList == null ? null : new RoomFac.Server(null).ConvertAll<Data, RoomFac.Dto>(reservation.ProductList),
                 RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
                 RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id },
-                //IsAC = reservation.IsAC,
                 ACPreference = reservation.ACPreference,
                 BookingDate = reservation.Date,
                 isCheckedIn = reservation.IsCheckedIn,
@@ -67,20 +65,20 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 NoOfChild = reservation.NoOfChild,
                 NoOfInfant = reservation.NoOfInfant,
                 Remark = reservation.Remark,
-                ReservationNo = reservation.ReservationNo
+                ReservationNo = reservation.ReservationNo,
+
+                Customer = this.GetCustomer(data.Id),
             };
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Dto reservation = dto as Dto;
-            return new LodgeCrys.Room.Reservation.Data
+            return new RoomRsvCrys.Data
             {
                 Id = dto.Id,
                 NoOfDays = reservation.NoOfDays,
-                //NoOfPersons = reservation.NoOfPersons,
                 NoOfRooms = reservation.NoOfRooms,
-                //Advance = reservation.Advance,
                 ActivityDate = reservation.BookingFrom,
                 Date = DateTime.Now,
                 ProductList = reservation.RoomList == null ? null : GetRoomDataList(reservation.RoomList),
@@ -89,14 +87,22 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                     Id = (Int64)reservation.BookingStatus
                 },
                 Description = String.Empty,//description will be added later if required
-                RoomCategory = reservation.RoomCategory == null ? null : new LodgeCrys.Room.Category.Data { Id = reservation.RoomCategory.Id },
-                RoomType = reservation.RoomType == null ? null : new LodgeCrys.Room.Type.Data { Id = reservation.RoomType.Id },
+                RoomCategory = reservation.RoomCategory == null ? null : new LodgeCrys.Room.Category.Data
+                {
+                    Id = reservation.RoomCategory.Id,
+                    Name = reservation.RoomCategory.Name,
+                },
+                RoomType = reservation.RoomType == null ? null : new LodgeCrys.Room.Type.Data
+                {
+                    Id = reservation.RoomType.Id,
+                    Name = reservation.RoomType.Name,
+                },
                 ACPreference = reservation.ACPreference,
                 NoOfMale = reservation.NoOfMale,
                 NoOfFemale = reservation.NoOfFemale,
                 NoOfChild = reservation.NoOfChild,
                 NoOfInfant = reservation.NoOfInfant,
-                Remark = reservation.Remark
+                Remark = reservation.Remark,
             };
         }
 
@@ -140,7 +146,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return "PAMT";
         }
 
-        public override Vanilla.Utility.Facade.Module.Definition.Dto GetAncestorComponentCode()
+        public override ModDefFac.Dto GetAncestorComponentCode()
         {
             return (BinAff.Facade.Cache.Server.Current.Cache["Main"] as Vanilla.Utility.Facade.Cache.Dto).ComponentDefinitionList.FindLast((
                     (p) => { return p.Code == new CustFac.Server(null).GetComponentCode(); }));
