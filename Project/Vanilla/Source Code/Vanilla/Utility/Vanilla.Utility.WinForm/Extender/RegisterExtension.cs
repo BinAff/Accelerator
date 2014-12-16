@@ -480,10 +480,6 @@ namespace Vanilla.Utility.WinForm.Extender
         public static void Sort(this ListView listView, String columnHeaderCaption, PresLib.ListViewColumnSorter columnSorter, Boolean isDocumentFirst)
         {
             listView.ResetColumnHeader();
-            //listView.ListViewItemSorter = new PresLib.ListViewColumnSorter
-            //{
-            //    Order = columnSorter.Order
-            //};
             for (int i = 0; i < listView.Columns.Count; i++)
             {
                 if (listView.Columns[i].Text == columnHeaderCaption)
@@ -492,14 +488,7 @@ namespace Vanilla.Utility.WinForm.Extender
 
                     // Reverse the current sort direction for this column.
                     listView.Columns[columnSorter.SortColumn].ImageKey = (columnSorter.Order == SortOrder.Ascending) ? "Down" : "Up";
-                    //if (columnSorter.Order == SortOrder.Ascending)
-                    //{
-                    //    listView.Columns[columnSorter.SortColumn].ImageKey = "Down";
-                    //}
-                    //else
-                    //{
-                    //    listView.Columns[columnSorter.SortColumn].ImageKey = "Up";
-                    //}
+                    //listView.Columns[columnSorter.SortColumn].Text = "q " + listView.Columns[columnSorter.SortColumn].Text;
 
                     // Perform the sort with these new sort options.
                     //listView.Sort();
