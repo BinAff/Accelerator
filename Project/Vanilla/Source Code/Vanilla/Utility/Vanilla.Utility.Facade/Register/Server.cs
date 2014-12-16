@@ -374,7 +374,9 @@ namespace Vanilla.Utility.Facade.Register
             {
                 Dto = new Module.Dto
                 {
+                    Id = document.ComponentDefinition.Id,
                     Code = document.ComponentDefinition.Code,
+                    Name = document.ComponentDefinition.Name,
                 },
                 CurrentArtifact = new Artifact.FormDto
                 {
