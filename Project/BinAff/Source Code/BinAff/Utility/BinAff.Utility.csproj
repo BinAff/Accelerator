@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Management" />
@@ -48,6 +49,7 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Log\CallingMethod.cs" />
     <Compile Include="Log\MessageType.cs" />
+    <Compile Include="Log\Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="ValidationRule.cs" />
