@@ -257,20 +257,6 @@ namespace AutoTourism.Lodge.WinForm
         {           
             txtDays.Focus();
         }
-             
-        //protected override void PickAnsestor()
-        //{
-        //    FormWin.OpenDialog search = new FormWin.OpenDialog
-        //    {
-        //        ModuleForFilter = (this.facade as Fac.Server).GetAncestorComponentCode(),
-        //        Mode = FormWin.OpenDialog.ActionMode.Search,
-        //    };
-        //    search.ShowDialog(this);
-        //    if (search.IsActionDone)
-        //    {
-        //        this.PopulateAnsestorData(search.Document.Module as CustFac.Dto);
-        //    }
-        //}
 
         protected override FormWin.Document GetAnsestorForm()
         {
