@@ -47,6 +47,8 @@
             this.btnAddRoom = new System.Windows.Forms.Button();
             this.btnRemoveRoom = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lstSelectedRoom = new System.Windows.Forms.ListBox();
+            this.lstRoomList = new System.Windows.Forms.ListBox();
             this.txtAvailableRoomCount = new System.Windows.Forms.TextBox();
             this.txtFilteredRoomCount = new System.Windows.Forms.TextBox();
             this.lblAvailableRooms = new System.Windows.Forms.Label();
@@ -74,8 +76,6 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.lstRoomList = new System.Windows.Forms.ListBox();
-            this.lstSelectedRoom = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -218,7 +218,7 @@
             this.txtMale.MaxLength = 3;
             this.txtMale.Name = "txtMale";
             this.txtMale.Size = new System.Drawing.Size(32, 20);
-            this.txtMale.TabIndex = 8;
+            this.txtMale.TabIndex = 12;
             // 
             // txtRooms
             // 
@@ -244,7 +244,7 @@
             this.btnAddRoom.Location = new System.Drawing.Point(131, 53);
             this.btnAddRoom.Name = "btnAddRoom";
             this.btnAddRoom.Size = new System.Drawing.Size(32, 22);
-            this.btnAddRoom.TabIndex = 14;
+            this.btnAddRoom.TabIndex = 9;
             this.btnAddRoom.Text = "►";
             this.btnAddRoom.UseVisualStyleBackColor = true;
             this.btnAddRoom.Click += new System.EventHandler(this.btnAddRoom_Click);
@@ -255,7 +255,7 @@
             this.btnRemoveRoom.Location = new System.Drawing.Point(131, 81);
             this.btnRemoveRoom.Name = "btnRemoveRoom";
             this.btnRemoveRoom.Size = new System.Drawing.Size(32, 22);
-            this.btnRemoveRoom.TabIndex = 15;
+            this.btnRemoveRoom.TabIndex = 11;
             this.btnRemoveRoom.Text = "◄";
             this.btnRemoveRoom.UseVisualStyleBackColor = true;
             this.btnRemoveRoom.Click += new System.EventHandler(this.btnRemoveRoom_Click);
@@ -273,6 +273,24 @@
             this.groupBox2.TabIndex = 94;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preffered Room";
+            // 
+            // lstSelectedRoom
+            // 
+            this.lstSelectedRoom.FormattingEnabled = true;
+            this.lstSelectedRoom.Location = new System.Drawing.Point(183, 17);
+            this.lstSelectedRoom.Name = "lstSelectedRoom";
+            this.lstSelectedRoom.Size = new System.Drawing.Size(106, 108);
+            this.lstSelectedRoom.TabIndex = 10;
+            this.lstSelectedRoom.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstSelectedRoom_MouseDoubleClick);
+            // 
+            // lstRoomList
+            // 
+            this.lstRoomList.FormattingEnabled = true;
+            this.lstRoomList.Location = new System.Drawing.Point(14, 17);
+            this.lstRoomList.Name = "lstRoomList";
+            this.lstRoomList.Size = new System.Drawing.Size(107, 108);
+            this.lstRoomList.TabIndex = 8;
+            this.lstRoomList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstRoomList_MouseDoubleClick);
             // 
             // txtAvailableRoomCount
             // 
@@ -389,7 +407,7 @@
             this.txtFemale.MaxLength = 3;
             this.txtFemale.Name = "txtFemale";
             this.txtFemale.Size = new System.Drawing.Size(32, 20);
-            this.txtFemale.TabIndex = 9;
+            this.txtFemale.TabIndex = 13;
             // 
             // label10
             // 
@@ -406,7 +424,7 @@
             this.txtChild.MaxLength = 3;
             this.txtChild.Name = "txtChild";
             this.txtChild.Size = new System.Drawing.Size(32, 20);
-            this.txtChild.TabIndex = 10;
+            this.txtChild.TabIndex = 14;
             // 
             // label11
             // 
@@ -423,7 +441,7 @@
             this.txtInfant.MaxLength = 3;
             this.txtInfant.Name = "txtInfant";
             this.txtInfant.Size = new System.Drawing.Size(32, 20);
-            this.txtInfant.TabIndex = 11;
+            this.txtInfant.TabIndex = 15;
             // 
             // label3
             // 
@@ -476,7 +494,7 @@
             this.txtRemarks.Multiline = true;
             this.txtRemarks.Name = "txtRemarks";
             this.txtRemarks.Size = new System.Drawing.Size(447, 50);
-            this.txtRemarks.TabIndex = 12;
+            this.txtRemarks.TabIndex = 16;
             // 
             // txtReservationNo
             // 
@@ -534,24 +552,6 @@
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 1006;
             this.label6.Text = "Total Guests";
-            // 
-            // lstRoomList
-            // 
-            this.lstRoomList.FormattingEnabled = true;
-            this.lstRoomList.Location = new System.Drawing.Point(14, 17);
-            this.lstRoomList.Name = "lstRoomList";
-            this.lstRoomList.Size = new System.Drawing.Size(107, 108);
-            this.lstRoomList.TabIndex = 17;
-            this.lstRoomList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstRoomList_MouseDoubleClick);
-            // 
-            // lstSelectedRoom
-            // 
-            this.lstSelectedRoom.FormattingEnabled = true;
-            this.lstSelectedRoom.Location = new System.Drawing.Point(183, 17);
-            this.lstSelectedRoom.Name = "lstSelectedRoom";
-            this.lstSelectedRoom.Size = new System.Drawing.Size(106, 108);
-            this.lstSelectedRoom.TabIndex = 18;
-            this.lstSelectedRoom.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstSelectedRoom_MouseDoubleClick);
             // 
             // RoomReservationForm
             // 

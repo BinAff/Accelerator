@@ -7,13 +7,12 @@ using BinAff.Core;
 using BinAff.Utility;
 using BinAff.Presentation.Library.Extension;
 
-using FormWin = Vanilla.Form.WinForm;
-using UtilFac = Vanilla.Utility.Facade;
+using AccFac = Vanilla.Guardian.Facade.Account;
 using DocFac = Vanilla.Utility.Facade.Document;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using FrmDocFac = Vanilla.Form.Facade.Document;
 using InvWin = Vanilla.Invoice.WinForm;
-using AccFac = Vanilla.Guardian.Facade.Account;
-using CacheFac = Vanilla.Utility.Facade;
+using FormWin = Vanilla.Form.WinForm;
 
 using Fac = AutoTourism.Lodge.Facade.RoomReservation;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
@@ -164,10 +163,13 @@ namespace AutoTourism.Lodge.WinForm
             if (dto.Id == 0) this.btnCancel.Visible = false;
 
             //disable the controls if the reservation is checked in or the reservation has been cancelled
-            Fac.Dto initialDto = this.InitialDto as Fac.Dto;
-            if ((initialDto.isCheckedIn) || (initialDto.BookingStatus == Status.Canceled))
+            if (this.InitialDto != null)
             {
-                this.DisableFormControls();
+                Fac.Dto initialDto = this.InitialDto as Fac.Dto;
+                if ((initialDto.isCheckedIn) || (initialDto.BookingStatus == Status.Canceled))
+                {
+                    this.DisableFormControls();
+                }
             }
         }
 
@@ -190,7 +192,7 @@ namespace AutoTourism.Lodge.WinForm
 
             if (dto != null && dto.Id > 0)
             {
-                this.PopulateCustomerData(dto.Customer);
+                this.PopulateAnsestorData(dto.Customer as CustFac.Dto);
 
                 Fac.FormDto formDto = this.formDto as Fac.FormDto;
                 if (dto.RoomCategory != null && dto.RoomCategory.Id > 0)
@@ -255,51 +257,43 @@ namespace AutoTourism.Lodge.WinForm
         {           
             txtDays.Focus();
         }
-
-        //protected override void Ok()
-        //{   
-        //    if (base.Save())
+             
+        //protected override void PickAnsestor()
+        //{
+        //    FormWin.OpenDialog search = new FormWin.OpenDialog
         //    {
-        //        base.Artifact.Module = base.formDto.Dto;
-        //        base.IsModified = true;
-        //        //this.Close();
+        //        ModuleForFilter = (this.facade as Fac.Server).GetAncestorComponentCode(),
+        //        Mode = FormWin.OpenDialog.ActionMode.Search,
+        //    };
+        //    search.ShowDialog(this);
+        //    if (search.IsActionDone)
+        //    {
+        //        this.PopulateAnsestorData(search.Document.Module as CustFac.Dto);
         //    }
         //}
-             
-        protected override void PickAnsestor()
+
+        protected override FormWin.Document GetAnsestorForm()
         {
-            FormWin.OpenDialog search = new FormWin.OpenDialog
-            {
-                ModuleForFilter = (this.facade as Fac.Server).GetAncestorComponentCode(),
-                Mode = FormWin.OpenDialog.ActionMode.Search,
-            };
-            search.ShowDialog(this);
-            if (search.IsActionDone)
-            {
-                this.PopulateCustomerData(search.Document.Module as CustFac.Dto);
-            }
+            return new AutoTourism.Customer.WinForm.CustomerForm(new ArtfFac.Dto());
         }
 
-        protected override void AddAnsestor()
+        protected override void PopulateAnsestorData(FrmDocFac.Dto dto)
         {
-            ArtfFac.Dto cutomerArtifact = new ArtfFac.Dto();
-            FormWin.Document form = new AutoTourism.Customer.WinForm.CustomerForm(cutomerArtifact);
-            form.ArtifactSaved += form_ArtifactSaved;
-            form.ShowDialog(this);
-            if (form.Artifact != null && form.Artifact.Module != null)
+            CustFac.Dto customerData = dto as CustFac.Dto;
+            if (customerData != null)
             {
-                this.PopulateCustomerData(form.Artifact.Module as CustFac.Dto);
+                (formDto.Dto as Fac.Dto).Customer = customerData;
+                this.txtName.Text = customerData.Name;
+
+                this.lstContact.Bind(customerData.ContactNumberList, "Name");
+                this.txtAdds.Text = customerData.Address;
+                this.txtEmail.Text = customerData.Email;
             }
         }
 
         protected override FormWin.Document GetAttachment()
         {
             return new InvWin.PaymentForm(new ArtfFac.Dto());
-        }
-
-        private void form_ArtifactSaved(ArtfFac.Dto document)
-        {
-            base.RaiseChildArtifactSaved(document);
         }
 
         protected override void ClearForm()
@@ -334,7 +328,7 @@ namespace AutoTourism.Lodge.WinForm
             dto.Id = dto == null ? 0 : dto.Id;
 
             dto.BookingFrom = new DateTime(this.dtFrom.Value.Year, this.dtFrom.Value.Month, this.dtFrom.Value.Day,
-                this.dtFromTime.Value.Hour, this.dtFromTime.Value.Minute, this.dtFromTime.Value.Second);
+                this.dtFromTime.Value.Hour, 0, 0);
             dto.NoOfDays = Convert.ToInt16(this.txtDays.Text);          
             dto.NoOfRooms = Convert.ToInt16(this.txtRooms.Text);
 
@@ -496,19 +490,6 @@ namespace AutoTourism.Lodge.WinForm
 
                 (this.facade as Fac.Server).RemoveAllBookedRoom();
                 this.FilterAndPopulateRoomList();
-            }
-        }
-
-        private void PopulateCustomerData(CustFac.Dto customerData)
-        {
-            if (customerData != null)
-            {
-                (formDto.Dto as Fac.Dto).Customer = customerData;
-                this.txtName.Text = customerData.Name;
-
-                this.lstContact.Bind(customerData.ContactNumberList, "Name");
-                this.txtAdds.Text = customerData.Address;
-                this.txtEmail.Text = customerData.Email;
             }
         }
 

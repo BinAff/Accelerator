@@ -2,18 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Transactions;
 
 using BinAff.Core;
 using BinAff.Utility;
 using PresLib = BinAff.Presentation.Library;
 
-//using LodgeConfigurationFacade = AutoTourism.Lodge.Configuration.Facade;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using UtilFac = Vanilla.Utility.Facade;
 using DocFac = Vanilla.Utility.Facade.Document;
 using InvFac = Vanilla.Invoice.Facade;
+using FormDocFac = Vanilla.Form.Facade.Document;
 
-using FormWin = Vanilla.Form.WinForm;
+using FrmWin = Vanilla.Form.WinForm;
 using InvWin = Vanilla.Invoice.WinForm;
 
 using RoomCatFac = AutoTourism.Lodge.Configuration.Facade.Room.Category;
@@ -22,16 +23,12 @@ using RoomTypFac = AutoTourism.Lodge.Configuration.Facade.Room.Type;
 using Fac = AutoTourism.Lodge.Facade.CheckIn;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
 using LodgeFac = AutoTourism.Lodge.Facade;
-using CustFac = AutoTourism.Customer.Facade;
 using RoomFac = AutoTourism.Lodge.Configuration.Facade.Room;
-using TarrifFac = AutoTourism.Lodge.Configuration.Facade.Tariff;
-using FrmWin = Vanilla.Form.WinForm;
-using System.Transactions;
 
 namespace AutoTourism.Lodge.WinForm
 {
 
-    public partial class CheckInForm : FormWin.Document
+    public partial class CheckInForm : FrmWin.Document
     {
 
         private RuleFac.ConfigurationRuleDto configRuleDto;
@@ -102,8 +99,14 @@ namespace AutoTourism.Lodge.WinForm
                 if (invNumber != String.Empty)
                     (base.facade as Facade.CheckIn.Server).UpdateInvoiceNumber(invNumber);
 
-                FrmWin.Document form = new Vanilla.Invoice.WinForm.InvoiceForm(inv);
-                if (inv.Id == 0) form.ArtifactSaved += form_ArtifactSaved;
+                FrmWin.Document form = new InvWin.InvoiceForm(inv);
+                if (inv.Id == 0)
+                {
+                    form.ArtifactSaved += delegate(ArtfFac.Dto document)
+                    {
+                        base.RaiseChildArtifactSaved(document);
+                    };
+                }
                 form.ShowDialog();
                 form.MdiParent = this.MdiParent;
 
@@ -430,53 +433,56 @@ namespace AutoTourism.Lodge.WinForm
             dto.Remark = txtCheckInRemark.Text.Trim();
             
         }
-        
-        //protected override void Ok()
+
+        //protected override void PickAnsestor()
         //{
-        //    if (base.Save())
-        //    {
-        //        Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
-        //        //dto.StatusId = Convert.ToInt64(CheckInStatus.CheckIn);
-        //        base.IsModified = true;
-        //        //this.Close();
-        //    }
+        //    //Form form = new RoomReservationRegister();
+        //    //form.ShowDialog(this);
+
+        //    //if (form.Tag != null)
+        //    //{
+        //    //    this.PopulateAnsestorData(form.Tag as LodgeFac.RoomReservation.Dto);
+        //    //}
         //}
 
-        protected override void PickAnsestor()
+        protected override FrmWin.Document GetAnsestorForm()
         {
-            Form form = new RoomReservationRegister();
-            form.ShowDialog(this);
+            return new RoomReservationForm(new ArtfFac.Dto());
+        }
 
-            if (form.Tag != null)
+        protected override void PopulateAnsestorData(FormDocFac.Dto dto)
+        {
+            LodgeFac.RoomReservation.Dto ancestorDto = dto as LodgeFac.RoomReservation.Dto;
+            Fac.FormDto formDto = (base.formDto as Fac.FormDto) as Fac.FormDto;
+            Fac.Dto checkInDto = (base.formDto as Fac.FormDto).Dto as Fac.Dto;
+
+            checkInDto.CustomerDisplayName = ancestorDto.Customer.Name;
+            checkInDto.Date = ancestorDto.BookingFrom;
+            checkInDto.Reservation = new LodgeFac.RoomReservation.Dto
             {
-                this.PopulateReservationData(form.Tag as LodgeFac.RoomReservationRegister.Dto);
-            }
+                Id = ancestorDto.Id,
+                NoOfDays = ancestorDto.NoOfDays,
+                NoOfRooms = ancestorDto.NoOfRooms,
+                RoomCategory = ancestorDto.RoomCategory,
+                RoomType = ancestorDto.RoomType,
+                ACPreference = ancestorDto.ACPreference,
+                RoomList = ancestorDto.RoomList,
+                BookingFrom = ancestorDto.BookingFrom,
+
+                NoOfMale = ancestorDto.NoOfMale,
+                NoOfFemale = ancestorDto.NoOfFemale,
+                NoOfChild = ancestorDto.NoOfChild,
+                NoOfInfant = ancestorDto.NoOfInfant,
+                Remark = ancestorDto.Remark,
+                ReservationNo = ancestorDto.ReservationNo,
+
+                Customer = ancestorDto.Customer,
+                BookingStatus = ancestorDto.BookingStatus
+            };
+
+            this.LoadCheckInData();
         }
 
-        protected override void AddAnsestor()
-        {
-            //Form form = new RoomReservationForm(this.dto.trvForm);
-            //form.ShowDialog(this);
-
-            //if (form.Tag != null)
-            //    this.PopulateReservationData(form);
-
-
-            ArtfFac.Dto cutomerArtifact = new ArtfFac.Dto();
-            FormWin.Document form = new AutoTourism.Lodge.WinForm.CheckInForm(cutomerArtifact);
-            form.ArtifactSaved += form_ArtifactSaved;
-            form.ShowDialog(this);
-            if (form.Artifact != null && form.Artifact.Module != null)
-            {
-                this.PopulateReservationData(form.Artifact.Module as LodgeFac.RoomReservationRegister.Dto);
-            }
-        }
-
-        void form_ArtifactSaved(UtilFac.Artifact.Dto document)
-        {
-            base.RaiseChildArtifactSaved(document);
-        }
-      
         protected override void RefreshFormBefore()
         {
             errorProvider.Clear();
@@ -519,7 +525,7 @@ namespace AutoTourism.Lodge.WinForm
 
         }
 
-        protected override FormWin.Document GetAttachment()
+        protected override FrmWin.Document GetAttachment()
         {
             return new InvWin.PaymentForm(new ArtfFac.Dto());
         }
@@ -863,41 +869,6 @@ namespace AutoTourism.Lodge.WinForm
             //}
 
             return false;
-        }
-
-        private void PopulateReservationData(LodgeFac.RoomReservationRegister.Dto roomReservationRegisterDto)
-        {
-            //Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
-
-            Fac.FormDto formDto = (base.formDto as Fac.FormDto) as Fac.FormDto;
-            Fac.Dto dto = (base.formDto as Fac.FormDto).Dto as Fac.Dto;
-
-            dto.CustomerDisplayName = roomReservationRegisterDto.Name;
-            dto.Date = roomReservationRegisterDto.BookingFrom;
-            dto.Reservation = new LodgeFac.RoomReservation.Dto
-            {
-                Id = roomReservationRegisterDto.Id,
-                NoOfDays = roomReservationRegisterDto.NoOfDays,
-                //NoOfPersons = roomReservationRegisterDto.NoOfPersons,
-                NoOfRooms = roomReservationRegisterDto.NoOfRooms,             
-                RoomCategory = roomReservationRegisterDto.RoomCategory,
-                RoomType = roomReservationRegisterDto.RoomType,
-                ACPreference = roomReservationRegisterDto.ACPreference,
-                RoomList = roomReservationRegisterDto.RoomList,
-                BookingFrom = roomReservationRegisterDto.BookingFrom,
-
-                NoOfMale = roomReservationRegisterDto.NoOfMale,
-                NoOfFemale = roomReservationRegisterDto.NoOfFemale,
-                NoOfChild = roomReservationRegisterDto.NoOfChild,
-                NoOfInfant = roomReservationRegisterDto.NoOfInfant,
-                Remark = roomReservationRegisterDto.Remark,
-                ReservationNo = roomReservationRegisterDto.ReservationNo,
-
-                Customer = roomReservationRegisterDto.Customer,
-                BookingStatus = roomReservationRegisterDto.BookingStatus
-            };
-
-            this.LoadCheckInData();
         }
 
         private Boolean IsNoOfDaysExists()

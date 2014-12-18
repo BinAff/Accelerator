@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Collections.Generic;
 
 using BinAff.Core;
 using BinAff.Facade.Cache;
@@ -14,7 +15,6 @@ using ModFac = Vanilla.Utility.Facade.Module;
 using UtilWin = Vanilla.Utility.WinForm;
 using FrmWin = Vanilla.Form.WinForm;
 using CacheFac = Vanilla.Utility.Facade.Cache;
-using System.Collections.Generic;
 
 namespace Vanilla.Form.WinForm
 {
@@ -332,15 +332,13 @@ namespace Vanilla.Form.WinForm
         private Document AttachDocument()
         {
             Document attachment = this.GetAttachment();
-            attachment.ArtifactSaved += attachment_ArtifactSaved;
+            attachment.ArtifactSaved += delegate(ArtfFac.Dto document)
+            {
+                this.RaiseChildArtifactSaved(document);
+            };
             attachment.ShowDialog();
 
             return attachment;
-        }
-
-        private void attachment_ArtifactSaved(ArtfFac.Dto document)
-        {
-            this.RaiseChildArtifactSaved(document);
         }
 
         /// <summary>
@@ -359,6 +357,40 @@ namespace Vanilla.Form.WinForm
                 this.ClearForm();
             }
             this.RefreshFormAfter();
+        }
+
+        /// <summary>
+        /// Add method to pick existing ancestor artifact
+        /// </summary>
+        protected virtual void PickAnsestor()
+        {
+            FrmWin.OpenDialog search = new FrmWin.OpenDialog
+            {
+                ModuleForFilter = (this.facade as Facade.Document.Server).GetAncestorComponentCode(),
+                Mode = FrmWin.OpenDialog.ActionMode.Search,
+            };
+            search.ShowDialog(this);
+            if (search.IsActionDone)
+            {
+                this.PopulateAnsestorData(search.Document.Module as Facade.Document.Dto);
+            }
+        }
+
+        /// <summary>
+        /// Add method to add new ancestor artifact
+        /// </summary>
+        protected virtual void AddAnsestor()
+        {
+            Document form = this.GetAnsestorForm();
+            form.ArtifactSaved += delegate(ArtfFac.Dto document)
+            {
+                base.RaiseChildArtifactSaved(document);
+            };
+            form.ShowDialog(this);
+            if (form.Artifact != null && form.Artifact.Module != null)
+            {
+                this.PopulateAnsestorData(form.Artifact.Module as Facade.Document.Dto);
+            }
         }
 
         #region Mandatory Hooks
@@ -434,20 +466,14 @@ namespace Vanilla.Form.WinForm
 
         }
 
-        /// <summary>
-        /// Add method to pick existing ancestor artifact
-        /// </summary>
-        protected virtual void PickAnsestor()
+        protected virtual void PopulateAnsestorData(Facade.Document.Dto dto)
         {
-
+            
         }
 
-        /// <summary>
-        /// Add method to add new ancestor artifact
-        /// </summary>
-        protected virtual void AddAnsestor()
+        protected virtual Document GetAnsestorForm()
         {
-
+            return new Document();
         }
 
         protected virtual Boolean SaveBefore()

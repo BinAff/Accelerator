@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using BinAff.Core;
-using System;
-using BinAff.Core.Observer;
-using System.Transactions;
+
+using RoomRsvCrys = Crystal.Lodge.Component.Room.Reservation;
 
 namespace Crystal.Lodge.Component.Room.CheckIn
 {
@@ -20,8 +20,8 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         protected override void Compose()
         {
             this.Name = "Room checkin";
-            this.DataAccess = new Dao((Data)this.Data);
-            this.Validator = new Validator((Data)this.Data);
+            this.DataAccess = new Dao(this.Data as Data);
+            this.Validator = new Validator(this.Data as Data);
         }
 
         protected override BinAff.Core.Data CreateDataObject()
@@ -31,14 +31,14 @@ namespace Crystal.Lodge.Component.Room.CheckIn
 
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
-            return new Server((Data)data);
+            return new Server(data as Data);
         }
 
         protected override void CreateChildren()
         {
             base.CreateChildren();
 
-            base.AddChild(new Crystal.Lodge.Component.Room.Reservation.Server(((Data)this.Data).Reservation)
+            base.AddChild(new RoomRsvCrys.Server((this.Data as Data).Reservation)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
@@ -51,18 +51,13 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             if (ret.MessageList == null || ret.MessageList.Count == 0)
             {
                 ret = (subject.GetType().ToString() == "Crystal.Lodge.Component.Room.Reservation.Data") ?
-                IsReservationDeletable((Crystal.Lodge.Component.Room.Reservation.Data)subject) :
-                new ReturnObject<Boolean>
-                {
-                    MessageList = { new Message("Unknown deletable type detected.", Message.Type.Error) }
-                };
+                    this.MakeReturnObject((this.DataAccess as Dao).IsReservationDeletable(subject as RoomRsvCrys.Data)) :
+                    new ReturnObject<Boolean>
+                    {
+                        MessageList = { new Message("Unknown deletable type detected.", Message.Type.Error) }
+                    };
             }
             return ret;
-        }
-
-        private ReturnObject<bool> IsReservationDeletable(Crystal.Lodge.Component.Room.Reservation.Data data)
-        {
-            return MakeReturnObject(((Dao)this.DataAccess).IsReservationDeletable(data));
         }
 
         private ReturnObject<Boolean> MakeReturnObject(List<Data> dataList)
@@ -71,10 +66,11 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             Int32 count = dataList.Count;
             if (count > 0)
             {
-                String msg = "Unable to delete. Following " + this.Name + " has this dependency: "; 
-                foreach (Data data in dataList)               
-                    msg += GetMessage(data);                
-               
+                String msg = "Unable to delete. Following " + this.Name + " has this dependency: ";
+                foreach (Data data in dataList)
+                {
+                    msg += GetMessage(data);
+                }               
                 ret.MessageList = new List<Message>
                 {
                     new Message(msg, Message.Type.Error)
@@ -101,33 +97,36 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         //call reservation component and save the Reservation status to CheckIn
         protected override ReturnObject<bool> CreateAfter()
         {
-            Reservation.Server resrevationServer = new Reservation.Server(((Data)this.Data).Reservation);
-            return resrevationServer.ChangeReservationToOccupied();            
+            RoomRsvCrys.Server server = new RoomRsvCrys.Server((this.Data as Data).Reservation);
+            return server.ChangeReservationToOccupied();            
         }
 
         ReturnObject<Boolean> ICheckIn.ModifyCheckInStatus(long statusId)
         {            
-            return ((Dao)this.dataAccess).ModifyCheckInStatus(statusId);
+            return (this.dataAccess as Dao).ModifyCheckInStatus(statusId);
         }
         
-        ReturnObject<bool> ICheckIn.UpdateInvoiceNumber(string invoiceNumber)
+        ReturnObject<Boolean> ICheckIn.UpdateInvoiceNumber(string invoiceNumber)
         {
-            return ((Dao)this.dataAccess).UpdateInvoiceNumber(invoiceNumber);
+            return (this.dataAccess as Dao).UpdateInvoiceNumber(invoiceNumber);
         }
 
-        public Int64 ReadCheckInId(Int64 ArtifactId)
+        public Int64 ReadCheckInId(Int64 artifactId)
         {
-            return new Dao((Data)this.Data).ReadCheckInId(ArtifactId);
+            return new Dao(this.Data as Data).ReadCheckInId(artifactId);
         }
 
-        protected override ReturnObject<bool> DeleteAfter()
+        protected override ReturnObject<Boolean> DeleteAfter()
         {            
-            return new Reservation.Server(new Reservation.Data { Id = (this.Data as Data).Reservation.Id }).RevertReservationAfterCheckIn();
+            return new RoomRsvCrys.Server(new RoomRsvCrys.Data
+            {
+                Id = (this.Data as Data).Reservation.Id
+            }).RevertReservationAfterCheckIn();
         }
 
         public ReturnObject<Boolean> IsCheckInDeletable()
         {
-            ReturnObject<Boolean> retVal = new ReturnObject<bool> 
+            ReturnObject<Boolean> retVal = new ReturnObject<Boolean> 
             { 
                 MessageList = new List<Message>()
             };
@@ -135,21 +134,22 @@ namespace Crystal.Lodge.Component.Room.CheckIn
 
             Data data = retObj.Value as Data;
             if (data.Status.Id == 10002)
-                retVal.MessageList.Add(new Message 
-                { 
+            {
+                retVal.MessageList.Add(new Message
+                {
                     Category = Message.Type.Error,
                     Description = "Checkin is changed to checkout."
                 });
-
-            if(DateTime.Compare(data.Date,DateTime.Today) != 0)
+            }
+            if (DateTime.Compare(data.Date, DateTime.Today) != 0)
+            {
                 retVal.MessageList.Add(new Message
                 {
                     Category = Message.Type.Error,
                     Description = "Checkin is more than a day."
                 });
-
-            if (retVal.MessageList != null && retVal.MessageList.Count > 0)
-                retVal.Value = false;
+            }
+            if (retVal.MessageList != null && retVal.MessageList.Count > 0) retVal.Value = false;
 
             return retVal;
         }
