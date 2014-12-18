@@ -507,6 +507,17 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return new Crystal.Lodge.Observer.RoomCheckIn();
         }
 
+        protected override String GetAttachmentComponentCode()
+        {
+            return "PAMT";
+        }
+
+        public override Vanilla.Utility.Facade.Module.Definition.Dto GetAncestorComponentCode()
+        {
+            return (BinAff.Facade.Cache.Server.Current.Cache["Main"] as Vanilla.Utility.Facade.Cache.Dto).ComponentDefinitionList.FindLast((
+                    (p) => { return p.Code == new RoomRsvFac.Server(null).GetComponentCode(); }));
+        }
+
         public void PopulateInvoiceDto(InvFac.Dto invoiceDto)
         {
             Dto dto = (this.FormDto as DocFac.FormDto).Dto as Dto;

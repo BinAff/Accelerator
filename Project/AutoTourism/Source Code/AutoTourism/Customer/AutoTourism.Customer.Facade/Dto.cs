@@ -6,7 +6,7 @@ using BinAff.Core;
 namespace AutoTourism.Customer.Facade
 {
 
-    public class Dto : Vanilla.Utility.Facade.Document.Dto
+    public class Dto : Vanilla.Form.Facade.Document.Dto
     {
 
         //public Table Initial { get; set; }

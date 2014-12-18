@@ -121,6 +121,11 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return new RoomRsvArtf.Server(artifactData as RoomRsvArtf.Data);
         }
 
+        public override string GetComponentCode()
+        {
+            return "LRSV";
+        }
+
         protected override ICrud GetComponentServer()
         {
             return new RoomRsvCrys.Server(this.Convert((this.FormDto as FormDto).Dto) as RoomRsvCrys.Data);
