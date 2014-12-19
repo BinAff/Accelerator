@@ -83,7 +83,9 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room.Type
             return new Dto
             {
                 Id = value.Id,
-                Name = value.Name
+                Name = value.Name,
+                Accomodation = value.Accomodation,
+                ExtraAccomodation = value.ExtraAccomodation,
             };
         }
 
@@ -93,7 +95,9 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room.Type
             return new CrysComp.Data
             {
                 Id = value.Id,
-                Name = value.Name
+                Name = value.Name,
+                Accomodation = value.Accomodation,
+                ExtraAccomodation = value.ExtraAccomodation,
             };
         }
 

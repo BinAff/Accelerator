@@ -8,6 +8,10 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room.Type
 
         public String Name { get; set; }
 
+        public Int16 Accomodation { get; set; }
+
+        public Int16 ExtraAccomodation { get; set; }
+
     }
 
 }
