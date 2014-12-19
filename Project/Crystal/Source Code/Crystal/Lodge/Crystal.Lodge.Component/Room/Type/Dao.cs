@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace Crystal.Lodge.Component.Room.Type
@@ -16,51 +15,34 @@ namespace Crystal.Lodge.Component.Room.Type
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "[Lodge].[RoomTypeInsert]";
+            base.CreateStoredProcedure = "Lodge.RoomTypeInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Lodge].[RoomTypeRead]";
-            base.ReadAllStoredProcedure = "[Lodge].[RoomTypeReadAll]";
-            base.UpdateStoredProcedure = "[Lodge].[RoomTypeUpdate]";
+            base.ReadStoredProcedure = "Lodge.RoomTypeRead";
+            base.ReadAllStoredProcedure = "Lodge.RoomTypeReadAll";
+            base.UpdateStoredProcedure = "Lodge.RoomTypeUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "[Lodge].[RoomTypeDelete]";
+            base.DeleteStoredProcedure = "Lodge.RoomTypeDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
         protected override void AssignParameter(String procedureName)
         {
-            base.AddInParameter("@Name", DbType.String, ((Data)this.Data).Name);
+            base.AddInParameter("@Name", DbType.String, (this.Data as Data).Name);
+            base.AddInParameter("@Accomodation", DbType.Int16, (this.Data as Data).Accomodation);
+            base.AddInParameter("@ExtraAccomodation", DbType.Int16, (this.Data as Data).ExtraAccomodation);
         }
 
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
+        protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
-            Data dt = (Data)data;
-            DataRow row;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            Data dt = data as Data;
+            if (dr != null)
             {
-                row = ds.Tables[0].Rows[0];
-
-                dt.Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]);
-                dt.Name = Convert.IsDBNull(row["Name"]) ? String.Empty : Convert.ToString(row["Name"]);
+                dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
+                dt.Name = Convert.IsDBNull(dr["Name"]) ? String.Empty : Convert.ToString(dr["Name"]);
+                dt.Accomodation = Convert.IsDBNull(dr["Accomodation"]) ? (Int16)0 : Convert.ToInt16(dr["Accomodation"]);
+                dt.ExtraAccomodation = Convert.IsDBNull(dr["ExtraAccomodation"]) ? (Int16)0 : Convert.ToInt16(dr["ExtraAccomodation"]);
             }
             return dt;
-        }
-
-        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
-        {
-            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
-
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    ret.Add(new Data
-                    {
-                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
-                        Name = Convert.IsDBNull(row["Name"]) ? String.Empty : Convert.ToString(row["Name"])
-                    });
-                }
-            }
-            return ret;
         }
 
     }
