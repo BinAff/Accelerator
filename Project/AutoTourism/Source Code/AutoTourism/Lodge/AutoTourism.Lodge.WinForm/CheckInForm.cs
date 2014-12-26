@@ -392,6 +392,31 @@ namespace AutoTourism.Lodge.WinForm
                 this.cboSelectedRoom.Focus();
                 return false;
             }
+
+            Int16 numberOfAccomodation = 0;
+            Int16 numberOfExtraAccomodation = 0;
+            foreach (RoomFac.Dto room in (this.formDto as Fac.FormDto).SelectedRoomList)
+            {
+                numberOfAccomodation += room.Accomodation;
+                numberOfExtraAccomodation += room.ExtraAccomodation;
+            }
+            Int16 numberOfAdults = (Int16)(Convert.ToInt16(this.txtMale.Text.Trim()) + Convert.ToInt16(this.txtFemale.Text.Trim()));
+            Int16 numberOfChildren = Convert.ToInt16(this.txtChild.Text.Trim());
+            Int16 numberOfExtraBed = (Int16)(numberOfAdults + numberOfChildren - numberOfAccomodation);
+            if (numberOfExtraBed > numberOfExtraAccomodation)
+            {
+                this.errorProvider.SetError(this.cboRoomList, "Need extra room.");
+                this.cboRoomList.Focus();
+                return false;
+            }
+            else if (numberOfExtraBed > 0)
+            {
+                new BinAff.Presentation.Library.MessageBox(this).Show(new BinAff.Core.Message
+                {
+                    Category = BinAff.Core.Message.Type.Information,
+                    Description = String.Format("{0} extra bed{1} required.", numberOfExtraBed, numberOfExtraBed > 1 ? "s are" : " is"),
+                });
+            }
             return retVal;
         }
 
@@ -433,17 +458,6 @@ namespace AutoTourism.Lodge.WinForm
             dto.Remark = txtCheckInRemark.Text.Trim();
             
         }
-
-        //protected override void PickAnsestor()
-        //{
-        //    //Form form = new RoomReservationRegister();
-        //    //form.ShowDialog(this);
-
-        //    //if (form.Tag != null)
-        //    //{
-        //    //    this.PopulateAnsestorData(form.Tag as LodgeFac.RoomReservation.Dto);
-        //    //}
-        //}
 
         protected override FrmWin.Document GetAnsestorForm()
         {
