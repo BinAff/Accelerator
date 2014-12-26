@@ -91,6 +91,7 @@ namespace Vanilla.Utility.WinForm
                     this.Register.ShowDocument();
                     break;
                 case ActionMode.Search:
+                    this.Register.ReadDocument();
                     break;
             }
             base.IsActionDone = true;
