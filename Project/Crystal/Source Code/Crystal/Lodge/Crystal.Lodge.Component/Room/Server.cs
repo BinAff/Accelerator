@@ -2,7 +2,6 @@
 
 using BinAff.Core;
 using System;
-using BinAff.Core.Observer;
 using System.Transactions;
 
 namespace Crystal.Lodge.Component.Room
@@ -10,6 +9,7 @@ namespace Crystal.Lodge.Component.Room
 
     public class Server : Product.Component.Server, IRoom
     {
+
         private const Int64 OPEN = 10001;
         private const Int64 CLOSE = 10002;
 
@@ -31,11 +31,6 @@ namespace Crystal.Lodge.Component.Room
             return this.Close();
         }
 
-        //ReturnObject<Boolean> IRoom.UpdateRoomStatus()
-        //{
-        //    return this.UpdateStatus();
-        //}
-
         List<Data> IRoom.GetCheckedInRoomsForBuilding()
         {
             return this.GetAllCheckedInRoomsForBuilding();
@@ -56,13 +51,13 @@ namespace Crystal.Lodge.Component.Room
             return this.GetCloseRoomsForBuilding();
         }
 
-#endregion
+        #endregion
 
         protected override void Compose()
         {
             this.Name = "Room";
-            this.DataAccess = new Dao((Data)this.Data);
-            this.Validator = new Validator((Data)this.Data);
+            this.DataAccess = new Dao(this.Data as Data);
+            this.Validator = new Validator(this.Data as Data);
         }
 
         protected override BinAff.Core.Data CreateDataObject()
@@ -72,14 +67,14 @@ namespace Crystal.Lodge.Component.Room
 
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
-            return new Server((Data)data);
+            return new Server(data as Data);
         }
 
         protected override void CreateChildren()
         {
             base.CreateChildren();
 
-            base.AddChild(new Category.Server(((Data)this.Data).Category)
+            base.AddChild(new Category.Server((this.Data as Data).Category)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
@@ -88,160 +83,91 @@ namespace Crystal.Lodge.Component.Room
             {
                 Type = ChildType.Dependent,
                 IsReadOnly = true,
-            }, ((Data)base.Data).ClosureReasonList);
+            }, (this.Data as Data).ClosureReasonList);
             base.AddChildren(new Image.Server(null)
             {
                 Type = ChildType.Dependent,
-            }, ((Data)base.Data).ImageList);
-            base.AddChild(new Status.Server(((Data)this.Data).Status)
+            }, (this.Data as Data).ImageList);
+            base.AddChild(new Status.Server((this.Data as Data).Status)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
             });
-            base.AddChild(new Type.Server(((Data)this.Data).Type)
+            base.AddChild(new Type.Server((this.Data as Data).Type)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
             });
-            base.AddChild(new Building.Floor.Server(((Data)this.Data).Floor)
+            base.AddChild(new Building.Floor.Server((this.Data as Data).Floor)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
             });
-            base.AddChild(new Building.Server(((Data)this.Data).Building)
+            base.AddChild(new Building.Server((this.Data as Data).Building)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
             });
         }
-
-        //protected override ReturnObject<List<BinAff.Core.Data>> ReadAll()
-        //{           
-        //    ReturnObject<List<BinAff.Core.Data>> retList = new ReturnObject<List<BinAff.Core.Data>>
-        //    {
-        //        Value = ((Dao)this.DataAccess).ReadAll()
-        //    };
-
-        //    foreach (BinAff.Core.Data data in retList.Value)
-        //    {
-        //        ICrud crud = new Server((Data)data);
-        //        crud.Read();
-        //    }
-
-        //    return retList;
-        //}
                
         private ReturnObject<Boolean> Close()
-        {           
-
-            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
+        {
+            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>
             {
-                Value = false,
                 MessageList = new List<Message>()
             };
 
             using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
             {
-                ICrud crud = new Room.ClosureReason.Server(new Room.ClosureReason.Data()
+                ICrud crud = new Room.ClosureReason.Server(new Room.ClosureReason.Data
                 {
-                    Reason = ((Room.ClosureReason.Data)((Data)this.Data).ClosureReasonList[0]).Reason
+                    Reason = ((this.Data as Data).ClosureReasonList[0] as Room.ClosureReason.Data).Reason
                 })
                 {
                     ParentData = this.Data,
                 };
                 ReturnObject<Boolean> ret = crud.Save();
-
-
-                if (ret.Value)
-                    retObj.Value = new Dao((Data)this.Data).ModifyStatus(CLOSE);
-
-
-                if (retObj.Value)
-                    retObj.MessageList.Add(new Message()
-                    {
-                        Category = Message.Type.Information,
-                        Description = "Room is closed successfully."
-                    });
-                else
-                    retObj.MessageList.Add(new Message()
-                    {
-                        Category = Message.Type.Error,
-                        Description = "Error to closing room."
-                    });
-
+                if (ret.Value) retObj.Value = (this.DataAccess as Dao).ModifyStatus(CLOSE);
+                retObj.MessageList.Add(retObj.Value ?
+                    new Message("Room is closed successfully.", Message.Type.Information) :
+                    new Message("Error to closing room.", Message.Type.Error));
 
                 if (retObj.Value) T.Complete();
             }
-
             return retObj;
         }
 
         private ReturnObject<Boolean> Open()
         {  
-            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
+            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>
             {
-                Value = false,
+                Value = (this.DataAccess as Dao).ModifyStatus(OPEN),
                 MessageList = new List<Message>()
             };
-
-            retObj.Value = new Dao((Data)this.Data).ModifyStatus(OPEN);
-
-            if (retObj.Value)
-                retObj.MessageList.Add(new Message()
-                {
-                    Category = Message.Type.Information,
-                    Description = "Room is opened successfully."
-                });
-            else
-                retObj.MessageList.Add(new Message()
-                {
-                    Category = Message.Type.Error,
-                    Description = "Error to opening room."
-                });
-
+            retObj.MessageList.Add(retObj.Value ?
+                    new Message("Room is open successfully.", Message.Type.Information) :
+                    new Message("Error to opening room.", Message.Type.Error));
             return retObj;
         }
 
-        //private ReturnObject<Boolean> UpdateStatus()
-        //{
-        //    Boolean status = new Dao((Data)this.Data).UpdateStatus();
-        //    return new ReturnObject<Boolean>()
-        //    {
-        //        Value = status,
-        //        MessageList = new List<Message>
-        //        {
-        //            status ? new Message
-        //            {
-        //                Category = Message.Type.Information,
-        //                Description = "Room status changed successfully"
-        //            }:
-        //            new Message
-        //            {
-        //                Category = Message.Type.Error,
-        //                Description = "Error to room status change."
-        //            }
-        //        }
-        //    };
-        //}
-
         private List<Data> GetAllCheckedInRoomsForBuilding()
         {
-            return new Dao((Data)this.Data).GetAllCheckedInRoomsForBuilding();
+            return (this.DataAccess as Dao).GetAllCheckedInRoomsForBuilding();
         }
 
         private List<Data> GetReservedRoomsForBuilding()
         {
-            return new Dao((Data)this.Data).GetReservedRoomsForBuilding();
+            return (this.DataAccess as Dao).GetReservedRoomsForBuilding();
         }
 
         private List<Data> GetOpenRoomsForBuilding()
         {
-            return new Dao((Data)this.Data).GetOpenRoomsForBuilding();
+            return (this.DataAccess as Dao).GetOpenRoomsForBuilding();
         }
 
         private List<Data> GetCloseRoomsForBuilding()
         {
-            return new Dao((Data)this.Data).GetCloseRoomsForBuilding();
+            return (this.DataAccess as Dao).GetCloseRoomsForBuilding();
         }
 
         protected override ReturnObject<Boolean> IsSubjectDeletable(BinAff.Core.Data subject)
@@ -249,15 +175,15 @@ namespace Crystal.Lodge.Component.Room
             switch (subject.GetType().ToString())
             {
                 case "Crystal.Lodge.Component.Building.Data":
-                    return IsBuildingDeletable((Crystal.Lodge.Component.Building.Data)subject);
+                    return this.IsBuildingDeletable((Crystal.Lodge.Component.Building.Data)subject);
                 case "Crystal.Lodge.Component.Room.Category.Data":
-                    return IsRoomCategoryDeletable((Crystal.Lodge.Component.Room.Category.Data)subject);
+                    return this.IsRoomCategoryDeletable((Crystal.Lodge.Component.Room.Category.Data)subject);
                 case "Crystal.Lodge.Component.Room.Type.Data":
-                    return IsRoomTypeDeletable((Crystal.Lodge.Component.Room.Type.Data)subject);
+                    return this.IsRoomTypeDeletable((Crystal.Lodge.Component.Room.Type.Data)subject);
                 case "Crystal.Lodge.Component.Room.Status.Data":
-                    return IsRoomStatusDeletable((Crystal.Lodge.Component.Room.Status.Data)subject);
+                    return this.IsRoomStatusDeletable((Crystal.Lodge.Component.Room.Status.Data)subject);
                 case "Crystal.Lodge.Component.Building.Floor.Data":
-                    return IsBuildingFloorDeletable((Crystal.Lodge.Component.Building.Floor.Data)subject);
+                    return this.IsBuildingFloorDeletable((Crystal.Lodge.Component.Building.Floor.Data)subject);
 
                 default:
                     return new ReturnObject<Boolean>
@@ -267,29 +193,29 @@ namespace Crystal.Lodge.Component.Room
             }
         }
 
-        private ReturnObject<Boolean> IsBuildingDeletable(Crystal.Lodge.Component.Building.Data subject)
+        private ReturnObject<Boolean> IsBuildingDeletable(Building.Data subject)
         {
-            return MakeReturnObject(((Dao)this.DataAccess).IsBuildingDeletable(subject));
+            return MakeReturnObject((this.DataAccess as Dao).IsBuildingDeletable(subject));
         }
 
-        private ReturnObject<Boolean> IsRoomCategoryDeletable(Crystal.Lodge.Component.Room.Category.Data subject)
+        private ReturnObject<Boolean> IsRoomCategoryDeletable(Category.Data subject)
         {
-            return MakeReturnObject(((Dao)this.DataAccess).IsRoomCategoryDeletable(subject));
+            return MakeReturnObject((this.DataAccess as Dao).IsRoomCategoryDeletable(subject));
         }
 
-        private ReturnObject<Boolean> IsRoomTypeDeletable(Crystal.Lodge.Component.Room.Type.Data subject)
+        private ReturnObject<Boolean> IsRoomTypeDeletable(Type.Data subject)
         {
-            return MakeReturnObject(((Dao)this.DataAccess).IsRoomTypeDeletable(subject));
+            return MakeReturnObject((this.DataAccess as Dao).IsRoomTypeDeletable(subject));
         }
 
-        private ReturnObject<Boolean> IsRoomStatusDeletable(Crystal.Lodge.Component.Room.Status.Data subject)
+        private ReturnObject<Boolean> IsRoomStatusDeletable(Status.Data subject)
         {
-            return MakeReturnObject(((Dao)this.DataAccess).IsRoomStatusDeletable(subject));
+            return MakeReturnObject((this.DataAccess as Dao).IsRoomStatusDeletable(subject));
         }
 
-        private ReturnObject<Boolean> IsBuildingFloorDeletable(Crystal.Lodge.Component.Building.Floor.Data subject)
+        private ReturnObject<Boolean> IsBuildingFloorDeletable(Building.Floor.Data subject)
         {
-            return MakeReturnObject(((Dao)this.DataAccess).IsBuildingFloorDeletable(subject));
+            return MakeReturnObject((this.DataAccess as Dao).IsBuildingFloorDeletable(subject));
         }
         
         private ReturnObject<Boolean> MakeReturnObject(List<Data> dataList)
@@ -315,9 +241,8 @@ namespace Crystal.Lodge.Component.Room
             return ret;
         }
 
-        private String GetMessage(Crystal.Lodge.Component.Room.Data data)
+        private String GetMessage(Data data)
         {
-            Data d = data as Data;
             return "Room " + data.Name + " has dependency.";
         }
 
