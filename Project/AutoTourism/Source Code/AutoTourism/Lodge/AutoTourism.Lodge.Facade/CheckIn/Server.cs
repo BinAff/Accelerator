@@ -216,12 +216,11 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public void CheckOut()
         {
             Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
-            //updating reservation
-            RoomRsvFac.FormDto reservationFormDto = new RoomRsvFac.FormDto
+            dto.Reservation.IsBackDateEntry = true;
+            RoomRsvFac.Server roomReserver = new RoomRsvFac.Server(new RoomRsvFac.FormDto
             {
                 Dto = dto.Reservation
-            };
-            RoomRsvFac.Server roomReserver = new RoomRsvFac.Server(reservationFormDto);
+            });
             //roomReserver.RegisterArtifactObserver();//Artifact is missing. Need to attach that in Document
             roomReserver.Change();
 

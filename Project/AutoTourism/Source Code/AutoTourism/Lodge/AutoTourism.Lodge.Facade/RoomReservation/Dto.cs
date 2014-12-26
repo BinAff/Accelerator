@@ -10,13 +10,12 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 {
 
     public class Dto : Vanilla.Form.Facade.Document.Dto
-    {        
+    {
+        public Boolean IsBackDateEntry { get; set; }
         public DateTime BookingDate { get; set; }
         public DateTime BookingFrom { get; set; }
         public Int32 NoOfDays { get; set; }
-        //public Int32 NoOfPersons { get; set; }
         public Int32 NoOfRooms { get; set; }
-        //public Double Advance { get; set; }
 
         public Table RoomCategory { get; set; }
         public Table RoomType { get; set; }
