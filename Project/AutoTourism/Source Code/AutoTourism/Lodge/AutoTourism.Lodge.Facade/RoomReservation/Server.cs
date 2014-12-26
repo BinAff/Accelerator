@@ -53,7 +53,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 NoOfRooms = reservation.NoOfRooms,
                 BookingFrom = reservation.ActivityDate,
                 BookingStatus = (Status)reservation.Status.Id,
-                //RoomList = reservation.ProductList == null ? null : GetRoomDtoList(reservation.ProductList),
                 RoomList = reservation.ProductList == null ? null : new RoomFac.Server(null).ConvertAll<Data, RoomFac.Dto>(reservation.ProductList),
                 RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
                 RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id },
@@ -86,7 +85,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 {
                     Id = (Int64)reservation.BookingStatus
                 },
-                Description = String.Empty,//description will be added later if required
                 RoomCategory = reservation.RoomCategory == null ? null : new LodgeCrys.Room.Category.Data
                 {
                     Id = reservation.RoomCategory.Id,
@@ -847,6 +845,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             List<RoomFac.Dto> lstRoom = new List<RoomFac.Dto>();
 
             foreach (RoomFac.Dto room in roomList)
+            {
                 lstRoom.Add(new RoomFac.Dto
                 {
                     Id = room.Id,
@@ -865,7 +864,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                     //trvForm = room.trvForm,
                     Type = room.Type
                 });
-
+            }
             return lstRoom;
         }
 
