@@ -86,8 +86,14 @@ namespace BinAff.Presentation.Library
         public void Show(String message)
         {
             this.txtMessage.Text = message;
-            if (this.owner != null) this.ShowDialog(this.owner);
-            this.ShowDialog();
+            if (this.owner != null)
+            {
+                this.ShowDialog(this.owner);
+            }
+            else
+            {
+                this.ShowDialog();
+            }
         }
 
         public void Show(List<String> messageList)
