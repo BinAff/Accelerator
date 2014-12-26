@@ -304,7 +304,7 @@
             this.cboAC.Location = new System.Drawing.Point(94, 194);
             this.cboAC.Name = "cboAC";
             this.cboAC.Size = new System.Drawing.Size(148, 21);
-            this.cboAC.TabIndex = 1014;
+            this.cboAC.TabIndex = 7;
             this.toolTip.SetToolTip(this.cboAC, "Appliance");
             this.cboAC.SelectedIndexChanged += new System.EventHandler(this.cboAccessory_SelectedIndexChanged);
             // 
@@ -325,7 +325,7 @@
             this.cboType.Name = "cboType";
             this.cboType.Size = new System.Drawing.Size(147, 21);
             this.cboType.Sorted = true;
-            this.cboType.TabIndex = 1013;
+            this.cboType.TabIndex = 6;
             this.toolTip.SetToolTip(this.cboType, "Room Type");
             this.cboType.SelectedIndexChanged += new System.EventHandler(this.cboType_SelectedIndexChanged);
             // 
@@ -346,7 +346,7 @@
             this.cboCategory.Name = "cboCategory";
             this.cboCategory.Size = new System.Drawing.Size(147, 21);
             this.cboCategory.Sorted = true;
-            this.cboCategory.TabIndex = 1012;
+            this.cboCategory.TabIndex = 5;
             this.toolTip.SetToolTip(this.cboCategory, "Room Category");
             this.cboCategory.SelectedIndexChanged += new System.EventHandler(this.cboCategory_SelectedIndexChanged);
             // 
@@ -458,7 +458,7 @@
             this.txtRooms.MaxLength = 3;
             this.txtRooms.Name = "txtRooms";
             this.txtRooms.Size = new System.Drawing.Size(32, 20);
-            this.txtRooms.TabIndex = 1011;
+            this.txtRooms.TabIndex = 4;
             // 
             // label1
             // 
@@ -485,7 +485,7 @@
             this.txtDays.MaxLength = 3;
             this.txtDays.Name = "txtDays";
             this.txtDays.Size = new System.Drawing.Size(32, 20);
-            this.txtDays.TabIndex = 1010;
+            this.txtDays.TabIndex = 3;
             this.txtDays.TextChanged += new System.EventHandler(this.txtDays_TextChanged);
             // 
             // dtFromTime
@@ -495,7 +495,7 @@
             this.dtFromTime.Name = "dtFromTime";
             this.dtFromTime.ShowUpDown = true;
             this.dtFromTime.Size = new System.Drawing.Size(68, 20);
-            this.dtFromTime.TabIndex = 1009;
+            this.dtFromTime.TabIndex = 2;
             // 
             // groupBox2
             // 
@@ -557,7 +557,7 @@
             this.dtFrom.Location = new System.Drawing.Point(95, 61);
             this.dtFrom.Name = "dtFrom";
             this.dtFrom.Size = new System.Drawing.Size(147, 20);
-            this.dtFrom.TabIndex = 1008;
+            this.dtFrom.TabIndex = 1;
             this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
             // 
             // txtArrivedFrom
@@ -566,7 +566,7 @@
             this.txtArrivedFrom.Multiline = true;
             this.txtArrivedFrom.Name = "txtArrivedFrom";
             this.txtArrivedFrom.Size = new System.Drawing.Size(447, 50);
-            this.txtArrivedFrom.TabIndex = 1031;
+            this.txtArrivedFrom.TabIndex = 17;
             // 
             // label15
             // 
@@ -592,7 +592,7 @@
             this.txtCheckInRemark.Multiline = true;
             this.txtCheckInRemark.Name = "txtCheckInRemark";
             this.txtCheckInRemark.Size = new System.Drawing.Size(447, 50);
-            this.txtCheckInRemark.TabIndex = 1035;
+            this.txtCheckInRemark.TabIndex = 18;
             // 
             // label19
             // 
@@ -609,7 +609,7 @@
             this.txtPurpose.Multiline = true;
             this.txtPurpose.Name = "txtPurpose";
             this.txtPurpose.Size = new System.Drawing.Size(447, 50);
-            this.txtPurpose.TabIndex = 1033;
+            this.txtPurpose.TabIndex = 16;
             // 
             // CheckInForm
             // 
