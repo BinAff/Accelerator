@@ -628,20 +628,20 @@ namespace BinAff.Core
                 Value = true,
                 MessageList = new List<Message>()
             };
-            //Parallel.ForEach<ICrud>(children, child =>
-            //{
-            //    if (!((Crud)child).IsSkip && !((Crud)child).IsReadOnly && ((Crud)child).Data != null)
-            //    {
-            //        if (!ManipulateReturnObject(retObj, child.Delete()).Value) return;
-            //    }
-            //});
-            foreach (ICrud child in children)
+            Parallel.ForEach<ICrud>(children, child =>
             {
                 if (!((Crud)child).IsSkip && !((Crud)child).IsReadOnly && ((Crud)child).Data != null)
                 {
-                    if (!ManipulateReturnObject(retObj, child.Delete()).Value) return retObj;
+                    if (!ManipulateReturnObject(retObj, child.Delete()).Value) return;
                 }
-            }
+            });
+            //foreach (ICrud child in children)
+            //{
+            //    if (!((Crud)child).IsSkip && !((Crud)child).IsReadOnly && ((Crud)child).Data != null)
+            //    {
+            //        if (!ManipulateReturnObject(retObj, child.Delete()).Value) return retObj;
+            //    }
+            //}
             return retObj;
         }
 
@@ -653,19 +653,8 @@ namespace BinAff.Core
 
             //Create children
             this.CreateChildren();
-            ////Read dependent
-            //Parallel.ForEach<ICrud>(this.dependentChildren, child =>
-            //{
-            //    using (ReturnObject<Data> temp = child.Read())
-            //    {
-            //        if (temp.MessageList != null && temp.MessageList.Count > 0)
-            //        {
-            //            if (retObj.MessageList == null) retObj.MessageList = new List<Message>();
-            //            retObj.MessageList.AddRange(temp.MessageList);
-            //        }
-            //    }
-            //});
-            foreach (ICrud child in this.dependentChildren)
+            //Read dependent
+            Parallel.ForEach<ICrud>(this.dependentChildren, child =>
             {
                 using (ReturnObject<Data> temp = child.Read())
                 {
@@ -675,10 +664,8 @@ namespace BinAff.Core
                         retObj.MessageList.AddRange(temp.MessageList);
                     }
                 }
-            }
-
-            ////Read independent
-            //Parallel.ForEach<ICrud>(this.independentChildren, child =>
+            });
+            //foreach (ICrud child in this.dependentChildren)
             //{
             //    using (ReturnObject<Data> temp = child.Read())
             //    {
@@ -688,9 +675,10 @@ namespace BinAff.Core
             //            retObj.MessageList.AddRange(temp.MessageList);
             //        }
             //    }
-            //});
+            //}
 
-            foreach (ICrud child in this.independentChildren)
+            //Read independent
+            Parallel.ForEach<ICrud>(this.independentChildren, child =>
             {
                 using (ReturnObject<Data> temp = child.Read())
                 {
@@ -700,7 +688,18 @@ namespace BinAff.Core
                         retObj.MessageList.AddRange(temp.MessageList);
                     }
                 }
-            }
+            });
+            //foreach (ICrud child in this.independentChildren)
+            //{
+            //    using (ReturnObject<Data> temp = child.Read())
+            //    {
+            //        if (temp.MessageList != null && temp.MessageList.Count > 0)
+            //        {
+            //            if (retObj.MessageList == null) retObj.MessageList = new List<Message>();
+            //            retObj.MessageList.AddRange(temp.MessageList);
+            //        }
+            //    }
+            //}
 
             return retObj;
         }
@@ -724,15 +723,15 @@ namespace BinAff.Core
             {
                 Value = ((Dao)this.DataAccess).ReadAll()
             };
-            foreach (BinAff.Core.Data data in retList.Value)
+            Parallel.ForEach<BinAff.Core.Data>(retList.Value, data =>
             {
-                ICrud crud = this.CreateInstance(data);
-                crud.Read();
-            }
-            //Parallel.ForEach<BinAff.Core.Data>(retList.Value, data =>
+                (this.CreateInstance(data) as ICrud).Read();
+            });
+            //foreach (BinAff.Core.Data data in retList.Value)
             //{
-            //    (this.CreateInstance(data) as ICrud).Read();
-            //});
+            //    ICrud crud = this.CreateInstance(data);
+            //    crud.Read();
+            //}
 
             return retList;
         }
