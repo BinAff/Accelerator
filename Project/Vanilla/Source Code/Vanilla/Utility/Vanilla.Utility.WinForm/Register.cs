@@ -772,7 +772,7 @@ namespace Vanilla.Utility.WinForm
 
         public void ShowDocument()
         {
-            this.currentArtifact = this.ReadDocument(this.currentArtifact);
+            this.ReadDocument();
             if (this.DialogueMode != DialogueMode.Search)
             {
                 if (this.currentArtifact.Category == ArtfFac.Category.Report)
@@ -1748,11 +1748,6 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        private ArtfFac.Dto ReadDocument(ArtfFac.Dto selectedNode)
-        {
-            return new Facade.Register.Server(null).ReadDocument(selectedNode);
-        }
-
         private ArtfFac.Dto GetParent(ArtfFac.Dto artifact)
         {
             return String.Compare(artifact.Parent.GetType().FullName, "Vanilla.Utility.Facade.Module.Dto") == 0 ?
@@ -1804,6 +1799,11 @@ namespace Vanilla.Utility.WinForm
             }
 
             return retFileName;
+        }
+
+        public void ReadDocument()
+        {
+            this.currentArtifact = new Facade.Register.Server(null).ReadDocument(this.currentArtifact);
         }
 
         public void AddFolder()
