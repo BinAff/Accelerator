@@ -60,7 +60,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.lblRoomStatus = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.txtBedCount = new System.Windows.Forms.TextBox();
+            this.txtAccomodation = new System.Windows.Forms.TextBox();
+            this.txtExtraAccomodation = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picPhoto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
@@ -141,10 +143,10 @@
             // chkIsAC
             // 
             this.chkIsAC.AutoSize = true;
-            this.chkIsAC.Location = new System.Drawing.Point(202, 258);
+            this.chkIsAC.Location = new System.Drawing.Point(199, 284);
             this.chkIsAC.Name = "chkIsAC";
             this.chkIsAC.Size = new System.Drawing.Size(97, 17);
-            this.chkIsAC.TabIndex = 8;
+            this.chkIsAC.TabIndex = 10;
             this.chkIsAC.Text = "Air Conditioned";
             this.chkIsAC.UseVisualStyleBackColor = true;
             // 
@@ -206,16 +208,16 @@
             this.cboRoomList.FormattingEnabled = true;
             this.cboRoomList.Location = new System.Drawing.Point(9, 11);
             this.cboRoomList.Name = "cboRoomList";
-            this.cboRoomList.Size = new System.Drawing.Size(184, 286);
+            this.cboRoomList.Size = new System.Drawing.Size(184, 312);
             this.cboRoomList.Sorted = true;
-            this.cboRoomList.TabIndex = 54;
+            this.cboRoomList.TabIndex = 0;
             this.cboRoomList.SelectedIndexChanged += new System.EventHandler(this.cboRoomList_SelectedIndexChanged);
             // 
             // picPhoto
             // 
             this.picPhoto.Location = new System.Drawing.Point(465, 155);
             this.picPhoto.Name = "picPhoto";
-            this.picPhoto.Size = new System.Drawing.Size(134, 125);
+            this.picPhoto.Size = new System.Drawing.Size(165, 165);
             this.picPhoto.TabIndex = 75;
             this.picPhoto.TabStop = false;
             // 
@@ -227,20 +229,20 @@
             // 
             // btnDeleteImage
             // 
-            this.btnDeleteImage.Location = new System.Drawing.Point(465, 126);
+            this.btnDeleteImage.Location = new System.Drawing.Point(465, 119);
             this.btnDeleteImage.Name = "btnDeleteImage";
             this.btnDeleteImage.Size = new System.Drawing.Size(81, 22);
-            this.btnDeleteImage.TabIndex = 77;
+            this.btnDeleteImage.TabIndex = 13;
             this.btnDeleteImage.Text = "Delete Image";
             this.btnDeleteImage.UseVisualStyleBackColor = true;
             this.btnDeleteImage.Click += new System.EventHandler(this.btnDeleteImage_Click);
             // 
             // btnAddImage
             // 
-            this.btnAddImage.Location = new System.Drawing.Point(552, 126);
+            this.btnAddImage.Location = new System.Drawing.Point(552, 120);
             this.btnAddImage.Name = "btnAddImage";
             this.btnAddImage.Size = new System.Drawing.Size(81, 22);
-            this.btnAddImage.TabIndex = 78;
+            this.btnAddImage.TabIndex = 12;
             this.btnAddImage.Text = "Add Image";
             this.btnAddImage.UseVisualStyleBackColor = true;
             this.btnAddImage.Click += new System.EventHandler(this.btnAddImage_Click);
@@ -251,7 +253,7 @@
             this.lstImage.Location = new System.Drawing.Point(465, 12);
             this.lstImage.Name = "lstImage";
             this.lstImage.Size = new System.Drawing.Size(168, 95);
-            this.lstImage.TabIndex = 79;
+            this.lstImage.TabIndex = 11;
             this.lstImage.SelectedIndexChanged += new System.EventHandler(this.lstImage_SelectedIndexChanged);
             // 
             // errorProvider
@@ -263,7 +265,7 @@
             this.btnRefresh.Location = new System.Drawing.Point(648, 98);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 80;
+            this.btnRefresh.TabIndex = 17;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
@@ -273,7 +275,7 @@
             this.btnAdd.Location = new System.Drawing.Point(648, 11);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnAdd.TabIndex = 81;
+            this.btnAdd.TabIndex = 14;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -283,7 +285,7 @@
             this.btnDelete.Location = new System.Drawing.Point(648, 69);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 82;
+            this.btnDelete.TabIndex = 16;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -293,7 +295,7 @@
             this.btnChange.Location = new System.Drawing.Point(648, 40);
             this.btnChange.Name = "btnChange";
             this.btnChange.Size = new System.Drawing.Size(75, 23);
-            this.btnChange.TabIndex = 83;
+            this.btnChange.TabIndex = 15;
             this.btnChange.Text = "Change";
             this.btnChange.UseVisualStyleBackColor = true;
             this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
@@ -303,7 +305,7 @@
             this.btnClose.Location = new System.Drawing.Point(648, 158);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 84;
+            this.btnClose.TabIndex = 19;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
@@ -313,7 +315,7 @@
             this.btnOpen.Location = new System.Drawing.Point(648, 128);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(75, 23);
-            this.btnOpen.TabIndex = 85;
+            this.btnOpen.TabIndex = 18;
             this.btnOpen.Text = "Open";
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
@@ -321,7 +323,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(202, 283);
+            this.label5.Location = new System.Drawing.Point(199, 309);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(68, 13);
             this.label5.TabIndex = 86;
@@ -330,34 +332,54 @@
             // lblRoomStatus
             // 
             this.lblRoomStatus.AutoSize = true;
-            this.lblRoomStatus.Location = new System.Drawing.Point(294, 267);
+            this.lblRoomStatus.Location = new System.Drawing.Point(273, 309);
             this.lblRoomStatus.Name = "lblRoomStatus";
-            this.lblRoomStatus.Size = new System.Drawing.Size(0, 13);
+            this.lblRoomStatus.Size = new System.Drawing.Size(35, 13);
             this.lblRoomStatus.TabIndex = 87;
+            this.lblRoomStatus.Text = "status";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(199, 233);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(57, 13);
+            this.label9.Size = new System.Drawing.Size(75, 13);
             this.label9.TabIndex = 88;
-            this.label9.Text = "Bed Count";
+            this.label9.Text = "Accomodation";
             // 
-            // txtBedCount
+            // txtAccomodation
             // 
-            this.txtBedCount.Location = new System.Drawing.Point(262, 230);
-            this.txtBedCount.MaxLength = 50;
-            this.txtBedCount.Name = "txtBedCount";
-            this.txtBedCount.Size = new System.Drawing.Size(32, 20);
-            this.txtBedCount.TabIndex = 89;
+            this.txtAccomodation.Location = new System.Drawing.Point(307, 230);
+            this.txtAccomodation.MaxLength = 50;
+            this.txtAccomodation.Name = "txtAccomodation";
+            this.txtAccomodation.Size = new System.Drawing.Size(32, 20);
+            this.txtAccomodation.TabIndex = 8;
+            // 
+            // txtExtraAccomodation
+            // 
+            this.txtExtraAccomodation.Location = new System.Drawing.Point(307, 256);
+            this.txtExtraAccomodation.MaxLength = 50;
+            this.txtExtraAccomodation.Name = "txtExtraAccomodation";
+            this.txtExtraAccomodation.Size = new System.Drawing.Size(32, 20);
+            this.txtExtraAccomodation.TabIndex = 9;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(199, 259);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(102, 13);
+            this.label10.TabIndex = 90;
+            this.label10.Text = "Extra Accomodation";
             // 
             // Room
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(732, 305);
-            this.Controls.Add(this.txtBedCount);
+            this.ClientSize = new System.Drawing.Size(732, 330);
+            this.Controls.Add(this.txtExtraAccomodation);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.txtAccomodation);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.lblRoomStatus);
             this.Controls.Add(this.label5);
@@ -393,7 +415,7 @@
             this.Name = "Room";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Room Configuration";
+            this.Text = "Room";
             this.Load += new System.EventHandler(this.Room_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picPhoto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
@@ -434,7 +456,9 @@
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.Label lblRoomStatus;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtBedCount;
+        private System.Windows.Forms.TextBox txtAccomodation;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtExtraAccomodation;
+        private System.Windows.Forms.Label label10;
     }
 }
