@@ -218,21 +218,13 @@ namespace Crystal.Navigator.Component.Artifact
         /// <param name="artifactList">List of artifacts</param>
         private void FormTree(List<BinAff.Core.Data> artifactList)
         {
-            Rule.Data rule = new Rule.Data { Id = 1 };
-            ICrud ruleServer = new Rule.Server(rule);
-            ruleServer.Read();
-            String moduleSeperator = rule.ModuleSeperator;
-            String pathSeperator = rule.PathSeperator;
-
             //Create root
             List<BinAff.Core.Data> rootList = this.FindRoot(artifactList);
             Data data = this.Data as Data;
-            //data.Path = data.Path + moduleSeperator + pathSeperator + pathSeperator + data.FileName + pathSeperator;
             data.Children = new List<BinAff.Core.Data>();
             foreach (Data root in rootList)
             {
                 Int64 currentId = root.Id;
-                //root.Path = data.Path + root.FileName + pathSeperator;
                 root.ParentId = this.Data.Id;
                 artifactList.Remove(root);
                 //
@@ -250,7 +242,6 @@ namespace Crystal.Navigator.Component.Artifact
                         parent.Children = new List<BinAff.Core.Data>();
                         foreach (Data node in children)
                         {
-                            //node.Path += parent.Path + node.FileName + pathSeperator;
                             parent.Children.Add(node);
                             artifactList.Remove(node);
                             dumpList.Add(node);
