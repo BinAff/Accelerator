@@ -2,6 +2,12 @@
 using System.Data;
 using System.Collections.Generic;
 
+using BinAff.Core;
+
+using RoomRsrvCrys = Crystal.Lodge.Component.Room.Reservation;
+using ChkInCrys = Crystal.Lodge.Component.Room.CheckIn;
+using CharCrys = Crystal.Customer.Component.Characteristic;
+
 namespace AutoTourism.Component.Customer
 {
 
@@ -20,22 +26,16 @@ namespace AutoTourism.Component.Customer
         protected override void Compose()
         {
             base.Compose();
-            if (this.Data != null && ((this.Data as Data).RoomReserver.Active != null && ((this.Data as Data).RoomReserver.Active as Crystal.Lodge.Component.Room.Reservation.Data).Id == 0))
+            Data data = (this.Data as Data);
+            if (this.Data != null && (data.RoomReserver.Active != null && (data.RoomReserver.Active as RoomRsrvCrys.Data).Id == 0))
             {
                 isNewReservation = true;
             }
 
-            if (this.Data != null && ((this.Data as Data).Checkin.Active != null && ((this.Data as Data).Checkin.Active as Crystal.Lodge.Component.Room.CheckIn.Data).Id == 0))
+            if (this.Data != null && (data.Checkin.Active != null && (data.Checkin.Active as ChkInCrys.Data).Id == 0))
             {
                 isNewCheckIn = true;
             }
-        }
-
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
-        {
-            Data dt = (Data)data;
-            dt = base.CreateDataObject(ds, data) as Data;
-            return dt;
         }
 
         protected override Boolean CreateAfter()
@@ -66,28 +66,6 @@ namespace AutoTourism.Component.Customer
             base.ReadAfter();
             this.ReadCustomerRoomReservationLink();
             this.ReadCustomerRoomCheckInLink();
-            ////TO DO : Read the relationship between Customer and room reservation
-            //this.CreateCommand("[AutoTourism].[CustomerRoomReservationLinkRead]");
-            //this.AddInParameter("@CustomerId", DbType.Int64, this.Data.Id);
-
-            //DataSet ds = this.ExecuteDataSet();
-            //(this.Data as Data).RoomReserver = new Crystal.Lodge.Component.Room.Reserver.Data();
-            //if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            //{
-            //    (this.Data as Data).RoomReserver.AllList = new List<BinAff.Core.Data>();
-            //    foreach (DataRow row in ds.Tables[0].Rows)
-            //    {
-            //        Crystal.Lodge.Component.Room.Reservation.Data data = new Crystal.Lodge.Component.Room.Reservation.Data
-            //        {
-            //            Id = Convert.IsDBNull(row["RoomReservationId"]) ? 0 : Convert.ToInt64(row["RoomReservationId"]),
-            //        };
-            //        //TO DO: Need to check why read is required. some createchildren is missing.
-            //        BinAff.Core.ICrud server = new Crystal.Lodge.Component.Room.Reservation.Server(data);
-            //        server.Read();
-            //        (this.Data as Data).RoomReserver.AllList.Add(data);
-
-            //    }
-            //}
             return true;
         }
 
@@ -97,12 +75,10 @@ namespace AutoTourism.Component.Customer
             Boolean retVal = true;            
 
             //This condition will be null, if the customer has no reservation
-            if (((BinAff.Core.Data)(((Crystal.Customer.Component.Characteristic.Data)(data.RoomReserver)).Active)) != null)
+            if (data.RoomReserver.Active != null)
             {
-                Int64 ReservationId = ((BinAff.Core.Data)(((Crystal.Customer.Component.Characteristic.Data)(data.RoomReserver)).Active)).Id;
-
                 this.CreateCommand("[AutoTourism].[CustomerRoomReservationLinkDelete]");                
-                this.AddInParameter("@RoomReservationId", DbType.Int64, ReservationId);
+                this.AddInParameter("@RoomReservationId", DbType.Int64, data.RoomReserver.Active.Id);
                 try
                 {
                     Int32 ret = this.ExecuteNonQuery();
@@ -125,16 +101,14 @@ namespace AutoTourism.Component.Customer
         {
             Data data = this.Data as Data;
             Boolean retVal = true;
-            Int64 customerReservationId = 0;            
 
             //This condition will be null, if the customer has no reservation
-            if (((BinAff.Core.Data)(((Crystal.Customer.Component.Characteristic.Data)(data.RoomReserver)).Active)) != null)
+            if (data.RoomReserver.Active != null)
             {
-                Int64 ReservationId = ((BinAff.Core.Data)(((Crystal.Customer.Component.Characteristic.Data)(data.RoomReserver)).Active)).Id;
-                this.CreateCommand("[AutoTourism].[CustomerRoomReservationLinkInsert]");
+                this.CreateCommand("AutoTourism.CustomerRoomReservationLinkInsert");
                 this.AddInParameter("@CustomerId", DbType.Int64, data.Id);
-                this.AddInParameter("@RoomReservationId", DbType.Int64, ReservationId);
-                this.AddInParameter("@Id", DbType.Int64, customerReservationId);
+                this.AddInParameter("@RoomReservationId", DbType.Int64, data.RoomReserver.Active.Id);
+                this.AddOutParameter("@Id", DbType.Int64, 0);
                 Int32 ret = this.ExecuteNonQuery();
                 if (ret == -2146232060)
                 {
@@ -152,16 +126,14 @@ namespace AutoTourism.Component.Customer
         {
             Data data = this.Data as Data;
             Boolean retVal = true;
-            Int64 customerCheckInId = 0;
 
             //This condition will be null, if the customer has no reservation
-            if (((BinAff.Core.Data)(((Crystal.Customer.Component.Characteristic.Data)(data.RoomReserver)).Active)) != null)
+            if (data.RoomReserver.Active != null)
             {
-                Int64 CheckInId = ((BinAff.Core.Data)(((Crystal.Customer.Component.Characteristic.Data)(data.Checkin)).Active)).Id;
-                this.CreateCommand("[AutoTourism].[CustomerRoomCheckInLinkInsert]");
+                this.CreateCommand("AutoTourism.CustomerRoomCheckInLinkInsert");
                 this.AddInParameter("@CustomerId", DbType.Int64, data.Id);
-                this.AddInParameter("@RoomCheckInId", DbType.Int64, CheckInId);
-                this.AddInParameter("@Id", DbType.Int64, customerCheckInId);
+                this.AddInParameter("@RoomCheckInId", DbType.Int64, data.Checkin.Active.Id);
+                this.AddOutParameter("@Id", DbType.Int64, 0);
                 Int32 ret = this.ExecuteNonQuery();
                 if (ret == -2146232060)
                 {
@@ -177,7 +149,7 @@ namespace AutoTourism.Component.Customer
 
         private void ReadCustomerRoomReservationLink()
         {
-            this.CreateCommand("[AutoTourism].[CustomerRoomReservationLinkRead]");
+            this.CreateCommand("AutoTourism.CustomerRoomReservationLinkRead");
             this.AddInParameter("@CustomerId", DbType.Int64, this.Data.Id);
             DataSet ds = this.ExecuteDataSet();
             (this.Data as Data).RoomReserver = new Crystal.Lodge.Component.Room.Reserver.Data();
@@ -186,13 +158,12 @@ namespace AutoTourism.Component.Customer
                 (this.Data as Data).RoomReserver.AllList = new List<BinAff.Core.Data>();
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    Crystal.Lodge.Component.Room.Reservation.Data data = new Crystal.Lodge.Component.Room.Reservation.Data
+                    RoomRsrvCrys.Data data = new RoomRsrvCrys.Data
                     {
                         Id = Convert.IsDBNull(row["RoomReservationId"]) ? 0 : Convert.ToInt64(row["RoomReservationId"]),
                     };
                     //TO DO: Need to check why read is required. some createchildren is missing.
-                    BinAff.Core.ICrud server = new Crystal.Lodge.Component.Room.Reservation.Server(data);
-                    server.Read();
+                    (new RoomRsrvCrys.Server(data) as ICrud).Read();
                     (this.Data as Data).RoomReserver.AllList.Add(data);
                 }
             }
@@ -210,13 +181,12 @@ namespace AutoTourism.Component.Customer
                 (this.Data as Data).Checkin.AllList = new List<BinAff.Core.Data>();
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    Crystal.Lodge.Component.Room.CheckIn.Data data = new Crystal.Lodge.Component.Room.CheckIn.Data
+                    ChkInCrys.Data data = new ChkInCrys.Data
                     {
                         Id = Convert.IsDBNull(row["RoomCheckInId"]) ? 0 : Convert.ToInt64(row["RoomCheckInId"]),
                     };
                     //TO DO: Need to check why read is required. some createchildren is missing.
-                    BinAff.Core.ICrud server = new Crystal.Lodge.Component.Room.CheckIn.Server(data);
-                    server.Read();
+                    (new ChkInCrys.Server(data) as ICrud).Read();
                     (this.Data as Data).Checkin.AllList.Add(data);
                 }
             }
