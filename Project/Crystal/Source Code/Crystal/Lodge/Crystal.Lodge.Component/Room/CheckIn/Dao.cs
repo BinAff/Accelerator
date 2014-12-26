@@ -30,7 +30,6 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         protected override void AssignParameter(String procedureName)
         {
             base.AssignParameter(procedureName);
-            //base.AddInParameter("@Advance", DbType.Double, ((Data)this.Data).Advance);         
             base.AddInParameter("@ReservationId", DbType.Int64, ((Data)this.Data).Reservation.Id);
 
             base.AddInParameter("@Purpose", DbType.String, ((Data)this.Data).Purpose);
@@ -42,8 +41,6 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         {
             base.CreateDataObject(dr, data);
             Data dt = (Data)data;
-            
-            //dt.Advance = Convert.IsDBNull(dr["Advance"]) ? 0 : Convert.ToDouble(dr["Advance"]);
             dt.invoiceNumber = Convert.IsDBNull(dr["InvoiceNumber"]) ? String.Empty : Convert.ToString(dr["InvoiceNumber"]);
             dt.Reservation = Convert.IsDBNull(dr["ReservationId"]) ? null : new Crystal.Lodge.Component.Room.Reservation.Data() 
             { 
@@ -76,28 +73,21 @@ namespace Crystal.Lodge.Component.Room.CheckIn
           return this.DeleteCustomerRoomCheckInLink();
         }
 
-
         protected override Boolean ReadAfter()
         {
             Data data = this.Data as Data;
-
-            this.CreateCommand("[Lodge].[RoomReservationDetailsRead]");     
+            this.CreateCommand("Lodge.RoomReservationRoomLinkRead");     
             this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
-
             DataSet ds = this.ExecuteDataSet();
-
             if (ds.Tables.Count > 0)
             {
                 data.ProductList = new List<BinAff.Core.Data>();
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    Room.Data room = new Room.Data
+                    data.ProductList.Add(new Room.Data
                     {
                         Id = Convert.IsDBNull(dr["RoomId"]) ? 0 : Convert.ToInt64(dr["RoomId"])
-                    };
-                    ICrud roomServer = new Room.Server(room);
-                    roomServer.Read();
-                    data.ProductList.Add(room);
+                    });
                 }
             }
 
@@ -150,7 +140,7 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         {
             List<Data> dataList = new List<Data>();
             this.CreateConnection();
-            this.CreateCommand("[Lodge].[IsReservationDeletable]");
+            this.CreateCommand("Lodge.IsReservationDeletable");
             this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
             DataSet ds = this.ExecuteDataSet();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -177,7 +167,7 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             //TO DO : Room and Reservation
             List<Customer.Component.Action.Data> dataList = new List<Customer.Component.Action.Data>();
             this.CreateConnection();
-            this.CreateCommand("[Lodge].[IsCheckInDeletable]");
+            this.CreateCommand("Lodge.CheckInIsRoomDeletable");
             this.AddInParameter("@RoomId", DbType.Int64, subject.Id);
             DataSet ds = this.ExecuteDataSet();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -187,13 +177,14 @@ namespace Crystal.Lodge.Component.Room.CheckIn
                     dataList.Add(new Data
                     {
                         Date = Convert.IsDBNull(row["CheckInDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["CheckInDate"]),
-                        Reservation = new Reservation.Data(){
+                        Reservation = new Reservation.Data()
+                        {
                             NoOfDays = Convert.ToInt16(row["NoOfDays"]),
-                        }                        
+                        }
                     });
                 }
             }
-
+            //dataList = this.CreateDataObjectList(this.ExecuteDataSet()).ConvertAll((p) => { return p as Data; });
             this.CloseConnection();
             return dataList;
         }
