@@ -49,6 +49,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return new Dto
             {
                 Id = data.Id,
+                IsBackDateEntry = reservation.IsBackDateEntry,
                 NoOfDays = reservation.NoOfDays,
                 NoOfRooms = reservation.NoOfRooms,
                 BookingFrom = reservation.ActivityDate,
@@ -77,6 +78,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             {
                 Id = dto.Id,
                 NoOfDays = reservation.NoOfDays,
+                IsBackDateEntry = reservation.IsBackDateEntry,
                 NoOfRooms = reservation.NoOfRooms,
                 ActivityDate = reservation.BookingFrom,
                 Date = DateTime.Now,
@@ -920,6 +922,11 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 cust.RoomReserver.Active.ProductList = dto.RoomList == null ? null : this.GetRoomDataList(dto.RoomList);
 
                 ReturnObject<Boolean> ret = (new CustAuto.Server(cust) as ICrud).Save();
+                if(this.IsError = ret.HasError())
+                {
+                    this.DisplayMessageList = ret.GetMessage((this.IsError) ? Message.Type.Error : Message.Type.Information);
+                    return;
+                }
 
                 if (cust.RoomReserver.Active != null)
                 {

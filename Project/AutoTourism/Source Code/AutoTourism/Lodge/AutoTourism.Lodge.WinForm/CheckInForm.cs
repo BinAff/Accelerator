@@ -52,9 +52,7 @@ namespace AutoTourism.Lodge.WinForm
         {
             Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
-
-            Int32 noOfDays = new Calender().DaysBetweenTwoDays(dto.Date, DateTime.Today);
-
+            Int32 noOfDays = new Calender().DaysBetweenTwoDays(dto.Reservation.BookingFrom, DateTime.Today);
             if (noOfDays != dto.Reservation.NoOfDays)
             {
                 dto.Reservation.NoOfDays = noOfDays == 0 ? 1 : noOfDays;
@@ -63,13 +61,10 @@ namespace AutoTourism.Lodge.WinForm
                     DialogueType = PresLib.MessageBox.Type.Alert,
                     Heading = "Splash"
                 }.Show("CheckOut date is not matching with reservation end date. Reservation end date will be changed with checkout.");
+                return;
             }
 
-            //dto.Reservation.BookingStatusId = Convert.ToInt64(CheckInStatus.CheckOut);
             (this.facade as LodgeFac.CheckIn.Server).CheckOut();
-
-            //dto.StatusId = Convert.ToInt64(CheckInStatus.CheckOut);
-            //base.IsModified = true;
             this.Close();
         }
 
@@ -312,16 +307,10 @@ namespace AutoTourism.Lodge.WinForm
             if (dto != null && dto.Id > 0)
             {
                 dto.CustomerDisplayName = dto.Reservation.Customer.Name;
-
                 this.LoadCheckInData();
-
-                //disable buttons to pick/add reservatiol
-                //base.DisableAddAncestorButton();
-                //base.DisablePickAncestorButton();
             }
 
             this.DisableFormControls();
-
         }
 
         protected override Boolean ValidateForm()
@@ -602,36 +591,58 @@ namespace AutoTourism.Lodge.WinForm
             errorProvider.Clear();
 
             Facade.CheckIn.Dto dto = this.formDto.Dto as Facade.CheckIn.Dto;
-            Boolean blnDisable = false;
-            
-            if(dto.Id > 0)
-                blnDisable = (ValidationRule.IsDateLessThanToday(dto.Date) || (dto.StatusId == Convert.ToInt64(Status.CheckOut))) ? true : false;
 
-            if (blnDisable)
+            if (dto.StatusId == Convert.ToInt64(Status.Open))
             {
-                dtFrom.Enabled = false;
-                dtFromTime.Enabled = false;
-                txtDays.Enabled = false;
-                txtRooms.Enabled = false;
-                cboCategory.Enabled = false;
-                cboType.Enabled = false;
-                cboAC.Enabled = false;
-                txtMale.Enabled = false;
-                txtFemale.Enabled = false;
-                txtChild.Enabled = false;
-                txtInfant.Enabled = false;
-                txtPurpose.Enabled = false;
-                txtArrivedFrom.Enabled = false;
-                txtCheckInRemark.Enabled = false;
-                cboRoomList.Enabled = false;
-                cboSelectedRoom.Enabled = false;
-                btnAddRoom.Enabled = false;
-                btnRemoveRoom.Enabled = false;
+                this.dtFrom.Enabled = false;
+                this.dtFromTime.Enabled = false;
+                this.txtRooms.Enabled = false;
+                this.cboCategory.Enabled = false;
+                this.cboType.Enabled = false;
+                this.cboAC.Enabled = false;
+                this.txtMale.Enabled = false;
+                this.txtFemale.Enabled = false;
+                this.txtChild.Enabled = false;
+                this.txtInfant.Enabled = false;
+                this.txtPurpose.Enabled = false;
+                this.txtArrivedFrom.Enabled = false;
+                this.txtCheckInRemark.Enabled = false;
+                this.cboRoomList.Enabled = false;
+                this.cboSelectedRoom.Enabled = false;
+                this.btnAddRoom.Enabled = false;
+                this.btnRemoveRoom.Enabled = false;
 
                 base.DisablePickAncestorButton();
                 base.DisableAddAncestorButton();
                 base.DisableRefreshButton();
                 base.DisableOkButton();
+            }
+            else if (dto.Id > 0 && (ValidationRule.IsDateGreaterThanToday(dto.Date) || (dto.StatusId == Convert.ToInt64(Status.CheckOut))))
+            {
+                this.dtFrom.Enabled = false;
+                this.dtFromTime.Enabled = false;
+                this.txtDays.Enabled = false;
+                this.txtRooms.Enabled = false;
+                this.cboCategory.Enabled = false;
+                this.cboType.Enabled = false;
+                this.cboAC.Enabled = false;
+                this.txtMale.Enabled = false;
+                this.txtFemale.Enabled = false;
+                this.txtChild.Enabled = false;
+                this.txtInfant.Enabled = false;
+                this.txtPurpose.Enabled = false;
+                this.txtArrivedFrom.Enabled = false;
+                this.txtCheckInRemark.Enabled = false;
+                this.cboRoomList.Enabled = false;
+                this.cboSelectedRoom.Enabled = false;
+                this.btnAddRoom.Enabled = false;
+                this.btnRemoveRoom.Enabled = false;
+
+                base.DisablePickAncestorButton();
+                base.DisableAddAncestorButton();
+                base.DisableRefreshButton();
+                base.DisableOkButton();
+
                 this.btnCheckOut.Enabled = false;
             }
         }
