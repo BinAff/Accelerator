@@ -25,7 +25,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
         public override void LoadForm()
         {
             FormDto formDto = this.FormDto as FormDto;
-            formDto.RoomList = this.ReadAll<Dto>();
+            formDto.DtoList = this.ReadAll<Dto>();
 
             Building.FormDto buildingFormDto = new BuildingFac.FormDto();
             Building.Server buildFacade = new BuildingFac.Server(buildingFormDto);
@@ -42,7 +42,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
 
         public override void Add()
         {
-            CrysComp.Data data = this.Convert((this.FormDto as FormDto).Room) as CrysComp.Data;
+            CrysComp.Data data = this.Convert((this.FormDto as FormDto).Dto) as CrysComp.Data;
             ReturnObject<Boolean> ret = (new CrysComp.Server(data) as ICrud).Save();
 
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
@@ -50,7 +50,7 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
 
         public override void Change()
         {
-            CrysComp.Data data = this.Convert((this.FormDto as FormDto).Room) as CrysComp.Data;
+            CrysComp.Data data = this.Convert((this.FormDto as FormDto).Dto) as CrysComp.Data;
             ReturnObject<Boolean> ret = (new CrysComp.Server(data) as ICrud).Save();
 
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
@@ -79,9 +79,10 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
                 Category = new Room.Category.Server(null).Convert(room.Category) as Room.Category.Dto,
                 Type = new Room.Type.Server(null).Convert(room.Type) as Room.Type.Dto,
                 IsAirconditioned = room.IsAirConditioned,
+                Accomodation = room.Accomodation,
+                ExtraAccomodation = room.ExtraAccomodation,
                 ImageList = room.ImageList == null ? null : GetImageList(room.ImageList),
                 StatusId = room.Status.Id,
-                //IsDormitory = room.IsDormitory,
             };
         }
 
@@ -102,6 +103,8 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
                 },
                 Category = room.Category == null ? null : new CrysComp.Category.Data() { Id = room.Category.Id },
                 Type = room.Type == null ? null : new CrysComp.Type.Data() { Id = room.Type.Id },
+                Accomodation = room.Accomodation,
+                ExtraAccomodation = room.ExtraAccomodation,
                 IsAirConditioned = room.IsAirconditioned,
                 Status = new CrysComp.Status.Data
                 {
@@ -169,7 +172,6 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             (new LodgeObserver.Room() as IRegistrar).Register(crud); //Register Observers
 
             return (crud as ICrud).Delete();
-
         }
                 
         private List<BinAff.Core.Data> GetImageDataList(List<Image.Dto> imageList)
@@ -205,7 +207,6 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
                 Reason = dto.Reason,
                 //UserId = dto.UserAccount.Id,
                 BuildingId = dto.Building.Id,
-
             });
 
             CrysComp.IRoom crud = new CrysComp.Server(data);
@@ -274,9 +275,9 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
             if (((BuildingCrys.Data)buildingData.Value).Status.Id == System.Convert.ToInt64(BuildingStatus.Close))
             {
                 ret.MessageList = new List<Message>
-                        {
-                            new Message("Unable to open the room. Building is closed.", Message.Type.Error)
-                        };
+                {
+                    new Message("Unable to open the room. Building is closed.", Message.Type.Error)
+                };
                 ret.Value = false;
                 return ret;
             }
