@@ -6,9 +6,11 @@ using System.IO;
 
 using BinAff.Utility;
 using BinAff.Core;
+using BinAff.Presentation.Library.Extension;
 
 using FacadeRoom = AutoTourism.Lodge.Configuration.Facade.Room;
 using FacadeBuilding = AutoTourism.Lodge.Configuration.Facade.Building;
+using System.Text.RegularExpressions;
 
 namespace AutoTourism.Lodge.Configuration.WinForm
 {
@@ -18,7 +20,6 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
         private Facade.Room.FormDto formDto;
 
-        //private AutoTourism.Facade.UserManagement.User.Dto userDto = null;
         private List<FacadeRoom.Image.Dto> imageDtoList = new List<FacadeRoom.Image.Dto>();
 
         public Room()
@@ -26,14 +27,6 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             InitializeComponent();
             this.formDto = new Facade.Room.FormDto();
         }
-
-        //public Room(AutoTourism.Facade.UserManagement.User.Dto UserDto)
-        //{
-        //    InitializeComponent();
-        //    this.userDto = UserDto;
-        //    base.IsOpenButton = true;
-        //    base.IsCloseButton = true;
-        //}
 
         private void Room_Load(object sender, EventArgs e)
         {
@@ -49,34 +42,29 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (!ValidateRoom()) return;
-
+            if (!ValidateForm()) return;
             this.Save(); 
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (this.cboRoomList.SelectedIndex == -1)
-            {
-                //Show message
-                //new PresentationLibrary.MessageBox("Please select one room", PresentationLibrary.MessageBox.Type.Alert).ShowDialog(this);
-                return;
-            }
+            if (this.cboRoomList.SelectedIndex == -1) return;
 
-            if (System.Windows.Forms.MessageBox.Show("Are you sure you want to delete the room.?", "Room Delete",
-                            System.Windows.Forms.MessageBoxButtons.YesNo,
-                            System.Windows.Forms.MessageBoxIcon.Question)
-                              == System.Windows.Forms.DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete the room.?", "Room Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                == DialogResult.Yes)
             {
                 FacadeRoom.IRoom room = new FacadeRoom.Server(this.formDto);
-                ReturnObject<Boolean> ret = room.Delete(new FacadeRoom.Dto()
+                ReturnObject<Boolean> ret = room.Delete(new FacadeRoom.Dto
                 {
                     Id = ((FacadeRoom.Dto)this.cboRoomList.SelectedItem).Id
                 });
-                
-                //new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message  
+
+                //new PresentationLibrary.MessageBox(ret.MessageList).ShowDialog(this); //Show message
             }
-            else Clear();
+            else
+            {
+                Clear();
+            }
         }
 
         private void btnChange_Click(object sender, EventArgs e)
@@ -87,7 +75,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 return;
             }
 
-            if (!ValidateRoom()) return;
+            if (!ValidateForm()) return;
             this.Save();
         }
 
@@ -152,17 +140,14 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
         private void cboBuilding_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboBuilding.SelectedIndex != -1)
+            if (cboBuilding.SelectedItem != null)
             {
-                FacadeBuilding.Dto dto = (FacadeBuilding.Dto)cboBuilding.SelectedItem;
-                if (dto.FloorList != null && dto.FloorList.Count > 0)
-                {
-                    this.cboFloor.DataSource = null;
-                    this.cboFloor.DataSource = dto.FloorList;
-                    this.cboFloor.DisplayMember = "Name";
-                    this.cboFloor.ValueMember = "Id";
-                }
-                else this.cboFloor.DataSource = null;
+                this.cboFloor.Enabled = true;
+                this.cboFloor.Bind((this.cboBuilding.SelectedItem as FacadeBuilding.Dto).FloorList, "Name");
+            }
+            else
+            {
+                this.cboFloor.Enabled = false;
             }
         }
 
@@ -254,35 +239,31 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 {
                     if (dto.Name == (String)this.lstImage.SelectedItem)
                     {
-                        //Initialize image variable
                         Image newImage;
-                        //Read image data into a memory stream
                         using (MemoryStream ms = new MemoryStream(dto.Image, 0, dto.Image.Length))
                         {
                             ms.Write(dto.Image, 0, dto.Image.Length);
-
-                            //Set image variable value using memory stream.
                             newImage = Image.FromStream(ms, true);
-                            //set picture
                             this.picPhoto.Image = newImage;
                             this.picPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
                         }
-
                         break;
                     }
-
                 }
             }
         }
 
         private void cboRoomList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboRoomList.SelectedIndex != -1)
+            if (cboRoomList.SelectedItem != null)
             {
-                FacadeRoom.Dto dto = (FacadeRoom.Dto)cboRoomList.SelectedItem;
-                txtNumber.Text = dto.Number;
-                txtName.Text = dto.Name;
-                txtDesc.Text = dto.Description;
+                FacadeRoom.Dto dto = cboRoomList.SelectedItem as FacadeRoom.Dto;
+                this.txtNumber.Text = dto.Number;
+                this.txtName.Text = dto.Name;
+                this.txtDesc.Text = dto.Description;
+                this.chkIsAC.Checked = dto.IsAirconditioned;
+                this.txtAccomodation.Text = dto.Accomodation.ToString();
+                this.txtExtraAccomodation.Text = dto.ExtraAccomodation.ToString();
 
                 if (dto.StatusId == 10001)
                     lblRoomStatus.Text = "Open";
@@ -291,63 +272,10 @@ namespace AutoTourism.Lodge.Configuration.WinForm
                 else if (dto.StatusId == 10003)
                     lblRoomStatus.Text = "Occupied";
 
-                //Building Dropdown
-                List<FacadeBuilding.Dto> buildingDtoList = (List<FacadeBuilding.Dto>)cboBuilding.DataSource;
-                if (buildingDtoList != null && buildingDtoList.Count > 0)
-                {
-                    for (int i = 0; i < buildingDtoList.Count; i++)
-                    {
-                        if (buildingDtoList[i].Id == dto.Building.Id)
-                        {
-                            cboBuilding.SelectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-
-                //Floor dropdown
-                List<Table> floorList = (List<Table>)cboFloor.DataSource;
-                if (floorList != null && floorList.Count > 0)
-                {
-                    for (int i = 0; i < floorList.Count; i++)
-                    {
-                        if (floorList[i].Id == dto.Floor.Id)
-                        {
-                            cboFloor.SelectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-
-                //Category Dropdown
-                List<FacadeRoom.Category.Dto> categoryList = (List<FacadeRoom.Category.Dto>)cboCategory.DataSource;
-                if (categoryList != null && categoryList.Count > 0)
-                {
-                    for (int i = 0; i < categoryList.Count; i++)
-                    {
-                        if (categoryList[i].Id == dto.Category.Id)
-                        {
-                            cboCategory.SelectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-
-                //Type Dropdown
-                List<FacadeRoom.Type.Dto> typeList = (List<FacadeRoom.Type.Dto>)cboType.DataSource;
-                if (typeList != null && typeList.Count > 0)
-                {
-                    for (int i = 0; i < typeList.Count; i++)
-                    {
-                        if (typeList[i].Id == dto.Type.Id)
-                        {
-                            cboType.SelectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-
-                chkIsAC.Checked = dto.IsAirconditioned;
+                this.cboBuilding.SelectedItem = this.formDto.BuildingList.FindLast((p) => { return p.Id == dto.Building.Id; });
+                this.cboFloor.SelectedItem = (this.cboBuilding.SelectedItem as FacadeBuilding.Dto).FloorList.FindLast((p) => { return p.Id == dto.Floor.Id; });
+                this.cboCategory.SelectedItem = this.formDto.CategoryList.FindLast((p) => { return p.Id == dto.Category.Id; });
+                this.cboType.SelectedItem = this.formDto.TypeList.FindLast((p) => { return p.Id == dto.Type.Id; });
                 //chkIsDormitory.Checked = dto.IsDormitory;
 
                 this.imageDtoList = dto.ImageList;
@@ -358,44 +286,10 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         private void LoadForm()
         {
             new FacadeRoom.Server(this.formDto).LoadForm();
-
-            //populate Room List            
-            this.cboRoomList.DataSource = null;
-            if (this.formDto.RoomList != null && this.formDto.RoomList.Count > 0)
-            {
-                this.cboRoomList.DataSource = this.formDto.RoomList;
-                this.cboRoomList.ValueMember = "Id";
-                this.cboRoomList.DisplayMember = "Name";
-                this.cboRoomList.SelectedIndex = -1;
-            }
-
-            //populate Building List
-            this.cboBuilding.DataSource = null;
-            if (this.formDto.BuildingList != null && this.formDto.BuildingList.Count > 0)
-            {
-                this.cboBuilding.DataSource = this.formDto.BuildingList;
-                this.cboBuilding.ValueMember = "Id";
-                this.cboBuilding.DisplayMember = "Name";
-                this.cboBuilding.SelectedIndex = -1;
-            }
-
-            this.cboCategory.DataSource = null;
-            if (this.formDto.CategoryList != null && this.formDto.CategoryList.Count > 0)
-            {
-                this.cboCategory.DataSource = this.formDto.CategoryList;
-                this.cboCategory.ValueMember = "Id";
-                this.cboCategory.DisplayMember = "Name";
-                this.cboCategory.SelectedIndex = -1;
-            }
-
-            this.cboType.DataSource = null;
-            if (this.formDto.TypeList != null && this.formDto.TypeList.Count > 0)
-            {
-                this.cboType.DataSource = this.formDto.TypeList;
-                this.cboType.ValueMember = "Id";
-                this.cboType.DisplayMember = "Name";
-                this.cboType.SelectedIndex = -1;
-            }
+            this.cboRoomList.Bind(this.formDto.DtoList, "Display");
+            this.cboBuilding.Bind(this.formDto.BuildingList, "Name");
+            this.cboCategory.Bind(this.formDto.CategoryList, "Name");
+            this.cboType.Bind(this.formDto.TypeList, "Name");
         }
 
         private void Clear()
@@ -405,10 +299,13 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             this.txtNumber.Text = String.Empty;
             this.txtName.Text = String.Empty;
             this.txtDesc.Text = String.Empty;
-            this.cboBuilding.SelectedIndex = -1;
-            this.cboFloor.DataSource = null;
-            this.cboCategory.SelectedIndex = -1;
-            this.cboType.SelectedIndex = -1;
+            this.cboBuilding.SelectedItem = null;
+            this.cboFloor.SelectedItem = null;
+            this.cboFloor.Enabled = false;
+            this.cboCategory.SelectedItem = null;
+            this.cboType.SelectedItem = null;
+            this.txtAccomodation.Text = String.Empty;
+            this.txtExtraAccomodation.Text = String.Empty;
             this.chkIsAC.Checked = false;          
             this.picPhoto.Image = null;
             this.lstImage.DataSource = null;
@@ -437,51 +334,74 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             return imageName[imageName.Length - 1].Split('.')[0];            
         }
 
-        private Boolean ValidateRoom()
+        private Boolean ValidateForm()
         {
-            errorProvider.Clear();
+            this.errorProvider.Clear();
 
-            //validate mandatory
-            if (String.IsNullOrEmpty(txtNumber.Text.Trim()))
+            if (String.IsNullOrEmpty(this.txtNumber.Text.Trim()))
             {
-                errorProvider.SetError(txtNumber, "Please enter room number.");
+                this.errorProvider.SetError(txtNumber, "Please enter room number.");
                 txtNumber.Focus();
                 return false;
             }
-            //else if (!(new Regex(@"^[0-9]*$").IsMatch(txtNumber.Text.Trim())))
-            //{
-            //    errorProvider.SetError(txtNumber, "Entered " + txtNumber.Text + " is Invalid.");
-            //    txtNumber.Focus();
-            //    return false;
-            //}
-            else if (String.IsNullOrEmpty(txtName.Text.Trim()))
+            else if (!(new Regex(@"^[0-9]*$").IsMatch(this.txtNumber.Text.Trim())))
             {
-                errorProvider.SetError(txtName, "Please enter room name.");
-                txtName.Focus();
+                this.errorProvider.SetError(this.txtNumber, "Please enter numeric value.");
+                this.txtNumber.Focus();
                 return false;
             }
-            else if (cboBuilding.SelectedIndex == -1)
+            else if (String.IsNullOrEmpty(this.txtName.Text.Trim()))
             {
-                errorProvider.SetError(cboBuilding, "Please select a building.");
-                cboBuilding.Focus();
+                this.errorProvider.SetError(txtName, "Please enter room name.");
+                this.txtName.Focus();
                 return false;
             }
-            else if (cboFloor.SelectedIndex == -1)
+            else if (this.cboBuilding.SelectedIndex == -1)
             {
-                errorProvider.SetError(cboFloor, "Please select a floor.");
-                cboFloor.Focus();
+                this.errorProvider.SetError(cboBuilding, "Please select a building.");
+                this.cboBuilding.Focus();
                 return false;
             }
-            else if (cboCategory.SelectedIndex == -1)
+            else if (this.cboFloor.SelectedIndex == -1)
             {
-                errorProvider.SetError(cboCategory, "Please select a category.");
-                cboCategory.Focus();
+                this.errorProvider.SetError(cboFloor, "Please select a floor.");
+                this.cboFloor.Focus();
                 return false;
             }
-            else if (cboType.SelectedIndex == -1)
+            else if (this.cboCategory.SelectedIndex == -1)
             {
-                errorProvider.SetError(cboType, "Please select a type.");
-                cboType.Focus();
+                this.errorProvider.SetError(this.cboCategory, "Please select a category.");
+                this.cboCategory.Focus();
+                return false;
+            }
+            else if (this.cboType.SelectedIndex == -1)
+            {
+                this.errorProvider.SetError(this.cboType, "Please select a type.");
+                this.cboType.Focus();
+                return false;
+            }
+            else if (String.IsNullOrEmpty(this.txtAccomodation.Text))
+            {
+                this.errorProvider.SetError(this.txtAccomodation, "Please enter accomodation.");
+                this.txtAccomodation.Focus();
+                return false;
+            }
+            else if (!(new Regex(@"^[0-9]*$").IsMatch(this.txtAccomodation.Text.Trim())))
+            {
+                this.errorProvider.SetError(this.txtAccomodation, "Please enter numeric value.");
+                this.txtAccomodation.Focus();
+                return false;
+            }
+            else if (String.IsNullOrEmpty(this.txtExtraAccomodation.Text))
+            {
+                this.errorProvider.SetError(this.txtExtraAccomodation, "Please enter extra accomodation.");
+                this.txtExtraAccomodation.Focus();
+                return false;
+            }
+            else if (!(new Regex(@"^[0-9]*$").IsMatch(this.txtExtraAccomodation.Text.Trim())))
+            {
+                this.errorProvider.SetError(this.txtExtraAccomodation, "Please enter numeric value.");
+                this.txtExtraAccomodation.Focus();
                 return false;
             }
 
@@ -521,31 +441,24 @@ namespace AutoTourism.Lodge.Configuration.WinForm
 
         private void Save()
         {
-            this.formDto.Room = new FacadeRoom.Dto
+            this.formDto.Dto = new FacadeRoom.Dto
             {
-                Id = this.cboRoomList.SelectedItem == null ? 0 : ((FacadeRoom.Dto)this.cboRoomList.SelectedItem).Id,
+                Id = this.cboRoomList.SelectedItem == null ? 0 : (this.cboRoomList.SelectedItem as FacadeRoom.Dto).Id,
                 Number = this.txtNumber.Text.Trim(),
                 Name = this.txtName.Text.Trim(),
                 Description = this.txtDesc.Text.Trim(),
-                Building = cboBuilding.SelectedItem == null ? null : new FacadeBuilding.Dto
-                {
-                    Id = ((FacadeBuilding.Dto)cboBuilding.SelectedItem).Id,
-                },
-                Floor = (Table)cboFloor.SelectedItem,
-                Category = cboCategory.SelectedItem == null ? null : new FacadeRoom.Category.Dto
-                {
-                    Id = ((FacadeRoom.Category.Dto)cboCategory.SelectedItem).Id,
-                },
-                Type = cboType.SelectedItem == null ? null : new FacadeRoom.Type.Dto
-                {
-                    Id = ((FacadeRoom.Type.Dto)cboType.SelectedItem).Id,
-                },
+                Building = this.cboBuilding.SelectedItem as FacadeBuilding.Dto,
+                Floor = cboFloor.SelectedItem as Table,
+                Category = cboCategory.SelectedItem as FacadeRoom.Category.Dto,
+                Type = cboType.SelectedItem as FacadeRoom.Type.Dto,
+                Accomodation = Convert.ToInt16(this.txtAccomodation.Text.Trim()),
+                ExtraAccomodation = Convert.ToInt16(this.txtExtraAccomodation.Text.Trim()),
                 IsAirconditioned = this.chkIsAC.Checked,
                 ImageList = (this.imageDtoList == null || this.imageDtoList.Count == 0) ? null : imageDtoList,
                 StatusId = Convert.ToInt64(RoomStatus.Open)             
             };
 
-            if (ValidateUnique(this.formDto.Room))
+            if (ValidateUnique(this.formDto.Dto))
             {
                 new BinAff.Presentation.Library.MessageBox
                 {
@@ -555,7 +468,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
             }
             else {               
                 FacadeRoom.Server facade = new FacadeRoom.Server(this.formDto);                
-                if (this.formDto.Room.Id == 0)                
+                if (this.formDto.Dto.Id == 0)                
                     facade.Add();
                 else                
                     facade.Change();
@@ -578,8 +491,7 @@ namespace AutoTourism.Lodge.Configuration.WinForm
         {
             if (this.cboRoomList == null || this.cboRoomList.Items.Count == 0) return false;
 
-            List<FacadeRoom.Dto> list = (List<FacadeRoom.Dto>)this.cboRoomList.DataSource;
-            foreach (FacadeRoom.Dto dto in list)
+            foreach (FacadeRoom.Dto dto in this.cboRoomList.Items)
             {
                 if (dto.Number == txtNumber.Text.Trim() && dto.Id != roomDto.Id && dto.Building.Id == roomDto.Building.Id)
                 {
