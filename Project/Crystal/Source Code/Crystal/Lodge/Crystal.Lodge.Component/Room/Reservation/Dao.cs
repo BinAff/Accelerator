@@ -53,15 +53,12 @@ namespace Crystal.Lodge.Component.Room.Reservation
         protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
             base.CreateDataObject(dr, data);
-            Data dt = (Data)data;
+            Data dt = data as Data;
 
             dt.Date = Convert.IsDBNull(dr["CreatedDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CreatedDate"]);           
             dt.ActivityDate = Convert.IsDBNull(dr["BookingFrom"]) ? DateTime.MinValue : Convert.ToDateTime(dr["BookingFrom"]);                       
             dt.NoOfDays = Convert.ToInt16(dr["NoOfDays"]);
-            //dt.NoOfPersons = Convert.ToInt16(dr["NoOfPersons"]);
             dt.NoOfRooms = Convert.ToInt16(dr["NoOfRooms"]);
-            //dt.Description = Convert.IsDBNull(dr["Description"]) ? String.Empty : Convert.ToString(dr["Description"]);
-            //dt.Advance = Convert.IsDBNull(dr["Advance"]) ? 0 : Convert.ToDouble(dr["Advance"]);
             dt.Date = Convert.IsDBNull(dr["CreatedDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CreatedDate"]);
             dt.IsCheckedIn = Convert.ToBoolean(dr["IsCheckedIn"]);
             dt.RoomCategory = Convert.IsDBNull(dr["RoomCategoryId"]) ? null : new Category.Data { Id = Convert.ToInt64(dr["RoomCategoryId"]) };
@@ -117,7 +114,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
             Data data = this.Data as Data;
             data.ReservationNo = this.ReadReservationNo(data.Id);
 
-            this.CreateCommand("[Lodge].[RoomReservationDetailsRead]");     
+            this.CreateCommand("Lodge.RoomReservationRoomLinkRead");
             this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
 
             DataSet ds = this.ExecuteDataSet();
@@ -127,13 +124,10 @@ namespace Crystal.Lodge.Component.Room.Reservation
                 data.ProductList = new List<BinAff.Core.Data>();
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    Room.Data room = new Room.Data
+                    data.ProductList.Add(new Room.Data
                     {
                         Id = Convert.IsDBNull(dr["RoomId"]) ? 0 : Convert.ToInt64(dr["RoomId"])
-                    };
-                    ICrud roomServer = new Room.Server(room);
-                    roomServer.Read();
-                    data.ProductList.Add(room);
+                    });
                 }
             }
 
