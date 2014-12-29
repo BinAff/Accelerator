@@ -269,11 +269,7 @@ namespace AutoTourism.Lodge.WinForm
             if (customerData != null)
             {
                 (formDto.Dto as Fac.Dto).Customer = customerData;
-                this.txtName.Text = customerData.Name;
-
-                this.lstContact.Bind(customerData.ContactNumberList, "Name");
-                this.txtAdds.Text = customerData.Address;
-                this.txtEmail.Text = customerData.Email;
+                this.ucCustomerSummary.LoadForm(customerData);
             }
         }
 
@@ -300,10 +296,9 @@ namespace AutoTourism.Lodge.WinForm
             this.txtRemarks.Text = String.Empty;
 
             this.txtStatus.Text = String.Empty;
-            this.txtName.Text = String.Empty;
-            this.lstContact.Items.Clear();
-            this.txtAdds.Text = String.Empty;
-            this.txtEmail.Text = String.Empty;
+
+            this.ucCustomerSummary.ClearForm();
+            
             this.txtFilteredRoomCount.Text = String.Empty;
             this.txtAvailableRoomCount.Text = String.Empty;
         }               
@@ -339,9 +334,9 @@ namespace AutoTourism.Lodge.WinForm
             Boolean retVal = true;
             this.errorProvider.Clear();
 
-            if (String.IsNullOrEmpty(this.txtName.Text))
+            if (this.ucCustomerSummary.IsEmpty())
             {
-                this.errorProvider.SetError(this.txtName, "Select a customer for reservation.");
+                this.errorProvider.SetError(this.ucCustomerSummary, "Select a customer for reservation.");
                 base.FocusPickAncestor();
                 return false;
             }             
