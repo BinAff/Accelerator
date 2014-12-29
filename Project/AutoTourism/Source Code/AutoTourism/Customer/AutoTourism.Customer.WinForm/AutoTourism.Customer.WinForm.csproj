@@ -64,6 +64,12 @@
     <Compile Include="CustomerRule.Designer.cs">
       <DependentUpon>CustomerRule.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomerSummary.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomerSummary.Designer.cs">
+      <DependentUpon>CustomerSummary.cs</DependentUpon>
+    </Compile>
     <Compile Include="PersonalInformation.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -79,6 +85,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CustomerRule.resx">
       <DependentUpon>CustomerRule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomerSummary.resx">
+      <DependentUpon>CustomerSummary.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PersonalInformation.resx">
       <DependentUpon>PersonalInformation.cs</DependentUpon>
