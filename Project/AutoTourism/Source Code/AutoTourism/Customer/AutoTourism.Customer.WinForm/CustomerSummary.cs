@@ -38,7 +38,7 @@ namespace AutoTourism.Customer.WinForm
 
         public Boolean IsEmpty()
         {
-            if (String.IsNullOrEmpty(this.txtName.Text))
+            if (!String.IsNullOrEmpty(this.txtName.Text))
             {
                 return false;
             }
