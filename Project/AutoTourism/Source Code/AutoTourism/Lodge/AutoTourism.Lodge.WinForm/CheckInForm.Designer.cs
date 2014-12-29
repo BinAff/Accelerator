@@ -71,9 +71,7 @@
             this.txtDays = new System.Windows.Forms.TextBox();
             this.dtFromTime = new System.Windows.Forms.DateTimePicker();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cboRoomList = new System.Windows.Forms.ComboBox();
             this.btnRemoveRoom = new System.Windows.Forms.Button();
-            this.cboSelectedRoom = new System.Windows.Forms.ComboBox();
             this.btnAddRoom = new System.Windows.Forms.Button();
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
             this.txtArrivedFrom = new System.Windows.Forms.TextBox();
@@ -82,6 +80,8 @@
             this.txtCheckInRemark = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.txtPurpose = new System.Windows.Forms.TextBox();
+            this.lstRoomList = new System.Windows.Forms.ListBox();
+            this.lstSelectedRoom = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -499,9 +499,9 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.cboRoomList);
+            this.groupBox2.Controls.Add(this.lstSelectedRoom);
+            this.groupBox2.Controls.Add(this.lstRoomList);
             this.groupBox2.Controls.Add(this.btnRemoveRoom);
-            this.groupBox2.Controls.Add(this.cboSelectedRoom);
             this.groupBox2.Controls.Add(this.btnAddRoom);
             this.groupBox2.ForeColor = System.Drawing.Color.Black;
             this.groupBox2.Location = new System.Drawing.Point(246, 87);
@@ -510,15 +510,6 @@
             this.groupBox2.TabIndex = 1022;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preffered Room";
-            // 
-            // cboRoomList
-            // 
-            this.cboRoomList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-            this.cboRoomList.FormattingEnabled = true;
-            this.cboRoomList.Location = new System.Drawing.Point(8, 19);
-            this.cboRoomList.Name = "cboRoomList";
-            this.cboRoomList.Size = new System.Drawing.Size(111, 111);
-            this.cboRoomList.TabIndex = 8;
             // 
             // btnRemoveRoom
             // 
@@ -530,15 +521,6 @@
             this.btnRemoveRoom.Text = "◄";
             this.btnRemoveRoom.UseVisualStyleBackColor = true;
             this.btnRemoveRoom.Click += new System.EventHandler(this.btnRemoveRoom_Click);
-            // 
-            // cboSelectedRoom
-            // 
-            this.cboSelectedRoom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-            this.cboSelectedRoom.FormattingEnabled = true;
-            this.cboSelectedRoom.Location = new System.Drawing.Point(174, 19);
-            this.cboSelectedRoom.Name = "cboSelectedRoom";
-            this.cboSelectedRoom.Size = new System.Drawing.Size(107, 111);
-            this.cboSelectedRoom.TabIndex = 10;
             // 
             // btnAddRoom
             // 
@@ -611,6 +593,24 @@
             this.txtPurpose.Size = new System.Drawing.Size(447, 50);
             this.txtPurpose.TabIndex = 16;
             // 
+            // lstRoomList
+            // 
+            this.lstRoomList.FormattingEnabled = true;
+            this.lstRoomList.Location = new System.Drawing.Point(6, 19);
+            this.lstRoomList.Name = "lstRoomList";
+            this.lstRoomList.Size = new System.Drawing.Size(120, 108);
+            this.lstRoomList.TabIndex = 12;
+            this.lstRoomList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstRoomList_MouseDoubleClick);
+            // 
+            // lstSelectedRoom
+            // 
+            this.lstSelectedRoom.FormattingEnabled = true;
+            this.lstSelectedRoom.Location = new System.Drawing.Point(169, 19);
+            this.lstSelectedRoom.Name = "lstSelectedRoom";
+            this.lstSelectedRoom.Size = new System.Drawing.Size(120, 108);
+            this.lstSelectedRoom.TabIndex = 13;
+            this.lstSelectedRoom.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstSelectedRoom_MouseDoubleClick);
+            // 
             // CheckInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -649,7 +649,6 @@
             this.Name = "CheckInForm";
             this.ShowInTaskbar = false;
             this.Text = "Check In Form";
-            this.Load += new System.EventHandler(this.CheckInForm_Load);
             this.Controls.SetChildIndex(this.dtFrom, 0);
             this.Controls.SetChildIndex(this.groupBox2, 0);
             this.Controls.SetChildIndex(this.dtFromTime, 0);
@@ -738,9 +737,7 @@
         private System.Windows.Forms.TextBox txtDays;
         private System.Windows.Forms.DateTimePicker dtFromTime;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox cboRoomList;
         private System.Windows.Forms.Button btnRemoveRoom;
-        private System.Windows.Forms.ComboBox cboSelectedRoom;
         private System.Windows.Forms.Button btnAddRoom;
         private System.Windows.Forms.DateTimePicker dtFrom;
         private System.Windows.Forms.TextBox txtArrivedFrom;
@@ -749,6 +746,8 @@
         private System.Windows.Forms.TextBox txtCheckInRemark;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtPurpose;
+        private System.Windows.Forms.ListBox lstRoomList;
+        private System.Windows.Forms.ListBox lstSelectedRoom;
 
     }
 }
