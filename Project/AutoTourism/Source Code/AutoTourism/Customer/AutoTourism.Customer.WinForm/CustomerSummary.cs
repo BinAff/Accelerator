@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 using BinAff.Presentation.Library.Extension;
 
@@ -24,6 +25,14 @@ namespace AutoTourism.Customer.WinForm
                 this.txtAdds.Text = data.Address;
                 this.txtEmail.Text = data.Email;
             }
+        }
+
+        public void Clear()
+        {
+            this.txtName.Text = String.Empty;
+            this.lstContact.Items.Clear();
+            this.txtAdds.Text = String.Empty;
+            this.txtEmail.Text = String.Empty;
         }
 
     }
