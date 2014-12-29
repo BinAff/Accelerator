@@ -14,25 +14,35 @@ namespace AutoTourism.Customer.WinForm
             InitializeComponent();
         }
 
-        public void Load(Facade.Dto dto)
+        public void LoadForm(Facade.Dto dto)
         {
             Facade.Dto data = dto as Facade.Dto;
             if (data != null)
             {
                 this.txtName.Text = data.Name;
-
-                this.lstContact.Bind(data.ContactNumberList, "Name");
-                this.txtAdds.Text = data.Address;
+                if (data.ContactNumberList != null) this.lstContact.Bind(data.ContactNumberList, "Name");
+                this.txtAdds.Text = data.Address + Environment.NewLine
+                    + data.City + " - " + data.Pin + Environment.NewLine
+                    + data.State + ", " + data.Country;
                 this.txtEmail.Text = data.Email;
             }
         }
 
-        public void Clear()
+        public void ClearForm()
         {
             this.txtName.Text = String.Empty;
             this.lstContact.Items.Clear();
             this.txtAdds.Text = String.Empty;
             this.txtEmail.Text = String.Empty;
+        }
+
+        public Boolean IsEmpty()
+        {
+            if (String.IsNullOrEmpty(this.txtName.Text))
+            {
+                return false;
+            }
+            return true;
         }
 
     }
