@@ -98,6 +98,7 @@ namespace BinAff.Facade.Library
             where T2 : Dto
         {
             List<T2> ret = new List<T2>();
+            if (dataList == null) return null;
             foreach (T1 t in dataList)
             {
                 ret.Add(this.Convert(t) as T2);
