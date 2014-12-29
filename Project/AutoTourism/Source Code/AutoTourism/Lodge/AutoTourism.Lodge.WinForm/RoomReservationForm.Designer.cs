@@ -28,15 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtEmail = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtAdds = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.lstContact = new System.Windows.Forms.ListBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.lblName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
             this.txtDays = new System.Windows.Forms.TextBox();
@@ -76,104 +67,12 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.ucCustomerSummary = new AutoTourism.Customer.WinForm.CustomerSummary();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.txtEmail);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.txtAdds);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.lstContact);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.txtName);
-            this.groupBox1.Controls.Add(this.lblName);
-            this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(551, 61);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(295, 207);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Customer Details";
-            // 
-            // txtEmail
-            // 
-            this.txtEmail.Location = new System.Drawing.Point(103, 175);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.ReadOnly = true;
-            this.txtEmail.Size = new System.Drawing.Size(182, 20);
-            this.txtEmail.TabIndex = 999;
-            this.txtEmail.TabStop = false;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 178);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(33, 13);
-            this.label8.TabIndex = 84;
-            this.label8.Text = "EMail";
-            // 
-            // txtAdds
-            // 
-            this.txtAdds.Location = new System.Drawing.Point(103, 94);
-            this.txtAdds.Multiline = true;
-            this.txtAdds.Name = "txtAdds";
-            this.txtAdds.ReadOnly = true;
-            this.txtAdds.Size = new System.Drawing.Size(182, 75);
-            this.txtAdds.TabIndex = 999;
-            this.txtAdds.TabStop = false;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 97);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(45, 13);
-            this.label7.TabIndex = 82;
-            this.label7.Text = "Address";
-            // 
-            // lstContact
-            // 
-            this.lstContact.BackColor = System.Drawing.SystemColors.Control;
-            this.lstContact.FormattingEnabled = true;
-            this.lstContact.Location = new System.Drawing.Point(103, 45);
-            this.lstContact.Name = "lstContact";
-            this.lstContact.Size = new System.Drawing.Size(182, 43);
-            this.lstContact.TabIndex = 999;
-            this.lstContact.TabStop = false;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 42);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(89, 13);
-            this.label5.TabIndex = 80;
-            this.label5.Text = "Contact Numbers";
-            // 
-            // txtName
-            // 
-            this.txtName.Location = new System.Drawing.Point(103, 19);
-            this.txtName.Name = "txtName";
-            this.txtName.ReadOnly = true;
-            this.txtName.Size = new System.Drawing.Size(182, 20);
-            this.txtName.TabIndex = 999;
-            this.txtName.TabStop = false;
-            // 
-            // lblName
-            // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(8, 22);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(35, 13);
-            this.lblName.TabIndex = 22;
-            this.lblName.Text = "Name";
             // 
             // label1
             // 
@@ -553,11 +452,19 @@
             this.label6.TabIndex = 1006;
             this.label6.Text = "Total Guests";
             // 
+            // ucCustomerSummary
+            // 
+            this.ucCustomerSummary.Location = new System.Drawing.Point(548, 61);
+            this.ucCustomerSummary.Name = "ucCustomerSummary";
+            this.ucCustomerSummary.Size = new System.Drawing.Size(299, 209);
+            this.ucCustomerSummary.TabIndex = 1007;
+            // 
             // RoomReservationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(856, 334);
+            this.Controls.Add(this.ucCustomerSummary);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -574,7 +481,6 @@
             this.Controls.Add(this.lblReservationStatus);
             this.Controls.Add(this.cboCategory);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txtRooms);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
@@ -592,7 +498,6 @@
             this.Controls.SetChildIndex(this.label2, 0);
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.txtRooms, 0);
-            this.Controls.SetChildIndex(this.groupBox1, 0);
             this.Controls.SetChildIndex(this.label4, 0);
             this.Controls.SetChildIndex(this.cboCategory, 0);
             this.Controls.SetChildIndex(this.lblReservationStatus, 0);
@@ -609,9 +514,8 @@
             this.Controls.SetChildIndex(this.groupBox3, 0);
             this.Controls.SetChildIndex(this.groupBox4, 0);
             this.Controls.SetChildIndex(this.label6, 0);
+            this.Controls.SetChildIndex(this.ucCustomerSummary, 0);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -624,11 +528,6 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.ListBox lstContact;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dtFrom;
         private System.Windows.Forms.TextBox txtDays;
@@ -639,10 +538,6 @@
         private System.Windows.Forms.Button btnAddRoom;
         private System.Windows.Forms.Button btnRemoveRoom;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtAdds;
-        private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DateTimePicker dtFromTime;
         private System.Windows.Forms.ComboBox cboType;
         private System.Windows.Forms.ComboBox cboCategory;
@@ -672,5 +567,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ListBox lstRoomList;
         private System.Windows.Forms.ListBox lstSelectedRoom;
+        private Customer.WinForm.CustomerSummary ucCustomerSummary;
     }
 }
