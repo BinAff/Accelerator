@@ -67,6 +67,12 @@
       <DependentUpon>Lodge.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoomReservationDataEntry.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RoomReservationDataEntry.Designer.cs">
+      <DependentUpon>RoomReservationDataEntry.cs</DependentUpon>
+    </Compile>
     <Compile Include="RoomReservationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Lodge.resx">
       <DependentUpon>Lodge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RoomReservationDataEntry.resx">
+      <DependentUpon>RoomReservationDataEntry.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RoomReservationForm.resx">
       <DependentUpon>RoomReservationForm.cs</DependentUpon>

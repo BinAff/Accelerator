@@ -46,17 +46,13 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
             RoomRsvCrys.Data reservation = data as RoomRsvCrys.Data;
-            return new Dto
+            Dto dto = new Dto
             {
                 Id = data.Id,
                 IsBackDateEntry = reservation.IsBackDateEntry,
                 NoOfDays = reservation.NoOfDays,
                 NoOfRooms = reservation.NoOfRooms,
                 BookingFrom = reservation.ActivityDate,
-                BookingStatus = (Status)reservation.Status.Id,
-                RoomList = reservation.ProductList == null ? null : new RoomFac.Server(null).ConvertAll<Data, RoomFac.Dto>(reservation.ProductList),
-                RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id },
-                RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id },
                 ACPreference = reservation.ACPreference,
                 BookingDate = reservation.Date,
                 isCheckedIn = reservation.IsCheckedIn,
@@ -69,6 +65,13 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
                 Customer = this.GetCustomer(data.Id),
             };
+
+            if (reservation.Status != null) dto.BookingStatus = (Status)reservation.Status.Id;
+            dto.RoomList = reservation.ProductList == null ? null : new RoomFac.Server(null).ConvertAll<Data, RoomFac.Dto>(reservation.ProductList);
+            if (reservation.RoomCategory != null) dto.RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id };
+            if(reservation.RoomType != null) dto.RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id };
+            
+            return dto;
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
@@ -406,7 +409,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public CustFac.Dto GetCustomer(Int64 reservationId)
         {
             CustAuto.ICustomer server = new CustAuto.Server(null);
-            return new CustFac.Server(null).Convert(server.GetCustomerForReservation(reservationId)) as CustFac.Dto;
+            CustCrys.Data data = server.GetCustomerForReservation(reservationId);
+            return data == null ? null : new CustFac.Server(null).Convert(data) as CustFac.Dto;
         }
 
         private List<Data> GetRoomDataList(List<RoomFac.Dto> RoomList)
