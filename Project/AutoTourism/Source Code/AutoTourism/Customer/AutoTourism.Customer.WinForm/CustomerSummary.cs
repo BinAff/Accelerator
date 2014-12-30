@@ -23,7 +23,7 @@ namespace AutoTourism.Customer.WinForm
                 if (data.ContactNumberList != null) this.lstContact.Bind(data.ContactNumberList, "Name");
                 this.txtAdds.Text = data.Address + Environment.NewLine
                     + data.City + " - " + data.Pin + Environment.NewLine
-                    + data.State + ", " + data.Country;
+                    + data.State.Name + ", " + data.Country.Name;
                 this.txtEmail.Text = data.Email;
             }
         }
