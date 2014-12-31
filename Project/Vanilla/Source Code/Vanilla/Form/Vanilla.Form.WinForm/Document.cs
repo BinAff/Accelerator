@@ -228,7 +228,7 @@ namespace Vanilla.Form.WinForm
                     }
                     this.dgvAttachmentList.ReadOnly = true;
                     this.dgvAttachmentList.AutoGenerateColumns = false;
-                    foreach (DocFac.AttachmentSummery t in this.formDto.AttachmentSummeryList)
+                    foreach (DocFac.AttachmentSummary t in this.formDto.AttachmentSummeryList)
                     {
                         this.dgvAttachmentList.Rows.Add(t.Path, t.Action);
                     }
@@ -253,9 +253,9 @@ namespace Vanilla.Form.WinForm
         {
             if (this.formDto.AttachmentSummeryList == null)
             {
-                this.formDto.AttachmentSummeryList = new List<DocFac.AttachmentSummery>();
+                this.formDto.AttachmentSummeryList = new List<DocFac.AttachmentSummary>();
             }
-            DocFac.AttachmentSummery newAttachment = new DocFac.AttachmentSummery
+            DocFac.AttachmentSummary newAttachment = new DocFac.AttachmentSummary
             {
                 Artifact = attachment.Artifact,
                 Path = attachment.Artifact.FullPath,
@@ -430,7 +430,8 @@ namespace Vanilla.Form.WinForm
         /// </summary>
         protected virtual void RevertForm()
         {
-            throw new NotImplementedException();
+            base.formDto.Dto = this.InitialDto;
+            this.PopulateDataToForm();
         }
 
         /// <summary>
