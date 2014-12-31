@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using BinAff.Core;
+
 namespace Vanilla.Guardian.Facade.Profile
 {
 
@@ -42,9 +44,24 @@ namespace Vanilla.Guardian.Facade.Profile
         /// <summary>
         /// List of contact numbers of user
         /// </summary>
-        public List<BinAff.Core.Table> ContactNumberList { get; set; }
+        public List<Table> ContactNumberList { get; set; }
 
         public BinAff.Facade.Library.Dto Extension { get; set; }
+
+        public override BinAff.Facade.Library.Dto Clone()
+        {
+            Dto dto = base.Clone() as Dto;
+            if (this.ContactNumberList != null)
+            {
+                dto.ContactNumberList = new List<Table>();
+                foreach (Table contactNumber in this.ContactNumberList)
+                {
+                    dto.ContactNumberList.Add(contactNumber.Clone());
+                }
+            }
+            dto.Extension = this.Extension.Clone();
+            return dto;
+        }
 
     }
 

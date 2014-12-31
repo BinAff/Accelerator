@@ -38,10 +38,6 @@
   <ItemGroup>
     <Compile Include="Dto.cs" />
     <Compile Include="FormDto.cs" />
-    <Compile Include="Lodge\Building\Dto.cs" />
-    <Compile Include="Lodge\Reservation\Dto.cs" />
-    <Compile Include="Lodge\Room\Dto.cs" />
-    <Compile Include="Lodge\Room\Image\Dto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report\Dto.cs" />
     <Compile Include="Report\FormDto.cs" />
@@ -119,9 +115,7 @@
       <Name>Autotourism.Configuration.Rule.Facade</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lodge\CheckIn\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)..\..\..\Vanilla\Source Code\Vanilla\Reference\Lib\$(TargetFileName)" /Y

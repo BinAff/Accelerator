@@ -17,6 +17,14 @@ namespace Vanilla.Tool.Facade.Diary.Appointment
         public Table Importance { get; set; }
         public DateTime? Reminder { get; set; }
 
+        public override BinAff.Facade.Library.Dto Clone()
+        {
+            Dto dto = base.Clone() as Dto;
+            dto.Type = this.Type.Clone();
+            dto.Importance = this.Importance.Clone();
+            return dto;
+        }
+
     }
 
 }

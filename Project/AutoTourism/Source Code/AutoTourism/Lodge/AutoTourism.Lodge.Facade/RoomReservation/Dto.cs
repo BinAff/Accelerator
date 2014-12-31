@@ -3,14 +3,15 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 
-using CustomerFacade = AutoTourism.Customer.Facade;
-using LodgeConfFac = AutoTourism.Lodge.Configuration.Facade;
+using CustFac = AutoTourism.Customer.Facade;
+using RoomAuto = AutoTourism.Lodge.Configuration.Facade.Room;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
 
     public class Dto : Vanilla.Form.Facade.Document.Dto
     {
+
         public Boolean IsBackDateEntry { get; set; }
         public DateTime BookingDate { get; set; }
         public DateTime BookingFrom { get; set; }
@@ -29,12 +30,29 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public String ReservationNo { get; set; }
 
         public Status BookingStatus { get; set; }
-        public Boolean isCheckedIn { get; set; }        
+        public Boolean isCheckedIn { get; set; }
 
-        public List<LodgeConfFac.Room.Dto> RoomList { get; set; }
-        public CustomerFacade.Dto Customer { get; set; }
+        public List<RoomAuto.Dto> RoomList { get; set; }
+        public CustFac.Dto Customer { get; set; }
 
         public String ArtifactPath { get; set; }
+
+        public override BinAff.Facade.Library.Dto Clone()
+        {
+            Dto dto = base.Clone() as Dto;
+            dto.RoomCategory = this.RoomCategory.Clone();
+            dto.RoomType = this.RoomType.Clone();
+            dto.Customer = this.Customer.Clone() as CustFac.Dto;
+            if (dto.RoomList != null)
+            {
+                dto.RoomList = new List<RoomAuto.Dto>();
+                foreach (RoomAuto.Dto room in this.RoomList)
+                {
+                    dto.RoomList.Add(room.Clone() as RoomAuto.Dto);
+                }
+            }
+            return dto;
+        }
 
     }
 

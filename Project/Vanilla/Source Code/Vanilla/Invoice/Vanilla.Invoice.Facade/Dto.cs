@@ -3,16 +3,36 @@ using System;
 
 namespace Vanilla.Invoice.Facade
 {
+
     public class Dto : Vanilla.Form.Facade.Document.Dto
     {
-        public string invoiceNumber { get; set; }
-        public double advance { get; set; }
-        public double discount { get; set; }
-        public Buyer.Dto buyer { get; set; }
-        public Seller.Dto seller { get; set; }
-        public DateTime date { get; set; }
-        public List<LineItem.Dto> productList { get; set; }
+
+        public String InvoiceNumber { get; set; }
+        public Double Advance { get; set; }
+        public Double Discount { get; set; }
+        public Buyer.Dto Buyer { get; set; }
+        public Seller.Dto Seller { get; set; }
+        public DateTime Date { get; set; }
+        public List<LineItem.Dto> ProductList { get; set; }
         //public List<Taxation.Dto> taxationList { get; set; }
-        //public List<Payment.Dto> paymentList { get; set; }  
+        //public List<Payment.Dto> paymentList { get; set; }
+
+        public override BinAff.Facade.Library.Dto Clone()
+        {
+            Dto dto = base.Clone() as Dto;
+            dto.Buyer = this.Buyer.Clone() as Buyer.Dto;
+            dto.Seller = this.Seller.Clone() as Seller.Dto;
+            if (this.ProductList != null)
+            {
+                dto.ProductList = new List<LineItem.Dto>();
+                foreach (LineItem.Dto product in this.ProductList)
+                {
+                    dto.ProductList.Add(product.Clone() as LineItem.Dto);
+                }
+            }
+            return dto;
+        }
+
     }
+
 }

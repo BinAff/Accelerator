@@ -26,7 +26,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationReport
             {
                 Id = roomReservationReportData.Id,
                 Date = roomReservationReportData.Date,
-                category = roomReservationReportData.Category == null ? null : new Vanilla.Utility.Facade.Report.Category.Dto { Id = roomReservationReportData.Category.Id }                               
+                Category = roomReservationReportData.Category == null ? null : new Vanilla.Utility.Facade.Report.Category.Dto { Id = roomReservationReportData.Category.Id }                               
             };
         }
 
@@ -36,7 +36,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationReport
             return new CrystalRoomReservationReport.Data
             {
                 Date = reportDto.Date,               
-                Category = new Crystal.Report.Component.Category.Data { Id = reportDto.category.Id }
+                Category = new Crystal.Report.Component.Category.Data { Id = reportDto.Category.Id }
             };
         }
 

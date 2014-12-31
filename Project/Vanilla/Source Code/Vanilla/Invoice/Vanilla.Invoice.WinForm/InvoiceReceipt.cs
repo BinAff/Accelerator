@@ -72,12 +72,12 @@ namespace Vanilla.Invoice.WinForm
             {
                 Data data = new Data
                 {
-                    Start = lineItem.startDate.ToShortDateString(),
-                    End = lineItem.endDate.ToShortDateString(),
-                    Description = lineItem.description,
-                    UnitRate = lineItem.unitRate.ToString(),
-                    Count = lineItem.count.ToString(),
-                    Total = (lineItem.unitRate * lineItem.count).ToString(),
+                    Start = lineItem.StartDate.ToShortDateString(),
+                    End = lineItem.EndDate.ToShortDateString(),
+                    Description = lineItem.Description,
+                    UnitRate = lineItem.UnitRate.ToString(),
+                    Count = lineItem.Count.ToString(),
+                    Total = (lineItem.UnitRate * lineItem.Count).ToString(),
                 };
                 data.ServiceTax = receiptServer.CalculateTaxAmount(lineItem.TaxList, gServiceTax, Convert.ToDouble(data.Total)).ToString();
                 data.LuxuaryTax = receiptServer.CalculateTaxAmount(lineItem.TaxList, gLuxuaryTax, Convert.ToDouble(data.Total)).ToString();

@@ -149,20 +149,20 @@ namespace Vanilla.Invoice.WinForm
             List<Data> invoiceList = new List<Data>();
 
             //Double lineItemTotal = 0;
-            foreach (Facade.LineItem.Dto lineItem in dto.productList)
+            foreach (Facade.LineItem.Dto lineItem in dto.ProductList)
             {
                 invoiceList.Add(new Data
                 {
                     colId = "L",
-                    Start = lineItem.startDate.ToShortDateString(),
-                    End = lineItem.endDate.ToShortDateString(),
-                    Description = lineItem.description,
-                    UnitRate = lineItem.unitRate.ToString(),
-                    Count = lineItem.count.ToString(),
-                    Total = (lineItem.unitRate * lineItem.count).ToString(),
+                    Start = lineItem.StartDate.ToShortDateString(),
+                    End = lineItem.EndDate.ToShortDateString(),
+                    Description = lineItem.Description,
+                    UnitRate = lineItem.UnitRate.ToString(),
+                    Count = lineItem.Count.ToString(),
+                    Total = (lineItem.UnitRate * lineItem.Count).ToString(),
                     ServiceTax = lineItem.ServiceTax.ToString(),
                     LuxuaryTax = lineItem.LuxuaryTax.ToString(),
-                    GrandTotal = (lineItem.ServiceTax + lineItem.LuxuaryTax + (lineItem.unitRate * lineItem.count)).ToString()
+                    GrandTotal = (lineItem.ServiceTax + lineItem.LuxuaryTax + (lineItem.UnitRate * lineItem.Count)).ToString()
                 });
                 //lineItemTotal += (lineItem.unitRate * lineItem.count);
             }
