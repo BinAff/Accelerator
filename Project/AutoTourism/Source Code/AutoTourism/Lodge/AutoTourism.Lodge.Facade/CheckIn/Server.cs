@@ -529,7 +529,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
             //InvFac.Dto invoiceDto = new InvFac.Dto();
             //invoiceDto.advance = dto.Reservation.Advance;
-            invoiceDto.buyer = dto.Reservation.Customer == null ? null : new InvFac.Buyer.Dto
+            invoiceDto.Buyer = dto.Reservation.Customer == null ? null : new InvFac.Buyer.Dto
             {
                 Name = dto.Reservation.Customer.Name,
                 Address = dto.Reservation.Customer.Address,
@@ -542,12 +542,12 @@ namespace AutoTourism.Lodge.Facade.CheckIn
            
             //invoiceDto.productList = this.GroupRoomList(roomList);
             if (dto.Reservation.NoOfDays > 1)
-                invoiceDto.productList = this.GenerateLineItemsForEachDay(dto.Reservation.NoOfDays, invoiceDto.productList);
+                invoiceDto.ProductList = this.GenerateLineItemsForEachDay(dto.Reservation.NoOfDays, invoiceDto.ProductList);
 
             //invoiceDto.productList = this.GroupRoomList(roomList);
-            this.AttachTariff(invoiceDto.productList);
+            this.AttachTariff(invoiceDto.ProductList);
             //invoiceDto.taxationList = this.ConvertToInvoiceTaxationDto(taxationList);
-            this.CalculateTax(invoiceDto.productList);
+            this.CalculateTax(invoiceDto.ProductList);
 
         }
 
@@ -558,7 +558,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             LodgeFac.Server facade = new LodgeFac.Server(formDto);
             facade.LoadForm();
 
-            invoiceDto.seller = formDto.Lodge == null ? null : new InvFac.Seller.Dto
+            invoiceDto.Seller = formDto.Lodge == null ? null : new InvFac.Seller.Dto
             {
                 Id = formDto.Lodge.Id,
                 Name = formDto.Lodge.Name,
@@ -649,18 +649,18 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 foreach (InvFac.LineItem.Dto lineItem in lineItems)
                 {
                     if(i == 0)
-                        stDate = lineItem.startDate;
+                        stDate = lineItem.StartDate;
 
                     InvFac.LineItem.Dto productDto = new InvFac.LineItem.Dto()
                     {
                         Id = lineItem.Id,
-                        startDate = stDate,
-                        roomCategoryId = lineItem.roomCategoryId,
-                        roomTypeId = lineItem.roomTypeId,
-                        roomIsAC = lineItem.roomIsAC,
-                        description = lineItem.description,
-                        count = lineItem.count,
-                        endDate = stDate.AddDays(1)
+                        StartDate = stDate,
+                        RoomCategoryId = lineItem.RoomCategoryId,
+                        RoomTypeId = lineItem.RoomTypeId,
+                        RoomIsAC = lineItem.RoomIsAC,
+                        Description = lineItem.Description,
+                        Count = lineItem.Count,
+                        EndDate = stDate.AddDays(1)
                     };
 
                     productList.Add(productDto);
@@ -703,10 +703,10 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 {
                     foreach (TarrifFac.Dto tariffDto in tariffList)
                     {
-                        if (roomDto.roomCategoryId == tariffDto.Category.Id && roomDto.roomTypeId == tariffDto.Type.Id && roomDto.roomIsAC == tariffDto.IsAC)
+                        if (roomDto.RoomCategoryId == tariffDto.Category.Id && roomDto.RoomTypeId == tariffDto.Type.Id && roomDto.RoomIsAC == tariffDto.IsAC)
                         {
-                            roomDto.unitRate = tariffDto.Rate;
-                            roomDto.total = roomDto.unitRate * roomDto.count;
+                            roomDto.UnitRate = tariffDto.Rate;
+                            roomDto.Total = roomDto.UnitRate * roomDto.Count;
                             break;
                         }
                     }
@@ -720,7 +720,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
            
             foreach (InvFac.LineItem.Dto lineItem in roomList)
             {
-                Double totalAmount = lineItem.unitRate * lineItem.count;
+                Double totalAmount = lineItem.UnitRate * lineItem.Count;
                 List<Taxation.Dto> taxationList = taxation.ReadLodgeTaxation(totalAmount);
 
                 lineItem.TaxList = this.ConvertTaxationDto(taxationList);
@@ -831,7 +831,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                     //Crystal.Invoice.Component.Data invoiceData = (autoCustomer.Invoice as Crystal.Invoice.Component.InvoiceContainer.Data).Active as Crystal.Invoice.Component.Data;
                                                 
                     //Update invoice number to CheckIn table
-                    ret = this.UpdateInvoiceNumber((invoiceFormDto.Dto as InvFac.Dto).invoiceNumber);
+                    ret = this.UpdateInvoiceNumber((invoiceFormDto.Dto as InvFac.Dto).InvoiceNumber);
                     if (ret.Value)
                         T.Complete();
                    
@@ -872,20 +872,20 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return "LCHK";
         }
 
-        public Dto CloneCheckIn(Dto checkInDto)
-        {
-            return new Dto
-            {
-                Id = checkInDto.Id,
-                Date = checkInDto.Date,
-                InvoiceNumber = checkInDto.InvoiceNumber,
-                CustomerDisplayName = checkInDto.CustomerDisplayName,
-                Purpose = checkInDto.Purpose,
-                ArrivedFrom = checkInDto.ArrivedFrom,
-                Remark = checkInDto.Remark,
-                Reservation = checkInDto.Reservation == null ? null: new RoomRsvFac.Server(new RoomReservation.FormDto()).CloneReservaion(checkInDto.Reservation)
-            };
-        }
+        //public Dto CloneCheckIn(Dto checkInDto)
+        //{
+        //    return new Dto
+        //    {
+        //        Id = checkInDto.Id,
+        //        Date = checkInDto.Date,
+        //        InvoiceNumber = checkInDto.InvoiceNumber,
+        //        //CustomerDisplayName = checkInDto.CustomerDisplayName,
+        //        Purpose = checkInDto.Purpose,
+        //        ArrivedFrom = checkInDto.ArrivedFrom,
+        //        Remark = checkInDto.Remark,
+        //        Reservation = checkInDto.Reservation == null ? null: new RoomRsvFac.Server(new RoomReservation.FormDto()).CloneDto(checkInDto.Reservation)
+        //    };
+        //}
 
         public void RemoveAllBookedRoom()
         {

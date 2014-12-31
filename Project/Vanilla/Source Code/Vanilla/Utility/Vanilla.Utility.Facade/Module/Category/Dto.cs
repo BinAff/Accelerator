@@ -9,11 +9,6 @@ namespace Vanilla.Utility.Facade.Module.Category
         public String Name { get; set; }
         public String Extension { get; set; }
 
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
-
     }
 
 }

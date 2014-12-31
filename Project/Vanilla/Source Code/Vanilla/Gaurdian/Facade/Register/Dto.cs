@@ -13,6 +13,20 @@ namespace Vanilla.Guardian.Facade.Register
 
         public List<Role.Dto> RoleList { get; set; }
 
+        public override BinAff.Facade.Library.Dto Clone()
+        {
+            Dto dto = base.Clone() as Dto;
+            if (this.RoleList != null)
+            {
+                dto.RoleList = new List<Role.Dto>();
+                foreach (Role.Dto role in this.RoleList)
+                {
+                    dto.RoleList.Add(role.Clone() as Role.Dto);
+                }
+            }
+            return dto;
+        }
+
     }
 
 }

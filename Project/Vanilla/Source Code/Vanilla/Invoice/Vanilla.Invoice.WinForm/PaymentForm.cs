@@ -26,7 +26,7 @@ namespace Vanilla.Invoice.WinForm
             this.SetPaymentGridViewSettings();
             (base.formDto as PayFac.FormDto).InvoiceDto = new Facade.Dto 
             {
-                invoiceNumber = "INVO-30-05-201412910"
+                InvoiceNumber = "INVO-30-05-201412910"
             };
 
             this.LoadForm();
@@ -39,7 +39,7 @@ namespace Vanilla.Invoice.WinForm
             this.SetPaymentGridViewSettings();
             (base.formDto as PayFac.FormDto).InvoiceDto = new Facade.Dto
             {
-                invoiceNumber = "INVO-30-05-201412910"
+                InvoiceNumber = "INVO-30-05-201412910"
             };
         }
 
@@ -53,16 +53,6 @@ namespace Vanilla.Invoice.WinForm
             this.facade = new PayFac.Server(this.formDto as PayFac.FormDto);
         }
 
-        //protected override void Ok()
-        //{
-        //    if (base.Save())
-        //    {
-        //        base.Artifact.Module = base.formDto.Dto;
-        //        base.IsModified = true;
-        //        //this.Close();
-        //    }
-        //}
-
         protected override void LoadForm()
         {
             base.facade.LoadForm();
@@ -74,17 +64,6 @@ namespace Vanilla.Invoice.WinForm
             this.txtAmount.Text = String.Empty;
             this.txtLastFourDigit.Text = String.Empty;
             this.txtRemark.Text = String.Empty;
-        }
-
-        protected override void RevertForm()
-        {
-            PayFac.Dto dto = (base.formDto as PayFac.FormDto).Dto as PayFac.Dto;
-            dto.LineItemList = (InitialDto as PayFac.Dto).LineItemList;
-        }
-
-        protected override DocFac.Dto CloneDto(DocFac.Dto source)
-        {
-            return source.Clone() as DocFac.Dto;
         }
 
         protected override void PopulateDataToForm()

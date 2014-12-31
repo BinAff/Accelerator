@@ -18,6 +18,15 @@ namespace Vanilla.Guardian.Facade.MyAccount
 
         public BinAff.Facade.Library.Dto Extension { get; set; }
 
+        public override BinAff.Facade.Library.Dto Clone()
+        {
+            Dto dto = base.Clone() as Dto;
+            dto.Profile = this.Profile.Clone() as Profile.Dto;
+            dto.SecurityAnswer = this.SecurityAnswer.Clone() as SecurityAnswer.Dto;
+            dto.Extension = this.Extension.Clone();
+            return dto;
+        }
+
     }
 
 }

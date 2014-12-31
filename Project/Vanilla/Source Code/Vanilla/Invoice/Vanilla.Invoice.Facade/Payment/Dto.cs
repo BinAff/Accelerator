@@ -32,6 +32,20 @@ namespace Vanilla.Invoice.Facade.Payment
             }
         }
 
+        public override BinAff.Facade.Library.Dto Clone()
+        {
+            Dto dto = base.Clone() as Dto;
+            if (this.LineItemList != null)
+            {
+                dto.LineItemList = new List<LineItem>();
+                foreach (LineItem lineItem in this.LineItemList)
+                {
+                    dto.LineItemList.Add(lineItem.Clone() as LineItem);
+                }
+            }
+            return dto;
+        }
+
     }
     
 }

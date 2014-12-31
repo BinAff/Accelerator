@@ -46,13 +46,13 @@ namespace Vanilla.Invoice.Facade
             return new Dto 
             {
                 Id = invoiceData.Id,
-                invoiceNumber = invoiceData.InvoiceNumber,
-                advance = invoiceData.Advance,
-                discount = invoiceData.Discount,
-                date = invoiceData.Date,
-                seller = this.GetSeller(invoiceData.Seller),
-                buyer = this.GetBuyer(invoiceData.Buyer),
-                productList = this.GetProductList(invoiceData.LineItem),
+                InvoiceNumber = invoiceData.InvoiceNumber,
+                Advance = invoiceData.Advance,
+                Discount = invoiceData.Discount,
+                Date = invoiceData.Date,
+                Seller = this.GetSeller(invoiceData.Seller),
+                Buyer = this.GetBuyer(invoiceData.Buyer),
+                ProductList = this.GetProductList(invoiceData.LineItem),
                 //taxationList = this.GetTaxation(invoiceData.Taxation),
                 //paymentList = this.GetPayments(invoiceData.ProductList)
             };
@@ -64,13 +64,13 @@ namespace Vanilla.Invoice.Facade
 
             return new InvCrys.Data
             {
-                InvoiceNumber = invoiceDto.invoiceNumber,
-                Advance = invoiceDto.advance,
-                Discount = invoiceDto.discount,
+                InvoiceNumber = invoiceDto.InvoiceNumber,
+                Advance = invoiceDto.Advance,
+                Discount = invoiceDto.Discount,
                 Date = System.DateTime.Now,
-                Seller = this.GetSeller(invoiceDto.seller),
-                Buyer = this.GetBuyer(invoiceDto.buyer),
-                LineItem = this.GetLineItem(invoiceDto.productList)                
+                Seller = this.GetSeller(invoiceDto.Seller),
+                Buyer = this.GetBuyer(invoiceDto.Buyer),
+                LineItem = this.GetLineItem(invoiceDto.ProductList)                
             };
         }
 
@@ -166,12 +166,12 @@ namespace Vanilla.Invoice.Facade
                 {
                     productList.Add(new LineItemFac.Dto
                     {
-                        startDate = lineItem.Start,
-                        endDate = lineItem.End,
-                        description = lineItem.Description,
-                        unitRate = lineItem.UnitRate,
-                        count = lineItem.Count,
-                        total = lineItem.Total,
+                        StartDate = lineItem.Start,
+                        EndDate = lineItem.End,
+                        Description = lineItem.Description,
+                        UnitRate = lineItem.UnitRate,
+                        Count = lineItem.Count,
+                        Total = lineItem.Total,
                         TaxList = this.PopulateTaxToLineItem(lineItem.TaxList)
                     });
                 }
@@ -327,7 +327,7 @@ namespace Vanilla.Invoice.Facade
 
             if (ret.Value)
             {
-                invoiceDto.date = DateTime.Now; // updating the dto with current date since in SP current date is getting updated
+                invoiceDto.Date = DateTime.Now; // updating the dto with current date since in SP current date is getting updated
                 if (this.componentServer == null) this.componentServer = this.GetComponentServer();
                 (this.componentServer as BinAff.Core.Crud).Data.Id = autoCustomer.Invoice.Active.Id;
                 ret = (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForCreate();
@@ -390,12 +390,12 @@ namespace Vanilla.Invoice.Facade
                     {
                         lineItemList.Add(new InvCrys.LineItem.Data
                         {
-                            Start = lineItem.startDate,
-                            End = lineItem.endDate,
-                            Description = lineItem.description,
-                            UnitRate = lineItem.unitRate,
-                            Count = lineItem.count,
-                            Total = lineItem.total,
+                            Start = lineItem.StartDate,
+                            End = lineItem.EndDate,
+                            Description = lineItem.Description,
+                            UnitRate = lineItem.UnitRate,
+                            Count = lineItem.Count,
+                            Total = lineItem.Total,
                             TaxList = this.ConvertTaxList(lineItem.TaxList)
                         });
                     }

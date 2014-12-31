@@ -16,5 +16,20 @@ namespace Vanilla.Utility.Facade.Module
         //public BinAff.Facade.Library.Dto ComponentFormDto { get; set; }
 
         public Artifact.Dto Artifact { get; set; }
+
+        public override BinAff.Facade.Library.Dto Clone()
+        {
+            Dto dto = base.Clone() as Dto;
+            if (this.CategoryList != null)
+            {
+                dto.CategoryList = new List<Category.Dto>();
+                foreach (Category.Dto category in this.CategoryList)
+                {
+                    dto.CategoryList.Add(category.Clone() as Category.Dto);
+                }
+            }
+            dto.Artifact = this.Artifact.Clone() as Artifact.Dto;
+            return dto;
+        }
     }
 }

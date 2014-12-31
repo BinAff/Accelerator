@@ -198,7 +198,7 @@ namespace Vanilla.Form.WinForm
                 if (this.Artifact.Module != null)
                 {
                     this.formDto.Dto = this.Artifact.Module as DocFac.Dto;
-                    this.InitialDto = this.CloneDto(this.formDto.Dto);
+                    this.InitialDto = this.formDto.Dto.Clone() as DocFac.Dto;
                 }
 
                 this.LoadForm();
@@ -360,6 +360,15 @@ namespace Vanilla.Form.WinForm
         }
 
         /// <summary>
+        /// Revert form data to initial state when form loaded
+        /// </summary>
+        protected void RevertForm()
+        {
+            base.formDto.Dto = this.InitialDto;
+            this.PopulateDataToForm();
+        }
+
+        /// <summary>
         /// Add method to pick existing ancestor artifact
         /// </summary>
         protected virtual void PickAnsestor()
@@ -424,16 +433,7 @@ namespace Vanilla.Form.WinForm
         {
             throw new NotImplementedException();
         }
-
-        /// <summary>
-        /// Revert form data to initial state when form loaded
-        /// </summary>
-        protected virtual void RevertForm()
-        {
-            base.formDto.Dto = this.InitialDto;
-            this.PopulateDataToForm();
-        }
-
+        
         /// <summary>
         /// Assign Dto from data available in form
         /// </summary>
@@ -441,17 +441,6 @@ namespace Vanilla.Form.WinForm
         {
             throw new NotImplementedException();
         }
-
-        /// <summary>
-        /// Clone an existing Dto
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        protected virtual DocFac.Dto CloneDto(DocFac.Dto source)
-        {
-            throw new NotImplementedException();
-        }
-
 
         #endregion
 

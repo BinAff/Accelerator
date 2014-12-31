@@ -31,6 +31,14 @@ namespace Vanilla.Utility.Facade.Artifact.Audit
         /// </summary>
         public DateTime? ModifiedAt { get; set; }
 
+        public Dto Clone()
+        {
+            Dto dto = this.MemberwiseClone() as Dto;
+            dto.CreatedBy = this.CreatedBy.Clone();
+            dto.ModifiedBy = this.ModifiedBy.Clone();
+            return dto;
+        }
+
     }
 
 }

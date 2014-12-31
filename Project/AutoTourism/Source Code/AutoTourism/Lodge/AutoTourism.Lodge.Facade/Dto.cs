@@ -18,7 +18,7 @@ namespace AutoTourism.Lodge.Facade
         public String ServiceTaxNumber { get; set; }
 
         public String Address { get; set; }
-        public String City { get; set; }        
+        public String City { get; set; }
         public Table State { get; set; }
         public Int64 Pin { get; set; }
         public String ContactName { get; set; }
@@ -27,6 +27,37 @@ namespace AutoTourism.Lodge.Facade
         public List<Table> FaxList { get; set; }
         public List<Table> EmailList { get; set; }
 
-    }  
+        public override BinAff.Facade.Library.Dto Clone()
+        {
+            Dto dto = base.Clone() as Dto;
+
+            if (this.ContactNumberList != null)
+            {
+                dto.ContactNumberList = new List<Table>();
+                foreach (Table contactNumber in this.ContactNumberList)
+                {
+                    dto.ContactNumberList.Add(contactNumber.Clone());
+                }
+            }
+            if (this.FaxList != null)
+            {
+                dto.FaxList = new List<Table>();
+                foreach (Table fax in this.FaxList)
+                {
+                    dto.FaxList.Add(fax.Clone());
+                }
+            }
+            if (this.EmailList != null)
+            {
+                dto.EmailList = new List<Table>();
+                foreach (Table email in this.EmailList)
+                {
+                    dto.EmailList.Add(email.Clone());
+                }
+            }
+            return dto;
+        }
+
+    }
 
 }

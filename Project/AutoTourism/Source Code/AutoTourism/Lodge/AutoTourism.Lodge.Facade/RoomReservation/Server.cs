@@ -10,6 +10,7 @@ using RoomRsvCrys = Crystal.Lodge.Component.Room.Reservation;
 using RoomRsvArtf = Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact;
 
 using ModDefFac = Vanilla.Utility.Facade.Module.Definition;
+using FrmFac = Vanilla.Form.Facade.Document;
 
 using RoomFac = AutoTourism.Lodge.Configuration.Facade.Room;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
@@ -19,7 +20,7 @@ using CustFac = AutoTourism.Customer.Facade;
 namespace AutoTourism.Lodge.Facade.RoomReservation
 {
 
-    public class Server : Vanilla.Form.Facade.Document.Server
+    public class Server : FrmFac.Server
     {
 
         public Server(FormDto formDto)
@@ -516,37 +517,42 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             return retVal;
         }
 
-        public Dto CloneReservaion(Dto reservationDto)
-        {
-            return new Dto
-                    {
-                        Id = reservationDto.Id,
-                        isCheckedIn = reservationDto.isCheckedIn,
-                        ReservationNo = reservationDto.ReservationNo,
-                        BookingFrom = reservationDto.BookingFrom,
-                        NoOfDays = reservationDto.NoOfDays,
-                        NoOfRooms = reservationDto.NoOfRooms,
-                        BookingStatus = reservationDto.BookingStatus,
-                        RoomCategory = reservationDto.RoomCategory == null ? null : new Table
-                        {
-                            Id = reservationDto.RoomCategory.Id,
-                            Name = reservationDto.RoomCategory.Name
-                        },
-                        RoomType = reservationDto.RoomType == null ? null : new Table
-                        {
-                            Id = reservationDto.RoomType.Id,
-                            Name = reservationDto.RoomType.Name
-                        },
-                        ACPreference = reservationDto.ACPreference,
-                        NoOfMale = reservationDto.NoOfMale,
-                        NoOfFemale = reservationDto.NoOfFemale,
-                        NoOfChild = reservationDto.NoOfChild,
-                        NoOfInfant = reservationDto.NoOfInfant,
-                        Remark = reservationDto.Remark,
-                        RoomList = reservationDto.RoomList == null ? null : this.CloneRoomList(reservationDto.RoomList),
-                        Customer = reservationDto.Customer
-                    };
-        }
+        //public Dto CloneDto(Dto dto)
+        //{
+        //    Dto ret = new Dto
+        //    {
+        //        Id = dto.Id,
+        //        isCheckedIn = dto.isCheckedIn,
+        //        ReservationNo = dto.ReservationNo,
+        //        BookingFrom = dto.BookingFrom,
+        //        NoOfDays = dto.NoOfDays,
+        //        NoOfRooms = dto.NoOfRooms,
+        //        BookingStatus = dto.BookingStatus,
+        //        RoomCategory = dto.RoomCategory == null ? null : new Table
+        //        {
+        //            Id = dto.RoomCategory.Id,
+        //            Name = dto.RoomCategory.Name
+        //        },
+        //        RoomType = dto.RoomType == null ? null : new Table
+        //        {
+        //            Id = dto.RoomType.Id,
+        //            Name = dto.RoomType.Name
+        //        },
+        //        ACPreference = dto.ACPreference,
+        //        NoOfMale = dto.NoOfMale,
+        //        NoOfFemale = dto.NoOfFemale,
+        //        NoOfChild = dto.NoOfChild,
+        //        NoOfInfant = dto.NoOfInfant,
+        //        Remark = dto.Remark,
+        //        Customer = dto.Customer
+        //    };
+        //    if (ret.RoomList != null)
+        //    {
+        //        ret.RoomList = new List<RoomFac.Dto>();
+        //        ret.RoomList.AddRange(dto.RoomList);
+        //    }
+        //    return ret;
+        //}
 
         #endregion
 

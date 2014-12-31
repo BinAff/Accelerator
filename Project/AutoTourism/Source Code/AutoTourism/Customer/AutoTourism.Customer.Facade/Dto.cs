@@ -23,8 +23,11 @@ namespace AutoTourism.Customer.Facade
         public String IdentityProofName { get; set; }
            
         public List<Table> ContactNumberList { get; set; }
-        public String ArtifactPath { get; set; }
+        public String ArtifactPath { get; set; } // why required? Need to validate - Arpan
 
+        /// <summary>
+        /// Get full name
+        /// </summary>
         public String Name
         {
             get
@@ -37,6 +40,9 @@ namespace AutoTourism.Customer.Facade
             }
         }
 
+        /// <summary>
+        /// Get complete address
+        /// </summary>
         public String FullAddress
         {
             get
@@ -50,13 +56,33 @@ namespace AutoTourism.Customer.Facade
             }
         }
 
+        /// <summary>
+        /// Get formated identity proof
+        /// </summary>
         public String IdentityProof
         {
             get
             {
                 return this.IdentityProofType.Name + " - " + this.IdentityProofName;
             }
-        }        
+        }
+
+        public override BinAff.Facade.Library.Dto Clone()
+        {
+            Dto dto = base.Clone() as Dto;
+            if (this.ContactNumberList != null)
+            {
+                dto.ContactNumberList = new List<Table>();
+                foreach (Table contactNumber in this.ContactNumberList)
+                {
+                    dto.ContactNumberList.Add(contactNumber.Clone());
+                }
+            }
+            dto.Country = this.Country.Clone();
+            dto.IdentityProofType = this.IdentityProofType.Clone();
+            dto.State = this.State.Clone();
+            return dto;
+        }
         
     }
 

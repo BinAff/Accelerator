@@ -12,6 +12,13 @@ namespace Vanilla.Guardian.Facade.SecurityAnswer
 
         public String Answer { get; set; }
 
+        public override BinAff.Facade.Library.Dto Clone()
+        {
+            Dto dto = base.Clone() as Dto;
+            dto.SecurityQuestion = this.SecurityQuestion.Clone();
+            return dto;
+        }
+
     }
 
 }

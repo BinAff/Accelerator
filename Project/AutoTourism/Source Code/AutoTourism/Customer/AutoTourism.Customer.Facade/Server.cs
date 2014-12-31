@@ -290,58 +290,58 @@ namespace AutoTourism.Customer.Facade
             return dtoList;
         }
 
-        private List<Lodge.Room.Dto> GetRoomDtoList(List<BinAff.Core.Data> roomDataList)
-        {
-            List<Lodge.Room.Dto> retVal = null;
-            if (roomDataList != null && roomDataList.Count > 0)
-            {
+        //private List<Lodge.Room.Dto> GetRoomDtoList(List<BinAff.Core.Data> roomDataList)
+        //{
+        //    List<Lodge.Room.Dto> retVal = null;
+        //    if (roomDataList != null && roomDataList.Count > 0)
+        //    {
 
-                retVal = new List<Lodge.Room.Dto>();
-                foreach (BinAff.Core.Data data in roomDataList)
-                {
-                    retVal.Add(new Lodge.Room.Dto()
-                    {
-                        Id = data.Id,
-                        Number = ((LodgeCrys.Room.Data)data).Number,
-                        Name = ((LodgeCrys.Room.Data)data).Name,
-                        Description = ((LodgeCrys.Room.Data)data).Description,
-                        Building = new Lodge.Building.Dto
-                        {
-                            Id = ((LodgeCrys.Room.Data)data).Building.Id,
-                            Name = ((LodgeCrys.Room.Data)data).Building.Name,
-                            Status = new Table
-                            {
-                                Id = ((LodgeCrys.Room.Data)data).Building.Status.Id,
-                                Name = ((LodgeCrys.Room.Data)data).Building.Status.Name,
-                            },
+        //        retVal = new List<Lodge.Room.Dto>();
+        //        foreach (BinAff.Core.Data data in roomDataList)
+        //        {
+        //            retVal.Add(new Lodge.Room.Dto()
+        //            {
+        //                Id = data.Id,
+        //                Number = ((LodgeCrys.Room.Data)data).Number,
+        //                Name = ((LodgeCrys.Room.Data)data).Name,
+        //                Description = ((LodgeCrys.Room.Data)data).Description,
+        //                Building = new Lodge.Building.Dto
+        //                {
+        //                    Id = ((LodgeCrys.Room.Data)data).Building.Id,
+        //                    Name = ((LodgeCrys.Room.Data)data).Building.Name,
+        //                    Status = new Table
+        //                    {
+        //                        Id = ((LodgeCrys.Room.Data)data).Building.Status.Id,
+        //                        Name = ((LodgeCrys.Room.Data)data).Building.Status.Name,
+        //                    },
 
-                            Type = new Table
-                            {
-                                Id = ((LodgeCrys.Room.Data)data).Building.Type.Id,
-                                Name = ((LodgeCrys.Room.Data)data).Building.Type.Name,
-                            }
-                        },
-                        Status = new Table
-                        {
-                            Id = ((LodgeCrys.Room.Data)data).Status.Id,
-                            Name = ((LodgeCrys.Room.Data)data).Status.Name
-                        },
-                        Type = new Table
-                        {
-                            Id = ((LodgeCrys.Room.Data)data).Type.Id,
-                            Name = ((LodgeCrys.Room.Data)data).Type.Name
-                        },
-                        IsAirconditioned = ((LodgeCrys.Room.Data)data).IsAirConditioned,
-                        Category = new Table
-                        {
-                            Id = ((LodgeCrys.Room.Data)data).Category.Id,
-                            Name = ((LodgeCrys.Room.Data)data).Category.Name
-                        }
-                    });
-                }
-            }
-            return retVal;
-        }
+        //                    Type = new Table
+        //                    {
+        //                        Id = ((LodgeCrys.Room.Data)data).Building.Type.Id,
+        //                        Name = ((LodgeCrys.Room.Data)data).Building.Type.Name,
+        //                    }
+        //                },
+        //                Status = new Table
+        //                {
+        //                    Id = ((LodgeCrys.Room.Data)data).Status.Id,
+        //                    Name = ((LodgeCrys.Room.Data)data).Status.Name
+        //                },
+        //                Type = new Table
+        //                {
+        //                    Id = ((LodgeCrys.Room.Data)data).Type.Id,
+        //                    Name = ((LodgeCrys.Room.Data)data).Type.Name
+        //                },
+        //                IsAirconditioned = ((LodgeCrys.Room.Data)data).IsAirConditioned,
+        //                Category = new Table
+        //                {
+        //                    Id = ((LodgeCrys.Room.Data)data).Category.Id,
+        //                    Name = ((LodgeCrys.Room.Data)data).Category.Name
+        //                }
+        //            });
+        //        }
+        //    }
+        //    return retVal;
+        //}
 
         private ReturnObject<List<Dto>> ReadAllCustomer()
         {

@@ -18,13 +18,13 @@ namespace Vanilla.Invoice.Facade.Receipt
         {
             return new Dto 
             { 
-                Date = invoiceDto.date,
-                InvoiceNumber = invoiceDto.invoiceNumber,
-                Advance = invoiceDto.advance,
-                Discount = invoiceDto.discount,
-                Buyer = invoiceDto.buyer,
-                Seller= invoiceDto.seller,
-                ProductList = invoiceDto.productList
+                Date = invoiceDto.Date,
+                InvoiceNumber = invoiceDto.InvoiceNumber,
+                Advance = invoiceDto.Advance,
+                Discount = invoiceDto.Discount,
+                Buyer = invoiceDto.Buyer,
+                Seller= invoiceDto.Seller,
+                ProductList = invoiceDto.ProductList
             };
         }
 

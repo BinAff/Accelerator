@@ -19,6 +19,13 @@ namespace Vanilla.Report.Facade.Document
         public String ReportName { get; set; }
         public String DataSource { get; set; }
 
+        public override BinAff.Facade.Library.Dto Clone()
+        {
+            Dto dto = base.Clone() as Dto;
+            dto.Category = this.Category.Clone() as Category.Dto;
+            return dto;
+        }
+
     }
 
 }

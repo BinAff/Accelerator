@@ -259,16 +259,6 @@ namespace AutoTourism.Customer.WinForm
             }
         }
 
-        //protected override void Ok()
-        //{
-        //    if (base.Save())
-        //    {
-        //        base.Artifact.Module = base.formDto.Dto;
-        //        base.IsModified = true;
-        //        //this.Close();
-        //    }
-        //}
-
         protected override void RefreshFormBefore()
         {
             errorProvider.Clear();
@@ -372,42 +362,6 @@ namespace AutoTourism.Customer.WinForm
                 }
             }
             this.txtIdentityProofName.Text = dto.IdentityProofName;
-        }
-
-        protected override DocFac.Dto CloneDto(DocFac.Dto source)
-        {
-            CustFac.Dto dto = source as CustFac.Dto;
-            if (dto.Id > 0)
-            {
-                return new CustFac.Dto
-                {                    
-                    FirstName = dto.FirstName,
-                    MiddleName = dto.MiddleName,
-                    LastName = dto.LastName,
-                    Address = dto.Address,
-                    Country = dto.Country == null ? null : new Table
-                    {
-                        Id = dto.Country.Id,
-                        Name = dto.Country.Name
-                    },
-                    State = dto.State == null ? null : new Table
-                    {
-                        Id = dto.State.Id,
-                        Name = dto.State.Name
-                    },
-                    City = dto.City,
-                    Pin = dto.Pin,
-                    ContactNumberList = this.CloneContactNumber(dto.ContactNumberList),
-                    Email = dto.Email,
-                    IdentityProofType = dto.IdentityProofType == null ? null : new Table
-                    {
-                        Id = dto.IdentityProofType.Id,
-                        Name = dto.IdentityProofType.Name
-                    },
-                    IdentityProofName = dto.IdentityProofName
-                };
-            }
-            return null;
         }
 
         protected override Boolean ValidateForm()
@@ -580,57 +534,12 @@ namespace AutoTourism.Customer.WinForm
             this.txtIdentityProofName.Text = String.Empty;
         }
 
-        protected override void RevertForm()
-        {
-            CustFac.Dto initialDto = base.InitialDto as CustFac.Dto;
-            CustFac.Dto dto = this.formDto.Dto as CustFac.Dto;
-           
-            dto.FirstName = initialDto.FirstName;
-            dto.MiddleName = initialDto.MiddleName;
-            dto.LastName = initialDto.LastName;
-            dto.Address = initialDto.Address;
-            dto.Country = initialDto.Country == null ? null : new Table
-            {
-                Id = initialDto.Country.Id,
-                Name = initialDto.Country.Name
-            };
-            dto.State = initialDto.State == null ? null : new Table
-            {
-                Id = initialDto.State.Id,
-                Name = initialDto.State.Name
-            };
-            dto.City = initialDto.City;
-            dto.Pin = initialDto.Pin;
-            dto.ContactNumberList = this.CloneContactNumber(initialDto.ContactNumberList);
-            dto.Email = initialDto.Email;
-            dto.IdentityProofType = initialDto.IdentityProofType == null ? null : new Table
-            {
-                Id = initialDto.IdentityProofType.Id,
-                Name = initialDto.IdentityProofType.Name
-            };
-            dto.IdentityProofName = initialDto.IdentityProofName;
-        }
-
         private void SetMandatoryRule()
         {
             this.IsPinNumberMandatory = this.customerRule.IsPinNumber;
             this.IsEmailMandatory = this.customerRule.IsEmail;
             this.IsIdentityMandatory = this.customerRule.IsIdentityProof;
             this.IsAlternateContactNoMandatory = this.customerRule.IsAlternateContactNumber;
-        }
-
-        private List<Table> CloneContactNumber(List<Table> contactNumberList)
-        {
-            List<Table> lstContactNumber = new List<Table>();
-            foreach (Table contactNo in contactNumberList)
-            {
-                lstContactNumber.Add(new Table 
-                {
-                    Id = contactNo.Id,
-                    Name = contactNo.Name
-                });
-            }
-            return lstContactNumber;
         }
 
         private List<Table> GetContactNumberDtoList()

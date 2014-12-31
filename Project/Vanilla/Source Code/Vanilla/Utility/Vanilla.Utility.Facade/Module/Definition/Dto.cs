@@ -18,12 +18,12 @@ namespace Vanilla.Utility.Facade.Module.Definition
 
         public Category.Dto Category { get; set; }
 
-        public object Clone()
+        public override BinAff.Facade.Library.Dto Clone()
         {
-            Dto modDef = this.MemberwiseClone() as Dto;
-            modDef.ComponentFormDto = this.ComponentFormDto.Clone() as BinAff.Facade.Library.Dto;
-            modDef.Category = this.Category.Clone() as Category.Dto;
-            return modDef;
+            Dto dto = base.Clone() as Dto;
+            dto.ComponentFormDto = this.ComponentFormDto.Clone();
+            dto.Category = this.Category.Clone() as Category.Dto;
+            return dto;
         }
 
     }
