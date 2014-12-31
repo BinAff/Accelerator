@@ -3,16 +3,16 @@
 namespace BinAff.Core
 {
 
-    public class Table : ICloneable
+    public class Table
     {
 
         public Int64 Id { get; set; }
         public String Name { get; set; }
         public Double Value { get; set; }
 
-        public object Clone()
+        public Table Clone()
         {
-            return this.MemberwiseClone();
+            return this.MemberwiseClone() as Table;
         }
 
     }
