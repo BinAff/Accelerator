@@ -3,7 +3,7 @@
 namespace BinAff.Facade.Library
 {
 
-    public class Dto : ICloneable
+    public class Dto
     {
 
         /// <summary>
@@ -11,15 +11,15 @@ namespace BinAff.Facade.Library
         /// </summary>
         public Int64 Id { get; set; }
 
-        //public String artifactPath { get; set; }
-        //public String fileName { get; set; }
-
-        //public System.Windows.Forms.TreeView trvForm { get; set; }
-
         /// <summary>
         /// Mark required action on dto
         /// </summary>
         public ActionType Action { get; set; }
+
+        public virtual Dto Clone()
+        {
+            return this.MemberwiseClone() as Dto;
+        }
 
         public enum ActionType
         {
@@ -27,11 +27,6 @@ namespace BinAff.Facade.Library
             Update,
             Delete,
             Read
-        }
-
-        public object Clone()
-        {
-            return this.MemberwiseClone();
         }
 
     }
