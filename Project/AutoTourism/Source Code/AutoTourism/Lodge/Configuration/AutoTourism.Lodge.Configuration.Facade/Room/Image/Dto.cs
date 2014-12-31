@@ -3,10 +3,9 @@
 namespace AutoTourism.Lodge.Configuration.Facade.Room.Image
 {
 
-    public class Dto
+    public class Dto : BinAff.Facade.Library.Dto
     {
 
-        public Int64 Id { get; set; }
         public Byte[] Image { get; set; }
         public String Name { get; set; }
 
