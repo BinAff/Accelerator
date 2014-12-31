@@ -35,11 +35,11 @@ namespace Vanilla.Utility.Facade.Document
             }
         }
 
-        public List<AttachmentSummery> AttachmentSummeryList { get; set; }
+        public List<AttachmentSummary> AttachmentSummeryList { get; set; }
 
     }
 
-    public struct AttachmentSummery
+    public struct AttachmentSummary
     {
         public Artifact.Dto Artifact { get; set; }
         public String Path { get; set; }
