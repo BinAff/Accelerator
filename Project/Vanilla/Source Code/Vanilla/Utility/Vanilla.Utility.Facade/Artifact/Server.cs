@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 
-using CrysArtf = Crystal.Navigator.Component.Artifact;
-using GuardianAcc = Crystal.Guardian.Component.Account;
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
+using GuardCrys = Crystal.Guardian.Component.Account;
 
 namespace Vanilla.Utility.Facade.Artifact
 {
@@ -62,7 +62,7 @@ namespace Vanilla.Utility.Facade.Artifact
                 FileName = artifactData.FileName,
                 Extension = artifactData.Extension,
                 Path = artifactData.Path,
-                Style = (artifactData.Style == CrysArtf.Type.Directory) ? Type.Folder : Type.Document,
+                Style = (artifactData.Style == ArtfCrys.Type.Directory) ? Type.Folder : Type.Document,
                 AuditInfo = new Audit.Dto
                 {
                     Version = artifactData.Version,
@@ -83,14 +83,14 @@ namespace Vanilla.Utility.Facade.Artifact
                 IsAttachmentSupported = artifactData.IsAttachmentSupported,
             };
 
-            if ((data as CrysArtf.Data).Parent != null)
+            if ((data as ArtfCrys.Data).Parent != null)
             {
-                artifact.Parent = this.Convert((data as CrysArtf.Data).Parent);
+                artifact.Parent = this.Convert((data as ArtfCrys.Data).Parent);
             }
 
-            if ((data as CrysArtf.Data).ComponentDefinition != null)
+            if ((data as ArtfCrys.Data).ComponentDefinition != null)
             {
-                artifact.ComponentDefinition = new Module.Definition.Server(null).Convert((data as CrysArtf.Data).ComponentDefinition) as Module.Definition.Dto;
+                artifact.ComponentDefinition = new Module.Definition.Server(null).Convert((data as ArtfCrys.Data).ComponentDefinition) as Module.Definition.Dto;
             }
 
             if (this.ModuleFacade == null)
@@ -100,9 +100,9 @@ namespace Vanilla.Utility.Facade.Artifact
                     Code = artifact.ComponentDefinition.Code,
                 }, artifact.Category).ModuleFacade;
             }
-            if ((data as CrysArtf.Data).ComponentData != null)
+            if ((data as ArtfCrys.Data).ComponentData != null)
             {
-                artifact.Module = this.ModuleFacade.Convert((data as CrysArtf.Data).ComponentData);
+                artifact.Module = this.ModuleFacade.Convert((data as ArtfCrys.Data).ComponentData);
             }
 
             return artifact;
@@ -113,14 +113,14 @@ namespace Vanilla.Utility.Facade.Artifact
             Facade.Artifact.Dto artifactDto = dto as Facade.Artifact.Dto;
 
             System.Type dataType = System.Type.GetType(this.ModuleComponentDataType);
-            CrysArtf.Data tree = Activator.CreateInstance(dataType) as CrysArtf.Data;
+            ArtfCrys.Data tree = Activator.CreateInstance(dataType) as ArtfCrys.Data;
             tree.Id = artifactDto.Id;
             tree.FileName =  artifactDto.FileName;
             tree.Extension = artifactDto.Extension;
             tree.Path = artifactDto.Path;   
-            tree.Category = (CrysArtf.Category)artifactDto.Category;
+            tree.Category = (ArtfCrys.Category)artifactDto.Category;
             tree.IsAttachmentSupported = artifactDto.IsAttachmentSupported;
-            tree.Style = (artifactDto.Style == Type.Folder) ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
+            tree.Style = (artifactDto.Style == Type.Folder) ? ArtfCrys.Type.Directory : ArtfCrys.Type.Document;
             tree.CreatedBy = new Crystal.Guardian.Component.Account.Data
             {
                 Id = artifactDto.AuditInfo.CreatedBy.Id,
@@ -153,7 +153,7 @@ namespace Vanilla.Utility.Facade.Artifact
             data.FileName = artifactDto.FileName;
             data.Extension = artifactDto.Extension;
             data.Path = artifactDto.Path;
-            data.Style = (artifactDto.Style == Type.Folder) ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
+            data.Style = (artifactDto.Style == Type.Folder) ? ArtfCrys.Type.Directory : ArtfCrys.Type.Document;
             data.CreatedBy = new Crystal.Guardian.Component.Account.Data
             {
                 Id = artifactDto.AuditInfo.CreatedBy.Id,
@@ -165,17 +165,17 @@ namespace Vanilla.Utility.Facade.Artifact
             };
             data.ModifiedAt = artifactDto.AuditInfo.ModifiedAt;
             data.ParentId = artifactDto.Parent == null ? null : (long?)artifactDto.Parent.Id;
-            data.Category = (CrysArtf.Category)((Int32)artifactDto.Category);
+            data.Category = (ArtfCrys.Category)((Int32)artifactDto.Category);
             return data;
         }
 
-        public Artifact.Dto GetTree(CrysArtf.IArtifact artifact)
+        public Artifact.Dto GetTree(ArtfCrys.IArtifact artifact)
         {
             artifact.FormTree();
-            return this.ConvertTree((artifact as CrysArtf.Server).Data as CrysArtf.Data);
+            return this.ConvertTree((artifact as ArtfCrys.Server).Data as ArtfCrys.Data);
         }
 
-        private Dto ConvertTree(CrysArtf.Data data)
+        private Dto ConvertTree(ArtfCrys.Data data)
         {
             Dto tree = new Dto
             {
@@ -189,7 +189,7 @@ namespace Vanilla.Utility.Facade.Artifact
             };
             if (data.Children != null && data.Children.Count > 0)
             {
-                foreach (CrysArtf.Data artf in data.Children)
+                foreach (ArtfCrys.Data artf in data.Children)
                 {
                     Dto child = this.Convert(artf) as Dto;
                     child.Parent = tree;
@@ -203,32 +203,32 @@ namespace Vanilla.Utility.Facade.Artifact
             return tree;
         }
 
-        public CrysArtf.Data ConvertTree(Dto dto)
+        public ArtfCrys.Data ConvertTree(Dto dto)
         {
-            CrysArtf.Data tree = Activator.CreateInstance(System.Type.GetType(this.ModuleComponentDataType)) as CrysArtf.Data;
+            ArtfCrys.Data tree = Activator.CreateInstance(System.Type.GetType(this.ModuleComponentDataType)) as ArtfCrys.Data;
             tree.Id = dto.Id;
             tree.FileName = dto.FileName;
             tree.Children = new List<Data>();
             tree.Path = dto.Path;
             tree.Extension = dto.Extension;
-            tree.Category = (CrysArtf.Category)dto.Category;
+            tree.Category = (ArtfCrys.Category)dto.Category;
             tree.ParentId = dto.Parent == null ? 0 : dto.Parent.Id;
-            tree.CreatedBy = new GuardianAcc.Data { Id = dto.AuditInfo.CreatedBy.Id };
+            tree.CreatedBy = new GuardCrys.Data { Id = dto.AuditInfo.CreatedBy.Id };
             tree.CreatedAt = dto.AuditInfo.CreatedAt;
             if (dto.AuditInfo.ModifiedBy != null)
             {
-                tree.ModifiedBy = new GuardianAcc.Data { Id = dto.AuditInfo.ModifiedBy.Id };
+                tree.ModifiedBy = new GuardCrys.Data { Id = dto.AuditInfo.ModifiedBy.Id };
                 tree.ModifiedAt = dto.AuditInfo.ModifiedAt;
             }
 
-            tree.Style = dto.Style == Type.Folder ? CrysArtf.Type.Directory : CrysArtf.Type.Document;
+            tree.Style = dto.Style == Type.Folder ? ArtfCrys.Type.Directory : ArtfCrys.Type.Document;
             tree.IsDeletable = dto.Action == BinAff.Facade.Library.Dto.ActionType.Delete;
 
             if (dto.Children != null && dto.Children.Count > 0)
             {
                 foreach (Dto artf in dto.Children)
                 {
-                    CrysArtf.Data child = this.Convert(artf) as CrysArtf.Data;
+                    ArtfCrys.Data child = this.Convert(artf) as ArtfCrys.Data;
                     child.ParentId = tree.Id;
                     child.IsDeletable = tree.IsDeletable;
                     if (artf.Children != null && artf.Children.Count > 0)
@@ -262,17 +262,48 @@ namespace Vanilla.Utility.Facade.Artifact
 
         public override void Delete()
         {
-            FormDto formDto = this.FormDto as FormDto;
-            this.ModuleFacade.Data = new Data { Id = formDto.Dto.Id };
+            this.ValidateAttachmentList(this);
+            if (this.IsError) return;
+
+            this.ModuleFacade.Data = new Data { Id = (this.FormDto as FormDto).Dto.Id };
             this.ModuleFacade.Delete();
             this.DisplayMessageList = this.ModuleFacade.DisplayMessageList;
             this.IsError = this.ModuleFacade.IsError;
         }
 
+        public void ValidateAttachmentList(Artifact.Server artifactFacade)
+        {
+            ReturnObject<List<ArtfCrys.Data>> ret = (artifactFacade.ModuleArtifactComponent as ArtfCrys.IArtifact).ReadAttachmentLink();
+            if (this.IsError = ret.HasError())
+            {
+                if (this.DisplayMessageList == null) this.DisplayMessageList = new List<String>();
+                this.DisplayMessageList.AddRange(ret.GetMessage(Message.Type.Error));
+            }
+            else
+            {
+                if (ret.Value != null && ret.Value.Count > 0)
+                {
+                    this.IsError = true;
+                    String message = "Delete the attachments before deleting the form - "
+                        + ((artifactFacade.ModuleArtifactComponent as ArtfCrys.Server).Data as ArtfCrys.Data).FullPath
+                        + ". List of attachments:"
+                        + Environment.NewLine;
+                    Int16 i = 1;
+                    foreach (ArtfCrys.Data attachment in ret.Value)
+                    {
+                        message += "  " + i.ToString() + ": " + attachment.FullPath + Environment.NewLine;
+                        i++;
+                    }
+                    if (this.DisplayMessageList == null) this.DisplayMessageList = new List<String>();
+                    this.DisplayMessageList.Add(message);
+                }
+            }
+        }
+
         public override void Read()
         {
             FormDto formDto = this.FormDto as FormDto;
-            ReturnObject<CrysArtf.Data> ret = ((Crystal.Navigator.Component.Artifact.IArtifact)this.ModuleArtifactComponent).ReadWithParent();
+            ReturnObject<ArtfCrys.Data> ret = ((Crystal.Navigator.Component.Artifact.IArtifact)this.ModuleArtifactComponent).ReadWithParent();
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
             if (!this.IsError)
             {
@@ -312,7 +343,7 @@ namespace Vanilla.Utility.Facade.Artifact
                 Code = code,
             }, category);
             System.Type artifactComponentType = System.Type.GetType(helper.ArtifactComponentType + ", " + helper.ArtifactComponentAssembly, true);
-            CrysArtf.Data data = Activator.CreateInstance(System.Type.GetType(helper.ArtifactDataType + ", " + helper.ArtifactComponentAssembly, true)) as CrysArtf.Data;
+            ArtfCrys.Data data = Activator.CreateInstance(System.Type.GetType(helper.ArtifactDataType + ", " + helper.ArtifactComponentAssembly, true)) as ArtfCrys.Data;
             data.Id = 1; //Just to call read method in data access
             data.Path = path;
 
@@ -320,8 +351,8 @@ namespace Vanilla.Utility.Facade.Artifact
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
             if (!this.IsError)
             {
-                (data as CrysArtf.Data).Category = (CrysArtf.Category)category;
-                (data as CrysArtf.Data).ComponentDefinition = new Crystal.License.Component.Data
+                (data as ArtfCrys.Data).Category = (ArtfCrys.Category)category;
+                (data as ArtfCrys.Data).ComponentDefinition = new Crystal.License.Component.Data
                 {
                     Code = code,
                 };
