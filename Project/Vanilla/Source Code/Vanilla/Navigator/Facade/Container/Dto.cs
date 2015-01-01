@@ -18,7 +18,7 @@ namespace Vanilla.Navigator.Facade.Container
                 dto.Modules = new List<Vanilla.Utility.Facade.Module.Dto>();
                 foreach (Vanilla.Utility.Facade.Module.Dto module in this.Modules)
                 {
-                    dto.Modules.Add(module.Clone() as Vanilla.Utility.Facade.Module.Dto);
+                    dto.Modules.Add((module != null) ? module.Clone() as Vanilla.Utility.Facade.Module.Dto : null);
                 }
             }
             return dto;

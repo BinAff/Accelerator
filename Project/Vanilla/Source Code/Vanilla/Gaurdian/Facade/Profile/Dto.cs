@@ -56,10 +56,10 @@ namespace Vanilla.Guardian.Facade.Profile
                 dto.ContactNumberList = new List<Table>();
                 foreach (Table contactNumber in this.ContactNumberList)
                 {
-                    dto.ContactNumberList.Add(contactNumber.Clone());
+                    dto.ContactNumberList.Add((contactNumber != null) ? contactNumber.Clone() : null);
                 }
             }
-            dto.Extension = this.Extension.Clone();
+            if (dto.Extension != null) dto.Extension = this.Extension.Clone();
             return dto;
         }
 

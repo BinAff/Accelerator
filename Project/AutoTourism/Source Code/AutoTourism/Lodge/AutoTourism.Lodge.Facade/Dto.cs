@@ -36,7 +36,7 @@ namespace AutoTourism.Lodge.Facade
                 dto.ContactNumberList = new List<Table>();
                 foreach (Table contactNumber in this.ContactNumberList)
                 {
-                    dto.ContactNumberList.Add(contactNumber.Clone());
+                    dto.ContactNumberList.Add((contactNumber != null) ? contactNumber.Clone() : null);
                 }
             }
             if (this.FaxList != null)
@@ -44,7 +44,7 @@ namespace AutoTourism.Lodge.Facade
                 dto.FaxList = new List<Table>();
                 foreach (Table fax in this.FaxList)
                 {
-                    dto.FaxList.Add(fax.Clone());
+                    dto.FaxList.Add((fax != null) ? fax.Clone() : null);
                 }
             }
             if (this.EmailList != null)
@@ -52,7 +52,7 @@ namespace AutoTourism.Lodge.Facade
                 dto.EmailList = new List<Table>();
                 foreach (Table email in this.EmailList)
                 {
-                    dto.EmailList.Add(email.Clone());
+                    dto.EmailList.Add((email != null) ? email.Clone() : null);
                 }
             }
             return dto;

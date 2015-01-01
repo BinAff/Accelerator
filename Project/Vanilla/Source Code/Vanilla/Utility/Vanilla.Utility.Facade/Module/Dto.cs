@@ -25,10 +25,10 @@ namespace Vanilla.Utility.Facade.Module
                 dto.CategoryList = new List<Category.Dto>();
                 foreach (Category.Dto category in this.CategoryList)
                 {
-                    dto.CategoryList.Add(category.Clone() as Category.Dto);
+                    dto.CategoryList.Add((category != null) ? category.Clone() as Category.Dto : null);
                 }
             }
-            dto.Artifact = this.Artifact.Clone() as Artifact.Dto;
+            if (this.Artifact != null) dto.Artifact = this.Artifact.Clone() as Artifact.Dto;
             return dto;
         }
     }

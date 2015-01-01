@@ -21,8 +21,8 @@ namespace Vanilla.Utility.Facade.Module.Definition
         public override BinAff.Facade.Library.Dto Clone()
         {
             Dto dto = base.Clone() as Dto;
-            dto.ComponentFormDto = this.ComponentFormDto.Clone();
-            dto.Category = this.Category.Clone() as Category.Dto;
+            if (this.ComponentFormDto != null) dto.ComponentFormDto = this.ComponentFormDto.Clone();
+            if (this.Category != null) dto.Category = this.Category.Clone() as Category.Dto;
             return dto;
         }
 

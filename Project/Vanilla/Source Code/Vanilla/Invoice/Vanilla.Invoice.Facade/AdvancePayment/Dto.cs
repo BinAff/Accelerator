@@ -33,7 +33,7 @@ namespace Vanilla.Invoice.Facade.AdvancePayment
         public override BinAff.Facade.Library.Dto Clone()
         {
             Dto dto = base.Clone() as Dto;
-            dto.Type = this.Type.Clone();
+            if (this.Type != null) dto.Type = this.Type.Clone();
             return dto;
         }
 

@@ -21,7 +21,7 @@ namespace Vanilla.Guardian.Facade.Register
                 dto.RoleList = new List<Role.Dto>();
                 foreach (Role.Dto role in this.RoleList)
                 {
-                    dto.RoleList.Add(role.Clone() as Role.Dto);
+                    dto.RoleList.Add((role != null) ? role.Clone() as Role.Dto : null);
                 }
             }
             return dto;

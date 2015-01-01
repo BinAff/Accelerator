@@ -38,24 +38,24 @@ namespace Vanilla.Guardian.Facade.Account
         public override BinAff.Facade.Library.Dto Clone()
         {
             Dto dto = base.Clone() as Dto;
-            dto.Profile = this.Profile.Clone() as Profile.Dto;
+            if(dto.Profile != null) dto.Profile = this.Profile.Clone() as Profile.Dto;
             if (this.RoleList != null)
             {
                 dto.RoleList = new List<Role.Dto>();
                 foreach (Role.Dto login in this.RoleList)
                 {
-                    dto.RoleList.Add(login.Clone() as Role.Dto);
+                    if (login != null) dto.RoleList.Add(login.Clone() as Role.Dto);
                 }
             }
-            dto.SecurityAnswer = this.SecurityAnswer.Clone() as SecurityAnswer.Dto;
-            dto.Extension = this.Extension.Clone();
-            dto.LoginInfo = this.LoginInfo.Clone() as LoginHistory.Dto;
+            if (dto.SecurityAnswer != null) dto.SecurityAnswer = this.SecurityAnswer.Clone() as SecurityAnswer.Dto;
+            if (dto.Extension != null) dto.Extension = this.Extension.Clone();
+            if (dto.LoginInfo != null) dto.LoginInfo = this.LoginInfo.Clone() as LoginHistory.Dto;
             if (this.LoginHistory != null)
             {
                 dto.LoginHistory = new List<LoginHistory.Dto>();
                 foreach (LoginHistory.Dto login in this.LoginHistory)
                 {
-                    dto.LoginHistory.Add(login.Clone() as LoginHistory.Dto);
+                    dto.LoginHistory.Add((login != null) ? login.Clone() as LoginHistory.Dto : null);
                 }
             }
             return dto;

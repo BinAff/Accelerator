@@ -32,7 +32,7 @@ namespace Vanilla.Invoice.Facade.LineItem
                 dto.TaxList = new List<Taxation.Dto>();
                 foreach (Taxation.Dto tax in this.TaxList)
                 {
-                    dto.TaxList.Add(tax.Clone() as Taxation.Dto);
+                    dto.TaxList.Add((tax != null) ? tax.Clone() as Taxation.Dto : null);
                 }
             }
             return dto;

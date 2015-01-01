@@ -89,13 +89,13 @@ namespace Vanilla.Utility.Facade.Artifact
                 dto.Children = new List<Dto>();
                 foreach (Dto child in this.Children)
                 {
-                    dto.Children.Add(child.Clone() as Dto);
+                    dto.Children.Add((child != null) ? child.Clone() as Dto : null);
                 }
             }
-            dto.Module = this.Module.Clone();
-            dto.ComponentDefinition = this.ComponentDefinition.Clone() as ModDefFac.Dto;
-            dto.Parent = this.Parent.Clone();
-            dto.AuditInfo = this.AuditInfo.Clone();
+            if (this.Module != null) dto.Module = this.Module.Clone();
+            if (this.ComponentDefinition != null) dto.ComponentDefinition = this.ComponentDefinition.Clone() as ModDefFac.Dto;
+            if (this.Parent != null) dto.Parent = this.Parent.Clone();
+            if (this.AuditInfo != null) dto.AuditInfo = this.AuditInfo.Clone();
             return dto;
         }
 

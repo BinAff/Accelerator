@@ -21,7 +21,7 @@ namespace Vanilla.Tool.Facade.Diary.Calender
                 dto.AppointmentList = new List<Appointment.Dto>();
                 foreach (Appointment.Dto contactNumber in this.AppointmentList)
                 {
-                    dto.AppointmentList.Add(contactNumber.Clone() as Appointment.Dto);
+                    dto.AppointmentList.Add(contactNumber != null ? contactNumber.Clone() as Appointment.Dto : null);
                 }
             }
             return dto;

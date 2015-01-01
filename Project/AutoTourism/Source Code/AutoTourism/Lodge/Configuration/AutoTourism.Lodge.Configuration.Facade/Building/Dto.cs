@@ -25,11 +25,11 @@ namespace AutoTourism.Lodge.Configuration.Facade.Building
                 dto.FloorList = new List<Table>();
                 foreach (Table floor in this.FloorList)
                 {
-                    dto.FloorList.Add(floor.Clone());
+                    dto.FloorList.Add((floor != null) ? floor.Clone() : null);
                 }
             }
-            dto.Type = this.Type.Clone() as Type.Dto;
-            dto.Status = this.Status.Clone();
+            if (dto.Type != null) dto.Type = this.Type.Clone() as Type.Dto;
+            if (dto.Status != null) dto.Status = this.Status.Clone();
             return dto;
         }
        
