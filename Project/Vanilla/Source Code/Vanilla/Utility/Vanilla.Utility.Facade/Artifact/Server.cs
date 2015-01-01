@@ -262,42 +262,10 @@ namespace Vanilla.Utility.Facade.Artifact
 
         public override void Delete()
         {
-            this.ValidateAttachmentList(this);
-            if (this.IsError) return;
-
             this.ModuleFacade.Data = new Data { Id = (this.FormDto as FormDto).Dto.Id };
             this.ModuleFacade.Delete();
             this.DisplayMessageList = this.ModuleFacade.DisplayMessageList;
             this.IsError = this.ModuleFacade.IsError;
-        }
-
-        public void ValidateAttachmentList(Artifact.Server artifactFacade)
-        {
-            ReturnObject<List<ArtfCrys.Data>> ret = (artifactFacade.ModuleArtifactComponent as ArtfCrys.IArtifact).ReadAttachmentLink();
-            if (this.IsError = ret.HasError())
-            {
-                if (this.DisplayMessageList == null) this.DisplayMessageList = new List<String>();
-                this.DisplayMessageList.AddRange(ret.GetMessage(Message.Type.Error));
-            }
-            else
-            {
-                if (ret.Value != null && ret.Value.Count > 0)
-                {
-                    this.IsError = true;
-                    String message = "Delete the attachments before deleting the form - "
-                        + ((artifactFacade.ModuleArtifactComponent as ArtfCrys.Server).Data as ArtfCrys.Data).FullPath
-                        + ". List of attachments:"
-                        + Environment.NewLine;
-                    Int16 i = 1;
-                    foreach (ArtfCrys.Data attachment in ret.Value)
-                    {
-                        message += "  " + i.ToString() + ": " + attachment.FullPath + Environment.NewLine;
-                        i++;
-                    }
-                    if (this.DisplayMessageList == null) this.DisplayMessageList = new List<String>();
-                    this.DisplayMessageList.Add(message);
-                }
-            }
         }
 
         public override void Read()

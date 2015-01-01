@@ -55,6 +55,13 @@ namespace Vanilla.Form.Facade.Document
 
         public override void Delete()
         {
+            ArtfCrys.Server artfactServer = this.GetArtifactServer(this.GetArtifactData(this.Data.Id));
+            (artfactServer.Data as ArtfCrys.Data).Category = ArtfCrys.Category.Form;
+            (artfactServer.Data as ArtfCrys.Data).Children = new List<Data>();
+
+            this.ValidateAttachmentList(artfactServer);
+            if (this.IsError) return;
+
             ReturnObject<Boolean> ret = this.ValidateDelete();
             if (this.IsError = ret.HasError())
             {
@@ -62,9 +69,6 @@ namespace Vanilla.Form.Facade.Document
             }
             else
             {
-                ArtfCrys.Server artfactServer = this.GetArtifactServer(this.GetArtifactData(this.Data.Id));
-                (artfactServer.Data as ArtfCrys.Data).Category = ArtfCrys.Category.Form;
-                (artfactServer.Data as ArtfCrys.Data).Children = new List<Data>();
                 ReturnObject<Boolean> retVal = (artfactServer as BinAff.Core.ICrud).Delete();
                 this.AttachMessage(retVal);
             }
@@ -80,6 +84,35 @@ namespace Vanilla.Form.Facade.Document
             if (registrar == null) return new ReturnObject<Boolean> { Value = true };
             ReturnObject<Boolean> ret = registrar.Register(this.componentServer as BinAff.Core.Observer.ISubject);
             return (this.componentServer as BinAff.Core.Observer.ISubject).NotifyObserver();
+        }
+
+        public void ValidateAttachmentList(ArtfCrys.Server artfactServer)
+        {
+            ReturnObject<List<ArtfCrys.Data>> ret = (artfactServer as ArtfCrys.IArtifact).ReadAttachmentLink();
+            if (this.IsError = ret.HasError())
+            {
+                if (this.DisplayMessageList == null) this.DisplayMessageList = new List<String>();
+                this.DisplayMessageList.AddRange(ret.GetMessage(Message.Type.Error));
+            }
+            else
+            {
+                if (ret.Value != null && ret.Value.Count > 0)
+                {
+                    this.IsError = true;
+                    String message = "Delete the attachments before deleting the form - "
+                        + (artfactServer.Data as ArtfCrys.Data).FullPath
+                        + ". List of attachments:"
+                        + Environment.NewLine;
+                    Int16 i = 1;
+                    foreach (ArtfCrys.Data attachment in ret.Value)
+                    {
+                        message += "  " + i.ToString() + ": " + attachment.FullPath + Environment.NewLine;
+                        i++;
+                    }
+                    if (this.DisplayMessageList == null) this.DisplayMessageList = new List<String>();
+                    this.DisplayMessageList.Add(message);
+                }
+            }
         }
 
         public virtual void AddAttachmentLink(ArtfFac.Dto attachment)
