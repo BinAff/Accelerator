@@ -7,7 +7,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
     {
 
         public DateTime Date { get; set; }
-        public Int64 StatusId { get; set; }
+        public RoomReservation.Status Status { get; set; }
         public String InvoiceNumber { get; set; }
         public RoomReservation.Dto Reservation { get; set; }
         public String Purpose { get; set; }

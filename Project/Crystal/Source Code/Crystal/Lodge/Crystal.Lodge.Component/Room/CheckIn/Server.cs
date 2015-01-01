@@ -95,18 +95,18 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         }
 
         //call reservation component and save the Reservation status to CheckIn
-        protected override ReturnObject<bool> CreateAfter()
+        protected override ReturnObject<Boolean> CreateAfter()
         {
             RoomRsvCrys.Server server = new RoomRsvCrys.Server((this.Data as Data).Reservation);
             return server.ChangeReservationToOccupied();            
         }
 
-        ReturnObject<Boolean> ICheckIn.ModifyCheckInStatus(long statusId)
+        ReturnObject<Boolean> ICheckIn.ModifyCheckInStatus(Customer.Component.Action.Status.Data status)
         {            
-            return (this.dataAccess as Dao).ModifyCheckInStatus(statusId);
+            return (this.dataAccess as Dao).ModifyCheckInStatus(status);
         }
         
-        ReturnObject<Boolean> ICheckIn.UpdateInvoiceNumber(string invoiceNumber)
+        ReturnObject<Boolean> ICheckIn.UpdateInvoiceNumber(String invoiceNumber)
         {
             return (this.dataAccess as Dao).UpdateInvoiceNumber(invoiceNumber);
         }

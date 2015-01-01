@@ -180,7 +180,6 @@ namespace AutoTourism.Lodge.WinForm
         private void ucRoomReservation_RoomListChanged(Int16 days, DateTime from)
         {
             RoomRsvFac.Dto dto = ((base.formDto as Fac.FormDto).Dto as Fac.Dto).Reservation;
-            dto.Id = dto == null ? 0 : dto.Id;
             dto.BookingFrom = new DateTime(from.Year, from.Month, from.Day, from.Hour, from.Minute, from.Second);
             if (days > 0)
             {
@@ -297,7 +296,7 @@ namespace AutoTourism.Lodge.WinForm
             dto.Id = dto == null ? 0 : dto.Id;         
             dto.Date = DateTime.Now;
             this.ucRoomReservation.AssignDto(dto.Reservation);
-            dto.Reservation.IsCheckedIn = true;
+            dto.Reservation.Status = RoomRsvFac.Status.CheckedIn;
 
             dto.Purpose = txtPurpose.Text.Trim();
             dto.ArrivedFrom = txtArrivedFrom.Text.Trim();
@@ -311,32 +310,19 @@ namespace AutoTourism.Lodge.WinForm
 
         protected override void PopulateAnsestorData(FormDocFac.Dto dto)
         {
-            LodgeFac.RoomReservation.Dto ancestorDto = dto as LodgeFac.RoomReservation.Dto;
-            Fac.Dto checkInDto = (base.formDto as Fac.FormDto).Dto as Fac.Dto;
-
-            checkInDto.Date = ancestorDto.BookingFrom;
-            checkInDto.Reservation = new LodgeFac.RoomReservation.Dto
-            {
-                Id = ancestorDto.Id,
-                NoOfDays = ancestorDto.NoOfDays,
-                NoOfRooms = ancestorDto.NoOfRooms,
-                RoomCategory = ancestorDto.RoomCategory,
-                RoomType = ancestorDto.RoomType,
-                ACPreference = ancestorDto.ACPreference,
-                RoomList = ancestorDto.RoomList,
-                BookingFrom = ancestorDto.BookingFrom,
-
-                NoOfMale = ancestorDto.NoOfMale,
-                NoOfFemale = ancestorDto.NoOfFemale,
-                NoOfChild = ancestorDto.NoOfChild,
-                NoOfInfant = ancestorDto.NoOfInfant,
-                Remark = ancestorDto.Remark,
-                ReservationNo = ancestorDto.ReservationNo,
-
-                Customer = ancestorDto.Customer,
-                BookingStatus = ancestorDto.BookingStatus
-            };
+            LodgeFac.RoomReservation.Dto reservation = dto as LodgeFac.RoomReservation.Dto;
+            this.ucRoomReservation.LoadForm(reservation);
+            ((base.formDto as Fac.FormDto).Dto as Fac.Dto).Reservation = reservation;
             this.ucRoomReservation.PopulateDataToForm();
+            if (reservation.Status == RoomRsvFac.Status.CheckedIn)
+            {
+                base.DisableOkButton();
+                new PresLib.MessageBox(this).Show(new BinAff.Core.Message("Reservation already checked in. Check in not allowed", BinAff.Core.Message.Type.Information));
+            }
+            else
+            {
+                base.EnableOkButton();
+            }
         }
 
         protected override void RefreshFormBefore()
@@ -417,7 +403,7 @@ namespace AutoTourism.Lodge.WinForm
 
             Facade.CheckIn.Dto dto = this.formDto.Dto as Facade.CheckIn.Dto;
 
-            if (dto.StatusId == Convert.ToInt64(Status.Open))
+            if (dto.Status == RoomRsvFac.Status.Open)
             {
                 this.ucRoomReservation.DisableFormControls();
                 this.ucRoomReservation.EnableNoOfDays(); //If customer is leaveing before or after scheduled duration
@@ -430,7 +416,8 @@ namespace AutoTourism.Lodge.WinForm
                 base.DisableRefreshButton();
                 base.DisableOkButton();
             }
-            else if (dto.Id > 0 && (ValidationRule.IsDateGreaterThanToday(dto.Date) || (dto.StatusId == Convert.ToInt64(Status.CheckOut))))
+            //else if (dto.Id > 0 && (ValidationRule.IsDateGreaterThanToday(dto.Date) || dto.Status == Fac.Server.Status.CheckOut))
+            else if (dto.Id > 0 && (dto.Status == RoomRsvFac.Status.CheckedIn || dto.Status == RoomRsvFac.Status.CheckOut))
             {
                 this.ucRoomReservation.DisableFormControls();
                 this.txtPurpose.Enabled = false;
@@ -441,8 +428,14 @@ namespace AutoTourism.Lodge.WinForm
                 base.DisableAddAncestorButton();
                 base.DisableRefreshButton();
                 base.DisableOkButton();
-
-                this.btnCheckOut.Enabled = false;
+                if (dto.Status == RoomRsvFac.Status.CheckedIn)
+                {
+                    this.ucRoomReservation.EnableNoOfDays();
+                }
+                else if (dto.Status == RoomRsvFac.Status.CheckOut)
+                {
+                    this.btnCheckOut.Enabled = false;
+                }
             }
         }
 
@@ -689,12 +682,6 @@ namespace AutoTourism.Lodge.WinForm
         }
 
         #endregion
-
-        public enum Status
-        {
-            Open = 10001,
-            CheckOut = 10002
-        }
 
     }
 

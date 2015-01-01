@@ -29,8 +29,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public String Remark { get; set; }
         public String ReservationNo { get; set; }
 
-        public Status BookingStatus { get; set; }
-        public Boolean IsCheckedIn { get; set; }
+        public Status Status { get; set; }
+        //public Boolean IsCheckedIn { get; set; }
 
         public List<RoomAuto.Dto> RoomList { get; set; }
         public CustFac.Dto Customer { get; set; }

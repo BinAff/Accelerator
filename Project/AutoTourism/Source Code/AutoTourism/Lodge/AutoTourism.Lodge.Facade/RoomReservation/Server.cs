@@ -56,7 +56,6 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 BookingFrom = reservation.ActivityDate,
                 ACPreference = reservation.ACPreference,
                 BookingDate = reservation.Date,
-                IsCheckedIn = reservation.IsCheckedIn,
                 NoOfMale = reservation.NoOfMale,
                 NoOfFemale = reservation.NoOfFemale,
                 NoOfChild = reservation.NoOfChild,
@@ -67,7 +66,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 Customer = this.GetCustomer(data.Id),
             };
 
-            if (reservation.Status != null) dto.BookingStatus = (Status)reservation.Status.Id;
+            if (reservation.Status != null) dto.Status = (Status)reservation.Status.Id;
             dto.RoomList = reservation.ProductList == null ? null : new RoomFac.Server(null).ConvertAll<Data, RoomFac.Dto>(reservation.ProductList);
             if (reservation.RoomCategory != null) dto.RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id };
             if(reservation.RoomType != null) dto.RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id };
@@ -89,7 +88,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 ProductList = reservation.RoomList == null ? null : GetRoomDataList(reservation.RoomList),
                 Status = new Crystal.Customer.Component.Action.Status.Data
                 {
-                    Id = (Int64)reservation.BookingStatus
+                    Id = (Int64)reservation.Status
                 },
                 RoomCategory = reservation.RoomCategory == null ? null : new LodgeCrys.Room.Category.Data
                 {
@@ -386,7 +385,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
             LodgeCrys.Room.Reservation.Data reservationData = (this.componentServer as LodgeCrys.Room.Reservation.Server).Data as LodgeCrys.Room.Reservation.Data;
             reservationData.Status = new CustCrys.Action.Status.Data
             {
-                Id = (Int64)((this.FormDto as FormDto).Dto as Dto).BookingStatus
+                Id = (Int64)((this.FormDto as FormDto).Dto as Dto).Status
             };
 
             using (System.Transactions.TransactionScope T = new System.Transactions.TransactionScope())
@@ -837,21 +836,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
             return retVal;
         }
-
-        private List<Table> CloneContactNumber(List<Table> contactNumberList)
-        {
-            List<Table> lstContactNumber = new List<Table>();
-            foreach (Table contactNo in contactNumberList)
-            {
-                lstContactNumber.Add(new Table
-                {
-                    Id = contactNo.Id,
-                    Name = contactNo.Name
-                });
-            }
-            return lstContactNumber;
-        }
-
+        
         private List<RoomFac.Dto> CloneRoomList(List<RoomFac.Dto> roomList)
         {
             List<RoomFac.Dto> lstRoom = new List<RoomFac.Dto>();

@@ -60,7 +60,7 @@ namespace Crystal.Lodge.Component.Room.Reservation
             dt.NoOfDays = Convert.ToInt16(dr["NoOfDays"]);
             dt.NoOfRooms = Convert.ToInt16(dr["NoOfRooms"]);
             dt.Date = Convert.IsDBNull(dr["CreatedDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CreatedDate"]);
-            dt.IsCheckedIn = Convert.ToBoolean(dr["IsCheckedIn"]);
+            //dt.IsCheckedIn = Convert.ToBoolean(dr["IsCheckedIn"]);
             dt.RoomCategory = Convert.IsDBNull(dr["RoomCategoryId"]) ? null : new Category.Data { Id = Convert.ToInt64(dr["RoomCategoryId"]) };
             dt.RoomType = Convert.IsDBNull(dr["RoomTypeId"]) ? null : new Type.Data { Id = Convert.ToInt64(dr["RoomTypeId"]) };
             dt.ACPreference = Convert.IsDBNull(dr["AcRoomPreference"]) ? 0 :  Convert.ToInt32(dr["AcRoomPreference"]) ;

@@ -184,20 +184,19 @@ namespace Crystal.Lodge.Component.Room.CheckIn
                     });
                 }
             }
-            //dataList = this.CreateDataObjectList(this.ExecuteDataSet()).ConvertAll((p) => { return p as Data; });
             this.CloseConnection();
             return dataList;
         }
 
-        internal ReturnObject<Boolean> ModifyCheckInStatus(Int64 statusId)
+        internal ReturnObject<Boolean> ModifyCheckInStatus(Customer.Component.Action.Status.Data status)
         {
             ReturnObject<Boolean> retVal = new ReturnObject<Boolean>();
             Data data = this.Data as Data;
 
             this.CreateConnection();
-            this.CreateCommand("[Lodge].[UpdateCheckInStatus]");
+            this.CreateCommand("Lodge.UpdateCheckInStatus");
             this.AddInParameter("@Id", DbType.Int64, data.Id);
-            this.AddInParameter("@StatusId", DbType.Int64, statusId);
+            this.AddInParameter("@StatusId", DbType.Int64, status.Id);
             Int32 ret = this.ExecuteNonQuery();
 
             if (ret == -2146232060)
