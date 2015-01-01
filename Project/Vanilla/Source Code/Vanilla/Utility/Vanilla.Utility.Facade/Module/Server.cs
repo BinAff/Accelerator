@@ -114,42 +114,10 @@ namespace Vanilla.Utility.Facade.Module
 
         public override void Delete()
         {
-            Artifact.Server artifactServer = GetArtifactFacade(Dto.ActionType.Delete);
-            this.ValidateAttachmentList(artifactServer);
-            if (this.IsError) return;
+            Artifact.Server artifactServer = this.GetArtifactFacade(Dto.ActionType.Delete);
             artifactServer.Delete();
-
             this.DisplayMessageList = artifactServer.DisplayMessageList;
             this.IsError = artifactServer.IsError;
-        }
-
-        public void ValidateAttachmentList(Artifact.Server artifactFacade)
-        {
-            ReturnObject<List<ArtfCrys.Data>> ret = (artifactFacade.ModuleArtifactComponent as ArtfCrys.IArtifact).ReadAttachmentLink();
-            if (this.IsError = ret.HasError())
-            {
-                if (this.DisplayMessageList == null) this.DisplayMessageList = new List<String>();
-                this.DisplayMessageList.AddRange(ret.GetMessage(Message.Type.Error));
-            }
-            else
-            {
-                if (ret.Value != null && ret.Value.Count > 0)
-                {
-                    this.IsError = true;
-                    String message = "Delete the attachments before deleting the form - "
-                        + ((artifactFacade.ModuleArtifactComponent as ArtfCrys.Server).Data as ArtfCrys.Data).FullPath
-                        + ". List of attachments:"
-                        + Environment.NewLine;
-                    Int16 i = 1;
-                    foreach (ArtfCrys.Data attachment in ret.Value)
-                    {
-                        message += "  " + i.ToString() + ": " + attachment.FullPath + Environment.NewLine;
-                        i++;
-                    }
-                    if (this.DisplayMessageList == null) this.DisplayMessageList = new List<String>();
-                    this.DisplayMessageList.Add(message);
-                }
-            }
         }
 
         private ArtfCrys.Category Convert(Artifact.Category category)
