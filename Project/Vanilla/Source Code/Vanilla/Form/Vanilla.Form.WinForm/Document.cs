@@ -72,6 +72,11 @@ namespace Vanilla.Form.WinForm
 
         #region Events
 
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            this.RefreshForm();
+        }
+
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.Ok();
@@ -88,9 +93,14 @@ namespace Vanilla.Form.WinForm
             if (this.IsModified) this.Close();
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
-            this.RefreshForm();
+            String Msg = String.Format("Do you want to delete {0}: {1}?", this.Artifact.Category.ToString(), this.Artifact.FullFileName);
+            DialogResult dialogResult = MessageBox.Show(this, Msg, "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                this.Delete();
+            }
         }
 
         private void btnPickAncestor_Click(object sender, EventArgs e)
@@ -324,6 +334,23 @@ namespace Vanilla.Form.WinForm
             return this.SaveAfter();
         }
 
+        private void Delete()
+        {
+            this.AssignDto();
+            if (!this.DeleteBefore()) return;
+            base.facade.Delete();
+            if (base.facade.IsError)
+            {
+                new PresLib.MessageBox
+                {
+                    DialogueType = facade.IsError ? PresLib.MessageBox.Type.Error : PresLib.MessageBox.Type.Information,
+                    Heading = "Forms",
+                }.Show(base.facade.DisplayMessageList);
+                return;
+            }
+            this.DeleteAfter();
+        }
+
         protected void RegisterArtifactObserver()
         {
             (this.facade as Facade.Document.Server).RegisterArtifactObserver();
@@ -472,6 +499,16 @@ namespace Vanilla.Form.WinForm
         }
 
         protected virtual Boolean SaveAfter()
+        {
+            return true;
+        }
+
+        protected virtual Boolean DeleteBefore()
+        {
+            return true;
+        }
+
+        protected virtual Boolean DeleteAfter()
         {
             return true;
         }
