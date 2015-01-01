@@ -264,17 +264,15 @@ namespace AutoTourism.Lodge.WinForm
         public void PopulateDataToForm()
         {
             if (this.dto == null) return;
-            if (this.dto.IsCheckedIn)
+            switch (this.dto.Status)
             {
-                this.txtStatus.Text = "Checked In";
-            }
-            else if (this.dto.BookingStatus == RoomRsvFac.Status.Open)
-            {
-                this.txtStatus.Text = "Open";
-            }
-            else if (this.dto.BookingStatus == RoomRsvFac.Status.Canceled)
-            {
-                this.txtStatus.Text = "Cancel";
+                case RoomRsvFac.Status.Open:
+                case RoomRsvFac.Status.Canceled:
+                    this.txtStatus.Text = this.dto.Status.ToString();
+                    break;
+                case RoomRsvFac.Status.CheckedIn:
+                    this.txtStatus.Text = "Checked In";
+                    break;
             }
 
             if (this.dto != null && dto.Id > 0)
@@ -347,7 +345,7 @@ namespace AutoTourism.Lodge.WinForm
             dto.NoOfInfant = String.IsNullOrEmpty(this.txtInfant.Text.Trim()) ? 0 : Convert.ToInt32(this.txtInfant.Text);
             dto.Remark = this.txtRemarks.Text.Trim();
 
-            dto.BookingStatus = RoomRsvFac.Status.Open;
+            dto.Status = RoomRsvFac.Status.Open;
             return dto;
         }
 
@@ -413,6 +411,11 @@ namespace AutoTourism.Lodge.WinForm
             {
                 this.filteredRoomList.Remove(selectedItem);
                 this.lstRoomList.Items.Remove(selectedItem);
+                if (this.dto.RoomList == null)
+                {
+                    this.dto.RoomList = new List<RoomFac.Dto>();
+                    this.lstSelectedRoom.Bind(this.dto.RoomList, "Name");
+                }
                 this.dto.RoomList.Add(selectedItem);
                 this.lstSelectedRoom.Items.Add(selectedItem);
                 this.PopulateCount();

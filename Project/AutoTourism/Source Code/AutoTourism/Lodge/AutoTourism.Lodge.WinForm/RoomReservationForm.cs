@@ -73,7 +73,7 @@ namespace AutoTourism.Lodge.WinForm
                 base.formDto.Document.AuditInfo.ModifiedAt = DateTime.Now;
               
                 base.RegisterArtifactObserver();
-                dto.BookingStatus = BookingStatusId;
+                dto.Status = BookingStatusId;
                 (this.facade as Fac.Server).ChangeReservationStatus();                    
                   
                 base.IsModified = true;
@@ -121,7 +121,7 @@ namespace AutoTourism.Lodge.WinForm
             if (this.InitialDto != null)
             {
                 Fac.Dto initialDto = this.InitialDto as Fac.Dto;
-                if ((initialDto.IsCheckedIn) || (initialDto.BookingStatus == Status.Canceled))
+                if (initialDto.Status == Status.CheckedIn || initialDto.Status == Status.Canceled)
                 {
                     this.DisableFormControls();
                 }

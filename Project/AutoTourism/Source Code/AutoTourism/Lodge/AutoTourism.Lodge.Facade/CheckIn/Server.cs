@@ -18,6 +18,7 @@ using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using CustAuto = AutoTourism.Component.Customer;
 
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
+using CustFac = AutoTourism.Customer.Facade;
 using LodgeFac = AutoTourism.Lodge.Facade;
 using RoomRsvFac = AutoTourism.Lodge.Facade.RoomReservation;
 using TarrifFac = AutoTourism.Lodge.Configuration.Facade.Tariff;
@@ -61,7 +62,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 ActivityDate = checkIn.Date,
                 Status = new CustCrys.Action.Status.Data
                 {
-                    Id = System.Convert.ToInt64(Status.CheckIn)
+                    Id = System.Convert.ToInt64(RoomReservation.Status.CheckedIn)
                 },
                 Purpose = checkIn.Purpose,
                 ArrivedFrom = checkIn.ArrivedFrom,
@@ -77,11 +78,10 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
             LodgeCrys.Room.CheckIn.Data checkIn = data as LodgeCrys.Room.CheckIn.Data;
-            return new Dto
+            Dto dto = new Dto
             {
                 Id = data.Id,
                 Date = checkIn.ActivityDate,
-                StatusId = (checkIn.Status == null || checkIn.Status.Id == 0 ) ? 0 : checkIn.Status.Id,
                 InvoiceNumber = checkIn.invoiceNumber,
                 Purpose = checkIn.Purpose,
                 ArrivedFrom = checkIn.ArrivedFrom,
@@ -89,6 +89,11 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 Reservation = checkIn.Reservation == null ?
                     null : new RoomRsvFac.Server(null).Convert(checkIn.Reservation) as RoomReservation.Dto,
             };
+            if(checkIn.Status != null && checkIn.Status.Id != 0)
+            {
+                dto.Status = (RoomRsvFac.Status)checkIn.Status.Id;
+            }
+            return dto;
         }
         
         public override void Add()
@@ -106,7 +111,13 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             Boolean isNew = (this.FormDto as FormDto).Dto.Id == 0;
             using (System.Transactions.TransactionScope T = new System.Transactions.TransactionScope())
             {
-                CustAuto.Server custServer = new CustAuto.Server(this.ConvertCustomer());
+                Facade.CheckIn.Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
+                CustAuto.Data cust = new CustFac.Server(null).Convert(dto.Reservation.Customer) as CustAuto.Data;
+                cust.Checkin.Active = this.Convert(dto) as CustCrys.Action.Data;
+                cust.RoomReserver.Active = (cust.Checkin.Active as LodgeCrys.Room.CheckIn.Data).Reservation as CustCrys.Action.Data;
+                cust.Checkin.Active.ProductList = dto.Reservation.RoomList == null ? null : this.GetRoomDataList(dto.Reservation.RoomList);
+
+                CustAuto.Server custServer = new CustAuto.Server(cust);
                 ReturnObject<Boolean> ret = (custServer as ICrud).Save();
                 if (!ret.HasError())
                 {
@@ -135,69 +146,55 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             }
         }
 
-        private CustAuto.Data ConvertCustomer()
-        {
-            Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
-       
+        //private CustAuto.Data ConvertCustomer()
+        //{
+        //    Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
+        //    CustAuto.Data autoCustomer = new Component.Customer.Data()
+        //    {
+        //        Id = dto.Reservation.Customer.Id,
+        //        FirstName = dto.Reservation.Customer.FirstName,
+        //        MiddleName = dto.Reservation.Customer.MiddleName,
+        //        LastName = dto.Reservation.Customer.LastName,
+        //        Address = dto.Reservation.Customer.Address,
+        //        Country = new ConfCrys.Country.Data { Id = dto.Reservation.Customer.Country.Id },
+        //        City = dto.Reservation.Customer.City,
+        //        Pin = dto.Reservation.Customer.Pin,
+        //        Email = dto.Reservation.Customer.Email,
+        //        IdentityProof = dto.Reservation.Customer.IdentityProofName == null ? String.Empty : dto.Reservation.Customer.IdentityProofName,
+        //        State = new ConfCrys.State.Data
+        //        {
+        //            Id = dto.Reservation.Customer.State.Id,
+        //            Name = dto.Reservation.Customer.State.Name
+        //        },
+        //        ContactNumberList = dto.Reservation.Customer.ContactNumberList.ConvertAll((p)=> 
+        //        {
+        //            return new CustCrys.ContactNumber.Data
+        //            {
+        //                Id = p.Id,
+        //                ContactNumber = p.Name
+        //            };
+        //        }),
+        //        //Initial = new ConfCrys.Initial.Data
+        //        //{
+        //        //    Id = reservationDto.Customer.Initial.Id,
+        //        //    Name = reservationDto.Customer.Initial.Name
+        //        //},
+        //        IdentityProofType = new ConfCrys.IdentityProofType.Data
+        //        {
+        //            Id = dto.Reservation.Customer.IdentityProofType.Id,
+        //            Name = dto.Reservation.Customer.IdentityProofType.Name
+        //        },                
+        //        Checkin = new LodgeCrys.Room.CheckInContainer.Data(),
+        //        RoomReserver = new LodgeCrys.Room.Reserver.Data(),
+        //    };
 
-            CustAuto.Data autoCustomer = new Component.Customer.Data()
-            {
-                Id = dto.Reservation.Customer.Id,
-                FirstName = dto.Reservation.Customer.FirstName,
-                MiddleName = dto.Reservation.Customer.MiddleName,
-                LastName = dto.Reservation.Customer.LastName,
-                Address = dto.Reservation.Customer.Address,
-                Country = new ConfCrys.Country.Data { Id = dto.Reservation.Customer.Country.Id },
-                City = dto.Reservation.Customer.City,
-                Pin = dto.Reservation.Customer.Pin,
-                Email = dto.Reservation.Customer.Email,
-                IdentityProof = dto.Reservation.Customer.IdentityProofName == null ? String.Empty : dto.Reservation.Customer.IdentityProofName,
-                State = new ConfCrys.State.Data
-                {
-                    Id = dto.Reservation.Customer.State.Id,
-                    Name = dto.Reservation.Customer.State.Name
-                },
-                ContactNumberList = this.ConvertToContactNumberData(dto.Reservation.Customer.ContactNumberList),
-                //Initial = new ConfCrys.Initial.Data
-                //{
-                //    Id = reservationDto.Customer.Initial.Id,
-                //    Name = reservationDto.Customer.Initial.Name
-                //},
-                IdentityProofType = new ConfCrys.IdentityProofType.Data
-                {
-                    Id = dto.Reservation.Customer.IdentityProofType.Id,
-                    Name = dto.Reservation.Customer.IdentityProofType.Name
-                },                
-                Checkin = new LodgeCrys.Room.CheckInContainer.Data(),
-                RoomReserver = new LodgeCrys.Room.Reserver.Data(),
-            };
+        //    autoCustomer.Checkin.Active = this.Convert(dto) as CustCrys.Action.Data;
+        //    autoCustomer.RoomReserver.Active = (autoCustomer.Checkin.Active as LodgeCrys.Room.CheckIn.Data).Reservation as CustCrys.Action.Data;
 
-            autoCustomer.Checkin.Active = this.Convert(dto) as CustCrys.Action.Data;
-            autoCustomer.RoomReserver.Active = (autoCustomer.Checkin.Active as LodgeCrys.Room.CheckIn.Data).Reservation as CustCrys.Action.Data;
+        //    autoCustomer.Checkin.Active.ProductList = dto.Reservation.RoomList == null ? null : this.GetRoomDataList(dto.Reservation.RoomList);
 
-            autoCustomer.Checkin.Active.ProductList = dto.Reservation.RoomList == null ? null : this.GetRoomDataList(dto.Reservation.RoomList);
-
-            return autoCustomer;
-        }
-
-        //--Duplicate function [exists in ReservationServer]
-        public List<CustCrys.ContactNumber.Data> ConvertToContactNumberData(List<Table> contactNumberList)
-        {
-            List<CustCrys.ContactNumber.Data> lstContactNumber = new List<CustCrys.ContactNumber.Data>();
-            if (contactNumberList != null && contactNumberList.Count > 0)
-            {
-                foreach (Table table in contactNumberList)
-                {
-                    lstContactNumber.Add(new CustCrys.ContactNumber.Data
-                    {
-                        Id = table.Id,
-                        ContactNumber = table.Name
-                    });
-                }
-            }
-
-            return lstContactNumber;
-        }
+        //    return autoCustomer;
+        //}
 
         //--Duplicate function [exists in ReservationServer]
         public List<Data> GetRoomDataList(List<RoomFac.Dto> RoomList)
@@ -227,7 +224,10 @@ namespace AutoTourism.Lodge.Facade.CheckIn
 
             //update checkIn status
             LodgeCrys.Room.CheckIn.ICheckIn checkIn = new LodgeCrys.Room.CheckIn.Server(new LodgeCrys.Room.CheckIn.Data { Id = dto.Id });
-            checkIn.ModifyCheckInStatus(System.Convert.ToInt64(Status.CheckOut));
+            checkIn.ModifyCheckInStatus(new CustCrys.Action.Status.Data
+            {
+                Id = (Int64)RoomRsvFac.Status.CheckOut
+            });
         }
 
         //ReturnObject<bool> ICheckIn.PaymentInsert(InvFac.FormDto invoiceFormDto, Table currentUser, ArtfFac.Dto artifactDto)
@@ -989,12 +989,6 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         {
             RoomChkCrys.Server server = new RoomChkCrys.Server(null);
             return server.ReadCheckInId(ArtifactId);
-        }
-
-        public enum Status
-        {
-            CheckIn = 10001,
-            CheckOut = 10002
         }
         
     }

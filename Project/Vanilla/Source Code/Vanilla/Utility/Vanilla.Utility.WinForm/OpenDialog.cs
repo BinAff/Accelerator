@@ -92,6 +92,7 @@ namespace Vanilla.Utility.WinForm
                     break;
                 case ActionMode.Search:
                     this.Register.ReadDocument();
+                    if (this.Document.Module == null) this.Document.Module = this.Register.CurrentArtifact.Module;
                     break;
             }
             base.IsActionDone = true;

@@ -44,7 +44,7 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         {
             ICrud crud = new Reservation.Server(data.Reservation);
             ReturnObject<BinAff.Core.Data> reservationData = crud.Read();
-            return ((Reservation.Data)reservationData.Value).IsCheckedIn;            
+            return ((Reservation.Data)reservationData.Value).Status.Id == 10004;//Convert in enum
         }
 
     }

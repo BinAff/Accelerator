@@ -25,7 +25,8 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
             {
                 Value = new FormDto()
                 {
-                    RoomReservationDtoList = this.GetBookingSearchRecords(bookingStatusId, startDate, endDate).Value,
+                    //For exception commented - Arpan
+                    //RoomReservationDtoList = this.GetBookingSearchRecords(bookingStatusId, startDate, endDate).Value,
                     StatusList = this.GetLodgeReservationStatus().Value,
                     configurationRuleDto = this.ReadConfigurationRule().Value
                 }
@@ -48,7 +49,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
             
             foreach (Data data in reservationDataList.Value)
             {
-                Dto regDto = this.Convert(new RoomReservation.Server(null).Convert(data));
+                Dto regDto = new RoomReservation.Server(null).Convert(data).Clone() as Dto; //this.Convert(new RoomReservation.Server(null).Convert(data));
                 
                 //Filter reservation :  avoid reservations without customer
                 if (regDto.Customer != null && !regDto.isCheckedIn)              
@@ -61,46 +62,41 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
             };
         }
 
-        private Dto Convert(BinAff.Facade.Library.Dto libDto)
-        {
-            RoomReservation.Dto reservation = libDto as RoomReservation.Dto;
-            Dto reservationDto = new Dto 
-            {
-                Id = reservation.Id,
-                NoOfDays = reservation.NoOfDays,
-                //NoOfPersons = reservation.NoOfPersons,
-                NoOfRooms = reservation.NoOfRooms,
-                BookingFrom = reservation.BookingFrom,
-                BookingTo = reservation.BookingFrom.AddDays(reservation.NoOfDays),
-                NoOfMale = reservation.NoOfMale,
-                NoOfFemale = reservation.NoOfFemale,
-                NoOfChild = reservation.NoOfChild,
-                NoOfInfant = reservation.NoOfInfant,
-                Remark = reservation.Remark,
-                ReservationNo = reservation.ReservationNo,
-                //Advance = reservation.Advance,
-                //AdvanceDisplay = reservation.Advance == 0 ? String.Empty : reservation.Advance.ToString(),
-                BookingStatus = reservation.BookingStatus,
-                RoomList = reservation.RoomList,
-                RoomCategory = reservation.RoomCategory,
-                RoomType = reservation.RoomType,
-                ACPreference = reservation.ACPreference,
-                BookingDate = reservation.BookingDate,
-                isCheckedIn = reservation.IsCheckedIn,
-                Room = reservation.RoomList == null ? String.Empty : this.GetRooms(reservation.RoomList)
-            };
+        //private Dto Convert(BinAff.Facade.Library.Dto libDto)
+        //{
+        //    RoomReservation.Dto reservation = libDto as RoomReservation.Dto;
+        //    Dto reservationDto = new Dto 
+        //    {
+        //        Id = reservation.Id,
+        //        NoOfDays = reservation.NoOfDays,
+        //        NoOfRooms = reservation.NoOfRooms,
+        //        BookingFrom = reservation.BookingFrom,
+        //        BookingTo = reservation.BookingFrom.AddDays(reservation.NoOfDays),
+        //        NoOfMale = reservation.NoOfMale,
+        //        NoOfFemale = reservation.NoOfFemale,
+        //        NoOfChild = reservation.NoOfChild,
+        //        NoOfInfant = reservation.NoOfInfant,
+        //        Remark = reservation.Remark,
+        //        ReservationNo = reservation.ReservationNo,
+        //        BookingStatus = reservation.BookingStatus,
+        //        RoomList = reservation.RoomList,
+        //        RoomCategory = reservation.RoomCategory,
+        //        RoomType = reservation.RoomType,
+        //        ACPreference = reservation.ACPreference,
+        //        BookingDate = reservation.BookingDate,
+        //        Room = reservation.RoomList == null ? String.Empty : this.GetRooms(reservation.RoomList)
+        //    };
+        //    CustAuto.ICustomer CustAuto = new CustAuto.Server(null);
 
-            CustAuto.ICustomer CustAuto = new CustAuto.Server(null);
+        //    reservationDto.Customer = new CustFac.Server(null).Convert(CustAuto.GetCustomerForReservation(reservation.Id)) as CustFac.Dto;
 
-            reservationDto.Customer = new CustFac.Server(null).Convert(CustAuto.GetCustomerForReservation(reservation.Id)) as CustFac.Dto;
+        //    reservationDto.ContactNumber = (reservationDto.Customer == null || reservationDto.Customer.ContactNumberList == null) ? String.Empty : this.GetCustomerContactNumber(reservationDto.Customer.ContactNumberList);
 
-            reservationDto.ContactNumber = (reservationDto.Customer == null || reservationDto.Customer.ContactNumberList == null) ? String.Empty : this.GetCustomerContactNumber(reservationDto.Customer.ContactNumberList);
+        //    //--every reservation must have a customer            
+        //    reservationDto.Name = reservationDto.Customer == null ? String.Empty : reservationDto.Customer.Name;
 
-            //--every reservation must have a customer            
-            reservationDto.Name = reservationDto.Customer == null ? String.Empty : reservationDto.Customer.Name;
-
-            return reservationDto;
-        }
+        //    return reservationDto;
+        //}
 
         private ReturnObject<List<Table>> GetLodgeReservationStatus()
         {
