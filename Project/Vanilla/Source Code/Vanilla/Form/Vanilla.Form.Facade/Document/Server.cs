@@ -55,6 +55,7 @@ namespace Vanilla.Form.Facade.Document
 
         public override void Delete()
         {
+            if(this.Data == null) this.Data = new Data { Id = (this.FormDto as FormDto).Document.Id };
             ArtfCrys.Server artfactServer = this.GetArtifactServer(this.GetArtifactData(this.Data.Id));
             (artfactServer.Data as ArtfCrys.Data).Category = ArtfCrys.Category.Form;
             (artfactServer.Data as ArtfCrys.Data).Children = new List<Data>();
