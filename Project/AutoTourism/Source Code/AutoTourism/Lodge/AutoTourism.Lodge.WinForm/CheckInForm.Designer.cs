@@ -34,22 +34,21 @@
             this.txtCheckInRemark = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.txtPurpose = new System.Windows.Forms.TextBox();
-            this.pnlReservation = new System.Windows.Forms.Panel();
+            this.ucRoomReservation = new AutoTourism.Lodge.WinForm.RoomReservationDataEntry();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // txtArrivedFrom
             // 
             this.txtArrivedFrom.Location = new System.Drawing.Point(91, 399);
-            this.txtArrivedFrom.Multiline = true;
             this.txtArrivedFrom.Name = "txtArrivedFrom";
-            this.txtArrivedFrom.Size = new System.Drawing.Size(447, 50);
+            this.txtArrivedFrom.Size = new System.Drawing.Size(753, 20);
             this.txtArrivedFrom.TabIndex = 17;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(5, 402);
+            this.label15.Location = new System.Drawing.Point(8, 402);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(66, 13);
             this.label15.TabIndex = 1032;
@@ -58,7 +57,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(5, 344);
+            this.label18.Location = new System.Drawing.Point(8, 344);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(46, 13);
             this.label18.TabIndex = 1034;
@@ -66,16 +65,16 @@
             // 
             // txtCheckInRemark
             // 
-            this.txtCheckInRemark.Location = new System.Drawing.Point(92, 455);
+            this.txtCheckInRemark.Location = new System.Drawing.Point(91, 425);
             this.txtCheckInRemark.Multiline = true;
             this.txtCheckInRemark.Name = "txtCheckInRemark";
-            this.txtCheckInRemark.Size = new System.Drawing.Size(447, 50);
+            this.txtCheckInRemark.Size = new System.Drawing.Size(753, 50);
             this.txtCheckInRemark.TabIndex = 18;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(5, 458);
+            this.label19.Location = new System.Drawing.Point(8, 428);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(49, 13);
             this.label19.TabIndex = 1036;
@@ -86,22 +85,25 @@
             this.txtPurpose.Location = new System.Drawing.Point(91, 341);
             this.txtPurpose.Multiline = true;
             this.txtPurpose.Name = "txtPurpose";
-            this.txtPurpose.Size = new System.Drawing.Size(447, 50);
+            this.txtPurpose.Size = new System.Drawing.Size(754, 50);
             this.txtPurpose.TabIndex = 16;
             // 
-            // pnlReservation
+            // ucRoomReservation
             // 
-            this.pnlReservation.Location = new System.Drawing.Point(8, 34);
-            this.pnlReservation.Name = "pnlReservation";
-            this.pnlReservation.Size = new System.Drawing.Size(848, 301);
-            this.pnlReservation.TabIndex = 1037;
+            this.ucRoomReservation.CategoryList = null;
+            this.ucRoomReservation.Location = new System.Drawing.Point(8, 35);
+            this.ucRoomReservation.Name = "ucRoomReservation";
+            this.ucRoomReservation.RoomList = null;
+            this.ucRoomReservation.Size = new System.Drawing.Size(837, 296);
+            this.ucRoomReservation.TabIndex = 1037;
+            this.ucRoomReservation.TypeList = null;
             // 
             // CheckInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(856, 512);
-            this.Controls.Add(this.pnlReservation);
+            this.ClientSize = new System.Drawing.Size(856, 485);
+            this.Controls.Add(this.ucRoomReservation);
             this.Controls.Add(this.txtCheckInRemark);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.txtPurpose);
@@ -117,7 +119,7 @@
             this.Controls.SetChildIndex(this.txtPurpose, 0);
             this.Controls.SetChildIndex(this.label19, 0);
             this.Controls.SetChildIndex(this.txtCheckInRemark, 0);
-            this.Controls.SetChildIndex(this.pnlReservation, 0);
+            this.Controls.SetChildIndex(this.ucRoomReservation, 0);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -132,7 +134,7 @@
         private System.Windows.Forms.TextBox txtCheckInRemark;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtPurpose;
-        private System.Windows.Forms.Panel pnlReservation;
+        private RoomReservationDataEntry ucRoomReservation;
 
     }
 }

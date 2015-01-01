@@ -30,7 +30,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public String ReservationNo { get; set; }
 
         public Status BookingStatus { get; set; }
-        public Boolean isCheckedIn { get; set; }
+        public Boolean IsCheckedIn { get; set; }
 
         public List<RoomAuto.Dto> RoomList { get; set; }
         public CustFac.Dto Customer { get; set; }

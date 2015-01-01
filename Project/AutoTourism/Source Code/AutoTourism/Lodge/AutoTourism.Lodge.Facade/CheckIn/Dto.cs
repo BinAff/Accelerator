@@ -17,7 +17,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public override BinAff.Facade.Library.Dto Clone()
         {
             Dto dto = base.Clone()as Dto;
-            dto.Reservation = this.Reservation.Clone() as RoomReservation.Dto;
+            if(this.Reservation != null) dto.Reservation = this.Reservation.Clone() as RoomReservation.Dto;
             return dto;
         }
 
