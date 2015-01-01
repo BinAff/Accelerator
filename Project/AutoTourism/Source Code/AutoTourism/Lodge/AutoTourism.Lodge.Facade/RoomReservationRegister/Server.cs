@@ -86,7 +86,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservationRegister
                 RoomType = reservation.RoomType,
                 ACPreference = reservation.ACPreference,
                 BookingDate = reservation.BookingDate,
-                isCheckedIn = reservation.isCheckedIn,
+                isCheckedIn = reservation.IsCheckedIn,
                 Room = reservation.RoomList == null ? String.Empty : this.GetRooms(reservation.RoomList)
             };
 

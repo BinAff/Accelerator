@@ -40,10 +40,11 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public override void LoadForm()
         {
             FormDto formDto = this.FormDto as FormDto;
-            formDto.AllRoomList = new RoomFac.Server(null).ReadAll<RoomFac.Dto>();
+            AutoTourism.Utility.Facade.Cache.Dto cache = BinAff.Facade.Cache.Server.Current.Cache["AutoTourism"] as AutoTourism.Utility.Facade.Cache.Dto;
+            formDto.AllRoomList = cache.RoomList;
             formDto.ConfigurationRuleDto = this.ReadConfigurationRule().Value;
-            formDto.CategoryList = new RoomCatFac.Server(null).ReadAll<RoomCatFac.Dto>();
-            formDto.TypeList = new RoomTypeFac.Server(null).ReadAll<RoomTypeFac.Dto>();
+            formDto.CategoryList = cache.RoomCategoryList;
+            formDto.TypeList = cache.RoomTypeList;
         }
 
         private ReturnObject<RuleFac.ConfigurationRuleDto> ReadConfigurationRule()

@@ -56,7 +56,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
                 BookingFrom = reservation.ActivityDate,
                 ACPreference = reservation.ACPreference,
                 BookingDate = reservation.Date,
-                isCheckedIn = reservation.IsCheckedIn,
+                IsCheckedIn = reservation.IsCheckedIn,
                 NoOfMale = reservation.NoOfMale,
                 NoOfFemale = reservation.NoOfFemale,
                 NoOfChild = reservation.NoOfChild,

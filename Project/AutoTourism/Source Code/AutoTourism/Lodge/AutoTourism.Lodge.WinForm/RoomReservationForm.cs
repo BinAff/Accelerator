@@ -121,7 +121,7 @@ namespace AutoTourism.Lodge.WinForm
             if (this.InitialDto != null)
             {
                 Fac.Dto initialDto = this.InitialDto as Fac.Dto;
-                if ((initialDto.isCheckedIn) || (initialDto.BookingStatus == Status.Canceled))
+                if ((initialDto.IsCheckedIn) || (initialDto.BookingStatus == Status.Canceled))
                 {
                     this.DisableFormControls();
                 }
@@ -129,6 +129,12 @@ namespace AutoTourism.Lodge.WinForm
 
             this.ucRoomReservationDataEntry.CategoryList = formDto.CategoryList;
             this.ucRoomReservationDataEntry.TypeList = formDto.TypeList;
+            this.ucRoomReservationDataEntry.AccessoryList = new List<Table>
+            {
+                new Table { Id = 0, Name = "All" },
+                new Table { Id = 1, Name = "AC" },
+                new Table { Id = 2, Name = "Non AC" }
+            };
             this.ucRoomReservationDataEntry.RoomList = formDto.AllRoomList;
             this.ucRoomReservationDataEntry.RoomListChanged += ucRoomReservationDataEntry_RoomListChanged;
             this.ucRoomReservationDataEntry.LoadForm((base.formDto as Fac.FormDto).Dto as Fac.Dto);
@@ -142,6 +148,11 @@ namespace AutoTourism.Lodge.WinForm
         protected override void LoadData()
         {
             base.facade.LoadForm();
+        }
+
+        protected override Boolean ValidateForm()
+        {
+            return this.ucRoomReservationDataEntry.ValidateForm(this.errorProvider);
         }
 
         protected override void RefreshFormBefore()
@@ -177,11 +188,6 @@ namespace AutoTourism.Lodge.WinForm
         protected override void AssignDto()
         {
             this.ucRoomReservationDataEntry.AssignDto((base.formDto as Fac.FormDto).Dto as Fac.Dto);
-        }
-
-        protected override Boolean ValidateForm()
-        {
-            return this.ucRoomReservationDataEntry.ValidateForm(this.errorProvider);
         }
 
         private void DisableFormControls()

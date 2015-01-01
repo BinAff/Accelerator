@@ -21,8 +21,13 @@ namespace AutoTourism.Lodge.WinForm
     {
 
         public List<RoomCatFac.Dto> CategoryList { get; set; }
+
         public List<RoomTypeFac.Dto> TypeList { get; set; }
+
+        public List<Table> AccessoryList { get; set; }
+
         public List<RoomFac.Dto> RoomList { get; set; }
+
         public RoomRsvFac.Status ReservationStatus
         {
             get
@@ -100,30 +105,6 @@ namespace AutoTourism.Lodge.WinForm
 
         #endregion
 
-        public void DisableFormControls()
-        {
-            this.btnAddRoom.Enabled = false;
-            this.btnRemoveRoom.Enabled = false;
-
-            this.cboCategory.Enabled = false;
-            this.cboType.Enabled = false;
-
-            this.dtFrom.Enabled = false;
-            this.dtFromTime.Enabled = false;
-            this.txtDays.ReadOnly = true;
-            this.txtMale.ReadOnly = true;
-            this.txtFemale.ReadOnly = true;
-            this.txtChild.ReadOnly = true;
-            this.txtInfant.ReadOnly = true;
-            this.txtRemarks.ReadOnly = true;
-
-            this.txtRooms.ReadOnly = true;
-
-            this.lstRoomList.Enabled = false;
-            this.lstSelectedRoom.Enabled = false;
-            this.cboAC.Enabled = false;
-        }
-
         private void SetDefault()
         {
             this.dtFrom.Format = DateTimePickerFormat.Custom;
@@ -140,7 +121,7 @@ namespace AutoTourism.Lodge.WinForm
             Int16 days = Convert.ToInt16(String.IsNullOrEmpty(this.txtDays.Text) ? 0 : Convert.ToInt16(this.txtDays.Text.Trim()));
             DateTime from = new DateTime(this.dtFrom.Value.Year, this.dtFrom.Value.Month, this.dtFrom.Value.Day,
                 this.dtFromTime.Value.Hour, this.dtFromTime.Value.Minute, 0);
-            this.RoomListChanged(days, from);
+            if(this.dto != null) this.RoomListChanged(days, from);
             this.PopulateRoomListsAndCounts();
         }
 
@@ -153,15 +134,11 @@ namespace AutoTourism.Lodge.WinForm
         public void LoadForm(RoomRsvFac.Dto dto)
         {
             this.dto = dto;
-            this.SetDefault();
             this.cboCategory.Bind(this.CategoryList, "Name");
             this.cboType.Bind(this.TypeList, "Name");
-            this.cboAC.Bind(new List<Table>
-            {
-                new Table { Id = 0, Name = "All" },
-                new Table { Id = 1, Name = "AC" },
-                new Table { Id = 2, Name = "Non AC" }
-            }, "Name");
+            this.cboAC.Bind(this.AccessoryList, "Name");
+            this.SetDefault();
+            if (this.dto == null) this.isLoading = false;
         }
 
         public void ClearForm()
@@ -170,9 +147,9 @@ namespace AutoTourism.Lodge.WinForm
             this.dtFromTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour + 1, 0, 0);
             this.txtDays.Text = String.Empty;
             this.txtRooms.Text = String.Empty;
-            this.cboCategory.SelectedIndex = 0;
-            this.cboType.SelectedIndex = 0;
-            this.cboAC.SelectedIndex = 0;
+            this.cboCategory.SelectedIndex = -1;
+            this.cboType.SelectedIndex = -1;
+            this.cboAC.SelectedIndex = -1;
             this.lstRoomList.Items.Clear();
             this.lstSelectedRoom.Items.Clear();
             this.txtMale.Text = String.Empty;
@@ -287,7 +264,7 @@ namespace AutoTourism.Lodge.WinForm
         public void PopulateDataToForm()
         {
             if (this.dto == null) return;
-            if (this.dto.isCheckedIn)
+            if (this.dto.IsCheckedIn)
             {
                 this.txtStatus.Text = "Checked In";
             }
@@ -374,6 +351,44 @@ namespace AutoTourism.Lodge.WinForm
             return dto;
         }
 
+        #region Control
+
+        public void DisableFormControls()
+        {
+            this.btnAddRoom.Enabled = false;
+            this.btnRemoveRoom.Enabled = false;
+
+            this.cboCategory.Enabled = false;
+            this.cboType.Enabled = false;
+
+            this.dtFrom.Enabled = false;
+            this.dtFromTime.Enabled = false;
+            this.txtDays.ReadOnly = true;
+            this.txtMale.ReadOnly = true;
+            this.txtFemale.ReadOnly = true;
+            this.txtChild.ReadOnly = true;
+            this.txtInfant.ReadOnly = true;
+            this.txtRemarks.ReadOnly = true;
+
+            this.txtRooms.ReadOnly = true;
+
+            this.lstRoomList.Enabled = false;
+            this.lstSelectedRoom.Enabled = false;
+            this.cboAC.Enabled = false;
+        }
+
+        public void DisableRemarks()
+        {
+            this.txtRemarks.Enabled = false;
+        }
+
+        public void EnableNoOfDays()
+        {
+            this.txtDays.ReadOnly = false;
+        }
+
+        #endregion
+
         private Table GetSelectedCategory(RoomCatFac.Dto selectedItem)
         {
             return selectedItem == null ? null : new Table
@@ -434,7 +449,7 @@ namespace AutoTourism.Lodge.WinForm
                 return (p.Category.Id == categoryId || category == null || category.Name == "All")
                     && (p.Type.Id == typeId || type == null || type.Name == "All")
                     && (p.IsAirconditioned == isAc || accessory == null || accessory.Name == "All")
-                    && this.dto.RoomList.FindLast((q) => { return q.Id == p.Id; }) == null;
+                    && (this.dto == null || this.dto.RoomList == null || this.dto.RoomList.FindLast((q) => { return q.Id == p.Id; }) == null);
             });
             return this.filteredRoomList;
         }
@@ -454,7 +469,7 @@ namespace AutoTourism.Lodge.WinForm
             if ((this.filteredRoomList != null && this.filteredRoomList.Count > 0))
             {
                 this.txtFilteredRoomCount.Text = (this.filteredRoomList.Count
-                    + (this.dto.RoomList != null && this.dto.RoomList.Count > 0 ? this.dto.RoomList.Count : 0)).ToString();
+                    + (this.dto != null && this.dto.RoomList != null && this.dto.RoomList.Count > 0 ? this.dto.RoomList.Count : 0)).ToString();
                 this.txtAvailableRoomCount.Text = this.filteredRoomList.Count.ToString();
             }
             else
