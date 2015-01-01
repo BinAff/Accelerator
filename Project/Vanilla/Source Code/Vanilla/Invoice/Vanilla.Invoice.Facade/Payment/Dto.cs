@@ -40,7 +40,7 @@ namespace Vanilla.Invoice.Facade.Payment
                 dto.LineItemList = new List<LineItem>();
                 foreach (LineItem lineItem in this.LineItemList)
                 {
-                    dto.LineItemList.Add(lineItem.Clone() as LineItem);
+                    dto.LineItemList.Add((lineItem != null) ? lineItem.Clone() as LineItem : null);
                 }
             }
             return dto;

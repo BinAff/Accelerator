@@ -44,16 +44,16 @@ namespace AutoTourism.Lodge.Configuration.Facade.Room
         public override BinAff.Facade.Library.Dto Clone()
         {
             Dto dto = base.Clone() as Dto;
-            dto.Category = this.Category.Clone() as Room.Category.Dto;
-            dto.Type = this.Type.Clone() as Room.Type.Dto;
-            dto.Building = this.Building.Clone() as Building.Dto;
-            dto.Floor = this.Floor.Clone();
+            if (dto.Category != null) dto.Category = this.Category.Clone() as Room.Category.Dto;
+            if (dto.Type != null) dto.Type = this.Type.Clone() as Room.Type.Dto;
+            if (dto.Building != null) dto.Building = this.Building.Clone() as Building.Dto;
+            if (dto.Floor != null) dto.Floor = this.Floor.Clone();
             if (this.ImageList != null)
             {
                 dto.ImageList = new List<Image.Dto>();
                 foreach (Image.Dto image in this.ImageList)
                 {
-                    dto.ImageList.Add(image.Clone() as Image.Dto);
+                    dto.ImageList.Add((image != null) ? image.Clone() as Image.Dto : null);
                 }
             }
             return dto;

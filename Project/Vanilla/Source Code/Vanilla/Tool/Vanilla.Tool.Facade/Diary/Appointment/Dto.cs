@@ -20,8 +20,8 @@ namespace Vanilla.Tool.Facade.Diary.Appointment
         public override BinAff.Facade.Library.Dto Clone()
         {
             Dto dto = base.Clone() as Dto;
-            dto.Type = this.Type.Clone();
-            dto.Importance = this.Importance.Clone();
+            if (this.Type != null) dto.Type = this.Type.Clone();
+            if (this.Importance != null) dto.Importance = this.Importance.Clone();
             return dto;
         }
 

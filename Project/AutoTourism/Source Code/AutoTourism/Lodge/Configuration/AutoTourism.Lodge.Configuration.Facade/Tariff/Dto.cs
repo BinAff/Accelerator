@@ -21,8 +21,8 @@ namespace AutoTourism.Lodge.Configuration.Facade.Tariff
         public override BinAff.Facade.Library.Dto Clone()
         {
             Dto dto = base.Clone() as Dto;
-            dto.Category = this.Category.Clone() as Room.Category.Dto;
-            dto.Type = this.Type.Clone() as Room.Type.Dto;
+            if (dto.Category != null) dto.Category = this.Category.Clone() as Room.Category.Dto;
+            if (dto.Type != null) dto.Type = this.Type.Clone() as Room.Type.Dto;
             return dto;
         }
 

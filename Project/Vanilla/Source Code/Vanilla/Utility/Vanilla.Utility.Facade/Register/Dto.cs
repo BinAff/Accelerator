@@ -18,7 +18,7 @@ namespace Vanilla.Utility.Facade.Register
                 dto.Modules = new List<Module.Dto>();
                 foreach (Module.Dto module in this.Modules)
                 {
-                    dto.Modules.Add(module.Clone() as Module.Dto);
+                    dto.Modules.Add((module != null) ? module.Clone() as Module.Dto : null);
                 }
             }
             return dto;

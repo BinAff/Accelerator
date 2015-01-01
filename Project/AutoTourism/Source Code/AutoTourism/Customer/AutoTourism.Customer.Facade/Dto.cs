@@ -75,12 +75,12 @@ namespace AutoTourism.Customer.Facade
                 dto.ContactNumberList = new List<Table>();
                 foreach (Table contactNumber in this.ContactNumberList)
                 {
-                    dto.ContactNumberList.Add(contactNumber.Clone());
+                    dto.ContactNumberList.Add((contactNumber != null) ? contactNumber.Clone() : null);
                 }
             }
-            dto.Country = this.Country.Clone();
-            dto.IdentityProofType = this.IdentityProofType.Clone();
-            dto.State = this.State.Clone();
+            if (this.Country != null) dto.Country = this.Country.Clone();
+            if (this.IdentityProofType != null) dto.IdentityProofType = this.IdentityProofType.Clone();
+            if (this.State != null) dto.State = this.State.Clone();
             return dto;
         }
         

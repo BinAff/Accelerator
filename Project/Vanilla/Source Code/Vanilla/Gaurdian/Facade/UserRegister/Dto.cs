@@ -19,7 +19,7 @@ namespace Vanilla.Guardian.Facade.UserRegister
                 dto.RoleList = new List<Role.Dto>();
                 foreach (Role.Dto role in this.RoleList)
                 {
-                    dto.RoleList.Add(role.Clone() as Role.Dto);
+                    dto.RoleList.Add((role != null) ? role.Clone() as Role.Dto : null);
                 }
             }
             if (this.LoginHistory != null)
@@ -27,7 +27,7 @@ namespace Vanilla.Guardian.Facade.UserRegister
                 dto.LoginHistory = new List<LoginHistory.Dto>();
                 foreach (LoginHistory.Dto login in this.LoginHistory)
                 {
-                    dto.LoginHistory.Add(login.Clone() as LoginHistory.Dto);
+                    dto.LoginHistory.Add((login != null) ? login.Clone() as LoginHistory.Dto : null);
                 }
             }
             return dto;

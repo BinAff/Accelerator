@@ -40,15 +40,15 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         public override BinAff.Facade.Library.Dto Clone()
         {
             Dto dto = base.Clone() as Dto;
-            dto.RoomCategory = this.RoomCategory.Clone();
-            dto.RoomType = this.RoomType.Clone();
-            dto.Customer = this.Customer.Clone() as CustFac.Dto;
+            if (this.RoomCategory != null) dto.RoomCategory = this.RoomCategory.Clone();
+            if (this.RoomType != null) dto.RoomType = this.RoomType.Clone();
+            if (this.Customer != null) dto.Customer = this.Customer.Clone() as CustFac.Dto;
             if (dto.RoomList != null)
             {
                 dto.RoomList = new List<RoomAuto.Dto>();
                 foreach (RoomAuto.Dto room in this.RoomList)
                 {
-                    dto.RoomList.Add(room.Clone() as RoomAuto.Dto);
+                    dto.RoomList.Add((room != null) ? room.Clone() as RoomAuto.Dto : null);
                 }
             }
             return dto;

@@ -21,9 +21,9 @@ namespace Vanilla.Guardian.Facade.MyAccount
         public override BinAff.Facade.Library.Dto Clone()
         {
             Dto dto = base.Clone() as Dto;
-            dto.Profile = this.Profile.Clone() as Profile.Dto;
-            dto.SecurityAnswer = this.SecurityAnswer.Clone() as SecurityAnswer.Dto;
-            dto.Extension = this.Extension.Clone();
+            if (dto.Profile != null) dto.Profile = this.Profile.Clone() as Profile.Dto;
+            if (dto.SecurityAnswer != null) dto.SecurityAnswer = this.SecurityAnswer.Clone() as SecurityAnswer.Dto;
+            if (dto.Extension != null) dto.Extension = this.Extension.Clone();
             return dto;
         }
 

@@ -15,7 +15,7 @@ namespace Vanilla.Guardian.Facade.SecurityAnswer
         public override BinAff.Facade.Library.Dto Clone()
         {
             Dto dto = base.Clone() as Dto;
-            dto.SecurityQuestion = this.SecurityQuestion.Clone();
+            if (dto.SecurityQuestion != null) dto.SecurityQuestion = this.SecurityQuestion.Clone();
             return dto;
         }
 

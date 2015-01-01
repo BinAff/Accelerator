@@ -12,7 +12,7 @@ namespace Vanilla.Utility.Facade.Report
         public override BinAff.Facade.Library.Dto Clone()
         {
             Dto dto = base.Clone() as Dto;
-            dto.Category = this.Category.Clone() as Category.Dto;
+            if (this.Category != null) dto.Category = this.Category.Clone() as Category.Dto;
             return dto;
         }
 
