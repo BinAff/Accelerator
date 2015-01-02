@@ -154,7 +154,7 @@ namespace Vanilla.Form.WinForm
 
         private void dgvAttachmentList_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            ArtfFac.Dto document = this.formDto.AttachmentSummeryList[e.RowIndex].Artifact;
+            ArtfFac.Dto document = this.formDto.Document.AttachmentList[e.RowIndex];
             ModFac.Server server = new ModFac.Server(new ModFac.FormDto
             {
                 Dto = new ModFac.Dto
@@ -181,7 +181,7 @@ namespace Vanilla.Form.WinForm
             if (e.ColumnIndex == 1)
             {
                 //Delete Attachment
-                ArtfFac.Dto document = this.formDto.AttachmentSummeryList[e.RowIndex].Artifact;
+                ArtfFac.Dto document = this.formDto.Document.AttachmentList[e.RowIndex];
                 (this.facade as Facade.Document.Server).DeleteAttachment(document);
                 if (this.facade.IsError) //Some problem to delete attachment
                 {
@@ -238,9 +238,9 @@ namespace Vanilla.Form.WinForm
                     }
                     this.dgvAttachmentList.ReadOnly = true;
                     this.dgvAttachmentList.AutoGenerateColumns = false;
-                    foreach (DocFac.AttachmentSummary t in this.formDto.AttachmentSummeryList)
+                    foreach (ArtfFac.Dto t in this.formDto.Document.AttachmentList)
                     {
-                        this.dgvAttachmentList.Rows.Add(t.Path, t.Action);
+                        this.dgvAttachmentList.Rows.Add(t.Path, "Delete");
                     }
                 }
             }
@@ -261,18 +261,12 @@ namespace Vanilla.Form.WinForm
 
         private void BindAttachmentList(Document attachment)
         {
-            if (this.formDto.AttachmentSummeryList == null)
+            if (this.formDto.Document.AttachmentList == null)
             {
-                this.formDto.AttachmentSummeryList = new List<DocFac.AttachmentSummary>();
+                this.formDto.Document.AttachmentList = new List<ArtfFac.Dto>();
             }
-            DocFac.AttachmentSummary newAttachment = new DocFac.AttachmentSummary
-            {
-                Artifact = attachment.Artifact,
-                Path = attachment.Artifact.FullPath,
-                Action = "Delete",
-            };
-            this.formDto.AttachmentSummeryList.Add(newAttachment);
-            this.dgvAttachmentList.Rows.Add(newAttachment.Path, newAttachment.Action);
+            this.formDto.Document.AttachmentList.Add(attachment.Artifact);
+            this.dgvAttachmentList.Rows.Add(attachment.Artifact.Path, "Delete");
             this.btnExpandCollapse.Enabled = true;
         }
 

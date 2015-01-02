@@ -35,15 +35,6 @@ namespace Vanilla.Utility.Facade.Document
             }
         }
 
-        public List<AttachmentSummary> AttachmentSummeryList { get; set; }
-
-    }
-
-    public struct AttachmentSummary
-    {
-        public Artifact.Dto Artifact { get; set; }
-        public String Path { get; set; }
-        public String Action { get; set; }
     }
 
 }

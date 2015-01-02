@@ -367,29 +367,7 @@ namespace Vanilla.Utility.WinForm.Extender
 
         public static void AttachChildren(this ListView listView, Facade.Artifact.Dto selectedNode, Boolean isDocumentFirst)
         {
-            listView.Items.Clear();
-            if (selectedNode.Children != null && selectedNode.Children.Count > 0)
-            {
-                foreach (Facade.Artifact.Dto artifact in selectedNode.Children)
-                {
-                    ListViewItem current = new ListViewItem
-                    {
-                        Text = artifact.FileName,
-                        Tag = artifact,
-                        ImageIndex = artifact.Style == Facade.Artifact.Type.Folder ? 0 : 2,
-                    };
-                    if (artifact.Style == Facade.Artifact.Type.Document && !String.IsNullOrEmpty(artifact.Extension)) current.Text += "." + artifact.Extension;
-                    current.SubItems.AddRange(AddListViewSubItems(current, artifact));
-                    listView.Items.Add(current);
-                }
-
-                //Sort
-                listView.ResetColumnOrder();
-                listView.Sort("Name", new PresLib.ListViewColumnSorter
-                {
-                    Order = SortOrder.Ascending
-                },isDocumentFirst);
-            }
+            AttachChildren(listView, selectedNode.Children, isDocumentFirst);
         }
 
         public static void AttachChildren(this ListView listView, List<Facade.Artifact.Dto> nodeList, Boolean isDocumentFirst)

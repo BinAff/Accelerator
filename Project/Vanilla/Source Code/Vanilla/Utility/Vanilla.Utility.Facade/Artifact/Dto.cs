@@ -77,6 +77,8 @@ namespace Vanilla.Utility.Facade.Artifact
         /// </summary>
         public ModDefFac.Dto ComponentDefinition { get; set; }
 
+        public List<Dto> AttachmentList { get; set; }
+
         public FacLib.Dto Parent { get; set; }
 
         public Audit.Dto AuditInfo { get; set; }
