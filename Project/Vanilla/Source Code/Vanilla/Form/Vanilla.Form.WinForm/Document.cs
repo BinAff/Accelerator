@@ -542,6 +542,16 @@ namespace Vanilla.Form.WinForm
             this.btnOk.Enabled = false;
         }
 
+        protected void EnableDeleteButton()
+        {
+            this.btnDelete.Enabled = true;
+        }
+
+        protected void DisableDeleteButton()
+        {
+            this.btnDelete.Enabled = false;
+        }
+
         protected void EnableAddAncestorButton()
         {
             this.btnAddAncestor.Enabled = true;
