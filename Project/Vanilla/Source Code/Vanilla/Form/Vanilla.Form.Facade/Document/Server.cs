@@ -128,7 +128,7 @@ namespace Vanilla.Form.Facade.Document
             ArtfCrys.IArtifact artifactServer = this.GetArtifactServer(this.GetArtifactData((this.FormDto as FormDto).Document.Id));
             ReturnObject<List<ArtfCrys.Data>> ret = artifactServer.ReadAttachmentLink();
             this.AttachMessage(ret);
-            (this.FormDto as FormDto).AttachmentSummeryList = new List<DocFac.AttachmentSummary>();
+            (this.FormDto as FormDto).Document.AttachmentList = new List<ArtfFac.Dto>();
             foreach (ArtfCrys.Data attachment in ret.Value)
             {
                 attachment.ComponentDefinition = new Crystal.License.Component.Data
@@ -136,12 +136,7 @@ namespace Vanilla.Form.Facade.Document
                     Code = this.GetAttachmentComponentCode(),
                 };
                 attachment.Category = ArtfCrys.Category.Form;
-                (this.FormDto as FormDto).AttachmentSummeryList.Add(new DocFac.AttachmentSummary
-                {
-                    Artifact = new Vanilla.Utility.Facade.Artifact.Server(null).Convert(attachment) as Vanilla.Utility.Facade.Artifact.Dto,
-                    Action = "Delete",
-                    Path = attachment.Path + "." + attachment.Extension,
-                });
+                (this.FormDto as FormDto).Document.AttachmentList.Add(new Vanilla.Utility.Facade.Artifact.Server(null).Convert(attachment) as Vanilla.Utility.Facade.Artifact.Dto);
             }
         }
 
