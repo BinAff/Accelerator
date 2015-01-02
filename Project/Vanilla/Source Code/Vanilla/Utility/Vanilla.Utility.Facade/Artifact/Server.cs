@@ -54,96 +54,104 @@ namespace Vanilla.Utility.Facade.Artifact
 
         public override BinAff.Facade.Library.Dto Convert(Data data)
         {
-            Crystal.Navigator.Component.Artifact.Data artifactData = data as Crystal.Navigator.Component.Artifact.Data;
-
-            Facade.Artifact.Dto artifact = new Facade.Artifact.Dto
+            if (data != null)
             {
-                Id = artifactData.Id,
-                FileName = artifactData.FileName,
-                Extension = artifactData.Extension,
-                Path = artifactData.Path,
-                Style = (artifactData.Style == ArtfCrys.Type.Directory) ? Type.Folder : Type.Document,
-                AuditInfo = new Audit.Dto
+                Crystal.Navigator.Component.Artifact.Data artifactData = data as Crystal.Navigator.Component.Artifact.Data;
+
+                Facade.Artifact.Dto artifact = new Facade.Artifact.Dto
                 {
-                    Version = artifactData.Version,
-                    CreatedBy = artifactData.CreatedBy == null ? null : new Table
+                    Id = artifactData.Id,
+                    FileName = artifactData.FileName,
+                    Extension = artifactData.Extension,
+                    Path = artifactData.Path,
+                    Style = (artifactData.Style == ArtfCrys.Type.Directory) ? Type.Folder : Type.Document,
+                    AuditInfo = new Audit.Dto
                     {
-                        Id = artifactData.CreatedBy.Id,
-                        Name = artifactData.CreatedBy.Profile == null ? null : artifactData.CreatedBy.Profile.Name
+                        Version = artifactData.Version,
+                        CreatedBy = artifactData.CreatedBy == null ? null : new Table
+                        {
+                            Id = artifactData.CreatedBy.Id,
+                            Name = artifactData.CreatedBy.Profile == null ? null : artifactData.CreatedBy.Profile.Name
+                        },
+                        CreatedAt = artifactData.CreatedAt,
+                        ModifiedBy = artifactData.ModifiedBy == null ? null : new Table
+                        {
+                            Id = artifactData.ModifiedBy.Id,
+                            Name = artifactData.CreatedBy.Profile == null ? null : artifactData.ModifiedBy.Profile.Name
+                        },
+                        ModifiedAt = artifactData.ModifiedAt,
                     },
-                    CreatedAt = artifactData.CreatedAt,
-                    ModifiedBy = artifactData.ModifiedBy == null ? null : new Table
-                    {
-                        Id = artifactData.ModifiedBy.Id,
-                        Name = artifactData.CreatedBy.Profile == null ? null : artifactData.ModifiedBy.Profile.Name
-                    },
-                    ModifiedAt = artifactData.ModifiedAt,
-                },
-                Category = (Category)artifactData.Category,
-                IsAttachmentSupported = artifactData.IsAttachmentSupported,
-            };
+                    Category = (Category)artifactData.Category,
+                    IsAttachmentSupported = artifactData.IsAttachmentSupported,
+                };
 
-            if ((data as ArtfCrys.Data).Parent != null)
-            {
-                artifact.Parent = this.Convert((data as ArtfCrys.Data).Parent);
-            }
-
-            if ((data as ArtfCrys.Data).ComponentDefinition != null)
-            {
-                artifact.ComponentDefinition = new Module.Definition.Server(null).Convert((data as ArtfCrys.Data).ComponentDefinition) as Module.Definition.Dto;
-            }
-
-            if (this.ModuleFacade == null)
-            {
-                this.ModuleFacade = new Module.Helper(new Module.Dto
+                if ((data as ArtfCrys.Data).Parent != null)
                 {
-                    Code = artifact.ComponentDefinition.Code,
-                }, artifact.Category).ModuleFacade;
-            }
-            if ((data as ArtfCrys.Data).ComponentData != null)
-            {
-                artifact.Module = this.ModuleFacade.Convert((data as ArtfCrys.Data).ComponentData);
-            }
+                    artifact.Parent = this.Convert((data as ArtfCrys.Data).Parent);
+                }
 
-            return artifact;
+                if ((data as ArtfCrys.Data).ComponentDefinition != null)
+                {
+                    artifact.ComponentDefinition = new Module.Definition.Server(null).Convert((data as ArtfCrys.Data).ComponentDefinition) as Module.Definition.Dto;
+                }
+
+                if (this.ModuleFacade == null)
+                {
+                    this.ModuleFacade = new Module.Helper(new Module.Dto
+                    {
+                        Code = artifact.ComponentDefinition.Code,
+                    }, artifact.Category).ModuleFacade;
+                }
+                if ((data as ArtfCrys.Data).ComponentData != null)
+                {
+                    artifact.Module = this.ModuleFacade.Convert((data as ArtfCrys.Data).ComponentData);
+                }
+
+                return artifact;
+            }
+            return null;
         }
 
         public override Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            Facade.Artifact.Dto artifactDto = dto as Facade.Artifact.Dto;
+            if (dto != null)
+            {
+                Facade.Artifact.Dto artifactDto = dto as Facade.Artifact.Dto;
 
-            System.Type dataType = System.Type.GetType(this.ModuleComponentDataType);
-            ArtfCrys.Data tree = Activator.CreateInstance(dataType) as ArtfCrys.Data;
-            tree.Id = artifactDto.Id;
-            tree.FileName =  artifactDto.FileName;
-            tree.Extension = artifactDto.Extension;
-            tree.Path = artifactDto.Path;   
-            tree.Category = (ArtfCrys.Category)artifactDto.Category;
-            tree.IsAttachmentSupported = artifactDto.IsAttachmentSupported;
-            tree.Style = (artifactDto.Style == Type.Folder) ? ArtfCrys.Type.Directory : ArtfCrys.Type.Document;
-            tree.CreatedBy = new Crystal.Guardian.Component.Account.Data
-            {
-                Id = artifactDto.AuditInfo.CreatedBy.Id,
-            };
-            tree.CreatedAt = artifactDto.AuditInfo.CreatedAt;
-            if (artifactDto.AuditInfo.ModifiedBy != null)
-            {
-                tree.ModifiedBy = new Crystal.Guardian.Component.Account.Data
+                System.Type dataType = System.Type.GetType(this.ModuleComponentDataType);
+                ArtfCrys.Data tree = Activator.CreateInstance(dataType) as ArtfCrys.Data;
+                tree.Id = artifactDto.Id;
+                tree.FileName = artifactDto.FileName;
+                tree.Extension = artifactDto.Extension;
+                tree.Path = artifactDto.Path;
+                tree.Category = (ArtfCrys.Category)artifactDto.Category;
+                tree.IsAttachmentSupported = artifactDto.IsAttachmentSupported;
+                tree.Style = (artifactDto.Style == Type.Folder) ? ArtfCrys.Type.Directory : ArtfCrys.Type.Document;
+                tree.CreatedBy = new Crystal.Guardian.Component.Account.Data
                 {
-                    Id = artifactDto.AuditInfo.ModifiedBy.Id,
+                    Id = artifactDto.AuditInfo.CreatedBy.Id,
                 };
-                tree.ModifiedAt = artifactDto.AuditInfo.ModifiedAt;
+                tree.CreatedAt = artifactDto.AuditInfo.CreatedAt;
+                if (artifactDto.AuditInfo.ModifiedBy != null)
+                {
+                    tree.ModifiedBy = new Crystal.Guardian.Component.Account.Data
+                    {
+                        Id = artifactDto.AuditInfo.ModifiedBy.Id,
+                    };
+                    tree.ModifiedAt = artifactDto.AuditInfo.ModifiedAt;
+                }
+                if (String.Compare(artifactDto.Parent.GetType().FullName, "Vanilla.Utility.Facade.Module.Dto") == 0)
+                {
+                    tree.ParentId = null;
+                }
+                else
+                {
+                    tree.ParentId = artifactDto.Parent.Id;
+                }
+
+                return tree;
             }
-            if (String.Compare(artifactDto.Parent.GetType().FullName, "Vanilla.Utility.Facade.Module.Dto") == 0)
-            {
-                tree.ParentId = null;
-            }
-            else
-            {
-                tree.ParentId = artifactDto.Parent.Id;
-            }
-            
-            return tree;
+            return null;
         }
 
         public Data Convert(BinAff.Facade.Library.Dto dto, Crystal.Navigator.Component.Artifact.Data data)
