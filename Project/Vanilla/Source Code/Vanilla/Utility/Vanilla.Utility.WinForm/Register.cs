@@ -683,14 +683,17 @@ namespace Vanilla.Utility.WinForm
 
         private void lsvContainer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.currentArtifact = this.lsvContainer.FocusedItem.Tag as ArtfFac.Dto;//Any impact?
-            if (this.DialogueMode != DialogueMode.None)
+            if (this.lsvContainer.FocusedItem != null)
             {
-                if (this.currentArtifact.Style == ArtfFac.Type.Document) this.DocumentClicked();
-            }
-            else
-            {
-                this.ArtifactClicked();
+                this.currentArtifact = this.lsvContainer.FocusedItem.Tag as ArtfFac.Dto;//Any impact?
+                if (this.DialogueMode != DialogueMode.None)
+                {
+                    if (this.currentArtifact.Style == ArtfFac.Type.Document) this.DocumentClicked();
+                }
+                else
+                {
+                    this.ArtifactClicked();
+                }
             }
         }
 
