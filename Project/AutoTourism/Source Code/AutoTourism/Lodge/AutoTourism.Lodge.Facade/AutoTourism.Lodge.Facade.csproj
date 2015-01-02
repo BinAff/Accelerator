@@ -86,6 +86,10 @@
       <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
       <Name>BinAff.Facade.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Utility\BinAff.Utility.csproj">
+      <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
+      <Name>BinAff.Utility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Activity\Crystal.Activity.Component\Crystal.Activity.Component.csproj">
       <Project>{72db3928-1a94-4e8b-8013-052afff74aae}</Project>
       <Name>Crystal.Activity.Component</Name>

@@ -206,66 +206,6 @@ namespace Crystal.Lodge.Component.Room.Reservation
             return dataList;
         }
 
-        public ReturnObject<Boolean> ModifyReservationToOccupied()
-        {
-            ReturnObject<Boolean> retVal = new ReturnObject<Boolean>();
-            Data data = this.Data as Data;
-
-            this.CreateConnection();
-            this.CreateCommand("[Lodge].[UpdateReservationStatusToCheckIn]");
-            this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
-            Int32 ret = this.ExecuteNonQuery();
-
-            if (ret == -2146232060)
-                retVal.Value = false;//Foreign key violation
-            else
-                retVal.Value = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
-
-            this.CloseConnection();
-            return retVal;        
-        }
-
-        public ReturnObject<Boolean> ModifyReservationStatus()
-        {
-            ReturnObject<Boolean> retVal = new ReturnObject<Boolean>();
-            Data data = this.Data as Data;
-
-            this.CreateConnection();
-            this.CreateCommand("[Lodge].[UpdateReservationStatus]");
-            this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
-            this.AddInParameter("@ReservationStatusId", DbType.Int64, data.Status.Id);
-            Int32 ret = this.ExecuteNonQuery();
-
-            if (ret == -2146232060)
-                retVal.Value = false;//Foreign key violation
-            else
-                retVal.Value = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
-
-            this.CloseConnection();
-            return retVal;
-        }
-
-
-        public ReturnObject<Boolean> RevertReservationAfterCheckIn()
-        {
-            ReturnObject<Boolean> retVal = new ReturnObject<Boolean>();
-            Data data = this.Data as Data;
-
-            this.CreateConnection();
-            this.CreateCommand("[Lodge].[UpdateReservationAfterCheckIn]");
-            this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
-         
-            Int32 ret = this.ExecuteNonQuery();
-
-            if (ret == -2146232060)
-                retVal.Value = false;//Foreign key violation
-            else
-                retVal.Value = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
-
-            this.CloseConnection();
-            return retVal;
-        }
-
         private bool DeleteCustomerRoomReservationLink()
         {
             Boolean status = true;         

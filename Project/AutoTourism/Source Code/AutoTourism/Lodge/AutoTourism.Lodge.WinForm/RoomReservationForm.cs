@@ -121,7 +121,7 @@ namespace AutoTourism.Lodge.WinForm
             if (this.InitialDto != null)
             {
                 Fac.Dto initialDto = this.InitialDto as Fac.Dto;
-                if (initialDto.Status == Status.CheckedIn || initialDto.Status == Status.Canceled)
+                if (initialDto.Status == Status.CheckedIn || initialDto.Status == Status.CheckOut || initialDto.Status == Status.Canceled)
                 {
                     this.DisableFormControls();
                 }
@@ -193,10 +193,11 @@ namespace AutoTourism.Lodge.WinForm
         private void DisableFormControls()
         {
             base.errorProvider.Clear();
-            base.DisablePickAncestorButton();
-            base.DisableAddAncestorButton();
             base.DisableRefreshButton();
             base.DisableOkButton();
+            base.DisableDeleteButton();
+            base.DisablePickAncestorButton();
+            base.DisableAddAncestorButton();
             base.DisableAttachButton();
             this.btnCancel.Enabled = false;
 

@@ -97,13 +97,8 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         //call reservation component and save the Reservation status to CheckIn
         protected override ReturnObject<Boolean> CreateAfter()
         {
-            RoomRsvCrys.Server server = new RoomRsvCrys.Server((this.Data as Data).Reservation);
-            return server.ChangeReservationToOccupied();            
-        }
-
-        ReturnObject<Boolean> ICheckIn.ModifyCheckInStatus(Customer.Component.Action.Status.Data status)
-        {            
-            return (this.dataAccess as Dao).ModifyCheckInStatus(status);
+            Crystal.Customer.Component.Action.IAction server = new RoomRsvCrys.Server((this.Data as Data).Reservation);
+            return server.UpdateStatus();            
         }
         
         ReturnObject<Boolean> ICheckIn.UpdateInvoiceNumber(String invoiceNumber)
@@ -118,10 +113,10 @@ namespace Crystal.Lodge.Component.Room.CheckIn
 
         protected override ReturnObject<Boolean> DeleteAfter()
         {            
-            return new RoomRsvCrys.Server(new RoomRsvCrys.Data
+            return (new RoomRsvCrys.Server(new RoomRsvCrys.Data
             {
                 Id = (this.Data as Data).Reservation.Id
-            }).RevertReservationAfterCheckIn();
+            }) as Crystal.Customer.Component.Action.IAction).UpdateStatus();
         }
 
         public ReturnObject<Boolean> IsCheckInDeletable()

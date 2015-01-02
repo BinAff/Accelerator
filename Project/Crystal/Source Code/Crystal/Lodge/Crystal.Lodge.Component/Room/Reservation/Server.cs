@@ -80,20 +80,36 @@ namespace Crystal.Lodge.Component.Room.Reservation
             return "Room has reservation from " + d.Date.ToShortDateString() + " till " + d.Date.AddDays(d.NoOfDays).ToShortDateString();
         }
 
-        public override ReturnObject<Boolean> ChangeReservationToOccupied()
-        {
-            return new Dao((Data)this.Data).ModifyReservationToOccupied();
-        }
+        //public override ReturnObject<Boolean> ChangeReservationToOccupied()
+        //{
+        //    ReturnObject<Boolean> ret = new ReturnObject<bool>
+        //    {
+        //        Value = new Dao((Data)this.Data).UpdateStatus(),
+        //    };
+        //    if (!ret.Value)
+        //    {
+        //        ret.MessageList = new List<Message> { new Message("Unable to update status.", Message.Type.Error) };
+        //    }
+        //    return ret;
+        //}
 
         public Int64 ReadIdForArtifact(Int64 artifactId)
         {
             return new Dao(this.Data as Data).ReadReservationId(artifactId);
         }
 
-        public ReturnObject<Boolean> RevertReservationAfterCheckIn()
-        {
-            return new Dao((Data)this.Data).RevertReservationAfterCheckIn();
-        }
+        //public ReturnObject<Boolean> RevertReservationAfterCheckIn()
+        //{
+        //    ReturnObject<Boolean> ret = new ReturnObject<bool>
+        //    {
+        //        Value = new Dao((Data)this.Data).UpdateStatus(),
+        //    };
+        //    if (!ret.Value)
+        //    {
+        //        ret.MessageList = new List<Message> { new Message("Unable to update status.", Message.Type.Error) };
+        //    }
+        //    return ret;
+        //}
 
     }
 

@@ -273,6 +273,9 @@ namespace AutoTourism.Lodge.WinForm
                 case RoomRsvFac.Status.CheckedIn:
                     this.txtStatus.Text = "Checked In";
                     break;
+                case RoomRsvFac.Status.CheckOut:
+                    this.txtStatus.Text = "Checked Out";
+                    break;
             }
 
             if (this.dto != null && dto.Id > 0)
