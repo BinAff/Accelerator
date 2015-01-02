@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Transactions;
 
 using BinAff.Core;
+using BinAff.Utility;
 
+using ActCrys = Crystal.Customer.Component.Action;
 using LodgeCrys = Crystal.Lodge.Component;
 using CustCrys = Crystal.Customer.Component;
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
 using RoomChkCrys = Crystal.Lodge.Component.Room.CheckIn;
+using RoomRsvCrys = Crystal.Lodge.Component.Room.Reservation;
 using ChkArtfCrys = Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact;
 using ConfCrys = Crystal.Configuration.Component;
 
@@ -214,6 +217,16 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public void CheckOut()
         {
             Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
+            Int32 noOfDays = new Calender().DaysBetweenTwoDays(dto.Reservation.BookingFrom, DateTime.Today);
+            if (noOfDays != dto.Reservation.NoOfDays)
+            {
+                this.DisplayMessageList = new List<string>
+                {
+                    "Check out date is not matching with reservation end date. Reservation end date will be changed with checkout.",
+                };
+            }
+            dto.Reservation.NoOfDays = noOfDays == 0 ? 1 : noOfDays;
+            dto.Reservation.Status = RoomRsvFac.Status.CheckOut;
             dto.Reservation.IsBackDateEntry = true;
             RoomRsvFac.Server roomReserver = new RoomRsvFac.Server(new RoomRsvFac.FormDto
             {
@@ -222,12 +235,18 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             //roomReserver.RegisterArtifactObserver();//Artifact is missing. Need to attach that in Document
             roomReserver.Change();
 
-            //update checkIn status
-            LodgeCrys.Room.CheckIn.ICheckIn checkIn = new LodgeCrys.Room.CheckIn.Server(new LodgeCrys.Room.CheckIn.Data { Id = dto.Id });
-            checkIn.ModifyCheckInStatus(new CustCrys.Action.Status.Data
+            (new RoomChkCrys.Server(new RoomChkCrys.Data
             {
-                Id = (Int64)RoomRsvFac.Status.CheckOut
-            });
+                Id = dto.Id,
+                Status = new ActCrys.Status.Data
+                {
+                    Id = (Int64)RoomRsvFac.Status.CheckOut,
+                },
+            }) as ActCrys.IAction).UpdateStatus();
+            this.DisplayMessageList = new List<string>
+            {
+                "Customer successfully checked out.",
+            };
         }
 
         //ReturnObject<bool> ICheckIn.PaymentInsert(InvFac.FormDto invoiceFormDto, Table currentUser, ArtfFac.Dto artifactDto)

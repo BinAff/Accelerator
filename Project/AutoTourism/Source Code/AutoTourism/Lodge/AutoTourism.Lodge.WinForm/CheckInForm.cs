@@ -1,25 +1,20 @@
 ﻿using System.Windows.Forms;
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Transactions;
 
 using BinAff.Core;
 using BinAff.Utility;
 using PresLib = BinAff.Presentation.Library;
-using BinAff.Presentation.Library.Extension;
 
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using UtilFac = Vanilla.Utility.Facade;
-using DocFac = Vanilla.Utility.Facade.Document;
 using InvFac = Vanilla.Invoice.Facade;
 using FormDocFac = Vanilla.Form.Facade.Document;
 
 using FrmWin = Vanilla.Form.WinForm;
 using InvWin = Vanilla.Invoice.WinForm;
 
-using RoomCatFac = AutoTourism.Lodge.Configuration.Facade.Room.Category;
-using RoomTypFac = AutoTourism.Lodge.Configuration.Facade.Room.Type;
 using RoomRsvFac = AutoTourism.Lodge.Facade.RoomReservation;
 using Fac = AutoTourism.Lodge.Facade.CheckIn;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
@@ -47,21 +42,12 @@ namespace AutoTourism.Lodge.WinForm
 
         private void btnCheckOut_Click(object sender, EventArgs e)
         {
-            Facade.CheckIn.FormDto formDto = base.formDto as Facade.CheckIn.FormDto;
-            Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
-            Int32 noOfDays = new Calender().DaysBetweenTwoDays(dto.Reservation.BookingFrom, DateTime.Today);
-            if (noOfDays != dto.Reservation.NoOfDays)
-            {
-                dto.Reservation.NoOfDays = noOfDays == 0 ? 1 : noOfDays;
-                new PresLib.MessageBox
-                {
-                    DialogueType = PresLib.MessageBox.Type.Alert,
-                    Heading = "Splash"
-                }.Show("CheckOut date is not matching with reservation end date. Reservation end date will be changed with checkout.");
-                return;
-            }
-
             (this.facade as LodgeFac.CheckIn.Server).CheckOut();
+            new PresLib.MessageBox
+            {
+                DialogueType = PresLib.MessageBox.Type.Alert,
+                Heading = "Splash"
+            }.Show(this.facade.DisplayMessageList);
             this.Close();
         }
 
@@ -297,6 +283,7 @@ namespace AutoTourism.Lodge.WinForm
             dto.Date = DateTime.Now;
             this.ucRoomReservation.AssignDto(dto.Reservation);
             dto.Reservation.Status = RoomRsvFac.Status.CheckedIn;
+            dto.Status = RoomRsvFac.Status.CheckedIn;
 
             dto.Purpose = txtPurpose.Text.Trim();
             dto.ArrivedFrom = txtArrivedFrom.Text.Trim();
@@ -400,41 +387,38 @@ namespace AutoTourism.Lodge.WinForm
         {
             base.errorProvider.Clear();
             this.ucRoomReservation.DisableRemarks();
-
             Facade.CheckIn.Dto dto = this.formDto.Dto as Facade.CheckIn.Dto;
-
-            if (dto.Status == RoomRsvFac.Status.Open)
-            {
-                this.ucRoomReservation.DisableFormControls();
-                this.ucRoomReservation.EnableNoOfDays(); //If customer is leaveing before or after scheduled duration
-                this.txtPurpose.Enabled = false;
-                this.txtArrivedFrom.Enabled = false;
-                this.txtCheckInRemark.Enabled = false;
-
-                base.DisablePickAncestorButton();
-                base.DisableAddAncestorButton();
-                base.DisableRefreshButton();
-                base.DisableOkButton();
-            }
-            //else if (dto.Id > 0 && (ValidationRule.IsDateGreaterThanToday(dto.Date) || dto.Status == Fac.Server.Status.CheckOut))
-            else if (dto.Id > 0 && (dto.Status == RoomRsvFac.Status.CheckedIn || dto.Status == RoomRsvFac.Status.CheckOut))
+            if (dto.Id > 0)
             {
                 this.ucRoomReservation.DisableFormControls();
                 this.txtPurpose.Enabled = false;
                 this.txtArrivedFrom.Enabled = false;
                 this.txtCheckInRemark.Enabled = false;
-
                 base.DisablePickAncestorButton();
                 base.DisableAddAncestorButton();
                 base.DisableRefreshButton();
                 base.DisableOkButton();
-                if (dto.Status == RoomRsvFac.Status.CheckedIn)
+                base.DisableDeleteButton();
+                switch(dto.Status)
                 {
-                    this.ucRoomReservation.EnableNoOfDays();
-                }
-                else if (dto.Status == RoomRsvFac.Status.CheckOut)
-                {
-                    this.btnCheckOut.Enabled = false;
+                    case RoomRsvFac.Status.CheckedIn:
+                        this.ucRoomReservation.EnableNoOfDays();
+                        this.btnGenerateInvoice.Enabled = false;
+                        this.btnPay.Enabled = false;
+                        break;
+                    case RoomRsvFac.Status.CheckOut:
+                        this.btnCheckOut.Enabled = false;
+                        this.btnPay.Enabled = false;
+                        break;
+                    case RoomRsvFac.Status.Invoiced:
+                        this.btnCheckOut.Enabled = false;
+                        this.btnGenerateInvoice.Enabled = false;
+                        break;
+                    case RoomRsvFac.Status.Paid:
+                        this.btnCheckOut.Enabled = false;
+                        this.btnGenerateInvoice.Enabled = false;
+                        this.btnPay.Enabled = false;
+                        break;
                 }
             }
         }

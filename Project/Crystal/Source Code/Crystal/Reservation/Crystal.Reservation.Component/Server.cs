@@ -21,7 +21,7 @@ namespace Crystal.Reservation.Component
             base.CreateChildren();
         }
 
-        public abstract ReturnObject<Boolean> ChangeReservationToOccupied();
+        //public abstract ReturnObject<Boolean> ChangeReservationToOccupied();
        
     }
 

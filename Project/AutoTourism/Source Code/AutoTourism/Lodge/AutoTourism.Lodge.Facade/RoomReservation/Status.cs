@@ -8,7 +8,9 @@
         //Closed = 10002,
         Canceled = 10003,
         CheckedIn = 10004,
-        CheckOut = 10006
+        CheckOut = 10006,
+        Invoiced = 10007,
+        Paid = 10008,
 
     }
 
