@@ -2262,13 +2262,16 @@ namespace Vanilla.Utility.WinForm
 
         private void lsvContainer_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            if (this.currentArtifact.Style == ArtfFac.Type.Document)
+            if (this.currentArtifact != null)
             {
-                this.lsvContainer.DoDragDrop(this.lsvContainer.FocusedItem, DragDropEffects.Move);
-            }
-            else
-            {
-                this.lsvContainer.DoDragDrop(this.lsvContainer.FocusedItem, DragDropEffects.Copy | DragDropEffects.Move);
+                if (this.currentArtifact.Style == ArtfFac.Type.Document)
+                {
+                    this.lsvContainer.DoDragDrop(this.lsvContainer.FocusedItem, DragDropEffects.Move);
+                }
+                else
+                {
+                    this.lsvContainer.DoDragDrop(this.lsvContainer.FocusedItem, DragDropEffects.Copy | DragDropEffects.Move);
+                }
             }
         }
 
@@ -2304,13 +2307,16 @@ namespace Vanilla.Utility.WinForm
         private void treeView_ItemDrag(object sender, ItemDragEventArgs e)
         {
             TreeView treeView = sender as TreeView;
-            if (this.currentArtifact.Style == ArtfFac.Type.Document)
+            if (this.currentArtifact != null)
             {
-                treeView.DoDragDrop(treeView.SelectedNode, DragDropEffects.Move);
-            }
-            else
-            {
-                treeView.DoDragDrop(treeView.SelectedNode, DragDropEffects.Copy | DragDropEffects.Move);
+                if (this.currentArtifact.Style == ArtfFac.Type.Document)
+                {
+                    treeView.DoDragDrop(treeView.SelectedNode, DragDropEffects.Move);
+                }
+                else
+                {
+                    treeView.DoDragDrop(treeView.SelectedNode, DragDropEffects.Copy | DragDropEffects.Move);
+                }
             }
         }
 
