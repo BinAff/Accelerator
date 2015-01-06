@@ -86,6 +86,7 @@ namespace BinAff.Presentation.Library
         public void Show(String message)
         {
             this.txtMessage.Text = message;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             if (this.owner != null)
             {
                 this.ShowDialog(this.owner);

@@ -44,7 +44,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         public override void LoadForm()
         {
             FormDto formDto = this.FormDto as FormDto;
-            AutoTourism.Utility.Facade.Cache.Dto cache = BinAff.Facade.Cache.Server.Current.Cache["AutoTourism"] as AutoTourism.Utility.Facade.Cache.Dto;
+            AutoTourism.Utility.Facade.Cache.Dto cache = BinAff.Facade.Cache.Server.Current.Cache["Main"] as AutoTourism.Utility.Facade.Cache.Dto;
             formDto.AllRoomList = cache.RoomList;
             formDto.ConfigurationRuleDto = this.ReadConfigurationRule().Value;
             formDto.CategoryList = cache.RoomCategoryList;

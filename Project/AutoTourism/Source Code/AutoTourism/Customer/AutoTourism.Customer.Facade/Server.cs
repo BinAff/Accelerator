@@ -27,12 +27,12 @@ namespace AutoTourism.Customer.Facade
         public override void LoadForm()
         {
             FormDto formDto = this.FormDto as FormDto;
-            //formDto.InitialList = this.ReadAllInitial();
-            //formDto.StateList = this.ReadAllState().Value;
-            formDto.CountryList = this.ReadAllCountry().Value;
-            formDto.IdentityProofTypeList = this.ReadAllIdentityProof().Value;
-            //formDto.DtoList = this.ReadAllCustomer().Value;
-            formDto.RuleDto = this.ReadCustomerRule().Value;
+
+            //formDto.InitialList = cache.InitialList;
+            Vanilla.Utility.Facade.Cache.Dto cache = BinAff.Facade.Cache.Server.Current.Cache["Main"] as Vanilla.Utility.Facade.Cache.Dto;
+            formDto.CountryList = cache.CountryList;
+            formDto.IdentityProofTypeList = cache.IdentityProofTypeList;
+            formDto.RuleDto = (BinAff.Facade.Cache.Server.Current.Cache["Main"] as AutoTourism.Utility.Facade.Cache.Dto).CustomerRule;
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
@@ -170,96 +170,22 @@ namespace AutoTourism.Customer.Facade
         //    return ret;
         //}
 
-        private ReturnObject<List<Table>> ReadAllCountry()
-        {
-            ICrud crud = new ConfigCrys.Country.Server(null);
-            ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
-
-            ReturnObject<List<Table>> ret = new ReturnObject<List<Table>>
-            {
-                Value = new List<Table>()
-            };
-
-            //Populate data in dto from business entity
-            foreach (ConfigCrys.Country.Data data in dataList.Value)
-            {
-                ret.Value.Add(new Table
-                {
-                    Id = data.Id,
-                    Name = data.Name
-                });
-            }
-
-            return ret;
-        }
-
-        private ReturnObject<List<Table>> ReadAllState()
+        public void LoadStateForCountry(Table country)
         {
             ICrud crud = new ConfigCrys.State.Server(null);
             ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
 
-            ReturnObject<List<Table>> ret = new ReturnObject<List<Table>>
+            if (dataList.Value != null && dataList.Value.Count > 0)
             {
-                Value = new List<Table>()
-            };
-
-            //Populate data in dto from business entity
-            foreach (ConfigCrys.State.Data data in dataList.Value)
-            {
-                ret.Value.Add(new Table
+                (base.FormDto as Facade.FormDto).StateList = dataList.Value.ConvertAll((p) =>
                 {
-                    Id = data.Id,
-                    Name = data.Name
+                    return new Table
+                    {
+                        Id = p.Id,
+                        Name = (p as ConfigCrys.State.Data).Name
+                    };
                 });
             }
-
-            return ret;
-        }
-
-        public ReturnObject<List<Table>> ReadStateForCountry(Int64 countryId)
-        {
-            ICrud crud = new ConfigCrys.State.Server(null);
-            ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
-
-            ReturnObject<List<Table>> ret = new ReturnObject<List<Table>>
-            {
-                Value = new List<Table>()
-            };
-
-            //Populate data in dto from business entity
-            foreach (ConfigCrys.State.Data data in dataList.Value)
-            {
-                ret.Value.Add(new Table
-                {
-                    Id = data.Id,
-                    Name = data.Name
-                });
-            }
-
-            return ret;
-        }
-
-        private ReturnObject<List<Table>> ReadAllIdentityProof()
-        {
-            ICrud crud = new ConfigCrys.IdentityProofType.Server(null);
-            ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
-
-            ReturnObject<List<Table>> ret = new ReturnObject<List<Table>>
-            {
-                Value = new List<Table>()
-            };
-
-            //Populate data in dto from business entity
-            foreach (ConfigCrys.IdentityProofType.Data data in dataList.Value)
-            {
-                ret.Value.Add(new Table
-                {
-                    Id = data.Id,
-                    Name = data.Name
-                });
-            }
-
-            return ret;
         }
 
         private List<CustCrys.ContactNumber.Data> ConvertContactNumberList(List<Table> dtoList)
@@ -342,70 +268,6 @@ namespace AutoTourism.Customer.Facade
         //    }
         //    return retVal;
         //}
-
-        private ReturnObject<List<Dto>> ReadAllCustomer()
-        {
-            ReturnObject<List<Dto>> retObj = new ReturnObject<List<Dto>>();
-
-            ICrud crud = new CustAuto.Server(null);
-            ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
-
-            if (lstData.HasError())
-                return new ReturnObject<List<Dto>>
-                {
-                    MessageList = lstData.MessageList
-                };
-
-            ReturnObject<List<Dto>> ret = new ReturnObject<List<Dto>>()
-            {
-                Value = new List<Dto>(),
-            };
-
-            //Populate data in dto from business entity
-            foreach (BinAff.Core.Data data in lstData.Value)
-            {
-                ret.Value.Add(new Dto
-                {
-                    Id = data.Id,
-                    //Initial = ((CustCrys.Data)data).Initial == null ? null : new Table
-                    //{
-                    //    Id = ((CustCrys.Data)data).Initial.Id,
-                    //    Name = ((CustCrys.Data)data).Initial.Name,
-                    //},
-                    FirstName = ((CustCrys.Data)data).FirstName,
-                    MiddleName = ((CustCrys.Data)data).MiddleName,
-                    LastName = ((CustCrys.Data)data).LastName,
-                    Address = ((CustCrys.Data)data).Address,
-                    Country = ((CustCrys.Data)data).Country == null ? null : new Table()
-                    {
-                        Id = ((CustCrys.Data)data).Country.Id,
-                        Name = ((CustCrys.Data)data).Country.Name,
-                    },
-                    State = ((CustCrys.Data)data).State == null ? null : new Table()
-                    {
-                        Id = ((CustCrys.Data)data).State.Id,
-                        Name = ((CustCrys.Data)data).State.Name,
-                    },
-                    City = ((CustCrys.Data)data).City,
-                    Pin = ((CustCrys.Data)data).Pin,
-                    ContactNumberList = ((CustCrys.Data)data).ContactNumberList == null ? null : ConvertContactNumberList(((CustCrys.Data)data).ContactNumberList),
-                    Email = ((CustCrys.Data)data).Email,
-                    IdentityProofType = ((CustCrys.Data)data).IdentityProofType == null ? null : new Table()
-                    {
-                        Id = ((CustCrys.Data)data).IdentityProofType.Id,
-                        Name = ((CustCrys.Data)data).IdentityProofType.Name,
-                    },
-                    IdentityProofName = ((Crystal.Customer.Component.Data)data).IdentityProof,
-                });
-            }
-
-            return ret;
-        }
-
-        private ReturnObject<RuleAuto.CustomerRuleDto> ReadCustomerRule()
-        {
-            return new RuleAuto.RuleServer().ReadCustomerRule();            
-        }
 
         public void SaveArtifactForCustomer(Vanilla.Utility.Facade.Artifact.Dto artifactDto)
         {

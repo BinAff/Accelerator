@@ -79,6 +79,10 @@ namespace Crystal.Navigator.Component.Artifact
 
         public Boolean IsAttachmentSupported { get; set; }
 
+        public Int16 AttachmentCount { get; set; }
+
+        public List<Data> AttachmentList { get; set; }
+
     }
 
 }

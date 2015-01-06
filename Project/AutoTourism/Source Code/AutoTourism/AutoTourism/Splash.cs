@@ -37,9 +37,9 @@ namespace AutoTourism
         private void timer_Tick(object sender, EventArgs e)
         {
             this.CreateFoldersAndFiles();
-            this.LoadAutoCache();
 
-            new Vanilla.Navigator.Facade.Splash.Server(null).LoadForm();
+            //new Vanilla.Navigator.Facade.Splash.Server(null).LoadForm();
+            new AutoTourism.Utility.Facade.Cache.Server().Cache();
             Thread t = new Thread(delegate()
             {
                 Application.Run(Vanilla.Navigator.WinForm.Container.CreateInstance());

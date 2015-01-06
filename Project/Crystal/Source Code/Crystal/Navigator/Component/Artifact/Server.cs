@@ -128,6 +128,14 @@ namespace Crystal.Navigator.Component.Artifact
             return this.DeleteAttachmentLink(attachment);
         }
 
+        ReturnObject<Server> IArtifact.GetAttachmentServer(Data attachment)
+        {
+            return new ReturnObject<Server>
+            {
+                Value = this.GetAttachmentServer(attachment),
+            };
+        }
+
         protected virtual ReturnObject<Boolean> CreateAttachmentLink(Data attachment)
         {
             if (!(this.Data as Data).IsAttachmentSupported)
@@ -210,6 +218,11 @@ namespace Crystal.Navigator.Component.Artifact
                 };
             }
             return ret;
+        }
+
+        protected virtual Server GetAttachmentServer(Data attachment)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

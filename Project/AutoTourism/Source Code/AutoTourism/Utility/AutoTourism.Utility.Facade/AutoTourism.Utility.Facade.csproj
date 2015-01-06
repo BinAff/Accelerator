@@ -55,6 +55,10 @@
       <Project>{a10719af-5c9f-4903-ab83-089ec502eea2}</Project>
       <Name>Vanilla.Utility.Facade</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Configuration\Autotourism.Configuration.Rule.Facade\Autotourism.Configuration.Rule.Facade.csproj">
+      <Project>{c8cf309d-21f1-43f7-bb6b-cf78e2b14245}</Project>
+      <Name>Autotourism.Configuration.Rule.Facade</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Lodge\Configuration\AutoTourism.Lodge.Configuration.Facade\AutoTourism.Lodge.Configuration.Facade.csproj">
       <Project>{4b8e9db9-1e3c-42e2-8a61-6bf503cd44af}</Project>
       <Name>AutoTourism.Lodge.Configuration.Facade</Name>

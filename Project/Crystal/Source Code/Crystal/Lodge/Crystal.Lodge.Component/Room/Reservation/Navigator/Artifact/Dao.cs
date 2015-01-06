@@ -22,10 +22,6 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
             base.ReadComponentLinkSPName = "Lodge.RoomReservationArtifactReadLink";
             base.UpdateComponentLinkSPName = "Lodge.RoomReservationArtifactUpdateLink";
             base.DeleteComponentLinkSPName = "Lodge.RoomReservationArtifactDeleteLink";
-
-            base.CreateAttachmentLinkSPName = "Lodge.RoomReservationArtifactAttachmentInsertLink";
-            base.ReadAttachmentLinkSPName = "Lodge.RoomReservationArtifactAttachmentReadLink";
-            base.DeleteAttachmentLinkSPName = "Lodge.RoomReservationArtifactAttachmentDeleteLink";
         }
 
         protected override BinAff.Core.Data CreateDataObject(Int64 id, ArtfComp.Category category)
@@ -43,6 +39,11 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
             {
                 Id = componentId
             };
+        }
+
+        protected override ArtfComp.Data CreateAttachmentDataObject(Int64 attachmentId)
+        {
+            return base.CreateAttachmentDataObject(attachmentId);
         }
 
     }

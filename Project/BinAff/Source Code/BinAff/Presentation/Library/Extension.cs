@@ -34,6 +34,20 @@ namespace BinAff.Presentation.Library.Extension
             control.SelectedIndex = -1;
         }
 
+        public static List<T> RetrieveItems<T>(this ListBox control)
+        {
+            if (control.Items.Count > 0)
+            {
+                List<T> ret = new List<T>();
+                foreach (T item in control.Items)
+                {
+                    ret.Add(item);
+                }
+                return ret;
+            }
+            return null;
+        }
+
         public static List<T> DataSource<T>(this ListBox control)
         {
             List<T> dataSource = new List<T>();
@@ -75,6 +89,20 @@ namespace BinAff.Presentation.Library.Extension
             control.SelectedIndex = -1;
         }
 
+        public static List<T> RetrieveItems<T>(this ComboBox control)
+        {
+            if (control.Items.Count > 0)
+            {
+                List<T> ret = new List<T>();
+                foreach (T item in control.Items)
+                {
+                    ret.Add(item);
+                }
+                return ret;
+            }
+            return null;
+        }
+
         public static List<T> DataSource<T>(this ComboBox control)
         {
             List<T> dataSource = new List<T>();
@@ -84,6 +112,11 @@ namespace BinAff.Presentation.Library.Extension
             }
             return dataSource;
         }
+
+    }
+
+    public static class ListControlExtender
+    {
 
     }
 

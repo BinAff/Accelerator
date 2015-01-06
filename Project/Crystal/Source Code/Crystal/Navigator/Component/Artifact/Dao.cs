@@ -18,12 +18,6 @@ namespace Crystal.Navigator.Component.Artifact
 
         protected String ReadComponentLinkSPName { get; set; }
 
-        protected String CreateAttachmentLinkSPName { get; set; }
-
-        protected String DeleteAttachmentLinkSPName { get; set; }
-
-        protected String ReadAttachmentLinkSPName { get; set; }
-
         public Dao(Data data) 
             : base(data)
         {
@@ -198,29 +192,7 @@ namespace Crystal.Navigator.Component.Artifact
                     if (!Convert.IsDBNull(row["Id"]))
                     {
                         Data artf = this.CreateDataObject(row, this.CreateDataObject(Convert.ToInt64(row["Id"]), (this.Data as Data).Category)) as Data;
-                        artf.CreatedBy = new GuardianAcc.Data
-                        {
-                            Id = Convert.ToInt64(row["CreatedByUserId"]),
-                            Profile = new GuardianAcc.Profile.Data
-                            {
-                                FirstName = Convert.ToString(row["CreatedByFirstName"]),
-                                MiddleName = Convert.ToString(row["CreatedByMiddleName"]),
-                                LastName = Convert.ToString(row["CreatedByLastName"])
-                            }
-                        };
-                        if (!Convert.IsDBNull(row["ModifiedByUserId"]))
-                        {
-                            artf.ModifiedBy = new GuardianAcc.Data
-                            {
-                                Id = Convert.ToInt64(row["ModifiedByUserId"]),
-                                Profile = new GuardianAcc.Profile.Data
-                                {
-                                    FirstName = Convert.ToString(row["ModifiedByFirstName"]),
-                                    MiddleName = Convert.ToString(row["ModifiedByMiddleName"]),
-                                    LastName = Convert.ToString(row["ModifiedByLastName"])
-                                }
-                            };
-                        }
+                        artf.AttachmentCount = Convert.IsDBNull(row["AttachmentCount"]) ? Convert.ToInt16(0) : Convert.ToInt16(row["AttachmentCount"]);
                         artf.ComponentDefinition = new License.Component.Data
                         {
                             Id = Convert.ToInt64(row["ComponentId"]),
@@ -296,7 +268,7 @@ namespace Crystal.Navigator.Component.Artifact
         protected internal virtual Boolean CreateAttachmentLink(Data attachment)
         {
             Boolean status = true;
-            base.CreateCommand(this.CreateAttachmentLinkSPName);
+            base.CreateCommand("Navigator.ArtifactAttachmentLinkInsert");
             base.AddInParameter("@AttachmentId", DbType.Int64, attachment.Id);
             base.AddInParameter("@Id", DbType.String, base.Data.Id);
             Int32 ret = base.ExecuteNonQuery();
@@ -309,28 +281,32 @@ namespace Crystal.Navigator.Component.Artifact
         {
             List<Data> ret = new List<Data>();
             base.CreateConnection();
-            base.CreateCommand(this.ReadAttachmentLinkSPName);
+            base.CreateCommand("Navigator.ArtifactAttachmentLinkRead");
             base.AddInParameter("@Id", DbType.Int64, this.Data.Id);
             DataSet ds = this.ExecuteDataSet();
-            //Read artifacts
+
+            //Attach dummy artifacts as attachment
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    base.CreateCommand("Navigator.ArtifactRead");
-                    base.AddInParameter("@Id", DbType.Int64, dr[0]);
-                    DataSet ds1 = this.ExecuteDataSet();
-                    ret.Add(CreateDataObject(ds1.Tables[0].Rows[0], new Data()) as Data);
+                    ret.Add(new Data { Id = Convert.ToInt64(dr["AttachmentId"]) });
                 }
             }
             this.CloseConnection();
             return ret;
         }
 
+        protected virtual Artifact.Data CreateAttachmentDataObject(Int64 attachmentId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Boolean DeleteAttachmentLink(Data attachment)
         {
             Boolean status = true;
-            base.CreateCommand(this.DeleteAttachmentLinkSPName);
+            base.CreateCommand("Navigator.ArtifactAttachmentLinkDelete");
+            base.AddInParameter("@Id", DbType.Int64, this.Data.Id);
             base.AddInParameter("@AttachmentId", DbType.Int64, attachment.Id);
 
             Int32 ret = base.ExecuteNonQuery();

@@ -60,7 +60,9 @@
     <Compile Include="State\FormDto.cs" />
     <Compile Include="State\Server.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Country\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
       <Project>{D25DF173-3451-49AA-9570-269B2880C393}</Project>

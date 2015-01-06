@@ -333,6 +333,7 @@ namespace Vanilla.Utility.WinForm.Extender
         public static String Initialize(this ListView listView)
         {
             listView.Columns.Add("Name", "Name", 150);
+            listView.Columns.Add("Attachment", "", 30);
             listView.Columns.Add("Type", "Type", 70);
             listView.Columns.Add("Version", "Version", 50);
             listView.Columns.Add("Created By", "Created By", 100);
@@ -383,7 +384,8 @@ namespace Vanilla.Utility.WinForm.Extender
                         Tag = artifact,
                         ImageIndex = artifact.Style == Facade.Artifact.Type.Folder ? 0 : 2,
                     };
-                    if (artifact.Style == Facade.Artifact.Type.Document) current.Text += "." + artifact.Extension;
+                    if (artifact.Style == Facade.Artifact.Type.Document) current.Text = artifact.FullFileName;
+                    current.UseItemStyleForSubItems = false;
                     current.SubItems.AddRange(AddListViewSubItems(current, artifact));
                     listView.Items.Add(current);
                 }
@@ -421,7 +423,13 @@ namespace Vanilla.Utility.WinForm.Extender
         private static ListViewItem.ListViewSubItem[] AddListViewSubItems(ListViewItem node, Facade.Artifact.Dto artifact)
         {
             return new ListViewItem.ListViewSubItem[]
-            {   
+            {
+                new ListViewItem.ListViewSubItem(node, "Attachment")
+                {
+                    Name = "Attachment",
+                    Font = new System.Drawing.Font("Webdings", 12F),
+                    Text = artifact.AttachmentCount > 0 ? "'" : String.Empty,
+                },
                 new ListViewItem.ListViewSubItem(node, "Type")
                 {
                     Name = "Type",

@@ -47,7 +47,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtCity = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.cboState = new System.Windows.Forms.ComboBox();
+            this.cboStateList = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtAdds = new System.Windows.Forms.TextBox();
             this.txtLName = new System.Windows.Forms.TextBox();
@@ -233,14 +233,14 @@
             // 
             // cboState
             // 
-            this.cboState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.cboState.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboState.FormattingEnabled = true;
-            this.cboState.Location = new System.Drawing.Point(278, 106);
-            this.cboState.Name = "cboState";
-            this.cboState.Size = new System.Drawing.Size(168, 21);
-            this.cboState.Sorted = true;
-            this.cboState.TabIndex = 6;
+            this.cboStateList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.cboStateList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboStateList.FormattingEnabled = true;
+            this.cboStateList.Location = new System.Drawing.Point(278, 106);
+            this.cboStateList.Name = "cboState";
+            this.cboStateList.Size = new System.Drawing.Size(168, 21);
+            this.cboStateList.Sorted = true;
+            this.cboStateList.TabIndex = 6;
             // 
             // label1
             // 
@@ -347,14 +347,14 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtCity);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.cboState);
+            this.Controls.Add(this.cboStateList);
             this.Controls.Add(this.label1);
             this.Name = "CustomerForm";
             this.ShowInTaskbar = false;
             this.Text = "Customer Registration Form";
             this.Load += new System.EventHandler(this.CustomerForm_Load);
             this.Controls.SetChildIndex(this.label1, 0);
-            this.Controls.SetChildIndex(this.cboState, 0);
+            this.Controls.SetChildIndex(this.cboStateList, 0);
             this.Controls.SetChildIndex(this.label2, 0);
             this.Controls.SetChildIndex(this.txtCity, 0);
             this.Controls.SetChildIndex(this.label3, 0);
@@ -408,7 +408,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtCity;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cboState;
+        private System.Windows.Forms.ComboBox cboStateList;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtAdds;
         private System.Windows.Forms.TextBox txtLName;

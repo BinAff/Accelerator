@@ -39,6 +39,11 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
             return new Room.Reservation.Server(moduleData as Room.Reservation.Data);
         }
 
+        protected override ArtfComp.Server GetAttachmentServer(ArtfComp.Data attachment)
+        {
+            return new Crystal.Invoice.Component.Payment.Navigator.Artifact.Server(new Invoice.Component.Payment.Navigator.Artifact.Data { Id = attachment.Id });
+        }
+
     }
 
 }

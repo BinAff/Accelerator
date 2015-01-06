@@ -54,6 +54,10 @@
       <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
       <Name>BinAff.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\BinAff.Facade.Cache\BinAff.Facade.Cache.csproj">
+      <Project>{266b4deb-d9c2-4607-a5d5-60f5124e89ae}</Project>
+      <Name>BinAff.Facade.Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
       <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
       <Name>BinAff.Facade.Library</Name>
@@ -113,6 +117,10 @@
     <ProjectReference Include="..\..\Configuration\Autotourism.Configuration.Rule.Facade\Autotourism.Configuration.Rule.Facade.csproj">
       <Project>{c8cf309d-21f1-43f7-bb6b-cf78e2b14245}</Project>
       <Name>Autotourism.Configuration.Rule.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utility\AutoTourism.Utility.Facade\AutoTourism.Utility.Facade.csproj">
+      <Project>{047d5299-d11c-4a2f-b54b-d90b06cdbad4}</Project>
+      <Name>AutoTourism.Utility.Facade</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
