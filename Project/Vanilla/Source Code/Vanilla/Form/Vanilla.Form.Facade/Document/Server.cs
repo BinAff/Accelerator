@@ -125,19 +125,27 @@ namespace Vanilla.Form.Facade.Document
 
         public virtual void RetrieveAttachmentList()
         {
-            ArtfCrys.IArtifact artifactServer = this.GetArtifactServer(this.GetArtifactData((this.FormDto as FormDto).Document.Id));
+            base.componentServer = this.GetArtifactServer(this.GetArtifactData((this.FormDto as FormDto).Document.Id));
+            ArtfCrys.IArtifact artifactServer = base.componentServer as ArtfCrys.IArtifact;
             ReturnObject<List<ArtfCrys.Data>> ret = artifactServer.ReadAttachmentLink();
             this.AttachMessage(ret);
             (this.FormDto as FormDto).Document.AttachmentList = new List<ArtfFac.Dto>();
             foreach (ArtfCrys.Data attachment in ret.Value)
             {
-                attachment.ComponentDefinition = new Crystal.License.Component.Data
+                ICrud attachmentServer = this.GetAttachmentServer(attachment);
+                ArtfCrys.Data attachmentData = (attachmentServer as ArtfCrys.Server).Data as ArtfCrys.Data;
+                attachmentData.ComponentDefinition = new Crystal.License.Component.Data
                 {
                     Code = this.GetAttachmentComponentCode(),
                 };
-                attachment.Category = ArtfCrys.Category.Form;
-                (this.FormDto as FormDto).Document.AttachmentList.Add(new Vanilla.Utility.Facade.Artifact.Server(null).Convert(attachment) as Vanilla.Utility.Facade.Artifact.Dto);
+                attachmentServer.Read();
+                (this.FormDto as FormDto).Document.AttachmentList.Add(new ArtfFac.Server(null).Convert(attachmentData) as ArtfFac.Dto);
             }
+        }
+
+        private ArtfCrys.Server GetAttachmentServer(ArtfCrys.Data attachment)
+        {
+            return (base.componentServer as ArtfCrys.IArtifact).GetAttachmentServer(attachment).Value;
         }
 
         public virtual void DeleteAttachment(ArtfFac.Dto attachment)

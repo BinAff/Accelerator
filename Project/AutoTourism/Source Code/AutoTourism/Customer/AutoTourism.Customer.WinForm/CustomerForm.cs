@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 using BinAff.Utility;
+using BinAff.Presentation.Library.Extension;
 
 using AccFac = Vanilla.Guardian.Facade.Account;
 using CustFac = AutoTourism.Customer.Facade;
@@ -19,80 +20,7 @@ namespace AutoTourism.Customer.WinForm
     public partial class CustomerForm : FormWin.Document
     {   
 
-        private ConfRuleFac.CustomerRuleDto customerRule;
         private Boolean isLoadedFromRoomReservationForm = false;
-
-        #region Rule property
-
-        private Boolean isPinNumberMandatory = false;
-        public Boolean IsPinNumberMandatory
-        {
-            get
-            {
-                return this.isPinNumberMandatory;
-            }
-            set
-            {
-                this.isPinNumberMandatory = value;
-                if (this.isPinNumberMandatory)
-                {
-                    this.txtPin.BackColor = MandatoryColor;
-                }
-            }
-        }
-
-        private Boolean isEmailMandatory = false;
-        public Boolean IsEmailMandatory
-        {
-            get
-            {
-                return this.isEmailMandatory;
-            }
-            set
-            {
-                this.isEmailMandatory = value;
-                if (this.isEmailMandatory)
-                {
-                    this.txtEmail.BackColor = MandatoryColor;
-                }
-            }
-        }
-
-        private Boolean isIdentityMandatory = false;
-        public Boolean IsIdentityMandatory
-        {
-            get
-            {
-                return this.isIdentityMandatory;
-            }
-            set
-            {
-                this.isIdentityMandatory = value;
-                if (this.isIdentityMandatory)
-                {
-                    this.txtIdentityProofName.BackColor = MandatoryColor;
-                }
-            }
-        }
-
-        private Boolean isAlternateContactNoMandatory = false;
-        public Boolean IsAlternateContactNoMandatory
-        {
-            get
-            {
-                return this.isAlternateContactNoMandatory;
-            }
-            set
-            {
-                this.isAlternateContactNoMandatory = value;
-                if (this.isAlternateContactNoMandatory)
-                {
-                    this.lstContact.BackColor = MandatoryColor;
-                }
-            }
-        }
-
-        #endregion
 
         #region Constructor
 
@@ -119,6 +47,8 @@ namespace AutoTourism.Customer.WinForm
             base.DisableShowAttachmentButton();
             base.AncestorName = "...";
             //base.AttachmentName = "...";
+
+
             //if loaded form room reservation form , then populate the modules
             //if (this.isLoadedFromRoomReservationForm)
             //{
@@ -129,96 +59,96 @@ namespace AutoTourism.Customer.WinForm
             //this.LoadForm();
         }
 
+        private void cboNationList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboNationList.SelectedItem != null)
+            {
+                new CustFac.Server(base.formDto as Facade.FormDto).LoadStateForCountry(cboNationList.SelectedItem as Table);
+                this.cboStateList.Bind((base.formDto as Facade.FormDto).StateList, "Name");
+            }
+        }
+
         private void btnAddContact_Click(object sender, System.EventArgs e)
         {
-            errorProvider.Clear();
+            this.errorProvider.Clear();
 
             ReturnObject<List<Table>> retObj = new ReturnObject<List<Table>>();
-            if (String.IsNullOrEmpty(txtLandLine.Text.Trim()) && String.IsNullOrEmpty(txtMobile.Text.Trim()))
+            if (String.IsNullOrEmpty(this.txtLandLine.Text) && String.IsNullOrEmpty(this.txtMobile.Text))
             {
-                errorProvider.SetError(txtLandLine, "Please enter a contact.");
-                txtLandLine.Focus();
+                this.errorProvider.SetError(this.txtLandLine, "Please enter a contact.");
+                this.txtLandLine.Focus();
                 return;
             }
 
             //check landline
-            if (!String.IsNullOrEmpty(txtLandLine.Text.Trim()))
+            if (!String.IsNullOrEmpty(this.txtLandLine.Text))
             {
-                //check and validate STD
-                if (String.IsNullOrEmpty(txtStd.Text.Trim()))
+                if (String.IsNullOrEmpty(this.txtStd.Text))
                 {
-                    errorProvider.SetError(txtStd, "Please enter Code.");
-                    txtStd.Focus();
+                    this.errorProvider.SetError(this.txtStd, "Please enter Code.");
+                    this.txtStd.Focus();
                 }
-                //Validate STD
-                else if (txtStd.Text.Trim().Length < 2)
+                else if (this.txtStd.Text.Trim().Length < 2)
                 {
-                    errorProvider.SetError(txtStd, "Entered text cannot be less than 2");
-                    txtStd.Focus();
+                    this.errorProvider.SetError(this.txtStd, "STD code cannot be less than 2");
+                    this.txtStd.Focus();
                 }
-                else if (!(new Regex(@"^[0-9]*$").IsMatch(txtStd.Text.Trim())))
+                else if (!ValidationRule.IsNumeric(this.txtStd.Text))
                 {
-                    errorProvider.SetError(txtStd, "Entered " + txtStd.Text + " is Invalid.");
-                    txtStd.Focus();
+                    this.errorProvider.SetError(this.txtStd, "Entered " + this.txtStd.Text + " is Invalid.");
+                    this.txtStd.Focus();
                 }
-
-                else if (txtLandLine.Text.Trim().Length < 6)
+                else if (this.txtLandLine.Text.Trim().Length < 6)
                 {
-                    errorProvider.SetError(txtLandLine, "Entered text cannot be less than 6");
-                    txtLandLine.Focus();
+                    this.errorProvider.SetError(this.txtLandLine, "Entered text cannot be less than 6");
+                    this.txtLandLine.Focus();
                 }
-                else if (!(new Regex(@"^[0-9]*$").IsMatch(txtLandLine.Text.Trim())))
+                else if (!ValidationRule.IsNumeric(this.txtLandLine.Text))
                 {
-                    errorProvider.SetError(txtLandLine, "Entered " + txtLandLine.Text + " is Invalid.");
-                    txtLandLine.Focus();
+                    this.errorProvider.SetError(this.txtLandLine, "Entered " + this.txtLandLine.Text + " is Invalid.");
+                    this.txtLandLine.Focus();
                 }
                 else //Add the landline number to List
                 {
-                    retObj = GetContactNumberList(txtIsd.Text + "-" + txtStd.Text + "-" + txtLandLine.Text, (List<Table>)lstContact.DataSource);                    
-
-                    if (retObj.HasError())
-                        errorProvider.SetError(txtLandLine, "Entered contact already exists.");
+                    String contactNumber = this.txtIsd.Text + "-" + this.txtStd.Text + "-" + this.txtLandLine.Text;
+                    if (this.IsDuplicateContactNumber(contactNumber))
+                    {
+                        this.errorProvider.SetError(this.txtLandLine, "Entered contact number already exists.");
+                    }
                     else
                     {
-                        lstContact.DataSource = null;
-                        lstContact.DataSource = retObj.Value;
-                        lstContact.DisplayMember = "Name";
-                        lstContact.SelectedIndex = -1;
-
-                        txtStd.Text = String.Empty;
-                        txtLandLine.Text = String.Empty;
+                        this.AddContactNumber(contactNumber);
+                        this.txtIsd.Text = String.Empty;
+                        this.txtStd.Text = String.Empty;
+                        this.txtLandLine.Text = String.Empty;
                     }
                 }
             }
 
             //check mobile number
-            if (!String.IsNullOrEmpty(txtMobile.Text.Trim()))
+            if (!String.IsNullOrEmpty(this.txtMobile.Text))
             {
-                if (!(new Regex(@"^[0-9]*$").IsMatch(txtMobile.Text.Trim())))
+                if (!ValidationRule.IsNumeric(this.txtMobile.Text))
                 {
-                    errorProvider.SetError(txtMobile, "Entered " + txtMobile.Text + " is Invalid.");
-                    txtMobile.Focus();
+                    this.errorProvider.SetError(this.txtMobile, "Entered " + this.txtMobile.Text + " is Invalid.");
+                    this.txtMobile.Focus();
                 }
-                else if (txtMobile.Text.Trim().Length < 10)
+                else if (this.txtMobile.Text.Trim().Length < 10)
                 {
-                    errorProvider.SetError(txtMobile, "Entered text cannot be less than 10");
-                    txtMobile.Focus();
+                    this.errorProvider.SetError(this.txtMobile, "Entered text cannot be less than 10");
+                    this.txtMobile.Focus();
                 }
                 else
                 {
-                    retObj = GetContactNumberList(txtMobilePrefix.Text + "-" + txtMobile.Text, (List<Table>)lstContact.DataSource);
-
-                    if (retObj.HasError())
+                    String contactNumber = this.txtIsd.Text + "-" + this.txtStd.Text + "-" + this.txtLandLine.Text;
+                    if (this.IsDuplicateContactNumber(contactNumber))
                     {
-                        errorProvider.SetError(txtLandLine, "Entered contact already exists.");
+                        this.errorProvider.SetError(this.txtMobile, "Entered contact number already exists.");
+                        this.txtMobile.Focus();
                     }
                     else
                     {
-                        lstContact.DataSource = null;
-                        lstContact.DataSource = retObj.Value;
-                        lstContact.DisplayMember = "Name";
-                        lstContact.SelectedIndex = -1;
-
+                        this.AddContactNumber(contactNumber);
                         txtMobile.Text = String.Empty;
                     }
                 }
@@ -227,41 +157,14 @@ namespace AutoTourism.Customer.WinForm
 
         private void bttnRemove_Click(object sender, EventArgs e)
         {
-            if (lstContact.SelectedItems.Count == 0) return;
-
-            Boolean blnExists = false;
-            List<Table> contactNumberList = new List<Table>();
-
-            List<Table> contactNumberPresentList = (List<Table>)lstContact.DataSource;
-            if (contactNumberPresentList != null && lstContact.SelectedItems.Count > 0)
-            {
-                foreach (Table dto in contactNumberPresentList)
-                {
-                    blnExists = false;
-                    foreach (Table contactDto in lstContact.SelectedItems)
-                    {
-                        if (dto == contactDto)
-                        {
-                            blnExists = true;
-                            break;
-                        }
-                    }
-                    if (!blnExists) contactNumberList.Add(dto);
-                }
-            }
-
-            lstContact.DataSource = null;
-            if (contactNumberList != null && contactNumberList.Count > 0)
-            {
-                lstContact.DataSource = contactNumberList;
-                lstContact.DisplayMember = "Name";
-                lstContact.SelectedIndex = -1;
-            }
+            if (this.lstContact.SelectedItems.Count == 0) return;
+            ((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList.Remove(this.lstContact.SelectedItem as Table);
+            this.lstContact.Items.Remove(this.lstContact.SelectedItem as Table);
         }
 
         protected override void RefreshFormBefore()
         {
-            errorProvider.Clear();
+            this.errorProvider.Clear();
             this.txtStd.Text = String.Empty;
             this.txtLandLine.Text = String.Empty;
             this.txtMobile.Text = String.Empty;
@@ -286,24 +189,8 @@ namespace AutoTourism.Customer.WinForm
             CustFac.FormDto formDto = base.formDto as Facade.FormDto;
             base.facade.LoadForm();
 
-            this.customerRule = formDto.RuleDto;
-            this.SetMandatoryRule();
-
-            if (formDto.CountryList != null && formDto.CountryList.Count > 0)
-            {
-                this.cboNationList.DataSource = formDto.CountryList;
-                this.cboNationList.DisplayMember = "Name";
-                this.cboNationList.ValueMember = "Id";
-                this.cboNationList.SelectedIndex = -1;
-            }
-
-            if (formDto.IdentityProofTypeList != null && formDto.IdentityProofTypeList.Count > 0)
-            {
-                this.cboIdentityProofType.DataSource = formDto.IdentityProofTypeList;
-                this.cboIdentityProofType.DisplayMember = "Name";
-                this.cboIdentityProofType.ValueMember = "Id";
-                this.cboIdentityProofType.SelectedIndex = -1;
-            }           
+            this.cboNationList.Bind(formDto.CountryList, "Name");
+            this.cboIdentityProofType.Bind(formDto.IdentityProofTypeList, "Name");        
         }
 
         protected override void PopulateDataToForm()
@@ -314,53 +201,16 @@ namespace AutoTourism.Customer.WinForm
             this.txtMName.Text = dto.MiddleName;
             this.txtLName.Text = dto.LastName;
             this.txtAdds.Text = dto.Address;
-            if (dto.Country != null && dto.Country.Id > 0)
+            this.cboNationList.SelectedItem = (this.formDto as Facade.FormDto).CountryList.FindLast((p) => { return p.Id == dto.Country.Id; });
+            if (this.cboNationList.SelectedItem != null)
             {
-                for (int i = 0; i < cboNationList.Items.Count; i++)
-                {
-                    if (dto.Country.Id == ((Table)cboNationList.Items[i]).Id)
-                    {
-                        this.cboNationList.SelectedIndex = i;
-                        break;
-                    }
-                }
+                this.cboStateList.SelectedItem = (this.formDto as Facade.FormDto).StateList.FindLast((p) => { return p.Id == dto.State.Id; });
             }
-            else this.cboNationList.SelectedIndex = -1;
-
-            if (dto.State != null && dto.State.Id > 0)
-            {
-                for (int i = 0; i < cboState.Items.Count; i++)
-                {
-                    if (dto.State.Id == ((Table)cboState.Items[i]).Id)
-                    {
-                        this.cboState.SelectedIndex = i;
-                        break;
-                    }
-                }
-            }
-            else this.cboState.SelectedIndex = -1;
-
             this.txtCity.Text = dto.City;
             this.txtPin.Text = dto.Pin == 0 ? String.Empty : dto.Pin.ToString();
-            if (dto.ContactNumberList != null && dto.ContactNumberList.Count > 0)
-            {
-                this.lstContact.DataSource = dto.ContactNumberList;
-                this.lstContact.DisplayMember = "Name";
-                this.lstContact.ValueMember = "Id";
-                this.lstContact.SelectedIndex = -1;
-            }
+            this.lstContact.Bind(dto.ContactNumberList, "Name");
             this.txtEmail.Text = dto.Email;
-            if (dto.IdentityProofType != null && dto.IdentityProofType.Id > 0)
-            {
-                for (int i = 0; i < cboIdentityProofType.Items.Count; i++)
-                {
-                    if (dto.IdentityProofType.Id == ((Table)cboIdentityProofType.Items[i]).Id)
-                    {
-                        this.cboIdentityProofType.SelectedIndex = i;
-                        break;
-                    }
-                }
-            }
+            this.cboIdentityProofType.SelectedItem = (this.formDto as Facade.FormDto).IdentityProofTypeList.FindLast((p) => { return p.Id == dto.IdentityProofType.Id; });
             this.txtIdentityProofName.Text = dto.IdentityProofName;
         }
 
@@ -404,10 +254,10 @@ namespace AutoTourism.Customer.WinForm
                 cboNationList.Focus();
                 return false;
             }
-            else if (cboState.SelectedIndex == -1)
+            else if (cboStateList.SelectedIndex == -1)
             {
-                errorProvider.SetError(cboState, "Please select a state.");
-                cboState.Focus();
+                errorProvider.SetError(cboStateList, "Please select a state.");
+                cboStateList.Focus();
                 return false;
             }
             else if (String.IsNullOrEmpty(txtCity.Text.Trim()))
@@ -423,7 +273,7 @@ namespace AutoTourism.Customer.WinForm
                 return false;
             }
 
-            else if (this.IsPinNumberMandatory && String.IsNullOrEmpty(txtPin.Text.Trim()))
+            else if ((base.formDto as Facade.FormDto).RuleDto.IsPinNumber && String.IsNullOrEmpty(txtPin.Text.Trim()))
             {
                 errorProvider.SetError(txtPin, "Please enter pin number.");
                 txtPin.Focus();
@@ -441,12 +291,12 @@ namespace AutoTourism.Customer.WinForm
                 errorProvider.SetError(lstContact, "Please enter contact.");
                 return false;
             }
-            else if (this.IsAlternateContactNoMandatory && lstContact.Items.Count < 2)
+            else if ((base.formDto as Facade.FormDto).RuleDto.IsAlternateContactNumber && lstContact.Items.Count < 2)
             {
                 errorProvider.SetError(lstContact, "Please enter alternate contact.");
                 return false;
             }
-            else if (this.IsEmailMandatory && String.IsNullOrEmpty(txtEmail.Text.Trim()))
+            else if ((base.formDto as Facade.FormDto).RuleDto.IsEmail && String.IsNullOrEmpty(txtEmail.Text.Trim()))
             {
                 errorProvider.SetError(txtEmail, "Please enter Email.");
                 txtEmail.Focus();
@@ -458,7 +308,7 @@ namespace AutoTourism.Customer.WinForm
                 txtEmail.Focus();
                 return false;
             }
-            else if (this.IsIdentityMandatory)
+            else if ((base.formDto as Facade.FormDto).RuleDto.IsIdentityProof)
             {
                 if (String.IsNullOrEmpty(txtIdentityProofName.Text.Trim()))
                 {
@@ -487,22 +337,13 @@ namespace AutoTourism.Customer.WinForm
             dto.MiddleName = txtMName.Text.Trim();
             dto.LastName = txtLName.Text.Trim();
             dto.Address = txtAdds.Text.Trim();
-            dto.Country = cboNationList.SelectedIndex == -1 ? null : new Table
-            {
-                Id = (cboNationList.SelectedItem as Table).Id,
-            };
-            dto.State = cboState.SelectedIndex == -1 ? null : new Table
-            {
-                Id = (cboState.SelectedItem as Table).Id,
-            };
+            dto.Country = this.cboNationList.SelectedItem as Table;
+            dto.State = this.cboStateList.SelectedItem as Table;
             dto.City = txtCity.Text.Trim();
             dto.Pin = txtPin.Text == String.Empty ? 0 : Convert.ToInt32(txtPin.Text);
-            dto.ContactNumberList = GetContactNumberDtoList();
+            dto.ContactNumberList = this.lstContact.RetrieveItems<Table>();
             dto.Email = txtEmail.Text.Trim();
-            dto.IdentityProofType = cboIdentityProofType.SelectedIndex == -1 ? null : new Table
-            {
-                Id = (cboIdentityProofType.SelectedItem as Table).Id,
-            };
+            dto.IdentityProofType = this.cboIdentityProofType.SelectedItem as Table; ;
             dto.IdentityProofName = txtIdentityProofName.Text.Trim();
         }
 
@@ -525,113 +366,28 @@ namespace AutoTourism.Customer.WinForm
             this.txtLName.Text = String.Empty;
             this.txtAdds.Text = String.Empty;
             this.cboNationList.SelectedIndex = -1;
-            this.cboState.SelectedIndex = -1;
+            this.cboStateList.Items.Clear();
             this.txtCity.Text = String.Empty;
-            this.txtPin.Text = String.Empty;           
-            this.lstContact.DataSource = null;
+            this.txtPin.Text = String.Empty;
+            this.lstContact.Items.Clear();
             this.txtEmail.Text = String.Empty;
             this.cboIdentityProofType.SelectedIndex = -1;
             this.txtIdentityProofName.Text = String.Empty;
         }
 
-        private void SetMandatoryRule()
+        private Boolean IsDuplicateContactNumber(String contactNumber)
         {
-            this.IsPinNumberMandatory = this.customerRule.IsPinNumber;
-            this.IsEmailMandatory = this.customerRule.IsEmail;
-            this.IsIdentityMandatory = this.customerRule.IsIdentityProof;
-            this.IsAlternateContactNoMandatory = this.customerRule.IsAlternateContactNumber;
+            return ((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList.FindAll((p) =>
+            {
+                return String.Compare(p.Name, contactNumber) == 0;
+            }).Count > 0;
         }
 
-        private List<Table> GetContactNumberDtoList()
+        private void AddContactNumber(String contactNumber)
         {
-            List<Table> contactNumberList = null;
-
-            if (lstContact.DataSource != null && lstContact.Items.Count > 0)
-            {
-                contactNumberList = new List<Table>();
-                foreach (Table dto in lstContact.Items)
-                {
-                    contactNumberList.Add(dto);
-                }
-            }
-            return contactNumberList;
-        }
-
-        private ReturnObject<List<Table>> GetContactNumberList(String val, List<Table> ContactNumberList)
-        {
-            ReturnObject<List<Table>> retObj = new ReturnObject<List<Table>>()
-            {
-                Value = new List<Table>()
-            };
-
-            if (ContactNumberList == null || ContactNumberList.Count == 0)
-            {
-                retObj.Value.Add(new Table { Name = val });
-            }
-            else
-            {
-                foreach (Table dto in ContactNumberList)
-                {
-                    if (dto.Name.ToUpper() == val.ToUpper())
-                    {
-                        retObj.Value = ContactNumberList;
-
-                        retObj.MessageList = new List<BinAff.Core.Message>();
-                        retObj.MessageList.Add(new BinAff.Core.Message()
-                        {
-                            Description = "Duplicate",
-                            Category = BinAff.Core.Message.Type.Error
-                        });
-                        return retObj;
-                    }
-                }
-                ContactNumberList.Add(new Table
-                {
-                    Name = val
-                });
-                retObj.Value = ContactNumberList;
-            }
-            return retObj;
-        }
-
-        private Boolean SaveArtifact()
-        {
-            ArtfFac.Dto artifactDto = new ArtfFac.Dto
-            {
-                Module = this.formDto.Dto,
-                Style = ArtfFac.Type.Document,
-                AuditInfo = new ArtfFac.Audit.Dto
-                {
-                    Version = 1,
-                    CreatedBy = new Table
-                    {
-                        Id = (BinAff.Facade.Cache.Server.Current.Cache["User"] as AccFac.Dto).Id,
-                        Name = (BinAff.Facade.Cache.Server.Current.Cache["User"] as AccFac.Dto).Profile.Name
-                    },
-                    CreatedAt = DateTime.Now,
-                },
-                Category = ArtfFac.Category.Form,
-                Path = this.formDto.Document.Path
-            };
-            new CustFac.Server(this.formDto as Facade.FormDto).SaveArtifactForCustomer(artifactDto);
-            return true;
-        }
-
-        private void cboNationList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cboNationList.SelectedItem != null)
-            {
-                Int64 countryId = ((cboNationList.SelectedItem) as Table).Id;
-                ReturnObject<List<Table>> retVal = new CustFac.Server(new CustFac.FormDto()).ReadStateForCountry(countryId);
-                List<Table> stateList = retVal.Value;
-                if (stateList != null && stateList.Count > 0)
-                {
-                    this.cboState.DataSource = stateList;
-                    this.cboState.DisplayMember = "Name";
-                    this.cboState.ValueMember = "Id";
-                    this.cboState.SelectedIndex = -1;
-                }
-            }
+            Table contact = new Table { Name = contactNumber };
+            this.lstContact.Items.Add(contact);
+            ((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList.Add(contact);
         }
 
     }

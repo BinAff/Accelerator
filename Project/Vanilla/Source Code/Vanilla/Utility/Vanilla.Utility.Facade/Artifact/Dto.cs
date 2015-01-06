@@ -81,6 +81,8 @@ namespace Vanilla.Utility.Facade.Artifact
 
         public FacLib.Dto Parent { get; set; }
 
+        public Int16 AttachmentCount { get; set; }
+
         public Audit.Dto AuditInfo { get; set; }
 
         public override BinAff.Facade.Library.Dto Clone()

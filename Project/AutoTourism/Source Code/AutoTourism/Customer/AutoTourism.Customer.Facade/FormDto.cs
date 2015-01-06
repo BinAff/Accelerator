@@ -17,7 +17,7 @@ namespace AutoTourism.Customer.Facade
 
         //public List<Table> InitialList { get; set; }
         public List<Table> CountryList { get; set; }
-        //public List<Table> StateList { get; set; }
+        public List<Table> StateList { get; set; }
         public List<Table> IdentityProofTypeList { get; set; }
 
         public ModFac.FormDto ModuleFormDto { get; set; }

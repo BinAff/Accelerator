@@ -31,7 +31,7 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
 
         public override void LoadForm()
         {
-            AutoTourism.Utility.Facade.Cache.Dto cache = BinAff.Facade.Cache.Server.Current.Cache["AutoTourism"] as AutoTourism.Utility.Facade.Cache.Dto;
+            AutoTourism.Utility.Facade.Cache.Dto cache = BinAff.Facade.Cache.Server.Current.Cache["Main"] as AutoTourism.Utility.Facade.Cache.Dto;
             FormDto formDto = this.FormDto as FormDto;
             formDto.ConfigurationRule = new RuleFac.RuleServer().ReadConfigurationRule().Value;
             formDto.AllRoomList = cache.RoomList;

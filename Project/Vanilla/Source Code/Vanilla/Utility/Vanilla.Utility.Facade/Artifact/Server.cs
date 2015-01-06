@@ -56,7 +56,7 @@ namespace Vanilla.Utility.Facade.Artifact
         {
             if (data != null)
             {
-                Crystal.Navigator.Component.Artifact.Data artifactData = data as Crystal.Navigator.Component.Artifact.Data;
+                ArtfCrys.Data artifactData = data as ArtfCrys.Data;
 
                 Facade.Artifact.Dto artifact = new Facade.Artifact.Dto
                 {
@@ -83,6 +83,7 @@ namespace Vanilla.Utility.Facade.Artifact
                     },
                     Category = (Category)artifactData.Category,
                     IsAttachmentSupported = artifactData.IsAttachmentSupported,
+                    AttachmentCount = artifactData.AttachmentCount,
                 };
 
                 if ((data as ArtfCrys.Data).Parent != null)
@@ -95,14 +96,14 @@ namespace Vanilla.Utility.Facade.Artifact
                     artifact.ComponentDefinition = new Module.Definition.Server(null).Convert((data as ArtfCrys.Data).ComponentDefinition) as Module.Definition.Dto;
                 }
 
-                if (this.ModuleFacade == null)
+                if (this.ModuleFacade == null && (data as ArtfCrys.Data).ComponentDefinition != null)
                 {
                     this.ModuleFacade = new Module.Helper(new Module.Dto
                     {
                         Code = artifact.ComponentDefinition.Code,
                     }, artifact.Category).ModuleFacade;
                 }
-                if ((data as ArtfCrys.Data).ComponentData != null)
+                if ((data as ArtfCrys.Data).ComponentData != null && this.ModuleFacade != null)
                 {
                     artifact.Module = this.ModuleFacade.Convert((data as ArtfCrys.Data).ComponentData);
                 }
@@ -126,6 +127,7 @@ namespace Vanilla.Utility.Facade.Artifact
                 tree.Path = artifactDto.Path;
                 tree.Category = (ArtfCrys.Category)artifactDto.Category;
                 tree.IsAttachmentSupported = artifactDto.IsAttachmentSupported;
+                tree.AttachmentCount = artifactDto.AttachmentCount;
                 tree.Style = (artifactDto.Style == Type.Folder) ? ArtfCrys.Type.Directory : ArtfCrys.Type.Document;
                 tree.CreatedBy = new Crystal.Guardian.Component.Account.Data
                 {
@@ -193,7 +195,8 @@ namespace Vanilla.Utility.Facade.Artifact
                 Path = data.Path,
                 Extension = data.Extension,
                 Category = (Category)data.Category,
-                ComponentDefinition = new Module.Definition.Server(null).Convert(data.ComponentDefinition) as Module.Definition.Dto
+                ComponentDefinition = new Module.Definition.Server(null).Convert(data.ComponentDefinition) as Module.Definition.Dto,
+                AttachmentCount = data.AttachmentCount,
             };
             if (data.Children != null && data.Children.Count > 0)
             {
@@ -369,6 +372,14 @@ namespace Vanilla.Utility.Facade.Artifact
             }
 
             return fileName;
+        }
+
+        public ArtfCrys.Server GetArtifactServer(Crystal.License.Component.Data componentDefinition, Category artifactCategory)
+        {
+            return new Module.Helper(new Module.Dto
+            {
+                Code = componentDefinition.Code,
+            }, artifactCategory).Artifact as ArtfCrys.Server;
         }
 
         public List<Dto> Search(String artifactName)

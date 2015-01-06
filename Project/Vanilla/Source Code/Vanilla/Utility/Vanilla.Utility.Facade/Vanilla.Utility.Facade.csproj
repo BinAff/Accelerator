@@ -43,6 +43,7 @@
     <Compile Include="Artifact\Server.cs" />
     <Compile Include="Artifact\Type.cs" />
     <Compile Include="Cache\Dto.cs" />
+    <Compile Include="Cache\Server.cs" />
     <Compile Include="Container\Dto.cs" />
     <Compile Include="Container\FormDto.cs" />
     <Compile Include="Container\Server.cs" />
@@ -90,6 +91,10 @@
       <Project>{F6AB9943-F271-4293-B13E-DC58DEF3F59D}</Project>
       <Name>BinAff.Facade.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Configuration\Component\Crystal.Configuration.Component.csproj">
+      <Project>{8f052ccd-ea57-4d14-a9b1-af605e763d41}</Project>
+      <Name>Crystal.Configuration.Component</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Guardian\Component\Crystal.Guardian.Component.csproj">
       <Project>{1C4FAAB4-7CE4-4A10-9600-855A984B0805}</Project>
       <Name>Crystal.Guardian.Component</Name>
@@ -109,6 +114,10 @@
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Report\Crystal.Report.Component\Crystal.Report.Component.csproj">
       <Project>{cd06572d-594d-4b5c-a786-41cf7aaa74d8}</Project>
       <Name>Crystal.Report.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Configuration\Vanilla.Configuration.Facade\Vanilla.Configuration.Facade.csproj">
+      <Project>{48b07690-fe69-4bfe-8f99-5556ae60ae5a}</Project>
+      <Name>Vanilla.Configuration.Facade</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
       <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>

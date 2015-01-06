@@ -21,7 +21,7 @@ namespace Vanilla.Navigator.Facade.Splash
 
         public override void LoadForm()
         {
-            this.Cache();
+            //new Vanilla.Utility.Facade.Cache.Server().Cache();
         }
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
@@ -32,24 +32,6 @@ namespace Vanilla.Navigator.Facade.Splash
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
             throw new NotImplementedException();
-        }
-
-        public void Cache()
-        {
-            //BinAff.Facade.Cache.Server.Current.Cache["ComponentDefinition"] = new ModDefFac.Server(null).ReadAll();
-            
-            BinAff.Facade.Cache.Server.Current.Cache["Main"] = new Vanilla.Utility.Facade.Cache.Dto
-            {
-                ComponentDefinitionList = new ModDefFac.Server(null).ReadAll(),
-                NavigatorRule = this.GetNavigatorRule(),
-            };
-        }
-
-        public Vanilla.Utility.Facade.Rule.Dto GetNavigatorRule()
-        {
-            NavRuleFac.FormDto navRuleFormDto = new NavRuleFac.FormDto();
-            new NavRuleFac.Server(navRuleFormDto).Read();
-            return navRuleFormDto.Dto;
         }
         
     }

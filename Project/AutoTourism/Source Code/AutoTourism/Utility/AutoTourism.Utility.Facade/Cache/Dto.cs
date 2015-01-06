@@ -10,6 +10,8 @@ namespace AutoTourism.Utility.Facade.Cache
         public List<Lodge.Configuration.Facade.Room.Type.Dto> RoomTypeList { get; set; }
         public List<Lodge.Configuration.Facade.Room.Dto> RoomList { get; set; }
 
+        public AutoTourism.Configuration.Rule.Facade.CustomerRuleDto CustomerRule { get; set; }
+
     }
 
 }

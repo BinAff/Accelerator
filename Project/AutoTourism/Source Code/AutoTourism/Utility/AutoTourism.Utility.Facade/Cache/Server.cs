@@ -7,18 +7,17 @@ using RoomFac = AutoTourism.Lodge.Configuration.Facade.Room;
 namespace AutoTourism.Utility.Facade.Cache
 {
 
-    public class Server
+    public class Server : Vanilla.Utility.Facade.Cache.Server
     {
 
-        public Boolean Cache()
+        protected override Vanilla.Utility.Facade.Cache.Dto CreateDataObject()
         {
-            BinAff.Facade.Cache.Server.Current.Cache["AutoTourism"] = new Dto();
-            return Refresh();
+            return new Dto();
         }
 
-        public Boolean Refresh()
+        protected override Boolean RefreshHook()
         {
-            Dto cache = BinAff.Facade.Cache.Server.Current.Cache["AutoTourism"] as Dto;
+            Dto cache = base.cache as Dto;
             Task.Factory.StartNew(() =>
             {
                 cache.RoomList = new RoomFac.Server(null).ReadAll<RoomFac.Dto>();
@@ -42,8 +41,18 @@ namespace AutoTourism.Utility.Facade.Cache
                 });
             });
 
+            Task.Factory.StartNew(() =>
+            {
+                cache.CustomerRule = this.ReadCustomerRule();
+            });
+
             Task.WaitAll();
             return true;
+        }
+
+        private AutoTourism.Configuration.Rule.Facade.CustomerRuleDto ReadCustomerRule()
+        {
+            return new AutoTourism.Configuration.Rule.Facade.RuleServer().ReadCustomerRule().Value;
         }
 
     }
