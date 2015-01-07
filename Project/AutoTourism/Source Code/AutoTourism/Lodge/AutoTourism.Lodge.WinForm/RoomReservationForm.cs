@@ -117,16 +117,6 @@ namespace AutoTourism.Lodge.WinForm
 
             if (dto.Id == 0) this.btnCancel.Visible = false; //Hide open cancel button for new reservation
 
-            //disable the controls if the reservation is checked in or the reservation has been cancelled
-            if (this.InitialDto != null)
-            {
-                Fac.Dto initialDto = this.InitialDto as Fac.Dto;
-                if (initialDto.Status == Status.CheckedIn || initialDto.Status == Status.CheckOut || initialDto.Status == Status.Canceled)
-                {
-                    this.DisableFormControls();
-                }
-            }
-
             this.ucRoomReservationDataEntry.CategoryList = formDto.CategoryList;
             this.ucRoomReservationDataEntry.TypeList = formDto.TypeList;
             this.ucRoomReservationDataEntry.AccessoryList = new List<Table>
@@ -190,18 +180,25 @@ namespace AutoTourism.Lodge.WinForm
             this.ucRoomReservationDataEntry.AssignDto((base.formDto as Fac.FormDto).Dto as Fac.Dto);
         }
 
-        private void DisableFormControls()
+        protected override void DisableFormControls()
         {
-            base.errorProvider.Clear();
-            base.DisableRefreshButton();
-            base.DisableOkButton();
-            base.DisableDeleteButton();
-            base.DisablePickAncestorButton();
-            base.DisableAddAncestorButton();
-            base.DisableAttachButton();
-            this.btnCancel.Enabled = false;
+            if (this.InitialDto != null)
+            {
+                Fac.Dto initialDto = this.InitialDto as Fac.Dto;
+                if (initialDto.Status == Status.CheckedIn || initialDto.Status == Status.CheckOut || initialDto.Status == Status.Canceled)
+                {
+                    base.errorProvider.Clear();
+                    base.DisableRefreshButton();
+                    base.DisableOkButton();
+                    base.DisableDeleteButton();
+                    base.DisablePickAncestorButton();
+                    base.DisableAddAncestorButton();
+                    base.DisableAttachButton();
+                    this.btnCancel.Enabled = false;
 
-            this.ucRoomReservationDataEntry.DisableFormControls();
+                    this.ucRoomReservationDataEntry.DisableFormControls();
+                }
+            }            
         }
        
     }

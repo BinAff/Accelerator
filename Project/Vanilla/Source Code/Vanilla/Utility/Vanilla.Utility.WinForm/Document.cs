@@ -171,6 +171,7 @@ namespace Vanilla.Utility.WinForm
                 {
                     this.pnlLoading.Hide();
                     this.LoadFormChildSealed();
+                    this.DisableFormControls();
                     timerLoadHandler.Stop();
                 }
             };
@@ -183,6 +184,10 @@ namespace Vanilla.Utility.WinForm
         protected virtual void LoadFormChildSealed()
         {
             
+        }
+        
+        protected virtual void DisableFormControls()
+        {
         }
 
         void saveDialogue_FolderSaved(Facade.Artifact.Dto document)

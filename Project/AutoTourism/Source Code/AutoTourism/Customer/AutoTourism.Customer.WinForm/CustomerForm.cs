@@ -140,7 +140,7 @@ namespace AutoTourism.Customer.WinForm
                 }
                 else
                 {
-                    String contactNumber = this.txtIsd.Text + "-" + this.txtStd.Text + "-" + this.txtLandLine.Text;
+                    String contactNumber = this.txtMobilePrefix.Text + "-" + this.txtMobile.Text;
                     if (this.IsDuplicateContactNumber(contactNumber))
                     {
                         this.errorProvider.SetError(this.txtMobile, "Entered contact number already exists.");
@@ -178,6 +178,32 @@ namespace AutoTourism.Customer.WinForm
 
             this.cboNationList.Bind(formDto.CountryList, "Name");
             this.cboIdentityProofType.Bind(formDto.IdentityProofTypeList, "Name");
+            
+            //Copy document name and populate to names in form
+            if (this.formDto.Dto == null || this.formDto.Dto.Id == 0)
+            {
+                String[] nameToken = this.formDto.Document.FileName.Split(' ');
+                switch (nameToken.Length)
+                {
+                    case 1:
+                        this.txtFName.Text = nameToken[0];
+                        break;
+                    case 2:
+                        this.txtFName.Text = nameToken[0];
+                        this.txtLName.Text = nameToken[1];
+                        break;
+                    case 3:
+                        this.txtFName.Text = nameToken[0];
+                        this.txtMName.Text = nameToken[1];
+                        this.txtLName.Text = nameToken[2];
+                        break;
+                    default:
+                        this.txtFName.Text = nameToken[0];
+                        this.txtMName.Text = nameToken[1];
+                        this.txtLName.Text = nameToken[2];
+                        break;
+                }
+            }
         }
 
         protected override void PopulateDataToForm()
@@ -199,8 +225,6 @@ namespace AutoTourism.Customer.WinForm
             this.txtEmail.Text = dto.Email;
             this.cboIdentityProofType.SelectedItem = (this.formDto as Facade.FormDto).IdentityProofTypeList.FindLast((p) => { return p.Id == dto.IdentityProofType.Id; });
             this.txtIdentityProofName.Text = dto.IdentityProofName;
-
-            base.DisableDeleteButton();
         }
 
         protected override void RefreshFormBefore()
@@ -379,7 +403,8 @@ namespace AutoTourism.Customer.WinForm
 
         private Boolean IsDuplicateContactNumber(String contactNumber)
         {
-            return ((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList.FindAll((p) =>
+            List<Table> contactNumberList = ((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList;
+            return contactNumberList == null ? false : contactNumberList.FindAll((p) =>
             {
                 return String.Compare(p.Name, contactNumber) == 0;
             }).Count > 0;
@@ -388,8 +413,16 @@ namespace AutoTourism.Customer.WinForm
         private void AddContactNumber(String contactNumber)
         {
             Table contact = new Table { Name = contactNumber };
-            this.lstContact.Items.Add(contact);
+            if (((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList == null) ((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList = new List<Table>();
             ((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList.Add(contact);
+            if (this.lstContact.Items.Count > 0)
+            {
+                this.lstContact.Items.Add(contact);
+            }
+            else
+            {
+                this.lstContact.Bind(((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList, "Name");
+            }
         }
 
     }

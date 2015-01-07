@@ -383,7 +383,7 @@ namespace AutoTourism.Lodge.WinForm
 
         }
 
-        private void DisableFormControls()
+        protected override void DisableFormControls()
         {
             base.errorProvider.Clear();
             this.ucRoomReservation.DisableRemarks();
