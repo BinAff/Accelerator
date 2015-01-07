@@ -90,7 +90,12 @@ namespace Vanilla.Configuration.Facade.State
             ReturnObject<BinAff.Core.Data> ret = (new CrysComp.Server(data) as ICrud).Read();
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
             formDto.Dto = this.Convert(data) as Dto;
-        }        
+        }
+
+        protected override ICrud AssignComponentServer(Data data)
+        {
+            return new CrysComp.Server(data as CrysComp.Data);
+        }
 
         private void Save()
         {

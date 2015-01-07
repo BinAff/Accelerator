@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using BinAff.Core;
 using BinAff.Core.Observer;
 
-using CrysComp = Crystal.Guardian.Component.SecurityQuestion;
+using CrysComp = Crystal.Configuration.Component.Country;
 
-namespace Vanilla.Configuration.Facade.SecurityQuestion
+namespace Vanilla.Configuration.Facade.Country
 {
 
     public class Server : BinAff.Facade.Library.Server
@@ -38,7 +38,7 @@ namespace Vanilla.Configuration.Facade.SecurityQuestion
             return new Dto
             {
                 Id = value.Id,
-                Name = value.Question
+                Name = value.Name
             };
         }
 
@@ -48,7 +48,7 @@ namespace Vanilla.Configuration.Facade.SecurityQuestion
             return new CrysComp.Data
             {
                 Id = value.Id,
-                Question = value.Name
+                Name = value.Name
             };
         }
 
@@ -106,7 +106,6 @@ namespace Vanilla.Configuration.Facade.SecurityQuestion
 
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
-
     }
 
 }
