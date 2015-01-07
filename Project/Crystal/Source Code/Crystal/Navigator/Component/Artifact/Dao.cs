@@ -91,13 +91,13 @@ namespace Crystal.Navigator.Component.Artifact
             dt.Path = Convert.IsDBNull(dr["Path"]) ? String.Empty : Convert.ToString(dr["Path"]);
             dt.CreatedBy = new GuardianAcc.Data
             {
-                Id = Convert.IsDBNull(dr["CreatedByUserId"]) ? 0 : Convert.ToInt64(dr["CreatedByUserId"])
+                Id = Convert.IsDBNull(dr["CreatedByUserId"]) ? 0 : Convert.ToInt64(dr["CreatedByUserId"]),
             };
             if (!Convert.IsDBNull(dr["ModifiedByUserId"]) && Convert.ToInt64(dr["ModifiedByUserId"]) > 0)
             {
                 dt.ModifiedBy = new GuardianAcc.Data
                 {
-                    Id = Convert.IsDBNull(dr["ModifiedByUserId"]) ? 0 : Convert.ToInt64(dr["ModifiedByUserId"])
+                    Id = Convert.IsDBNull(dr["ModifiedByUserId"]) ? 0 : Convert.ToInt64(dr["ModifiedByUserId"]),
                 };
             }
             dt.CreatedAt = Convert.IsDBNull(dr["CreatedAt"]) ? DateTime.MinValue : Convert.ToDateTime(dr["CreatedAt"]);
@@ -192,6 +192,23 @@ namespace Crystal.Navigator.Component.Artifact
                     if (!Convert.IsDBNull(row["Id"]))
                     {
                         Data artf = this.CreateDataObject(row, this.CreateDataObject(Convert.ToInt64(row["Id"]), (this.Data as Data).Category)) as Data;
+                        artf.CreatedBy.Profile = new GuardianAcc.Profile.Data
+                        {
+                            Id = Convert.IsDBNull(row["CreatedByUserId"]) ? 0 : Convert.ToInt64(row["CreatedByUserId"]),
+                            FirstName = Convert.IsDBNull(row["CreatedByFirstName"]) ? String.Empty : Convert.ToString(row["CreatedByFirstName"]),
+                            MiddleName = Convert.IsDBNull(row["CreatedByMiddleName"]) ? String.Empty : Convert.ToString(row["CreatedByMiddleName"]),
+                            LastName = Convert.IsDBNull(row["CreatedByLastName"]) ? String.Empty : Convert.ToString(row["CreatedByLastName"])
+                        };
+                        if (artf.ModifiedBy != null)
+                        {
+                            artf.ModifiedBy.Profile = new GuardianAcc.Profile.Data
+                            {
+                                Id = Convert.IsDBNull(row["ModifiedByUserId"]) ? 0 : Convert.ToInt64(row["ModifiedByUserId"]),
+                                FirstName = Convert.IsDBNull(row["ModifiedByFirstName"]) ? String.Empty : Convert.ToString(row["ModifiedByFirstName"]),
+                                MiddleName = Convert.IsDBNull(row["ModifiedByMiddleName"]) ? String.Empty : Convert.ToString(row["ModifiedByMiddleName"]),
+                                LastName = Convert.IsDBNull(row["ModifiedByLastName"]) ? String.Empty : Convert.ToString(row["ModifiedByLastName"])
+                            };
+                        }
                         artf.AttachmentCount = Convert.IsDBNull(row["AttachmentCount"]) ? Convert.ToInt16(0) : Convert.ToInt16(row["AttachmentCount"]);
                         artf.ComponentDefinition = new License.Component.Data
                         {
