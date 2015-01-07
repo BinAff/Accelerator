@@ -105,17 +105,6 @@ namespace AutoTourism.Lodge.WinForm
 
         #endregion
 
-        private void SetDefault()
-        {
-            this.dtFrom.Format = DateTimePickerFormat.Custom;
-            this.dtFrom.CustomFormat = "dd/MM/yyyy"; //--MM should be in upper case
-            if (this.dto == null || this.dto.Id == 0)
-            {
-                this.dtFrom.Value = DateTime.Now;
-                this.dtFromTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
-            }
-        }
-
         private void ResetRoomList()
         {
             Int16 days = Convert.ToInt16(String.IsNullOrEmpty(this.txtDays.Text) ? 0 : Convert.ToInt16(this.txtDays.Text.Trim()));
@@ -138,7 +127,21 @@ namespace AutoTourism.Lodge.WinForm
             this.cboType.Bind(this.TypeList, "Name");
             this.cboAC.Bind(this.AccessoryList, "Name");
             this.SetDefault();
-            if (this.dto == null) this.isLoading = false;
+            if (this.dto == null || this.dto.Id == 0) this.isLoading = false;
+        }
+
+        private void SetDefault()
+        {
+            this.dtFrom.Format = DateTimePickerFormat.Custom;
+            this.dtFrom.CustomFormat = "dd/MM/yyyy"; //--MM should be in upper case
+            if (this.dto == null || this.dto.Id == 0)
+            {
+                this.dtFrom.Value = DateTime.Now;
+                this.dtFromTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
+                this.cboCategory.SelectedIndex = 0;
+                this.cboType.SelectedIndex = 0;
+                this.cboAC.SelectedIndex = 0;
+            }
         }
 
         public void ClearForm()
@@ -239,22 +242,22 @@ namespace AutoTourism.Lodge.WinForm
                 this.txtInfant.Focus();
                 return false;
             }
+            else if (String.IsNullOrEmpty(this.txtAvailableRoomCount.Text) || Convert.ToInt32(this.txtAvailableRoomCount.Text) + this.lstSelectedRoom.Items.Count <= 0)
+            {
+                errorProvider.SetError(this.txtAvailableRoomCount, "No rooms available for booking.");
+                this.txtAvailableRoomCount.Focus();
+                return false;
+            }
             else if (this.lstSelectedRoom.Items.Count > Convert.ToInt32(this.txtRooms.Text.Trim()))
             {
                 errorProvider.SetError(this.lstSelectedRoom, "Selected rooms cannot be greater than the no of rooms.");
                 this.lstSelectedRoom.Focus();
                 return false;
             }
-            else if (Convert.ToInt32(this.txtRooms.Text.Trim()) > Convert.ToInt32(this.txtAvailableRoomCount.Text))
+            else if (Convert.ToInt32(this.txtRooms.Text) > Convert.ToInt32(this.txtAvailableRoomCount.Text) + this.lstSelectedRoom.Items.Count)
             {
                 errorProvider.SetError(this.txtRooms, "No of rooms cannot be greater than available rooms.");
                 this.lstSelectedRoom.Focus();
-                return false;
-            }
-            else if (String.IsNullOrEmpty(this.txtAvailableRoomCount.Text) || Convert.ToInt32(this.txtAvailableRoomCount.Text) <= 0)
-            {
-                errorProvider.SetError(this.txtAvailableRoomCount, "No rooms available for booking.");
-                this.txtAvailableRoomCount.Focus();
                 return false;
             }
 
@@ -302,7 +305,7 @@ namespace AutoTourism.Lodge.WinForm
                 {
                     this.cboType.SelectedIndex = 0;
                 }
-
+                this.isLoading = false;//Stop here the loading phase to enable category and type search
                 this.cboAC.SelectedIndex = this.dto.ACPreference;
 
                 this.txtMale.Text = this.dto.NoOfMale == 0 ? String.Empty : this.dto.NoOfMale.ToString();
@@ -326,7 +329,6 @@ namespace AutoTourism.Lodge.WinForm
                     this.PopulateRoomListsAndCounts();
                 }
             }
-            this.isLoading = false;
         }
 
         public RoomRsvFac.Dto AssignDto(RoomRsvFac.Dto dto)

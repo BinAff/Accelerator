@@ -212,7 +212,7 @@ namespace Vanilla.Form.WinForm
                 }
 
                 this.LoadForm();
-                if (this.formDto.Dto != null)
+                if (this.formDto.Dto != null && this.formDto.Dto.Id > 0)
                 {
                     this.PopulateDataToForm();
                 }
@@ -243,7 +243,7 @@ namespace Vanilla.Form.WinForm
                     {
                         this.dgvAttachmentList.Rows.Add(t.Path, "Delete");
                     }
-                }
+                }                
             }
         }
 
