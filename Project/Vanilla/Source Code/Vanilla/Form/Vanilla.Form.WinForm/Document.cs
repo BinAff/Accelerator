@@ -216,6 +216,7 @@ namespace Vanilla.Form.WinForm
                 {
                     this.PopulateDataToForm();
                 }
+                if(this.formDto.Dto.Id == 0) this.btnDelete.Enabled = false;
 
                 this.RaiseArtifactSaved(this.formDto.Document);
 
@@ -246,7 +247,7 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        protected override Vanilla.Utility.WinForm.SaveDialog GetSaveDialogue()
+        protected override UtilWin.SaveDialog GetSaveDialogue()
         {
             return new SaveDialogue();
         }

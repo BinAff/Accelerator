@@ -162,25 +162,12 @@ namespace AutoTourism.Customer.WinForm
             this.lstContact.Items.Remove(this.lstContact.SelectedItem as Table);
         }
 
-        protected override void RefreshFormBefore()
-        {
-            this.errorProvider.Clear();
-            this.txtStd.Text = String.Empty;
-            this.txtLandLine.Text = String.Empty;
-            this.txtMobile.Text = String.Empty;
-        }
-
-        protected override void RefreshFormAfter()
-        {
-            this.txtFName.Focus();
-        }
-
         protected override void Compose()
         {
             base.formDto = new Facade.FormDto
             {
                 ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto(),
-            };            
+            };
             base.facade = new CustFac.Server(base.formDto as Facade.FormDto);
         }
 
@@ -190,13 +177,13 @@ namespace AutoTourism.Customer.WinForm
             base.facade.LoadForm();
 
             this.cboNationList.Bind(formDto.CountryList, "Name");
-            this.cboIdentityProofType.Bind(formDto.IdentityProofTypeList, "Name");        
+            this.cboIdentityProofType.Bind(formDto.IdentityProofTypeList, "Name");
         }
 
         protected override void PopulateDataToForm()
         {
             CustFac.Dto dto = this.formDto.Dto as CustFac.Dto;
-            
+
             this.txtFName.Text = dto.FirstName;
             this.txtMName.Text = dto.MiddleName;
             this.txtLName.Text = dto.LastName;
@@ -212,6 +199,21 @@ namespace AutoTourism.Customer.WinForm
             this.txtEmail.Text = dto.Email;
             this.cboIdentityProofType.SelectedItem = (this.formDto as Facade.FormDto).IdentityProofTypeList.FindLast((p) => { return p.Id == dto.IdentityProofType.Id; });
             this.txtIdentityProofName.Text = dto.IdentityProofName;
+
+            base.DisableDeleteButton();
+        }
+
+        protected override void RefreshFormBefore()
+        {
+            this.errorProvider.Clear();
+            this.txtStd.Text = String.Empty;
+            this.txtLandLine.Text = String.Empty;
+            this.txtMobile.Text = String.Empty;
+        }
+
+        protected override void RefreshFormAfter()
+        {
+            this.txtFName.Focus();
         }
 
         protected override Boolean ValidateForm()
