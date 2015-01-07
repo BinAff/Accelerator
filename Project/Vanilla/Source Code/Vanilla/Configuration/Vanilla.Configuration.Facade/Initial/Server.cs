@@ -92,6 +92,11 @@ namespace Vanilla.Configuration.Facade.Initial
             formDto.Dto = this.Convert(data) as Dto;
         }
 
+        protected override ICrud AssignComponentServer(Data data)
+        {
+            return new CrysComp.Server(data as CrysComp.Data);
+        }
+
         private void Save()
         {
             Dto dto = (this.FormDto as FormDto).Dto;

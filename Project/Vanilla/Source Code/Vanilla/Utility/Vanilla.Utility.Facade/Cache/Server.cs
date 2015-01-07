@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using BinAff.Core;
+using ConfigCrys = Crystal.Configuration.Component;
 
 using ModDefFac = Vanilla.Utility.Facade.Module.Definition;
 using NavRuleFac = Vanilla.Utility.Facade.Rule;
-using ConfigCrys = Crystal.Configuration.Component;
+using StateFac = Vanilla.Configuration.Facade.State;
+using CountryFac = Vanilla.Configuration.Facade.Country;
+using IdProofTypeFac = Vanilla.Configuration.Facade.IdentityProofType;
 
 namespace Vanilla.Utility.Facade.Cache
 {
@@ -48,17 +51,30 @@ namespace Vanilla.Utility.Facade.Cache
 
             Task.Factory.StartNew(() =>
             {
-                cache.CountryList = this.ReadAllCountry();
+                cache.CountryList = new CountryFac.Server(null).ReadAll<CountryFac.Dto>().ConvertAll((p) =>
+                {
+                    return new Table { Id = p.Id, Name = p.Name };
+                });
             });
 
             Task.Factory.StartNew(() =>
             {
-                cache.StateList = this.ReadAllState();
+                cache.StateList = new StateFac.Server(null).ReadAll<StateFac.Dto>().ConvertAll((p) =>
+                {
+                    return new Table { Id = p.Id, Name = p.Name };
+                });
+                //cache.StateList = this.AssignFacadeServer(new StateFac.Server(null), (p) =>
+                //{
+                //    return new Table { Id = p.Id, Name = (p as StateFac.Dto).Name };
+                //});
             });
 
             Task.Factory.StartNew(() =>
             {
-                cache.IdentityProofTypeList = this.ReadAllIdentityProof();
+                cache.IdentityProofTypeList = new IdProofTypeFac.Server(null).ReadAll<IdProofTypeFac.Dto>().ConvertAll((p) =>
+                {
+                    return new Table { Id = p.Id, Name = p.Name };
+                });
             });
 
             Task.WaitAll();
@@ -73,64 +89,9 @@ namespace Vanilla.Utility.Facade.Cache
             return navRuleFormDto.Dto;
         }
 
-        private List<Table> ReadAllCountry()
+        protected List<T> AssignFacadeServer<T>(BinAff.Facade.Library.Server facade, System.Converter<BinAff.Facade.Library.Dto, T> converter)
         {
-            ICrud crud = new ConfigCrys.Country.Server(null);
-            ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
-
-            List<Table> ret = new List<Table>();
-
-            //Populate data in dto from business entity
-            foreach (ConfigCrys.Country.Data data in dataList.Value)
-            {
-                ret.Add(new Table
-                {
-                    Id = data.Id,
-                    Name = data.Name
-                });
-            }
-
-            return ret;
-        }
-
-        private List<Table> ReadAllState()
-        {
-            ICrud crud = new ConfigCrys.State.Server(null);
-            ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
-
-            List<Table> ret = new List<Table>();
-
-            //Populate data in dto from business entity
-            foreach (ConfigCrys.State.Data data in dataList.Value)
-            {
-                ret.Add(new Table
-                {
-                    Id = data.Id,
-                    Name = data.Name
-                });
-            }
-
-            return ret;
-        }
-
-        private List<Table> ReadAllIdentityProof()
-        {
-            ICrud crud = new ConfigCrys.IdentityProofType.Server(null);
-            ReturnObject<List<BinAff.Core.Data>> dataList = crud.ReadAll();
-
-            List<Table> ret = new List<Table>();
-
-            //Populate data in dto from business entity
-            foreach (ConfigCrys.IdentityProofType.Data data in dataList.Value)
-            {
-                ret.Add(new Table
-                {
-                    Id = data.Id,
-                    Name = data.Name
-                });
-            }
-
-            return ret;
+            return facade.ReadAll<StateFac.Dto>().ConvertAll<T>((p) => { return converter(p); });
         }
 
     }
