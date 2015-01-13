@@ -8,6 +8,7 @@ namespace BinAff.Core
     {
 
         public T Value { get; set; }
+
         public List<Message> MessageList { get; set; }
 
         public List<String> GetMessage(Message.Type type)
@@ -29,6 +30,15 @@ namespace BinAff.Core
         public Boolean HasError()
         {
             return (this.MessageList == null) ? false : this.MessageList.Exists((p) => p.Category == Message.Type.Error);
+        }
+
+        public ReturnObject<T1> Convert<T1>() where T1 : Data
+        {
+            return new ReturnObject<T1>
+            {
+                Value = this.Value as T1,
+                MessageList = this.MessageList
+            };
         }
 
         #region IDisposable Members
