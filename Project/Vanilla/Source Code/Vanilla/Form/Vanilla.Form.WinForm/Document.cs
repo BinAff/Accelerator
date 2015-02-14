@@ -212,7 +212,7 @@ namespace Vanilla.Form.WinForm
                 }
 
                 this.LoadForm();
-                if (this.formDto.Dto != null && this.formDto.Dto.Id > 0)
+                if (this.formDto.Dto != null)
                 {
                     this.PopulateDataToForm();
                 }
@@ -325,7 +325,6 @@ namespace Vanilla.Form.WinForm
                 }.Show(base.facade.DisplayMessageList);
                 return false;
             }
-
             return this.SaveAfter();
         }
 

@@ -36,62 +36,46 @@ namespace Vanilla.Invoice.Facade.Payment
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            PayComp.Data paymentData = data as PayComp.Data;
-            Payment.Dto paymentDto = new Payment.Dto
+            PayComp.Data comp = data as PayComp.Data;
+            Payment.Dto dto = new Payment.Dto
             {
-                Id = paymentData.Id,
-                Date = paymentData.Date,
+                Id = comp.Id,
+                ReceiptNumber = comp.ReceiptNumber,
+                Date = comp.Date,
+
             };
-            if (paymentData.LineItemList != null && paymentData.LineItemList.Count > 0)
+            if (comp.LineItemList != null && comp.LineItemList.Count > 0)
             {
-                paymentDto.LineItemList = new List<LineItem>();
-                foreach (PayComp.LineItem.Data lineItem in paymentData.LineItemList)
+                LineItem.Server lineItemServer = new LineItem.Server(null);
+                dto.LineItemList = comp.LineItemList.ConvertAll<LineItem.Dto>((p) =>
                 {
-                    paymentDto.LineItemList.Add(new LineItem
-                    {
-                        Id = lineItem.Id,
-                        Type = new Table { Id = lineItem.Type.Id },
-                        Reference = lineItem.Reference,
-                        Remark = lineItem.Remark,
-                        Amount = lineItem.Amount
-                    });
-                }
+                    return lineItemServer.Convert(p) as LineItem.Dto;
+                });
             }
-            if (paymentData.Invoice != null)
+            if (comp.Invoice != null)
             {
                 //
             }
-            return paymentDto;         
+            return dto;
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            Payment.Dto paymentDto = dto as Payment.Dto;
-            PayComp.Data paymentData = new PayComp.Data
+            Payment.Dto comp = dto as Payment.Dto;
+            PayComp.Data data = new PayComp.Data
             {
-                Id = paymentDto.Id,
-                Date = paymentDto.Date,
+                Id = comp.Id,
+                Date = comp.Date,
             };
-            if (paymentDto.LineItemList != null && paymentDto.LineItemList.Count > 0)
+            if (comp.LineItemList != null && comp.LineItemList.Count > 0)
             {
-                paymentData.LineItemList = new List<Data>();
-                foreach (LineItem lineItem in paymentDto.LineItemList)
+                LineItem.Server lineItemServer = new LineItem.Server(null);
+                data.LineItemList = comp.LineItemList.ConvertAll<Data>((p) =>
                 {
-                    paymentData.LineItemList.Add(new PayComp.LineItem.Data
-                    {
-                        Id = lineItem.Id,
-                        Reference = lineItem.Reference,
-                        Amount = lineItem.Amount,
-                        Remark = lineItem.Remark,
-                        Type = new PayComp.Type.Data
-                        {
-                            Id = lineItem.Type.Id
-                        },
-                    });
-                }
-
+                    return lineItemServer.Convert(p);
+                });
             }
-            return paymentData;
+            return data;
         }
 
         public override string GetComponentCode()
@@ -124,6 +108,7 @@ namespace Vanilla.Invoice.Facade.Payment
             return null;
         }
 
+        // need to remove convert list
         public List<BinAff.Core.Data> Convert(List<Payment.Dto> paymentList)
         {
             List<BinAff.Core.Data> paymentDataList = new List<Data>();
@@ -146,40 +131,35 @@ namespace Vanilla.Invoice.Facade.Payment
             }
             return paymentDtoList;
         }
-        
+
         private List<Dto> ReadPayments(String invoiceNumber)
         {
             return (new Facade.Server(new Facade.FormDto()) as Facade.IInvoice).ReadPaymentListForInvoice(invoiceNumber);
         }
-               
-        public List<Table> ReadAllPaymentType()
-        {
-            List<Table> typeList = new List<Table>();
-            ICrud crud = new PayComp.Type.Server(null);
-            ReturnObject<List<Data>> typeDataList = crud.ReadAll();
 
+        private List<Table> ReadAllPaymentType()
+        {
+            ReturnObject<List<Data>> typeDataList = (new PayComp.Type.Server(null) as ICrud).ReadAll();
             if (typeDataList != null && typeDataList.Value != null && typeDataList.Value.Count > 0)
             {
-                foreach (BinAff.Core.Data data in typeDataList.Value)
+                return typeDataList.Value.ConvertAll((p) =>
                 {
-                    PayComp.Type.Data typeData = data as PayComp.Type.Data;
-                    typeList.Add(new Table
+                    return new Table
                     {
-                        Id = typeData.Id,
-                        Name = typeData.Name
-                    });
-                }
+                        Id = p.Id,
+                        Name = (p as Crystal.Invoice.Component.Payment.Type.Data).Name,
+                    };
+                });
             }
-            return typeList;
+            return null;
         }
 
-        public ReturnObject<Boolean> MakePayment(List<Dto> paymentList,String invoiceNumber)
+        public ReturnObject<Boolean> MakePayment(List<Dto> paymentList, String invoiceNumber)
         {
-            ReturnObject<Boolean> ret = new ReturnObject<bool> { Value = true };
+            ReturnObject<Boolean> ret = new ReturnObject<Boolean> { Value = true };
             List<BinAff.Core.Data> paymentDataList = this.Convert(paymentList);
-            
-            Facade.IInvoice invoiceServer = new Facade.Server(new Facade.FormDto());
-            Int64 invoiceId = invoiceServer.GetInvoiceId(invoiceNumber);
+
+            Facade.Dto invoice = (new Facade.Server(new Facade.FormDto()) as Facade.IInvoice).GetInvoice(invoiceNumber);
 
             using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
             {
@@ -187,7 +167,7 @@ namespace Vanilla.Invoice.Facade.Payment
                 {
                     if (ret.Value)
                     {
-                        (payment as PayComp.Data).Invoice = new InvComp.Data { Id = invoiceId };
+                        (payment as PayComp.Data).Invoice = new InvComp.Data { Id = invoice.Id };
                         ICrud crud = new PayComp.Server(payment as PayComp.Data);
                         ret = crud.Save();
                     }

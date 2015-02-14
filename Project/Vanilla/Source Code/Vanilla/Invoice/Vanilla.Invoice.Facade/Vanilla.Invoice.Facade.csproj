@@ -41,14 +41,19 @@
     <Compile Include="AdvancePayment\FormDto.cs" />
     <Compile Include="AdvancePayment\Server.cs" />
     <Compile Include="Buyer\Dto.cs" />
+    <Compile Include="Buyer\Server.cs" />
     <Compile Include="Dto.cs" />
     <Compile Include="FormDto.cs" />
     <Compile Include="IInvoice.cs" />
     <Compile Include="LineItem\Dto.cs" />
+    <Compile Include="LineItem\Server.cs" />
     <Compile Include="Payment\Dto.cs" />
     <Compile Include="Payment\FormDto.cs" />
+    <Compile Include="Payment\LineItem\Dto.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Payment\LineItem\Server.cs" />
     <Compile Include="Payment\Server.cs" />
-    <Compile Include="Payment\LineItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Receipt\Dto.cs" />
     <Compile Include="Receipt\FormDto.cs" />
@@ -58,6 +63,7 @@
     <Compile Include="Report\IReport.cs" />
     <Compile Include="Report\Server.cs" />
     <Compile Include="Seller\Dto.cs" />
+    <Compile Include="Seller\Server.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Taxation\Dto.cs" />
     <Compile Include="Taxation\FormDto.cs" />

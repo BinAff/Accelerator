@@ -25,96 +25,54 @@ namespace Crystal.Invoice.Component
             base.DeleteStoredProcedure = "[Invoice].[Delete]";
             base.NumberOfRowsAffectedInDelete = -1;
         }
-                
-        protected override void AssignParameter(string procedureName)
+        
+        protected override void AssignParameter(String procedureName)
         {
-            base.AddInParameter("@InvoiceNumber", DbType.String, ((Data)this.Data).InvoiceNumber);
-            base.AddInParameter("@Advance", DbType.Double, ((Data)this.Data).Advance);
-            base.AddInParameter("@Discount", DbType.Double, ((Data)this.Data).Discount);
+            Data data = this.Data as Data;
+            base.AddInParameter("@Date", DbType.DateTime, data.Date);
+            base.AddInParameter("@Advance", DbType.Double, data.Advance);
+            base.AddInParameter("@Discount", DbType.Double, data.Discount);
 
-            base.AddInParameter("@SellerName", DbType.String, ((Data)this.Data).Seller.Name);
-            base.AddInParameter("@SellerAddress", DbType.String, ((Data)this.Data).Seller.Address);
-            base.AddInParameter("@SellerLicence", DbType.String, ((Data)this.Data).Seller.Liscence);
-            base.AddInParameter("@SellerEmail", DbType.String, ((Data)this.Data).Seller.Email == null ? String.Empty : ((Data)this.Data).Seller.Email);
-            base.AddInParameter("@SellerContactNo", DbType.String, ((Data)this.Data).Seller.ContactNumber);
+            base.AddInParameter("@SellerName", DbType.String, data.Seller.Name);
+            base.AddInParameter("@SellerAddress", DbType.String, data.Seller.Address);
+            base.AddInParameter("@SellerLicence", DbType.String, data.Seller.Liscence);
+            base.AddInParameter("@SellerEmail", DbType.String, data.Seller.Email == null ? String.Empty : data.Seller.Email);
+            base.AddInParameter("@SellerContactNo", DbType.String, data.Seller.ContactNumber);
 
 
-            base.AddInParameter("@BuyerName", DbType.String, ((Data)this.Data).Buyer.Name);
-            base.AddInParameter("@BuyerAddress", DbType.String, ((Data)this.Data).Buyer.Address == null ? String.Empty : ((Data)this.Data).Buyer.Address);
-            base.AddInParameter("@BuyerEmail", DbType.String, ((Data)this.Data).Buyer.ContactNumber == null ? String.Empty : ((Data)this.Data).Buyer.ContactNumber);
-            base.AddInParameter("@BuyerContactNo", DbType.String, ((Data)this.Data).Buyer.ContactNumber == null ? String.Empty : ((Data)this.Data).Buyer.ContactNumber);            
+            base.AddInParameter("@BuyerName", DbType.String, data.Buyer.Name);
+            base.AddInParameter("@BuyerAddress", DbType.String, data.Buyer.Address == null ? String.Empty : data.Buyer.Address);
+            base.AddInParameter("@BuyerEmail", DbType.String, data.Buyer.ContactNumber == null ? String.Empty : data.Buyer.ContactNumber);
+            base.AddInParameter("@BuyerContactNo", DbType.String, data.Buyer.ContactNumber == null ? String.Empty : data.Buyer.ContactNumber);            
         }
 
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
+        protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
-            Data dt = (Data)data;
-            DataRow row;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            Data dt = data as Data;
+            dt.Id = data.Id;
+            dt.Date = Convert.IsDBNull(dr["Date"]) ? DateTime.MinValue : Convert.ToDateTime(dr["Date"]);
+            dt.SerialNumber = Convert.IsDBNull(dr["SerialNumber"]) ? 0 : Convert.ToInt32(dr["SerialNumber"]);
+            dt.Advance = Convert.IsDBNull(dr["Advance"]) ? 0 : Convert.ToDouble(dr["Advance"]);
+            dt.Discount = Convert.IsDBNull(dr["Discount"]) ? 0 : Convert.ToDouble(dr["Discount"]);
+
+            dt.Seller = new Seller
             {
-                row = ds.Tables[0].Rows[0];
+                Name = Convert.IsDBNull(dr["SellerName"]) ? String.Empty : Convert.ToString(dr["SellerName"]),
+                Address = Convert.IsDBNull(dr["SellerAddress"]) ? String.Empty : Convert.ToString(dr["SellerAddress"]),
+                Liscence = Convert.IsDBNull(dr["SellerLicence"]) ? String.Empty : Convert.ToString(dr["SellerLicence"]),
+                Email = Convert.IsDBNull(dr["SellerEmail"]) ? String.Empty : Convert.ToString(dr["SellerEmail"]),
+                ContactNumber = Convert.IsDBNull(dr["SellerContactNo"]) ? String.Empty : Convert.ToString(dr["SellerContactNo"]),
+            };
 
-                dt.Id = data.Id;
-                dt.InvoiceNumber = Convert.IsDBNull(row["InvoiceNumber"]) ? String.Empty : Convert.ToString(row["InvoiceNumber"]);
-                dt.Advance = Convert.IsDBNull(row["Advance"]) ? 0 : Convert.ToDouble(row["Advance"]);
-                dt.Discount = Convert.IsDBNull(row["Discount"]) ? 0 : Convert.ToDouble(row["Discount"]);
-                dt.Date = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]);
-
-                dt.Seller = new Seller()
-                {
-                    Name = Convert.IsDBNull(row["SellerName"]) ? String.Empty : Convert.ToString(row["SellerName"]),
-                    Address = Convert.IsDBNull(row["SellerAddress"]) ? String.Empty : Convert.ToString(row["SellerAddress"]),
-                    Liscence = Convert.IsDBNull(row["SellerLicence"]) ? String.Empty : Convert.ToString(row["SellerLicence"]),
-                    Email = Convert.IsDBNull(row["SellerEmail"]) ? String.Empty : Convert.ToString(row["SellerEmail"]),
-                    ContactNumber = Convert.IsDBNull(row["SellerContactNo"]) ? String.Empty : Convert.ToString(row["SellerContactNo"])
-                };
-
-               
-                dt.Buyer = new Buyer(){
-                    Name = Convert.IsDBNull(row["BuyerName"]) ? String.Empty : Convert.ToString(row["BuyerName"]),
-                    Address = Convert.IsDBNull(row["BuyerAddress"]) ? String.Empty : Convert.ToString(row["BuyerAddress"]),
-                    Email = Convert.IsDBNull(row["BuyerEmail"]) ? String.Empty : Convert.ToString(row["BuyerEmail"]),
-                    ContactNumber = Convert.IsDBNull(row["BuyerContactNo"]) ? String.Empty : Convert.ToString(row["BuyerContactNo"])
-                };
-                
-            }
+            dt.Buyer = new Buyer
+            {
+                Name = Convert.IsDBNull(dr["BuyerName"]) ? String.Empty : Convert.ToString(dr["BuyerName"]),
+                Address = Convert.IsDBNull(dr["BuyerAddress"]) ? String.Empty : Convert.ToString(dr["BuyerAddress"]),
+                Email = Convert.IsDBNull(dr["BuyerEmail"]) ? String.Empty : Convert.ToString(dr["BuyerEmail"]),
+                ContactNumber = Convert.IsDBNull(dr["BuyerContactNo"]) ? String.Empty : Convert.ToString(dr["BuyerContactNo"]),
+            };
 
             return dt;
-        }
-
-        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
-        {
-            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
-
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    ret.Add(new Data
-                    {
-                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
-                        InvoiceNumber = Convert.IsDBNull(row["InvoiceNumber"]) ? String.Empty : Convert.ToString(row["InvoiceNumber"]),
-                        Advance = Convert.IsDBNull(row["Advance"]) ? 0 : Convert.ToDouble(row["Advance"]),
-                        Discount = Convert.IsDBNull(row["Discount"]) ? 0 : Convert.ToDouble(row["Discount"]),
-
-                        Seller = new Seller()
-                        {
-                            Name = Convert.IsDBNull(row["SellerName"]) ? String.Empty : Convert.ToString(row["SellerName"]),
-                            Address = Convert.IsDBNull(row["SellerAddress"]) ? String.Empty : Convert.ToString(row["SellerAddress"]),
-                            Liscence = Convert.IsDBNull(row["SellerLicence"]) ? String.Empty : Convert.ToString(row["SellerLicence"]),
-                            Email = Convert.IsDBNull(row["SellerEmail"]) ? String.Empty : Convert.ToString(row["SellerEmail"]),
-                            ContactNumber = Convert.IsDBNull(row["SellerContactNo"]) ? String.Empty : Convert.ToString(row["SellerContactNo"]),
-                        },
-
-                        Buyer = new Buyer() {
-                            Name = Convert.IsDBNull(row["BuyerName"]) ? String.Empty : Convert.ToString(row["BuyerName"]),
-                            Address = Convert.IsDBNull(row["BuyerAddress"]) ? String.Empty : Convert.ToString(row["BuyerAddress"]),
-                            Email = Convert.IsDBNull(row["BuyerEmail"]) ? String.Empty : Convert.ToString(row["BuyerEmail"]),
-                            ContactNumber = Convert.IsDBNull(row["BuyerContactNo"]) ? String.Empty : Convert.ToString(row["BuyerContactNo"]),
-                        }
-                    });
-                }
-            }
-            return ret;
         }
 
         internal Boolean ReadDuplicate()
@@ -122,7 +80,7 @@ namespace Crystal.Invoice.Component
             Data data = (Data)this.Data;
             this.CreateConnection();
             this.CreateCommand("[Invoice].[ReadDuplicate]");
-            this.AddInParameter("@InvoiceNumber", DbType.String, data.InvoiceNumber);
+            this.AddInParameter("@SerialNumber", DbType.Int32, data.SerialNumber);
 
             DataSet ds = this.ExecuteDataSet();
 
@@ -319,7 +277,7 @@ namespace Crystal.Invoice.Component
 
         public Int64 ReadInvoiceId(String invoiceNumber)
         {            
-            this.CreateCommand("[Invoice].[ReadForInvoiceNumber]");
+            this.CreateCommand("Invoice.ReadForInvoiceNumber");
             this.AddInParameter("@InvoiceNumber", DbType.String, invoiceNumber);
             DataSet ds = this.ExecuteDataSet();
                         

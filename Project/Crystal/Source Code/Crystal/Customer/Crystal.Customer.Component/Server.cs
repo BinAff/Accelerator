@@ -9,6 +9,8 @@ namespace Crystal.Customer.Component
     public abstract class Server : Crystal.Navigator.Component.Artifact.Observer.DocumentComponent, ICustomer
     {
 
+        public Component.Action.Server CurrentAction { get; set; }
+
         public Server(Data data)
             : base(data)
         {
@@ -141,14 +143,65 @@ namespace Crystal.Customer.Component
             return ret;
         }
 
-        ReturnObject<bool> ICustomer.GenerateInvoice()
+        ReturnObject<Boolean> ICustomer.GenerateInvoice()
         {
-            return this.GenerateInvoice();            
+            return this.GenerateInvoice();
         }
 
-        protected virtual ReturnObject<bool> GenerateInvoice()
+        ReturnObject<Boolean> ICustomer.SaveAction()
         {
-            return new ReturnObject<bool>();
+            return this.SaveAction();
+        }
+        
+        ReturnObject<Boolean> ICustomer.DeleteAction()
+        {
+            return this.DeleteAction();
+        }
+
+        protected virtual ReturnObject<Boolean> GenerateInvoice()
+        {
+            return new ReturnObject<Boolean>();
+        }
+
+        private ReturnObject<Boolean> SaveAction()
+        {
+            ReturnObject<Boolean> ret = (this.CurrentAction as ICrud).Save();
+            if (ret.HasError()) return ret;
+            Boolean status;
+            if (this.CurrentAction.Data.Id == 0)
+            {
+                status = (this.DataAccess as Dao).CreateActionLink(this.CurrentAction.Data as Component.Action.Data);
+            }
+            else
+            {
+                status = (this.DataAccess as Dao).UpdateActionLink(this.CurrentAction.Data as Component.Action.Data);
+            }
+            if (status)
+            {
+                ret.MessageList.Add(new Message("Action link is saved.", Message.Type.Information));
+            }
+            else
+            {
+                ret.Value = false;
+                ret.MessageList.Add(new Message("Cannot save action link.", Message.Type.Error));
+            }
+            return ret;
+        }
+
+        private ReturnObject<Boolean> DeleteAction()
+        {
+            if ((this.DataAccess as Dao).DeleteActionLink(this.CurrentAction.Data as Component.Action.Data))
+            {
+                return (this.CurrentAction as ICrud).Delete();
+            }
+            return new ReturnObject<Boolean>
+            {
+                Value = false,
+                MessageList = new List<Message>
+                {
+                    new Message("Cannot delete action link", Message.Type.Error),
+                },
+            };
         }
 
     }

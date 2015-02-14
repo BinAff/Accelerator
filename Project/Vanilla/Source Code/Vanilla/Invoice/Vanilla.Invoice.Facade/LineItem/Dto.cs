@@ -22,14 +22,14 @@ namespace Vanilla.Invoice.Facade.LineItem
         public Int64 RoomTypeId { get; set; }
         public Boolean RoomIsAC { get; set; }
 
-        public List<Taxation.Dto> TaxList { get; set; }
+        public List<BinAff.Facade.Library.Dto> TaxList { get; set; }
 
         public override BinAff.Facade.Library.Dto Clone()
         {
             Dto dto = base.Clone() as Dto;
             if (this.TaxList != null)
             {
-                dto.TaxList = new List<Taxation.Dto>();
+                dto.TaxList = new List<BinAff.Facade.Library.Dto>();
                 foreach (Taxation.Dto tax in this.TaxList)
                 {
                     dto.TaxList.Add((tax != null) ? tax.Clone() as Taxation.Dto : null);

@@ -79,8 +79,8 @@ namespace Vanilla.Invoice.WinForm
                     Count = lineItem.Count.ToString(),
                     Total = (lineItem.UnitRate * lineItem.Count).ToString(),
                 };
-                data.ServiceTax = receiptServer.CalculateTaxAmount(lineItem.TaxList, gServiceTax, Convert.ToDouble(data.Total)).ToString();
-                data.LuxuaryTax = receiptServer.CalculateTaxAmount(lineItem.TaxList, gLuxuaryTax, Convert.ToDouble(data.Total)).ToString();
+                //data.ServiceTax = receiptServer.CalculateTaxAmount(lineItem.TaxList, gServiceTax, Convert.ToDouble(data.Total)).ToString();
+                //data.LuxuaryTax = receiptServer.CalculateTaxAmount(lineItem.TaxList, gLuxuaryTax, Convert.ToDouble(data.Total)).ToString();
                 data.GrandTotal = (Convert.ToDouble(data.ServiceTax) + Convert.ToDouble(data.LuxuaryTax) + Convert.ToDouble(data.Total)).ToString();
                 LineItemList.Add(data);
             }

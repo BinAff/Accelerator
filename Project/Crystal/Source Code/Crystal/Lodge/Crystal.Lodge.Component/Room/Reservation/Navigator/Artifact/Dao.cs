@@ -22,6 +22,7 @@ namespace Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact
             base.ReadComponentLinkSPName = "Lodge.RoomReservationArtifactReadLink";
             base.UpdateComponentLinkSPName = "Lodge.RoomReservationArtifactUpdateLink";
             base.DeleteComponentLinkSPName = "Lodge.RoomReservationArtifactDeleteLink";
+            base.ReadForComponentSPName = "Lodge.RoomReservationArtifactReadForComponent";
         }
 
         protected override BinAff.Core.Data CreateDataObject(Int64 id, ArtfComp.Category category)

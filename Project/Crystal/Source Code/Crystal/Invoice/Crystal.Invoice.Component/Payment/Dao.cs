@@ -26,9 +26,10 @@ namespace Crystal.Invoice.Component.Payment
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
-        protected override void AssignParameter(string procedureName)
+        protected override void AssignParameter(String procedureName)
         {
             Data data = this.Data as Data;
+            base.AddInParameter("@Date", DbType.DateTime, data.Date);
             if (data.Invoice == null || data.Invoice.Id == 0)
             {
                 base.AddInParameter("@InvoiceId", DbType.Int64, DBNull.Value);
@@ -39,44 +40,18 @@ namespace Crystal.Invoice.Component.Payment
             }
         }
 
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
+        protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
-            Data dt = (Data)data;
-            DataRow row;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            Data dt = data as Data;
+            dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
+            dt.SerialNumber = Convert.IsDBNull(dr["SerialNumber"]) ? 0 : Convert.ToInt32(dr["SerialNumber"]);
+            dt.Invoice = new Component.Data
             {
-                row = ds.Tables[0].Rows[0];
+                Id = Convert.IsDBNull(dr["InvoiceId"]) ? 0 : Convert.ToInt64(dr["InvoiceId"])
+            };
+            dt.Date = Convert.IsDBNull(dr["Date"]) ? DateTime.MinValue : Convert.ToDateTime(dr["Date"]);
 
-                dt.Id = data.Id;
-                dt.Invoice = new Component.Data
-                {
-                    Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"])
-                };
-                dt.Date = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]);
-            }
             return dt;
-        }
-
-        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
-        {
-            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
-
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    ret.Add(new Data
-                    {
-                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
-                        Invoice = new Component.Data
-                        {
-                            Id = Convert.IsDBNull(row["InvoiceId"]) ? 0 : Convert.ToInt64(row["InvoiceId"])
-                        },
-                        Date = Convert.IsDBNull(row["Date"]) ? DateTime.MinValue : Convert.ToDateTime(row["Date"]),
-                    });
-                }
-            }
-            return ret;
         }
 
         public List<Data> IsPaymentTypeDeletable(Payment.Type.Data paymentType)

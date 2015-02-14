@@ -2,8 +2,10 @@
 
 using BinAff.Core;
 
-using Lodge = Crystal.Lodge.Component;
-using Customer = Crystal.Customer.Component;
+using Comp = Crystal.Customer.Component;
+using InvCrys = Crystal.Invoice.Component;
+using ChkInCrys = Crystal.Lodge.Component.Room.CheckIn;
+using RoomRsvCrys = Crystal.Lodge.Component.Room.Reservation;
 
 namespace AutoTourism.Component.Customer
 {
@@ -35,29 +37,32 @@ namespace AutoTourism.Component.Customer
 
         protected override void CreateChildren()
         {
-            base.CreateChildren();            
-            base.AddChild(new Lodge.Room.Reservation.Server((this.Data as Data).RoomReserver.Active as Lodge.Room.Reservation.Data)
+            base.CreateChildren();
+            base.AddChild(new RoomRsvCrys.Server((this.Data as Data).RoomReserver.Active as RoomRsvCrys.Data)
             {
                 Type = ChildType.Independent,
             });
-            base.AddChild(new Lodge.Room.CheckIn.Server((Lodge.Room.CheckIn.Data)(this.Data as Data).Checkin.Active)
+            base.AddChild(new ChkInCrys.Server((this.Data as Data).Checkin.Active as ChkInCrys.Data)
+            {
+                Type = ChildType.Independent,
+            });
+            base.AddChild(new InvCrys.Server((this.Data as Data).Invoice.Active as InvCrys.Data)
             {
                 Type = ChildType.Independent,
             });
         }
 
-        Crystal.Customer.Component.Data ICustomer.GetCustomerForReservation(long reservationId)
+        Comp.Data ICustomer.GetCustomerForReservation(Int64 reservationId)
         {
             return this.ReadCustomerForReservation(reservationId);           
         }
 
-        private Customer.Data ReadCustomerForReservation(Int64 reservationId)
+        private Data ReadCustomerForReservation(Int64 reservationId)
         {
-            Int64 customerId = new Dao(null).ReadCustomerIdForReservation(reservationId);
-            if (customerId > 0)
+            Int64 id = new Dao(null).ReadCustomerIdForReservation(reservationId);
+            if (id > 0)
             {
-                ICrud customer = new Server(new Data { Id = customerId });
-                return customer.Read().Value as Customer.Data;               
+                return new Server(new Data { Id = id }).Read().Value as Customer.Data;               
             }
 
             return null;

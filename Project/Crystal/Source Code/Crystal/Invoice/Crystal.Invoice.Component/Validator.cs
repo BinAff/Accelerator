@@ -21,14 +21,15 @@ namespace Crystal.Invoice.Component
             List<Message> retMsg = new List<Message>();
             Data data = (Data)base.Data;
 
-            if (ValidationRule.IsNullOrEmpty(data.InvoiceNumber))
+            if (data.Id != 0 && ValidationRule.IsNullOrEmpty(data.InvoiceNumber))
             {
                 retMsg.Add(new Message("Invoice number cannot be empty.", Message.Type.Error));
             }
-            else if (data.InvoiceNumber.Length > 50)
+            else if (data.Id != 0 && data.InvoiceNumber.Length > 50)
             {
                 retMsg.Add(new Message("Invoice number length cannot be greater than 50.", Message.Type.Error));
             }
+
             if (data.Advance < 0)
             {
                 retMsg.Add(new Message("Advance cannot be less than 0.", Message.Type.Error));
@@ -97,7 +98,7 @@ namespace Crystal.Invoice.Component
             {
                 retMsg.Add(new Message("Invoice line item cannot be 0.", Message.Type.Error));
             }
-            if (this.IsExist(data))
+            if (data.Id != 0 && this.IsExist(data))
             {
                 retMsg.Add(new Message("Same Invoice already exists.", Message.Type.Error));
             }

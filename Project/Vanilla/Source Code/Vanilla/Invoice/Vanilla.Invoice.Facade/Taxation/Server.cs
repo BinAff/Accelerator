@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
+
+
+using CompCrys = Crystal.Invoice.Component.Taxation;
 
 namespace Vanilla.Invoice.Facade.Taxation
 {
+
     public class Server : BinAff.Facade.Library.Server
     {
+
         public Server(FormDto formDto)
             : base(formDto)
         {
@@ -20,12 +23,36 @@ namespace Vanilla.Invoice.Facade.Taxation
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            throw new NotImplementedException();
+            CompCrys.Data tax = data as CompCrys.Data;
+            if (tax == null) return null;
+            return new Facade.Taxation.Dto
+            {
+                Id = tax.Id,
+                Name = tax.Name,
+                Amount = tax.Amount,
+                IsPercentage = tax.isPercentage,
+            };
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
-            throw new NotImplementedException();
+            Facade.Taxation.Dto tax = dto as Facade.Taxation.Dto;
+            if (tax == null) return null;
+            return new CompCrys.Data
+            {
+                Id = tax.Id,
+                Name = tax.Name,
+                Amount = tax.Amount,
+                isPercentage = tax.IsPercentage,
+            };
         }
+
+        public Double CalculateTax(Double amount, BinAff.Facade.Library.Dto tax)
+        {
+            Dto dto = tax as Dto;
+            return (dto == null) ? 0 : (dto.IsPercentage) ? amount * (dto.Amount / 100) : dto.Amount;
+        }
+
     }
+
 }

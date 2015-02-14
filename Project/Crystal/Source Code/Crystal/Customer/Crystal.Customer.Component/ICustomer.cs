@@ -9,6 +9,8 @@ namespace Crystal.Customer.Component
     {
 
         ReturnObject<Boolean> GenerateInvoice();
+        ReturnObject<Boolean> SaveAction();
+        ReturnObject<Boolean> DeleteAction();
 
     }
 

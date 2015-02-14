@@ -18,6 +18,8 @@ namespace Crystal.Navigator.Component.Artifact
 
         protected String ReadComponentLinkSPName { get; set; }
 
+        protected String ReadForComponentSPName { get; set; }
+
         public Dao(Data data) 
             : base(data)
         {
@@ -221,6 +223,20 @@ namespace Crystal.Navigator.Component.Artifact
                 }
             }
             return artifactList;
+        }
+
+        internal BinAff.Core.Data ReadForComponent()
+        {
+            if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id != 0
+                && !String.IsNullOrEmpty(this.ReadForComponentSPName))
+            {
+                base.CreateConnection();
+                base.CreateCommand(this.ReadForComponentSPName);
+                base.AddInParameter("@ComponentId", DbType.Int64, (this.Data as Data).ComponentData.Id);
+                this.Data.Id = Convert.ToInt64(this.ExecuteScalar<Decimal>());
+                this.CloseConnection();
+            }
+            return this.Data;
         }
 
         protected virtual Boolean CreateComponentLink()

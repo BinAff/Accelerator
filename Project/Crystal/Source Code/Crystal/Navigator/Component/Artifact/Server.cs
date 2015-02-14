@@ -136,6 +136,24 @@ namespace Crystal.Navigator.Component.Artifact
             };
         }
 
+        ReturnObject<Boolean> IArtifact.UpdaterModuleArtifactLink()
+        {
+            return new ReturnObject<Boolean>
+            {
+                Value = (this.DataAccess as Dao).UpdateComponentLink()
+            };
+        }
+
+        ReturnObject<Data> IArtifact.ReadForComponent()
+        {
+            (this.DataAccess as Dao).ReadForComponent();
+            return new ReturnObject<Data>
+            {
+                Value = this.Data as Data
+            };
+            //return base.Read().Convert<Data>(); //If required, red will be introduced
+        }
+
         protected virtual ReturnObject<Boolean> CreateAttachmentLink(Data attachment)
         {
             if (!(this.Data as Data).IsAttachmentSupported)
@@ -292,14 +310,6 @@ namespace Crystal.Navigator.Component.Artifact
                     matchedList.Add(data as Data);
             }
             return matchedList;
-        }
-
-        ReturnObject<Boolean> IArtifact.UpdaterModuleArtifactLink()
-        {
-            return new ReturnObject<Boolean>
-            {
-                Value = (this.DataAccess as Dao).UpdateComponentLink()
-            };
         }
 
         ReturnObject<Boolean> Observer.IObserver.UpdateArtifactComponentLink(Data subject)

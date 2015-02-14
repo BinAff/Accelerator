@@ -26,7 +26,15 @@ namespace AutoTourism.Component.Customer
         protected override void Compose()
         {
             base.Compose();
-            Data data = (this.Data as Data);
+            Data data = this.Data as Data;
+
+            if (this.Data != null && data.Invoice.Active != null)
+            {
+                base.CreateActionLinkStoredProcedure = "";
+                base.UpdateActionLinkStoredProcedure = "";
+                base.DeleteActionLinkStoredProcedure = "";
+            }
+
             if (this.Data != null && (data.RoomReserver.Active != null && (data.RoomReserver.Active as RoomRsrvCrys.Data).Id == 0))
             {
                 isNewReservation = true;
