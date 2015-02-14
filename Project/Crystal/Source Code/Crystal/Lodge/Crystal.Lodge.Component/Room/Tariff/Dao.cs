@@ -17,13 +17,13 @@ namespace Crystal.Lodge.Component.Room.Tariff
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "[Lodge].[RoomTariffInsert]";
+            base.CreateStoredProcedure = "Lodge.RoomTariffInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Lodge].[RoomTariffRead]";
-            base.ReadAllStoredProcedure = "[Lodge].[RoomTariffReadAll]";
-            base.UpdateStoredProcedure = "[Lodge].[RoomTariffUpdate]";
+            base.ReadStoredProcedure = "Lodge.RoomTariffRead";
+            base.ReadAllStoredProcedure = "Lodge.RoomTariffReadAll";
+            base.UpdateStoredProcedure = "Lodge.RoomTariffUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "[Lodge].[RoomTariffDelete]";
+            base.DeleteStoredProcedure = "Lodge.RoomTariffDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -53,7 +53,7 @@ namespace Crystal.Lodge.Component.Room.Tariff
             Boolean retVal = true;      
 
             base.CreateConnection();
-            this.CreateCommand("[Lodge].[RoomTariffModifyRate]");
+            this.CreateCommand("Lodge.RoomTariffModifyRate");
             this.AddInParameter("@CategoryId", DbType.Int64, category.Id);
             this.AddInParameter("@TypeId", DbType.Int64, type.Id);
             this.AddInParameter("@Rate", DbType.Double, rate);
@@ -72,7 +72,7 @@ namespace Crystal.Lodge.Component.Room.Tariff
         {
             List<Crystal.Tariff.Component.Data> dataList = new List<Crystal.Tariff.Component.Data>();
             this.CreateConnection();
-            this.CreateCommand("[Lodge].[IsTariffDeletable]");
+            this.CreateCommand("Lodge.IsTariffDeletable");
             this.AddInParameter("@RoomId", DbType.Int64, subject.Id);
             DataSet ds = this.ExecuteDataSet();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -100,17 +100,17 @@ namespace Crystal.Lodge.Component.Room.Tariff
         internal List<BinAff.Core.Data> GetExistingTariff()
         {
             List<BinAff.Core.Data> retList = new List<BinAff.Core.Data>();
-            Data data = (Data)this.Data;
+            Data data = this.Data as Data;
             if (data != null)
             {
 
                 this.CreateConnection();
-                this.CreateCommand("[Lodge].[TariffIsExist]");
-                base.AddInParameter("@CategoryId", DbType.Int64, ((Data)this.Data).category.Id);
-                base.AddInParameter("@TypeId", DbType.Int64, ((Data)this.Data).type.Id);
-                base.AddInParameter("@IsAC", DbType.Boolean, ((Data)this.Data).isAC);
-                base.AddInParameter("@StartDate", DbType.DateTime, ((Data)this.Data).StartDate == null ? DateTime.Today : ((Data)this.Data).StartDate);
-                base.AddInParameter("@EndDate", DbType.DateTime, ((Data)this.Data).EndDate == null ? DateTime.Today : ((Data)this.Data).EndDate);
+                this.CreateCommand("Lodge.TariffIsExist");
+                base.AddInParameter("@CategoryId", DbType.Int64, data.category.Id);
+                base.AddInParameter("@TypeId", DbType.Int64, data.type.Id);
+                base.AddInParameter("@IsAC", DbType.Boolean, data.isAC);
+                base.AddInParameter("@StartDate", DbType.DateTime, data.StartDate);
+                base.AddInParameter("@EndDate", DbType.DateTime, data.EndDate);
                 DataSet ds = this.ExecuteDataSet();
                 retList = (ds != null && ds.Tables[0].Rows.Count > 0) ? (List<BinAff.Core.Data>)CreateDataObjectList(ds) : null;
 
@@ -122,7 +122,7 @@ namespace Crystal.Lodge.Component.Room.Tariff
         internal List<BinAff.Core.Data> ReadAllCurrentTariff()
         {
             this.CreateConnection();
-            this.CreateCommand("[Lodge].TariffReadAllCurrent");
+            this.CreateCommand("Lodge.TariffReadAllCurrent");
 
             DataSet ds = this.ExecuteDataSet();
             List<BinAff.Core.Data> dataList = CreateDataObjectList(ds);
@@ -134,7 +134,7 @@ namespace Crystal.Lodge.Component.Room.Tariff
         internal List<BinAff.Core.Data> ReadAllFutureTariff()
         {
             this.CreateConnection();
-            this.CreateCommand("[Lodge].TariffReadAllFuture");
+            this.CreateCommand("Lodge.TariffReadAllFuture");
             DataSet ds = this.ExecuteDataSet();
             List<BinAff.Core.Data> dataList = CreateDataObjectList(ds);
             this.CloseConnection();

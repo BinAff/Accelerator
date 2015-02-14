@@ -45,6 +45,7 @@
     <Compile Include="Convert.cs" />
     <Compile Include="Cryptography\ManagedAes.cs" />
     <Compile Include="Cryptography\Server.cs" />
+    <Compile Include="Formater.cs" />
     <Compile Include="HardwareToken.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Log\CallingMethod.cs" />

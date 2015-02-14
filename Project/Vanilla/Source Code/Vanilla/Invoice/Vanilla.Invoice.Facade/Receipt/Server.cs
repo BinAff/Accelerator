@@ -9,9 +9,10 @@ namespace Vanilla.Invoice.Facade.Receipt
         public Dto GetInvoice(String invoiceNumber)
         {
             Facade.IInvoice invoiceServer = new Facade.Server(new Facade.FormDto());
-            Facade.Dto invoiceDto = invoiceServer.GetInvoice(invoiceNumber);
+            //Facade.Dto invoiceDto = invoiceServer.GetInvoice(invoiceNumber);
 
-            return this.ConvertToReceiptDto(invoiceDto);            
+            //return this.ConvertToReceiptDto(invoiceDto);
+            return null;
         }
 
         private Dto ConvertToReceiptDto(Facade.Dto invoiceDto)
@@ -36,7 +37,7 @@ namespace Vanilla.Invoice.Facade.Receipt
             {
                 if (taxName == dto.Name)
                 {
-                    if (dto.isPercentage)
+                    if (dto.IsPercentage)
                         taxValue = total * (dto.Amount / 100);
                     else
                         taxValue = dto.Amount;

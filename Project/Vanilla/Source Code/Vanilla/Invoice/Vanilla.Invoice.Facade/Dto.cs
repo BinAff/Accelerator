@@ -8,14 +8,39 @@ namespace Vanilla.Invoice.Facade
     {
 
         public String InvoiceNumber { get; set; }
-        public Double Advance { get; set; }
-        public Double Discount { get; set; }
         public Buyer.Dto Buyer { get; set; }
         public Seller.Dto Seller { get; set; }
         public DateTime Date { get; set; }
         public List<LineItem.Dto> ProductList { get; set; }
         //public List<Taxation.Dto> taxationList { get; set; }
-        //public List<Payment.Dto> paymentList { get; set; }
+        public List<Payment.Dto> AdvancePaymentList { get; set; }
+
+        private Double advance;
+        public Double Advance
+        {
+            get
+            {
+                Double totalAmount = 0;
+                if (this.AdvancePaymentList != null && this.AdvancePaymentList.Count > 0)
+                {
+                    foreach (Payment.Dto lineItem in this.AdvancePaymentList)
+                    {
+                        totalAmount += lineItem.TotalAmount;
+                    }
+                }
+                else
+                {
+                    totalAmount = this.advance;
+                }
+                return totalAmount;
+            }
+            internal set
+            {
+                this.advance = value;
+            }
+        }
+
+        public Double Discount { get; set; }
 
         public override BinAff.Facade.Library.Dto Clone()
         {
@@ -28,6 +53,14 @@ namespace Vanilla.Invoice.Facade
                 foreach (LineItem.Dto product in this.ProductList)
                 {
                     dto.ProductList.Add((product != null) ? product.Clone() as LineItem.Dto : null);
+                }
+            }
+            if (this.AdvancePaymentList != null)
+            {
+                dto.AdvancePaymentList = new List<Payment.Dto>();
+                foreach (Payment.Dto payment in this.AdvancePaymentList)
+                {
+                    dto.AdvancePaymentList.Add((payment != null) ? payment.Clone() as Payment.Dto : null);
                 }
             }
             return dto;

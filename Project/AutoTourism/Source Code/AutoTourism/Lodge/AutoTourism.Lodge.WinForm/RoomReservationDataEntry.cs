@@ -416,6 +416,7 @@ namespace AutoTourism.Lodge.WinForm
             {
                 this.filteredRoomList.Remove(selectedItem);
                 this.lstRoomList.Items.Remove(selectedItem);
+                if (this.dto == null) this.dto = new RoomRsvFac.Dto();
                 if (this.dto.RoomList == null)
                 {
                     this.dto.RoomList = new List<RoomFac.Dto>();

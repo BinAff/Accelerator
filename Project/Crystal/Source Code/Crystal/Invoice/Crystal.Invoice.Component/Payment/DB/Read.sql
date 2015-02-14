@@ -5,8 +5,8 @@
 AS
 BEGIN
 	
-	SELECT Id, [Date], InvoiceId
-	FROM Invoice.Payment
+	SELECT Id, SerialNumber, [Date], InvoiceId
+	FROM Invoice.Payment WITH (NOLOCK)
 	WHERE Id = @Id
    
 END

@@ -12,7 +12,9 @@ namespace Crystal.Navigator.Component.Artifact
         ReturnObject<Data> FormTree();
         ReturnObject<Boolean> UpdaterModuleArtifactLink();
         ReturnObject<Data> ReadWithParent();
+        ReturnObject<Data> ReadForComponent();
         Int64 ReadComponentId();
+
         ReturnObject<Boolean> CreateAttachmentLink(Data attachment);
         ReturnObject<List<Data>> ReadAttachmentLink();
         ReturnObject<Boolean> DeleteAttachmentLink(Data attachment);

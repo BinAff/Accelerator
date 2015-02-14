@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using BinAff.Core;
+using BinAff.Utility;
 
 using ArtfObsCrys = Crystal.Navigator.Component.Artifact.Observer;
 
@@ -59,6 +60,12 @@ namespace Crystal.Invoice.Component.Payment
 
             return new ReturnObject<Boolean> { Value = true };
         }
+
+        protected override ReturnObject<Boolean> CreateBefore()
+        {
+            (this.Data as Data).Date = DateTime.Now;
+            return base.CreateBefore();
+        }
         
         //private ReturnObject<Boolean> IsPaymentTypeDeletable(Crystal.Invoice.Component.Payment.Type.Data subject)
         //{
@@ -88,6 +95,17 @@ namespace Crystal.Invoice.Component.Payment
         public List<BinAff.Core.Data> ReadPayment(Int64 invoiceId)
         {
             return new Dao(null).ReadPayment(invoiceId);
+        }
+
+        internal String FormatRecieptNumber()
+        {
+            //Later this will be configurable
+            Data data = this.Data as Data;
+            return String.Format("RCPT/{0}-{1}-{2}/{3}",
+                data.Date.Year.ToString().Remove(0, 2),
+                data.Date.Month.ToString().PadLeft(2, '0'),
+                data.Date.Day.ToString().PadLeft(2, '0'),
+                data.SerialNumber.ToString().PadLeft(3, '0'));
         }
 
     }

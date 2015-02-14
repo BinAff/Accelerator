@@ -134,7 +134,7 @@ namespace Vanilla.Utility.Facade.Module
                     break;
 
                 case "INVO":                   
-                    this.ModuleFormType = "Vanilla.Invoice.WinForm.Invoice, Vanilla.Invoice.WinForm";
+                    this.ModuleFormType = "Vanilla.Invoice.WinForm.InvoiceForm, Vanilla.Invoice.WinForm";
                     this.ModuleFormDtoType = "Vanilla.Invoice.Facade.Dto, Vanilla.Invoice.Facade";
                     this.ArtifactComponentAssembly = "Crystal.Invoice.Component";
                     this.ArtifactDataType = "Crystal.Invoice.Component.Navigator.Artifact.Data";

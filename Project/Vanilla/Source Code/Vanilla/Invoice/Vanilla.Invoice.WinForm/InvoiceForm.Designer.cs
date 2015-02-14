@@ -58,12 +58,20 @@
             this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ServiceTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LuxuaryTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TotalAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pnlAdvance = new System.Windows.Forms.Panel();
+            this.dgvAdvance = new System.Windows.Forms.DataGridView();
+            this.AdvanceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AdvanceReceiptNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AdvanceAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTax)).BeginInit();
             this.pnlTax.SuspendLayout();
             this.pnlBottom.SuspendLayout();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).BeginInit();
+            this.pnlAdvance.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAdvance)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvTax
@@ -90,7 +98,7 @@
             // txtAdvance
             // 
             this.txtAdvance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAdvance.Location = new System.Drawing.Point(985, 31);
+            this.txtAdvance.Location = new System.Drawing.Point(1019, 31);
             this.txtAdvance.Name = "txtAdvance";
             this.txtAdvance.ReadOnly = true;
             this.txtAdvance.Size = new System.Drawing.Size(118, 20);
@@ -100,7 +108,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(929, 31);
+            this.label7.Location = new System.Drawing.Point(963, 31);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(50, 13);
             this.label7.TabIndex = 161;
@@ -109,7 +117,7 @@
             // txtGrandTotal
             // 
             this.txtGrandTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtGrandTotal.Location = new System.Drawing.Point(984, 83);
+            this.txtGrandTotal.Location = new System.Drawing.Point(1018, 83);
             this.txtGrandTotal.Name = "txtGrandTotal";
             this.txtGrandTotal.ReadOnly = true;
             this.txtGrandTotal.Size = new System.Drawing.Size(118, 20);
@@ -119,7 +127,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(915, 86);
+            this.label4.Location = new System.Drawing.Point(949, 86);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(63, 13);
             this.label4.TabIndex = 159;
@@ -128,7 +136,7 @@
             // txtDiscount
             // 
             this.txtDiscount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDiscount.Location = new System.Drawing.Point(985, 57);
+            this.txtDiscount.Location = new System.Drawing.Point(1019, 57);
             this.txtDiscount.Name = "txtDiscount";
             this.txtDiscount.Size = new System.Drawing.Size(118, 20);
             this.txtDiscount.TabIndex = 158;
@@ -137,7 +145,7 @@
             // txtTotal
             // 
             this.txtTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTotal.Location = new System.Drawing.Point(984, 5);
+            this.txtTotal.Location = new System.Drawing.Point(1018, 5);
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
             this.txtTotal.Size = new System.Drawing.Size(118, 20);
@@ -147,7 +155,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(930, 60);
+            this.label3.Location = new System.Drawing.Point(964, 60);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(49, 13);
             this.label3.TabIndex = 156;
@@ -157,7 +165,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(947, 8);
+            this.label1.Location = new System.Drawing.Point(981, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(31, 13);
             this.label1.TabIndex = 155;
@@ -227,9 +235,9 @@
             // 
             this.pnlTax.Controls.Add(this.dgvTax);
             this.pnlTax.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlTax.Location = new System.Drawing.Point(0, 292);
+            this.pnlTax.Location = new System.Drawing.Point(0, 290);
             this.pnlTax.Name = "pnlTax";
-            this.pnlTax.Size = new System.Drawing.Size(1111, 95);
+            this.pnlTax.Size = new System.Drawing.Size(1145, 95);
             this.pnlTax.TabIndex = 170;
             this.pnlTax.Visible = false;
             // 
@@ -244,9 +252,9 @@
             this.pnlBottom.Controls.Add(this.label3);
             this.pnlBottom.Controls.Add(this.label1);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 387);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 472);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(1111, 140);
+            this.pnlBottom.Size = new System.Drawing.Size(1145, 140);
             this.pnlBottom.TabIndex = 171;
             // 
             // pnlTop
@@ -256,9 +264,9 @@
             this.pnlTop.Controls.Add(this.label5);
             this.pnlTop.Controls.Add(this.label2);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTop.Location = new System.Drawing.Point(0, 0);
+            this.pnlTop.Location = new System.Drawing.Point(0, 31);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(1111, 40);
+            this.pnlTop.Size = new System.Drawing.Size(1145, 40);
             this.pnlTop.TabIndex = 173;
             // 
             // dgvProduct
@@ -275,12 +283,12 @@
             this.Amount,
             this.ServiceTax,
             this.LuxuaryTax,
-            this.TotalAmount});
+            this.Total});
             this.dgvProduct.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvProduct.Location = new System.Drawing.Point(0, 40);
+            this.dgvProduct.Location = new System.Drawing.Point(0, 71);
             this.dgvProduct.Name = "dgvProduct";
             this.dgvProduct.ReadOnly = true;
-            this.dgvProduct.Size = new System.Drawing.Size(1111, 487);
+            this.dgvProduct.Size = new System.Drawing.Size(1145, 219);
             this.dgvProduct.TabIndex = 174;
             // 
             // Start
@@ -355,32 +363,74 @@
             this.LuxuaryTax.ReadOnly = true;
             this.LuxuaryTax.Width = 110;
             // 
-            // TotalAmount
+            // Total
             // 
-            this.TotalAmount.HeaderText = "Total Amount";
-            this.TotalAmount.MaxInputLength = 10;
-            this.TotalAmount.Name = "TotalAmount";
-            this.TotalAmount.ReadOnly = true;
+            this.Total.HeaderText = "Total";
+            this.Total.MaxInputLength = 10;
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
+            // 
+            // pnlAdvance
+            // 
+            this.pnlAdvance.Controls.Add(this.dgvAdvance);
+            this.pnlAdvance.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlAdvance.Location = new System.Drawing.Point(0, 385);
+            this.pnlAdvance.Name = "pnlAdvance";
+            this.pnlAdvance.Size = new System.Drawing.Size(1145, 87);
+            this.pnlAdvance.TabIndex = 175;
+            // 
+            // dgvAdvance
+            // 
+            this.dgvAdvance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAdvance.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.AdvanceDate,
+            this.AdvanceReceiptNo,
+            this.AdvanceAmount});
+            this.dgvAdvance.Location = new System.Drawing.Point(679, 0);
+            this.dgvAdvance.Name = "dgvAdvance";
+            this.dgvAdvance.Size = new System.Drawing.Size(466, 86);
+            this.dgvAdvance.TabIndex = 155;
+            // 
+            // AdvanceDate
+            // 
+            this.AdvanceDate.HeaderText = "Date";
+            this.AdvanceDate.Name = "AdvanceDate";
+            // 
+            // AdvanceReceiptNo
+            // 
+            this.AdvanceReceiptNo.HeaderText = "Receipt No";
+            this.AdvanceReceiptNo.Name = "AdvanceReceiptNo";
+            this.AdvanceReceiptNo.Width = 200;
+            // 
+            // AdvanceAmount
+            // 
+            this.AdvanceAmount.HeaderText = "Amount";
+            this.AdvanceAmount.Name = "AdvanceAmount";
+            this.AdvanceAmount.ReadOnly = true;
             // 
             // InvoiceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1145, 527);
+            this.ClientSize = new System.Drawing.Size(1145, 612);
+            this.Controls.Add(this.dgvProduct);
+            this.Controls.Add(this.pnlTax);
+            this.Controls.Add(this.pnlAdvance);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnPrint);
-            this.Controls.Add(this.pnlTax);
             this.Controls.Add(this.pnlBottom);
-            this.Controls.Add(this.dgvProduct);
             this.Controls.Add(this.pnlTop);
             this.Name = "InvoiceForm";
+            this.ShowInTaskbar = false;
             this.Text = "Invoice Generation Form";
             this.Controls.SetChildIndex(this.pnlTop, 0);
-            this.Controls.SetChildIndex(this.dgvProduct, 0);
             this.Controls.SetChildIndex(this.pnlBottom, 0);
-            this.Controls.SetChildIndex(this.pnlTax, 0);
             this.Controls.SetChildIndex(this.btnPrint, 0);
             this.Controls.SetChildIndex(this.btnCancel, 0);
+            this.Controls.SetChildIndex(this.pnlAdvance, 0);
+            this.Controls.SetChildIndex(this.pnlTax, 0);
+            this.Controls.SetChildIndex(this.dgvProduct, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTax)).EndInit();
             this.pnlTax.ResumeLayout(false);
             this.pnlBottom.ResumeLayout(false);
@@ -388,7 +438,10 @@
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduct)).EndInit();
+            this.pnlAdvance.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAdvance)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -423,6 +476,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn ServiceTax;
         private System.Windows.Forms.DataGridViewTextBoxColumn LuxuaryTax;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TotalAmount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
+        private System.Windows.Forms.Panel pnlAdvance;
+        private System.Windows.Forms.DataGridView dgvAdvance;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AdvanceDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AdvanceReceiptNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AdvanceAmount;
     }
 }

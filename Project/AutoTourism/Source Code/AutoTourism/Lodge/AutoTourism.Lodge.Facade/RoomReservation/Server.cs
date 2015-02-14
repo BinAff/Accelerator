@@ -11,10 +11,13 @@ using RoomRsvArtf = Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact;
 
 using ModDefFac = Vanilla.Utility.Facade.Module.Definition;
 using FrmFac = Vanilla.Form.Facade.Document;
+using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using PayFac = Vanilla.Invoice.Facade.Payment;
+
+using CustAuto = AutoTourism.Component.Customer;
 
 using RoomFac = AutoTourism.Lodge.Configuration.Facade.Room;
 using RuleFac = AutoTourism.Configuration.Rule.Facade;
-using CustAuto = AutoTourism.Component.Customer;
 using CustFac = AutoTourism.Customer.Facade;
 
 namespace AutoTourism.Lodge.Facade.RoomReservation
@@ -1023,6 +1026,19 @@ namespace AutoTourism.Lodge.Facade.RoomReservation
         //}
 
         #endregion
+
+        internal List<PayFac.Dto> GetAdvancePaymentList()
+        {
+            Dto dto = (base.FormDto as FormDto).Document.Module as Dto;
+            ArtfCrys.IArtifact artf = new RoomRsvArtf.Server(new RoomRsvArtf.Data { ComponentData = new Data { Id = dto.Id } });
+            artf.ReadForComponent();
+            (base.FormDto as FormDto).Document = new ArtfFac.Server(null).Convert((artf as ArtfCrys.Server).Data as ArtfCrys.Data) as ArtfFac.Dto;
+            base.RetrieveAttachmentList();
+            return (base.FormDto as FormDto).Document.AttachmentList.ConvertAll((p) =>
+            {
+                return p.Module as PayFac.Dto;
+            });
+        }
 
     }
 

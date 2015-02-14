@@ -7,7 +7,6 @@ using System.Collections.Generic;
 namespace Crystal.Invoice.Component
 {
 
-    //public class Server : BinAff.Core.Observer.ObserverSubjectCrud, IInvoice
     public class Server : CrysArtfObserver.DocumentComponent, IInvoice
     {
 
@@ -20,8 +19,8 @@ namespace Crystal.Invoice.Component
         protected override void Compose()
         {
             this.Name = "Invoice";
-            this.DataAccess = new Dao((Data)this.Data);
-            this.Validator = new Validator((Data)this.Data);
+            this.DataAccess = new Dao(this.Data as Data);
+            this.Validator = new Validator(this.Data as Data);
         }
 
         protected override BinAff.Core.Data CreateDataObject()
@@ -31,17 +30,16 @@ namespace Crystal.Invoice.Component
 
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
-            return new Server((Data)data);
+            return new Server(data as Data);
         }
         
         protected override void CreateChildren()
         {
-            //base.CreateChildren();
             base.AddChildren(new LineItem.Server(null)
             {
                 Type = ChildType.Dependent,
                 IsReadOnly = false,
-            }, ((Data)base.Data).LineItem);
+            }, (base.Data as Data).LineItem);
         }
 
         protected override ReturnObject<Boolean> IsSubjectDeletable(BinAff.Core.Data subject)
@@ -62,20 +60,14 @@ namespace Crystal.Invoice.Component
 
         //    return retList;
         //}
-               
 
         ReturnObject<Data> IInvoice.GetInvoice(string invoiceNumber)
-        {   
-            base.Data.Id = new Dao((Data)this.Data).ReadInvoiceId(invoiceNumber);
-            return new ReturnObject<Data> 
+        {
+            base.Data.Id = (this.DataAccess as Dao).ReadInvoiceId(invoiceNumber);
+            return new ReturnObject<Data>
             {
                 Value = base.Read().Value as Data
             };
-        }
-
-        Int64 IInvoice.GetInvoiceId(string invoiceNumber)
-        {
-            return new Dao((Data)this.Data).ReadInvoiceId(invoiceNumber);            
         }
 
         List<Payment.Data> IInvoice.ReadInvoicePayment(string invoiceNumber)
@@ -95,6 +87,18 @@ namespace Crystal.Invoice.Component
             }
             return paymentList;
         }
+
+        internal String FormatRecieptNumber()
+        {
+            //Later this will be configurable
+            Data data = this.Data as Data;
+            return String.Format("RCPT/{0}-{1}-{2}/{3}",
+                data.Date.Year.ToString().Remove(0, 2),
+                data.Date.Month.ToString().PadLeft(2, '0'),
+                data.Date.Day.ToString().PadLeft(2, '0'),
+                data.SerialNumber.ToString().PadLeft(3, '0'));
+        }
+
     }
 
 }

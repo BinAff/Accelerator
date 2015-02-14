@@ -8,6 +8,10 @@ namespace Crystal.Customer.Component
     public class Dao : BinAff.Core.Dao
     {
 
+        protected String CreateActionLinkStoredProcedure { get; set; }
+        protected String DeleteActionLinkStoredProcedure { get; set; }
+        protected String UpdateActionLinkStoredProcedure { get; set; }
+
         public Dao(Data data)
             : base(data)
         {
@@ -131,6 +135,71 @@ namespace Crystal.Customer.Component
                 isDeletedSuccessfully = base.Delete();
 
             return isDeletedSuccessfully;
+        }
+
+        internal Boolean CreateActionLink(Action.Data action)
+        {
+            if (String.IsNullOrEmpty(this.CreateActionLinkStoredProcedure)) return false;
+            if (action != null)
+            {
+                this.CreateCommand(this.CreateActionLinkStoredProcedure);
+                this.AddInParameter("@CustomerId", DbType.Int64, this.Data.Id);
+                this.AddInParameter("@CharacteristicId", DbType.Int64, action.Id);
+                this.AddOutParameter("@Id", DbType.Int64, 0);
+                Int32 ret = this.ExecuteNonQuery();
+                return ret != -2146232060; //Foreign key violation
+            }
+            return true;
+        }
+
+        //internal Boolean ReadActionLink(Action.Data action)
+        //{
+        //    if (String.IsNullOrEmpty(this.CreateActionLinkStoredProcedure)) return false;
+        //    if (action != null)
+        //    {
+        //        this.CreateCommand(this.CreateActionLinkStoredProcedure);
+        //        this.AddInParameter("@CustomerId", DbType.Int64, this.Data.Id);
+        //        this.AddInParameter("@CharacteristicId", DbType.Int64, action.Id);
+        //        this.AddOutParameter("@Id", DbType.Int64, 0);
+        //        Int32 ret = this.ExecuteNonQuery();
+        //        if (ret == -2146232060)
+        //        {
+        //            return false; //Foreign key violation
+        //        }
+        //        else
+        //        {
+        //            return ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+        //        }
+        //    }
+        //    return true;
+        //}
+
+        internal Boolean UpdateActionLink(Action.Data action)
+        {
+            if (String.IsNullOrEmpty(this.UpdateActionLinkStoredProcedure)) return false;
+            if (action != null)
+            {
+                this.CreateCommand(this.UpdateActionLinkStoredProcedure);
+                this.AddInParameter("@CustomerId", DbType.Int64, this.Data.Id);
+                this.AddInParameter("@CharacteristicId", DbType.Int64, action.Id);
+                Int32 ret = this.ExecuteNonQuery();
+                return ret != -2146232060; //Foreign key violation
+            }
+            return true;
+        }
+
+        internal Boolean DeleteActionLink(Action.Data action)
+        {
+            if (String.IsNullOrEmpty(this.DeleteActionLinkStoredProcedure)) return false;
+            if (action != null)
+            {
+                this.CreateCommand(this.DeleteActionLinkStoredProcedure);
+                this.AddInParameter("@CustomerId", DbType.Int64, this.Data.Id);
+                this.AddInParameter("@CharacteristicId", DbType.Int64, action.Id);
+                Int32 ret = this.ExecuteNonQuery();
+                return ret != -2146232060; //Foreign key violation
+            }
+            return true;
         }
 
         private Boolean CreateCustomerContactNumber(List<ContactNumber.Data> ContactNumberList, Int64 CustomerId)

@@ -3,7 +3,7 @@
 namespace Crystal.Invoice.Component
 {
 
-    public class Buyer
+    public class Buyer : BinAff.Core.Data
     {
 
         public String Name { get; set; }

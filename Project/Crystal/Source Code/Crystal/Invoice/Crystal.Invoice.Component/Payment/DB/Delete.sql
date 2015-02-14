@@ -5,8 +5,7 @@
 AS
 BEGIN
 	
-	DELETE 		
-	FROM Invoice.Payment
-	WHERE Id = @Id   
+	DELETE FROM Invoice.Payment
+	WHERE Id = @Id  
    
 END
