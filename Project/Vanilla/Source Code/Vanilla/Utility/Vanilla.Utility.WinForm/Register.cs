@@ -48,6 +48,7 @@ namespace Vanilla.Utility.WinForm
 
         List<String> addressList; //This is for back button. This will hold all navigations
         Boolean isRenaming;
+        Boolean isClickedArtifactOnce;
 
         private ArtfFac.Dto cutArtifact;
 
@@ -564,12 +565,11 @@ namespace Vanilla.Utility.WinForm
             }
             else
             {
-                if (this.formDto.ModuleFormDto.CurrentArtifact.Dto.Style == ArtfFac.Type.Document && !this.isRenaming)
+                if (this.currentArtifact.Style == ArtfFac.Type.Document && !this.isRenaming)
                 {
-                    this.FormLoad(this.formDto.ModuleFormDto.CurrentArtifact.Dto);
+                    this.FormLoad(this.currentArtifact);
                 }
             }
-            this.isRenaming = false; //Rename done
             this.lsvContainer.Sort("Name", new PresLib.ListViewColumnSorter
             {
                 Order = SortOrder.Ascending
@@ -640,12 +640,15 @@ namespace Vanilla.Utility.WinForm
 
         private void lsvContainer_MouseDown(object sender, MouseEventArgs e)
         {
+            this.isRenaming = false; //Rename done when user is clicking in listview after renaming
             ListViewItem selected = this.lsvContainer.GetItemAt(e.X, e.Y);
 
             //-- check for null
             TreeView trv = this.GetActiveTreeView();
             if ((selected == null) && (trv == null || trv.SelectedNode == null))
                 return;
+
+            ArtfFac.Dto oldArtifact = this.currentArtifact;
 
             this.currentArtifact = selected == null ?
                 trv.SelectedNode.Tag as ArtfFac.Dto : selected.Tag as ArtfFac.Dto;
@@ -658,11 +661,18 @@ namespace Vanilla.Utility.WinForm
             }
             else if (e.Button == MouseButtons.Left)
             {
-                if (this.lsvContainer.GetItemAt(e.X, e.Y) != null) //Clicked on one item
+                if (selected != null)
                 {
-                    if (selected == this.lsvContainer.FocusedItem)
+                    //TO DO :: Edit like F2
+                    if (this.isClickedArtifactOnce && oldArtifact == this.currentArtifact)
                     {
-                        //TO DO :: Edit like F2
+                        this.isClickedArtifactOnce = false;
+                        this.isRenaming = true;
+                        this.lsvContainer.EditListViewSelectedItem(); //Not working!
+                    }
+                    else
+                    {
+                        this.isClickedArtifactOnce = true;
                     }
                 }
             }
@@ -670,14 +680,25 @@ namespace Vanilla.Utility.WinForm
 
         private void lsvContainer_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.F2)
+            switch (e.KeyCode)
             {
-                this.isRenaming = true;
-                this.lsvContainer.EditListViewSelectedItem();
-            }
-            else if (e.KeyCode == Keys.Enter)
-            {
-                this.OpenArtifact();
+                case Keys.F2:
+                    this.isRenaming = true;
+                    this.lsvContainer.EditListViewSelectedItem();
+                    break;
+                case Keys.Enter:
+                    if (this.isRenaming)
+                    {
+                        this.isRenaming = false; //Rename done when user is pressing enter after renaming
+                    }
+                    else
+                    {
+                        this.OpenArtifact();
+                    }
+                    break;
+                case Keys.Escape:
+                    //Undo if it is renaming
+                    break;
             }
         }
 
@@ -1867,23 +1888,7 @@ namespace Vanilla.Utility.WinForm
 
             artifactDto.Path = new ArtfFac.Server(null).GetParentArtifactPath(artifactDto) + artifactDto.FileName;
             if (artifactDto.Style == ArtfFac.Type.Folder) artifactDto.Path += this.formDto.Rule.PathSeperator;
-            ////Set path
-            //if (artifactDto.Style == ArtfFac.Type.Folder)
-            //{
-            //    if (artifactDto.Parent == null)
-            //    {
-            //        artifactDto.Path += this.formDto.Rule.ModuleSeperator + this.formDto.Rule.PathSeperator + this.formDto.Rule.PathSeperator;
-            //    }
-            //    artifactDto.Path += artifactDto.FileName + this.formDto.Rule.PathSeperator;
-            //}
-            //else if (artifactDto.Style == ArtfFac.Type.Document)
-            //{
-            //    //artifactDto.Path += artifactDto.FileName;
-            //    artifactDto.Path = new ArtfFac.Server(null).GetParentArtifactPath(artifactDto) + artifactDto.FileName;
-            //}
-
-            //this.facade = new Facade.Register.Server(this.formDto) { Category = artifactDto.Category };
-
+            
             TreeNode parentNode = null;
             if (artifactDto.Style == ArtfFac.Type.Document)
             {
@@ -1894,18 +1899,6 @@ namespace Vanilla.Utility.WinForm
                 TreeNode selectedNode = trv.FindNode(artifactDto);
                 parentNode = selectedNode != null ? selectedNode.Parent : null;
             }
-            //String pathOfParent = this.GetArtifact(parentNode.Tag).Path;
-
-
-            //-- document should not contain the path separator
-            //if (artifactDto.Style == ArtfFac.Type.Document)
-            //{
-            //    artifactDto.Path = pathOfParent + fileName;
-            //}
-            //else
-            //{
-            //    artifactDto.Path = pathOfParent + fileName + this.formDto.Rule.PathSeperator;
-            //}
 
             if (isModify)
             {
@@ -1921,25 +1914,25 @@ namespace Vanilla.Utility.WinForm
                     Name = (Server.Current.Cache["User"] as AccFac.Dto).Profile.Name
                 };
                 this.facade.Change();
-                if (this.formDto.ModuleFormDto.CurrentArtifact.Dto.Style == ArtfFac.Type.Document)
-                {
-                    if (this.facade.DisplayMessageList == null || this.facade.DisplayMessageList.Count == 0)
-                    {
-                        new PresLib.MessageBox
-                        {
-                            DialogueType = PresLib.MessageBox.Type.Information,
-                            Heading = "Navigator",
-                        }.Show("Document saved successfully.");
-                    }
-                    else
-                    {
-                        new PresLib.MessageBox
-                        {
-                            DialogueType = PresLib.MessageBox.Type.Information,
-                            Heading = "Navigator",
-                        }.Show(this.facade.DisplayMessageList);
-                    }
-                }
+                //if (this.formDto.ModuleFormDto.CurrentArtifact.Dto.Style == ArtfFac.Type.Document)
+                //{
+                //    if (this.facade.DisplayMessageList == null || this.facade.DisplayMessageList.Count == 0)
+                //    {
+                //        new PresLib.MessageBox
+                //        {
+                //            DialogueType = PresLib.MessageBox.Type.Information,
+                //            Heading = "Navigator",
+                //        }.Show("Document saved successfully.");
+                //    }
+                //    else
+                //    {
+                //        new PresLib.MessageBox
+                //        {
+                //            DialogueType = PresLib.MessageBox.Type.Information,
+                //            Heading = "Navigator",
+                //        }.Show(this.facade.DisplayMessageList);
+                //    }
+                //}
             }
             else //New record
             {
