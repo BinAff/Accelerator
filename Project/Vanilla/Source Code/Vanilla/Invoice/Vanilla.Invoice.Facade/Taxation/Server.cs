@@ -30,7 +30,7 @@ namespace Vanilla.Invoice.Facade.Taxation
                 Id = tax.Id,
                 Name = tax.Name,
                 Amount = tax.Amount,
-                IsPercentage = tax.isPercentage,
+                IsPercentage = tax.IsPercentage,
             };
         }
 
@@ -43,7 +43,7 @@ namespace Vanilla.Invoice.Facade.Taxation
                 Id = tax.Id,
                 Name = tax.Name,
                 Amount = tax.Amount,
-                isPercentage = tax.IsPercentage,
+                IsPercentage = tax.IsPercentage,
             };
         }
 

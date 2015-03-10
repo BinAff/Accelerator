@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BinAff.Core;
 
 using RoomRsvCrys = Crystal.Lodge.Component.Room.Reservation;
+using InvCrys = Crystal.Invoice.Component;
 
 namespace Crystal.Lodge.Component.Room.CheckIn
 {
@@ -39,6 +40,11 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             base.CreateChildren();
 
             base.AddChild(new RoomRsvCrys.Server((this.Data as Data).Reservation)
+            {
+                Type = ChildType.Independent,
+                IsReadOnly = true,
+            });
+            base.AddChild(new InvCrys.Server((this.Data as Data).Invoice)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
@@ -101,10 +107,16 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             return server.UpdateStatus();            
         }
         
-        ReturnObject<Boolean> ICheckIn.UpdateInvoiceNumber(String invoiceNumber)
-        {
-            return (this.dataAccess as Dao).UpdateInvoiceNumber(invoiceNumber);
-        }
+        //ReturnObject<Boolean> ICheckIn.UpdateInvoice()
+        //{
+        //    //base.AddChild(new InvCrys.Server((this.Data as Data).Invoice)
+        //    //{
+        //    //    Type = ChildType.Independent,
+        //    //    IsReadOnly = true,
+        //    //});
+        //    return this.Update();
+        //    //return (this.dataAccess as Dao).UpdateInvoiceNumber(invoiceNumber);
+        //}
 
         public Int64 ReadCheckInId(Int64 artifactId)
         {

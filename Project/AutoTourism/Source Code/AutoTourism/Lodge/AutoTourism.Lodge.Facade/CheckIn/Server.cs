@@ -13,6 +13,7 @@ using RoomChkCrys = Crystal.Lodge.Component.Room.CheckIn;
 using RoomRsvCrys = Crystal.Lodge.Component.Room.Reservation;
 using ChkArtfCrys = Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact;
 using ConfCrys = Crystal.Configuration.Component;
+using InvCrys = Crystal.Invoice.Component;
 
 using InvFac = Vanilla.Invoice.Facade;
 using DocFac = Vanilla.Form.Facade.Document;
@@ -75,6 +76,10 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 data.Reservation = new RoomReservation.Server(null).Convert(checkIn.Reservation) as LodgeCrys.Room.Reservation.Data;
             }
+            if (checkIn.Invoice != null)
+            {
+                data.Invoice = new InvFac.Server(null).Convert(checkIn.Invoice) as InvCrys.Data;
+            }
             return data;
         }
 
@@ -91,10 +96,13 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 Remark = checkIn.Remark,
                 Reservation = checkIn.Reservation == null ?
                     null : new RoomRsvFac.Server(null).Convert(checkIn.Reservation) as RoomReservation.Dto,
+                Invoice = checkIn.Invoice == null?
+                    null : new InvFac.Server(null).Convert(checkIn.Invoice) as InvFac.Dto,
             };
-            if(checkIn.Status != null && checkIn.Status.Id != 0)
+            if (checkIn.Status != null && checkIn.Status.Id != 0)
             {
                 dto.Status = (RoomRsvFac.Status)checkIn.Status.Id;
+                if (dto.Reservation != null) dto.Reservation.Status = dto.Status;
             }
             return dto;
         }
@@ -117,7 +125,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                 Facade.CheckIn.Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
                 CustAuto.Data cust = new CustFac.Server(null).Convert(dto.Reservation.Customer) as CustAuto.Data;
                 cust.Checkin.Active = this.Convert(dto) as CustCrys.Action.Data;
-                cust.RoomReserver.Active = (cust.Checkin.Active as LodgeCrys.Room.CheckIn.Data).Reservation as CustCrys.Action.Data;
+                cust.RoomReserver.Active = (cust.Checkin.Active as RoomChkCrys.Data).Reservation as CustCrys.Action.Data;
                 cust.Checkin.Active.ProductList = dto.Reservation.RoomList == null ? null : this.GetRoomDataList(dto.Reservation.RoomList);
 
                 CustAuto.Server custServer = new CustAuto.Server(cust);
@@ -149,57 +157,6 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             }
         }
 
-        //private CustAuto.Data ConvertCustomer()
-        //{
-        //    Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
-        //    CustAuto.Data autoCustomer = new Component.Customer.Data()
-        //    {
-        //        Id = dto.Reservation.Customer.Id,
-        //        FirstName = dto.Reservation.Customer.FirstName,
-        //        MiddleName = dto.Reservation.Customer.MiddleName,
-        //        LastName = dto.Reservation.Customer.LastName,
-        //        Address = dto.Reservation.Customer.Address,
-        //        Country = new ConfCrys.Country.Data { Id = dto.Reservation.Customer.Country.Id },
-        //        City = dto.Reservation.Customer.City,
-        //        Pin = dto.Reservation.Customer.Pin,
-        //        Email = dto.Reservation.Customer.Email,
-        //        IdentityProof = dto.Reservation.Customer.IdentityProofName == null ? String.Empty : dto.Reservation.Customer.IdentityProofName,
-        //        State = new ConfCrys.State.Data
-        //        {
-        //            Id = dto.Reservation.Customer.State.Id,
-        //            Name = dto.Reservation.Customer.State.Name
-        //        },
-        //        ContactNumberList = dto.Reservation.Customer.ContactNumberList.ConvertAll((p)=> 
-        //        {
-        //            return new CustCrys.ContactNumber.Data
-        //            {
-        //                Id = p.Id,
-        //                ContactNumber = p.Name
-        //            };
-        //        }),
-        //        //Initial = new ConfCrys.Initial.Data
-        //        //{
-        //        //    Id = reservationDto.Customer.Initial.Id,
-        //        //    Name = reservationDto.Customer.Initial.Name
-        //        //},
-        //        IdentityProofType = new ConfCrys.IdentityProofType.Data
-        //        {
-        //            Id = dto.Reservation.Customer.IdentityProofType.Id,
-        //            Name = dto.Reservation.Customer.IdentityProofType.Name
-        //        },                
-        //        Checkin = new LodgeCrys.Room.CheckInContainer.Data(),
-        //        RoomReserver = new LodgeCrys.Room.Reserver.Data(),
-        //    };
-
-        //    autoCustomer.Checkin.Active = this.Convert(dto) as CustCrys.Action.Data;
-        //    autoCustomer.RoomReserver.Active = (autoCustomer.Checkin.Active as LodgeCrys.Room.CheckIn.Data).Reservation as CustCrys.Action.Data;
-
-        //    autoCustomer.Checkin.Active.ProductList = dto.Reservation.RoomList == null ? null : this.GetRoomDataList(dto.Reservation.RoomList);
-
-        //    return autoCustomer;
-        //}
-
-        //--Duplicate function [exists in ReservationServer]
         public List<Data> GetRoomDataList(List<RoomFac.Dto> RoomList)
         {
             List<Data> RoomDataList = new List<Data>();
@@ -437,11 +394,16 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    return paymentDataList;
         //}
 
-        public ReturnObject<Boolean> UpdateInvoiceNumber(String invoiceNumber)
+        public ReturnObject<Boolean> UpdateInvoice()
         {
             Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
-            LodgeCrys.Room.CheckIn.ICheckIn checkIn = new LodgeCrys.Room.CheckIn.Server(new LodgeCrys.Room.CheckIn.Data { Id = dto.Id });
-            return checkIn.UpdateInvoiceNumber(invoiceNumber);
+            this.componentServer = this.GetComponentServer();
+            ((this.componentServer as Crud).Data as RoomChkCrys.Data).Invoice = new InvFac.Server(null).Convert(((base.FormDto as FormDto).Dto as Dto).Invoice) as InvCrys.Data;
+            ((this.componentServer as Crud).Data as RoomChkCrys.Data).Status = new ActCrys.Status.Data
+            {
+                Id = 10007, //Invoiced
+            };
+            return this.componentServer.Save();
         }
 
         private Boolean SaveArtifact(InvFac.FormDto invoiceFormDto, Table currentUser, ArtfFac.Dto artifactDto)
@@ -791,7 +753,6 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                         if (roomDto.RoomCategoryId == tariffDto.Category.Id && roomDto.RoomTypeId == tariffDto.Type.Id && roomDto.RoomIsAC == tariffDto.IsAC)
                         {
                             roomDto.UnitRate = tariffDto.Rate;
-                            roomDto.Total = roomDto.UnitRate * roomDto.Count;
                             break;
                         }
                     }
@@ -871,7 +832,8 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                     //Crystal.Invoice.Component.Data invoiceData = (autoCustomer.Invoice as Crystal.Invoice.Component.InvoiceContainer.Data).Active as Crystal.Invoice.Component.Data;
                                                 
                     //Update invoice number to CheckIn table
-                    ret = this.UpdateInvoiceNumber((invoiceFormDto.Dto as InvFac.Dto).InvoiceNumber);
+                    ((base.FormDto as FormDto).Dto as Dto).Invoice = invoiceFormDto.Dto as InvFac.Dto;
+                    ret = this.UpdateInvoice();
                     if (ret.Value)
                         T.Complete();
                    
@@ -881,31 +843,10 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             return ret;
         }
 
-        public ArtfFac.Dto GetInvoiceArtifact(String invoiceNumber)
-        {            
-            InvFac.Server invoiceServer = new InvFac.Server(null);
-            return  invoiceServer.GetArtifactForInvoiceNumber(invoiceNumber);
-        }
-
         public override string GetComponentCode()
         {
             return "LCHK";
         }
-
-        //public Dto CloneCheckIn(Dto checkInDto)
-        //{
-        //    return new Dto
-        //    {
-        //        Id = checkInDto.Id,
-        //        Date = checkInDto.Date,
-        //        InvoiceNumber = checkInDto.InvoiceNumber,
-        //        //CustomerDisplayName = checkInDto.CustomerDisplayName,
-        //        Purpose = checkInDto.Purpose,
-        //        ArrivedFrom = checkInDto.ArrivedFrom,
-        //        Remark = checkInDto.Remark,
-        //        Reservation = checkInDto.Reservation == null ? null: new RoomRsvFac.Server(new RoomReservation.FormDto()).CloneDto(checkInDto.Reservation)
-        //    };
-        //}
 
         public void RemoveAllBookedRoom()
         {
@@ -1002,6 +943,20 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             reservFormDto = new RoomRsvFac.Server(reservFormDto).AddRoomToAllRoomList(room);
             formDto.SelectedRoomList = reservFormDto.SelectedRoomList;
             formDto.RoomList = reservFormDto.RoomList;           
+        }
+
+        public ArtfFac.Dto ReadInvoice()
+        {
+            InvCrys.Data inv = new InvFac.Server(null).Convert(((base.FormDto as FormDto).Dto as Facade.CheckIn.Dto).Invoice) as InvCrys.Data;
+            ArtfCrys.IArtifact artf = new InvCrys.Navigator.Artifact.Server(new InvCrys.Navigator.Artifact.Data
+            {
+                ComponentData = inv,
+            });
+            ReturnObject<ArtfCrys.Data> ret = artf.ReadForComponent();
+            return new ArtfFac.Server(null)
+            {
+                ModuleFacade = new InvFac.Server(this.FormDto as InvFac.FormDto)
+            }.Convert(ret.Value) as ArtfFac.Dto;
         }
         
         private Int64 ReadCheckInId(Int64 artifactId)

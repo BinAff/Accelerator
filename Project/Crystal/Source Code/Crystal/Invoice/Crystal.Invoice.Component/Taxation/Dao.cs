@@ -30,7 +30,7 @@ namespace Crystal.Invoice.Component.Taxation
         { 
             base.AddInParameter("@Name", DbType.String, ((Data)this.Data).Name);
             base.AddInParameter("@Amount", DbType.Double, ((Data)this.Data).Amount);
-            base.AddInParameter("@IsPercentage", DbType.Boolean, ((Data)this.Data).isPercentage);
+            base.AddInParameter("@IsPercentage", DbType.Boolean, ((Data)this.Data).IsPercentage);
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
@@ -44,7 +44,7 @@ namespace Crystal.Invoice.Component.Taxation
                 dt.Id = data.Id;
                 dt.Name = Convert.IsDBNull(row["Name"]) ? String.Empty : Convert.ToString(row["Name"]);
                 dt.Amount = Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]);
-                dt.isPercentage = Convert.IsDBNull(row["isPercentage"]) ? false : Convert.ToBoolean(row["isPercentage"]);               
+                dt.IsPercentage = Convert.IsDBNull(row["isPercentage"]) ? false : Convert.ToBoolean(row["isPercentage"]);               
             }
             return dt;
         }
@@ -62,7 +62,7 @@ namespace Crystal.Invoice.Component.Taxation
                         Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
                         Name = Convert.IsDBNull(row["Name"]) ? String.Empty : Convert.ToString(row["Name"]),
                         Amount = Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]),
-                        isPercentage = Convert.IsDBNull(row["isPercentage"]) ? false : Convert.ToBoolean(row["isPercentage"])
+                        IsPercentage = Convert.IsDBNull(row["isPercentage"]) ? false : Convert.ToBoolean(row["isPercentage"])
                     });
                 }
             }

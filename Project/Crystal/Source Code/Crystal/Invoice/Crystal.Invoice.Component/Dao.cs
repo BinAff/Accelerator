@@ -16,13 +16,13 @@ namespace Crystal.Invoice.Component
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "[Invoice].[Insert]";
+            base.CreateStoredProcedure = "Invoice.Insert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Invoice].[Read]";
-            base.ReadAllStoredProcedure = "[Invoice].[ReadAll]";
-            base.UpdateStoredProcedure = "[Invoice].[Update]";
+            base.ReadStoredProcedure = "Invoice.Read";
+            base.ReadAllStoredProcedure = "Invoice.ReadAll";
+            base.UpdateStoredProcedure = "Invoice.Update";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "[Invoice].[Delete]";
+            base.DeleteStoredProcedure = "Invoice.Delete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
         
@@ -79,7 +79,7 @@ namespace Crystal.Invoice.Component
         {
             Data data = (Data)this.Data;
             this.CreateConnection();
-            this.CreateCommand("[Invoice].[ReadDuplicate]");
+            this.CreateCommand("Invoice.ReadDuplicate");
             this.AddInParameter("@SerialNumber", DbType.Int32, data.SerialNumber);
 
             DataSet ds = this.ExecuteDataSet();
@@ -95,7 +95,7 @@ namespace Crystal.Invoice.Component
             return false;
         }
 
-        public List<BinAff.Core.Data> GetSalesData(DateTime startDate, DateTime endDate)
+        internal List<BinAff.Core.Data> GetSalesData(DateTime startDate, DateTime endDate)
         {
             base.CreateConnection();
 
@@ -275,16 +275,18 @@ namespace Crystal.Invoice.Component
         //    return retVal;
         //}
 
-        public Int64 ReadInvoiceId(String invoiceNumber)
-        {            
-            this.CreateCommand("Invoice.ReadForInvoiceNumber");
-            this.AddInParameter("@InvoiceNumber", DbType.String, invoiceNumber);
+        internal Int64 ReadInvoiceId()
+        {
+            Data data = this.Data as Data;
+            this.CreateCommand("Invoice.InvoiceReadForSerialNumber");
+            this.AddInParameter("@SerialNumber", DbType.Int32, data.SerialNumber);
+            this.AddInParameter("@Date", DbType.Date, data.Date);
             DataSet ds = this.ExecuteDataSet();
-                        
+            
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 this.Data.Id = Convert.ToInt64(ds.Tables[0].Rows[0]["Id"]);
 
-            return this.Data.Id;            
+            return this.Data.Id;
         }
 
     }

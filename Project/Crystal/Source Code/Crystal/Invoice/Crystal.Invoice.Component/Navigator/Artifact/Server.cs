@@ -40,11 +40,6 @@ namespace Crystal.Invoice.Component.Navigator.Artifact
             return new Invoice.Component.Server(moduleData as Invoice.Component.Data);
         }
 
-        public Data GetArtifactForInvoiceNumber(String invoiceNumber)
-        {           
-            return new Dao(this.Data as Data).GetArtifactForInvoiceNumber(invoiceNumber);
-        }
-
     }
 
 }

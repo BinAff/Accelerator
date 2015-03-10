@@ -63,7 +63,8 @@ namespace Crystal.Invoice.Component
 
         ReturnObject<Data> IInvoice.GetInvoice(string invoiceNumber)
         {
-            base.Data.Id = (this.DataAccess as Dao).ReadInvoiceId(invoiceNumber);
+            base.Data = this.ParseInvoiceNumber(invoiceNumber);
+            base.Data.Id = (this.DataAccess as Dao).ReadInvoiceId();
             return new ReturnObject<Data>
             {
                 Value = base.Read().Value as Data
@@ -73,7 +74,8 @@ namespace Crystal.Invoice.Component
         List<Payment.Data> IInvoice.ReadInvoicePayment(string invoiceNumber)
         {
             List<Payment.Data> paymentList = new List<Payment.Data>();
-            Int64 invoiceId = new Dao((Data)this.Data).ReadInvoiceId(invoiceNumber);
+            this.Data = this.ParseInvoiceNumber(invoiceNumber);
+            Int64 invoiceId = (this.DataAccess as Dao).ReadInvoiceId();
 
             if (invoiceId > 0)
             {
@@ -88,7 +90,7 @@ namespace Crystal.Invoice.Component
             return paymentList;
         }
 
-        internal String FormatRecieptNumber()
+        internal String FormatInvoiceNumber()
         {
             //Later this will be configurable
             Data data = this.Data as Data;
@@ -97,6 +99,18 @@ namespace Crystal.Invoice.Component
                 data.Date.Month.ToString().PadLeft(2, '0'),
                 data.Date.Day.ToString().PadLeft(2, '0'),
                 data.SerialNumber.ToString().PadLeft(3, '0'));
+        }
+
+        internal Data ParseInvoiceNumber(String invoiceNumber)
+        {
+            //Later this will be configurable
+            String[] tokens = invoiceNumber.Split('/');
+            String[] dateTokens = tokens[1].Split('-');
+            return new Data
+            {
+                SerialNumber = Convert.ToInt32(tokens[2]),
+                Date = new DateTime(Convert.ToInt32(dateTokens[0]), Convert.ToInt32(dateTokens[1]), Convert.ToInt32(dateTokens[7])),
+            };
         }
 
     }

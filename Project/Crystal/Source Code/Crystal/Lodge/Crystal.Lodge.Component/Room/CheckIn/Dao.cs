@@ -17,12 +17,12 @@ namespace Crystal.Lodge.Component.Room.CheckIn
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "[Lodge].[CheckInInsert]";
+            base.CreateStoredProcedure = "Lodge.CheckInInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Lodge].[CheckInRead]";
-            base.UpdateStoredProcedure = "[Lodge].[CheckInUpdate]";
+            base.ReadStoredProcedure = "Lodge.CheckInRead";
+            base.UpdateStoredProcedure = "Lodge.CheckInUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "[Lodge].[CheckInDelete]";
+            base.DeleteStoredProcedure = "Lodge.CheckInDelete";
             base.NumberOfRowsAffectedInDelete = -1;
             base.SearchStoredProcedure = "";
             base.UpdateStatusStoredProcedure = "Lodge.CheckinUpdateStatus";
@@ -30,12 +30,18 @@ namespace Crystal.Lodge.Component.Room.CheckIn
 
         protected override void AssignParameter(String procedureName)
         {
+            Data data = this.Data as Data;
             base.AssignParameter(procedureName);
-            base.AddInParameter("@ReservationId", DbType.Int64, ((Data)this.Data).Reservation.Id);
+            base.AddInParameter("@ReservationId", DbType.Int64, data.Reservation.Id);
 
-            base.AddInParameter("@Purpose", DbType.String, ((Data)this.Data).Purpose);
-            base.AddInParameter("@ArrivedFrom", DbType.String, ((Data)this.Data).ArrivedFrom);
-            base.AddInParameter("@Remark", DbType.Int64, ((Data)this.Data).Remark);
+            base.AddInParameter("@Purpose", DbType.String, data.Purpose);
+            base.AddInParameter("@ArrivedFrom", DbType.String, data.ArrivedFrom);
+            base.AddInParameter("@Remark", DbType.Int64, data.Remark);
+
+            if (data.Invoice != null)
+            {
+                base.AddInParameter("@InvoiceId", DbType.Int64, data.Invoice.Id);
+            }
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
@@ -43,7 +49,7 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             base.CreateDataObject(dr, data);
             Data dt = (Data)data;
             dt.invoiceNumber = Convert.IsDBNull(dr["InvoiceNumber"]) ? String.Empty : Convert.ToString(dr["InvoiceNumber"]);
-            dt.Reservation = Convert.IsDBNull(dr["ReservationId"]) ? null : new Crystal.Lodge.Component.Room.Reservation.Data() 
+            dt.Reservation = Convert.IsDBNull(dr["ReservationId"]) ? null : new Crystal.Lodge.Component.Room.Reservation.Data
             { 
                 Id = Convert.ToInt64(dr["ReservationId"]) 
             };
@@ -52,6 +58,10 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             dt.Purpose = Convert.IsDBNull(dr["Purpose"]) ? String.Empty : Convert.ToString(dr["Purpose"]);
             dt.ArrivedFrom = Convert.IsDBNull(dr["ArrivedFrom"]) ? String.Empty : Convert.ToString(dr["ArrivedFrom"]);
             dt.Remark = Convert.IsDBNull(dr["Remark"]) ? String.Empty : Convert.ToString(dr["Remark"]);
+            dt.Invoice = Convert.IsDBNull(dr["InvoiceId"]) ? null : new Crystal.Invoice.Component.Data
+            {
+                Id = Convert.ToInt64(dr["InvoiceId"])
+            };
 
             return dt;
         }
@@ -215,7 +225,7 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             Data data = this.Data as Data;
 
             this.CreateConnection();
-            this.CreateCommand("[Lodge].[UpdateInvoiceNumber]");
+            this.CreateCommand("Lodge.CheckInUpdateForInvoice");
             this.AddInParameter("@Id", DbType.Int64, data.Id);
             this.AddInParameter("@InvoiceNumber", DbType.Int64, invoiceNumber);
             Int32 ret = this.ExecuteNonQuery();

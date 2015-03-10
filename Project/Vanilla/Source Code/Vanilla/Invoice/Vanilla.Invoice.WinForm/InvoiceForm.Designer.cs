@@ -64,6 +64,7 @@
             this.AdvanceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AdvanceReceiptNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AdvanceAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTax)).BeginInit();
             this.pnlTax.SuspendLayout();
@@ -233,6 +234,7 @@
             // 
             // pnlTax
             // 
+            this.pnlTax.Controls.Add(this.label6);
             this.pnlTax.Controls.Add(this.dgvTax);
             this.pnlTax.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlTax.Location = new System.Drawing.Point(0, 290);
@@ -408,6 +410,15 @@
             this.AdvanceAmount.Name = "AdvanceAmount";
             this.AdvanceAmount.ReadOnly = true;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(758, 3);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(50, 13);
+            this.label6.TabIndex = 167;
+            this.label6.Text = "Advance";
+            // 
             // InvoiceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -433,6 +444,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTax)).EndInit();
             this.pnlTax.ResumeLayout(false);
+            this.pnlTax.PerformLayout();
             this.pnlBottom.ResumeLayout(false);
             this.pnlBottom.PerformLayout();
             this.pnlTop.ResumeLayout(false);
@@ -482,5 +494,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn AdvanceDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn AdvanceReceiptNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn AdvanceAmount;
+        private System.Windows.Forms.Label label6;
     }
 }

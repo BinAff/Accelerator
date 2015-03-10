@@ -34,7 +34,6 @@ namespace Vanilla.Invoice.Facade.LineItem
                 Description = comp.Description,
                 UnitRate = comp.UnitRate,
                 Count = comp.Count,
-                Total = comp.Total,
                 TaxList = comp.TaxList.ConvertAll<BinAff.Facade.Library.Dto>((p) =>
                 {
                     return taxFac.Convert(p);
@@ -55,7 +54,6 @@ namespace Vanilla.Invoice.Facade.LineItem
                 Description = comp.Description,
                 UnitRate = comp.UnitRate,
                 Count = comp.Count,
-                Total = comp.Total,
                 TaxList = comp.TaxList.ConvertAll<BinAff.Core.Data>((p) =>
                 {
                     return taxFac.Convert(p);

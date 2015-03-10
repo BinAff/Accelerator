@@ -53,7 +53,7 @@ namespace AutoTourism.Lodge.WinForm
         private void btnGenerateInvoice_Click(object sender, EventArgs e)
         {
             UtilFac.Artifact.Dto inv;
-            if (String.IsNullOrEmpty((base.formDto.Dto as Facade.CheckIn.Dto).InvoiceNumber))
+            if ((base.formDto.Dto as Facade.CheckIn.Dto).Invoice == null)
             {
                 inv = new UtilFac.Artifact.Dto
                 {
@@ -84,8 +84,17 @@ namespace AutoTourism.Lodge.WinForm
                 String invoiceNumber = (inv.Module as InvFac.Dto).InvoiceNumber;
                 if (invoiceNumber != String.Empty && form.IsModified)
                 {
-                    (base.facade as Facade.CheckIn.Server).UpdateInvoiceNumber(invoiceNumber);
-                    T.Complete();
+                    (base.formDto.Dto as Fac.Dto).Invoice = inv.Module as InvFac.Dto;
+                    ReturnObject<Boolean> ret = (base.facade as Facade.CheckIn.Server).UpdateInvoice();
+                    if (ret.HasError())
+                    {
+                        new BinAff.Presentation.Library.MessageBox().Show(ret.MessageList);
+                    }
+                    else
+                    {
+                        T.Complete();
+                        this.btnGenerateInvoice.Text = "View Invoice";
+                    }
                 }
             }
         }
@@ -162,8 +171,6 @@ namespace AutoTourism.Lodge.WinForm
             this.btnPay = base.AddToolStripButton("<", "Wingdings 2", "Pay");
             this.btnPay.Click += btnPay_Click;
 
-            this.SetDefault();
-
             Fac.FormDto formDto = base.formDto as Fac.FormDto;
             Fac.Dto dto = formDto.Dto as Fac.Dto;
             //Int32 aCPreference = 0;
@@ -187,21 +194,10 @@ namespace AutoTourism.Lodge.WinForm
             };
             this.ucRoomReservation.RoomList = formDto.AllRoomList;
             this.ucRoomReservation.RoomListChanged += ucRoomReservation_RoomListChanged;
-            this.ucRoomReservation.LoadForm(dto.Reservation);
-
-            if (!String.IsNullOrEmpty((base.formDto.Dto as Facade.CheckIn.Dto).InvoiceNumber))
-            {
-                this.btnGenerateInvoice.Text = "View Invoice";
-            }
+            this.ucRoomReservation.LoadForm(dto.Reservation);            
            
             //this.configRuleDto = formDto.ConfigurationRuleDto;
             //if (this.configRuleDto.DateFormat != null) this.dtFrom.CustomFormat = this.configRuleDto.DateFormat;
-            //if (dto.Id > 0)
-            //{  
-            //    dto.Reservation.ACPreference = aCPreference;
-            //    dto.Reservation.RoomCategory = roomCategory == 0 ? null : new Table { Id = roomCategory };
-            //    dto.Reservation.RoomType = roomType == 0 ? null : new Table { Id = roomType };
-            //}
         }
 
         protected override void PopulateDataToForm()
@@ -215,6 +211,8 @@ namespace AutoTourism.Lodge.WinForm
                 this.txtCheckInRemark.Text = dto.Remark;
                 this.ucRoomReservation.PopulateDataToForm();
             }
+
+            this.btnGenerateInvoice.ToolTipText = ((base.formDto.Dto as Facade.CheckIn.Dto).Invoice == null ? "Generate" : "View") + " Invoice";
         }
 
         protected override Boolean ValidateForm()
@@ -292,6 +290,45 @@ namespace AutoTourism.Lodge.WinForm
             return new InvWin.PaymentForm(new ArtfFac.Dto());
         }
 
+        protected override void DisableFormControls()
+        {
+            base.errorProvider.Clear();
+            this.ucRoomReservation.DisableRemarks();
+            Facade.CheckIn.Dto dto = this.formDto.Dto as Facade.CheckIn.Dto;
+            if (dto.Id > 0)
+            {
+                this.ucRoomReservation.DisableFormControls();
+                this.txtPurpose.Enabled = false;
+                this.txtArrivedFrom.Enabled = false;
+                this.txtCheckInRemark.Enabled = false;
+                base.DisablePickAncestorButton();
+                base.DisableAddAncestorButton();
+                base.DisableRefreshButton();
+                base.DisableOkButton();
+                base.DisableDeleteButton();
+                switch (dto.Status)
+                {
+                    case RoomRsvFac.Status.CheckedIn:
+                        this.ucRoomReservation.EnableNoOfDays();
+                        this.btnGenerateInvoice.Enabled = false;
+                        this.btnPay.Enabled = false;
+                        break;
+                    case RoomRsvFac.Status.CheckOut:
+                        this.btnCheckOut.Enabled = false;
+                        this.btnPay.Enabled = false;
+                        break;
+                    case RoomRsvFac.Status.Invoiced:
+                        this.btnCheckOut.Enabled = false;
+                        break;
+                    case RoomRsvFac.Status.Paid:
+                        this.btnCheckOut.Enabled = false;
+                        //this.btnGenerateInvoice.Enabled = false;
+                        this.btnPay.Enabled = false;
+                        break;
+                }
+            }
+        }
+
         #endregion
 
         #region Private
@@ -310,21 +347,9 @@ namespace AutoTourism.Lodge.WinForm
         private UtilFac.Artifact.Dto GetInvoiceArtifact()
         {
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
+            Facade.CheckIn.Server checkInServer = new Facade.CheckIn.Server(base.formDto as LodgeFac.CheckIn.FormDto);
 
-            Facade.CheckIn.ICheckIn checkInServer = new Facade.CheckIn.Server(base.formDto as LodgeFac.CheckIn.FormDto);
-
-            InvFac.IInvoice invoice = new InvFac.Server(null);
-            InvFac.Dto invoiceDto = invoice.GetInvoice(dto.InvoiceNumber);
-
-            //Vanilla.Invoice.Facade.Dto invoiceDto = checkInServer.ReadInvoice(dto.InvoiceNumber);
-
-            UtilFac.Artifact.Dto invoiceArtifact = (base.facade as Facade.CheckIn.Server).GetInvoiceArtifact(dto.InvoiceNumber);
-
-            return new UtilFac.Artifact.Dto
-            {
-                Id = invoiceArtifact == null ? 0 : invoiceArtifact.Id,
-                Module = invoiceDto
-            };
+            return checkInServer.ReadInvoice();
         }
 
         private void AddInvoiceNodeToTree(UtilFac.Artifact.Dto artifactDto)
@@ -343,46 +368,6 @@ namespace AutoTourism.Lodge.WinForm
             //(this.trvForm.Nodes[reservationNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children.Add(artifactDto);
             //artifactDto.Parent = this.trvForm.Nodes[reservationNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto;
 
-        }
-
-        protected override void DisableFormControls()
-        {
-            base.errorProvider.Clear();
-            this.ucRoomReservation.DisableRemarks();
-            Facade.CheckIn.Dto dto = this.formDto.Dto as Facade.CheckIn.Dto;
-            if (dto.Id > 0)
-            {
-                this.ucRoomReservation.DisableFormControls();
-                this.txtPurpose.Enabled = false;
-                this.txtArrivedFrom.Enabled = false;
-                this.txtCheckInRemark.Enabled = false;
-                base.DisablePickAncestorButton();
-                base.DisableAddAncestorButton();
-                base.DisableRefreshButton();
-                base.DisableOkButton();
-                base.DisableDeleteButton();
-                switch(dto.Status)
-                {
-                    case RoomRsvFac.Status.CheckedIn:
-                        this.ucRoomReservation.EnableNoOfDays();
-                        this.btnGenerateInvoice.Enabled = false;
-                        this.btnPay.Enabled = false;
-                        break;
-                    case RoomRsvFac.Status.CheckOut:
-                        this.btnCheckOut.Enabled = false;
-                        this.btnPay.Enabled = false;
-                        break;
-                    case RoomRsvFac.Status.Invoiced:
-                        this.btnCheckOut.Enabled = false;
-                        this.btnGenerateInvoice.Enabled = false;
-                        break;
-                    case RoomRsvFac.Status.Paid:
-                        this.btnCheckOut.Enabled = false;
-                        this.btnGenerateInvoice.Enabled = false;
-                        this.btnPay.Enabled = false;
-                        break;
-                }
-            }
         }
 
         private void SetDefault()

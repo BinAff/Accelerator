@@ -147,11 +147,11 @@ namespace Crystal.Navigator.Component.Artifact
         ReturnObject<Data> IArtifact.ReadForComponent()
         {
             (this.DataAccess as Dao).ReadForComponent();
-            return new ReturnObject<Data>
-            {
-                Value = this.Data as Data
-            };
-            //return base.Read().Convert<Data>(); //If required, red will be introduced
+            //return new ReturnObject<Data>
+            //{
+            //    Value = this.Data as Data
+            //};
+            return base.Read().Convert<Data>();
         }
 
         protected virtual ReturnObject<Boolean> CreateAttachmentLink(Data attachment)

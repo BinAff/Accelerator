@@ -15,11 +15,11 @@ namespace Vanilla.Form.Facade.Document
 
     public abstract class Server : DocFac.Server
     {
-        
+
         public Server(FormDto formDto)
             : base(formDto)
         {
-
+            //if (formDto != null) this.componentServer = this.GetComponentServer();
         }
 
         public void RegisterArtifactObserver()
@@ -125,14 +125,13 @@ namespace Vanilla.Form.Facade.Document
 
         public virtual void RetrieveAttachmentList()
         {
-            base.componentServer = this.GetArtifactServer(this.GetArtifactData((this.FormDto as FormDto).Document.Id));
-            ArtfCrys.IArtifact artifactServer = base.componentServer as ArtfCrys.IArtifact;
+            ArtfCrys.IArtifact artifactServer = this.GetArtifactServer(this.GetArtifactData((this.FormDto as FormDto).Document.Id));
             ReturnObject<List<ArtfCrys.Data>> ret = artifactServer.ReadAttachmentLink();
             this.AttachMessage(ret);
             (this.FormDto as FormDto).Document.AttachmentList = new List<ArtfFac.Dto>();
             foreach (ArtfCrys.Data attachment in ret.Value)
             {
-                ICrud attachmentServer = this.GetAttachmentServer(attachment);
+                ICrud attachmentServer = this.GetAttachmentServer(artifactServer, attachment);
                 ArtfCrys.Data attachmentData = (attachmentServer as ArtfCrys.Server).Data as ArtfCrys.Data;
                 attachmentData.ComponentDefinition = new Crystal.License.Component.Data
                 {
@@ -143,9 +142,9 @@ namespace Vanilla.Form.Facade.Document
             }
         }
 
-        private ArtfCrys.Server GetAttachmentServer(ArtfCrys.Data attachment)
+        private ArtfCrys.Server GetAttachmentServer(ArtfCrys.IArtifact artifactServer, ArtfCrys.Data attachment)
         {
-            return (base.componentServer as ArtfCrys.IArtifact).GetAttachmentServer(attachment).Value;
+            return artifactServer.GetAttachmentServer(attachment).Value;
         }
 
         public virtual void DeleteAttachment(ArtfFac.Dto attachment)

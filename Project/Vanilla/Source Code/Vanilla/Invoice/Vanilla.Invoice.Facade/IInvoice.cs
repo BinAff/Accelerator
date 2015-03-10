@@ -10,7 +10,7 @@ namespace Vanilla.Invoice.Facade
 
         List<Table> CalulateTaxList(Double total, List<Taxation.Dto> taxationList);
         //ReturnObject<Crystal.Invoice.Component.Data> GetInvoice(String invoiceNumber);
-        Dto GetInvoice(String invoiceNumber);
+        //Dto GetInvoice(String invoiceNumber);
         List<Payment.Dto> ReadPaymentListForInvoice(String invoiceNumber);
 
     }
