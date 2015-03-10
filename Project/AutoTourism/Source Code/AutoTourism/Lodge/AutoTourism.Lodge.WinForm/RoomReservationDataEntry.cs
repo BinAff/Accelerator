@@ -279,6 +279,12 @@ namespace AutoTourism.Lodge.WinForm
                 case RoomRsvFac.Status.CheckOut:
                     this.txtStatus.Text = "Checked Out";
                     break;
+                case RoomRsvFac.Status.Invoiced:
+                    this.txtStatus.Text = "Invoiced";
+                    break;
+                case RoomRsvFac.Status.Paid:
+                    this.txtStatus.Text = "Paid";
+                    break;
             }
 
             if (this.dto != null && dto.Id > 0)

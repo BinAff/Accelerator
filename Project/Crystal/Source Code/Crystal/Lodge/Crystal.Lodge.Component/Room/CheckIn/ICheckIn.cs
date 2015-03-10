@@ -7,7 +7,7 @@ namespace Crystal.Lodge.Component.Room.CheckIn
     public interface ICheckIn
     {
 
-        ReturnObject<Boolean> UpdateInvoiceNumber(String invoiceNumber);
+        //ReturnObject<Boolean> UpdateInvoice();
 
     }
 

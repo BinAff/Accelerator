@@ -12,7 +12,7 @@ namespace Crystal.Invoice.Component
         {
             get
             {
-                return new Server(this).FormatRecieptNumber();
+                return new Server(this).FormatInvoiceNumber();
             }
         }
 

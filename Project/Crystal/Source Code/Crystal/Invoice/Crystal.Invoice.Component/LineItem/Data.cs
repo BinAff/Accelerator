@@ -12,7 +12,6 @@ namespace Crystal.Invoice.Component.LineItem
         public String Description { get; set; }
         public Double UnitRate { get; set; }
         public Int32 Count { get; set; }
-        public Double Total { get; set; }
 
         public List<BinAff.Core.Data> TaxList { get; set; }
 

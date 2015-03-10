@@ -175,7 +175,6 @@ namespace AutoTourism.Customer.WinForm
         {
             CustFac.FormDto formDto = base.formDto as Facade.FormDto;
             base.facade.LoadForm();
-
             this.cboNationList.Bind(formDto.CountryList, "Name");
             this.cboIdentityProofType.Bind(formDto.IdentityProofTypeList, "Name");
             
@@ -403,16 +402,21 @@ namespace AutoTourism.Customer.WinForm
 
         private Boolean IsDuplicateContactNumber(String contactNumber)
         {
-            List<Table> contactNumberList = ((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList;
-            return contactNumberList == null ? false : contactNumberList.FindAll((p) =>
+            if ((base.formDto as Facade.FormDto).Dto != null)
             {
-                return String.Compare(p.Name, contactNumber) == 0;
-            }).Count > 0;
+                List<Table> contactNumberList = ((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList;
+                return contactNumberList == null ? false : contactNumberList.FindAll((p) =>
+                {
+                    return String.Compare(p.Name, contactNumber) == 0;
+                }).Count > 0;
+            }
+            return false;
         }
 
         private void AddContactNumber(String contactNumber)
         {
             Table contact = new Table { Name = contactNumber };
+            if ((base.formDto as Facade.FormDto).Dto == null) (base.formDto as Facade.FormDto).Dto = new CustFac.Dto();
             if (((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList == null) ((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList = new List<Table>();
             ((base.formDto as Facade.FormDto).Dto as Facade.Dto).ContactNumberList.Add(contact);
             if (this.lstContact.Items.Count > 0)

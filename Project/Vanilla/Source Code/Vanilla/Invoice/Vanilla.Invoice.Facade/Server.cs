@@ -48,7 +48,7 @@ namespace Vanilla.Invoice.Facade
             return new Dto 
             {
                 Id = comp.Id,
-                InvoiceNumber = comp.InvoiceNumber,
+                InvoiceNumber = comp.InvoiceNumber,                
                 Advance = comp.Advance,
                 Discount = comp.Discount,
                 Date = comp.Date,
@@ -63,20 +63,20 @@ namespace Vanilla.Invoice.Facade
         {
             Dto comp = dto as Dto;
             if (comp == null) return null;
-            return new InvCrys.Data
+            InvCrys.Data data = new InvCrys.Data
             {
                 Id = comp.Id,
                 Advance = comp.Advance,
                 Discount = comp.Discount,
-                Date = System.DateTime.Now,
-                Seller = new SellerFac.Server(null).Convert(comp.Seller) as InvCrys.Seller,
-                Buyer = new BuyerFac.Server(null).Convert(comp.Buyer) as InvCrys.Buyer,
-                LineItem = comp.ProductList.ConvertAll((p) =>
-                {
-                    return new LineItemFac.Server(null).Convert(p);
-                }),
-
+                Date = System.DateTime.Now, //Current date time
             };
+            if (comp.Seller != null) data.Seller = new SellerFac.Server(null).Convert(comp.Seller) as InvCrys.Seller;
+            if (comp.Buyer != null) data.Buyer = new BuyerFac.Server(null).Convert(comp.Buyer) as InvCrys.Buyer;
+            if (comp.ProductList != null) data.LineItem = comp.ProductList.ConvertAll((p) =>
+            {
+                return new LineItemFac.Server(null).Convert(p);
+            });
+            return data;
         }
 
         //public override void Add()
@@ -204,17 +204,6 @@ namespace Vanilla.Invoice.Facade
             return taxList;
         }
 
-        Dto IInvoice.GetInvoice(String invoiceNumber)
-        {
-            Dto dto = null;
-            InvCrys.IInvoice invoice = new InvCrys.Server(new InvCrys.Data());
-            ReturnObject<InvCrys.Data> retVal = invoice.GetInvoice(invoiceNumber);
-
-            if (retVal != null) dto = this.Convert(retVal.Value) as Dto;
-
-            return dto;
-        }
-
         List<PayVan.Dto> IInvoice.ReadPaymentListForInvoice(String invoiceNumber)
         {
             InvCrys.IInvoice invoice = new InvCrys.Server(new InvCrys.Data());
@@ -272,15 +261,6 @@ namespace Vanilla.Invoice.Facade
             }
 
             return ret;
-        }
-
-        public ArtfFac.Dto GetArtifactForInvoiceNumber(String invoiceNumber)
-        {
-            ArtfCrys.Data data = new InvArtfCrys.Server(new InvArtfCrys.Data()).GetArtifactForInvoiceNumber(invoiceNumber);
-            return new Utility.Facade.Artifact.Dto
-            {
-                Id = data == null ? 0 : data.Id
-            };
         }
 
         public void AssignLineItemWiseTax(List<LineItemFac.Dto> list)

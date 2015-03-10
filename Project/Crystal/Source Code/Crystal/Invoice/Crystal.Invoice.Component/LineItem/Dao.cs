@@ -16,14 +16,14 @@ namespace Crystal.Invoice.Component.LineItem
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "[Invoice].[LineItemInsert]";
+            base.CreateStoredProcedure = "Invoice.LineItemInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Invoice].[LineItemRead]";
-            base.ReadForParentStoredProcedure = "[Invoice].[LineItemReadForParent]";
-            base.ReadAllStoredProcedure = "[Invoice].[LineItemReadAll]";
-            base.UpdateStoredProcedure = "[Invoice].[LineItemUpdate]";
+            base.ReadStoredProcedure = "Invoice.LineItemRead";
+            base.ReadForParentStoredProcedure = "Invoice.LineItemReadForParent";
+            base.ReadAllStoredProcedure = "Invoice.LineItemReadAll";
+            base.UpdateStoredProcedure = "Invoice.LineItemUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "[Invoice].[LineItemDelete]";
+            base.DeleteStoredProcedure = "Invoice.LineItemDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -95,7 +95,7 @@ namespace Crystal.Invoice.Component.LineItem
 
         }
 
-        protected override bool CreateAfter()
+        protected override Boolean CreateAfter()
         {
             Data data = this.Data as Data;
             Boolean retVal = true;
@@ -103,17 +103,17 @@ namespace Crystal.Invoice.Component.LineItem
 
             foreach (Taxation.Data taxationData in data.TaxList)
             {
-                this.CreateCommand("[Invoice].[LineItemTaxationInsert]");
+                this.CreateCommand("Invoice.LineItemTaxationInsert");
                 this.AddInParameter("@LineItemId", DbType.Int64, data.Id);
                 this.AddInParameter("@TaxName", DbType.String, taxationData.Name);
                 this.AddInParameter("@TaxAmount", DbType.Currency, taxationData.Amount);
-                this.AddInParameter("@IsPercentage", DbType.Boolean, taxationData.isPercentage);
-                this.AddInParameter("@Id", DbType.Int64, LineItemTaxationId);
+                this.AddInParameter("@IsPercentage", DbType.Boolean, taxationData.IsPercentage);
+                this.AddOutParameter("@Id", DbType.Int64, LineItemTaxationId);
 
                 Int32 ret = this.ExecuteNonQuery();
 
                 if (ret == -2146232060)
-                    return false;//Foreign key violation  
+                    return false; //Foreign key violation  
                 else
                     retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
             }
@@ -121,9 +121,9 @@ namespace Crystal.Invoice.Component.LineItem
             return retVal;
         }
 
-        protected override bool ReadAfter()
+        protected override Boolean ReadAfter()
         {
-            this.CreateCommand("[Invoice].[LineItemTaxationRead]");
+            this.CreateCommand("Invoice.LineItemTaxationRead");
             this.AddInParameter("@LineItemId", DbType.Int64, this.Data.Id);
 
             DataSet ds = this.ExecuteDataSet();
@@ -134,10 +134,10 @@ namespace Crystal.Invoice.Component.LineItem
                 {
                     Invoice.Component.Taxation.Data data = new Taxation.Data
                     {
-                        Id = Convert.IsDBNull(row["LineItemId"]) ? 0 : Convert.ToInt64(row["LineItemId"]),
+                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
                         Name = Convert.IsDBNull(row["TaxName"]) ? String.Empty : Convert.ToString(row["TaxName"]),
                         Amount = Convert.IsDBNull(row["TaxAmount"]) ? 0 : Convert.ToDouble(row["TaxAmount"]),
-                        isPercentage = Convert.IsDBNull(row["IsPercentage"]) ? true : Convert.ToBoolean(row["IsPercentage"])
+                        IsPercentage = Convert.IsDBNull(row["IsPercentage"]) ? true : Convert.ToBoolean(row["IsPercentage"])
                     };
 
                     (this.Data as Data).TaxList.Add(data);
@@ -145,6 +145,30 @@ namespace Crystal.Invoice.Component.LineItem
             }
 
             return true;
+        }
+
+        protected override Boolean DeleteBefore()
+        {
+            Data data = this.Data as Data;
+            Boolean retVal = true;
+
+            foreach (Taxation.Data taxationData in data.TaxList)
+            {
+                this.CreateCommand("Invoice.LineItemTaxationDelete");
+                this.AddInParameter("@Id", DbType.Int64, taxationData.Id);
+
+                Int32 ret = this.ExecuteNonQuery();
+
+                if (ret == -2146232060)
+                {
+                    return false;//Foreign key violation 
+                }
+                else
+                {
+                    retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+                }
+            }
+            return retVal;
         }
 
     }

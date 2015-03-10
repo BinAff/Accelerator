@@ -628,20 +628,20 @@ namespace BinAff.Core
                 Value = true,
                 MessageList = new List<Message>()
             };
-            Parallel.ForEach<ICrud>(children, child =>
-            {
-                if (!((Crud)child).IsSkip && !((Crud)child).IsReadOnly && ((Crud)child).Data != null)
-                {
-                    if (!ManipulateReturnObject(retObj, child.Delete()).Value) return;
-                }
-            });
-            //foreach (ICrud child in children)
+            //Parallel.ForEach<ICrud>(children, child =>
             //{
             //    if (!((Crud)child).IsSkip && !((Crud)child).IsReadOnly && ((Crud)child).Data != null)
             //    {
-            //        if (!ManipulateReturnObject(retObj, child.Delete()).Value) return retObj;
+            //        if (!ManipulateReturnObject(retObj, child.Delete()).Value) return;
             //    }
-            //}
+            //});
+            foreach (ICrud child in children)
+            {
+                if (!((Crud)child).IsSkip && !((Crud)child).IsReadOnly && ((Crud)child).Data != null)
+                {
+                    if (!ManipulateReturnObject(retObj, child.Delete()).Value) return retObj;
+                }
+            }
             return retObj;
         }
 

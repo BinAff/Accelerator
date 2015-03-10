@@ -24,7 +24,7 @@ namespace AutoTourism.Lodge.Facade.Taxation
                         Id = data.Id,
                         Name = data.Name,
                         Amount = data.Amount,
-                        IsPercentage = data.isPercentage
+                        IsPercentage = data.IsPercentage
                     });
                 }
 

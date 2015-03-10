@@ -159,26 +159,28 @@ namespace Vanilla.Invoice.Facade.Payment
             ReturnObject<Boolean> ret = new ReturnObject<Boolean> { Value = true };
             List<BinAff.Core.Data> paymentDataList = this.Convert(paymentList);
 
-            Facade.Dto invoice = (new Facade.Server(new Facade.FormDto()) as Facade.IInvoice).GetInvoice(invoiceNumber);
 
-            using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
-            {
-                foreach (BinAff.Core.Data payment in paymentDataList)
-                {
-                    if (ret.Value)
-                    {
-                        (payment as PayComp.Data).Invoice = new InvComp.Data { Id = invoice.Id };
-                        ICrud crud = new PayComp.Server(payment as PayComp.Data);
-                        ret = crud.Save();
-                    }
-                    break;
-                }
+            //Need to check
+            //Facade.Dto invoice = (new Facade.Server(new Facade.FormDto()) as Facade.IInvoice).GetInvoice(invoiceNumber);
 
-                if (ret.Value)
-                {
-                    T.Complete();
-                }
-            }
+            //using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
+            //{
+            //    foreach (BinAff.Core.Data payment in paymentDataList)
+            //    {
+            //        if (ret.Value)
+            //        {
+            //            (payment as PayComp.Data).Invoice = new InvComp.Data { Id = invoice.Id };
+            //            ICrud crud = new PayComp.Server(payment as PayComp.Data);
+            //            ret = crud.Save();
+            //        }
+            //        break;
+            //    }
+
+            //    if (ret.Value)
+            //    {
+            //        T.Complete();
+            //    }
+            //}
 
             return ret;
         }
