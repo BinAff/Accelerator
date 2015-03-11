@@ -159,11 +159,11 @@ namespace Vanilla.Utility.WinForm
             this.facade.LoadForm();
             t.Stop();
             this.loadPercentage = 90;
-            this.LoadModules(tbcCategory.TabPages[0].Text);
             this.txtAddress.Text = "Form" + this.formDto.Rule.ModuleSeperator;
             this.lsvContainer.Items.Clear();
             this.btnBack.Enabled = false;
             this.btnUp.Enabled = false;
+            this.LoadModules(tbcCategory.TabPages[0].Text);
 
             //Show only proper tab
             if (this.DialogueMode != DialogueMode.None)
@@ -1695,7 +1695,15 @@ namespace Vanilla.Utility.WinForm
             }
             
             current.Nodes.Clear();
-            if (tree != null) current.Nodes.AddRange(tree);
+            if (tree != null)
+            {
+                current.Nodes.AddRange(tree);
+                if (this.DialogueMode != WinForm.DialogueMode.None && this.TreeFilter != null) //Select top tree node
+                {
+                    current.SelectedNode = current.Nodes[0];
+                    this.trvArtifact_NodeMouseClick(current, new TreeNodeMouseClickEventArgs(current.Nodes[0], System.Windows.Forms.MouseButtons.Left, 1, 0, 0));
+                }
+            }
         }
 
         private void SelectNode(String selectedNodePath)
