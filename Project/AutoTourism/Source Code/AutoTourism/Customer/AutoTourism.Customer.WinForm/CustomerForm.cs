@@ -213,7 +213,7 @@ namespace AutoTourism.Customer.WinForm
             this.txtMName.Text = dto.MiddleName;
             this.txtLName.Text = dto.LastName;
             this.txtAdds.Text = dto.Address;
-            this.cboNationList.SelectedItem = (this.formDto as Facade.FormDto).CountryList.FindLast((p) => { return p.Id == dto.Country.Id; });
+            if (dto.Country != null) this.cboNationList.SelectedItem = (this.formDto as Facade.FormDto).CountryList.FindLast((p) => { return p.Id == dto.Country.Id; });
             if (this.cboNationList.SelectedItem != null)
             {
                 this.cboStateList.SelectedItem = (this.formDto as Facade.FormDto).StateList.FindLast((p) => { return p.Id == dto.State.Id; });
@@ -222,7 +222,7 @@ namespace AutoTourism.Customer.WinForm
             this.txtPin.Text = dto.Pin == 0 ? String.Empty : dto.Pin.ToString();
             this.lstContact.Bind(dto.ContactNumberList, "Name");
             this.txtEmail.Text = dto.Email;
-            this.cboIdentityProofType.SelectedItem = (this.formDto as Facade.FormDto).IdentityProofTypeList.FindLast((p) => { return p.Id == dto.IdentityProofType.Id; });
+            if (dto.IdentityProofType != null) this.cboIdentityProofType.SelectedItem = (this.formDto as Facade.FormDto).IdentityProofTypeList.FindLast((p) => { return p.Id == dto.IdentityProofType.Id; });
             this.txtIdentityProofName.Text = dto.IdentityProofName;
         }
 
