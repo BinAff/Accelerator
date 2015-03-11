@@ -88,14 +88,21 @@ namespace Vanilla.Utility.WinForm
             switch(this.Mode)
             {
                 case OpenDialog.ActionMode.Open:
-                    this.Register.ShowDocument();
+                    this.Register.ShowDocument();                    
                     break;
                 case ActionMode.Search:
                     this.Register.ReadDocument();
                     if (this.Document.Module == null) this.Document.Module = this.Register.CurrentArtifact.Module;
                     break;
             }
-            base.IsActionDone = true;
+            if (this.Register.CurrentArtifact != null && this.Register.CurrentArtifact.Module != null && this.Register.CurrentArtifact.Module.Id != 0)
+            {
+                base.IsActionDone = true;
+            }
+            else
+            {
+                new BinAff.Presentation.Library.MessageBox(this).Show(new Message(String.Format("Selected document({0}) is empty. Fill the document first or select another document.", this.Register.CurrentArtifact.FullPath), Message.Type.Information));
+            }
         }
 
         public enum ActionMode

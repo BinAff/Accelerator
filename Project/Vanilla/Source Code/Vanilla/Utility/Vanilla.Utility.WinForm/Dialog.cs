@@ -42,7 +42,7 @@ namespace Vanilla.Utility.WinForm
 
         public ArtfFac.Dto Document { get; protected internal set; }
 
-        protected Register Register 
+        protected Register Register
         {
             get
             {
@@ -94,22 +94,26 @@ namespace Vanilla.Utility.WinForm
 
         void ucRegister_DocumentDoubleClicked()
         {
-            this.DoAction();
-            this.Close();
+            this.Act();
         }
 
         private void btnAction_Click(object sender, EventArgs e)
         {
-            this.DoAction();
-            this.Close();
+            this.Act();
         }
 
         private void txtDocName_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                this.DoAction();
+                this.Act();
             }
+        }
+
+        private void Act()
+        {
+            this.DoAction();
+            if(this.IsActionDone) this.Close();
         }
 
         /// <summary>
@@ -124,7 +128,7 @@ namespace Vanilla.Utility.WinForm
         {
             throw new NotImplementedException();
         }
-        
+
     }
 
 }
