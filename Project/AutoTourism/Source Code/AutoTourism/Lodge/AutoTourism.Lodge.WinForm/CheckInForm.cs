@@ -47,7 +47,6 @@ namespace AutoTourism.Lodge.WinForm
                 DialogueType = PresLib.MessageBox.Type.Alert,
                 Heading = "Splash"
             }.Show(this.facade.DisplayMessageList);
-            this.Close();
         }
 
         private void btnGenerateInvoice_Click(object sender, EventArgs e)
@@ -80,7 +79,6 @@ namespace AutoTourism.Lodge.WinForm
                     };
                 }
                 form.ShowDialog();
-
                 String invoiceNumber = (inv.Module as InvFac.Dto).InvoiceNumber;
                 if (invoiceNumber != String.Empty && form.IsModified)
                 {
@@ -93,7 +91,7 @@ namespace AutoTourism.Lodge.WinForm
                     else
                     {
                         T.Complete();
-                        this.btnGenerateInvoice.Text = "View Invoice";
+                        this.btnGenerateInvoice.ToolTipText = "View Invoice";
                     }
                 }
             }
@@ -326,6 +324,12 @@ namespace AutoTourism.Lodge.WinForm
                         this.btnPay.Enabled = false;
                         break;
                 }
+            }
+            else
+            {
+                this.btnCheckOut.Enabled = false;
+                this.btnGenerateInvoice.Enabled = false;
+                this.btnPay.Enabled = false;
             }
         }
 

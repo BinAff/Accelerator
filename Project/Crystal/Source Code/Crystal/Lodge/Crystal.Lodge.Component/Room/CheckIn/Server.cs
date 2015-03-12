@@ -124,10 +124,14 @@ namespace Crystal.Lodge.Component.Room.CheckIn
         }
 
         protected override ReturnObject<Boolean> DeleteAfter()
-        {            
+        {
             return (new RoomRsvCrys.Server(new RoomRsvCrys.Data
             {
-                Id = (this.Data as Data).Reservation.Id
+                Id = (this.Data as Data).Reservation.Id,
+                Status = new Customer.Component.Action.Status.Data
+                {
+                    Id = 10001 // To make the reservation open
+                },
             }) as Crystal.Customer.Component.Action.IAction).UpdateStatus();
         }
 
