@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace BinAff.Core
 {
 
-    public class ReturnObject<T> : IDisposable
+    public sealed class ReturnObject<T> : IDisposable
     {
 
         public T Value { get; set; }
@@ -60,7 +60,7 @@ namespace BinAff.Core
 
     }
 
-    public class Message : IDisposable
+    public sealed class Message : IDisposable
     {
 
         public String Description { get; set; }
