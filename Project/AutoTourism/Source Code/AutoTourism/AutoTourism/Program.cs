@@ -42,11 +42,11 @@ namespace AutoTourism
             }
             catch (System.Data.SqlClient.SqlException ex)
             {
-                throw ex;
+                throw;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
