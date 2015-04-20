@@ -35,15 +35,6 @@ namespace Crystal.Lodge.Component.Building.Type
             return new Server((Data)data);
         }
 
-
-        //protected override ReturnObject<List<BinAff.Core.Data>> ReadAll()
-        //{
-        //    return new ReturnObject<List<BinAff.Core.Data>>
-        //    {
-        //        Value = ((Dao)this.DataAccess).ReadAll()
-        //    };
-        //}
-
     }
 
 }

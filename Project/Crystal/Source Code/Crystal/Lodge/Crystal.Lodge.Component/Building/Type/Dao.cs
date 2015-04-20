@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace Crystal.Lodge.Component.Building.Type
 {
+
     public class Dao : BinAff.Core.Dao
     {
 
@@ -15,63 +15,32 @@ namespace Crystal.Lodge.Component.Building.Type
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "[Lodge].[BuildingTypeInsert]";
+            base.CreateStoredProcedure = "Lodge.BuildingTypeInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Lodge].[BuildingTypeRead]";
-            base.UpdateStoredProcedure = "[Lodge].[BuildingTypeUpdate]";
+            base.ReadStoredProcedure = "Lodge.BuildingTypeRead";
+            base.ReadAllStoredProcedure = "Lodge.BuildingTypeReadAll";
+            base.UpdateStoredProcedure = "Lodge.BuildingTypeUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "[Lodge].[BuildingTypeDelete]";
+            base.DeleteStoredProcedure = "Lodge.BuildingTypeDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
         protected override void AssignParameter(string procedureName)
         {
-            base.AddInParameter("@Name", System.Data.DbType.String, ((Data)this.Data).Name);
+            base.AddInParameter("@Name", System.Data.DbType.String, (this.Data as Data).Name);
         }
 
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
+        protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
-            Data dt = (Data)data;
-            System.Data.DataRow row;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            Data dt = data as Data;
+            if (dr != null)
             {
-                row = ds.Tables[0].Rows[0];
-
-                dt.Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]);
-                dt.Name = Convert.IsDBNull(row["Name"]) ? String.Empty : Convert.ToString(row["Name"]);
+                dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
+                dt.Name = Convert.IsDBNull(dr["Name"]) ? String.Empty : Convert.ToString(dr["Name"]);
             }
             return dt;
         }
 
-        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
-        {
-            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
-
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    ret.Add(new Data
-                    {
-                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
-                        Name = Convert.IsDBNull(row["Name"]) ? String.Empty : Convert.ToString(row["Name"])
-                    });
-                }
-            }
-            return ret;
-        }
-
-        public override List<BinAff.Core.Data> ReadAll()
-        {
-            this.CreateConnection();
-            this.CreateCommand("[Lodge].[BuildingTypeReadAll]");
-
-            DataSet ds = this.ExecuteDataSet();
-            List<BinAff.Core.Data> dataList = CreateDataObjectList(ds);
-            this.CloseConnection();
-
-            return dataList;
-        }
-
     }
+
 }
