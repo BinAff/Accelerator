@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Threading.Tasks;
 using System.Transactions;
 
@@ -8,6 +9,9 @@ namespace BinAff.Core
 
     public abstract class Crud : ICrud
     {
+
+        private readonly String logPath = Environment.CurrentDirectory + ConfigurationManager.AppSettings["ExceptionPath"];
+        private Utility.Log.Server logWritter;
 
         public Data Data { get; protected set; }
 
@@ -110,6 +114,7 @@ namespace BinAff.Core
 
         public Crud(Data data)
         {
+            this.logWritter = new Utility.Log.Server(logPath, Utility.Log.Server.Type.Daily);
             this.Data = data;
             this.dependentChildren = new List<Crud>();
             this.independentChildren = new List<Crud>();
@@ -656,49 +661,21 @@ namespace BinAff.Core
             //Read dependent
             Parallel.ForEach<ICrud>(this.dependentChildren, child =>
             {
-                using (ReturnObject<Data> temp = child.Read())
-                {
-                    if (temp.MessageList != null && temp.MessageList.Count > 0)
-                    {
-                        if (retObj.MessageList == null) retObj.MessageList = new List<Message>();
-                        retObj.MessageList.AddRange(temp.MessageList);
-                    }
-                }
+                retObj = this.ReadChild(child, retObj);
             });
             //foreach (ICrud child in this.dependentChildren)
             //{
-            //    using (ReturnObject<Data> temp = child.Read())
-            //    {
-            //        if (temp.MessageList != null && temp.MessageList.Count > 0)
-            //        {
-            //            if (retObj.MessageList == null) retObj.MessageList = new List<Message>();
-            //            retObj.MessageList.AddRange(temp.MessageList);
-            //        }
-            //    }
+            //    retObj = this.ReadChild(child, retObj);
             //}
 
             //Read independent
             Parallel.ForEach<ICrud>(this.independentChildren, child =>
             {
-                using (ReturnObject<Data> temp = child.Read())
-                {
-                    if (temp.MessageList != null && temp.MessageList.Count > 0)
-                    {
-                        if (retObj.MessageList == null) retObj.MessageList = new List<Message>();
-                        retObj.MessageList.AddRange(temp.MessageList);
-                    }
-                }
+                retObj = this.ReadChild(child, retObj);
             });
             //foreach (ICrud child in this.independentChildren)
             //{
-            //    using (ReturnObject<Data> temp = child.Read())
-            //    {
-            //        if (temp.MessageList != null && temp.MessageList.Count > 0)
-            //        {
-            //            if (retObj.MessageList == null) retObj.MessageList = new List<Message>();
-            //            retObj.MessageList.AddRange(temp.MessageList);
-            //        }
-            //    }
+            //    retObj = this.ReadChild(child, retObj);
             //}
 
             return retObj;
@@ -715,6 +692,28 @@ namespace BinAff.Core
             if (retObj.Value == null) retObj.MessageList = new List<Message> { new Message("No data found for " + this.Name, Message.Type.Information) };
 
             return retObj;
+        }
+
+        private ReturnObject<Data> ReadChild(ICrud child, ReturnObject<Data> retObj)
+        {
+            try
+            {
+                using (ReturnObject<Data> temp = child.Read())
+                {
+                    if (temp.MessageList != null && temp.MessageList.Count > 0)
+                    {
+                        if (retObj.MessageList == null) retObj.MessageList = new List<Message>();
+                        retObj.MessageList.AddRange(temp.MessageList);
+                    }
+                }
+                return retObj;
+            }
+            catch (Exception ex)
+            {
+                this.logWritter.Write("Module: " + (child as Crud).Name);
+                this.logWritter.Write(ex);
+                throw;
+            }
         }
 
         protected virtual ReturnObject<List<Data>> ReadAll()
