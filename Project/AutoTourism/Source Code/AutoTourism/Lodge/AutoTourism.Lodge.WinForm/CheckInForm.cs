@@ -143,7 +143,7 @@ namespace AutoTourism.Lodge.WinForm
 
         #endregion
 
-        #region Protected
+        #region Override from framework
 
         protected override void Compose()
         {
