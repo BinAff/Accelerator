@@ -53,7 +53,14 @@ namespace BinAff.Utility.Log
         public void Write(Exception exception)
         {
             StreamWriter fileStream = this.GetFileStream();
-            fileStream.WriteLine(Environment.NewLine + String.Format("**********************Exception Occured**********************", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond));
+            this.WriteException(fileStream, exception);
+            fileStream.Flush();
+            fileStream.Close();
+        }
+
+        private void WriteException(StreamWriter fileStream, Exception exception)
+        {
+            fileStream.WriteLine(Environment.NewLine + String.Format("**********************Exception Occured**********************"));
             fileStream.WriteLine(Environment.NewLine + String.Format("Date - {0}.{1}.{2}, Time - {3}:{4}:{5}:{6} :: Exception - {7}", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond, exception.Message));
             fileStream.WriteLine(Environment.NewLine + "Stack Trace :: " + exception.StackTrace);
             if (exception.InnerException != null)
@@ -67,8 +74,31 @@ namespace BinAff.Utility.Log
                 }
             }
             fileStream.WriteLine(Environment.NewLine + "*************************************************************" + Environment.NewLine + Environment.NewLine);
+        }
+
+        public void Write(Exception exception, String Heading)
+        {
+            StreamWriter fileStream = this.GetFileStream();
+            fileStream.WriteLine(Environment.NewLine + "*************************************************************");
+            fileStream.WriteLine(Environment.NewLine + Heading);
+            this.WriteException(fileStream, exception);
             fileStream.Flush();
             fileStream.Close();
+        }
+
+        public void Write(Exception exception, String Heading, String Data)
+        {
+            StreamWriter fileStream = this.GetFileStream();
+            fileStream.WriteLine(Environment.NewLine + "*************************************************************");
+            fileStream.WriteLine(Environment.NewLine + Heading);
+            this.WriteException(fileStream, exception);
+            fileStream.WriteLine(Environment.NewLine + "***************************Data******************************");
+            fileStream.WriteLine(Environment.NewLine + Data);
+            fileStream.WriteLine(Environment.NewLine + "*************************************************************");
+            fileStream.Flush();
+            fileStream.Close();
+            this.Write(exception);
+
         }
 
         private String GetSuffix(Type type)
