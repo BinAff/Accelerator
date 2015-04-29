@@ -710,8 +710,7 @@ namespace BinAff.Core
             }
             catch (Exception ex)
             {
-                this.logWritter.Write("Module: " + (child as Crud).Name);
-                this.logWritter.Write(ex);
+                this.logWritter.Write(ex, "Module: " + (child as Crud).Name);
                 throw;
             }
         }
