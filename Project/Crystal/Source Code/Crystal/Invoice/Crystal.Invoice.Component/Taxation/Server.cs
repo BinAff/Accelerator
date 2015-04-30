@@ -92,6 +92,23 @@ namespace Crystal.Invoice.Component.Taxation
             }
         }
 
+        ReturnObject<Double> ITaxation.Calculate(Double amount)
+        {
+            Data data = base.Data as Data;
+            return (data == null) ?
+                new ReturnObject<Double>
+                {
+                    MessageList = new List<Message>
+                    {
+                        new Message("Tax is null.", Message.Type.Error),
+                    }
+                } :
+                new ReturnObject<Double>
+                {
+                    Value = (data.IsPercentage) ? amount * (data.Amount / 100) : data.Amount,
+                };
+        }
+
     }
 
 }

@@ -83,7 +83,7 @@ namespace AutoTourism.Lodge.WinForm
                 if (invoiceNumber != String.Empty && form.IsModified)
                 {
                     (base.formDto.Dto as Fac.Dto).Invoice = inv.Module as InvFac.Dto;
-                    ReturnObject<Boolean> ret = (base.facade as Facade.CheckIn.Server).UpdateInvoice();
+                    ReturnObject<Boolean> ret = (base.facade as Facade.CheckIn.Server).LinkInvoice();
                     if (ret.HasError())
                     {
                         new BinAff.Presentation.Library.MessageBox().Show(ret.MessageList);

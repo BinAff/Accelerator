@@ -47,9 +47,15 @@
             this.txtInvoice = new System.Windows.Forms.TextBox();
             this.txtDate = new System.Windows.Forms.TextBox();
             this.pnlTax = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.dgvProduct = new System.Windows.Forms.DataGridView();
+            this.pnlAdvance = new System.Windows.Forms.Panel();
+            this.dgvAdvance = new System.Windows.Forms.DataGridView();
+            this.AdvanceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AdvanceReceiptNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AdvanceAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Start = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.End = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,12 +65,6 @@
             this.ServiceTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LuxuaryTax = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pnlAdvance = new System.Windows.Forms.Panel();
-            this.dgvAdvance = new System.Windows.Forms.DataGridView();
-            this.AdvanceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AdvanceReceiptNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AdvanceAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTax)).BeginInit();
             this.pnlTax.SuspendLayout();
@@ -243,6 +243,15 @@
             this.pnlTax.TabIndex = 170;
             this.pnlTax.Visible = false;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(758, 3);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(50, 13);
+            this.label6.TabIndex = 167;
+            this.label6.Text = "Advance";
+            // 
             // pnlBottom
             // 
             this.pnlBottom.Controls.Add(this.txtAdvance);
@@ -293,6 +302,44 @@
             this.dgvProduct.Size = new System.Drawing.Size(1145, 219);
             this.dgvProduct.TabIndex = 174;
             // 
+            // pnlAdvance
+            // 
+            this.pnlAdvance.Controls.Add(this.dgvAdvance);
+            this.pnlAdvance.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlAdvance.Location = new System.Drawing.Point(0, 385);
+            this.pnlAdvance.Name = "pnlAdvance";
+            this.pnlAdvance.Size = new System.Drawing.Size(1145, 87);
+            this.pnlAdvance.TabIndex = 175;
+            // 
+            // dgvAdvance
+            // 
+            this.dgvAdvance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAdvance.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.AdvanceDate,
+            this.AdvanceReceiptNo,
+            this.AdvanceAmount});
+            this.dgvAdvance.Location = new System.Drawing.Point(679, 0);
+            this.dgvAdvance.Name = "dgvAdvance";
+            this.dgvAdvance.Size = new System.Drawing.Size(466, 86);
+            this.dgvAdvance.TabIndex = 155;
+            // 
+            // AdvanceDate
+            // 
+            this.AdvanceDate.HeaderText = "Date";
+            this.AdvanceDate.Name = "AdvanceDate";
+            // 
+            // AdvanceReceiptNo
+            // 
+            this.AdvanceReceiptNo.HeaderText = "Receipt No";
+            this.AdvanceReceiptNo.Name = "AdvanceReceiptNo";
+            this.AdvanceReceiptNo.Width = 200;
+            // 
+            // AdvanceAmount
+            // 
+            this.AdvanceAmount.HeaderText = "Amount";
+            this.AdvanceAmount.Name = "AdvanceAmount";
+            this.AdvanceAmount.ReadOnly = true;
+            // 
             // Start
             // 
             this.Start.FillWeight = 80F;
@@ -300,7 +347,7 @@
             this.Start.MaxInputLength = 10;
             this.Start.Name = "Start";
             this.Start.ReadOnly = true;
-            this.Start.Width = 80;
+            this.Start.Width = 120;
             // 
             // End
             // 
@@ -310,7 +357,7 @@
             this.End.MinimumWidth = 10;
             this.End.Name = "End";
             this.End.ReadOnly = true;
-            this.End.Width = 80;
+            this.End.Width = 120;
             // 
             // Description
             // 
@@ -359,7 +406,7 @@
             // LuxuaryTax
             // 
             this.LuxuaryTax.FillWeight = 110F;
-            this.LuxuaryTax.HeaderText = "Luxuary Tax (%)";
+            this.LuxuaryTax.HeaderText = "Luxury Tax (%)";
             this.LuxuaryTax.MaxInputLength = 10;
             this.LuxuaryTax.Name = "LuxuaryTax";
             this.LuxuaryTax.ReadOnly = true;
@@ -371,53 +418,6 @@
             this.Total.MaxInputLength = 10;
             this.Total.Name = "Total";
             this.Total.ReadOnly = true;
-            // 
-            // pnlAdvance
-            // 
-            this.pnlAdvance.Controls.Add(this.dgvAdvance);
-            this.pnlAdvance.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlAdvance.Location = new System.Drawing.Point(0, 385);
-            this.pnlAdvance.Name = "pnlAdvance";
-            this.pnlAdvance.Size = new System.Drawing.Size(1145, 87);
-            this.pnlAdvance.TabIndex = 175;
-            // 
-            // dgvAdvance
-            // 
-            this.dgvAdvance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAdvance.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.AdvanceDate,
-            this.AdvanceReceiptNo,
-            this.AdvanceAmount});
-            this.dgvAdvance.Location = new System.Drawing.Point(679, 0);
-            this.dgvAdvance.Name = "dgvAdvance";
-            this.dgvAdvance.Size = new System.Drawing.Size(466, 86);
-            this.dgvAdvance.TabIndex = 155;
-            // 
-            // AdvanceDate
-            // 
-            this.AdvanceDate.HeaderText = "Date";
-            this.AdvanceDate.Name = "AdvanceDate";
-            // 
-            // AdvanceReceiptNo
-            // 
-            this.AdvanceReceiptNo.HeaderText = "Receipt No";
-            this.AdvanceReceiptNo.Name = "AdvanceReceiptNo";
-            this.AdvanceReceiptNo.Width = 200;
-            // 
-            // AdvanceAmount
-            // 
-            this.AdvanceAmount.HeaderText = "Amount";
-            this.AdvanceAmount.Name = "AdvanceAmount";
-            this.AdvanceAmount.ReadOnly = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(758, 3);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(50, 13);
-            this.label6.TabIndex = 167;
-            this.label6.Text = "Advance";
             // 
             // InvoiceForm
             // 
@@ -480,6 +480,12 @@
         private System.Windows.Forms.Panel pnlBottom;
         private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.DataGridView dgvProduct;
+        private System.Windows.Forms.Panel pnlAdvance;
+        private System.Windows.Forms.DataGridView dgvAdvance;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AdvanceDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AdvanceReceiptNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AdvanceAmount;
+        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Start;
         private System.Windows.Forms.DataGridViewTextBoxColumn End;
         private System.Windows.Forms.DataGridViewTextBoxColumn Description;
@@ -489,11 +495,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ServiceTax;
         private System.Windows.Forms.DataGridViewTextBoxColumn LuxuaryTax;
         private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.Panel pnlAdvance;
-        private System.Windows.Forms.DataGridView dgvAdvance;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AdvanceDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AdvanceReceiptNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AdvanceAmount;
-        private System.Windows.Forms.Label label6;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-
+using BinAff.Core;
 
 using CompCrys = Crystal.Invoice.Component.Taxation;
 
@@ -50,7 +50,19 @@ namespace Vanilla.Invoice.Facade.Taxation
         public Double CalculateTax(Double amount, BinAff.Facade.Library.Dto tax)
         {
             Dto dto = tax as Dto;
-            return (dto == null) ? 0 : (dto.IsPercentage) ? amount * (dto.Amount / 100) : dto.Amount;
+            if (dto == null) return 0;
+            CompCrys.ITaxation server = new CompCrys.Server(new CompCrys.Data
+            {
+                Amount = dto.Amount,
+                IsPercentage = dto.IsPercentage,
+            });
+            ReturnObject<Double> ret = server.Calculate(amount);
+            if (base.IsError = ret.HasError())
+            {
+                base.DisplayMessageList = ret.MessageList.ConvertAll<String>((p) => { return p.Description; });
+                return 0;
+            }
+            return ret.Value;
         }
 
     }

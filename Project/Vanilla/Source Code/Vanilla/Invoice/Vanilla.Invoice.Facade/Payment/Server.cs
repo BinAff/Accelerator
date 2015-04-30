@@ -9,6 +9,7 @@ using InvComp = Crystal.Invoice.Component;
 using PayComp = Crystal.Invoice.Component.Payment;
 using PayArtfComp = Crystal.Invoice.Component.Payment.Navigator.Artifact;
 
+using InvFac = Vanilla.Invoice.Facade;
 using FrmFac = Vanilla.Form.Facade.Document;
 
 namespace Vanilla.Invoice.Facade.Payment
@@ -54,7 +55,7 @@ namespace Vanilla.Invoice.Facade.Payment
             }
             if (comp.Invoice != null)
             {
-                //
+                dto.Invoice = new InvFac.Server(null).Convert(comp.Invoice) as InvFac.Dto;
             }
             return dto;
         }
@@ -74,6 +75,15 @@ namespace Vanilla.Invoice.Facade.Payment
                 {
                     return lineItemServer.Convert(p);
                 });
+            }
+            if (comp.Invoice != null)
+            {
+                //Circuler reference
+                //data.Invoice = new InvFac.Server(null).Convert(comp.Invoice) as InvComp.Data;
+                data.Invoice = new InvComp.Data
+                {
+                    Id = comp.Invoice.Id,
+                };
             }
             return data;
         }
@@ -106,6 +116,12 @@ namespace Vanilla.Invoice.Facade.Payment
         protected override BinAff.Core.Observer.IRegistrar GetRegisterer()
         {
             return null;
+        }
+
+        public override Utility.Facade.Module.Definition.Dto GetAncestorComponentCode()
+        {
+            return (BinAff.Facade.Cache.Server.Current.Cache["Main"] as Vanilla.Utility.Facade.Cache.Dto).ComponentDefinitionList.FindLast((
+                    (p) => { return p.Code == new InvFac.Server(null).GetComponentCode(); }));
         }
 
         // need to remove convert list
@@ -196,6 +212,30 @@ namespace Vanilla.Invoice.Facade.Payment
                 }
             }
             return typeName;
+        }
+
+        /// <summary>
+        /// Link advance payment and invoice
+        /// </summary>
+        internal void AttachInvoice()
+        {
+            Dto dto = (base.FormDto as FormDto).Dto as Dto;
+            PayComp.IPayment server = new PayComp.Server(this.Convert(dto) as PayComp.Data);
+            ReturnObject<Boolean> ret = server.AttachInvoice();
+            if (this.IsError = ret.HasError())
+            {
+                this.DisplayMessageList = ret.MessageList.ConvertAll((p) => { return p.Description; });
+            }
+        }
+
+        public InvFac.Dto GetInvoice(InvFac.Dto dto)
+        {
+            InvFac.FormDto inv = new InvFac.FormDto
+            {
+                Dto = dto,
+            };
+            new InvFac.Server(inv).Read();
+            return inv.Dto as InvFac.Dto;
         }
 
     }

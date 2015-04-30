@@ -22,6 +22,7 @@ using LineItemFac = Vanilla.Invoice.Facade.LineItem;
 using TaxationFac = Vanilla.Invoice.Facade.Taxation;
 
 using CustAuto = AutoTourism.Component.Customer;
+using System.Transactions;
 
 namespace Vanilla.Invoice.Facade
 {
@@ -37,7 +38,11 @@ namespace Vanilla.Invoice.Facade
 
         public override void LoadForm()
         {
-            //FormDto formDto = this.FormDto as FormDto;
+            Dto dto = (this.FormDto as FormDto).Dto as Dto;
+            foreach(LineItem.Dto lineItem in dto.ProductList)
+            {
+                new LineItemFac.Server(null).AssignTaxes(lineItem);
+            }
             //formDto.paymentTypeList = this.ReadAllPaymentType();
         }
 
@@ -54,8 +59,8 @@ namespace Vanilla.Invoice.Facade
                 Date = comp.Date,
                 Seller = new SellerFac.Server(null).Convert(comp.Seller) as SellerFac.Dto,
                 Buyer = new BuyerFac.Server(null).Convert(comp.Buyer) as BuyerFac.Dto,
-                ProductList = new LineItemFac.Server(null).ConvertAll<Data, LineItemFac.Dto>(comp.LineItem),
-                AdvancePaymentList = this.GetPayments(comp.ProductList) //????
+                ProductList = new LineItemFac.Server(null).ConvertAll<Data, LineItemFac.Dto>(comp.LineItemList),
+                AdvancePaymentList = new PayVan.Server(null).ConvertAll<Data, PayVan.Dto>(comp.PaymentList),
             };
         }
 
@@ -72,15 +77,40 @@ namespace Vanilla.Invoice.Facade
             };
             if (comp.Seller != null) data.Seller = new SellerFac.Server(null).Convert(comp.Seller) as InvCrys.Seller;
             if (comp.Buyer != null) data.Buyer = new BuyerFac.Server(null).Convert(comp.Buyer) as InvCrys.Buyer;
-            if (comp.ProductList != null) data.LineItem = comp.ProductList.ConvertAll((p) =>
-            {
-                return new LineItemFac.Server(null).Convert(p);
-            });
+            if (comp.ProductList != null) data.LineItemList = new LineItemFac.Server(null).ConvertAll<Data, LineItemFac.Dto>(comp.ProductList);
+            if (comp.AdvancePaymentList != null) data.PaymentList = new PayVan.Server(null).ConvertAll<Data, PayVan.Dto>(comp.AdvancePaymentList);
+
             return data;
         }
 
-        //public override void Add()
-        //{
+        public override void Add()
+        {
+            using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(0, 5, 0)))
+            {
+                base.Add();
+                if (!this.IsError)
+                {
+                    //Link invoice and payment
+                    Dto dto = (this.FormDto as DocFac.FormDto).Dto as Dto;
+                    foreach (PayVan.Dto payment in dto.AdvancePaymentList)
+                    {
+                        payment.Invoice = dto;
+                        PayVan.Server paymentServer = new PayVan.Server(new PayVan.FormDto
+                        {
+                            Dto = payment,
+                        });
+                        paymentServer.AttachInvoice();
+                        if (this.IsError = paymentServer.IsError)
+                        {
+                            this.DisplayMessageList = paymentServer.DisplayMessageList;
+                        }
+                    }
+                    if (!this.IsError)
+                    {
+                        T.Complete();
+                    }
+                }
+            }
         //    Boolean isNew = (this.FormDto as FormDto).Dto.Id == 0;
         //    using (System.Transactions.TransactionScope T = new System.Transactions.TransactionScope())
         //    {
@@ -140,7 +170,7 @@ namespace Vanilla.Invoice.Facade
         //    //    (this.componentServer as BinAff.Core.Crud).Data.Id = autoCustomer.Invoice.Active.Id;
         //    //    ret = (this.componentServer as ArtfCrys.Observer.ISubject).NotifyObserverForCreate();
         //    //}
-        //}
+        }
 
         public override string GetComponentCode()
         {
@@ -171,6 +201,11 @@ namespace Vanilla.Invoice.Facade
         protected override ArtfCrys.Data GetArtifactData(Int64 artifactId)
         {
             return new InvArtfCrys.Data { Id = artifactId };
+        }
+
+        protected override ICrud AssignComponentServer(Data data)
+        {
+            return base.AssignComponentServer(data);
         }
 
         List<Table> IInvoice.CalulateTaxList(Double total, List<Taxation.Dto> taxationList)
@@ -261,19 +296,6 @@ namespace Vanilla.Invoice.Facade
             }
 
             return ret;
-        }
-
-        public void AssignLineItemWiseTax(List<LineItemFac.Dto> list)
-        {
-            if (list != null && list.Count > 0)
-            {
-                Facade.Taxation.Server taxFacade = new TaxationFac.Server(null);
-                foreach (LineItemFac.Dto lineItem in list)
-                {
-                    lineItem.ServiceTax = taxFacade.CalculateTax(lineItem.Total, lineItem.TaxList.FindLast((p) => { return (p as Taxation.Dto).Name == "Service Tax"; }));
-                    lineItem.LuxuaryTax = taxFacade.CalculateTax(lineItem.Total, lineItem.TaxList.FindLast((p) => { return (p as Taxation.Dto).Name == "Luxury Tax"; }));
-                }
-            }
         }
 
         private List<PayVan.Dto> GetPayments(List<BinAff.Core.Data> paymentList)

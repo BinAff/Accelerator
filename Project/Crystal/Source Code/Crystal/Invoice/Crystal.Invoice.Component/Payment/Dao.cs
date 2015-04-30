@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 
+using InvComp = Crystal.Invoice.Component;
+
 namespace Crystal.Invoice.Component.Payment
 {
 
@@ -20,6 +22,7 @@ namespace Crystal.Invoice.Component.Payment
             base.NumberOfRowsAffectedInCreate = 1;
             base.ReadStoredProcedure = "Invoice.PaymentRead";
             base.ReadAllStoredProcedure = "Invoice.PaymentReadAll";
+            base.ReadForParentStoredProcedure = "Invoice.PaymentReadForParent";
             base.UpdateStoredProcedure = "Invoice.PaymentUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
             base.DeleteStoredProcedure = "Invoice.PaymentDelete";
@@ -45,13 +48,26 @@ namespace Crystal.Invoice.Component.Payment
             Data dt = data as Data;
             dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
             dt.SerialNumber = Convert.IsDBNull(dr["SerialNumber"]) ? 0 : Convert.ToInt32(dr["SerialNumber"]);
-            dt.Invoice = new Component.Data
+            if (!Convert.IsDBNull(dr["InvoiceId"]))
             {
-                Id = Convert.IsDBNull(dr["InvoiceId"]) ? 0 : Convert.ToInt64(dr["InvoiceId"])
-            };
+                dt.Invoice = new Component.Data
+                {
+                    Id = Convert.ToInt64(dr["InvoiceId"])
+                };
+            }            
             dt.Date = Convert.IsDBNull(dr["Date"]) ? DateTime.MinValue : Convert.ToDateTime(dr["Date"]);
 
             return dt;
+        }
+
+        protected override void AttachChildDataToParent()
+        {
+            (this.ParentData as InvComp.Data).PaymentList = new List<BinAff.Core.Data> { this.Data };
+        }
+
+        protected override void AttachChildrenDataToParent(List<BinAff.Core.Data> dataList)
+        {
+            (this.ParentData as InvComp.Data).PaymentList = dataList;
         }
 
         public List<Data> IsPaymentTypeDeletable(Payment.Type.Data paymentType)
@@ -85,6 +101,19 @@ namespace Crystal.Invoice.Component.Payment
             //DataSet ds = this.ExecuteDataSet();            
             //return this.CreateDataObjectList(ds);
             throw new NotImplementedException();
+        }
+
+        internal Boolean AttachInvoice()
+        {
+            Data data = base.Data as Data;
+            base.CreateConnection();
+            base.CreateCommand("Invoice.PaymentAttachInvoice");
+            base.AddInParameter("@Id", DbType.Int32, data.Id);
+            base.AddInParameter("@InvoiceId", DbType.Int32, data.Invoice.Id);
+            Int32 i = base.ExecuteNonQuery();
+            base.CloseConnection();
+            if (i != 1) return false;
+            return true;
         }
 
     }

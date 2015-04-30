@@ -10,6 +10,7 @@ using PresLib = BinAff.Presentation.Library;
 
 using FrmWin = Vanilla.Form.WinForm;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
+using InvFac = Vanilla.Invoice.Facade;
 using PayFac = Vanilla.Invoice.Facade.Payment;
 
 namespace Vanilla.Invoice.WinForm
@@ -17,6 +18,8 @@ namespace Vanilla.Invoice.WinForm
 
     public partial class PaymentForm : FrmWin.Document
     {
+
+        ToolStripButton btnPrint;
 
         public PaymentForm()
         {
@@ -31,12 +34,89 @@ namespace Vanilla.Invoice.WinForm
             : base(artifact)
         {
             InitializeComponent();
-
-            //(base.formDto as PayFac.FormDto).InvoiceDto = new Facade.Dto
-            //{
-            //    InvoiceNumber = "INVO-30-05-201412910"
-            //};
         }
+
+        #region Event
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            new PaymentReceipt().ShowDialog(this);
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (this.ValidatePayment())
+            {
+                List<PayFac.LineItem.Dto> paymentList = this.dgvPayment.DataSource == null ? new List<PayFac.LineItem.Dto>() : this.dgvPayment.DataSource as List<PayFac.LineItem.Dto>;
+                paymentList.Add(new Facade.Payment.LineItem.Dto
+                {
+                    Reference = (this.cboPaymentType.SelectedItem as Table).Name == "Cash" ? String.Empty : this.txtLastFourDigit.Text.Trim(),
+                    Remark = this.txtRemark.Text.Trim(),
+                    Amount = Convert.ToDouble(this.txtAmount.Text),
+                    Type = this.cboPaymentType.SelectedItem as Table
+                });
+
+                this.dgvPayment.DataSource = null;
+                this.dgvPayment.DataSource = paymentList;
+                this.ClearForm();
+            }
+        }
+
+        private void btnChange_Click(object sender, EventArgs e)
+        {
+            if (this.ValidatePayment())
+            {
+                List<PayFac.LineItem.Dto> paymentList = this.dgvPayment.DataSource as List<PayFac.LineItem.Dto>;
+                PayFac.LineItem.Dto selectedDto = paymentList[dgvPayment.SelectedRows[0].Index];
+                selectedDto.Reference = (this.cboPaymentType.SelectedItem as Table).Name == "Cash" ? String.Empty : this.txtLastFourDigit.Text.Trim();
+                selectedDto.Amount = Convert.ToDouble(this.txtAmount.Text);
+                selectedDto.Remark = this.txtRemark.Text.Trim();
+                selectedDto.Type = this.cboPaymentType.SelectedItem as Table;
+
+                this.dgvPayment.DataSource = null;
+                this.dgvPayment.DataSource = paymentList;
+                this.ClearForm();
+            }
+        }
+
+        private void dgvPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            const Int32 EDIT_INDEX = 4;
+            const Int32 DELETE_INDEX = 5;
+            List<PayFac.LineItem.Dto> paymentList = this.dgvPayment.DataSource as List<PayFac.LineItem.Dto>;
+
+            if (e.ColumnIndex == DELETE_INDEX)
+            {
+                paymentList.RemoveAt(e.RowIndex);
+                //paymentList = this.RemoveDtoAtGivenPosition(paymentList, e.RowIndex);
+                this.dgvPayment.DataSource = null;
+                this.dgvPayment.DataSource = paymentList;
+            }
+            else if (e.ColumnIndex == EDIT_INDEX)
+            {
+                this.dgvPayment.Rows[e.RowIndex].Selected = true;
+                PayFac.LineItem.Dto paymentDto = paymentList[e.RowIndex];
+                this.txtLastFourDigit.Text = paymentDto.Reference;
+                this.txtRemark.Text = paymentDto.Remark;
+                this.txtAmount.Text = paymentDto.Amount.ToString();
+
+                if ((base.formDto as PayFac.FormDto).TypeList != null && (base.formDto as PayFac.FormDto).TypeList.Count > 0)
+                {
+                    for (int i = 0; i < this.cboPaymentType.Items.Count; i++)
+                    {
+                        if (paymentDto.Type.Id == (this.cboPaymentType.Items[i] as Table).Id)
+                        {
+                            this.cboPaymentType.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Protected
 
         protected override void Compose()
         {
@@ -50,56 +130,26 @@ namespace Vanilla.Invoice.WinForm
 
         protected override void LoadForm()
         {
+            base.AddToolStripSeparator();
+            this.btnPrint = base.AddToolStripButton("6", "Wingdings 2", "Print");
+            this.btnPrint.Click += btnPrint_Click;
+
             base.facade.LoadForm();
             this.SetPaymentGridViewSettings();
 
             this.cboPaymentType.Bind((base.formDto as PayFac.FormDto).TypeList, "Name");
         }
 
-        protected override void ClearForm()
-        {
-            this.cboPaymentType.SelectedIndex = 0;
-            this.txtAmount.Text = String.Empty;
-            this.txtLastFourDigit.Text = String.Empty;
-            this.txtRemark.Text = String.Empty;
-        }
-
         protected override void PopulateDataToForm()
         {
             PayFac.FormDto formDto = base.formDto as PayFac.FormDto;
             PayFac.Dto dto = formDto.Dto as PayFac.Dto;
+
+            this.PopulateAnsestorData(dto.Invoice);
+
             this.txtReceiptNo.Text = dto.ReceiptNumber;
             if (dto.Status != null) this.txtStatus.Text = dto.Status.Name;
             this.dgvPayment.DataSource = dto.LineItemList;
-        }
-
-        protected override void DisableFormControls()
-        {
-            List<PayFac.LineItem.Dto> paymentList = (base.formDto.Dto as PayFac.Dto).LineItemList;
-            if (paymentList != null && paymentList.Count > 0)
-            {
-                this.cboPaymentType.Enabled = false;
-                this.txtLastFourDigit.Enabled = false;
-                this.txtRemark.Enabled = false;
-                this.txtAmount.Enabled = false;
-                this.dgvPayment.Enabled = false;
-                base.DisableOkButton();
-                this.btnAdd.Enabled = false;
-                this.btnChange.Enabled = false;
-            }
-            else
-            {
-                btnPrint.Enabled = false;
-            }
-
-        }
-
-        protected override void AssignDto()
-        {
-            PayFac.Dto dto = (base.formDto as PayFac.FormDto).Dto as PayFac.Dto;
-            dto.Id = dto == null ? 0 : dto.Id;
-
-            dto.LineItemList = this.dgvPayment.DataSource as List<PayFac.LineItem.Dto>;
         }
 
         protected override Boolean ValidateForm()
@@ -138,44 +188,72 @@ namespace Vanilla.Invoice.WinForm
             return true;
         }
 
-        private void btnPrint_Click(object sender, EventArgs e)
+        protected override void AssignDto()
         {
+            PayFac.Dto dto = (base.formDto as PayFac.FormDto).Dto as PayFac.Dto;
+            dto.Id = dto == null ? 0 : dto.Id;
+
+            dto.LineItemList = this.dgvPayment.DataSource as List<PayFac.LineItem.Dto>;
+            if (this.dgvInvoice.DataSource != null && (this.dgvInvoice.DataSource as List<InvFac.Dto>).Count > 0) dto.Invoice = (this.dgvInvoice.DataSource as List<InvFac.Dto>)[0];
+        }
+
+        protected override void ClearForm()
+        {
+            this.cboPaymentType.SelectedIndex = 0;
+            this.txtAmount.Text = String.Empty;
+            this.txtLastFourDigit.Text = String.Empty;
+            this.txtRemark.Text = String.Empty;
+        }
+
+        protected override void DisableFormControls()
+        {
+            List<PayFac.LineItem.Dto> paymentList = (base.formDto.Dto as PayFac.Dto).LineItemList;
+            if (paymentList != null && paymentList.Count > 0)
+            {
+                this.cboPaymentType.Enabled = false;
+                this.txtLastFourDigit.Enabled = false;
+                this.txtRemark.Enabled = false;
+                this.txtAmount.Enabled = false;
+                this.dgvPayment.Enabled = false;
+                base.DisableOkButton();
+                this.btnAdd.Enabled = false;
+                this.btnChange.Enabled = false;
+            }
+            else
+            {
+                btnPrint.Enabled = false;
+            }
 
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        protected override FrmWin.Document GetAnsestorForm()
         {
-            if (this.ValidatePayment())
+            return new InvoiceForm(new ArtfFac.Dto());
+        }
+
+        protected override void PopulateAnsestorData(Form.Facade.Document.Dto dto)
+        {
+            //Call invoice component to get the data. It cannot be accessed using child concept,
+            //because it will create circuler reference.
+            dto = (base.facade as Vanilla.Invoice.Facade.Payment.Server).GetInvoice(dto as InvFac.Dto);
+            if (dto != null)
             {
-                List<PayFac.LineItem.Dto> paymentList = this.dgvPayment.DataSource == null ? new List<PayFac.LineItem.Dto>() : this.dgvPayment.DataSource as List<PayFac.LineItem.Dto>;
-                paymentList.Add(new Facade.Payment.LineItem.Dto
+                this.dgvInvoice.Columns[1].DataPropertyName = "Date";
+                this.dgvInvoice.Columns[2].DataPropertyName = "InvoiceNumber";
+                this.dgvInvoice.Columns[3].DataPropertyName = "Total";
+                this.dgvInvoice.Columns[4].DataPropertyName = "Advance";
+                this.dgvInvoice.Columns[5].DataPropertyName = "Discount";
+                this.dgvInvoice.Columns[6].DataPropertyName = "Outstanding";
+                this.dgvInvoice.AutoGenerateColumns = false;
+
+                this.dgvInvoice.DataSource = new List<InvFac.Dto>
                 {
-                    Reference = (this.cboPaymentType.SelectedItem as Table).Name == "Cash" ? String.Empty : this.txtLastFourDigit.Text.Trim(),
-                    Remark = this.txtRemark.Text.Trim(),
-                    Amount = Convert.ToDouble(this.txtAmount.Text),
-                    Type = this.cboPaymentType.SelectedItem as Table
-                });
-
-                this.dgvPayment.DataSource = paymentList;
-                this.ClearForm();
+                    dto as InvFac.Dto,
+                };
             }
         }
 
-        private void btnChange_Click(object sender, EventArgs e)
-        {
-            if (this.ValidatePayment())
-            {
-                List<PayFac.LineItem.Dto> paymentList = this.dgvPayment.DataSource as List<PayFac.LineItem.Dto>;
-                PayFac.LineItem.Dto selectedDto = paymentList[dgvPayment.SelectedRows[0].Index];
-                selectedDto.Reference = (this.cboPaymentType.SelectedItem as Table).Name == "Cash" ? String.Empty : this.txtLastFourDigit.Text.Trim();
-                selectedDto.Amount = Convert.ToDouble(this.txtAmount.Text);
-                selectedDto.Remark = this.txtRemark.Text.Trim();
-                selectedDto.Type = this.cboPaymentType.SelectedItem as Table;
-
-                this.dgvPayment.DataSource = paymentList;
-                this.ClearForm();
-            }
-        }
+        #endregion
 
         private Boolean ValidatePayment()
         {
@@ -259,58 +337,9 @@ namespace Vanilla.Invoice.WinForm
             this.dgvPayment.Columns[1].DataPropertyName = "Amount";
             this.dgvPayment.Columns[2].DataPropertyName = "Reference";
             this.dgvPayment.Columns[3].DataPropertyName = "Remark";
+            this.dgvPayment.Columns[4].DataPropertyName = "EditColumn";
+            this.dgvPayment.Columns[5].DataPropertyName = "DeleteColumn";
             this.dgvPayment.AutoGenerateColumns = false;
-
-            DataGridViewLinkColumn Editlink = new DataGridViewLinkColumn();
-            Editlink.UseColumnTextForLinkValue = true;
-            Editlink.HeaderText = "edit";
-            Editlink.DataPropertyName = "lnkColumn";
-            Editlink.LinkBehavior = LinkBehavior.SystemDefault;
-            Editlink.Text = "Edit";
-            dgvPayment.Columns.Add(Editlink);
-
-            DataGridViewLinkColumn Deletelink = new DataGridViewLinkColumn();
-            Deletelink.UseColumnTextForLinkValue = true;
-            Deletelink.HeaderText = "delete";
-            Deletelink.DataPropertyName = "lnkColumn";
-            Deletelink.LinkBehavior = LinkBehavior.SystemDefault;
-            Deletelink.Text = "Delete";
-            dgvPayment.Columns.Add(Deletelink);
-        }
-
-        private void dgvPayment_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            const Int32 EDIT_INDEX = 4;
-            const Int32 DELETE_INDEX = 5;
-            List<PayFac.LineItem.Dto> paymentList = this.dgvPayment.DataSource as List<PayFac.LineItem.Dto>;
-
-            if (e.ColumnIndex == DELETE_INDEX)
-            {
-                paymentList.RemoveAt(e.RowIndex);
-                //paymentList = this.RemoveDtoAtGivenPosition(paymentList, e.RowIndex);
-                this.dgvPayment.DataSource = null;
-                this.dgvPayment.DataSource = paymentList;
-            }
-            else if (e.ColumnIndex == EDIT_INDEX)
-            {
-                this.dgvPayment.Rows[e.RowIndex].Selected = true;
-                PayFac.LineItem.Dto paymentDto = paymentList[e.RowIndex];
-                this.txtLastFourDigit.Text = paymentDto.Reference;
-                this.txtRemark.Text = paymentDto.Remark;
-                this.txtAmount.Text = paymentDto.Amount.ToString();
-
-                if ((base.formDto as PayFac.FormDto).TypeList != null && (base.formDto as PayFac.FormDto).TypeList.Count > 0)
-                {
-                    for (int i = 0; i < this.cboPaymentType.Items.Count; i++)
-                    {
-                        if (paymentDto.Type.Id == (this.cboPaymentType.Items[i] as Table).Id)
-                        {
-                            this.cboPaymentType.SelectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-            }
         }
 
         private List<PayFac.LineItem.Dto> RemoveDtoAtGivenPosition(List<PayFac.LineItem.Dto> lstPaymentDto, int removePosition)

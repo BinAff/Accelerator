@@ -26,7 +26,7 @@ namespace Vanilla.Invoice.Facade.LineItem
             CompCrys.Data comp = data as CompCrys.Data;
             if (comp == null) return null;
             TaxFac.Server taxFac = new TaxFac.Server(null);
-            return new Dto
+            Dto ret = new Dto
             {
                 Id = comp.Id,
                 StartDate = comp.Start,
@@ -37,8 +37,10 @@ namespace Vanilla.Invoice.Facade.LineItem
                 TaxList = comp.TaxList.ConvertAll<BinAff.Facade.Library.Dto>((p) =>
                 {
                     return taxFac.Convert(p);
-                })
+                }),
             };
+            this.AssignTaxes(ret);
+            return ret;
         }
 
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
@@ -59,6 +61,17 @@ namespace Vanilla.Invoice.Facade.LineItem
                     return taxFac.Convert(p);
                 })
             };
+        }
+
+        internal Dto AssignTaxes(Dto dto)
+        {
+            if (dto.TaxList != null)
+            {
+                TaxFac.Server taxFac = new TaxFac.Server(null);
+                dto.ServiceTax = taxFac.CalculateTax(dto.Total, dto.TaxList.FindLast((p) => { return (p as Taxation.Dto).Name == "Service Tax"; }));
+                dto.LuxuryTax = taxFac.CalculateTax(dto.Total, dto.TaxList.FindLast((p) => { return (p as Taxation.Dto).Name == "Luxury Tax"; }));
+            }
+            return dto;
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+
 using BinAff.Core;
 
 namespace Crystal.Lodge.Component.Room.CheckIn
@@ -219,31 +220,32 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             return retVal;
         }
 
-        internal ReturnObject<Boolean> UpdateInvoiceNumber(String invoiceNumber)
+        internal Boolean LinkInvoice()
         {
-            ReturnObject<Boolean> retVal = new ReturnObject<Boolean>();
+            Boolean status = false;
             Data data = this.Data as Data;
 
             this.CreateConnection();
-            this.CreateCommand("Lodge.CheckInUpdateForInvoice");
+            this.CreateCommand("Lodge.CheckInLinkInvoice");
             this.AddInParameter("@Id", DbType.Int64, data.Id);
-            this.AddInParameter("@InvoiceNumber", DbType.Int64, invoiceNumber);
+            this.AddInParameter("@StatusId", DbType.Int64, data.Status.Id);
+            this.AddInParameter("@InvoiceId", DbType.Int64, data.Invoice.Id);
             Int32 ret = this.ExecuteNonQuery();
+            this.CloseConnection();
 
             if (ret == -2146232060)
-                retVal.Value = false;//Foreign key violation
+                status = false;//Foreign key violation
             else
-                retVal.Value = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+                status = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
 
-            this.CloseConnection();
-            return retVal;
+            return status; ;
         }
 
         internal List<Room.Data> ReadCheckedInRoomList()
         {
             Data data = (Data)base.Data;
             List<Room.Data> roomDataList = new List<Room.Data>();
-            this.CreateCommand("[Lodge].[ReadAllCheckInRooms]");
+            this.CreateCommand("Lodge.ReadAllCheckInRooms");
             this.AddInParameter("@ReservationId", DbType.Int64, data.Reservation.Id);
             DataSet ds = this.ExecuteDataSet();
 

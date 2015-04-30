@@ -394,7 +394,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         //    return paymentDataList;
         //}
 
-        public ReturnObject<Boolean> UpdateInvoice()
+        public ReturnObject<Boolean> LinkInvoice()
         {
             Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
             this.componentServer = this.GetComponentServer();
@@ -403,7 +403,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 Id = 10007, //Invoiced
             };
-            return this.componentServer.Save();
+            return (this.componentServer as RoomChkCrys.ICheckIn).LinkInvoice();
         }
 
         private Boolean SaveArtifact(InvFac.FormDto invoiceFormDto, Table currentUser, ArtfFac.Dto artifactDto)
@@ -504,6 +504,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             Dto dto = (this.FormDto as DocFac.FormDto).Dto as Dto;
             invoiceDto.Buyer = this.GetBuyer(dto.Reservation.Customer);
             this.PopulateSeller(invoiceDto);
+            invoiceDto.Date = DateTime.Now;
             invoiceDto.ProductList = this.GroupRoomList(dto.Reservation.RoomList);
             if (dto.Reservation.NoOfDays > 1)
             {
@@ -559,22 +560,21 @@ namespace AutoTourism.Lodge.Facade.CheckIn
             {
                 foreach (RoomFac.Dto dtoRoom in roomList)
                 {
-                    String roomDetails = String.Empty;
+                    //String roomDetails = String.Empty;
                     InvFac.LineItem.Dto productDto = new InvFac.LineItem.Dto
                     {
-                        //Id = dtoRoom.Id,
                         StartDate = dto.Reservation.BookingFrom,
                         RoomCategoryId = dtoRoom.Category == null ? 0 : dtoRoom.Category.Id,
                         RoomTypeId = dtoRoom.Type == null ? 0 : dtoRoom.Type.Id,
                         RoomIsAC = dtoRoom.IsAirconditioned,
                         Count = 1, //count is basically rooms of same type [i.e. same typeid, categoryId, and Ac] 
-                        EndDate = dto.Reservation.BookingFrom.AddDays(1), //Every time one day for daywise bill
+                        EndDate = dto.Reservation.BookingFrom.AddDays(1), //Every time one day for daywise bill - This will be configurable for 24 hours or check out fix time
                     };
 
                     if (productList.Count == 0)
                     {
-                        roomDetails = dtoRoom.Name + "(" + dtoRoom.Number + ")";
                         productList.Add(productDto);
+                        productDto.Description = this.GetRoomDescription(dtoRoom);
                     }
                     else
                     {
@@ -582,12 +582,22 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                         foreach (InvFac.LineItem.Dto roomDto in productList)
                         {
                             if (productDto.RoomCategoryId == roomDto.RoomCategoryId
-                                && productDto.RoomTypeId == roomDto.RoomTypeId && productDto.RoomIsAC == roomDto.RoomIsAC)
+                                && productDto.RoomTypeId == roomDto.RoomTypeId
+                                && productDto.RoomIsAC == roomDto.RoomIsAC)
                             {
                                 roomDto.Count++;
-                                roomDetails += "," + dtoRoom.Name + "(" + dtoRoom.Number + ")";
+                                productList.FindLast((p) =>
+                                {
+                                    return p.RoomCategoryId == roomDto.RoomCategoryId
+                                        && p.RoomTypeId == roomDto.RoomTypeId
+                                        && p.RoomIsAC == roomDto.RoomIsAC;
+                                }).Description = this.AppendRoomDescription(roomDto.Description, dtoRoom.Number, dtoRoom.Name);
                                 blnAdd = false;
                                 break;
+                            }
+                            else
+                            {
+                                productDto.Description = this.GetRoomDescription(dtoRoom);
                             }
                         }
                         if (blnAdd)
@@ -596,7 +606,6 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                         }
                     }
 
-                    productDto.Description = this.GetRoomDescription(dtoRoom);
                 }
             }
 
@@ -708,8 +717,14 @@ namespace AutoTourism.Lodge.Facade.CheckIn
         {
             String roomList = String.Empty;
 
-            return String.Format("Room - {0}({1}): {2}, {3}, {4}", room.Number.ToString(), room.Name,
-                room.Category.Name, room.Type.Name, room.IsAirconditioned ? "AC" : "Non AC");
+            return String.Format("{0}, {1}, {2} : Room - {3}({4})",
+                room.Category.Name, room.Type.Name, room.IsAirconditioned ? "AC" : "Non AC",
+                room.Number, room.Name);
+        }
+
+        private String AppendRoomDescription(String exisitng, String roomNumber, String roomName)
+        {
+            return String.Format("{0}, {1}({2})", exisitng, roomNumber, roomName);
         }
 
         private void AttachAdvancePaymentList(InvFac.Dto invoiceDto)
@@ -833,7 +848,7 @@ namespace AutoTourism.Lodge.Facade.CheckIn
                                                 
                     //Update invoice number to CheckIn table
                     ((base.FormDto as FormDto).Dto as Dto).Invoice = invoiceFormDto.Dto as InvFac.Dto;
-                    ret = this.UpdateInvoice();
+                    ret = this.LinkInvoice();
                     if (ret.Value)
                         T.Complete();
                    

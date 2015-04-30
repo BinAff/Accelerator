@@ -54,6 +54,8 @@ namespace BinAff.Utility.Log
         {
             StreamWriter fileStream = this.GetFileStream();
             this.WriteException(fileStream, exception);
+            fileStream.WriteLine();
+            fileStream.WriteLine();
             fileStream.Flush();
             fileStream.Close();
         }
@@ -73,15 +75,17 @@ namespace BinAff.Utility.Log
                     fileStream.WriteLine(Environment.NewLine + "Stack Trace :: " + p.StackTrace);
                 }
             }
-            fileStream.WriteLine(Environment.NewLine + "*************************************************************" + Environment.NewLine + Environment.NewLine);
+            fileStream.WriteLine(Environment.NewLine + "*************************************************************");
         }
 
         public void Write(Exception exception, String Heading)
         {
             StreamWriter fileStream = this.GetFileStream();
             fileStream.WriteLine(Environment.NewLine + "*************************************************************");
-            fileStream.WriteLine(Environment.NewLine + Heading);
+            fileStream.WriteLine(Heading);
             this.WriteException(fileStream, exception);
+            fileStream.WriteLine();
+            fileStream.WriteLine();
             fileStream.Flush();
             fileStream.Close();
         }
@@ -95,10 +99,10 @@ namespace BinAff.Utility.Log
             fileStream.WriteLine(Environment.NewLine + "***************************Data******************************");
             fileStream.WriteLine(Environment.NewLine + Data);
             fileStream.WriteLine(Environment.NewLine + "*************************************************************");
+            fileStream.WriteLine();
+            fileStream.WriteLine();
             fileStream.Flush();
             fileStream.Close();
-            this.Write(exception);
-
         }
 
         private String GetSuffix(Type type)

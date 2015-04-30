@@ -9,6 +9,7 @@ using FrmWin = Vanilla.Form.WinForm;
 using UtilFac = Vanilla.Utility.Facade;
 
 using PayFac = Vanilla.Invoice.Facade.Payment;
+using InvFac = Vanilla.Invoice.Facade;
 
 namespace Vanilla.Invoice.WinForm
 {
@@ -67,7 +68,10 @@ namespace Vanilla.Invoice.WinForm
         {
             Facade.Dto dto = base.Artifact.Module as Facade.Dto;
             if(String.IsNullOrEmpty(dto.InvoiceNumber)) dto.InvoiceNumber = Common.GenerateInvoiceNumber();
-            (base.facade as Facade.Server).AssignLineItemWiseTax(dto.ProductList);
+            new Facade.Server(new InvFac.FormDto
+            {
+                Dto = dto,
+            }).LoadForm();
         }
 
         protected override void PopulateDataToForm()
@@ -79,32 +83,12 @@ namespace Vanilla.Invoice.WinForm
             this.txtDiscount.Text = dto.Discount.ToString();
 
             List<Data> invoiceList = new List<Data>();
-            Double lineItemTotal = 0;
-            if (dto.ProductList != null)
-            {
-                foreach (Facade.LineItem.Dto lineItem in dto.ProductList)
-                {
-                    invoiceList.Add(new Data
-                    {
-                        Start = lineItem.StartDate.ToShortDateString(),
-                        End = lineItem.EndDate.ToShortDateString(),
-                        Description = lineItem.Description,
-                        UnitRate = lineItem.UnitRate.ToString(),
-                        Count = lineItem.Count.ToString(),
-                        Total = (lineItem.UnitRate * lineItem.Count).ToString(),
-                        ServiceTax = lineItem.ServiceTax.ToString(),
-                        LuxuaryTax = lineItem.LuxuaryTax.ToString(),
-                        GrandTotal = (lineItem.ServiceTax + lineItem.LuxuaryTax + (lineItem.UnitRate * lineItem.Count)).ToString()
-                    });
-                    lineItemTotal += lineItem.ServiceTax + lineItem.LuxuaryTax + (lineItem.UnitRate * lineItem.Count);
-                }
-            }
 
-            this.BindLineitemGrid(invoiceList);
-            this.BindAdvancePaymentGrid(dto.AdvancePaymentList);
-            this.txtTotal.Text = lineItemTotal.ToString();
+            this.BindLineitemGrid(dto.ProductList);
+            this.BindAdvancePaymentGrid(dto.AdvancePaymentList); //Currently there is not direct link from advance payment and invoice!
+            this.txtTotal.Text = dto.Total.ToString();
             this.txtAdvance.Text = dto.Advance.ToString();
-            this.txtGrandTotal.Text = (lineItemTotal - dto.Advance - dto.Discount).ToString();
+            this.txtGrandTotal.Text = (dto.Total - dto.Advance - dto.Discount).ToString();
         }
 
         protected override void DisableFormControls()
@@ -118,10 +102,9 @@ namespace Vanilla.Invoice.WinForm
             else
             {
                 base.DisableOkButton();
-                txtDiscount.Enabled = false;
-                //txtInvoice.Text = dto.InvoiceNumber;
-                //txtDate.Text = dto.Date.ToString();
-                //txtDiscount.Text = dto.Discount.ToString();
+                base.DisableAddAncestorButton();
+                base.DisablePickAncestorButton();
+                this.txtDiscount.Enabled = false;
             }
         }
 
@@ -143,18 +126,18 @@ namespace Vanilla.Invoice.WinForm
             (base.Artifact.Module as Facade.Dto).Discount = Convert.ToDouble(this.txtDiscount.Text.Trim());
         }
 
-        private void BindLineitemGrid(List<Data> invoiceList)
+        private void BindLineitemGrid(List<Facade.LineItem.Dto> invoiceList)
         {
             if (invoiceList != null && invoiceList.Count > 0)
             {
-                dgvProduct.Columns[0].DataPropertyName = "Start";
-                dgvProduct.Columns[1].DataPropertyName = "End";
+                dgvProduct.Columns[0].DataPropertyName = "StartDate";
+                dgvProduct.Columns[1].DataPropertyName = "EndDate";
                 dgvProduct.Columns[2].DataPropertyName = "Description";
                 dgvProduct.Columns[3].DataPropertyName = "UnitRate";
                 dgvProduct.Columns[4].DataPropertyName = "Count";
                 dgvProduct.Columns[5].DataPropertyName = "Total";
                 dgvProduct.Columns[6].DataPropertyName = "ServiceTax";
-                dgvProduct.Columns[7].DataPropertyName = "LuxuaryTax";
+                dgvProduct.Columns[7].DataPropertyName = "LuxuryTax";
                 dgvProduct.Columns[8].DataPropertyName = "GrandTotal";
 
                 dgvProduct.AutoGenerateColumns = false;

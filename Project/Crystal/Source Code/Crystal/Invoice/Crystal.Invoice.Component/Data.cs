@@ -12,7 +12,8 @@ namespace Crystal.Invoice.Component
         {
             get
             {
-                return new Server(this).FormatInvoiceNumber();
+                return String.Empty;
+                //return new Server(this).FormatInvoiceNumber();
             }
         }
 
@@ -21,9 +22,9 @@ namespace Crystal.Invoice.Component
         public Seller Seller { get; set; }
         public Buyer Buyer { get; set; }
 
-        public List<BinAff.Core.Data> LineItem { get; set; }              
-        public List<BinAff.Core.Data> Taxation { get; set; }
-        public List<BinAff.Core.Data> Payment { get; set; }
+        public List<BinAff.Core.Data> LineItemList { get; set; }              
+        public List<BinAff.Core.Data> TaxList { get; set; }
+        public List<BinAff.Core.Data> PaymentList { get; set; }
 
     }
 
