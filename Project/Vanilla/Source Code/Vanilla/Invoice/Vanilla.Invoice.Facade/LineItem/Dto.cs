@@ -12,6 +12,7 @@ namespace Vanilla.Invoice.Facade.LineItem
         public String Description { get; set; }
         public Double UnitRate { get; set; }
         public Int32 Count { get; set; }
+
         public Double Total
         {
             get
@@ -19,10 +20,15 @@ namespace Vanilla.Invoice.Facade.LineItem
                 return this.UnitRate * this.Count;
             }
         }
-
-        public Double LuxuaryTax { get; set; }
+        public Double LuxuryTax { get; set; }
         public Double ServiceTax { get; set; }
-        public Double GrandTotal { get; set; }
+        public Double GrandTotal
+        {
+            get
+            {
+                return this.Total + this.ServiceTax + this.LuxuryTax;
+            }
+        }
 
         public Int64 RoomCategoryId { get; set; }
         public Int64 RoomTypeId { get; set; }

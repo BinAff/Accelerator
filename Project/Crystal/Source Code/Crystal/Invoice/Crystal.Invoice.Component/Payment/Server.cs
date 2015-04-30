@@ -9,7 +9,7 @@ using ArtfObsCrys = Crystal.Navigator.Component.Artifact.Observer;
 namespace Crystal.Invoice.Component.Payment
 {
 
-    public class Server : ArtfObsCrys.DocumentComponent
+    public class Server : ArtfObsCrys.DocumentComponent, IPayment
     {
 
         public Server(Data data)
@@ -41,7 +41,12 @@ namespace Crystal.Invoice.Component.Payment
             {
                 IsReadOnly = false,
                 Type = ChildType.Dependent,
-            }, (this.Data as Data).LineItemList);           
+            }, (this.Data as Data).LineItemList);
+            //base.AddChild(new Invoice.Component.Server((base.Data as Data).Invoice)
+            //{
+            //    IsReadOnly = true,
+            //    Type = ChildType.Independent,
+            //});
         }
 
         protected override ReturnObject<Boolean> IsSubjectDeletable(BinAff.Core.Data subject)
@@ -101,11 +106,30 @@ namespace Crystal.Invoice.Component.Payment
         {
             //Later this will be configurable
             Data data = this.Data as Data;
+            if (data == null || data.Date == null) return String.Empty;
             return String.Format("RCPT/{0}-{1}-{2}/{3}",
-                data.Date.Year.ToString().Remove(0, 2),
+                data.Date.Year.ToString().Length == 4 ? data.Date.Year.ToString().Remove(0, 2) :
+                data.Date.Year.ToString().Length == 2 ? data.Date.Year.ToString() :
+                data.Date.Year.ToString().PadLeft(2, '0'),
                 data.Date.Month.ToString().PadLeft(2, '0'),
                 data.Date.Day.ToString().PadLeft(2, '0'),
                 data.SerialNumber.ToString().PadLeft(3, '0'));
+        }
+
+        ReturnObject<Boolean> IPayment.AttachInvoice()
+        {
+            return (base.DataAccess as Dao).AttachInvoice() ?
+                new ReturnObject<Boolean>
+                {
+                    Value = true,
+                } :
+                new ReturnObject<Boolean>
+                {
+                    MessageList = new List<Message>
+                    {
+                        new Message("Unable to attach invoice.", Message.Type.Error),
+                    }
+                };
         }
 
     }

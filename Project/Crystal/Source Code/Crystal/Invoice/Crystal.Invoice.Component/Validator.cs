@@ -108,7 +108,7 @@ namespace Crystal.Invoice.Component
                     retMsg.Add(new Message("Buyer Email is not valid.", Message.Type.Error));
                 }
             }
-            if (data.LineItem == null || data.LineItem.Count <= 0)
+            if (data.LineItemList == null || data.LineItemList.Count <= 0)
             {
                 retMsg.Add(new Message("Invoice line item cannot be 0.", Message.Type.Error));
             }

@@ -66,6 +66,7 @@
     <Compile Include="Payment\Data.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Payment\IPayment.cs" />
     <Compile Include="Payment\LineItem\Dao.cs" />
     <Compile Include="Payment\LineItem\Data.cs" />
     <Compile Include="Payment\LineItem\Server.cs" />

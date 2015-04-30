@@ -157,12 +157,12 @@ namespace Vanilla.Invoice.WinForm
                     Start = lineItem.StartDate.ToShortDateString(),
                     End = lineItem.EndDate.ToShortDateString(),
                     Description = lineItem.Description,
-                    UnitRate = lineItem.UnitRate.ToString(),
-                    Count = lineItem.Count.ToString(),
-                    Total = (lineItem.UnitRate * lineItem.Count).ToString(),
-                    ServiceTax = lineItem.ServiceTax.ToString(),
-                    LuxuaryTax = lineItem.LuxuaryTax.ToString(),
-                    GrandTotal = (lineItem.ServiceTax + lineItem.LuxuaryTax + (lineItem.UnitRate * lineItem.Count)).ToString()
+                    UnitRate = lineItem.UnitRate,
+                    Count = lineItem.Count,
+                    //Total = (lineItem.UnitRate * lineItem.Count).ToString(),
+                    ServiceTax = lineItem.ServiceTax,
+                    LuxuaryTax = lineItem.LuxuryTax,
+                    //GrandTotal = (lineItem.ServiceTax + lineItem.LuxuaryTax + (lineItem.UnitRate * lineItem.Count)).ToString()
                 });
                 //lineItemTotal += (lineItem.unitRate * lineItem.count);
             }

@@ -79,17 +79,17 @@ namespace Crystal.Invoice.Component.LineItem
 
         protected override void AttachChildDataToParent()
         {
-            ((Invoice.Component.Data)this.ParentData).LineItem = new List<BinAff.Core.Data> { (Data)this.Data };
+            ((Invoice.Component.Data)this.ParentData).LineItemList = new List<BinAff.Core.Data> { (Data)this.Data };
         }
 
         protected override void AttachChildrenDataToParent(List<BinAff.Core.Data> dataList)
         {
             if (dataList.Count > 0)
             {
-                ((Invoice.Component.Data)this.ParentData).LineItem = new List<BinAff.Core.Data>();
+                ((Invoice.Component.Data)this.ParentData).LineItemList = new List<BinAff.Core.Data>();
                 foreach (BinAff.Core.Data data in dataList)
                 {
-                    ((Invoice.Component.Data)this.ParentData).LineItem.Add((Data)data);
+                    ((Invoice.Component.Data)this.ParentData).LineItemList.Add((Data)data);
                 }
             }
 

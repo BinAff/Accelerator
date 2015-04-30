@@ -22,6 +22,8 @@ namespace Vanilla.Invoice.Facade.Payment
 
         public List<LineItem.Dto> LineItemList { get; set; }
 
+        public Invoice.Facade.Dto Invoice { get; set; }
+
         public Double TotalAmount
         {
             get
@@ -50,6 +52,7 @@ namespace Vanilla.Invoice.Facade.Payment
                     dto.LineItemList.Add((lineItem != null) ? lineItem.Clone() as LineItem.Dto : null);
                 }
             }
+            if (this.Invoice != null) this.Invoice.Clone();
             return dto;
         }
 

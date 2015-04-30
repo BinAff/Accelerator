@@ -669,14 +669,14 @@ namespace BinAff.Core
             //}
 
             //Read independent
-            Parallel.ForEach<ICrud>(this.independentChildren, child =>
-            {
-                retObj = this.ReadChild(child, retObj);
-            });
-            //foreach (ICrud child in this.independentChildren)
+            //Parallel.ForEach<ICrud>(this.independentChildren, child =>
             //{
             //    retObj = this.ReadChild(child, retObj);
-            //}
+            //});
+            foreach (ICrud child in this.independentChildren)
+            {
+                retObj = this.ReadChild(child, retObj);
+            }
 
             return retObj;
         }
@@ -710,7 +710,10 @@ namespace BinAff.Core
             }
             catch (Exception ex)
             {
-                this.logWritter.Write(ex, "Module: " + (child as Crud).Name);
+                this.logWritter.Write(ex, "Module: " + (child as Crud).Name,
+                    "Server Type: " + (child as Crud).ToString() + Environment.NewLine +
+                    "Data Type: " + (child as Crud).Data.ToString() + Environment.NewLine +
+                    "Data Access Type: " + (child as Crud).Data.ToString());
                 throw;
             }
         }

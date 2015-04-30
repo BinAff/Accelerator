@@ -106,17 +106,23 @@ namespace Crystal.Lodge.Component.Room.CheckIn
             Crystal.Customer.Component.Action.IAction server = new RoomRsvCrys.Server((this.Data as Data).Reservation);
             return server.UpdateStatus();            
         }
-        
-        //ReturnObject<Boolean> ICheckIn.UpdateInvoice()
-        //{
-        //    //base.AddChild(new InvCrys.Server((this.Data as Data).Invoice)
-        //    //{
-        //    //    Type = ChildType.Independent,
-        //    //    IsReadOnly = true,
-        //    //});
-        //    return this.Update();
-        //    //return (this.dataAccess as Dao).UpdateInvoiceNumber(invoiceNumber);
-        //}
+
+        ReturnObject<Boolean> ICheckIn.LinkInvoice()
+        {
+            Boolean status = (this.dataAccess as Dao).LinkInvoice();
+            return status ?
+                new ReturnObject<Boolean>
+                {
+                    Value = true,
+                } :
+                new ReturnObject<Boolean>
+                {
+                    MessageList = new List<Message>
+                    {
+                        new Message("Unable to link invoice.", Message.Type.Error),
+                    },
+                };
+        }
 
         public Int64 ReadCheckInId(Int64 artifactId)
         {

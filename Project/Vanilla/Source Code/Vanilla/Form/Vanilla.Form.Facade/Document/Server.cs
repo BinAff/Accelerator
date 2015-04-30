@@ -75,6 +75,22 @@ namespace Vanilla.Form.Facade.Document
             }
         }
 
+        public override void Read()
+        {
+            FormDto formDto = this.FormDto as FormDto;
+            if (formDto == null)
+            {
+                throw new ArgumentException("FormDto is not assigned to read document from facade: " + this.ToString());
+            }
+            if (formDto.Dto != null)
+            {
+                ReturnObject<Data> data = this.GetComponentServer().Read();
+                this.IsError = data.HasError();
+                this.DisplayMessageList = data.GetMessage(this.IsError ? Message.Type.Error : Message.Type.Information);
+                formDto.Dto = this.Convert(data.Value) as Dto;
+            }
+        }
+
         public virtual ReturnObject<Boolean> ValidateDelete()
         {
             Int64 componentId = this.ReadComponentIdForArtifact(this.Data.Id);

@@ -12,7 +12,6 @@ namespace Vanilla.Invoice.Facade
         public Seller.Dto Seller { get; set; }
         public DateTime Date { get; set; }
         public List<LineItem.Dto> ProductList { get; set; }
-        //public List<Taxation.Dto> taxationList { get; set; }
         public List<Payment.Dto> AdvancePaymentList { get; set; }
 
         private Double advance;
@@ -41,6 +40,31 @@ namespace Vanilla.Invoice.Facade
         }
 
         public Double Discount { get; set; }
+
+        public Double Total
+        {
+            get
+            {
+                Double lineItemTotal = 0;
+                if (this.ProductList != null && this.ProductList.Count > 0)
+                {
+                    foreach (LineItem.Dto line in this.ProductList)
+                    {
+                        lineItemTotal += line.GrandTotal;
+                    }
+                }
+                return lineItemTotal;
+            }
+        }
+
+        public Double Outstanding
+        {
+            get
+            {
+                
+                return this.Total - this.Advance - this.Discount;
+            }
+        }
 
         public override BinAff.Facade.Library.Dto Clone()
         {

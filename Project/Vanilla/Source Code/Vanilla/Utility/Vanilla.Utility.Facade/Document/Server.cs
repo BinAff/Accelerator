@@ -34,7 +34,7 @@ namespace Vanilla.Utility.Facade.Document
         {
             throw new NotImplementedException();
         }
-
+        
         public Dto GetModule()
         {
             return (this.FormDto as FormDto).Dto;
