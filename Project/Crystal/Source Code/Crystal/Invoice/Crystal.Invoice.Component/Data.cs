@@ -8,12 +8,18 @@ namespace Crystal.Invoice.Component
     {
         
         public Int32 SerialNumber { get; set; }
+
+        private String invoiceNumber;
         public String InvoiceNumber
         {
             get
             {
-                return String.Empty;
+                return this.invoiceNumber;
                 //return new Server(this).FormatInvoiceNumber();
+            }
+            internal set
+            {
+
             }
         }
 
