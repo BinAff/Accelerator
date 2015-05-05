@@ -46,10 +46,6 @@
     <Compile Include="Splash\Server.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\AutoTourism\Source Code\AutoTourism\Customer\AutoTourism.Customer.Facade\AutoTourism.Customer.Facade.csproj">
-      <Project>{2099fb59-6194-4bc7-8ab2-6cabe513082a}</Project>
-      <Name>AutoTourism.Customer.Facade</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
       <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
       <Name>BinAff.Core</Name>
