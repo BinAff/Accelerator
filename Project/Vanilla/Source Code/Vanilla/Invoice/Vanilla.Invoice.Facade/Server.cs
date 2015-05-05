@@ -21,7 +21,7 @@ using BuyerFac = Vanilla.Invoice.Facade.Buyer;
 using LineItemFac = Vanilla.Invoice.Facade.LineItem;
 using TaxationFac = Vanilla.Invoice.Facade.Taxation;
 
-using CustAuto = AutoTourism.Component.Customer;
+using CustRet = Retinue.Customer.Component;
 using System.Transactions;
 
 namespace Vanilla.Invoice.Facade
@@ -115,18 +115,18 @@ namespace Vanilla.Invoice.Facade
         //    using (System.Transactions.TransactionScope T = new System.Transactions.TransactionScope())
         //    {
         //        Dto dto = (this.FormDto as DocFac.FormDto).Dto as Dto;
-        //        //CustAuto.Data data = new CustAuto.Data
+        //        //CustRet.Data data = new CustRet.Data
         //        //{
         //        //    Invoice = new InvCrys.InvoiceContainer.Data
         //        //    {
         //        //        Active = this.Convert(dto) as CustCrys.Action.Data
         //        //    }
         //        //};
-        //        ////CustAuto.Data cust = new CustAuto.Server(null).Convert(dto.Customer) as CustAuto.Data;//Attach reservation
+        //        ////CustRet.Data cust = new CustRet.Server(null).Convert(dto.Customer) as CustRet.Data;//Attach reservation
         //        ////cust.RoomReserver.Active = this.Convert(dto) as CustCrys.Action.Data;
         //        ////cust.RoomReserver.Active.ProductList = dto.RoomList == null ? null : this.GetRoomDataList(dto.RoomList);
 
-        //        //ReturnObject<Boolean> ret = (new CustAuto.Server(data) as ICrud).Save();
+        //        //ReturnObject<Boolean> ret = (new CustRet.Server(data) as ICrud).Save();
 
         //        InvCrys.Data data = this.Convert(dto) as InvCrys.Data;
         //        ReturnObject<Boolean> ret = (new InvCrys.Server(data) as ICrud).Save();
@@ -276,7 +276,7 @@ namespace Vanilla.Invoice.Facade
             Dto invoiceDto = (base.FormDto as Facade.FormDto).Dto as Facade.Dto;
             //invoiceDto.invoiceNumber = Common.GenerateInvoiceNumber();
 
-            CustAuto.Data autoCustomer = new CustAuto.Data
+            CustRet.Data autoCustomer = new CustRet.Data
             {
                 Invoice = new InvCrys.InvoiceContainer.Data
                 {
@@ -284,7 +284,7 @@ namespace Vanilla.Invoice.Facade
                 }
             };
 
-            CustCrys.ICustomer customer = new CustAuto.Server(autoCustomer);
+            CustCrys.ICustomer customer = new CustRet.Server(autoCustomer);
             ret = customer.GenerateInvoice();
 
             if (ret.Value)
