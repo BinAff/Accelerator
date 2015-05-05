@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using BinAff.Core;
 using BinAff.Presentation.Library;
 
-//using AutoTourism.Facade.Guardian.User;
-//using AutoTourism.Presentation.Library;
+//using Retinue.Facade.Guardian.User;
+//using Retinue.Presentation.Library;
 
 namespace Vanilla.Guardian.WinForm
 {
@@ -119,9 +119,9 @@ namespace Vanilla.Guardian.WinForm
             //    return;
             //}
 
-            //AutoTourism.Facade.Guardian.User.Dto userDto = new AutoTourism.Facade.Guardian.User.Dto();           
-            //userDto.Id = ((AutoTourism.Facade.Guardian.User.Dto)cboUser.SelectedItem).Id;
-            //userDto.LoginId = ((AutoTourism.Facade.Guardian.User.Dto)cboUser.SelectedItem).LoginId;
+            //Retinue.Facade.Guardian.User.Dto userDto = new Retinue.Facade.Guardian.User.Dto();           
+            //userDto.Id = ((Retinue.Facade.Guardian.User.Dto)cboUser.SelectedItem).Id;
+            //userDto.LoginId = ((Retinue.Facade.Guardian.User.Dto)cboUser.SelectedItem).LoginId;
             //userDto.Password = (userRule != null && userRule.DefaultUserPassword != String.Empty) ? userRule.DefaultUserPassword : "infotech@1";
             ////userDto.RoleId = 1; // this is a dummy value. Will not be used inside SP            
                        
