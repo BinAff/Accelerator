@@ -47,7 +47,7 @@ namespace Vanilla.Navigator.WinForm
             //});
             this.lsvConfiguration.Items.Add(new ListViewItem("Customer")
             {
-                Tag = this.InstantiateObject("AutoTourism.Customer.WinForm.CustomerRule", "AutoTourism.Customer.WinForm"),
+                Tag = this.InstantiateObject("Retinue.Customer.WinForm.CustomerRule", "Retinue.Customer.WinForm"),
                 ImageKey = "Customer",
             });
             this.lsvConfiguration.Items.Add(new ListViewItem("Identity Proof Type")
@@ -97,42 +97,42 @@ namespace Vanilla.Navigator.WinForm
             //Currently Hard coding
             this.lsvConfiguration.Items.Add(new ListViewItem("Lodge")
             {
-                Tag = this.InstantiateObject("AutoTourism.Lodge.WinForm.Lodge", "AutoTourism.Lodge.WinForm"),
+                Tag = this.InstantiateObject("Retinue.Lodge.WinForm.Lodge", "Retinue.Lodge.WinForm"),
             });
 
             this.lsvConfiguration.Items.Add(new ListViewItem("Building Type")
             {
-                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.BuildingType", "AutoTourism.Lodge.Configuration.WinForm"),
+                Tag = this.InstantiateObject("Retinue.Lodge.Configuration.WinForm.BuildingType", "Retinue.Lodge.Configuration.WinForm"),
             });
 
             this.lsvConfiguration.Items.Add(new ListViewItem("Room Type")
             {
-                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.RoomType", "AutoTourism.Lodge.Configuration.WinForm"),
+                Tag = this.InstantiateObject("Retinue.Lodge.Configuration.WinForm.RoomType", "Retinue.Lodge.Configuration.WinForm"),
             });
 
             this.lsvConfiguration.Items.Add(new ListViewItem("Room Category")
             {
-                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.RoomCategory", "AutoTourism.Lodge.Configuration.WinForm"),
+                Tag = this.InstantiateObject("Retinue.Lodge.Configuration.WinForm.RoomCategory", "Retinue.Lodge.Configuration.WinForm"),
             });
 
             this.lsvConfiguration.Items.Add(new ListViewItem("Building")
             {
-                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.Building", "AutoTourism.Lodge.Configuration.WinForm"),
+                Tag = this.InstantiateObject("Retinue.Lodge.Configuration.WinForm.Building", "Retinue.Lodge.Configuration.WinForm"),
             });
 
             this.lsvConfiguration.Items.Add(new ListViewItem("Room")
             {
-                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.Room", "AutoTourism.Lodge.Configuration.WinForm"),
+                Tag = this.InstantiateObject("Retinue.Lodge.Configuration.WinForm.Room", "Retinue.Lodge.Configuration.WinForm"),
             });
 
             this.lsvConfiguration.Items.Add(new ListViewItem("Room Tariff")
             {
-                Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.RoomTariff", "AutoTourism.Lodge.Configuration.WinForm"),
+                Tag = this.InstantiateObject("Retinue.Lodge.Configuration.WinForm.RoomTariff", "Retinue.Lodge.Configuration.WinForm"),
             });
 
             //this.lsvConfiguration.Items.Add(new ListViewItem("Tax")
             //{
-            //    Tag = this.InstantiateObject("AutoTourism.Lodge.Configuration.WinForm.RoomTariff", "AutoTourism.Lodge.Configuration.WinForm"),
+            //    Tag = this.InstantiateObject("Retinue.Lodge.Configuration.WinForm.RoomTariff", "Retinue.Lodge.Configuration.WinForm"),
             //});
         }
 
