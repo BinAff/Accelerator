@@ -2,9 +2,9 @@
 
 using BinAff.Core;
 
-using CompCrys = Crystal.Invoice.Component.Taxation;
+using CompCrys = Crystal.Accountant.Component.Taxation;
 
-namespace Vanilla.Invoice.Facade.Taxation
+namespace Vanilla.Accountant.Facade.Taxation
 {
 
     public class Server : BinAff.Facade.Library.Server

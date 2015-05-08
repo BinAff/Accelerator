@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using FormWin = Vanilla.Form.WinForm;
 using UtilFac = Vanilla.Utility.Facade;
 
-namespace Vanilla.Invoice.WinForm
+namespace Vanilla.Accountant.WinForm
 {
 
     public partial class AdvancePaymentForm : FormWin.Document

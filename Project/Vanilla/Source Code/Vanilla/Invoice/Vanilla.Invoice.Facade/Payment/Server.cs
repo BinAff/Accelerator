@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Transactions;
 
 using BinAff.Core;
 
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
-using InvComp = Crystal.Invoice.Component;
-using PayComp = Crystal.Invoice.Component.Payment;
-using PayArtfComp = Crystal.Invoice.Component.Payment.Navigator.Artifact;
+using InvComp = Crystal.Accountant.Component.Invoice;
+using PayComp = Crystal.Accountant.Component.Payment;
+using PayArtfComp = Crystal.Accountant.Component.Payment.Navigator.Artifact;
 
-using InvFac = Vanilla.Invoice.Facade;
+using InvFac = Vanilla.Accountant.Facade;
 using FrmFac = Vanilla.Form.Facade.Document;
 
-namespace Vanilla.Invoice.Facade.Payment
+namespace Vanilla.Accountant.Facade.Payment
 {
 
     public class Server : FrmFac.Server
@@ -100,7 +99,7 @@ namespace Vanilla.Invoice.Facade.Payment
 
         protected override string GetComponentDataType()
         {
-            return "Crystal.Invoice.Component.Payment.Navigator.Artifact.Data, Crystal.Invoice.Component";
+            return "Crystal.Accountant.Component.Payment.Navigator.Artifact.Data, Crystal.Accountant.Component";
         }
 
         protected override ArtfCrys.Server GetArtifactServer(Data artifactData)
@@ -130,7 +129,7 @@ namespace Vanilla.Invoice.Facade.Payment
             List<BinAff.Core.Data> paymentDataList = new List<Data>();
             if (paymentList != null && paymentList.Count > 0)
             {
-                foreach (Vanilla.Invoice.Facade.Payment.Dto dto in paymentList)
+                foreach (Vanilla.Accountant.Facade.Payment.Dto dto in paymentList)
                 {
                     paymentDataList.Add(this.Convert(dto));
                 }
@@ -163,7 +162,7 @@ namespace Vanilla.Invoice.Facade.Payment
                     return new Table
                     {
                         Id = p.Id,
-                        Name = (p as Crystal.Invoice.Component.Payment.Type.Data).Name,
+                        Name = (p as Crystal.Accountant.Component.Payment.Type.Data).Name,
                     };
                 });
             }

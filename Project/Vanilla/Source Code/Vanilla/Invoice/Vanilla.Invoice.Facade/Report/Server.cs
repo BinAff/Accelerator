@@ -2,11 +2,11 @@
 
 using BinAff.Core;
 
-using CrysInvRpt = Crystal.Invoice.Component.Report;
+using CrysInvRpt = Crystal.Accountant.Component.Invoice.Report;
 using CrysRpt = Crystal.Report.Component;
 //using Crystal.Navigator.Component.Artifact.Observer;
 
-namespace Vanilla.Invoice.Facade.Report
+namespace Vanilla.Accountant.Facade.Report
 {
 
     public class Server : Vanilla.Report.Facade.Document.Server

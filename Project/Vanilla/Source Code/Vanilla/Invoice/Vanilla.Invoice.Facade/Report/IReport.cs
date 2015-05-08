@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Vanilla.Invoice.Facade.Report
+namespace Vanilla.Accountant.Facade.Report
 {
     public interface IReport
     {

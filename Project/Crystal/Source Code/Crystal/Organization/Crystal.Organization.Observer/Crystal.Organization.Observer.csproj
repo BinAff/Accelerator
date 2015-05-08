@@ -36,6 +36,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UnitStatus.cs" />
+    <Compile Include="UnitType.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -44,9 +46,9 @@
       <Project>{D25DF173-3451-49AA-9570-269B2880C393}</Project>
       <Name>BinAff.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Lodge\Crystal.Lodge.Component\Crystal.Lodge.Component.csproj">
-      <Project>{191571fe-40d2-4095-9705-d3020445b65f}</Project>
-      <Name>Crystal.Lodge.Component</Name>
+    <ProjectReference Include="..\Crystal.Organization.Component\Crystal.Organization.Component.csproj">
+      <Project>{003e77d0-671d-4b79-975c-a8cb0b4b1361}</Project>
+      <Name>Crystal.Organization.Component</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

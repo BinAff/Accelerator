@@ -14,13 +14,13 @@ namespace Crystal.Organization.Component
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "[Organization].[OrganizationInsert]";
+            base.CreateStoredProcedure = "Organization.OrganizationInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Organization].[OrganizationRead]";
+            base.ReadStoredProcedure = "Organization.OrganizationRead";
             base.ReadAllStoredProcedure = "OrganizationReadAll";
-            base.UpdateStoredProcedure = "[Organization].[OrganizationUpdate]";
+            base.UpdateStoredProcedure = "Organization.OrganizationUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "[Organization].[OrganizationDelete]";
+            base.DeleteStoredProcedure = "Organization.OrganizationDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -70,7 +70,7 @@ namespace Crystal.Organization.Component
         {
             List<Data> dataList = new List<Data>();
             this.CreateConnection();
-            this.CreateCommand("[Organization].[IsStateIdDeletable]");
+            this.CreateCommand("Organization.IsStateIdDeletable");
             this.AddInParameter("@StateId", DbType.Int64, state.Id);
             DataSet ds = this.ExecuteDataSet();
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)

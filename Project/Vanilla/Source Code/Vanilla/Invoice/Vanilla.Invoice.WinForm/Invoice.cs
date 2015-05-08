@@ -10,7 +10,7 @@ using UtilFac = Vanilla.Utility.Facade;
 using DocFac = Vanilla.Utility.Facade.Document;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 
-namespace Vanilla.Invoice.WinForm
+namespace Vanilla.Accountant.WinForm
 {
     public partial class Invoice : FormWin.Document
     {

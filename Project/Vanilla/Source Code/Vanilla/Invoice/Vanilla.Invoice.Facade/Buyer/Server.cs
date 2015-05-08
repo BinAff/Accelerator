@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-using CompCrys = Crystal.Invoice.Component;
+using CompCrys = Crystal.Accountant.Component.Invoice;
 
-namespace Vanilla.Invoice.Facade.Buyer
+namespace Vanilla.Accountant.Facade.Buyer
 {
 
     public class Server : BinAff.Facade.Library.Server

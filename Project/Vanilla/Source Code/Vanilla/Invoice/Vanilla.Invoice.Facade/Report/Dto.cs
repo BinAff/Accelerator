@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vanilla.Invoice.Facade.Report
+namespace Vanilla.Accountant.Facade.Report
 {
 
     public class Dto : Vanilla.Report.Facade.Document.Dto

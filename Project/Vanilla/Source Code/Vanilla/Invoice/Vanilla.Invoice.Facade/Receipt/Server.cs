@@ -2,7 +2,7 @@
 using BinAff.Core;
 using System.Collections.Generic;
 
-namespace Vanilla.Invoice.Facade.Receipt
+namespace Vanilla.Accountant.Facade.Receipt
 {
     public class Server
     {

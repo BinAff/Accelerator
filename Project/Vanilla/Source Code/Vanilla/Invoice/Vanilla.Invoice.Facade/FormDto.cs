@@ -1,7 +1,7 @@
 ﻿using BinAff.Core;
 using System.Collections.Generic;
 
-namespace Vanilla.Invoice.Facade
+namespace Vanilla.Accountant.Facade
 {
 
     public class FormDto : Vanilla.Form.Facade.Document.FormDto

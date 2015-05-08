@@ -1,10 +1,10 @@
 ﻿using System;
 
-using CompCrys = Crystal.Invoice.Component.LineItem;
+using CompCrys = Crystal.Accountant.Component.Invoice.LineItem;
 
-using TaxFac = Vanilla.Invoice.Facade.Taxation;
+using TaxFac = Vanilla.Accountant.Facade.Taxation;
 
-namespace Vanilla.Invoice.Facade.LineItem
+namespace Vanilla.Accountant.Facade.LineItem
 {
 
     public class Server : BinAff.Facade.Library.Server

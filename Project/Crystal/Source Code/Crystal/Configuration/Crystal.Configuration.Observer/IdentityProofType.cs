@@ -11,7 +11,7 @@ namespace Crystal.Configuration.Observer
 
         ReturnObject<bool> IRegistrar.Register(ISubject component)
         {
-            //component.RegisterObserver(new Retinue.Component.Customer.Server(null));
+            //component.RegisterObserver(new Retinue.Customer.Component.Server(null));
             return new ReturnObject<Boolean> { Value = true };
         }
 

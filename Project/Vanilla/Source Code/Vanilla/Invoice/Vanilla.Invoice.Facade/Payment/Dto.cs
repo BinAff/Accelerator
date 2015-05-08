@@ -5,7 +5,7 @@ using BinAff.Core;
 
 using FrmFac = Vanilla.Form.Facade.Document;
 
-namespace Vanilla.Invoice.Facade.Payment
+namespace Vanilla.Accountant.Facade.Payment
 {
 
     public class Dto : FrmFac.Dto
@@ -22,7 +22,7 @@ namespace Vanilla.Invoice.Facade.Payment
 
         public List<LineItem.Dto> LineItemList { get; set; }
 
-        public Invoice.Facade.Dto Invoice { get; set; }
+        public Accountant.Facade.Dto Invoice { get; set; }
 
         public Double TotalAmount
         {

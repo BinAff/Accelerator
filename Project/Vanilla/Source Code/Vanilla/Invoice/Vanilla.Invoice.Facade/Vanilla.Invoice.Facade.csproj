@@ -37,9 +37,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdvancePayment\Dto.cs" />
-    <Compile Include="AdvancePayment\FormDto.cs" />
-    <Compile Include="AdvancePayment\Server.cs" />
     <Compile Include="Buyer\Dto.cs" />
     <Compile Include="Buyer\Server.cs" />
     <Compile Include="Dto.cs" />
@@ -86,13 +83,13 @@
       <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
       <Name>BinAff.Utility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Accountant\Crystal.Accountant.Component\Crystal.Accountant.Component.csproj">
+      <Project>{4a2b081d-78f2-404c-a007-7ea0e14f9edc}</Project>
+      <Name>Crystal.Accountant.Component</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Customer\Crystal.Customer.Component\Crystal.Customer.Component.csproj">
       <Project>{CF2B7682-FA1E-4CDC-8A8C-30D610D18C5E}</Project>
       <Name>Crystal.Customer.Component</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Invoice\Crystal.Invoice.Component\Crystal.Invoice.Component.csproj">
-      <Project>{CA372D03-699E-4D6A-80FA-567940BFA130}</Project>
-      <Name>Crystal.Invoice.Component</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Crystal\Source Code\Crystal\Navigator\Component\Crystal.Navigator.Component.csproj">
       <Project>{3e089798-771d-44f3-8a99-c990ab47a0b4}</Project>

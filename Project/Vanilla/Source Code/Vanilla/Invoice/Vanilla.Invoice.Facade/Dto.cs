@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace Vanilla.Invoice.Facade
+namespace Vanilla.Accountant.Facade
 {
 
     public class Dto : Vanilla.Form.Facade.Document.Dto

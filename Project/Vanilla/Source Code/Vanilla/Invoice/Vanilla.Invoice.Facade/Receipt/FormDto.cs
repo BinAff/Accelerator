@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Vanilla.Invoice.Facade.Receipt
+namespace Vanilla.Accountant.Facade.Receipt
 {
     public class FormDto
     {

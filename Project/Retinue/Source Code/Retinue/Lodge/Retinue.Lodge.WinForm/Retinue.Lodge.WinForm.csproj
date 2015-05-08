@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8D642295-3554-43B7-8E20-C73A745B9C5A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Retinue.Lodge.WinForm</RootNamespace>
+    <AssemblyName>Retinue.Lodge.WinForm</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Reference\Lib\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BookingDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BookingDetails.Designer.cs">
+      <DependentUpon>BookingDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckInForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckInForm.Designer.cs">
+      <DependentUpon>CheckInForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckInRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckInRegister.Designer.cs">
+      <DependentUpon>CheckInRegister.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Lodge.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lodge.Designer.cs">
+      <DependentUpon>Lodge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoomReservationDataEntry.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RoomReservationDataEntry.Designer.cs">
+      <DependentUpon>RoomReservationDataEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RoomReservationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RoomReservationForm.Designer.cs">
+      <DependentUpon>RoomReservationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RoomReservationRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RoomReservationRegister.Designer.cs">
+      <DependentUpon>RoomReservationRegister.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Stay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Stay.Designer.cs">
+      <DependentUpon>Stay.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BookingDetails.resx">
+      <DependentUpon>BookingDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckInForm.resx">
+      <DependentUpon>CheckInForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckInRegister.resx">
+      <DependentUpon>CheckInRegister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lodge.resx">
+      <DependentUpon>Lodge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RoomReservationDataEntry.resx">
+      <DependentUpon>RoomReservationDataEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RoomReservationForm.resx">
+      <DependentUpon>RoomReservationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RoomReservationRegister.resx">
+      <DependentUpon>RoomReservationRegister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stay.resx">
+      <DependentUpon>Stay.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">
+      <Project>{d25df173-3451-49aa-9570-269b2880c393}</Project>
+      <Name>BinAff.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\BinAff.Facade.Cache\BinAff.Facade.Cache.csproj">
+      <Project>{266B4DEB-D9C2-4607-A5D5-60F5124E89AE}</Project>
+      <Name>BinAff.Facade.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Facade\Library\BinAff.Facade.Library.csproj">
+      <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
+      <Name>BinAff.Facade.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Presentation\Library\BinAff.Presentation.Library.csproj">
+      <Project>{1ee9a9dd-9151-437a-b1a3-28015975ef52}</Project>
+      <Name>BinAff.Presentation.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Utility\BinAff.Utility.csproj">
+      <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
+      <Name>BinAff.Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Accountant\Vanilla.Accountant.Facade\Vanilla.Accountant.Facade.csproj">
+      <Project>{e37dd43c-8ffd-4d8e-8fe7-c123428b3ffd}</Project>
+      <Name>Vanilla.Accountant.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Accountant\Vanilla.Accountant.WinForm\Vanilla.Accountant.WinForm.csproj">
+      <Project>{b72d8dc0-7b79-4a8c-9c37-b1c2d77cce3e}</Project>
+      <Name>Vanilla.Accountant.WinForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Form\Vanilla.Form.Facade\Vanilla.Form.Facade.csproj">
+      <Project>{856d10d5-3235-41ca-8fe3-48019c9d4a39}</Project>
+      <Name>Vanilla.Form.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Form\Vanilla.Form.WinForm\Vanilla.Form.WinForm.csproj">
+      <Project>{6ffd4a1c-c8fc-44b6-b3c1-4a2240037154}</Project>
+      <Name>Vanilla.Form.WinForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
+      <Project>{24A3CC18-9FA6-4976-8ADE-AC07EE6844FB}</Project>
+      <Name>Vanilla.Guardian.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
+      <Project>{A10719AF-5C9F-4903-AB83-089EC502EEA2}</Project>
+      <Name>Vanilla.Utility.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Utility\Vanilla.Utility.WinForm\Vanilla.Utility.WinForm.csproj">
+      <Project>{49be0d61-4bd1-42b2-b582-77094af71728}</Project>
+      <Name>Vanilla.Utility.WinForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Configuration\Retinue.Configuration.Rule.Facade\Retinue.Configuration.Rule.Facade.csproj">
+      <Project>{c8cf309d-21f1-43f7-bb6b-cf78e2b14245}</Project>
+      <Name>Retinue.Configuration.Rule.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Customer\Retinue.Customer.Facade\Retinue.Customer.Facade.csproj">
+      <Project>{2099fb59-6194-4bc7-8ab2-6cabe513082a}</Project>
+      <Name>Retinue.Customer.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Customer\Retinue.Customer.WinForm\Retinue.Customer.WinForm.csproj">
+      <Project>{99eef65f-e520-4aa1-a9e0-db3ea19a6c16}</Project>
+      <Name>Retinue.Customer.WinForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Retinue.Lodge.Facade\Retinue.Lodge.Facade.csproj">
+      <Project>{87b249d1-5284-4376-9c8f-990025c3aedd}</Project>
+      <Name>Retinue.Lodge.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Configuration\Retinue.Lodge.Configuration.Facade\Retinue.Lodge.Configuration.Facade.csproj">
+      <Project>{4b8e9db9-1e3c-42e2-8a61-6bf503cd44af}</Project>
+      <Name>Retinue.Lodge.Configuration.Facade</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)..\..\..\Vanilla\Source Code\Vanilla\Reference\Lib\$(TargetFileName)" /Y
+copy "$(ProjectDir)\obj\Debug\$(TargetName).pdb" "$(SolutionDir)..\..\..\Vanilla\Source Code\Vanilla\Reference\Lib\$(TargetName).pdb" /Y</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

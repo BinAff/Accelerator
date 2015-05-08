@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,10 +58,31 @@
     <Compile Include="IOrganization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="Unit\ClosureReason\Dao.cs" />
+    <Compile Include="Unit\ClosureReason\Data.cs" />
+    <Compile Include="Unit\ClosureReason\Server.cs" />
+    <Compile Include="Unit\ClosureReason\Validator.cs" />
+    <Compile Include="Unit\Dao.cs" />
+    <Compile Include="Unit\Data.cs" />
+    <Compile Include="Unit\IUnit.cs" />
+    <Compile Include="Unit\Server.cs" />
+    <Compile Include="Unit\Status\Dao.cs" />
+    <Compile Include="Unit\Status\Data.cs" />
+    <Compile Include="Unit\Status\Server.cs" />
+    <Compile Include="Unit\Status\Validator.cs" />
+    <Compile Include="Unit\Type\Dao.cs" />
+    <Compile Include="Unit\Type\Data.cs" />
+    <Compile Include="Unit\Type\Server.cs" />
+    <Compile Include="Unit\Type\Validator.cs" />
+    <Compile Include="Unit\Validator.cs" />
     <Compile Include="Validator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DBScript.sql" />
+    <Content Include="Unit\ClosureReason\DBScript.sql" />
+    <Content Include="Unit\DBScript.sql" />
+    <Content Include="Unit\Status\DBScript.sql" />
+    <Content Include="Unit\Type\DBScript.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">

@@ -1,4 +1,4 @@
-﻿namespace Vanilla.Invoice.WinForm
+﻿namespace Vanilla.Accountant.WinForm
 {
     partial class AdvancePaymentReceipt
     {

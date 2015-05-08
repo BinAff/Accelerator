@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vanilla.Invoice.Facade.Seller
+namespace Vanilla.Accountant.Facade.Seller
 {
     public class Dto : BinAff.Facade.Library.Dto
     {

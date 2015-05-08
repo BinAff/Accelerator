@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using BinAff.Core;
 using BinAff.Core.Observer;
 
-using CrysComp = Crystal.Invoice.Component.Payment.Type;
+using CrysComp = Crystal.Accountant.Component.Payment.Type;
 
 namespace Vanilla.Configuration.Facade.PaymentType
 {

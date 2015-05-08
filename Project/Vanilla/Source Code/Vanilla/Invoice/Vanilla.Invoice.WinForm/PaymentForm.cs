@@ -10,10 +10,10 @@ using PresLib = BinAff.Presentation.Library;
 
 using FrmWin = Vanilla.Form.WinForm;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
-using InvFac = Vanilla.Invoice.Facade;
-using PayFac = Vanilla.Invoice.Facade.Payment;
+using InvFac = Vanilla.Accountant.Facade;
+using PayFac = Vanilla.Accountant.Facade.Payment;
 
-namespace Vanilla.Invoice.WinForm
+namespace Vanilla.Accountant.WinForm
 {
 
     public partial class PaymentForm : FrmWin.Document
@@ -235,7 +235,7 @@ namespace Vanilla.Invoice.WinForm
         {
             //Call invoice component to get the data. It cannot be accessed using child concept,
             //because it will create circuler reference.
-            dto = (base.facade as Vanilla.Invoice.Facade.Payment.Server).GetInvoice(dto as InvFac.Dto);
+            dto = (base.facade as Vanilla.Accountant.Facade.Payment.Server).GetInvoice(dto as InvFac.Dto);
             if (dto != null)
             {
                 this.dgvInvoice.Columns[1].DataPropertyName = "Date";

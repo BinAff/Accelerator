@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Vanilla.Invoice.WinForm
+namespace Vanilla.Accountant.WinForm
 {
     public partial class CommercialInstruments : UserControl
     {

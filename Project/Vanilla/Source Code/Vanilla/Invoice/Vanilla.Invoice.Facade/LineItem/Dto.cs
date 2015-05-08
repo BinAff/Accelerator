@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Vanilla.Invoice.Facade.LineItem
+namespace Vanilla.Accountant.Facade.LineItem
 {
 
     public class Dto : BinAff.Facade.Library.Dto

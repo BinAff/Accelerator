@@ -101,79 +101,68 @@ namespace Vanilla.Utility.Facade.Module
             switch (this.moduleDef.Code)
             {
                 case "CUST":
-                    this.ModuleFormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
-                    this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Dto, AutoTourism.Customer.Facade";
-                    this.ArtifactComponentAssembly = "AutoTourism.Component.Customer";
-                    this.ArtifactDataType = "AutoTourism.Component.Customer.Navigator.Artifact.Data";
-                    this.ArtifactComponentType = "AutoTourism.Component.Customer.Navigator.Artifact.Server";
-                    this.ModuleDataType = "AutoTourism.Component.Customer.Data, AutoTourism.Component.Customer";
-                    this.facadeTypeName = "AutoTourism.Customer.Facade.Server,AutoTourism.Customer.Facade";
-                    this.formDtoTypeName = "AutoTourism.Customer.Facade.FormDto,AutoTourism.Customer.Facade";
+                    this.ModuleFormType = "Retinue.Customer.WinForm.CustomerForm, Retinue.Customer.WinForm";
+                    this.ModuleFormDtoType = "Retinue.Customer.Facade.Dto, Retinue.Customer.Facade";
+                    this.ArtifactComponentAssembly = "Retinue.Customer.Component";
+                    this.ArtifactDataType = "Retinue.Customer.Component.Navigator.Artifact.Data";
+                    this.ArtifactComponentType = "Retinue.Customer.Component.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Retinue.Customer.Component.Data, Retinue.Customer.Component";
+                    this.facadeTypeName = "Retinue.Customer.Facade.Server,Retinue.Customer.Facade";
+                    this.formDtoTypeName = "Retinue.Customer.Facade.FormDto,Retinue.Customer.Facade";
                     break;
 
                 case "LRSV"://Need to change
-                    this.ModuleFormType = "AutoTourism.Lodge.WinForm.RoomReservationForm, AutoTourism.Lodge.WinForm";
-                    this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.RoomReservation.Dto, AutoTourism.Lodge.Facade";
-                    this.ArtifactComponentAssembly = "Crystal.Lodge.Component";
-                    this.ArtifactDataType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Data";
-                    this.ArtifactComponentType = "Crystal.Lodge.Component.Room.Reservation.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Crystal.Lodge.Component.Room.Reservation.Data, Crystal.Lodge.Component";
-                    this.facadeTypeName = "AutoTourism.Lodge.Facade.RoomReservation.Server,AutoTourism.Lodge.Facade";
-                    this.formDtoTypeName = "AutoTourism.Lodge.Facade.RoomReservation.FormDto,AutoTourism.Lodge.Facade";
+                    this.ModuleFormType = "Retinue.Lodge.WinForm.RoomReservationForm, Retinue.Lodge.WinForm";
+                    this.ModuleFormDtoType = "Retinue.Lodge.Facade.RoomReservation.Dto, Retinue.Lodge.Facade";
+                    this.ArtifactComponentAssembly = "Retinue.Lodge.Component";
+                    this.ArtifactDataType = "Retinue.Lodge.Component.Room.Reservation.Navigator.Artifact.Data";
+                    this.ArtifactComponentType = "Retinue.Lodge.Component.Room.Reservation.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Retinue.Lodge.Component.Room.Reservation.Data, Retinue.Lodge.Component";
+                    this.facadeTypeName = "Retinue.Lodge.Facade.RoomReservation.Server,Retinue.Lodge.Facade";
+                    this.formDtoTypeName = "Retinue.Lodge.Facade.RoomReservation.FormDto,Retinue.Lodge.Facade";
                     break;
 
                 case "LCHK"://Need to change
-                    this.ModuleFormType = "AutoTourism.Lodge.WinForm.CheckInForm, AutoTourism.Lodge.WinForm";
-                    this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.CheckIn.Dto, AutoTourism.Lodge.Facade";
-                    this.ArtifactComponentAssembly = "Crystal.Lodge.Component";
-                    this.ArtifactDataType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data";
-                    this.ArtifactComponentType = "Crystal.Lodge.Component.Room.CheckIn.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Crystal.Lodge.Component.Room.CheckIn.Data, Crystal.Lodge.Component";
-                    this.facadeTypeName = "AutoTourism.Lodge.Facade.CheckIn.Server,AutoTourism.Lodge.Facade";
-                    this.formDtoTypeName = "AutoTourism.Lodge.Facade.CheckIn.FormDto,AutoTourism.Lodge.Facade";
+                    this.ModuleFormType = "Retinue.Lodge.WinForm.CheckInForm, Retinue.Lodge.WinForm";
+                    this.ModuleFormDtoType = "Retinue.Lodge.Facade.CheckIn.Dto, Retinue.Lodge.Facade";
+                    this.ArtifactComponentAssembly = "Retinue.Lodge.Component";
+                    this.ArtifactDataType = "Retinue.Lodge.Component.Room.CheckIn.Navigator.Artifact.Data";
+                    this.ArtifactComponentType = "Retinue.Lodge.Component.Room.CheckIn.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Retinue.Lodge.Component.Room.CheckIn.Data, Retinue.Lodge.Component";
+                    this.facadeTypeName = "Retinue.Lodge.Facade.CheckIn.Server,Retinue.Lodge.Facade";
+                    this.formDtoTypeName = "Retinue.Lodge.Facade.CheckIn.FormDto,Retinue.Lodge.Facade";
                     break;
 
-                case "INVO":                   
-                    this.ModuleFormType = "Vanilla.Invoice.WinForm.InvoiceForm, Vanilla.Invoice.WinForm";
-                    this.ModuleFormDtoType = "Vanilla.Invoice.Facade.Dto, Vanilla.Invoice.Facade";
-                    this.ArtifactComponentAssembly = "Crystal.Invoice.Component";
-                    this.ArtifactDataType = "Crystal.Invoice.Component.Navigator.Artifact.Data";
-                    this.ArtifactComponentType = "Crystal.Invoice.Component.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Crystal.Invoice.Component.Data, Crystal.Invoice.Component";
-                    this.facadeTypeName = "Vanilla.Invoice.Facade.Server,Vanilla.Invoice.Facade";
-                    this.formDtoTypeName = "Vanilla.Invoice.Facade.FormDto,Vanilla.Invoice.Facade";
+                case "INVO":
+                    this.ModuleFormType = "Vanilla.Accountant.WinForm.InvoiceForm, Vanilla.Accountant.WinForm";
+                    this.ModuleFormDtoType = "Vanilla.Accountant.Facade.Invoice.Dto, Vanilla.Accountant.Facade";
+                    this.ArtifactComponentAssembly = "Crystal.Accountant.Component";
+                    this.ArtifactDataType = "Crystal.Accountant.Component.Invoice.Navigator.Artifact.Data";
+                    this.ArtifactComponentType = "Crystal.Accountant.Component.Invoice.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Accountant.Component.Invoice.Data, Crystal.Accountant.Component";
+                    this.facadeTypeName = "Vanilla.Accountant.Facade.Invoice.Server,Vanilla.Accountant.Facade";
+                    this.formDtoTypeName = "Vanilla.Accountant.Facade.Invoice.FormDto,Vanilla.Accountant.Facade";
                     break;
 
                 case "PAMT":
-                    this.ModuleFormType = "Vanilla.Invoice.WinForm.PaymentForm, Vanilla.Invoice.WinForm";
-                    this.ModuleFormDtoType = "Vanilla.Invoice.Facade.Payment.Dto, Vanilla.Invoice.Facade";
-                    this.ArtifactComponentAssembly = "Crystal.Invoice.Component";
-                    this.ArtifactDataType = "Crystal.Invoice.Component.Payment.Navigator.Artifact.Data";
-                    this.ArtifactComponentType = "Crystal.Invoice.Component.Payment.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Crystal.Invoice.Component.Payment.Data, Crystal.Invoice.Component";
-                    this.facadeTypeName = "Vanilla.Invoice.Facade.Payment.Server, Vanilla.Invoice.Facade";
-                    this.formDtoTypeName = "Vanilla.Invoice.Facade.Payment.FormDto, Vanilla.Invoice.Facade";
-                    break;
-
-                case "APMT":
-                    this.ModuleFormType = "Vanilla.Invoice.WinForm.AdvancePaymentForm, Vanilla.Invoice.WinForm";
-                    this.ModuleFormDtoType = "Vanilla.Invoice.Facade.AdvancePayment.Dto, Vanilla.Invoice.Facade";
-                    this.ArtifactComponentAssembly = "Crystal.Invoice.Component";
-                    this.ArtifactDataType = "Crystal.Invoice.Component.AdvancePayment.Navigator.Artifact.Data";
-                    this.ArtifactComponentType = "Crystal.Invoice.Component.AdvancePayment.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Crystal.Invoice.Component.AdvancePayment.Data, Crystal.Invoice.Component";
-                    this.facadeTypeName = "Vanilla.Invoice.Facade.AdvancePayment.Server, Vanilla.Invoice.Facade";
-                    this.formDtoTypeName = "Vanilla.Invoice.Facade.AdvancePayment.FormDto, Vanilla.Invoice.Facade";
+                    this.ModuleFormType = "Vanilla.Accountant.WinForm.PaymentForm, Vanilla.Accountant.WinForm";
+                    this.ModuleFormDtoType = "Vanilla.Accountant.Facade.Payment.Dto, Vanilla.Accountant.Facade";
+                    this.ArtifactComponentAssembly = "Crystal.Accountant.Component";
+                    this.ArtifactDataType = "Crystal.Accountant.Component.Payment.Navigator.Artifact.Data";
+                    this.ArtifactComponentType = "Crystal.Accountant.Component.Payment.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Accountant.Component.Payment.Data, Crystal.Accountant.Component";
+                    this.facadeTypeName = "Vanilla.Accountant.Facade.Payment.Server, Vanilla.Accountant.Facade";
+                    this.formDtoTypeName = "Vanilla.Accountant.Facade.Payment.FormDto, Vanilla.Accountant.Facade";
                     break;
                 default: //Default is Customer
-                    this.ModuleFormType = "AutoTourism.Customer.WinForm.CustomerForm, AutoTourism.Customer.WinForm";
-                    this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Dto, AutoTourism.Customer.Facade";
-                    this.ArtifactComponentAssembly = "AutoTourism.Component.Customer";
-                    this.ArtifactDataType = "AutoTourism.Component.Customer.Navigator.Artifact.Data";
-                    this.ArtifactComponentType = "AutoTourism.Component.Customer.Navigator.Artifact.Server";
-                    this.ModuleDataType = "AutoTourism.Component.Customer.Data, AutoTourism.Component.Customer";
-                    this.facadeTypeName = "AutoTourism.Customer.Facade.Server,AutoTourism.Customer.Facade";
-                    this.formDtoTypeName = "AutoTourism.Customer.Facade.FormDto,AutoTourism.Customer.Facade";
+                    this.ModuleFormType = "Retinue.Customer.WinForm.CustomerForm, Retinue.Customer.WinForm";
+                    this.ModuleFormDtoType = "Retinue.Customer.Facade.Dto, Retinue.Customer.Facade";
+                    this.ArtifactComponentAssembly = "Retinue.Customer.Component";
+                    this.ArtifactDataType = "Retinue.Customer.Component.Navigator.Artifact.Data";
+                    this.ArtifactComponentType = "Retinue.Customer.Component.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Retinue.Customer.Component.Data, Retinue.Customer.Component";
+                    this.facadeTypeName = "Retinue.Customer.Facade.Server,Retinue.Customer.Facade";
+                    this.formDtoTypeName = "Retinue.Customer.Facade.FormDto,Retinue.Customer.Facade";
                     break;
             }
 
@@ -186,60 +175,60 @@ namespace Vanilla.Utility.Facade.Module
             switch (this.moduleDef.Code)
             {
                 case "CUST":
-                    this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Report.Dto, AutoTourism.Customer.Facade";
+                    this.ModuleFormDtoType = "Retinue.Customer.Facade.Report.Dto, Retinue.Customer.Facade";
                     this.ArtifactComponentAssembly = "Crystal.Customer.Component";
                     this.ArtifactDataType = "Crystal.Customer.Component.Report.Navigator.Artifact.Data";
                     this.ArtifactComponentType = "Crystal.Customer.Component.Report.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Customer.Component.Report.Data, Crystal.Customer.Component";
 
-                    this.facadeTypeName = "AutoTourism.Customer.Facade.Report.Server,AutoTourism.Customer.Facade";
-                    this.formDtoTypeName = "AutoTourism.Customer.Facade.Report.FormDto,AutoTourism.Customer.Facade";
+                    this.facadeTypeName = "Retinue.Customer.Facade.Report.Server, Retinue.Customer.Facade";
+                    this.formDtoTypeName = "Retinue.Customer.Facade.Report.FormDto, Retinue.Customer.Facade";
                     break;
 
                 case "LRSV"://Need to change
-                    //this.ModuleFormType = "AutoTourism.Lodge.WinForm.RoomReservationForm, AutoTourism.Lodge.WinForm";
-                    this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.RoomReservationReport.Dto, AutoTourism.Lodge.Facade";
-                    this.ArtifactComponentAssembly = "Crystal.Lodge.Component";
-                    this.ArtifactDataType = "Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact.Data";
-                    this.ArtifactComponentType = "Crystal.Lodge.Component.RoomReservationReport.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Crystal.Lodge.Component.RoomReservationReport.Data, Crystal.Lodge.Component";
+                    //this.ModuleFormType = "Retinue.Lodge.WinForm.RoomReservationForm, Retinue.Lodge.WinForm";
+                    this.ModuleFormDtoType = "Retinue.Lodge.Facade.RoomReservationReport.Dto, Retinue.Lodge.Facade";
+                    this.ArtifactComponentAssembly = "Retinue.Lodge.Component";
+                    this.ArtifactDataType = "Retinue.Lodge.Component.RoomReservationReport.Navigator.Artifact.Data";
+                    this.ArtifactComponentType = "Retinue.Lodge.Component.RoomReservationReport.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Retinue.Lodge.Component.RoomReservationReport.Data, Retinue.Lodge.Component";
 
-                    this.facadeTypeName = "AutoTourism.Lodge.Facade.RoomReservationReport.Server,AutoTourism.Lodge.Facade";
-                    this.formDtoTypeName = "AutoTourism.Lodge.Facade.RoomReservationReport.FormDto,AutoTourism.Lodge.Facade";
+                    this.facadeTypeName = "Retinue.Lodge.Facade.RoomReservationReport.Server, Retinue.Lodge.Facade";
+                    this.formDtoTypeName = "Retinue.Lodge.Facade.RoomReservationReport.FormDto, Retinue.Lodge.Facade";
                     break;
 
                 case "LCHK"://Need to change
-                    //this.ModuleFormType = "AutoTourism.Lodge.WinForm.CheckInForm, AutoTourism.Lodge.WinForm";
-                    this.ModuleFormDtoType = "AutoTourism.Lodge.Facade.CheckInReport.Dto, AutoTourism.Lodge.Facade";
-                    this.ArtifactComponentAssembly = "Crystal.Lodge.Component";
-                    this.ArtifactDataType = "Crystal.Lodge.Component.CheckInReport.Navigator.Artifact.Data";
-                    this.ArtifactComponentType = "Crystal.Lodge.Component.CheckInReport.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Crystal.Lodge.Component.CheckInReport.Data, Crystal.Lodge.Component";
+                    //this.ModuleFormType = "Retinue.Lodge.WinForm.CheckInForm, Retinue.Lodge.WinForm";
+                    this.ModuleFormDtoType = "Retinue.Lodge.Facade.CheckInReport.Dto, Retinue.Lodge.Facade";
+                    this.ArtifactComponentAssembly = "Retinue.Lodge.Component";
+                    this.ArtifactDataType = "Retinue.Lodge.Component.CheckInReport.Navigator.Artifact.Data";
+                    this.ArtifactComponentType = "Retinue.Lodge.Component.CheckInReport.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Retinue.Lodge.Component.CheckInReport.Data, Retinue.Lodge.Component";
 
-                    this.facadeTypeName = "AutoTourism.Lodge.Facade.CheckInReport.Server,AutoTourism.Lodge.Facade";
-                    this.formDtoTypeName = "AutoTourism.Lodge.Facade.CheckInReport.FormDto,AutoTourism.Lodge.Facade";
+                    this.facadeTypeName = "Retinue.Lodge.Facade.CheckInReport.Server, Retinue.Lodge.Facade";
+                    this.formDtoTypeName = "Retinue.Lodge.Facade.CheckInReport.FormDto, Retinue.Lodge.Facade";
                     break;
 
                 case "INVO":
-                    //this.ModuleFormType = "Vanilla.Invoice.WinForm.Invoice, Vanilla.Invoice.WinForm";
-                    this.ModuleFormDtoType = "Vanilla.Invoice.Facade.Report.Dto, Vanilla.Invoice.Facade";
-                    this.ArtifactComponentAssembly = "Crystal.Invoice.Component";
-                    this.ArtifactDataType = "Crystal.Invoice.Component.Report.Navigator.Artifact.Data";
-                    this.ArtifactComponentType = "Crystal.Invoice.Component.Report.Navigator.Artifact.Server";
-                    this.ModuleDataType = "Crystal.Invoice.Component.Report.Data, Crystal.Invoice.Component";
+                    //this.ModuleFormType = "Vanilla.Accountant.WinForm.Invoice, Vanilla.Accountant.WinForm";
+                    this.ModuleFormDtoType = "Vanilla.Accountant.Facade.Invoice.Report.Dto, Vanilla.Accountant.Facade";
+                    this.ArtifactComponentAssembly = "Crystal.Accountant.Component";
+                    this.ArtifactDataType = "Crystal.Accountant.Component.Invoice.Report.Navigator.Artifact.Data";
+                    this.ArtifactComponentType = "Crystal.Accountant.Component.Invoice.Report.Navigator.Artifact.Server";
+                    this.ModuleDataType = "Crystal.Accountant.Component.Invoice.Report.Data, Crystal.Accountant.Component";
 
-                    this.facadeTypeName = "Vanilla.Invoice.Facade.Report.Server,Vanilla.Invoice.Facade";
-                    this.formDtoTypeName = "Vanilla.Invoice.Facade.Report.FormDto,Vanilla.Invoice.Facade";
+                    this.facadeTypeName = "Vanilla.Accountant.Facade.Invoice.Report.Server,Vanilla.Accountant.Facade";
+                    this.formDtoTypeName = "Vanilla.Accountant.Facade.Invoice.Report.FormDto,Vanilla.Accountant.Facade";
                     break;
                 default: //Default is customer
-                    this.ModuleFormDtoType = "AutoTourism.Customer.Facade.Report.Dto, AutoTourism.Customer.Facade";
+                    this.ModuleFormDtoType = "Retinue.Customer.Facade.Report.Dto, Retinue.Customer.Facade";
                     this.ArtifactComponentAssembly = "Crystal.Customer.Component";
                     this.ArtifactDataType = "Crystal.Customer.Component.Report.Navigator.Artifact.Data";
                     this.ArtifactComponentType = "Crystal.Customer.Component.Report.Navigator.Artifact.Server";
                     this.ModuleDataType = "Crystal.Customer.Component.Report.Data, Crystal.Customer.Component";
 
-                    this.facadeTypeName = "AutoTourism.Customer.Facade.Report.Server,AutoTourism.Customer.Facade";
-                    this.formDtoTypeName = "AutoTourism.Customer.Facade.Report.FormDto,AutoTourism.Customer.Facade";
+                    this.facadeTypeName = "Retinue.Customer.Facade.Report.Server,Retinue.Customer.Facade";
+                    this.formDtoTypeName = "Retinue.Customer.Facade.Report.FormDto,Retinue.Customer.Facade";
                     break;
             }
 

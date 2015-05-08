@@ -8,10 +8,10 @@ using PresLib = BinAff.Presentation.Library;
 using FrmWin = Vanilla.Form.WinForm;
 using UtilFac = Vanilla.Utility.Facade;
 
-using PayFac = Vanilla.Invoice.Facade.Payment;
-using InvFac = Vanilla.Invoice.Facade;
+using PayFac = Vanilla.Accountant.Facade.Payment;
+using InvFac = Vanilla.Accountant.Facade;
 
-namespace Vanilla.Invoice.WinForm
+namespace Vanilla.Accountant.WinForm
 {
 
     public partial class InvoiceForm : FrmWin.Document
@@ -28,7 +28,7 @@ namespace Vanilla.Invoice.WinForm
             //Disabled initially, enabled after generation
             //new Invoice().ShowDialog();            
           
-            System.Windows.Forms.Form form = new Vanilla.Invoice.WinForm.InvoiceReceipt();           
+            System.Windows.Forms.Form form = new Vanilla.Accountant.WinForm.InvoiceReceipt();           
             form.ShowDialog();           
         }
 

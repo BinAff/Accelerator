@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vanilla.Invoice.WinForm
+namespace Vanilla.Accountant.WinForm
 {
 
     public partial class AdvancePaymentReceipt : System.Windows.Forms.Form

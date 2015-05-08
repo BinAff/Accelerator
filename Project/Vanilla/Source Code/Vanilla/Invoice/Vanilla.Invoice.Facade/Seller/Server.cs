@@ -1,8 +1,8 @@
 ﻿using System;
 
-using CompCrys = Crystal.Invoice.Component;
+using CompCrys = Crystal.Accountant.Component.Invoice;
 
-namespace Vanilla.Invoice.Facade.Seller
+namespace Vanilla.Accountant.Facade.Seller
 {
 
     public class Server : BinAff.Facade.Library.Server

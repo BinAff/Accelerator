@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using FrmFac = Vanilla.Form.Facade.Document;
 
-namespace Vanilla.Invoice.Facade.Payment
+namespace Vanilla.Accountant.Facade.Payment
 {
 
     public class FormDto : FrmFac.FormDto

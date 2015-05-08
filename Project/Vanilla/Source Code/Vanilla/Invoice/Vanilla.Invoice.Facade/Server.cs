@@ -1,30 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Transactions;
 
 using BinAff.Core;
 using FacLib = BinAff.Facade.Library;
 
-using PayCrys = Crystal.Invoice.Component.Payment;
+using PayCrys = Crystal.Accountant.Component.Payment;
 using CustCrys = Crystal.Customer.Component;
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
-using InvCrys = Crystal.Invoice.Component;
-using InvArtfCrys = Crystal.Invoice.Component.Navigator.Artifact;
-using TaxCrys = Crystal.Invoice.Component.Taxation;
+using InvCrys = Crystal.Accountant.Component.Invoice;
+using InvCntnCrys = Crystal.Accountant.Component.InvoiceContainer;
+using InvArtfCrys = Crystal.Accountant.Component.Invoice.Navigator.Artifact;
 
-using PayVan = Vanilla.Invoice.Facade.Payment;
-using InvFac = Vanilla.Invoice.Facade;
+using PayVan = Vanilla.Accountant.Facade.Payment;
 using DocFac = Vanilla.Form.Facade.Document;
 using ModFac = Vanilla.Utility.Facade.Module;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
-using SellerFac = Vanilla.Invoice.Facade.Seller;
-using BuyerFac = Vanilla.Invoice.Facade.Buyer;
-using LineItemFac = Vanilla.Invoice.Facade.LineItem;
-using TaxationFac = Vanilla.Invoice.Facade.Taxation;
+using SellerFac = Vanilla.Accountant.Facade.Seller;
+using BuyerFac = Vanilla.Accountant.Facade.Buyer;
+using LineItemFac = Vanilla.Accountant.Facade.LineItem;
+using TaxationFac = Vanilla.Accountant.Facade.Taxation;
 
 using CustRet = Retinue.Customer.Component;
-using System.Transactions;
 
-namespace Vanilla.Invoice.Facade
+namespace Vanilla.Accountant.Facade
 {
 
     public class Server : DocFac.Server, IInvoice
@@ -190,7 +189,7 @@ namespace Vanilla.Invoice.Facade
 
         protected override String GetComponentDataType()
         {
-            return "Crystal.Invoice.Component.Navigator.Artifact.Data, Crystal.Invoice.Component";
+            return "Crystal.Accountant.Component.Invoice.Navigator.Artifact.Data, Crystal.Accountant.Component";
         }
 
         protected override BinAff.Core.Observer.IRegistrar GetRegisterer()
@@ -278,7 +277,7 @@ namespace Vanilla.Invoice.Facade
 
             CustRet.Data autoCustomer = new CustRet.Data
             {
-                Invoice = new InvCrys.InvoiceContainer.Data
+                Invoice = new InvCntnCrys.Data
                 {
                     Active = this.Convert(invoiceDto) as CustCrys.Action.Data
                 }
@@ -303,7 +302,7 @@ namespace Vanilla.Invoice.Facade
             List<PayVan.Dto> paymentDtoList = new List<PayVan.Dto>();
             if (paymentList != null && paymentList.Count > 0)
             {
-                foreach (InvCrys.Payment.Data paymentData in paymentList)
+                foreach (PayCrys.Data paymentData in paymentList)
                 {
                     PayVan.Dto p = new PayVan.Dto
                     {
@@ -311,7 +310,7 @@ namespace Vanilla.Invoice.Facade
                         ReceiptNumber = paymentData.ReceiptNumber,
                         Date = paymentData.Date,
                     };
-                    foreach (InvCrys.Payment.LineItem.Data line in paymentData.LineItemList)
+                    foreach (PayCrys.LineItem.Data line in paymentData.LineItemList)
                     {
                         p.LineItemList.Add(new PayVan.LineItem.Dto
                         {

@@ -4,10 +4,10 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using Microsoft.Reporting.WinForms;
 
-using FacadeReceipt = Vanilla.Invoice.Facade.Receipt;
-using FacadeTax = Vanilla.Invoice.Facade.Taxation;
+using FacadeReceipt = Vanilla.Accountant.Facade.Receipt;
+using FacadeTax = Vanilla.Accountant.Facade.Taxation;
 
-namespace Vanilla.Invoice.WinForm
+namespace Vanilla.Accountant.WinForm
 {
     public partial class InvoiceReceipt : System.Windows.Forms.Form
     {
