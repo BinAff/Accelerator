@@ -16,13 +16,13 @@ namespace Crystal.Accountant.Component.Payment.Type
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "[Invoice].[PaymentTypeInsert]";
+            base.CreateStoredProcedure = "Accountant.PaymentTypeInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Invoice].[PaymentTypeRead]";
-            base.ReadAllStoredProcedure = "[Invoice].[PaymentTypeReadAll]";
-            base.UpdateStoredProcedure = "[Invoice].[PaymentTypeUpdate]";
+            base.ReadStoredProcedure = "Accountant.PaymentTypeRead";
+            base.ReadAllStoredProcedure = "Accountant.PaymentTypeReadAll";
+            base.UpdateStoredProcedure = "Accountant.PaymentTypeUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "[Invoice].[PaymentTypeDelete]";
+            base.DeleteStoredProcedure = "Accountant.PaymentTypeDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -30,44 +30,20 @@ namespace Crystal.Accountant.Component.Payment.Type
         {
             base.AddInParameter("@Name", DbType.String, ((Data)this.Data).Name);
         }
-        
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
-        {
-            Data dt = (Data)data;
-            DataRow row;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                row = ds.Tables[0].Rows[0];
 
-                dt.Id = data.Id;
-                dt.Name = Convert.IsDBNull(row["Name"]) ? String.Empty : Convert.ToString(row["Name"]);
-            }
+        protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
+        {
+            Data dt = data as Data;
+            dt.Id = data.Id;
+            dt.Name = Convert.IsDBNull(dr["Name"]) ? String.Empty : Convert.ToString(dr["Name"]);
             return dt;
-        }
-
-        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
-        {
-            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
-
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    ret.Add(new Data
-                    {
-                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
-                        Name = Convert.IsDBNull(row["Name"]) ? String.Empty : Convert.ToString(row["Name"])
-                    });
-                }
-            }
-            return ret;
         }
 
         internal Boolean ReadDuplicate()
         {
             Data data = (Data)this.Data;
             this.CreateConnection();
-            this.CreateCommand("[Invoice].[PaymentTypeReadDuplicate]");
+            this.CreateCommand("Accountant.PaymentTypeReadDuplicate");
             this.AddInParameter("@Name", DbType.String, data.Name);
 
             DataSet ds = this.ExecuteDataSet();

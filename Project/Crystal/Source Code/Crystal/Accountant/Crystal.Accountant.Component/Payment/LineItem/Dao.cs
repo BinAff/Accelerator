@@ -16,15 +16,15 @@ namespace Crystal.Accountant.Component.Payment.LineItem
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "Invoice.PaymentLineItemInsert";
+            base.CreateStoredProcedure = "Accountant.PaymentLineItemInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "Invoice.PaymentLineItemRead";
-            base.ReadAllStoredProcedure = "Invoice.PaymentLineItemReadAll";
-            base.UpdateStoredProcedure = "Invoice.PaymentLineItemUpdate";
+            base.ReadStoredProcedure = "Accountant.PaymentLineItemRead";
+            base.ReadAllStoredProcedure = "Accountant.PaymentLineItemReadAll";
+            base.ReadForParentStoredProcedure = "Accountant.PaymentLineItemReadForParent";
+            base.UpdateStoredProcedure = "Accountant.PaymentLineItemUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "Invoice.PaymentLineItemDelete";
+            base.DeleteStoredProcedure = "Accountant.PaymentLineItemDelete";
             base.NumberOfRowsAffectedInDelete = -1;
-            base.ReadForParentStoredProcedure = "Invoice.PaymentLineItemReadForParent";
         }
 
         protected override void AssignParameter(string procedureName)
@@ -37,48 +37,18 @@ namespace Crystal.Accountant.Component.Payment.LineItem
             base.AddInParameter("@PaymentId", DbType.Int64, this.ParentData.Id);
         }
 
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
+        protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
-            Data dt = (Data)data;
-            DataRow row;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            Data dt = data as Data;
+            dt.Id = data.Id;
+            dt.Reference = Convert.IsDBNull(dr["Reference"]) ? String.Empty : Convert.ToString(dr["Reference"]);
+            dt.Amount = Convert.IsDBNull(dr["Amount"]) ? 0 : Convert.ToDouble(dr["Amount"]);
+            dt.Type = new Type.Data()
             {
-                row = ds.Tables[0].Rows[0];
-
-                dt.Id = data.Id;
-                dt.Reference = Convert.IsDBNull(row["Reference"]) ? String.Empty : Convert.ToString(row["Reference"]);
-                dt.Amount = Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]);
-                dt.Type = new Type.Data()
-                {
-                    Id = Convert.IsDBNull(row["PaymentTypeId"]) ? 0 : Convert.ToInt64(row["PaymentTypeId"])
-                };
-                dt.Remark = Convert.IsDBNull(row["Remark"]) ? String.Empty : Convert.ToString(row["Remark"]);
-            }
+                Id = Convert.IsDBNull(dr["PaymentTypeId"]) ? 0 : Convert.ToInt64(dr["PaymentTypeId"])
+            };
+            dt.Remark = Convert.IsDBNull(dr["Remark"]) ? String.Empty : Convert.ToString(dr["Remark"]);
             return dt;
-        }
-
-        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
-        {
-            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
-
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    ret.Add(new Data
-                    {
-                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
-                        Reference = Convert.IsDBNull(row["Reference"]) ? String.Empty : Convert.ToString(row["Reference"]),
-                        Amount = Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]),
-                        Type = new Type.Data()
-                        {
-                            Id = Convert.IsDBNull(row["PaymentTypeId"]) ? 0 : Convert.ToInt64(row["PaymentTypeId"])
-                        },
-                        Remark = Convert.IsDBNull(row["Remark"]) ? String.Empty : Convert.ToString(row["Remark"]),
-                    });
-                }
-            }
-            return ret;
         }
 
         protected override void AttachChildDataToParent()

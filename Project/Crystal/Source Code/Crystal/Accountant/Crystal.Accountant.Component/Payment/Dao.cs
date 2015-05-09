@@ -18,14 +18,14 @@ namespace Crystal.Accountant.Component.Payment
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "Invoice.PaymentInsert";
+            base.CreateStoredProcedure = "Accountant.PaymentInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "Invoice.PaymentRead";
-            base.ReadAllStoredProcedure = "Invoice.PaymentReadAll";
-            base.ReadForParentStoredProcedure = "Invoice.PaymentReadForParent";
-            base.UpdateStoredProcedure = "Invoice.PaymentUpdate";
+            base.ReadStoredProcedure = "Accountant.PaymentRead";
+            base.ReadAllStoredProcedure = "Accountant.PaymentReadAll";
+            base.ReadForParentStoredProcedure = "Accountant.PaymentReadForParent";
+            base.UpdateStoredProcedure = "Accountant.PaymentUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "Invoice.PaymentDelete";
+            base.DeleteStoredProcedure = "Accountant.PaymentDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -107,7 +107,7 @@ namespace Crystal.Accountant.Component.Payment
         {
             Data data = base.Data as Data;
             base.CreateConnection();
-            base.CreateCommand("Invoice.PaymentAttachInvoice");
+            base.CreateCommand("Accountant.PaymentAttachInvoice");
             base.AddInParameter("@Id", DbType.Int32, data.Id);
             base.AddInParameter("@InvoiceId", DbType.Int32, data.Invoice.Id);
             Int32 i = base.ExecuteNonQuery();

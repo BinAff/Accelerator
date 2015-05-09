@@ -17,10 +17,10 @@ namespace Crystal.Accountant.Component.Payment.Navigator.Artifact
         protected override void Compose()
         {
             base.Compose();
-            base.CreateComponentLinkSPName = "Invoice.PaymentArtifactInsertLink";
-            base.ReadComponentLinkSPName = "Invoice.PaymentArtifactReadLink";
-            base.UpdateComponentLinkSPName = "Invoice.PaymentArtifactUpdateLink";
-            this.DeleteComponentLinkSPName = "Invoice.PaymentArtifactDeleteLink";
+            base.CreateComponentLinkSPName = "Accountant.PaymentArtifactInsertLink";
+            base.ReadComponentLinkSPName = "Accountant.PaymentArtifactReadLink";
+            base.UpdateComponentLinkSPName = "Accountant.PaymentArtifactUpdateLink";
+            this.DeleteComponentLinkSPName = "Accountant.PaymentArtifactDeleteLink";
         }
 
         protected override BinAff.Core.Data CreateDataObject(Int64 id, ArtfComp.Category category)
