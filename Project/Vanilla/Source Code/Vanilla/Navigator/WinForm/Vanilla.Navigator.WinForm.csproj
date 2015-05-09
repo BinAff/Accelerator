@@ -138,10 +138,6 @@
       <Project>{94765995-6577-4720-8f86-7cc1adbd1d5b}</Project>
       <Name>Vanilla.Guardian.WinForm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Invoice\Vanilla.Invoice.Facade\Vanilla.Invoice.Facade.csproj">
-      <Project>{f5351cbf-9763-43a3-9b2e-7a6c1a93fce4}</Project>
-      <Name>Vanilla.Invoice.Facade</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Report\Vanilla.Report.Facade\Vanilla.Report.Facade.csproj">
       <Project>{B5E1E4CB-76A8-479E-940B-CC8B99BA86FE}</Project>
       <Name>Vanilla.Report.Facade</Name>
