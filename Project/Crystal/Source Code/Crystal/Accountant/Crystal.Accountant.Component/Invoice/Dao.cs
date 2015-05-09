@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Collections.Generic;
 
 namespace Crystal.Accountant.Component.Invoice
 {
@@ -16,13 +15,13 @@ namespace Crystal.Accountant.Component.Invoice
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "Invoice.Insert";
+            base.CreateStoredProcedure = "Accountant.InvoiceInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "Invoice.Read";
-            base.ReadAllStoredProcedure = "Invoice.ReadAll";
-            base.UpdateStoredProcedure = "Invoice.Update";
+            base.ReadStoredProcedure = "Accountant.InvoiceRead";
+            base.ReadAllStoredProcedure = "Accountant.InvoiceReadAll";
+            base.UpdateStoredProcedure = "Accountant.InvoiceUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "Invoice.Delete";
+            base.DeleteStoredProcedure = "Accountant.InvoiceDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
         
@@ -79,7 +78,7 @@ namespace Crystal.Accountant.Component.Invoice
         {
             Data data = (Data)this.Data;
             this.CreateConnection();
-            this.CreateCommand("Invoice.ReadDuplicate");
+            this.CreateCommand("Accountant.InvoiceReadDuplicate");
             this.AddInParameter("@SerialNumber", DbType.Int32, data.SerialNumber);
 
             DataSet ds = this.ExecuteDataSet();
@@ -95,20 +94,20 @@ namespace Crystal.Accountant.Component.Invoice
             return false;
         }
 
-        internal List<BinAff.Core.Data> GetSalesData(DateTime startDate, DateTime endDate)
-        {
-            base.CreateConnection();
+        //internal List<BinAff.Core.Data> GetSalesData(DateTime startDate, DateTime endDate)
+        //{
+        //    base.CreateConnection();
 
-            this.CreateCommand("ReportSales");
-            this.AddInParameter("@StartDate", DbType.DateTime, startDate);
-            this.AddInParameter("@EndDate", DbType.DateTime, endDate);
-            DataSet dsSales = this.ExecuteDataSet();
-            List<BinAff.Core.Data> dataList = CreateDataObjectList(dsSales);
+        //    this.CreateCommand("ReportSales");
+        //    this.AddInParameter("@StartDate", DbType.DateTime, startDate);
+        //    this.AddInParameter("@EndDate", DbType.DateTime, endDate);
+        //    DataSet dsSales = this.ExecuteDataSet();
+        //    List<BinAff.Core.Data> dataList = CreateDataObjectList(dsSales);
 
-            base.CloseConnection();
+        //    base.CloseConnection();
 
-            return dataList;
-        }
+        //    return dataList;
+        //}
 
         //protected override bool CreateAfter()
         //{
@@ -278,7 +277,7 @@ namespace Crystal.Accountant.Component.Invoice
         internal Int64 ReadInvoiceId()
         {
             Data data = this.Data as Data;
-            this.CreateCommand("Invoice.InvoiceReadForSerialNumber");
+            this.CreateCommand("Accountant.InvoiceReadForSerialNumber");
             this.AddInParameter("@SerialNumber", DbType.Int32, data.SerialNumber);
             this.AddInParameter("@Date", DbType.Date, data.Date);
             DataSet ds = this.ExecuteDataSet();

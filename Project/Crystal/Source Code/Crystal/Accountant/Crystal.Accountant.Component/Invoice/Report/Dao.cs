@@ -16,10 +16,10 @@ namespace Crystal.Accountant.Component.Invoice.Report
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "[Invoice].[ReportInsert]";
+            base.CreateStoredProcedure = "Accountant.InvoiceReportInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Invoice].[ReportRead]";
-            base.ReadAllStoredProcedure = "[Invoice].[ReportReadAll]";           
+            base.ReadStoredProcedure = "Accountant.InvoiceReportRead";
+            base.ReadAllStoredProcedure = "Accountant.InvoiceReportReadAll";           
         }
 
         protected override void AssignParameter(string procedureName)
@@ -27,21 +27,11 @@ namespace Crystal.Accountant.Component.Invoice.Report
             base.AssignParameter(procedureName);
         }
 
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
-        {
-            return base.CreateDataObject(ds, data);
-        }
-
-        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
-        {
-            return base.CreateDataObjectList(ds);
-        }
-
         public override List<BinAff.Core.Data> GetData(DateTime fromDate, DateTime toDate)
         {
             List<BinAff.Core.Data> invoiceList = new List<BinAff.Core.Data>();
 
-            base.CreateCommand("[Invoice].[ReportSales]");
+            base.CreateCommand("Accountant.InvoiceReportSales"); //SP missing in DB
             base.AddInParameter("@StartDate", DbType.DateTime, fromDate.Date);
             base.AddInParameter("@EndDate", DbType.DateTime, toDate.Date);
             DataSet ds = base.ExecuteDataSet();

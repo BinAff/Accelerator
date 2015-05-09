@@ -16,14 +16,14 @@ namespace Crystal.Accountant.Component.Invoice.LineItem
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "Invoice.LineItemInsert";
+            base.CreateStoredProcedure = "Accountant.InvoiceLineItemInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "Invoice.LineItemRead";
-            base.ReadForParentStoredProcedure = "Invoice.LineItemReadForParent";
-            base.ReadAllStoredProcedure = "Invoice.LineItemReadAll";
-            base.UpdateStoredProcedure = "Invoice.LineItemUpdate";
+            base.ReadStoredProcedure = "Accountant.InvoiceLineItemRead";
+            base.ReadForParentStoredProcedure = "Accountant.InvoiceLineItemReadForParent";
+            base.ReadAllStoredProcedure = "Accountant.InvoiceLineItemReadAll";
+            base.UpdateStoredProcedure = "Accountant.InvoiceLineItemUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "Invoice.LineItemDelete";
+            base.DeleteStoredProcedure = "Accountant.InvoiceLineItemDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -36,45 +36,17 @@ namespace Crystal.Accountant.Component.Invoice.LineItem
             base.AddInParameter("@Count", DbType.Int32, ((Data)this.Data).Count);
             base.AddInParameter("@InvoiceId", DbType.Int64, this.ParentData.Id);
         }
-        
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
-        {
-            Data dt = (Data)data;
-            DataRow row;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                row = ds.Tables[0].Rows[0];
 
-                dt.Id = data.Id;
-                dt.Start = Convert.IsDBNull(row["Start"]) ? DateTime.MinValue : Convert.ToDateTime(row["Start"]);
-                dt.End = Convert.IsDBNull(row["End"]) ? DateTime.MinValue : Convert.ToDateTime(row["End"]);
-                dt.Description = Convert.IsDBNull(row["Description"]) ? String.Empty : Convert.ToString(row["Description"]);
-                dt.UnitRate = Convert.IsDBNull(row["UnitRate"]) ? 0 : Convert.ToDouble(row["UnitRate"]);
-                dt.Count = Convert.IsDBNull(row["Count"]) ? 0 : Convert.ToInt32(row["Count"]);
-            }
+        protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
+        {
+            Data dt = data as Data;
+            dt.Id = data.Id;
+            dt.Start = Convert.IsDBNull(dr["Start"]) ? DateTime.MinValue : Convert.ToDateTime(dr["Start"]);
+            dt.End = Convert.IsDBNull(dr["End"]) ? DateTime.MinValue : Convert.ToDateTime(dr["End"]);
+            dt.Description = Convert.IsDBNull(dr["Description"]) ? String.Empty : Convert.ToString(dr["Description"]);
+            dt.UnitRate = Convert.IsDBNull(dr["UnitRate"]) ? 0 : Convert.ToDouble(dr["UnitRate"]);
+            dt.Count = Convert.IsDBNull(dr["Count"]) ? 0 : Convert.ToInt32(dr["Count"]);
             return dt;
-        }
-
-        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
-        {
-            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
-
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    ret.Add(new Data
-                    {
-                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
-                        Start = Convert.IsDBNull(row["Start"]) ? DateTime.MinValue : Convert.ToDateTime(row["Start"]),
-                        End = Convert.IsDBNull(row["End"]) ? DateTime.MinValue : Convert.ToDateTime(row["End"]),
-                        Description = Convert.IsDBNull(row["Description"]) ? String.Empty : Convert.ToString(row["Description"]),
-                        UnitRate = Convert.IsDBNull(row["UnitRate"]) ? 0 : Convert.ToDouble(row["UnitRate"]),
-                        Count = Convert.IsDBNull(row["Count"]) ? 0 : Convert.ToInt32(row["Count"]),
-                    });
-                }
-            }
-            return ret;
         }
 
         protected override void AttachChildDataToParent()
@@ -103,7 +75,7 @@ namespace Crystal.Accountant.Component.Invoice.LineItem
 
             foreach (Taxation.Data taxationData in data.TaxList)
             {
-                this.CreateCommand("Invoice.LineItemTaxationInsert");
+                this.CreateCommand("Accountant.InvoiceLineItemTaxInsert");
                 this.AddInParameter("@LineItemId", DbType.Int64, data.Id);
                 this.AddInParameter("@TaxName", DbType.String, taxationData.Name);
                 this.AddInParameter("@TaxAmount", DbType.Currency, taxationData.Amount);
@@ -123,7 +95,7 @@ namespace Crystal.Accountant.Component.Invoice.LineItem
 
         protected override Boolean ReadAfter()
         {
-            this.CreateCommand("Invoice.LineItemTaxationRead");
+            this.CreateCommand("Accountant.InvoiceLineItemTaxRead");
             this.AddInParameter("@LineItemId", DbType.Int64, this.Data.Id);
 
             DataSet ds = this.ExecuteDataSet();
@@ -154,7 +126,7 @@ namespace Crystal.Accountant.Component.Invoice.LineItem
 
             foreach (Taxation.Data taxationData in data.TaxList)
             {
-                this.CreateCommand("Invoice.LineItemTaxationDelete");
+                this.CreateCommand("Accountant.InvoiceLineItemTaxDelete");
                 this.AddInParameter("@Id", DbType.Int64, taxationData.Id);
 
                 Int32 ret = this.ExecuteNonQuery();

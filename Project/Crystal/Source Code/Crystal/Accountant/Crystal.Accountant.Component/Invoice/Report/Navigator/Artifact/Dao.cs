@@ -17,9 +17,9 @@ namespace Crystal.Accountant.Component.Invoice.Report.Navigator.Artifact
         protected override void Compose()
         {
             base.Compose();
-            base.CreateComponentLinkSPName = "Customer.CustomerReportArtifactInsertLink";
-            base.ReadComponentLinkSPName = "Customer.ReadCustomerReportForArtifact";
-            base.DeleteComponentLinkSPName = "Customer.DeleteInvoiceReportForArtifact";
+            //base.CreateComponentLinkSPName = "Customer.CustomerReportArtifactInsertLink";
+            //base.ReadComponentLinkSPName = "Customer.ReadCustomerReportForArtifact";
+            //base.DeleteComponentLinkSPName = "Customer.DeleteInvoiceReportForArtifact";
         }
 
         protected override BinAff.Core.Data GetComponentData(Int64 reportId)
@@ -42,7 +42,7 @@ namespace Crystal.Accountant.Component.Invoice.Report.Navigator.Artifact
         //protected override Boolean ReadBefore()
         //{
         //    base.CreateConnection();
-        //    base.CreateCommand("[Invoice].[ReadInvoiceReportForArtifact]");
+        //    base.CreateCommand("Accountant.InvoiceReportArtifactReadForArtifact");
         //    base.AddInParameter("@ArtifactId", DbType.Int64, this.Data.Id);
         //    base.AddInParameter("@Category", DbType.Int64, (this.Data as Data).Category);
 

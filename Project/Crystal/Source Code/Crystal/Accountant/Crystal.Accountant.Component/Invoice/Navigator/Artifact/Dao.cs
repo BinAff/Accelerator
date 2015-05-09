@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 
 using ArtfComp = Crystal.Navigator.Component.Artifact;
 
@@ -18,11 +17,11 @@ namespace Crystal.Accountant.Component.Invoice.Navigator.Artifact
         protected override void Compose()
         {
             base.Compose();
-            base.CreateComponentLinkSPName = "Invoice.InvoiceArtifactInsertLink";
-            base.ReadComponentLinkSPName = "Invoice.InvoiceArtifactReadLink";
-            base.UpdateComponentLinkSPName = "Invoice.InvoiceArtifactUpdateLink";
-            base.DeleteComponentLinkSPName = "Invoice.InvoiceArtifactDeleteLink";
-            base.ReadForComponentSPName = "Invoice.InvoiceArtifactReadForComponent";
+            base.CreateComponentLinkSPName = "Accountant.InvoiceArtifactInsertLink";
+            base.ReadComponentLinkSPName = "Accountant.InvoiceArtifactReadLink";
+            base.UpdateComponentLinkSPName = "Accountant.InvoiceArtifactUpdateLink";
+            base.DeleteComponentLinkSPName = "Accountant.InvoiceArtifactDeleteLink";
+            base.ReadForComponentSPName = "Accountant.InvoiceArtifactReadForComponent";
         }
 
         protected override BinAff.Core.Data CreateDataObject(long id, ArtfComp.Category category)
