@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 
-namespace Crystal.Accountant.Component.Taxation
+namespace Crystal.Accountant.Component.Tax
 {
 
     public interface ITaxation

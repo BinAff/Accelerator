@@ -88,12 +88,33 @@
     <Compile Include="Invoice\Report\Validator.cs" />
     <Compile Include="Invoice\Seller.cs" />
     <Compile Include="Invoice\Server.cs" />
-    <Compile Include="Taxation\Dao.cs" />
-    <Compile Include="Taxation\Data.cs" />
-    <Compile Include="Taxation\ITaxation.cs" />
-    <Compile Include="Taxation\Server.cs" />
-    <Compile Include="Taxation\Slab\Dao.cs" />
-    <Compile Include="Taxation\Slab\Data.cs" />
+    <Compile Include="Taxation\Dao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Taxation\Data.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Taxation\ITaxation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Taxation\Server.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Taxation\Slab\Dao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Taxation\Slab\Data.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Taxation\Slab\Server.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Taxation\Slab\Validator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Taxation\Validator.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Content Include="Payment\DB\Delete.sql" />
     <Content Include="Payment\DB\Insert.sql" />
     <Content Include="Payment\DB\Read.sql" />
@@ -105,18 +126,15 @@
     <Content Include="Payment\LineItem\DB\ReadAll.sql" />
     <Content Include="Payment\LineItem\DB\ReadForParent.sql" />
     <Content Include="Payment\LineItem\DB\Update.sql" />
-    <Content Include="Taxation\Slab\Database\ReadForParent.sql" />
-    <Compile Include="Taxation\Slab\Server.cs" />
-    <Compile Include="Taxation\Slab\Validator.cs" />
-    <Compile Include="Taxation\Validator.cs" />
     <Compile Include="Invoice\Validator.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Taxation\Database\Read.sql" />
     <Content Include="Taxation\Slab\Database\Create.sql" />
-    <Content Include="Invoice\DBScript.sql" />
     <Content Include="Taxation\Slab\Database\Read.sql" />
     <Content Include="Taxation\Slab\Database\ReadAll.sql" />
+    <Content Include="Taxation\Slab\Database\ReadForParent.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Invoice\DBScript.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Core\BinAff.Core.csproj">

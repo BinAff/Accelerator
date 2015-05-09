@@ -1,4 +1,4 @@
-﻿namespace Crystal.Accountant.Component.Taxation.Slab
+﻿namespace Crystal.Accountant.Component.Tax.Slab
 {
 
     public class Server : BinAff.Core.Observer.SubjectCrud

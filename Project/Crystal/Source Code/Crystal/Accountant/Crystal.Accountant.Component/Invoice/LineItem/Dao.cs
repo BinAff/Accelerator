@@ -73,7 +73,7 @@ namespace Crystal.Accountant.Component.Invoice.LineItem
             Boolean retVal = true;
             Int64 LineItemTaxationId = 0;
 
-            foreach (Taxation.Data taxationData in data.TaxList)
+            foreach (Tax.Data taxationData in data.TaxList)
             {
                 this.CreateCommand("Accountant.InvoiceLineItemTaxInsert");
                 this.AddInParameter("@LineItemId", DbType.Int64, data.Id);
@@ -104,7 +104,7 @@ namespace Crystal.Accountant.Component.Invoice.LineItem
             {
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    Taxation.Data data = new Taxation.Data
+                    Tax.Data data = new Tax.Data
                     {
                         Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
                         Name = Convert.IsDBNull(row["TaxName"]) ? String.Empty : Convert.ToString(row["TaxName"]),
@@ -124,7 +124,7 @@ namespace Crystal.Accountant.Component.Invoice.LineItem
             Data data = this.Data as Data;
             Boolean retVal = true;
 
-            foreach (Taxation.Data taxationData in data.TaxList)
+            foreach (Tax.Data taxationData in data.TaxList)
             {
                 this.CreateCommand("Accountant.InvoiceLineItemTaxDelete");
                 this.AddInParameter("@Id", DbType.Int64, taxationData.Id);

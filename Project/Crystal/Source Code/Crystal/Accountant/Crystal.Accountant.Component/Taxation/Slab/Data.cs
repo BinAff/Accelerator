@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Crystal.Accountant.Component.Taxation.Slab
+namespace Crystal.Accountant.Component.Tax.Slab
 {
 
     public class Data : BinAff.Core.Data

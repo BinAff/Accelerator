@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Crystal.Accountant.Component.Taxation
+namespace Crystal.Accountant.Component.Tax
 {
 
     public class Dao : BinAff.Core.Dao

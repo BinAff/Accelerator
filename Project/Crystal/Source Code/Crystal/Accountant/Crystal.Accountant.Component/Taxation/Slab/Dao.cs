@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Crystal.Accountant.Component.Taxation.Slab
+namespace Crystal.Accountant.Component.Tax.Slab
 {
 
     public class Dao : BinAff.Core.Dao
@@ -48,12 +48,12 @@ namespace Crystal.Accountant.Component.Taxation.Slab
 
         protected override void AttachChildrenDataToParent(List<BinAff.Core.Data> dataList)
         {
-            ((Taxation.Data)this.ParentData).SlabList = dataList;
+            ((Tax.Data)this.ParentData).SlabList = dataList;
         }
 
         protected override void AttachChildDataToParent()
         {
-            ((Taxation.Data)this.ParentData).SlabList = new List<BinAff.Core.Data>
+            ((Tax.Data)this.ParentData).SlabList = new List<BinAff.Core.Data>
             {
                 { this.Data }
             };

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using BinAff.Core;
 using BinAff.Utility;
 
-namespace Crystal.Accountant.Component.Taxation
+namespace Crystal.Accountant.Component.Tax
 {
 
     public class Validator : BinAff.Core.Validator
