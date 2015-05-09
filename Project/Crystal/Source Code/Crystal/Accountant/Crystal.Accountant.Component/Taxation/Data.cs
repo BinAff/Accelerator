@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Crystal.Accountant.Component.Taxation
+namespace Crystal.Accountant.Component.Tax
 {
 
     public class Data : BinAff.Core.Data
