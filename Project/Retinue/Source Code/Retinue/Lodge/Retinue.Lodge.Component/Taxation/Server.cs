@@ -1,7 +1,7 @@
 ﻿namespace Retinue.Lodge.Component.Taxation
 {
 
-    public class Server : Crystal.Accountant.Component.Taxation.Server
+    public class Server : Crystal.Accountant.Component.Tax.Server
     {
 
         public Server(Data data)

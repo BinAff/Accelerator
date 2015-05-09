@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 
-using TaxCrys = Crystal.Accountant.Component.Taxation;
+using TaxCrys = Crystal.Accountant.Component.Tax;
 
 namespace Retinue.Lodge.Facade.Taxation
 {

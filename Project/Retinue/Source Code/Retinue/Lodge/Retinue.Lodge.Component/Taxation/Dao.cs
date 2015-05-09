@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Retinue.Lodge.Component.Taxation
 {
 
-    public class Dao : Crystal.Accountant.Component.Taxation.Dao
+    public class Dao : Crystal.Accountant.Component.Tax.Dao
     {
 
         public Dao(Data data)

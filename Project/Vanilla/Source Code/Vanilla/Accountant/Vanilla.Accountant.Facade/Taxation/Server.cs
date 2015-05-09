@@ -2,7 +2,7 @@
 
 using BinAff.Core;
 
-using CompCrys = Crystal.Accountant.Component.Taxation;
+using CompCrys = Crystal.Accountant.Component.Tax;
 
 namespace Vanilla.Accountant.Facade.Taxation
 {
