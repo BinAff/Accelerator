@@ -18,9 +18,9 @@ namespace Crystal.Accountant.Component.Taxation.Slab
         {
             //base.CreateStoredProcedure = "[Invoice].[TaxationInsert]";
             //base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Invoice].[SlabRead]";
-            base.ReadAllStoredProcedure = "[Invoice].[SlabReadAll]";
-            base.ReadForParentStoredProcedure = "[Invoice].[SlabReadForParent]";
+            base.ReadStoredProcedure = "Accountant.TaxSlabRead";
+            base.ReadAllStoredProcedure = "Accountant.TaxSlabReadAll";
+            base.ReadForParentStoredProcedure = "Accountant.TaxSlabReadForParent";
             //base.UpdateStoredProcedure = "[Invoice].[TaxationUpdate]";
             //base.NumberOfRowsAffectedInUpdate = -1;
             //base.DeleteStoredProcedure = "[Invoice].[TaxationDelete]";
@@ -35,41 +35,15 @@ namespace Crystal.Accountant.Component.Taxation.Slab
             //base.AddInParameter("@Name", DbType.String, ((Data)this.Data).Name);
         }
 
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
+        protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
-            Data dt = (Data)data;
-            DataRow row;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                row = ds.Tables[0].Rows[0];
-
-                dt.Id = data.Id;
-                dt.Limit = Convert.IsDBNull(row["Limit"]) ? 0 : Convert.ToDouble(row["Limit"]);
-                dt.Amount = Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]);
-                dt.Start = Convert.IsDBNull(row["StartDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["StartDate"]);
-                dt.End = Convert.IsDBNull(row["EndDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["EndDate"]);               
-            }
+            Data dt = data as Data;
+            dt.Id = data.Id;
+            dt.Limit = Convert.IsDBNull(dr["Limit"]) ? 0 : Convert.ToDouble(dr["Limit"]);
+            dt.Amount = Convert.IsDBNull(dr["Amount"]) ? 0 : Convert.ToDouble(dr["Amount"]);
+            dt.Start = Convert.IsDBNull(dr["StartDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["StartDate"]);
+            dt.End = Convert.IsDBNull(dr["EndDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["EndDate"]);
             return dt;
-        }
-        
-        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
-        {
-            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
-
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    ret.Add(new Data
-                    {
-                        Limit = Convert.IsDBNull(row["Limit"]) ? 0 : Convert.ToDouble(row["Limit"]),
-                        Amount = Convert.IsDBNull(row["Amount"]) ? 0 : Convert.ToDouble(row["Amount"]),
-                        Start = Convert.IsDBNull(row["StartDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["StartDate"]),
-                        End = Convert.IsDBNull(row["EndDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["EndDate"]),
-                    });
-                }
-            }
-            return ret;
         }
 
         protected override void AttachChildrenDataToParent(List<BinAff.Core.Data> dataList)

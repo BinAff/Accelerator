@@ -16,13 +16,13 @@ namespace Crystal.Accountant.Component.Taxation
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "[Invoice].[TaxationInsert]";
+            base.CreateStoredProcedure = "Accountant.TaxInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "[Invoice].[TaxationRead]";
-            base.ReadAllStoredProcedure = "[Invoice].[TaxationReadAll]";
-            base.UpdateStoredProcedure = "[Invoice].[TaxationUpdate]";
+            base.ReadStoredProcedure = "Accountant.TaxRead";
+            base.ReadAllStoredProcedure = "Accountant.TaxReadAll";
+            base.UpdateStoredProcedure = "Accountant.TaxUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "[Invoice].[TaxationDelete]";
+            base.DeleteStoredProcedure = "Accountant.TaxDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
@@ -73,7 +73,7 @@ namespace Crystal.Accountant.Component.Taxation
         {
             Data data = (Data)this.Data;
             this.CreateConnection();
-            this.CreateCommand("[Invoice].[TaxationReadDuplicate]");
+            this.CreateCommand("Accountant.TaxReadDuplicate");
             this.AddInParameter("@Name", DbType.String, data.Name);
 
             DataSet ds = this.ExecuteDataSet();
