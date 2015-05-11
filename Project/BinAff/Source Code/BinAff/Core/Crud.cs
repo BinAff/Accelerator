@@ -659,14 +659,14 @@ namespace BinAff.Core
             //Create children
             this.CreateChildren();
             //Read dependent
-            Parallel.ForEach<ICrud>(this.dependentChildren, child =>
-            {
-                retObj = this.ReadChild(child, retObj);
-            });
-            //foreach (ICrud child in this.dependentChildren)
+            //Parallel.ForEach<ICrud>(this.dependentChildren, child =>
             //{
             //    retObj = this.ReadChild(child, retObj);
-            //}
+            //});
+            foreach (ICrud child in this.dependentChildren)
+            {
+                retObj = this.ReadChild(child, retObj);
+            }
 
             //Read independent
             //Parallel.ForEach<ICrud>(this.independentChildren, child =>
