@@ -118,7 +118,6 @@ namespace Retinue.Customer.WinForm
                     else
                     {
                         this.AddContactNumber(contactNumber);
-                        this.txtIsd.Text = String.Empty;
                         this.txtStd.Text = String.Empty;
                         this.txtLandLine.Text = String.Empty;
                     }
