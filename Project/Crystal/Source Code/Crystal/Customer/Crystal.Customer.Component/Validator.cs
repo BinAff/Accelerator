@@ -112,31 +112,37 @@ namespace Crystal.Customer.Component
         private String IsExists(Data data)
         {
             StringBuilder ret = new StringBuilder();
-            List<Int64> duplicateIdList = new Dao(data).ReadDuplicate();
+            List<Data> duplicateIdList = new Dao(data).ReadDuplicate();
             if (duplicateIdList != null && duplicateIdList.Count > 0)
             {
                 ret.Append("Customer with similar information exists. Customer Info:\r\n");
+                foreach (Data duplicate in duplicateIdList)
+                {
+                    ret.Append("Name: " + duplicate.FirstName + "\r" + Environment.NewLine);
 
-                Int64 customerId = this.Data.Id; 
-                this.Data.Id = duplicateIdList[0];
-                ICrud server = this.Server;
-                server.Read();
+                    if (duplicate.Email != String.Empty)
+                        ret.Append("Email: " + duplicate.Email + "\r" + Environment.NewLine);
 
-                //reset customer id
-                this.Data.Id = customerId;
+                    if (duplicate.ContactNumberList != null && duplicate.ContactNumberList.Count > 0)
+                        ret.Append("Contact Number: " + this.GetContactNumber(duplicate.ContactNumberList) + "\r" + Environment.NewLine);
 
-                Crystal.Customer.Component.Data customer = this.Data as Crystal.Customer.Component.Data;
-                String customerName = customer.FirstName;
-                ret.Append("Name: " + customerName + "\r\n");
+                    if (duplicate.IdentityProofType != null && duplicate.IdentityProofType.Name != string.Empty && duplicate.IdentityProof != String.Empty)
+                        ret.Append("Identity Proof: " + duplicate.IdentityProofType.Name + " - " + duplicate.IdentityProof);
 
-                if (customer.Email != String.Empty)                
-                    ret.Append("Email: " + customer.Email + "\r\n");
+                    ret.Append(Environment.NewLine + Environment.NewLine);
+                }
+
+                //Int64 customerId = this.Data.Id; 
+                //this.Data = duplicateIdList[0];
+                //ICrud server = this.Server;
+                //server.Read();
+
+                ////reset customer id
+                //this.Data.Id = customerId;
+
+                //Crystal.Customer.Component.Data customer = this.Data as Crystal.Customer.Component.Data;
+                //String customerName = customer.FirstName;
                 
-                if(customer.ContactNumberList != null && customer.ContactNumberList.Count > 0)
-                    ret.Append("Contact Number: " + this.GetContactNumber(customer.ContactNumberList) + "\r\n");
-
-                if(customer.IdentityProofType != null && customer.IdentityProofType.Name != string.Empty && customer.IdentityProof != String.Empty)
-                    ret.Append("Identity Proof: " + customer.IdentityProofType.Name + " - " + customer.IdentityProof);
 
                 
                 //Data d;

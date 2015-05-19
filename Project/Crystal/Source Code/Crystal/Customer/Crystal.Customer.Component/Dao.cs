@@ -260,10 +260,10 @@ namespace Crystal.Customer.Component
             return ContactNumberList;
         }
 
-        public List<Int64> ReadDuplicate()
+        public List<Data> ReadDuplicate()
         {
-            List<Int64> retIds = new List<Int64>();
-            Data data = (Data)this.Data;
+            List<Data> duplicateList = new List<Data>();
+            Data data = this.Data as Data;
             String contactNumberList = String.Empty;
             Int32 len = (data.ContactNumberList != null) ? data.ContactNumberList.Count : 0;
             if (len > 0)
@@ -286,41 +286,28 @@ namespace Crystal.Customer.Component
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    if (!Convert.IsDBNull(dr["Id"]) && Convert.ToInt64(dr["Id"]) != this.Data.Id) retIds.Add(Convert.ToInt64(dr["Id"]));
+                    if (!Convert.IsDBNull(dr["Id"]) && Convert.ToInt64(dr["Id"]) != this.Data.Id)
+                    {
+                        Data duplicate = new Data
+                        {
+                            Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]),
+                            FirstName = Convert.IsDBNull(dr["FirstName"]) ? String.Empty : Convert.ToString(dr["FirstName"]),
+                            MiddleName = Convert.IsDBNull(dr["MiddleName"]) ? String.Empty : Convert.ToString(dr["MiddleName"]),
+                            LastName = Convert.IsDBNull(dr["LastName"]) ? String.Empty : Convert.ToString(dr["LastName"]),
+                            Email = Convert.IsDBNull(dr["Email"]) ? String.Empty : Convert.ToString(dr["Email"]),
+                            IdentityProofType = Convert.IsDBNull(dr["IdentityProofType"]) ? null : new Configuration.Component.IdentityProofType.Data
+                            {
+                                Name = Convert.ToString(dr["IdentityProofType"]),
+                            },
+                            IdentityProof = Convert.IsDBNull(dr["IdentityProofName"]) ? String.Empty : Convert.ToString(dr["IdentityProofName"]),
+                        };
+                        //Need to add contact numbers
+                        duplicateList.Add(duplicate);
+                    }
                 }
             }
             this.CloseConnection();
-            return retIds;
-        }
-
-        public Boolean IsCustomerExists()
-        {
-            this.CreateConnection();
-
-            this.CreateCommand("Customer.CustomerCheck");
-            this.AddInParameter("@Email", DbType.String, ((Data)this.Data).Email);
-            this.AddInParameter("@IdentityProofId", DbType.Int64, ((Data)this.Data).IdentityProofType == null ? 0 : ((Data)this.Data).IdentityProofType.Id);
-            this.AddInParameter("@IdentityProofName", DbType.String, ((Data)this.Data).IdentityProof);
-            DataSet dsCustomer = this.ExecuteDataSet();
-
-            if (dsCustomer != null && dsCustomer.Tables.Count > 0 && dsCustomer.Tables[0].Rows.Count > 0)
-                return true;
-
-            if (((Data)this.Data).ContactNumberList != null && ((Data)this.Data).ContactNumberList.Count > 0)
-            {
-                foreach (ContactNumber.Data contactData in ((Data)this.Data).ContactNumberList)
-                {
-                    this.CreateCommand("CustomerContactCheck");
-                    this.AddInParameter("@ContactNumber", DbType.String, contactData.ContactNumber);
-                    DataSet dsContactNumber = this.ExecuteDataSet();
-
-                    if (dsContactNumber != null && dsContactNumber.Tables.Count > 0 && dsContactNumber.Tables[0].Rows.Count > 0)
-                        return true;
-                }
-            }
-
-            this.CloseConnection();
-            return false;
+            return duplicateList;
         }
 
         public List<Data> IsInitialDeletable(Configuration.Component.Initial.Data initial)
