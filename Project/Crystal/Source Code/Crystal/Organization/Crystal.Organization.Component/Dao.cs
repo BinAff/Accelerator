@@ -17,7 +17,6 @@ namespace Crystal.Organization.Component
             base.CreateStoredProcedure = "Organization.OrganizationInsert";
             base.NumberOfRowsAffectedInCreate = 1;
             base.ReadStoredProcedure = "Organization.OrganizationRead";
-            base.ReadAllStoredProcedure = "OrganizationReadAll";
             base.UpdateStoredProcedure = "Organization.OrganizationUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
             base.DeleteStoredProcedure = "Organization.OrganizationDelete";
