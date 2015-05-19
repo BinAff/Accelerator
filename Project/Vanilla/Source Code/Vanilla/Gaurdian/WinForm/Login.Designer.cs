@@ -83,21 +83,23 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(192, 136);
+            this.btnCancel.Font = new System.Drawing.Font("Wingdings", 15F);
+            this.btnCancel.Location = new System.Drawing.Point(225, 130);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(42, 35);
             this.btnCancel.TabIndex = 5;
-            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Text = "û";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(111, 136);
+            this.btnOk.Font = new System.Drawing.Font("Wingdings", 15F);
+            this.btnOk.Location = new System.Drawing.Point(177, 130);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.Size = new System.Drawing.Size(42, 35);
             this.btnOk.TabIndex = 4;
-            this.btnOk.Text = "Ok";
+            this.btnOk.Text = "ü";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
