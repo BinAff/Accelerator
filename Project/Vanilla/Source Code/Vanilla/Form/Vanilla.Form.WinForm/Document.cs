@@ -70,6 +70,23 @@ namespace Vanilla.Form.WinForm
             }
         }
 
+        protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, Keys keyData)
+        {
+            switch (keyData)
+            {
+                case Keys.Control | Keys.Enter:
+                    this.Ok();
+                    return true;
+                case Keys.Control | Keys.Delete:
+                    this.Delete();
+                    return true;
+                case Keys.Control | Keys.F5:
+                    this.RefreshForm();
+                    return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         #region Events
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -80,27 +97,11 @@ namespace Vanilla.Form.WinForm
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.Ok();
-
-            if (this.IsModified && String.Compare(this.AttachmentName, "Attach", true) != 0)
-            {
-                DialogResult answer = MessageBox.Show("Do yo want to attach any document?", "Question", MessageBoxButtons.YesNo);
-                if (answer == System.Windows.Forms.DialogResult.Yes)
-                {
-                    this.btnAttach.Enabled = true;
-                    return;
-                }
-            }
-            if (this.IsModified) this.Close();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            String Msg = String.Format("Do you want to delete {0}: {1}?", this.Artifact.Category.ToString(), this.Artifact.FullFileName);
-            DialogResult dialogResult = MessageBox.Show(this, Msg, "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
-            {
-                this.Delete();
-            }
+            this.Delete();
         }
 
         private void btnPickAncestor_Click(object sender, EventArgs e)
@@ -281,6 +282,17 @@ namespace Vanilla.Form.WinForm
                 base.Artifact.Module = base.formDto.Dto;
                 base.IsModified = true;
             }
+
+            if (this.IsModified && String.Compare(this.AttachmentName, "Attach", true) != 0)
+            {
+                DialogResult answer = MessageBox.Show("Do yo want to attach any document?", "Question", MessageBoxButtons.YesNo);
+                if (answer == System.Windows.Forms.DialogResult.Yes)
+                {
+                    this.btnAttach.Enabled = true;
+                    return;
+                }
+            }
+            if (this.IsModified) this.Close();
         }
 
         private Boolean Save()
@@ -330,19 +342,25 @@ namespace Vanilla.Form.WinForm
 
         private void Delete()
         {
-            this.AssignDto();
-            if (!this.DeleteBefore()) return;
-            base.facade.Delete();
-            if (base.facade.IsError)
+            String Msg = String.Format("Do you want to delete {0}: {1}?", this.Artifact.Category.ToString(), this.Artifact.FullFileName);
+            DialogResult dialogResult = MessageBox.Show(this, Msg, "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
             {
-                new PresLib.MessageBox
+                this.AssignDto();
+                if (!this.DeleteBefore()) return;
+                base.facade.Delete();
+                if (base.facade.IsError)
                 {
-                    DialogueType = facade.IsError ? PresLib.MessageBox.Type.Error : PresLib.MessageBox.Type.Information,
-                    Heading = "Forms",
-                }.Show(base.facade.DisplayMessageList);
-                return;
+                    new PresLib.MessageBox
+                    {
+                        DialogueType = facade.IsError ? PresLib.MessageBox.Type.Error : PresLib.MessageBox.Type.Information,
+                        Heading = "Forms",
+                    }.Show(base.facade.DisplayMessageList);
+                    return;
+                }
+                this.DeleteAfter();
+                this.Close();
             }
-            this.DeleteAfter();
         }
 
         protected void RegisterArtifactObserver()
