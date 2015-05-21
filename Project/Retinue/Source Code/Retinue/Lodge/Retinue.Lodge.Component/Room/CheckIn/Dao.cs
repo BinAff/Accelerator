@@ -27,6 +27,7 @@ namespace Retinue.Lodge.Component.Room.CheckIn
             base.NumberOfRowsAffectedInDelete = -1;
             base.SearchStoredProcedure = "";
             base.UpdateStatusStoredProcedure = "Lodge.CheckinUpdateStatus";
+            base.UpdateComplitionStoredProcedure = "Lodge.CheckinUpdateCheckOut";
         }
 
         protected override void AssignParameter(String procedureName)

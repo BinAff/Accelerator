@@ -137,7 +137,9 @@ namespace Retinue.Lodge.WinForm
             if (this.dto == null || this.dto.Id == 0)
             {
                 this.dtFrom.Value = DateTime.Now;
-                this.dtFromTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
+                this.dtFromTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+                    DateTime.Now.Minute >= 45 ? DateTime.Now.Hour + 1 : DateTime.Now.Hour,
+                    DateTime.Now.Minute < 14 ? 15 : DateTime.Now.Minute < 29 ? 30 : DateTime.Now.Minute < 44 ? 45 : 0, 0);
                 this.cboCategory.SelectedIndex = 0;
                 this.cboType.SelectedIndex = 0;
                 this.cboAC.SelectedIndex = 0;
@@ -326,6 +328,7 @@ namespace Retinue.Lodge.WinForm
                     this.dtFromTime.Value = this.dto.BookingFrom;
                     this.dtFrom.Value = this.dto.BookingFrom;
                 }
+                this.txtTo.Text = Convert.ToString(this.dto.To);
                 this.txtRooms.Text = this.dto.NoOfRooms == 0 ? String.Empty : this.dto.NoOfRooms.ToString();
                 this.txtDays.Text = this.dto.NoOfDays == 0 ? String.Empty : this.dto.NoOfDays.ToString();
 
@@ -355,9 +358,15 @@ namespace Retinue.Lodge.WinForm
             dto.NoOfChild = String.IsNullOrEmpty(this.txtChild.Text.Trim()) ? 0 : Convert.ToInt32(this.txtChild.Text);
             dto.NoOfInfant = String.IsNullOrEmpty(this.txtInfant.Text.Trim()) ? 0 : Convert.ToInt32(this.txtInfant.Text);
             dto.Remark = this.txtRemarks.Text.Trim();
+            //dto.To = Convert.ToDateTime(this.txtTo.Text);
 
             dto.Status = RoomRsvFac.Status.Open;
             return dto;
+        }
+
+        public void AssignTo(DateTime? to)
+        {
+            this.dto.To = to;
         }
 
         #region Control

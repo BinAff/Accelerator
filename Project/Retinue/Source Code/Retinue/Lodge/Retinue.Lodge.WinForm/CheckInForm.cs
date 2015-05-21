@@ -42,11 +42,14 @@ namespace Retinue.Lodge.WinForm
         private void btnCheckOut_Click(object sender, EventArgs e)
         {
             (this.facade as LodgeFac.CheckIn.Server).CheckOut();
-            new PresLib.MessageBox
+            new PresLib.MessageBox(this)
             {
                 DialogueType = PresLib.MessageBox.Type.Alert,
                 Heading = "Splash"
             }.Show(this.facade.DisplayMessageList);
+            this.ucRoomReservation.AssignTo((this.formDto.Dto as Fac.Dto).CheckOutTime);
+            this.ucRoomReservation.PopulateDataToForm();
+            this.DisableFormControls();
         }
 
         private void btnGenerateInvoice_Click(object sender, EventArgs e)
@@ -171,15 +174,6 @@ namespace Retinue.Lodge.WinForm
 
             Fac.FormDto formDto = base.formDto as Fac.FormDto;
             Fac.Dto dto = formDto.Dto as Fac.Dto;
-            //Int32 aCPreference = 0;
-            //Int64 roomCategory = 0;
-            //Int64 roomType = 0;
-            //if (dto.Id > 0)
-            //{
-            //    aCPreference = dto.Reservation.ACPreference;
-            //    roomCategory = dto.Reservation.RoomCategory == null ? 0 : dto.Reservation.RoomCategory.Id;
-            //    roomType = dto.Reservation.RoomType == null ? 0 : dto.Reservation.RoomType.Id;
-            //}
 
             base.facade.LoadForm();
             this.ucRoomReservation.CategoryList = formDto.CategoryList;
@@ -200,7 +194,6 @@ namespace Retinue.Lodge.WinForm
 
         protected override void PopulateDataToForm()
         {
-            this.DisableFormControls();
             Fac.Dto dto = this.formDto.Dto as Fac.Dto;
             if (dto != null && dto.Id > 0)
             {
@@ -209,6 +202,7 @@ namespace Retinue.Lodge.WinForm
                 this.txtCheckInRemark.Text = dto.Remark;
                 this.ucRoomReservation.PopulateDataToForm();
             }
+            this.DisableFormControls();
 
             this.btnGenerateInvoice.ToolTipText = ((base.formDto.Dto as Facade.CheckIn.Dto).Invoice == null ? "Generate" : "View") + " Invoice";
         }
@@ -304,15 +298,17 @@ namespace Retinue.Lodge.WinForm
                 base.DisableRefreshButton();
                 base.DisableOkButton();
                 base.DisableDeleteButton();
-                switch (dto.Status)
+                switch (dto.Reservation.Status)
                 {
                     case RoomRsvFac.Status.CheckedIn:
                         this.ucRoomReservation.EnableNoOfDays();
+                        this.btnCheckOut.Enabled = true;
                         this.btnGenerateInvoice.Enabled = false;
                         this.btnPay.Enabled = false;
                         break;
                     case RoomRsvFac.Status.CheckOut:
                         this.btnCheckOut.Enabled = false;
+                        this.btnGenerateInvoice.Enabled = true;
                         this.btnPay.Enabled = false;
                         break;
                     case RoomRsvFac.Status.Invoiced:
@@ -320,7 +316,6 @@ namespace Retinue.Lodge.WinForm
                         break;
                     case RoomRsvFac.Status.Paid:
                         this.btnCheckOut.Enabled = false;
-                        //this.btnGenerateInvoice.Enabled = false;
                         this.btnPay.Enabled = false;
                         break;
                 }

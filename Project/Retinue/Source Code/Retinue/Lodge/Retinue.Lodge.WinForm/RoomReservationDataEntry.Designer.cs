@@ -68,6 +68,8 @@
             this.btnAddRoom = new System.Windows.Forms.Button();
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
             this.ucCustomerSummary = new Retinue.Customer.WinForm.CustomerSummary();
+            this.txtTo = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -457,10 +459,30 @@
             this.ucCustomerSummary.Size = new System.Drawing.Size(299, 209);
             this.ucCustomerSummary.TabIndex = 1031;
             // 
+            // txtTo
+            // 
+            this.txtTo.Location = new System.Drawing.Point(388, 29);
+            this.txtTo.Name = "txtTo";
+            this.txtTo.ReadOnly = true;
+            this.txtTo.Size = new System.Drawing.Size(145, 20);
+            this.txtTo.TabIndex = 1033;
+            this.txtTo.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(339, 29);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(20, 13);
+            this.label5.TabIndex = 1032;
+            this.label5.Text = "To";
+            // 
             // RoomReservationDataEntry
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.txtTo);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.ucCustomerSummary);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox4);
@@ -539,5 +561,7 @@
         private System.Windows.Forms.Button btnRemoveRoom;
         private System.Windows.Forms.Button btnAddRoom;
         private System.Windows.Forms.DateTimePicker dtFrom;
+        private System.Windows.Forms.TextBox txtTo;
+        private System.Windows.Forms.Label label5;
     }
 }

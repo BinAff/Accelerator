@@ -72,7 +72,8 @@ namespace Retinue.Lodge.Facade.CheckIn
                 },
                 Purpose = checkIn.Purpose,
                 ArrivedFrom = checkIn.ArrivedFrom,
-                Remark = checkIn.Remark
+                Remark = checkIn.Remark,
+                CompletionTime = checkIn.CheckOutTime,
             };
             if (checkIn.Reservation != null)
             {
@@ -96,11 +97,16 @@ namespace Retinue.Lodge.Facade.CheckIn
                 Purpose = checkIn.Purpose,
                 ArrivedFrom = checkIn.ArrivedFrom,
                 Remark = checkIn.Remark,
-                Reservation = checkIn.Reservation == null ?
-                    null : new RoomRsvFac.Server(null).Convert(checkIn.Reservation) as RoomReservation.Dto,
+                CheckOutTime = checkIn.CompletionTime,
+                
                 Invoice = checkIn.Invoice == null?
                     null : new InvFac.Server(null).Convert(checkIn.Invoice) as InvFac.Dto,
             };
+            if(checkIn.Reservation != null)
+            {
+                dto.Reservation = new RoomRsvFac.Server(null).Convert(checkIn.Reservation) as RoomReservation.Dto;
+                dto.Reservation.To = dto.CheckOutTime;
+            }
             if (checkIn.Status != null && checkIn.Status.Id != 0)
             {
                 dto.Status = (RoomRsvFac.Status)checkIn.Status.Id;
@@ -179,7 +185,7 @@ namespace Retinue.Lodge.Facade.CheckIn
             Int32 noOfDays = new Calender().DaysBetweenTwoDays(dto.Reservation.BookingFrom, DateTime.Today);
             if (noOfDays != dto.Reservation.NoOfDays)
             {
-                this.DisplayMessageList = new List<string>
+                this.DisplayMessageList = new List<String>
                 {
                     "Check out date is not matching with reservation end date. Reservation end date will be changed with checkout.",
                 };
@@ -194,15 +200,18 @@ namespace Retinue.Lodge.Facade.CheckIn
             //roomReserver.RegisterArtifactObserver();//Artifact is missing. Need to attach that in Document
             roomReserver.Change();
 
-            (new RoomChkCrys.Server(new RoomChkCrys.Data
+            RoomChkCrys.Data checkinData = new RoomChkCrys.Data
             {
                 Id = dto.Id,
                 Status = new ActCrys.Status.Data
                 {
                     Id = (Int64)RoomRsvFac.Status.CheckOut,
                 },
-            }) as ActCrys.IAction).UpdateStatus();
-            this.DisplayMessageList = new List<string>
+            };
+            ReturnObject<Boolean> ret = (new RoomChkCrys.Server(checkinData) as Crystal.Activity.Component.IActivity).Complete();
+            dto.Status = RoomRsvFac.Status.CheckOut;
+            dto.CheckOutTime = checkinData.CompletionTime;
+            this.DisplayMessageList = new List<String>
             {
                 "Customer successfully checked out.",
             };

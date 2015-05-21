@@ -6,6 +6,7 @@ using BinAff.Core;
 using InvCrys = Crystal.Accountant.Component.Invoice;
 
 using RoomRsvCrys = Retinue.Lodge.Component.Room.Reservation;
+using Crystal.Customer.Component.Action;
 
 namespace Retinue.Lodge.Component.Room.CheckIn
 {
@@ -125,6 +126,11 @@ namespace Retinue.Lodge.Component.Room.CheckIn
                 };
         }
 
+        ReturnObject<Boolean> ICheckIn.CheckOut()
+        {
+            throw new NotImplementedException();
+        }
+
         public Int64 ReadCheckInId(Int64 artifactId)
         {
             return new Dao(this.Data as Data).ReadCheckInId(artifactId);
@@ -171,7 +177,7 @@ namespace Retinue.Lodge.Component.Room.CheckIn
 
             return retVal;
         }
-            
+
     }
 
 }

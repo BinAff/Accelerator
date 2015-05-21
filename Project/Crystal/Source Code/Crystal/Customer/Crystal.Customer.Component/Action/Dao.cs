@@ -19,11 +19,9 @@ namespace Crystal.Customer.Component.Action
 
         }
 
-        protected abstract override void Compose();
-
         protected override void AssignParameter(String procedureName)
         {
-            base.AddInParameter("@StatusId", DbType.Int64, ((Data)this.Data).Status.Id);
+            base.AddInParameter("@StatusId", DbType.Int64, (this.Data as Data).Status.Id);
         }
 
         protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)

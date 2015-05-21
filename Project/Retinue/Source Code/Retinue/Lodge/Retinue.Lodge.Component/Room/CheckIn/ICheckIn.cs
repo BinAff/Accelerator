@@ -8,6 +8,7 @@ namespace Retinue.Lodge.Component.Room.CheckIn
     {
 
         ReturnObject<Boolean> LinkInvoice();
+        ReturnObject<Boolean> CheckOut();
 
     }
 

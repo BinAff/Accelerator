@@ -7,6 +7,7 @@ namespace Crystal.Activity.Component
     {
 
         public DateTime ActivityDate { get; set; }
+        public DateTime? CompletionTime { get; set; }
 
     }
 

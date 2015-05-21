@@ -15,6 +15,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
         public Boolean IsBackDateEntry { get; set; }
         public DateTime BookingDate { get; set; }
         public DateTime BookingFrom { get; set; }
+        public DateTime? To { get; set; }
         public Int32 NoOfDays { get; set; }
         public Int32 NoOfRooms { get; set; }
 

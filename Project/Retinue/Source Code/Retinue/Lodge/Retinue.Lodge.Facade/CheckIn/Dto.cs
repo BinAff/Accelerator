@@ -13,6 +13,7 @@ namespace Retinue.Lodge.Facade.CheckIn
         public String Purpose { get; set; }
         public String ArrivedFrom { get; set; }
         public String Remark { get; set; }
+        public DateTime? CheckOutTime { get; set; }
         public Vanilla.Accountant.Facade.Invoice.Dto Invoice { get; set; }
 
         public override BinAff.Facade.Library.Dto Clone()
