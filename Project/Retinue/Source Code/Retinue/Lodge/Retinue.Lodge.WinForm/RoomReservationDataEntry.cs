@@ -74,7 +74,7 @@ namespace Retinue.Lodge.WinForm
 
         private void cboCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(!this.isLoading) this.PopulateRoomListsAndCounts();
+            if (!this.isLoading) this.PopulateRoomListsAndCounts();
         }
 
         private void cboType_SelectedIndexChanged(object sender, EventArgs e)
@@ -110,7 +110,7 @@ namespace Retinue.Lodge.WinForm
             Int16 days = Convert.ToInt16(String.IsNullOrEmpty(this.txtDays.Text) ? 0 : Convert.ToInt16(this.txtDays.Text.Trim()));
             DateTime from = new DateTime(this.dtFrom.Value.Year, this.dtFrom.Value.Month, this.dtFrom.Value.Day,
                 this.dtFromTime.Value.Hour, this.dtFromTime.Value.Minute, 0);
-            if(this.dto != null) this.RoomListChanged(days, from);
+            if (this.dto != null) this.RoomListChanged(days, from);
             this.PopulateRoomListsAndCounts();
         }
 
@@ -137,9 +137,59 @@ namespace Retinue.Lodge.WinForm
             if (this.dto == null || this.dto.Id == 0)
             {
                 this.dtFrom.Value = DateTime.Now;
-                this.dtFromTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
-                    DateTime.Now.Minute >= 45 ? DateTime.Now.Hour + 1 : DateTime.Now.Hour,
-                    DateTime.Now.Minute < 14 ? 15 : DateTime.Now.Minute < 29 ? 30 : DateTime.Now.Minute < 44 ? 45 : 0, 0);
+
+                //Commented Old Code
+                //this.dtFromTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+                //    DateTime.Now.Minute >= 45 ? DateTime.Now.Hour + 1 : DateTime.Now.Hour,
+                //    DateTime.Now.Minute < 14 ? 15 : DateTime.Now.Minute < 29 ? 30 : DateTime.Now.Minute < 44 ? 45 : 00, 00);
+
+                //22-05-2015- Hassan
+                int dYear = DateTime.Now.Year;
+                int dMonth = DateTime.Now.Month;
+                int dDay = DateTime.Now.Day;
+                int dHour = DateTime.Now.Hour;
+                int dMinute = DateTime.Now.Minute;
+                int daysInMonth = DateTime.DaysInMonth(dYear, dMonth);  
+
+                //Hour and Minute calculation
+                if (dMinute >= 45)
+                {
+                    dHour = DateTime.Now.Hour + 1;
+                    dMinute = 00;
+                }
+                if (dMinute > 0  && dMinute < 14)
+                {
+                    dMinute = 15;
+                }
+                else if(dMinute < 29 && dMinute >15)
+                {
+                    dMinute = 30;
+                }
+
+                //Day, Month and Year Calculation
+                if (dHour > 23)
+                {
+                    dDay += 1;
+                    dHour = 0;
+                    dMinute = 0;
+                }                
+                if (dDay > daysInMonth)
+                {
+                    dMonth += 1;
+                    dDay =  1;
+                    dHour = 0;
+                    dMinute = 0;
+                }
+                if (dMonth > 12)
+                {
+                    dYear +=1;
+                    dMonth = 1;
+                    dDay = 1;
+                    dHour = 0;
+                    dMinute = 0;
+                }
+                this.dtFromTime.Value = new DateTime(dYear, dMonth, dDay, dHour, dMinute, 00);
+
                 this.cboCategory.SelectedIndex = 0;
                 this.cboType.SelectedIndex = 0;
                 this.cboAC.SelectedIndex = 0;
@@ -322,7 +372,7 @@ namespace Retinue.Lodge.WinForm
                 this.txtInfant.Text = this.dto.NoOfInfant == 0 ? String.Empty : this.dto.NoOfInfant.ToString();
                 this.txtRemarks.Text = this.dto.Remark.ToString();
                 this.txtReservationNo.Text = this.dto.ReservationNo;
-                
+
                 if (!ValidationRule.IsMinimumDate(this.dto.BookingFrom))
                 {
                     this.dtFromTime.Value = this.dto.BookingFrom;
