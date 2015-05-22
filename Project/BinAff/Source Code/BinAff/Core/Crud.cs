@@ -33,7 +33,6 @@ namespace BinAff.Core
             }
         }
 
-        //private Action actionType;
         protected Action actionType;
 
         /// <summary>
@@ -96,6 +95,11 @@ namespace BinAff.Core
         /// Is skiping create, update and delete
         /// </summary>
         public Boolean IsReadOnly { get; set; }
+
+        /// <summary>
+        /// Is only reading own data not child data
+        /// </summary>
+        public Boolean IsReadOwnData { get; set; }
 
         /// <summary>
         /// Kind of child with respect to parent
@@ -656,26 +660,29 @@ namespace BinAff.Core
             //Read own
             ReturnObject<Data> retObj = ReadOwn();
 
-            //Create children
-            this.CreateChildren();
-            //Read dependent
-            //Parallel.ForEach<ICrud>(this.dependentChildren, child =>
-            //{
-            //    retObj = this.ReadChild(child, retObj);
-            //});
-            foreach (ICrud child in this.dependentChildren)
+            if (!this.IsReadOwnData)
             {
-                retObj = this.ReadChild(child, retObj);
-            }
+                //Create children
+                this.CreateChildren();
+                //Read dependent
+                //Parallel.ForEach<ICrud>(this.dependentChildren, child =>
+                //{
+                //    retObj = this.ReadChild(child, retObj);
+                //});
+                foreach (ICrud child in this.dependentChildren)
+                {
+                    retObj = this.ReadChild(child, retObj);
+                }
 
-            //Read independent
-            //Parallel.ForEach<ICrud>(this.independentChildren, child =>
-            //{
-            //    retObj = this.ReadChild(child, retObj);
-            //});
-            foreach (ICrud child in this.independentChildren)
-            {
-                retObj = this.ReadChild(child, retObj);
+                //Read independent
+                //Parallel.ForEach<ICrud>(this.independentChildren, child =>
+                //{
+                //    retObj = this.ReadChild(child, retObj);
+                //});
+                foreach (ICrud child in this.independentChildren)
+                {
+                    retObj = this.ReadChild(child, retObj);
+                }
             }
 
             return retObj;
