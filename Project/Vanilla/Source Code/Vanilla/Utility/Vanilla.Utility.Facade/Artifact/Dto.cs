@@ -72,6 +72,14 @@ namespace Vanilla.Utility.Facade.Artifact
         /// </summary>
         public FacLib.Dto Module { get; set; }
 
+        public String Status
+        {
+            get
+            {
+                return String.Empty;
+            }
+        }
+
         /// <summary>
         /// Attached module data
         /// </summary>

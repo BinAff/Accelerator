@@ -122,7 +122,7 @@ namespace Vanilla.Utility.WinForm.Extender
             if (treeNode == null) return;
             treeView.BeginUpdate();
             TreeNode[] childNodes = new TreeNode[treeNode.Nodes.Count];
-            treeNode.Nodes.CopyTo(childNodes, 0);       
+            treeNode.Nodes.CopyTo(childNodes, 0);
 
             List<BinAff.Core.Table> lstTableSortText = new List<BinAff.Core.Table>();
             for (int i = 0; i < childNodes.Length; i++)
@@ -178,15 +178,21 @@ namespace Vanilla.Utility.WinForm.Extender
 
             Facade.Artifact.Dto childNodeArtifact = new Facade.Artifact.Dto();
             if (childNodeClone.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+            {
                 childNodeArtifact = (childNodeClone.Tag as Facade.Module.Dto).Artifact;
+            }
             else
+            {
                 childNodeArtifact = childNodeClone.Tag as Facade.Artifact.Dto;
+            }
 
             Facade.Artifact.Dto childNodeArtifactClone = new ArtfFac.Server(null).CloneArtifact(childNodeArtifact);
-            new ArtfFac.Server(null).UpdateArtifactPath(pathOfParent, childNodeArtifactClone, pathSeperator);          
+            new ArtfFac.Server(null).UpdateArtifactPath(pathOfParent, childNodeArtifactClone, pathSeperator);
 
             if (parentNodeArtifact.Children == null)
+            {
                 parentNodeArtifact.Children = new List<Facade.Artifact.Dto>();
+            }
 
             parentNodeArtifact.Children.Add(childNodeArtifactClone);
             childNodeArtifactClone.Parent = parentNodeArtifact;
@@ -203,17 +209,25 @@ namespace Vanilla.Utility.WinForm.Extender
         {
             TreeNode parentNode = node.Parent;
             Facade.Artifact.Dto parentNodeArtifact = new Facade.Artifact.Dto();
-            Facade.Artifact.Dto nodeArtifact = new Facade.Artifact.Dto();   
+            Facade.Artifact.Dto nodeArtifact = new Facade.Artifact.Dto();
 
-            if (parentNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")            
+            if (parentNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+            {
                 parentNodeArtifact = (parentNode.Tag as Facade.Module.Dto).Artifact;
-            else            
+            }
+            else
+            {
                 parentNodeArtifact = parentNode.Tag as Facade.Artifact.Dto;
+            }
 
             if (node.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+            {
                 nodeArtifact = (node.Tag as Facade.Module.Dto).Artifact;
+            }
             else
+            {
                 nodeArtifact = node.Tag as Facade.Artifact.Dto;
+            }
 
             parentNodeArtifact.Children.Remove(nodeArtifact);
             treeView.Nodes.Remove(node);
@@ -228,17 +242,21 @@ namespace Vanilla.Utility.WinForm.Extender
             String selectedNodePath = artifact.Path.Substring(artifact.Path.IndexOf(moduleSeparator) + 3);
 
             if (artifactClone.Style == Facade.Artifact.Type.Document)
+            {
                 selectedNodePath = selectedNodePath.Substring(0, selectedNodePath.LastIndexOf(pathSeperator)) + pathSeperator;
-            
+            }
+
             TreeNode currentNode = FindTreeNodeFromPath(treeView, treeView.Nodes, selectedNodePath, pathSeperator);
             Facade.Artifact.Dto currentNodeArtifact = new Facade.Artifact.Dto();
             if (currentNode.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+            {
                 currentNodeArtifact = (currentNode.Tag as Facade.Module.Dto).Artifact;
+            }
             else
+            {
                 currentNodeArtifact = currentNode.Tag as Facade.Artifact.Dto;
-
+            }
             currentNodeArtifact.Children.Remove(artifact);
-
 
             //add artifact to node
             Facade.Artifact.Dto nodeArtifact = new Facade.Artifact.Dto();
@@ -256,23 +274,18 @@ namespace Vanilla.Utility.WinForm.Extender
             new ArtfFac.Server(null).UpdateArtifactPath(pathOfParent, artifactClone, pathSeperator);
             artifactClone.Parent = nodeArtifact;
 
-            if (nodeArtifact.Children == null)
-                nodeArtifact.Children = new List<Facade.Artifact.Dto>();
+            if (nodeArtifact.Children == null) nodeArtifact.Children = new List<Facade.Artifact.Dto>();
 
             nodeArtifact.Children.Add(artifactClone);
-
-            
         }
-              
+
         private static void UpdateTagArtifact(String pathOfParent, TreeNode node, String pathSeperator)
         {
             Facade.Artifact.Dto nodeArtifact = node.Tag as Facade.Artifact.Dto;
-            new ArtfFac.Server(null).UpdateArtifactPath(pathOfParent, nodeArtifact, pathSeperator);            
+            new ArtfFac.Server(null).UpdateArtifactPath(pathOfParent, nodeArtifact, pathSeperator);
 
             //update the tag object
-            foreach (TreeNode tNode in node.Nodes)
-                UpdateTagArtifact(nodeArtifact.Path, tNode, pathSeperator);                
-           
+            foreach (TreeNode tNode in node.Nodes) UpdateTagArtifact(nodeArtifact.Path, tNode, pathSeperator);
         }
 
         private static void UpdateChildNodeTag(TreeNode Node)
@@ -281,10 +294,13 @@ namespace Vanilla.Utility.WinForm.Extender
             if (Node.Nodes != null && Node.Nodes.Count > 0)
             {
                 if (Node.Tag.GetType().FullName == "Vanilla.Utility.Facade.Module.Dto")
+                {
                     artifactDto = (Node.Tag as Facade.Module.Dto).Artifact;
+                }
                 else
+                {
                     artifactDto = Node.Tag as Facade.Artifact.Dto;
-
+                }
 
                 foreach (TreeNode node in Node.Nodes)
                 {
@@ -293,9 +309,7 @@ namespace Vanilla.Utility.WinForm.Extender
                         if (node.Text == childArtifact.FileName)
                         {
                             node.Tag = childArtifact;
-                            if (node.Nodes != null && node.Nodes.Count > 0)
-                                UpdateChildNodeTag(node);
-
+                            if (node.Nodes != null && node.Nodes.Count > 0) UpdateChildNodeTag(node);
                             break;
                         }
                     }
@@ -306,7 +320,6 @@ namespace Vanilla.Utility.WinForm.Extender
         //need to remove the method from Register.cs
         public static TreeNode FindTreeNodeFromPath(this TreeView treeView, TreeNodeCollection treeNodes, String path, String pathSeperator)
         {
-
             String text = path.Substring(0, path.IndexOfAny(pathSeperator.ToCharArray()));
             path = path.Substring(path.IndexOfAny(pathSeperator.ToCharArray()) + 1);
             foreach (TreeNode node in treeNodes)
@@ -325,14 +338,16 @@ namespace Vanilla.Utility.WinForm.Extender
             }
             return null;
         }
+
     }
-        
+
     public static class ListViewExtender
     {
 
         public static String Initialize(this ListView listView)
         {
-            listView.Columns.Add("Name", "Name", 150);
+            listView.Columns.Add("Name", "Name", 250);
+            listView.Columns.Add("Status", "", 30);
             listView.Columns.Add("Attachment", "", 30);
             listView.Columns.Add("Type", "Type", 70);
             listView.Columns.Add("Version", "Version", 50);
@@ -361,8 +376,8 @@ namespace Vanilla.Utility.WinForm.Extender
             listView.LabelEdit = true;
             foreach (ListViewItem item in listView.SelectedItems)
             {
-                item.Text = artifactFileName;                
-                item.BeginEdit();              
+                item.Text = artifactFileName;
+                item.BeginEdit();
             }
         }
 
@@ -395,7 +410,7 @@ namespace Vanilla.Utility.WinForm.Extender
                 listView.Sort("Name", new PresLib.ListViewColumnSorter
                 {
                     Order = SortOrder.Ascending
-                },isDocumentFirst);
+                }, isDocumentFirst);
             }
         }
 
@@ -430,6 +445,12 @@ namespace Vanilla.Utility.WinForm.Extender
                     Font = new System.Drawing.Font("Webdings", 12F),
                     Text = artifact.AttachmentCount > 0 ? "'" : String.Empty,
                 },
+                new ListViewItem.ListViewSubItem(node, "Status")
+                {
+                    Name = "Status",
+                    Font = new System.Drawing.Font("Webdings", 12F),
+                    Text = GetStatus(artifact),
+                },
                 new ListViewItem.ListViewSubItem(node, "Type")
                 {
                     Name = "Type",
@@ -461,7 +482,18 @@ namespace Vanilla.Utility.WinForm.Extender
                     Text = artifact.AuditInfo.ModifiedAt == DateTime.MinValue? String.Empty : artifact.AuditInfo.ModifiedAt.ToString(),
                 },
             };
-        }       
+        }
+
+        private static String GetStatus(Facade.Artifact.Dto artifact)
+        {
+            if (artifact.Style == ArtfFac.Type.Folder) return String.Empty; //Show if there is pending job in the folder
+            //switch ((artifact.Parent as Vanilla.Utility.Facade.Module.Dto).Code)
+            //{
+            //    case "LCHK":
+            //        return "";//Attach status image for Lodge check in
+            //}
+            return String.Empty;
+        }
 
         public static void Sort(this ListView listView, String columnHeaderCaption, PresLib.ListViewColumnSorter columnSorter, Boolean isDocumentFirst)
         {
@@ -485,7 +517,7 @@ namespace Vanilla.Utility.WinForm.Extender
             }
         }
 
-        private static void SortItems(ListView lsvContainer, Boolean isDocumentFirst,int sortColumnIndex ,Boolean sortOrderAsc)
+        private static void SortItems(ListView lsvContainer, Boolean isDocumentFirst, int sortColumnIndex, Boolean sortOrderAsc)
         {
             List<ListViewItem> folder = new List<ListViewItem>();
             List<ListViewItem> document = new List<ListViewItem>();
@@ -493,9 +525,13 @@ namespace Vanilla.Utility.WinForm.Extender
             for (int i = 0; i < lsvContainer.Items.Count; i++)
             {
                 if ((lsvContainer.Items[i].Tag as Facade.Artifact.Dto).Style == Facade.Artifact.Type.Folder)
+                {
                     folder.Add(lsvContainer.Items[i]);
+                }
                 else
+                {
                     document.Add(lsvContainer.Items[i]);
+                }
             }
 
             lsvContainer.Items.Clear();
@@ -506,50 +542,55 @@ namespace Vanilla.Utility.WinForm.Extender
             if (isDocumentFirst)
             {
                 foreach (ListViewItem item in document)
+                {
                     lsvContainer.Items.Add(item);
-
+                }
                 foreach (ListViewItem item in folder)
+                {
                     lsvContainer.Items.Add(item);
+                }
             }
             else
             {
                 foreach (ListViewItem item in folder)
+                {
                     lsvContainer.Items.Add(item);
-
+                }
                 foreach (ListViewItem item in document)
+                {
                     lsvContainer.Items.Add(item);
+                }
             }
         }
 
         private static List<ListViewItem> Sort(Boolean sortOrderAsc, int sortIndex, List<ListViewItem> lstItems)
-        {            
+        {
             List<BinAff.Core.Table> lstTableSortText = new List<BinAff.Core.Table>();
             foreach (ListViewItem item in lstItems)
+            {
                 lstTableSortText.Add(new BinAff.Core.Table
                 {
                     Id = (item.Tag as Facade.Artifact.Dto).Id,
                     Name = item.SubItems[sortIndex].Text
                 });
-
+            }
             lstTableSortText = Common.SortTable(lstTableSortText, sortOrderAsc);
-           
-            List<ListViewItem> lstSortItems = new List<ListViewItem>();    
+
+            List<ListViewItem> lstSortItems = new List<ListViewItem>();
             foreach (BinAff.Core.Table table in lstTableSortText)
             {
                 for (int i = 0; i < lstItems.Count; i++)
                 {
                     if (table.Id == (lstItems[i].Tag as Vanilla.Utility.Facade.Artifact.Dto).Id)
                     {
-                        lstSortItems.Add(lstItems[i]);                       
+                        lstSortItems.Add(lstItems[i]);
                         break;
                     }
                 }
             }
-
             return lstSortItems;
-
         }
-             
+
         public static void ResetColumnHeader(this ListView listView)
         {
             //clear sort character from column caption
@@ -610,16 +651,19 @@ namespace Vanilla.Utility.WinForm.Extender
 
     public static class Common
     {
+
         public static List<BinAff.Core.Table> SortTable(List<BinAff.Core.Table> lstTableSortText, Boolean isAscending)
         {
             List<BinAff.Core.Table> sortTable = new List<BinAff.Core.Table>();
 
             List<String> lstStringSortText = new List<string>();
             foreach (BinAff.Core.Table table in lstTableSortText)
+            {
                 lstStringSortText.Add(table.Name);
+            }
 
             lstStringSortText.Sort(); // sort ascending [default behaviour]
-            
+
             if (isAscending)
             {
                 foreach (string text in lstStringSortText)
@@ -646,9 +690,9 @@ namespace Vanilla.Utility.WinForm.Extender
                             break;
                         }
                     }
-                }              
+                }
             }
-            
+
 
             return sortTable;
 
@@ -666,7 +710,7 @@ namespace Vanilla.Utility.WinForm.Extender
 
             return false;
         }
-              
+
         //public static void UpdateArtifactPath(String pathOfParent, Facade.Artifact.Dto artifactDto, String pathSeperator)
         //{
         //    if(artifactDto.Style == Facade.Artifact.Type.Folder)
@@ -723,5 +767,7 @@ namespace Vanilla.Utility.WinForm.Extender
 
         //    return childrenList;
         //}
+
     }
+
 }
