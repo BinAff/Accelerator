@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 
-using GuardianAcc = Crystal.Guardian.Component.Account;
+using AccCrys = Crystal.Guardian.Component.Account;
 
 namespace Crystal.Navigator.Component.Artifact
 {
@@ -17,28 +17,26 @@ namespace Crystal.Navigator.Component.Artifact
             
         }
 
-        protected abstract override void Compose();
-
         protected override BinAff.Core.Data CreateDataObject()
         {
             return new Data();
         }
 
-        protected abstract override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data);
-
         protected override void CreateChildren()
         {
-            base.AddChild(new GuardianAcc.Server(((Data)Data).CreatedBy)
+            base.AddChild(new AccCrys.Server((this.Data as Data).CreatedBy)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
+                IsReadOwnData = true,
             });
-            base.AddChild(new GuardianAcc.Server(((Data)Data).ModifiedBy)
+            base.AddChild(new AccCrys.Server((this.Data as Data).ModifiedBy)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
+                IsReadOwnData = true,
             });
-            base.AddChild(new Crystal.License.Component.Server(((Data)Data).ComponentDefinition)
+            base.AddChild(new Crystal.License.Component.Server((this.Data as Data).ComponentDefinition)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
