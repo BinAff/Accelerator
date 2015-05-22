@@ -190,31 +190,63 @@ namespace Retinue.Lodge.Facade.CheckIn
                     "Check out date is not matching with reservation end date. Reservation end date will be changed with checkout.",
                 };
             }
+            
             dto.Reservation.NoOfDays = noOfDays == 0 ? 1 : noOfDays;
             dto.Reservation.Status = RoomRsvFac.Status.CheckOut;
             dto.Reservation.IsBackDateEntry = true;
-            RoomRsvFac.Server roomReserver = new RoomRsvFac.Server(new RoomRsvFac.FormDto
-            {
-                Dto = dto.Reservation
-            });
-            //roomReserver.RegisterArtifactObserver();//Artifact is missing. Need to attach that in Document
-            roomReserver.Change();
 
-            RoomChkCrys.Data checkinData = new RoomChkCrys.Data
-            {
-                Id = dto.Id,
-                Status = new ActCrys.Status.Data
-                {
-                    Id = (Int64)RoomRsvFac.Status.CheckOut,
-                },
-            };
-            ReturnObject<Boolean> ret = (new RoomChkCrys.Server(checkinData) as Crystal.Activity.Component.IActivity).Complete();
+            RoomChkCrys.Data checkinData = this.Convert(dto) as RoomChkCrys.Data;
+            ReturnObject<Boolean> ret = (new RoomChkCrys.Server(checkinData) as RoomChkCrys.ICheckIn).CheckOut();
             dto.Status = RoomRsvFac.Status.CheckOut;
             dto.CheckOutTime = checkinData.CompletionTime;
-            this.DisplayMessageList = new List<String>
-            {
-                "Customer successfully checked out.",
-            };
+            this.DisplayMessageList = (this.IsError = !ret.Value) ?
+                new List<String>
+                {
+                    "Customer checkout failed",
+                } :
+                new List<String>
+                {
+                    "Customer successfully checked out.",
+                };
+            //using (TransactionScope t = new TransactionScope())
+            //{
+            //    dto.Reservation.NoOfDays = noOfDays == 0 ? 1 : noOfDays;
+            //    dto.Reservation.Status = RoomRsvFac.Status.CheckOut;
+            //    dto.Reservation.IsBackDateEntry = true;
+            //    RoomRsvFac.Server roomReserver = new RoomRsvFac.Server(new RoomRsvFac.FormDto
+            //    {
+            //        Dto = dto.Reservation
+            //    });
+            //    //roomReserver.RegisterArtifactObserver();//Artifact is missing. Need to attach that in Document
+            //    roomReserver.Change();
+
+            //    RoomChkCrys.Data checkinData = new RoomChkCrys.Data
+            //    {
+            //        Id = dto.Id,
+            //        Status = new ActCrys.Status.Data
+            //        {
+            //            Id = (Int64)RoomRsvFac.Status.CheckOut,
+            //        },
+            //    };
+            //    ReturnObject<Boolean> ret = (new RoomChkCrys.Server(checkinData) as Crystal.Activity.Component.IActivity).Complete();
+            //    if (this.IsError = ret.Value)
+            //    {
+            //        this.DisplayMessageList = new List<String>
+            //        {
+            //            "Customer checkout failed",
+            //        };
+            //    }
+            //    else
+            //    {
+            //        t.Complete();
+            //        dto.Status = RoomRsvFac.Status.CheckOut;
+            //        dto.CheckOutTime = checkinData.CompletionTime;
+            //        this.DisplayMessageList = new List<String>
+            //        {
+            //            "Customer successfully checked out.",
+            //        };
+            //    }
+            //}  
         }
 
         //ReturnObject<bool> ICheckIn.PaymentInsert(InvFac.FormDto invoiceFormDto, Table currentUser, ArtfFac.Dto artifactDto)

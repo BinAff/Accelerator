@@ -7,6 +7,8 @@ using InvCrys = Crystal.Accountant.Component.Invoice;
 
 using RoomRsvCrys = Retinue.Lodge.Component.Room.Reservation;
 using Crystal.Customer.Component.Action;
+using Crystal.Activity.Component;
+using System.Transactions;
 
 namespace Retinue.Lodge.Component.Room.CheckIn
 {
@@ -128,7 +130,18 @@ namespace Retinue.Lodge.Component.Room.CheckIn
 
         ReturnObject<Boolean> ICheckIn.CheckOut()
         {
-            throw new NotImplementedException();
+            ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
+            using (TransactionScope t = new TransactionScope())
+            {
+                Data data = this.Data as Data;
+                ret = (new RoomRsvCrys.Server(data.Reservation) as ICrud).Save();
+                if (ret.Value)
+                {
+                    ret = (this as IActivity).Complete();
+                    if (ret.Value) t.Complete();
+                }
+            }
+            return ret;
         }
 
         public Int64 ReadCheckInId(Int64 artifactId)
