@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
@@ -149,7 +148,7 @@ namespace Retinue.Lodge.WinForm
                 int dDay = DateTime.Now.Day;
                 int dHour = DateTime.Now.Hour;
                 int dMinute = DateTime.Now.Minute;
-                int daysInMonth = DateTime.DaysInMonth(dYear, dMonth);  
+                int daysInMonth = DateTime.DaysInMonth(dYear, dMonth);
 
                 //Hour and Minute calculation
                 if (dMinute >= 45)
@@ -157,11 +156,11 @@ namespace Retinue.Lodge.WinForm
                     dHour = DateTime.Now.Hour + 1;
                     dMinute = 00;
                 }
-                if (dMinute > 0  && dMinute < 14)
+                if (dMinute > 0 && dMinute < 14)
                 {
                     dMinute = 15;
                 }
-                else if(dMinute < 29 && dMinute >15)
+                else if (dMinute < 29 && dMinute > 15)
                 {
                     dMinute = 30;
                 }
@@ -172,17 +171,17 @@ namespace Retinue.Lodge.WinForm
                     dDay += 1;
                     dHour = 0;
                     dMinute = 0;
-                }                
+                }
                 if (dDay > daysInMonth)
                 {
                     dMonth += 1;
-                    dDay =  1;
+                    dDay = 1;
                     dHour = 0;
                     dMinute = 0;
                 }
                 if (dMonth > 12)
                 {
-                    dYear +=1;
+                    dYear += 1;
                     dMonth = 1;
                     dDay = 1;
                     dHour = 0;
