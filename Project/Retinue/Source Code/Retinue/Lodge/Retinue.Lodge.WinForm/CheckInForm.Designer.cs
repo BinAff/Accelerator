@@ -40,6 +40,7 @@
             // 
             // txtArrivedFrom
             // 
+            this.txtArrivedFrom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
             this.txtArrivedFrom.Location = new System.Drawing.Point(91, 399);
             this.txtArrivedFrom.Name = "txtArrivedFrom";
             this.txtArrivedFrom.Size = new System.Drawing.Size(753, 20);
@@ -82,6 +83,7 @@
             // 
             // txtPurpose
             // 
+            this.txtPurpose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
             this.txtPurpose.Location = new System.Drawing.Point(91, 341);
             this.txtPurpose.Multiline = true;
             this.txtPurpose.Name = "txtPurpose";
@@ -90,6 +92,7 @@
             // 
             // ucRoomReservation
             // 
+            this.ucRoomReservation.AccessoryList = null;
             this.ucRoomReservation.CategoryList = null;
             this.ucRoomReservation.Location = new System.Drawing.Point(8, 35);
             this.ucRoomReservation.Name = "ucRoomReservation";
