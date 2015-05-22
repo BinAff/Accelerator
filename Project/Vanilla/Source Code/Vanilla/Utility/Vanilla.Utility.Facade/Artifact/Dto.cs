@@ -98,6 +98,14 @@ namespace Vanilla.Utility.Facade.Artifact
             }
             if (this.Module != null) dto.Module = this.Module.Clone();
             if (this.ComponentDefinition != null) dto.ComponentDefinition = this.ComponentDefinition.Clone() as ModDefFac.Dto;
+            if (this.AttachmentList != null)
+            {
+                dto.AttachmentList = new List<Dto>();
+                foreach (Dto attachment in this.AttachmentList)
+                {
+                    dto.AttachmentList.Add((attachment != null) ? attachment.Clone() as Dto : null);
+                }
+            }
             if (this.Parent != null) dto.Parent = this.Parent.Clone();
             if (this.AuditInfo != null) dto.AuditInfo = this.AuditInfo.Clone();
             return dto;
