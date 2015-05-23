@@ -134,6 +134,24 @@ namespace BinAff.Core
         }
 
         /// <summary>
+        /// Get value from database
+        /// </summary>
+        /// <returns></returns>
+        protected virtual String ExecuteScalar()
+        {
+            try
+            {
+                return Convert.ToString(this.command.ExecuteScalar());
+            }
+            catch (SqlException ex)
+            {
+                return null;
+            }
+        }
+
+
+
+        /// <summary>
         /// Create new record in database
         /// </summary>
         /// <returns></returns>
