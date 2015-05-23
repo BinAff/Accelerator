@@ -183,31 +183,34 @@ namespace Retinue.Lodge.Facade.CheckIn
         {
             Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
             Int32 noOfDays = new Calender().DaysBetweenTwoDays(dto.Reservation.BookingFrom, DateTime.Today);
-            if (noOfDays != dto.Reservation.NoOfDays)
+           // if (noOfDays != dto.Reservation.NoOfDays)
+            if (noOfDays > dto.Reservation.NoOfDays)
             {
                 this.DisplayMessageList = new List<String>
                 {
                     "Check out date is not matching with reservation end date. Reservation end date will be changed with checkout.",
                 };
             }
-            
-            dto.Reservation.NoOfDays = noOfDays == 0 ? 1 : noOfDays;
-            dto.Reservation.Status = RoomRsvFac.Status.CheckOut;
-            dto.Reservation.IsBackDateEntry = true;
+            else
+            {
+                dto.Reservation.NoOfDays = noOfDays == 0 ? 1 : noOfDays;
+                dto.Reservation.Status = RoomRsvFac.Status.CheckOut;
+                dto.Reservation.IsBackDateEntry = true;
 
-            RoomChkCrys.Data checkinData = this.Convert(dto) as RoomChkCrys.Data;
-            ReturnObject<Boolean> ret = (new RoomChkCrys.Server(checkinData) as RoomChkCrys.ICheckIn).CheckOut();
-            dto.Status = RoomRsvFac.Status.CheckOut;
-            dto.CheckOutTime = checkinData.CompletionTime;
-            this.DisplayMessageList = (this.IsError = !ret.Value) ?
-                new List<String>
+                RoomChkCrys.Data checkinData = this.Convert(dto) as RoomChkCrys.Data;
+                ReturnObject<Boolean> ret = (new RoomChkCrys.Server(checkinData) as RoomChkCrys.ICheckIn).CheckOut();
+                dto.Status = RoomRsvFac.Status.CheckOut;
+                dto.CheckOutTime = checkinData.CompletionTime;
+                this.DisplayMessageList = (this.IsError = !ret.Value) ?
+                    new List<String>
                 {
                     "Customer checkout failed",
                 } :
-                new List<String>
+                    new List<String>
                 {
                     "Customer successfully checked out.",
                 };
+            }
             //using (TransactionScope t = new TransactionScope())
             //{
             //    dto.Reservation.NoOfDays = noOfDays == 0 ? 1 : noOfDays;
