@@ -10,8 +10,8 @@ namespace Crystal.Activity.Component
         protected String UpdateComplitionStoredProcedure { get; set; }
 
         public Dao(Data data)
-            : base(data) 
-        { 
+            : base(data)
+        {
 
         }
 
@@ -45,11 +45,13 @@ namespace Crystal.Activity.Component
             base.CreateCommand(this.UpdateComplitionStoredProcedure);
             base.AddInParameter("@ProductId", DbType.Int64, this.Data.Id);
             base.AddInParameter("@StatusId", DbType.Int64, (this.Data as Data).Status.Id);
-            base.AddOutParameter("@CompletionTime", DbType.DateTime, (this.Data as Data).CompletionTime);
-            Int32 i = this.ExecuteNonQuery();
-            (this.Data as Data).CompletionTime = Convert.ToDateTime(this.GetValueFromParameter("@CompletionTime"));
+           // base.AddOutParameter("@CompletionTime", DbType.DateTime, (this.Data as Data).CompletionTime);
+            string scalarValue = this.ExecuteScalar();
+            //Int32 i = this.ExecuteNonQuery();
+            (this.Data as Data).CompletionTime = scalarValue != null ? Convert.ToDateTime(scalarValue) : DateTime.MinValue;
             this.CloseConnection();
-            return i != -2146232060;
+            //return i != -2146232060;
+            return scalarValue != null;
         }
 
     }
