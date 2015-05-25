@@ -114,7 +114,7 @@ namespace Retinue.Lodge.Component.Room.Reservation
             Data data = this.Data as Data;
             data.ReservationNo = this.ReadReservationNo(data.Id);
 
-            this.CreateCommand("Lodge.RoomReservationRoomLinkRead");
+            this.CreateCommand("Lodge.RoomReservationDetailsRead");
             this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
 
             DataSet ds = this.ExecuteDataSet();
@@ -126,7 +126,8 @@ namespace Retinue.Lodge.Component.Room.Reservation
                 {
                     data.ProductList.Add(new Room.Data
                     {
-                        Id = Convert.IsDBNull(dr["RoomId"]) ? 0 : Convert.ToInt64(dr["RoomId"])
+                        Id = Convert.IsDBNull(dr["RoomId"]) ? 0 : Convert.ToInt64(dr["RoomId"]),
+                        ExtraAccomodation = Convert.ToInt16(Convert.IsDBNull(dr["ExtraAccomodation"]) ? 0 : dr["ExtraAccomodation"]),
                     });
                 }
             }
@@ -136,7 +137,7 @@ namespace Retinue.Lodge.Component.Room.Reservation
 
         private String ReadReservationNo(Int64 reservationId)
         {
-            return "Res-" + reservationId.ToString();
+            return "Res-" + reservationId.ToString(); //TO DO : Rule based
         }
 
         private Boolean InsertRoomList()
@@ -145,11 +146,13 @@ namespace Retinue.Lodge.Component.Room.Reservation
             Boolean retVal = true;
             Int64 reservationId = 0;
             if (data.ProductList != null)
-            {          
-                foreach(BinAff.Core.Data roomData in data.ProductList){
+            {
+                foreach (Room.Data roomData in data.ProductList)
+                {
                     this.CreateCommand("Lodge.RoomReservationDetailsInsert");
                     this.AddInParameter("@RoomId", DbType.Int64, roomData.Id);
                     this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
+                    this.AddInParameter("@ExtraAccomodation", DbType.Int16, roomData.ExtraAccomodation);
                     this.AddInParameter("@Id", DbType.Int64, reservationId);
                     Int32 ret = this.ExecuteNonQuery();
 

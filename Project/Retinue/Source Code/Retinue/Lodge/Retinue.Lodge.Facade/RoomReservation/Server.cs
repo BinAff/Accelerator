@@ -88,7 +88,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
                 NoOfRooms = reservation.NoOfRooms,
                 ActivityDate = reservation.BookingFrom,
                 Date = DateTime.Now,
-                ProductList = reservation.RoomList == null ? null : GetRoomDataList(reservation.RoomList),
+                ProductList = reservation.RoomList == null ? null : this.GetRoomDataList(reservation.RoomList),
                 Status = new Crystal.Customer.Component.Action.Status.Data
                 {
                     Id = (Int64)reservation.Status
@@ -425,6 +425,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
                 {
                     Id = dto.Id,
                     Number = dto.Number,
+                    ExtraAccomodation = dto.ExtraAccomodation,
                 });
             }
             return RoomDataList;

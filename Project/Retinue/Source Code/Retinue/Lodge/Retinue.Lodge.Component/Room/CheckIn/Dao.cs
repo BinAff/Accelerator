@@ -89,7 +89,7 @@ namespace Retinue.Lodge.Component.Room.CheckIn
         protected override Boolean ReadAfter()
         {
             Data data = this.Data as Data;
-            this.CreateCommand("Lodge.RoomReservationRoomLinkRead");     
+            this.CreateCommand("Lodge.RoomReservationDetailsRead");     
             this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
             DataSet ds = this.ExecuteDataSet();
             if (ds.Tables.Count > 0)

@@ -224,7 +224,8 @@ namespace Retinue.Lodge.WinForm
                 this.txtArrivedFrom.Focus();
                 return false;
             }
-
+            //Validate form that total number of bed in rooms is not more than the total number of guest
+            //Logic will be written in server
             return this.ucRoomReservation.ValidateForm(this.errorProvider);
         }
 
@@ -240,6 +241,13 @@ namespace Retinue.Lodge.WinForm
             dto.Purpose = txtPurpose.Text.Trim();
             dto.ArrivedFrom = txtArrivedFrom.Text.Trim();
             dto.Remark = txtCheckInRemark.Text.Trim();            
+        }
+
+        protected override Boolean SaveBefore()
+        {
+            //Alert if the extra room is there
+            //Calculate and assign ExtraAccomodation field in SelectedRoom. Logic will be in server.
+            return base.SaveBefore();
         }
 
         protected override FrmWin.Document GetAnsestorForm()
