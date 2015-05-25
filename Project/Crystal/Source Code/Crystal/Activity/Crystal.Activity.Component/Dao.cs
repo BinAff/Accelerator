@@ -45,13 +45,14 @@ namespace Crystal.Activity.Component
             base.CreateCommand(this.UpdateComplitionStoredProcedure);
             base.AddInParameter("@ProductId", DbType.Int64, this.Data.Id);
             base.AddInParameter("@StatusId", DbType.Int64, (this.Data as Data).Status.Id);
-           // base.AddOutParameter("@CompletionTime", DbType.DateTime, (this.Data as Data).CompletionTime);
-            string scalarValue = this.ExecuteScalar();
-            //Int32 i = this.ExecuteNonQuery();
-            (this.Data as Data).CompletionTime = scalarValue != null ? Convert.ToDateTime(scalarValue) : DateTime.MinValue;
+            String completionDate = this.ExecuteScalar();
             this.CloseConnection();
-            //return i != -2146232060;
-            return scalarValue != null;
+            if (completionDate != null)
+            {
+                (this.Data as Data).CompletionTime = Convert.ToDateTime(completionDate);
+                return true;
+            }
+            return false;
         }
 
     }
