@@ -13,8 +13,8 @@
         protected override void Compose()
         {
             this.Name = "Invoice Line Item";
-            this.DataAccess = new Dao((Data)this.Data);
-            this.Validator = new Validator((Data)this.Data);
+            this.DataAccess = new Dao(this.Data as Data);
+            this.Validator = new Validator(this.Data as Data);
         }
 
         protected override BinAff.Core.Data CreateDataObject()
@@ -24,7 +24,17 @@
 
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
-            return new Server((Data)data);
+            return new Server(data as Data);
+        }
+
+        protected override void CreateChildren()
+        {
+            base.CreateChildren();
+            base.AddChildren(new Tax.Server(null)
+            {
+                Type = ChildType.Independent,
+                IsReadOnly = true,
+            }, (base.Data as Data).TaxList);
         }
 
     }

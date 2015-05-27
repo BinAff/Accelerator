@@ -40,13 +40,18 @@ namespace Crystal.Accountant.Component.Invoice
                 Type = ChildType.Dependent,
                 IsReadOnly = false,
             }, (base.Data as Data).LineItemList);
+            base.AddChildren(new Tax.Server(null)
+            {
+                Type = ChildType.Independent,
+                IsReadOnly = true,
+            }, (base.Data as Data).TaxList);
             base.AddChildren(new Payment.Server(null)
             {
                 Type = ChildType.Dependent,
                 IsReadOnly = true,
             }, (base.Data as Data).PaymentList);
         }
-
+        
         protected override ReturnObject<Boolean> IsSubjectDeletable(BinAff.Core.Data subject)
         {            
             return new ReturnObject<Boolean>

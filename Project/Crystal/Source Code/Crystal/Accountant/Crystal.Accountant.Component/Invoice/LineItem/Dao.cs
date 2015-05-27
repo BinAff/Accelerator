@@ -40,7 +40,7 @@ namespace Crystal.Accountant.Component.Invoice.LineItem
         protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
             Data dt = data as Data;
-            dt.Id = data.Id;
+            dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
             dt.Start = Convert.IsDBNull(dr["Start"]) ? DateTime.MinValue : Convert.ToDateTime(dr["Start"]);
             dt.End = Convert.IsDBNull(dr["End"]) ? DateTime.MinValue : Convert.ToDateTime(dr["End"]);
             dt.Description = Convert.IsDBNull(dr["Description"]) ? String.Empty : Convert.ToString(dr["Description"]);
