@@ -199,8 +199,7 @@ namespace Retinue.Lodge.Facade.CheckIn
             RoomChkCrys.Data checkinData = this.Convert(dto) as RoomChkCrys.Data;
             ReturnObject<Boolean> ret = (new RoomChkCrys.Server(checkinData) as RoomChkCrys.ICheckIn).CheckOut();
 
-            this.DisplayMessageList = ret.MessageList.ConvertAll((p) => { return p.Description; });
-            if (this.IsError = !ret.Value) 
+            if (this.IsError = !ret.Value)
             {
                 this.DisplayMessageList = new List<String> { "Customer checked out failed." };
             }
