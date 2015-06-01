@@ -86,9 +86,9 @@ namespace Vanilla.Accountant.WinForm
 
             this.BindLineitemGrid(dto.ProductList);
             this.BindAdvancePaymentGrid(dto.AdvancePaymentList); //Currently there is not direct link from advance payment and invoice!
-            this.txtTotal.Text = dto.Total.ToString();
-            this.txtAdvance.Text = dto.Advance.ToString();
-            this.txtGrandTotal.Text = (dto.Total - dto.Advance - dto.Discount).ToString();
+            this.txtTotal.Text = Converter.ConvertToIndianCurrency(dto.Total);
+            this.txtAdvance.Text = Converter.ConvertToIndianCurrency(dto.Advance);
+            this.txtGrandTotal.Text = Converter.ConvertToIndianCurrency(dto.Total - dto.Advance - dto.Discount);
         }
 
         protected override void DisableFormControls()
@@ -156,6 +156,11 @@ namespace Vanilla.Accountant.WinForm
                 dgvAdvance.AutoGenerateColumns = false;
                 dgvAdvance.DataSource = list;
             }
+        }
+
+        private void txtDiscount_Enter(object sender, EventArgs e)
+        {
+
         }
 
     }
