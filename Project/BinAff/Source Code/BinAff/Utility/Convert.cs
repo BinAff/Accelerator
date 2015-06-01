@@ -93,42 +93,7 @@ namespace BinAff.Utility
         /// <returns></returns>
         public static String ConvertToIndianCurrency(Decimal value)
         {
-            String retVal = String.Empty;
-            Decimal amount = Math.Round(value, 2); 
-            StringBuilder sb = new StringBuilder();
-            String Value = amount.ToString().Split('.')[0];
-            if (Value.Length > 3)
-            {
-                ArrayList list = new ArrayList();
-                ArrayList newList = new ArrayList();
-                for (int intCnt = 0; intCnt < Value.Length; intCnt++)
-                    list.Add(Value.Substring(intCnt, 1));
-
-                list.Reverse();
-                list.Insert(3, ",");
-
-                for (int intLst = 0; intLst < list.Count; intLst++)
-                {
-                    newList.Add(list[intLst]);
-
-                    if ((intLst > 4) && ((intLst % 2) != 0))
-                        newList.Add(",");
-                }
-
-                newList.Reverse();
-
-                for (int intNLst = 0; intNLst < newList.Count; intNLst++)
-                    sb.Append(newList[intNLst]);
-
-                retVal = sb.ToString().Substring(0,1) == "," ? sb.ToString().Substring(1) : sb.ToString();
-                
-                if (amount.ToString().Split('.').Length > 1)
-                    retVal = retVal + "." + amount.ToString().Split('.')[1];
-            }
-            else
-                retVal =  amount.ToString();
-
-            return retVal;
+            return ConvertToIndianCurrency(Math.Round(value, 2).ToString());
         }
 
         /// <summary>
@@ -138,17 +103,20 @@ namespace BinAff.Utility
         /// <returns></returns>
         public static String ConvertToIndianCurrency(Double value)
         {
+            return ConvertToIndianCurrency(Math.Round(value, 2).ToString());
+        }
+
+        private static String ConvertToIndianCurrency(String value)
+        {
             String retVal = String.Empty;
-            Double amount = Math.Round(value, 2);
             StringBuilder sb = new StringBuilder();
-            String Value = amount.ToString().Split('.')[0];
-            if (Value.Length > 3)
+            if (value.Length > 3)
             {
                 ArrayList list = new ArrayList();
                 ArrayList newList = new ArrayList();
-                for (int intCnt = 0; intCnt < Value.Length; intCnt++)
+                for (int intCnt = 0; intCnt < value.Length; intCnt++)
                 {
-                    list.Add(Value.Substring(intCnt, 1));
+                    list.Add(value.Substring(intCnt, 1));
                 }
                 list.Reverse();
                 list.Insert(3, ",");
@@ -171,18 +139,37 @@ namespace BinAff.Utility
                 }
 
                 retVal = sb.ToString().Substring(0, 1) == "," ? sb.ToString().Substring(1) : sb.ToString();
-
-                if (amount.ToString().Split('.').Length > 1)
-                {
-                    retVal += "." + amount.ToString().Split('.')[1];
-                }
             }
             else
             {
-                retVal = amount.ToString();
+                retVal = value;
+            }
+
+            //Decimal part
+            if (value.Split('.').Length == 1)
+            {
+                retVal += ".00";
+            }
+            else //decimal is there
+            {
+                String decimalPart = value.Split('.')[1];
+                switch (decimalPart.Length)
+                {
+                    case 1: retVal += "." + decimalPart + "0";
+                        break;
+                    case 2: retVal += "." + decimalPart;
+                        break;
+                }
             }
 
             return retVal;
+        }
+
+        public static Double ConvertFromIndianCurrency(String value)
+        {
+            Double ret = 0;
+            Double.TryParse(value.Replace(",", ""), out ret);
+            return ret;
         }
 
     }
