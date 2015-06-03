@@ -217,7 +217,7 @@ namespace Vanilla.Form.WinForm
                 {
                     this.PopulateDataToForm();
                 }
-                if (this.formDto.Dto == null || this.formDto.Dto.Id == 0) this.btnDelete.Enabled = false;
+                //if (this.formDto.Dto == null || this.formDto.Dto.Id == 0) this.btnDelete.Enabled = false;
 
                 this.RaiseArtifactSaved(this.formDto.Document);
 
