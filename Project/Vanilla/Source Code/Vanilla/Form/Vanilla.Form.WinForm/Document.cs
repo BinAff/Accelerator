@@ -417,11 +417,21 @@ namespace Vanilla.Form.WinForm
                 ModuleForFilter = (this.facade as Facade.Document.Server).GetAncestorComponentCode(),
                 Mode = FrmWin.OpenDialog.ActionMode.Search,
             };
+            search.FolderSaved += dialog_FolderSaved;
+            base.ArtifactSaved += delegate(ArtfFac.Dto document)
+            {
+                base.RaiseChildArtifactSaved(document);
+            };
             search.ShowDialog(this);
             if (search.IsActionDone)
             {
                 this.PopulateAnsestorData(search.Document.Module as Facade.Document.Dto);
             }
+        }
+
+        protected virtual void dialog_FolderSaved(ArtfFac.Dto document)
+        {
+            base.saveDialogue_FolderSaved(document);
         }
 
         /// <summary>

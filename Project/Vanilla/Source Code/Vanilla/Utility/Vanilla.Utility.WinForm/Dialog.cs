@@ -58,9 +58,18 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        public delegate void OnFolderSaved(ArtfFac.Dto document);
+        public event OnFolderSaved FolderSaved;
+
         public Dialog()
         {
             InitializeComponent();
+            this.Register.FolderSaved += Register_FolderSaved;
+        }
+
+        void Register_FolderSaved(ArtfFac.Dto folder)
+        {
+            this.FolderSaved(folder);
         }
 
         private void Dialog_Load(object sender, System.EventArgs e)

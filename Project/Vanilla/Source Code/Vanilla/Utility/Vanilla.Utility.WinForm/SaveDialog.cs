@@ -18,16 +18,7 @@ namespace Vanilla.Utility.WinForm
             : base()
         {
             InitializeComponent();
-            this.Register.FolderSaved += Register_FolderSaved;
         }
-
-        void Register_FolderSaved(ArtfFac.Dto folder)
-        {
-            this.FolderSaved(folder);
-        }
-
-        public delegate void OnFolderSaved(ArtfFac.Dto document);
-        public event OnFolderSaved FolderSaved;
 
         private void SaveDialog_Load(object sender, EventArgs e)
         {

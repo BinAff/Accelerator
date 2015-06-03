@@ -190,7 +190,7 @@ namespace Vanilla.Utility.WinForm
         {
         }
 
-        void saveDialogue_FolderSaved(Facade.Artifact.Dto document)
+        protected void saveDialogue_FolderSaved(Facade.Artifact.Dto document)
         {
             this.ArtifactSaved(document);
         }
