@@ -207,6 +207,11 @@ namespace Retinue.Lodge.WinForm
             this.btnGenerateInvoice.ToolTipText = ((base.formDto.Dto as Facade.CheckIn.Dto).Invoice == null ? "Generate" : "View") + " Invoice";
         }
 
+        protected override void SetDefault()
+        {
+            this.ucRoomReservation.SetDefault();
+        }
+
         protected override Boolean ValidateForm()
         {           
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
@@ -375,13 +380,6 @@ namespace Retinue.Lodge.WinForm
             //(this.trvForm.Nodes[reservationNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto).Artifact.Children.Add(artifactDto);
             //artifactDto.Parent = this.trvForm.Nodes[reservationNodePosition].Tag as Vanilla.Utility.Facade.Module.Dto;
 
-        }
-
-        private void SetDefault()
-        {
-            //set default date format
-            //this.dtFrom.Format = DateTimePickerFormat.Custom;
-            //this.dtFrom.CustomFormat = "dd/MM/yyyy"; //--MM should be in upper case
         }
 
         private void PopulateRoomListFromDaysAndDateChanged()

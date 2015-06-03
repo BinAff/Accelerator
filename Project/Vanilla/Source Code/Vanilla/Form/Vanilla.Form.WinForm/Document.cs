@@ -216,6 +216,7 @@ namespace Vanilla.Form.WinForm
                 if (this.formDto.Dto != null)
                 {
                     this.PopulateDataToForm();
+                    this.SetDefault();
                 }
                 //if (this.formDto.Dto == null || this.formDto.Dto.Id == 0) this.btnDelete.Enabled = false;
 
@@ -394,6 +395,7 @@ namespace Vanilla.Form.WinForm
             else
             {
                 this.ClearForm();
+                this.SetDefault();
             }
             this.RefreshFormAfter();
         }
@@ -410,7 +412,7 @@ namespace Vanilla.Form.WinForm
         /// <summary>
         /// Add method to pick existing ancestor artifact
         /// </summary>
-        protected virtual void PickAnsestor()
+        protected void PickAnsestor()
         {
             FrmWin.OpenDialog search = new FrmWin.OpenDialog
             {
@@ -429,7 +431,7 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        protected virtual void dialog_FolderSaved(ArtfFac.Dto document)
+        protected void dialog_FolderSaved(ArtfFac.Dto document)
         {
             base.saveDialogue_FolderSaved(document);
         }
@@ -437,7 +439,7 @@ namespace Vanilla.Form.WinForm
         /// <summary>
         /// Add method to add new ancestor artifact
         /// </summary>
-        protected virtual void AddAnsestor()
+        protected void AddAnsestor()
         {
             Document form = this.GetAnsestorForm();
             form.ArtifactSaved += delegate(ArtfFac.Dto document)
@@ -453,6 +455,9 @@ namespace Vanilla.Form.WinForm
 
         #region Mandatory Hooks
 
+        /// <summary>
+        /// Get all data from facade and bind form related data to form
+        /// </summary>
         protected virtual void LoadForm()
         {
             throw new NotImplementedException();
@@ -503,6 +508,11 @@ namespace Vanilla.Form.WinForm
         protected virtual void RefreshFormAfter()
         {
 
+        }
+
+        protected virtual void SetDefault()
+        {
+            
         }
 
         protected virtual void PopulateAnsestorData(Facade.Document.Dto dto)

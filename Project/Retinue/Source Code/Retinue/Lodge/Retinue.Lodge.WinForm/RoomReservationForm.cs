@@ -135,6 +135,11 @@ namespace Retinue.Lodge.WinForm
             this.ucRoomReservationDataEntry.PopulateDataToForm();
         }
 
+        protected override void SetDefault()
+        {
+            this.ucRoomReservationDataEntry.SetDefault();
+        }
+
         protected override void LoadData()
         {
             base.facade.LoadForm();

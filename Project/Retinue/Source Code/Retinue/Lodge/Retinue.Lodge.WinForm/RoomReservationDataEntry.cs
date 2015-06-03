@@ -16,18 +16,18 @@ using RoomTypeFac = Retinue.Lodge.Configuration.Facade.Room.Type;
 namespace Retinue.Lodge.WinForm
 {
 
-    public partial class RoomReservationDataEntry : UserControl
+    internal partial class RoomReservationDataEntry : UserControl
     {
 
-        public List<RoomCatFac.Dto> CategoryList { get; set; }
+        internal List<RoomCatFac.Dto> CategoryList { get; set; }
 
-        public List<RoomTypeFac.Dto> TypeList { get; set; }
+        internal List<RoomTypeFac.Dto> TypeList { get; set; }
 
-        public List<Table> AccessoryList { get; set; }
+        internal List<Table> AccessoryList { get; set; }
 
-        public List<RoomFac.Dto> RoomList { get; set; }
+        internal List<RoomFac.Dto> RoomList { get; set; }
 
-        public RoomRsvFac.Status ReservationStatus
+        internal RoomRsvFac.Status ReservationStatus
         {
             get
             {
@@ -40,10 +40,10 @@ namespace Retinue.Lodge.WinForm
 
         RoomRsvFac.Dto dto;
 
-        public delegate void OnRoomListChange(Int16 days, DateTime from);
-        public event OnRoomListChange RoomListChanged;
+        internal delegate void OnRoomListChange(Int16 days, DateTime from);
+        internal event OnRoomListChange RoomListChanged;
 
-        public RoomReservationDataEntry()
+        internal RoomReservationDataEntry()
         {
             InitializeComponent();
             this.isLoading = true;
@@ -113,23 +113,22 @@ namespace Retinue.Lodge.WinForm
             this.PopulateRoomListsAndCounts();
         }
 
-        public void PopulateCustomerSummary(CustFac.Dto customer)
+        internal void PopulateCustomerSummary(CustFac.Dto customer)
         {
             this.dto.Customer = customer;
             this.ucCustomerSummary.LoadForm(this.dto.Customer);
         }
 
-        public void LoadForm(RoomRsvFac.Dto dto)
+        internal void LoadForm(RoomRsvFac.Dto dto)
         {
             this.dto = dto;
             this.cboCategory.Bind(this.CategoryList, "Name");
             this.cboType.Bind(this.TypeList, "Name");
             this.cboAC.Bind(this.AccessoryList, "Name");
-            this.SetDefault();
             if (this.dto == null || this.dto.Id == 0) this.isLoading = false;
         }
 
-        private void SetDefault()
+        internal void SetDefault()
         {
             this.dtFrom.Format = DateTimePickerFormat.Custom;
             this.dtFrom.CustomFormat = "dd/MM/yyyy"; //--MM should be in upper case
@@ -195,7 +194,7 @@ namespace Retinue.Lodge.WinForm
             }
         }
 
-        public void ClearForm()
+        internal void ClearForm()
         {
             this.dtFrom.Value = DateTime.Now;
             this.dtFromTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour + 1, 0, 0);
@@ -219,7 +218,7 @@ namespace Retinue.Lodge.WinForm
             this.txtAvailableRoomCount.Text = String.Empty;
         }
 
-        public Boolean IsEmpty()
+        internal Boolean IsEmpty()
         {
             //if (String.IsNullOrEmpty(this.txtName.Text))
             //{
@@ -228,7 +227,7 @@ namespace Retinue.Lodge.WinForm
             return true;
         }
 
-        public Boolean ValidateForm(ErrorProvider errorProvider)
+        internal Boolean ValidateForm(ErrorProvider errorProvider)
         {
             Boolean retVal = true;
             errorProvider.Clear();
@@ -315,7 +314,7 @@ namespace Retinue.Lodge.WinForm
             return retVal;
         }
 
-        public void PopulateDataToForm()
+        internal void PopulateDataToForm()
         {
             if (this.dto == null) return;
             switch (this.dto.Status)
@@ -389,7 +388,7 @@ namespace Retinue.Lodge.WinForm
             }
         }
 
-        public RoomRsvFac.Dto AssignDto(RoomRsvFac.Dto dto)
+        internal RoomRsvFac.Dto AssignDto(RoomRsvFac.Dto dto)
         {
             dto.Id = dto == null ? 0 : dto.Id;
 
@@ -413,14 +412,14 @@ namespace Retinue.Lodge.WinForm
             return dto;
         }
 
-        public void AssignTo(DateTime? to)
+        internal void AssignTo(DateTime? to)
         {
             this.dto.To = to;
         }
 
         #region Control
 
-        public void DisableFormControls()
+        internal void DisableFormControls()
         {
             this.btnAddRoom.Enabled = false;
             this.btnRemoveRoom.Enabled = false;
@@ -444,12 +443,12 @@ namespace Retinue.Lodge.WinForm
             this.cboAC.Enabled = false;
         }
 
-        public void DisableRemarks()
+        internal void DisableRemarks()
         {
             this.txtRemarks.Enabled = false;
         }
 
-        public void EnableNoOfDays()
+        internal void EnableNoOfDays()
         {
             this.txtDays.ReadOnly = false;
         }
