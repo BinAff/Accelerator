@@ -28,11 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // Container
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Container";
+            this.ClientSize = new System.Drawing.Size(792, 426);
+            this.IsMdiContainer = false;
+            this.Location = new System.Drawing.Point(0, 0);
+            this.Name = "Container";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
     }
 }

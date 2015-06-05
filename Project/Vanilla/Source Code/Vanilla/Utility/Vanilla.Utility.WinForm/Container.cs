@@ -115,6 +115,7 @@ namespace Vanilla.Utility.WinForm
                 this.AttachRecentDocuments(recentItemList);
                 this.ShowControlAfterLogin();
             }
+            this.IsMdiContainer = true;
         }
 
         protected virtual void Compose()
@@ -241,7 +242,6 @@ namespace Vanilla.Utility.WinForm
                 TopLevel = false,
                 WindowState = FormWindowState.Normal,
                 Dock = DockStyle.Fill,
-                MdiParent = this,
                 StartPosition = FormStartPosition.CenterScreen,
             };
             this.loginForm.FormClosed += loginForm_FormClosed;

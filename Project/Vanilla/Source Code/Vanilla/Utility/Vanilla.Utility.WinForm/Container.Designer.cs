@@ -101,74 +101,74 @@
             this.mnuFileSeperator3,
             this.mnuExit});
             this.mnuFile.Name = "mnuFile";
-            this.mnuFile.Size = new System.Drawing.Size(35, 20);
+            this.mnuFile.Size = new System.Drawing.Size(37, 20);
             this.mnuFile.Text = "File";
             // 
             // mnuLogin
             // 
             this.mnuLogin.Name = "mnuLogin";
-            this.mnuLogin.Size = new System.Drawing.Size(132, 22);
+            this.mnuLogin.Size = new System.Drawing.Size(136, 22);
             this.mnuLogin.Text = "Login";
             this.mnuLogin.Click += new System.EventHandler(this.mnuLogin_Click);
             // 
             // mnuLogout
             // 
             this.mnuLogout.Name = "mnuLogout";
-            this.mnuLogout.Size = new System.Drawing.Size(132, 22);
+            this.mnuLogout.Size = new System.Drawing.Size(136, 22);
             this.mnuLogout.Text = "Logout";
             this.mnuLogout.Click += new System.EventHandler(this.mnuLogout_Click);
             // 
             // mnuFileSeperator1
             // 
             this.mnuFileSeperator1.Name = "mnuFileSeperator1";
-            this.mnuFileSeperator1.Size = new System.Drawing.Size(129, 6);
+            this.mnuFileSeperator1.Size = new System.Drawing.Size(133, 6);
             // 
             // mnuNew
             // 
             this.mnuNew.Name = "mnuNew";
-            this.mnuNew.Size = new System.Drawing.Size(132, 22);
+            this.mnuNew.Size = new System.Drawing.Size(136, 22);
             this.mnuNew.Text = "New";
             this.mnuNew.Click += new System.EventHandler(this.mnuNew_Click);
             // 
             // mnuOpen
             // 
             this.mnuOpen.Name = "mnuOpen";
-            this.mnuOpen.Size = new System.Drawing.Size(132, 22);
+            this.mnuOpen.Size = new System.Drawing.Size(136, 22);
             this.mnuOpen.Text = "Open";
             this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
             // mnuFileSeperator2
             // 
             this.mnuFileSeperator2.Name = "mnuFileSeperator2";
-            this.mnuFileSeperator2.Size = new System.Drawing.Size(129, 6);
+            this.mnuFileSeperator2.Size = new System.Drawing.Size(133, 6);
             // 
             // mnuRecentFiles
             // 
             this.mnuRecentFiles.Name = "mnuRecentFiles";
-            this.mnuRecentFiles.Size = new System.Drawing.Size(132, 22);
+            this.mnuRecentFiles.Size = new System.Drawing.Size(136, 22);
             this.mnuRecentFiles.Text = "Recent Files";
             // 
             // mnuFileSeperator3
             // 
             this.mnuFileSeperator3.Name = "mnuFileSeperator3";
-            this.mnuFileSeperator3.Size = new System.Drawing.Size(129, 6);
+            this.mnuFileSeperator3.Size = new System.Drawing.Size(133, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(132, 22);
+            this.mnuExit.Size = new System.Drawing.Size(136, 22);
             this.mnuExit.Text = "Exit";
             // 
             // mnuEdit
             // 
             this.mnuEdit.Name = "mnuEdit";
-            this.mnuEdit.Size = new System.Drawing.Size(37, 20);
+            this.mnuEdit.Size = new System.Drawing.Size(39, 20);
             this.mnuEdit.Text = "Edit";
             // 
             // mnuView
             // 
             this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(41, 20);
+            this.mnuView.Size = new System.Drawing.Size(44, 20);
             this.mnuView.Text = "View";
             // 
             // mnuTools
@@ -176,13 +176,13 @@
             this.mnuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuOptions});
             this.mnuTools.Name = "mnuTools";
-            this.mnuTools.Size = new System.Drawing.Size(44, 20);
+            this.mnuTools.Size = new System.Drawing.Size(48, 20);
             this.mnuTools.Text = "Tools";
             // 
             // mnuOptions
             // 
             this.mnuOptions.Name = "mnuOptions";
-            this.mnuOptions.Size = new System.Drawing.Size(111, 22);
+            this.mnuOptions.Size = new System.Drawing.Size(116, 22);
             this.mnuOptions.Text = "Options";
             // 
             // mnuWindows
@@ -195,46 +195,46 @@
             this.toolStripSeparator2,
             this.mnuCloseAll});
             this.mnuWindows.Name = "mnuWindows";
-            this.mnuWindows.Size = new System.Drawing.Size(62, 20);
+            this.mnuWindows.Size = new System.Drawing.Size(68, 20);
             this.mnuWindows.Text = "Windows";
             // 
             // mnuArrangeIcons
             // 
             this.mnuArrangeIcons.Name = "mnuArrangeIcons";
-            this.mnuArrangeIcons.Size = new System.Drawing.Size(142, 22);
+            this.mnuArrangeIcons.Size = new System.Drawing.Size(151, 22);
             this.mnuArrangeIcons.Text = "Arrange Icons";
             this.mnuArrangeIcons.Click += new System.EventHandler(this.mnuArrangeIcons_Click);
             // 
             // mnuCascade
             // 
             this.mnuCascade.Name = "mnuCascade";
-            this.mnuCascade.Size = new System.Drawing.Size(142, 22);
+            this.mnuCascade.Size = new System.Drawing.Size(151, 22);
             this.mnuCascade.Text = "Cascade";
             this.mnuCascade.Click += new System.EventHandler(this.mnuCascade_Click);
             // 
             // mnuTileHorizontal
             // 
             this.mnuTileHorizontal.Name = "mnuTileHorizontal";
-            this.mnuTileHorizontal.Size = new System.Drawing.Size(142, 22);
+            this.mnuTileHorizontal.Size = new System.Drawing.Size(151, 22);
             this.mnuTileHorizontal.Text = "Tile Horizontal";
             this.mnuTileHorizontal.Click += new System.EventHandler(this.mnuTileHorizontal_Click);
             // 
             // mnuTileVertical
             // 
             this.mnuTileVertical.Name = "mnuTileVertical";
-            this.mnuTileVertical.Size = new System.Drawing.Size(142, 22);
+            this.mnuTileVertical.Size = new System.Drawing.Size(151, 22);
             this.mnuTileVertical.Text = "Tile Vertical";
             this.mnuTileVertical.Click += new System.EventHandler(this.mnuTileVertical_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(139, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(148, 6);
             // 
             // mnuCloseAll
             // 
             this.mnuCloseAll.Name = "mnuCloseAll";
-            this.mnuCloseAll.Size = new System.Drawing.Size(142, 22);
+            this.mnuCloseAll.Size = new System.Drawing.Size(151, 22);
             this.mnuCloseAll.Text = "Close All";
             this.mnuCloseAll.Click += new System.EventHandler(this.mnuCloseAll_Click);
             // 
@@ -245,25 +245,25 @@
             this.toolStripSeparator1,
             this.mnuViewHelp});
             this.mnuHelp.Name = "mnuHelp";
-            this.mnuHelp.Size = new System.Drawing.Size(40, 20);
+            this.mnuHelp.Size = new System.Drawing.Size(44, 20);
             this.mnuHelp.Text = "Help";
             // 
             // mnuAbout
             // 
             this.mnuAbout.Name = "mnuAbout";
-            this.mnuAbout.Size = new System.Drawing.Size(139, 22);
+            this.mnuAbout.Size = new System.Drawing.Size(146, 22);
             this.mnuAbout.Text = "About";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(136, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
             // 
             // mnuViewHelp
             // 
             this.mnuViewHelp.Name = "mnuViewHelp";
             this.mnuViewHelp.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.mnuViewHelp.Size = new System.Drawing.Size(139, 22);
+            this.mnuViewHelp.Size = new System.Drawing.Size(146, 22);
             this.mnuViewHelp.Text = "View Help";
             // 
             // statusStrip

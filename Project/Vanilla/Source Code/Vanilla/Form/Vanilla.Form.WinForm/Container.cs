@@ -20,6 +20,7 @@ namespace Vanilla.Form.WinForm
         protected Container(AccFac.Dto account)
             : base(account)
         {
+            InitializeComponent();
             this.Text = "Forms";
         }
 

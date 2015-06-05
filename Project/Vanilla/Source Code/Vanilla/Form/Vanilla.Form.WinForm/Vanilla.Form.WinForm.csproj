@@ -68,6 +68,9 @@
     <Compile Include="SaveDialogue.Designer.cs">
       <DependentUpon>SaveDialogue.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Container.resx">
+      <DependentUpon>Container.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Document.resx">
       <DependentUpon>Document.cs</DependentUpon>
     </EmbeddedResource>
