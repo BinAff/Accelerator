@@ -373,6 +373,26 @@ namespace Vanilla.Utility.WinForm
             return (Document)Activator.CreateInstance(type, currentArtifact);
         }
 
+        private void mnuLeftPanel_Click(object sender, EventArgs e)
+        {
+            this.OnLeftPanleClick();
+        }
+
+        protected virtual void OnLeftPanleClick()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void mnuRightPanel_Click(object sender, EventArgs e)
+        {
+            this.OnRightPanleClick();
+        }
+
+        protected virtual void OnRightPanleClick()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 
 }

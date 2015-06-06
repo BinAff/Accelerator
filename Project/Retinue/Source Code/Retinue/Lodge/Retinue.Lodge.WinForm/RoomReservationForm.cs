@@ -193,9 +193,9 @@ namespace Retinue.Lodge.WinForm
                 if (initialDto.Status == Status.CheckedIn || initialDto.Status == Status.CheckOut || initialDto.Status == Status.Canceled)
                 {
                     base.errorProvider.Clear();
-                    base.DisableRefreshButton();
-                    base.DisableOkButton();
-                    base.DisableDeleteButton();
+                    base.IsEnabledRefreshButton = false;
+                    base.IsEnabledSaveButton = false;
+                    base.IsEnabledDeleteButton = false;
                     base.DisablePickAncestorButton();
                     base.DisableAddAncestorButton();
                     base.DisableAttachButton();

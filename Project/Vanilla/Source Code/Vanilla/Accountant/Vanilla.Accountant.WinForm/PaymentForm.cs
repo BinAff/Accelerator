@@ -215,7 +215,7 @@ namespace Vanilla.Accountant.WinForm
                 this.txtRemark.Enabled = false;
                 this.txtAmount.Enabled = false;
                 this.dgvPayment.Enabled = false;
-                base.DisableOkButton();
+                base.IsEnabledSaveButton = false;
                 this.btnAdd.Enabled = false;
                 this.btnChange.Enabled = false;
             }

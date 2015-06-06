@@ -32,19 +32,16 @@
             this.pnlAttachment = new System.Windows.Forms.Panel();
             this.dgvAttachmentList = new System.Windows.Forms.DataGridView();
             this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Action = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewLinkColumn();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.btnRefresh = new System.Windows.Forms.ToolStripButton();
-            this.btnOk = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnPickAncestor = new System.Windows.Forms.ToolStripButton();
             this.btnAddAncestor = new System.Windows.Forms.ToolStripButton();
             this.btnExpandCollapse = new System.Windows.Forms.ToolStripButton();
             this.btnAttach = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnDelete = new System.Windows.Forms.ToolStripButton();
+            this.btnOk = new System.Windows.Forms.ToolStripButton();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -68,7 +65,7 @@
             this.dgvAttachmentList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAttachmentList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Path,
-            this.Action});
+            this.Delete});
             this.dgvAttachmentList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvAttachmentList.Location = new System.Drawing.Point(0, 0);
             this.dgvAttachmentList.MultiSelect = false;
@@ -88,12 +85,12 @@
             // 
             // Delete
             // 
-            this.Action.FillWeight = 50F;
-            this.Action.HeaderText = "Action";
-            this.Action.Name = "Delete";
-            this.Action.ReadOnly = true;
-            this.Action.Text = "Delete";
-            this.Action.Width = 50;
+            this.Delete.FillWeight = 50F;
+            this.Delete.HeaderText = "Action";
+            this.Delete.Name = "Delete";
+            this.Delete.ReadOnly = true;
+            this.Delete.Text = "Delete";
+            this.Delete.Width = 50;
             // 
             // errorProvider
             // 
@@ -102,10 +99,7 @@
             // toolStrip
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnRefresh,
             this.btnOk,
-            this.btnDelete,
-            this.toolStripSeparator1,
             this.btnPickAncestor,
             this.btnAddAncestor,
             this.btnExpandCollapse,
@@ -117,37 +111,6 @@
             this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.toolStrip.Size = new System.Drawing.Size(962, 31);
             this.toolStrip.TabIndex = 100;
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.AutoSize = false;
-            this.btnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnRefresh.Font = new System.Drawing.Font("Wingdings 3", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(28, 28);
-            this.btnRefresh.Text = "Q";
-            this.btnRefresh.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.btnRefresh.ToolTipText = "Refresh";
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // btnOk
-            // 
-            this.btnOk.AutoSize = false;
-            this.btnOk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnOk.Font = new System.Drawing.Font("Wingdings", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnOk.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(28, 28);
-            this.btnOk.Text = "ü";
-            this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this.btnOk.ToolTipText = "Ok";
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // btnPickAncestor
             // 
@@ -206,17 +169,16 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
             // 
-            // btnDelete
+            // btnOk
             // 
-            this.btnDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnDelete.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(26, 28);
-            this.btnDelete.Text = "3";
-            this.btnDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this.btnDelete.ToolTipText = "Delete";
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            this.btnOk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnOk.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnOk.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(28, 28);
+            this.btnOk.Text = "P";
+            this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // Document
             // 
@@ -247,9 +209,6 @@
         private System.Windows.Forms.DataGridView dgvAttachmentList;
         protected System.Windows.Forms.ToolTip toolTip;
         protected System.Windows.Forms.ErrorProvider errorProvider;
-        private System.Windows.Forms.ToolStripButton btnRefresh;
-        private System.Windows.Forms.ToolStripButton btnOk;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnPickAncestor;
         private System.Windows.Forms.ToolStripButton btnAddAncestor;
         private System.Windows.Forms.ToolStripButton btnExpandCollapse;
@@ -258,7 +217,8 @@
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.DataGridViewTextBoxColumn Path;
         private System.Windows.Forms.DataGridViewLinkColumn Action;
-        private System.Windows.Forms.ToolStripButton btnDelete;
+        private System.Windows.Forms.DataGridViewLinkColumn Delete;
+        private System.Windows.Forms.ToolStripButton btnOk;
 
     }
 }

@@ -32,12 +32,18 @@ namespace Vanilla.Form.WinForm
 
         protected DocFac.Dto InitialDto { get; private set; }
 
-        protected String AncestorName
+        private String ancestorName;
+        public String AncestorName
         {
-            set
+            get
             {
-                this.btnAddAncestor.ToolTipText += " " + value;
-                this.btnPickAncestor.ToolTipText += " " + value;
+                return this.ancestorName;
+            }
+            protected set
+            {
+                this.ancestorName = value;
+                this.btnAddAncestor.ToolTipText += " " + this.ancestorName;
+                this.btnPickAncestor.ToolTipText += " " + this.ancestorName;
             }
         }
 
@@ -50,6 +56,51 @@ namespace Vanilla.Form.WinForm
             set
             {
                 this.btnAttach.ToolTipText += " " + value;
+            }
+        }
+
+        public delegate void OnButtonStatusChange(ButtonType type, ChangeProperty changeProperty, Boolean status);
+        public event OnButtonStatusChange ButtonStatusChange;
+
+        public Boolean isEnabledRefreshButton;
+        public Boolean IsEnabledRefreshButton
+        {
+            get
+            {
+                return this.isEnabledRefreshButton;
+            }
+            protected set
+            {
+                this.isEnabledRefreshButton = value;
+                this.ButtonStatusChange(ButtonType.Delete, ChangeProperty.Enabled, value);
+            }
+        }
+
+        public Boolean isEnabledSaveButton;
+        public Boolean IsEnabledSaveButton
+        {
+            get
+            {
+                return this.isEnabledSaveButton;
+            }
+            protected set
+            {
+                this.isEnabledSaveButton = value;
+                this.ButtonStatusChange(ButtonType.Delete, ChangeProperty.Enabled, value);
+            }
+        }
+
+        public Boolean isEnabledDeleteButton;
+        public Boolean IsEnabledDeleteButton
+        {
+            get
+            {
+                return this.isEnabledDeleteButton;
+            }
+            protected set
+            {
+                this.isEnabledDeleteButton = value;
+                this.ButtonStatusChange(ButtonType.Delete, ChangeProperty.Enabled, value);
             }
         }
 
@@ -75,10 +126,10 @@ namespace Vanilla.Form.WinForm
             switch (keyData)
             {
                 case Keys.Control | Keys.Enter:
-                    this.Ok();
+                    this.SaveForm();
                     return true;
                 case Keys.Control | Keys.Delete:
-                    this.Delete();
+                    this.DeleteForm();
                     return true;
                 case Keys.Control | Keys.F5:
                     this.RefreshForm();
@@ -89,21 +140,11 @@ namespace Vanilla.Form.WinForm
 
         #region Events
 
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            this.RefreshForm();
-        }
-
         private void btnOk_Click(object sender, EventArgs e)
         {
-            this.Ok();
+            this.SaveForm();
         }
-
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            this.Delete();
-        }
-
+        
         private void btnPickAncestor_Click(object sender, EventArgs e)
         {
             this.PickAnsestor();
@@ -272,30 +313,7 @@ namespace Vanilla.Form.WinForm
             this.dgvAttachmentList.Rows.Add(attachment.Artifact.Path, "Delete");
             this.btnExpandCollapse.Enabled = true;
         }
-
-        /// <summary>
-        /// Add method when Ok buton is clicked
-        /// </summary>
-        protected virtual void Ok()
-        {
-            if (this.Save())
-            {
-                base.Artifact.Module = base.formDto.Dto;
-                base.IsModified = true;
-            }
-
-            if (this.IsModified && String.Compare(this.AttachmentName, "Attach", true) != 0)
-            {
-                DialogResult answer = MessageBox.Show("Do yo want to attach any document?", "Question", MessageBoxButtons.YesNo);
-                if (answer == System.Windows.Forms.DialogResult.Yes)
-                {
-                    this.btnAttach.Enabled = true;
-                    return;
-                }
-            }
-            if (this.IsModified) this.Close();
-        }
-
+        
         private Boolean Save()
         {
             if (!this.ValidateForm()) return false;
@@ -341,29 +359,6 @@ namespace Vanilla.Form.WinForm
             return this.SaveAfter();
         }
 
-        private void Delete()
-        {
-            String Msg = String.Format("Do you want to delete {0}: {1}?", this.Artifact.Category.ToString(), this.Artifact.FullFileName);
-            DialogResult dialogResult = MessageBox.Show(this, Msg, "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
-            {
-                this.AssignDto();
-                if (!this.DeleteBefore()) return;
-                base.facade.Delete();
-                if (base.facade.IsError)
-                {
-                    new PresLib.MessageBox
-                    {
-                        DialogueType = facade.IsError ? PresLib.MessageBox.Type.Error : PresLib.MessageBox.Type.Information,
-                        Heading = "Forms",
-                    }.Show(base.facade.DisplayMessageList);
-                    return;
-                }
-                this.DeleteAfter();
-                this.Close();
-            }
-        }
-
         protected void RegisterArtifactObserver()
         {
             (this.facade as Facade.Document.Server).RegisterArtifactObserver();
@@ -384,7 +379,7 @@ namespace Vanilla.Form.WinForm
         /// <summary>
         /// Add method to refresh the form
         /// </summary>
-        protected void RefreshForm()
+        public void RefreshForm()
         {
             this.RefreshFormBefore();
             if (this.formDto.Dto != null && this.formDto.Dto.Id > 0)
@@ -398,6 +393,55 @@ namespace Vanilla.Form.WinForm
                 this.SetDefault();
             }
             this.RefreshFormAfter();
+        }
+        /// <summary>
+        /// Add method when Ok buton is clicked
+        /// </summary>
+        public void SaveForm()
+        {
+            if (this.Save())
+            {
+                base.Artifact.Module = base.formDto.Dto;
+                base.IsModified = true;
+            }
+
+            if (this.IsModified && String.Compare(this.AttachmentName, "Attach", true) != 0)
+            {
+                DialogResult answer = MessageBox.Show("Do yo want to attach any document?", "Question", MessageBoxButtons.YesNo);
+                if (answer == System.Windows.Forms.DialogResult.Yes)
+                {
+                    this.btnAttach.Enabled = true;
+                    return;
+                }
+            }
+            if (this.IsModified) this.Close();
+        }
+
+        public void DeleteForm()
+        {
+            String Msg = String.Format("Do you want to delete {0}: {1}?", this.Artifact.Category.ToString(), this.Artifact.FullFileName);
+            DialogResult dialogResult = MessageBox.Show(this, Msg, "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                this.AssignDto();
+                if (!this.DeleteBefore()) return;
+                base.facade.Delete();
+                if (base.facade.IsError)
+                {
+                    new PresLib.MessageBox
+                    {
+                        DialogueType = facade.IsError ? PresLib.MessageBox.Type.Error : PresLib.MessageBox.Type.Information,
+                        Heading = "Forms",
+                    }.Show(base.facade.DisplayMessageList);
+                    return;
+                }
+                this.DeleteAfter();
+                this.ArtifactDeleted += delegate(ArtfFac.Dto document)
+                {
+                    base.RaiseArtifactDeleted(document);
+                };
+                this.Close();
+            }
         }
 
         /// <summary>
@@ -554,35 +598,35 @@ namespace Vanilla.Form.WinForm
 
         #region Visual Control
 
-        protected void EnableRefreshButton()
-        {
-            this.btnRefresh.Enabled = true;
-        }
+        //protected void EnableRefreshButton()
+        //{
+        //    this.btnRefresh.Enabled = true;
+        //}
 
-        protected void DisableRefreshButton()
-        {
-            this.btnRefresh.Enabled = false;
-        }
+        //protected void DisableRefreshButton()
+        //{
+        //    this.btnRefresh.Enabled = false;
+        //}
 
-        protected void EnableOkButton()
-        {
-            this.btnOk.Enabled = true;
-        }
+        //protected void EnableOkButton()
+        //{
+        //    this.btnOk.Enabled = true;
+        //}
 
-        protected void DisableOkButton()
-        {
-            this.btnOk.Enabled = false;
-        }
+        //protected void DisableOkButton()
+        //{
+        //    this.btnOk.Enabled = false;
+        //}
 
-        protected void EnableDeleteButton()
-        {
-            this.btnDelete.Enabled = true;
-        }
+        //protected void EnableDeleteButton()
+        //{
+        //    this.btnDelete.Enabled = true;
+        //}
 
-        protected void DisableDeleteButton()
-        {
-            this.btnDelete.Enabled = false;
-        }
+        //protected void DisableDeleteButton()
+        //{
+        //    this.btnDelete.Enabled = false;
+        //}
 
         protected void EnableAddAncestorButton()
         {
@@ -655,6 +699,20 @@ namespace Vanilla.Form.WinForm
         }
 
         #endregion
+
+        public enum ChangeProperty
+        {
+            Enabled,
+            Visible,
+            //Locked,
+        }
+
+        public enum ButtonType
+        {
+            Delete,
+            Save,
+            Refresh,
+        }
 
     }
 

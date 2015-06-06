@@ -38,6 +38,17 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        public delegate void OnArtifactDeleted(ArtfFac.Dto document);
+        public event OnArtifactDeleted ArtifactDeleted;
+        protected virtual void RaiseArtifactDeleted(ArtfFac.Dto document)
+        {
+            OnArtifactDeleted currentEvent = this.ArtifactDeleted;
+            if (currentEvent != null)
+            {
+                currentEvent(document);
+            }
+        }
+
         public delegate void OnChildArtifactSaved(ArtfFac.Dto document);
         public event OnChildArtifactSaved ChildArtifactSaved;
         protected virtual void RaiseChildArtifactSaved(ArtfFac.Dto document)

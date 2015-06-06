@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -93,6 +94,12 @@
     <Compile Include="SearchResult.Designer.cs">
       <DependentUpon>SearchResult.cs</DependentUpon>
     </Compile>
+    <Compile Include="SidePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SidePanel.Designer.cs">
+      <DependentUpon>SidePanel.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Container.resx">
       <DependentUpon>Container.cs</DependentUpon>
     </EmbeddedResource>
@@ -126,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SearchResult.resx">
       <DependentUpon>SearchResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SidePanel.resx">
+      <DependentUpon>SidePanel.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

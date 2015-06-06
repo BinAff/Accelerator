@@ -268,12 +268,12 @@ namespace Retinue.Lodge.WinForm
             this.ucRoomReservation.PopulateDataToForm();
             if (reservation.Status == RoomRsvFac.Status.CheckedIn)
             {
-                base.DisableOkButton();
+                base.IsEnabledSaveButton = false;
                 new PresLib.MessageBox(this).Show(new BinAff.Core.Message("Reservation already checked in. Check in not allowed", BinAff.Core.Message.Type.Information));
             }
             else
             {
-                base.EnableOkButton();
+                base.IsEnabledSaveButton = true;
             }
         }
 
@@ -308,9 +308,11 @@ namespace Retinue.Lodge.WinForm
                 this.txtCheckInRemark.Enabled = false;
                 base.DisablePickAncestorButton();
                 base.DisableAddAncestorButton();
-                base.DisableRefreshButton();
-                base.DisableOkButton();
-                base.DisableDeleteButton();
+
+                base.IsEnabledRefreshButton = false;
+                base.IsEnabledSaveButton = false;
+                base.IsEnabledDeleteButton = false;
+
                 switch (dto.Reservation.Status)
                 {
                     case RoomRsvFac.Status.CheckedIn:
