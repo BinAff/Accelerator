@@ -34,7 +34,7 @@ namespace Crystal.Accountant.Component.Payment.Type
         protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
             Data dt = data as Data;
-            dt.Id = data.Id;
+            dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
             dt.Name = Convert.IsDBNull(dr["Name"]) ? String.Empty : Convert.ToString(dr["Name"]);
             return dt;
         }
