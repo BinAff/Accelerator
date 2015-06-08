@@ -229,6 +229,7 @@ namespace Vanilla.Accountant.Facade.Payment
 
         public InvFac.Dto GetInvoice(InvFac.Dto dto)
         {
+            if (dto == null) return null;
             InvFac.FormDto inv = new InvFac.FormDto
             {
                 Dto = dto,
