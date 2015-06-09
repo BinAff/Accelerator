@@ -40,7 +40,6 @@ namespace Retinue.Customer.WinForm
 
         private void CustomerForm_Load(object sender, System.EventArgs e)
         {
-            if (DesignMode) return;
             base.AncestorName = "...";
             //base.AttachmentName = "...";
 

@@ -24,34 +24,51 @@ namespace BinAff.Presentation.Library
             set
             {
                 this.dialogueType = value;
-                System.Drawing.Bitmap icon = Properties.Resources.Information;
                 switch (value)
                 {
                     case Type.Error:
-                        icon = Properties.Resources.Error;
+                        this.lblIcon.Text = "U";
+                        this.lblIcon.Font = new Font("Wingdings 2", 22);
+                        this.lblIcon.ForeColor = Color.Red;
                         break;
                     case Type.Information:
-                        icon = Properties.Resources.Information;
+                        this.lblIcon.Text = "i";
+                        this.lblIcon.Font = new Font("Webdings", 22);
+                        this.lblIcon.ForeColor = Color.Green;
                         break;
                     case Type.Alert:
-                        icon = Properties.Resources.Alert;
+                        this.lblIcon.Text = "!";
+                        this.lblIcon.Font = new Font("Arial", 22);
+                        this.lblIcon.ForeColor = Color.Orange;
+                        break;
+                    case Type.Question:
+                        this.lblIcon.Text = "?";
+                        this.lblIcon.Font = new Font("Arial", 22);
+                        this.lblIcon.ForeColor = Color.Black;
+                        this.AcceptButton = this.btnOk;
+                        this.CancelButton = this.btnCancel;
                         break;
                     default:
-                        icon = Properties.Resources.Information;
+                        this.lblIcon.Text = "i";
+                        this.lblIcon.Font = new Font("Webdings", 22);
+                        this.lblIcon.ForeColor = Color.Green;
                         break;
                 }
-                this.picIcon.Image = icon;
                 if (String.IsNullOrEmpty(this.Text)) this.Heading = value.ToString();
             }
         }
 
-        public Boolean IsWithOption
-        {
-            set
-            {
-                this.btnCancel.Visible = false;
-            }
-        }
+        //public Boolean IsWithOption
+        //{
+        //    private get
+        //    {
+        //        return this.btnCancel.Visible;
+        //    }
+        //    set
+        //    {
+        //        this.btnCancel.Visible = false;
+        //    }
+        //}
 
         public Confirmation Result { get; set; }
 
@@ -88,28 +105,29 @@ namespace BinAff.Presentation.Library
             InitializeComponent();
             this.ShowInTaskbar = false;
         }
+
         public MessageBox(System.Windows.Forms.IWin32Window owner)
             : this()
         {
             this.owner = owner;
         }
-        
+
         private void MessageBox_Load(object sender, EventArgs e)
         {
             if (!this.btnCancel.Visible) //Move Ok button at end if cancel button is not there
             {
                 this.btnOk.Top = this.btnCancel.Top;
                 this.btnOk.Left = this.btnCancel.Left;
-            }            
+            }
         }
 
         private void btnCancel_VisibleChanged(object sender, EventArgs e)
         {
-            if (!this.btnCancel.Visible) //Move Ok button at end if cancel button is not there
-            {
-                this.btnOk.Top = this.btnCancel.Top;
-                this.btnOk.Left = this.btnCancel.Left;
-            }
+            //if (!this.btnCancel.Visible) //Move Ok button at end if cancel button is not there
+            //{
+            //    this.btnOk.Top = this.btnCancel.Top;
+            //    this.btnOk.Left = this.btnCancel.Left;
+            //}
         }
 
         public void Show(String message)
@@ -127,20 +145,21 @@ namespace BinAff.Presentation.Library
             }
         }
 
-        public Confirmation Confirm(String message)
+        public System.Windows.Forms.DialogResult Confirm(String message)
         {
             this.txtMessage.Text = message;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.btnCancel.Visible = true;
             System.Windows.Forms.DialogResult result;
             if (this.owner != null)
             {
-                this.ShowDialog(this.owner);
+                result = this.ShowDialog(this.owner);
             }
             else
             {
                 result = this.ShowDialog();
             }
-            return this.Result;
+            return result;
         }
 
         public void Show(List<String> messageList)
@@ -150,13 +169,13 @@ namespace BinAff.Presentation.Library
 
         public void Show(Message message)
         {
-            this.dialogueType = this.Convert(message.Category);
+            this.DialogueType = this.Convert(message.Category);
             this.Show(message.Description);
         }
 
-        public Confirmation Confirm(Message message)
+        public System.Windows.Forms.DialogResult Confirm(Message message)
         {
-            this.dialogueType = this.Convert(message.Category);
+            this.DialogueType = this.Convert(message.Category);
             return this.Confirm(message.Description);
         }
 
@@ -169,10 +188,12 @@ namespace BinAff.Presentation.Library
         {
             switch (type)
             {
-                case BinAff.Core.Message.Type.Error:
+                case Message.Type.Error:
                     return Type.Error;
-                case BinAff.Core.Message.Type.Information:
+                case Message.Type.Information:
                     return Type.Information;
+                case Message.Type.Question:
+                    return Type.Question;
                 default:
                     return Type.Information;
             }
@@ -207,21 +228,22 @@ namespace BinAff.Presentation.Library
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            this.Result = MessageBox.Confirmation.Ok;
-            this.Close();
+            //this.Result = MessageBox.Confirmation.Ok;
+            //this.Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Result = MessageBox.Confirmation.Ok;
-            this.Close();
+            //this.Result = MessageBox.Confirmation.Ok;
+            //this.Close();
         }
 
         public enum Type
         {
             Alert,
             Information,
-            Error
+            Error,
+            Question
         }
 
         public enum Confirmation
@@ -229,7 +251,7 @@ namespace BinAff.Presentation.Library
             Ok,
             Cancel
         }
-        
+
     }
 
 }

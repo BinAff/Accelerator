@@ -1352,8 +1352,9 @@ namespace Vanilla.Utility.WinForm
 
             String Msg = String.Format("Do you want to delete {0}: {1}?", artifact, this.currentArtifact.FullFileName);
 
-            DialogResult dialogResult = MessageBox.Show(this, Msg, "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.Yes)
+            System.Windows.Forms.DialogResult dialogResult = new PresLib.MessageBox(this).Confirm(new BinAff.Core.Message(Msg, BinAff.Core.Message.Type.Question));
+
+            if (dialogResult == DialogResult.OK)
             {
                 List<String> messageList = new List<String>();
                 Boolean isDeleted = this.currentArtifact.Style == ArtfFac.Type.Document ?

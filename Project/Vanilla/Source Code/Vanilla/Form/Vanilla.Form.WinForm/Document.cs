@@ -167,6 +167,7 @@ namespace Vanilla.Form.WinForm
         private void btnOk_Click(object sender, EventArgs e)
         {
             this.SaveForm();
+            if (this.IsModified) this.Close();
         }
         
         private void btnPickAncestor_Click(object sender, EventArgs e)

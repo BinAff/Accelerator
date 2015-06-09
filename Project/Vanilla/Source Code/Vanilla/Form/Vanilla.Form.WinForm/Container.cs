@@ -67,24 +67,12 @@ namespace Vanilla.Form.WinForm
             current.SaveForm();
             if (current.IsModified && current.IsAttachmentSupported) // && String.Compare(this.AttachmentName, "Attach", true) != 0)
             {
-                MessageBox msg = new MessageBox(this)
-                {
-                    IsWithOption = true,
-                    StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen,
-                };
-                MessageBox.Confirmation confirmation = msg.Confirm(new Message("Do yo want to attach any document?", Message.Type.Question));
-                if (confirmation == MessageBox.Confirmation.Ok)
+                System.Windows.Forms.DialogResult confirmation = new MessageBox(this).Confirm(new Message("Do yo want to attach any document?", Message.Type.Question));
+                if (confirmation == System.Windows.Forms.DialogResult.OK)
                 {
                     this.btnAttach.Enabled = true;
                     return;
                 }
-
-                //DialogResult answer = MessageBox.Show("Do yo want to attach any document?", "Question", MessageBoxButtons.YesNo);
-                //if (answer == System.Windows.Forms.DialogResult.Yes)
-                //{
-                //    this.btnAttach.Enabled = true;
-                //    return;
-                //}
             }
             if (current.IsModified) this.Close();
         }
@@ -169,7 +157,7 @@ namespace Vanilla.Form.WinForm
             {
                 foreach (ArtfFac.Dto attachment in document.AttachmentList)
                 {
-                    this.dgvAttachmentList.Rows.Add(attachment.Path, "Delete");
+                    this.dgvAttachmentList.Rows.Add(attachment.FullPath, "Delete");
                 }
             }
             if (document.IsAttachmentSupported)
