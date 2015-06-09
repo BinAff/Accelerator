@@ -15,6 +15,8 @@ namespace Vanilla.Utility.WinForm
     public partial class Container : Form
     {
 
+        protected Facade.Container.FormDto formDto;
+
         private GuardWin.Login loginForm;
         private Boolean isLoginFormOpen;
         private Boolean isAlreadyLoggedIn;

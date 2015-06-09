@@ -36,12 +36,9 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.btnOk = new System.Windows.Forms.ToolStripButton();
             this.btnPickAncestor = new System.Windows.Forms.ToolStripButton();
             this.btnAddAncestor = new System.Windows.Forms.ToolStripButton();
-            this.btnExpandCollapse = new System.Windows.Forms.ToolStripButton();
-            this.btnAttach = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnOk = new System.Windows.Forms.ToolStripButton();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -101,16 +98,25 @@
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnOk,
             this.btnPickAncestor,
-            this.btnAddAncestor,
-            this.btnExpandCollapse,
-            this.btnAttach,
-            this.toolStripSeparator3});
+            this.btnAddAncestor});
             this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.toolStrip.Size = new System.Drawing.Size(962, 31);
             this.toolStrip.TabIndex = 100;
+            // 
+            // btnOk
+            // 
+            this.btnOk.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnOk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnOk.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnOk.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(28, 28);
+            this.btnOk.Text = "P";
+            this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // btnPickAncestor
             // 
@@ -135,50 +141,6 @@
             this.btnAddAncestor.Text = "Ç";
             this.btnAddAncestor.ToolTipText = "Add ";
             this.btnAddAncestor.Click += new System.EventHandler(this.btnAddAncestor_Click);
-            // 
-            // btnExpandCollapse
-            // 
-            this.btnExpandCollapse.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnExpandCollapse.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnExpandCollapse.Enabled = false;
-            this.btnExpandCollapse.Font = new System.Drawing.Font("Wingdings 3", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnExpandCollapse.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnExpandCollapse.Name = "btnExpandCollapse";
-            this.btnExpandCollapse.Size = new System.Drawing.Size(23, 28);
-            this.btnExpandCollapse.Text = "×";
-            this.btnExpandCollapse.ToolTipText = "Show Attachments";
-            this.btnExpandCollapse.Click += new System.EventHandler(this.btnExpandCollapseAttachment_Click);
-            // 
-            // btnAttach
-            // 
-            this.btnAttach.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnAttach.AutoSize = false;
-            this.btnAttach.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnAttach.Enabled = false;
-            this.btnAttach.Font = new System.Drawing.Font("Webdings", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnAttach.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAttach.Name = "btnAttach";
-            this.btnAttach.Size = new System.Drawing.Size(28, 28);
-            this.btnAttach.Text = "\'";
-            this.btnAttach.ToolTipText = "Attach";
-            this.btnAttach.Click += new System.EventHandler(this.btnAttach_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
-            // 
-            // btnOk
-            // 
-            this.btnOk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnOk.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnOk.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(28, 28);
-            this.btnOk.Text = "P";
-            this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // Document
             // 
@@ -211,9 +173,6 @@
         protected System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.ToolStripButton btnPickAncestor;
         private System.Windows.Forms.ToolStripButton btnAddAncestor;
-        private System.Windows.Forms.ToolStripButton btnExpandCollapse;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton btnAttach;
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.DataGridViewTextBoxColumn Path;
         private System.Windows.Forms.DataGridViewLinkColumn Action;

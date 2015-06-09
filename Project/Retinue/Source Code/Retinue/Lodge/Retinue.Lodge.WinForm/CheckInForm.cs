@@ -202,8 +202,6 @@ namespace Retinue.Lodge.WinForm
                 this.txtCheckInRemark.Text = dto.Remark;
                 this.ucRoomReservation.PopulateDataToForm();
             }
-            this.DisableFormControls();
-
             this.btnGenerateInvoice.ToolTipText = ((base.formDto.Dto as Facade.CheckIn.Dto).Invoice == null ? "Generate" : "View") + " Invoice";
         }
 

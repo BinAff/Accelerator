@@ -171,7 +171,7 @@ namespace Vanilla.Navigator.WinForm
             this.ucRegister.ChangeForFormChange(artifact);
         }
 
-        void form_AttachmentArtifactLoaded(Document document)
+        protected void form_AttachmentArtifactLoaded(Document document)
         {
             document.ChildArtifactSaved += form_ChildArtifactSaved;
             document.AuditInfoChanged += form_AuditInfoChanged;

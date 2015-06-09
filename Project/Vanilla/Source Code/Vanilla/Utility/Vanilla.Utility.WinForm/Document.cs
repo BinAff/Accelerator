@@ -14,7 +14,7 @@ namespace Vanilla.Utility.WinForm
         private Boolean isNewDocument;
 
         protected Facade.Document.FormDto formDto;
-        protected Facade.Document.Server facade;
+        public Facade.Document.Server facade;
 
         public delegate void OnAuditInfoChanged(ArtfFac.Dto artifact);
         public event OnAuditInfoChanged AuditInfoChanged;
@@ -62,7 +62,7 @@ namespace Vanilla.Utility.WinForm
 
         public delegate void OnAttachmentArtifactLoaded(Document document);
         public event OnAttachmentArtifactLoaded AttachmentArtifactLoaded;
-        protected virtual void RaiseAttachmentArtifactLoaded(Document document)
+        public virtual void RaiseAttachmentArtifactLoaded(Document document)
         {
             OnAttachmentArtifactLoaded currentEvent = this.AttachmentArtifactLoaded;
             if (currentEvent != null)
@@ -138,17 +138,30 @@ namespace Vanilla.Utility.WinForm
                 {
                     saveDialogue.Document = this.formDto.Document;
                     saveDialogue.ModuleForFilter = this.Artifact.ComponentDefinition;
-                    saveDialogue.ShowDialog(this);
-                    if (saveDialogue.IsActionDone)
+                    try
                     {
-                        this.Visible = true;
-                        this.ShowLoading();
-                        return;
+                        saveDialogue.ShowDialog(this);
+                        if (saveDialogue.IsActionDone)
+                        {
+                            this.Visible = true;
+                            this.ShowLoading();
+                            return;
+                        }
+                    }
+                    catch
+                    {
+                        throw;
                     }
                 }
                 this.Close(); //Save dialogue box didn't appear or closed
             }
-            this.ShowLoading();
+            this.LoadData();
+            this.LoadFormChildSealed();
+        }
+
+        private void Document_Shown(object sender, EventArgs e)
+        {
+            this.DisableFormControls();
         }
 
         private void ShowLoading()

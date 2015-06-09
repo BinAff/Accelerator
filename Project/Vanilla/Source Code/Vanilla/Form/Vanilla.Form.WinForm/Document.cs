@@ -47,15 +47,35 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        protected String AttachmentName
+        public String AttachmentName
         {
-            private get
+            get
             {
                 return this.btnAttach.ToolTipText;
             }
-            set
+            protected set
             {
                 this.btnAttach.ToolTipText += " " + value;
+            }
+        }
+
+        public List<ArtfFac.Dto> AttachmentList
+        {
+            get
+            {
+                Vanilla.Form.Facade.Document.FormDto formDto = this.formDto as Vanilla.Form.Facade.Document.FormDto;
+                if (this.formDto == null || formDto.Document == null) return null;
+                return formDto.Document.AttachmentList;
+            }
+        }
+
+        public Boolean IsAttachmentSupported
+        {
+            get
+            {
+                Vanilla.Form.Facade.Document.FormDto formDto = this.formDto as Vanilla.Form.Facade.Document.FormDto;
+                if (this.formDto == null || formDto.Document == null) return false;
+                return formDto.Document.IsAttachmentSupported;
             }
         }
 
@@ -72,7 +92,7 @@ namespace Vanilla.Form.WinForm
             protected set
             {
                 this.isEnabledRefreshButton = value;
-                this.ButtonStatusChange(ButtonType.Delete, ChangeProperty.Enabled, value);
+                this.ButtonStatusChange(ButtonType.Refresh, ChangeProperty.Enabled, value);
             }
         }
 
@@ -86,7 +106,7 @@ namespace Vanilla.Form.WinForm
             protected set
             {
                 this.isEnabledSaveButton = value;
-                this.ButtonStatusChange(ButtonType.Delete, ChangeProperty.Enabled, value);
+                this.ButtonStatusChange(ButtonType.Save, ChangeProperty.Enabled, value);
             }
         }
 
@@ -157,18 +177,7 @@ namespace Vanilla.Form.WinForm
 
         private void btnAttach_Click(object sender, EventArgs e)
         {
-            Document attachment = this.AttachDocument();
-            this.RaiseArtifactSaved(this.formDto.Document);
-            if (attachment.Artifact.Id != 0)
-            {
-                //If existing component, save relationship with attachment
-                if (this.Artifact.Id != 0)
-                {
-                    (this.facade as Facade.Document.Server).AddAttachmentLink(attachment.Artifact);
-                }
-
-                this.BindAttachmentList(attachment);
-            }
+            Document attachment = this.AttachDocument();            
         }
 
         private void btnExpandCollapseAttachment_Click(object sender, EventArgs e)
@@ -280,12 +289,6 @@ namespace Vanilla.Form.WinForm
                         }.Show(this.facade.DisplayMessageList);
                         return;
                     }
-                    this.dgvAttachmentList.ReadOnly = true;
-                    this.dgvAttachmentList.AutoGenerateColumns = false;
-                    foreach (ArtfFac.Dto t in this.formDto.Document.AttachmentList)
-                    {
-                        this.dgvAttachmentList.Rows.Add(t.Path, "Delete");
-                    }
                 }                
             }
         }
@@ -303,16 +306,16 @@ namespace Vanilla.Form.WinForm
             this.Text += " :: " + this.formDto.DocumentName;
         }
 
-        private void BindAttachmentList(Document attachment)
-        {
-            if (this.formDto.Document.AttachmentList == null)
-            {
-                this.formDto.Document.AttachmentList = new List<ArtfFac.Dto>();
-            }
-            this.formDto.Document.AttachmentList.Add(attachment.Artifact);
-            this.dgvAttachmentList.Rows.Add(attachment.Artifact.Path, "Delete");
-            this.btnExpandCollapse.Enabled = true;
-        }
+        //private void BindAttachmentList(Document attachment)
+        //{
+        //    if (this.formDto.Document.AttachmentList == null)
+        //    {
+        //        this.formDto.Document.AttachmentList = new List<ArtfFac.Dto>();
+        //    }
+        //    this.formDto.Document.AttachmentList.Add(attachment.Artifact);
+        //    this.dgvAttachmentList.Rows.Add(attachment.Artifact.Path, "Delete");
+        //    this.btnExpandCollapse.Enabled = true;
+        //}
         
         private Boolean Save()
         {
@@ -364,7 +367,7 @@ namespace Vanilla.Form.WinForm
             (this.facade as Facade.Document.Server).RegisterArtifactObserver();
         }
 
-        private Document AttachDocument()
+        public Document AttachDocument()
         {
             Document attachment = this.GetAttachment();
             attachment.ArtifactSaved += delegate(ArtfFac.Dto document)
@@ -373,6 +376,15 @@ namespace Vanilla.Form.WinForm
             };
             attachment.ShowDialog();
 
+            this.RaiseArtifactSaved(this.formDto.Document);
+            if (attachment.Artifact.Id != 0)
+            {
+                //If existing component, save relationship with attachment
+                if (this.Artifact.Id != 0)
+                {
+                    (this.facade as Facade.Document.Server).AddAttachmentLink(attachment.Artifact);
+                }
+            }
             return attachment;
         }
 

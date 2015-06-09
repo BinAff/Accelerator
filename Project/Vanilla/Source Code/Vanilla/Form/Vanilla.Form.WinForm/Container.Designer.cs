@@ -83,9 +83,12 @@
             this.dgvAttachmentList.Location = new System.Drawing.Point(0, 28);
             this.dgvAttachmentList.MultiSelect = false;
             this.dgvAttachmentList.Name = "dgvAttachmentList";
+            this.dgvAttachmentList.ReadOnly = true;
             this.dgvAttachmentList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAttachmentList.Size = new System.Drawing.Size(250, 150);
             this.dgvAttachmentList.TabIndex = 12;
+            this.dgvAttachmentList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAttachmentList_CellDoubleClick);
+            this.dgvAttachmentList.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAttachmentList_CellMouseClick);
             // 
             // Path
             // 
@@ -133,6 +136,7 @@
             this.btnAttach.Text = "\'";
             this.toolTip.SetToolTip(this.btnAttach, "Attach");
             this.btnAttach.UseVisualStyleBackColor = true;
+            this.btnAttach.Click += new System.EventHandler(this.btnAttach_Click);
             // 
             // pnlTopActionRibbon
             // 
@@ -317,6 +321,7 @@
             this.Name = "Container";
             this.Load += new System.EventHandler(this.Container_Load);
             this.MdiChildActivate += new System.EventHandler(this.Container_MdiChildActivate);
+            this.Shown += new System.EventHandler(this.Container_Shown);
             this.Controls.SetChildIndex(this.pnlTopActionRibbon, 0);
             this.Controls.SetChildIndex(this.spnlLeftLink, 0);
             this.Controls.SetChildIndex(this.spnlRightLink, 0);
