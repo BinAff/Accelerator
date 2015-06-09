@@ -81,6 +81,7 @@ namespace BinAff.Core
         {
             Information = 1,
             Error = 2,
+            Question = 3,
         }
 
         #region IDisposable Members

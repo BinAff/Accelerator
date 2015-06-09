@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using BinAff.Core;
 using PresLib = BinAff.Presentation.Library;
+using BinAff.Presentation.Library;
 
 using AccFac = Vanilla.Guardian.Facade.Account;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
@@ -61,7 +63,30 @@ namespace Vanilla.Form.WinForm
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            (this.ActiveMdiChild as Document).SaveForm();
+            Document current = this.ActiveMdiChild as Document;
+            current.SaveForm();
+            if (current.IsModified && current.IsAttachmentSupported) // && String.Compare(this.AttachmentName, "Attach", true) != 0)
+            {
+                MessageBox msg = new MessageBox(this)
+                {
+                    IsWithOption = true,
+                    StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen,
+                };
+                MessageBox.Confirmation confirmation = msg.Confirm(new Message("Do yo want to attach any document?", Message.Type.Question));
+                if (confirmation == MessageBox.Confirmation.Ok)
+                {
+                    this.btnAttach.Enabled = true;
+                    return;
+                }
+
+                //DialogResult answer = MessageBox.Show("Do yo want to attach any document?", "Question", MessageBoxButtons.YesNo);
+                //if (answer == System.Windows.Forms.DialogResult.Yes)
+                //{
+                //    this.btnAttach.Enabled = true;
+                //    return;
+                //}
+            }
+            if (current.IsModified) this.Close();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -147,7 +172,7 @@ namespace Vanilla.Form.WinForm
                     this.dgvAttachmentList.Rows.Add(attachment.Path, "Delete");
                 }
             }
-            if ((this.btnAttach.Enabled = document.IsAttachmentSupported))
+            if (document.IsAttachmentSupported)
             {
                 this.dgvAttachmentList.Show();
             }
@@ -171,6 +196,9 @@ namespace Vanilla.Form.WinForm
                     break;
                 case Document.ButtonType.Save:
                     button = this.btnSave;
+                    break;
+                case Document.ButtonType.Attach:
+                    button = this.btnAttach;
                     break;
                 default:
                     button = this.btnDelete;
@@ -225,6 +253,7 @@ namespace Vanilla.Form.WinForm
 
         private void dgvAttachmentList_CellDoubleClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex == -1) return; //If clicking outside any row
             ArtfFac.Dto document = (this.formDto as Facade.Container.FormDto).DocumentFormDto.Document.AttachmentList[e.RowIndex];
             ModFac.Server server = new ModFac.Server(new ModFac.FormDto
             {

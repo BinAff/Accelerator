@@ -47,17 +47,7 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        public String AttachmentName
-        {
-            get
-            {
-                return this.btnAttach.ToolTipText;
-            }
-            protected set
-            {
-                this.btnAttach.ToolTipText += " " + value;
-            }
-        }
+        public String AttachmentName { get; set; }
 
         public List<ArtfFac.Dto> AttachmentList
         {
@@ -124,6 +114,20 @@ namespace Vanilla.Form.WinForm
             }
         }
 
+        private Boolean isEnabledAttchment;
+        public Boolean IsEnabledAttchment
+        {
+            get
+            {
+                return this.isEnabledAttchment;
+            }
+            set
+            {
+                this.isEnabledAttchment = value;
+                this.ButtonStatusChange(ButtonType.Attach, ChangeProperty.Enabled, value);
+            }
+        }
+
         public Document()
             : base()
         {
@@ -173,34 +177,6 @@ namespace Vanilla.Form.WinForm
         private void btnAddAncestor_Click(object sender, EventArgs e)
         {
             this.AddAnsestor();
-        }
-
-        private void btnAttach_Click(object sender, EventArgs e)
-        {
-            Document attachment = this.AttachDocument();            
-        }
-
-        private void btnExpandCollapseAttachment_Click(object sender, EventArgs e)
-        {
-            if (this.btnExpandCollapse.Text == "×")
-            {
-                this.pnlAttachment.Visible = true;
-                this.pnlAttachment.BringToFront();
-                this.pnlAttachment.Width = 415;
-                this.pnlAttachment.Height = 160;
-                if (this.Width < this.pnlAttachment.Width) this.pnlAttachment.Width = this.Width + 2;
-                if (this.Height < this.pnlAttachment.Height) this.pnlAttachment.Height = this.Height + 2;
-                this.pnlAttachment.Left = this.Width - this.pnlAttachment.Width - 22;
-                this.pnlAttachment.Top = this.toolStrip.Bottom + 2;
-                this.btnExpandCollapse.Text = "Ö";
-                this.btnExpandCollapse.ToolTipText = "Hide Attachments";
-            }
-            else
-            {
-                this.pnlAttachment.Visible = false;
-                this.btnExpandCollapse.Text = "×";
-                this.btnExpandCollapse.ToolTipText = "Show Attachments";
-            }
         }
 
         private void dgvAttachmentList_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -274,11 +250,6 @@ namespace Vanilla.Form.WinForm
 
                 if (this.formDto.Document.IsAttachmentSupported) //Attachment is there
                 {
-                    if (this.Artifact.Module != null && this.Artifact.Module.Id != 0)
-                    {
-                        this.btnAttach.Enabled = true;
-                        this.btnExpandCollapse.Enabled = true;
-                    }
                     (this.facade as Facade.Document.Server).RetrieveAttachmentList();
                     if (this.facade.IsError) //Some problem to retrieve attachments
                     {
@@ -416,17 +387,6 @@ namespace Vanilla.Form.WinForm
                 base.Artifact.Module = base.formDto.Dto;
                 base.IsModified = true;
             }
-
-            if (this.IsModified && String.Compare(this.AttachmentName, "Attach", true) != 0)
-            {
-                DialogResult answer = MessageBox.Show("Do yo want to attach any document?", "Question", MessageBoxButtons.YesNo);
-                if (answer == System.Windows.Forms.DialogResult.Yes)
-                {
-                    this.btnAttach.Enabled = true;
-                    return;
-                }
-            }
-            if (this.IsModified) this.Close();
         }
 
         public void DeleteForm()
@@ -670,26 +630,6 @@ namespace Vanilla.Form.WinForm
             this.btnPickAncestor.Select();
         }
 
-        protected void EnableAttachButton()
-        {
-            this.btnAttach.Enabled = true;
-        }
-
-        protected void DisableAttachButton()
-        {
-            this.btnAttach.Enabled = false;
-        }
-
-        protected void EnableShowAttachmentButton()
-        {
-            this.btnExpandCollapse.Enabled = true;
-        }
-
-        protected void DisableShowAttachmentButton()
-        {
-            this.btnExpandCollapse.Enabled = false;
-        }
-
         protected void AddToolStripSeparator()
         {
             this.toolStrip.Items.Add(new ToolStripSeparator());
@@ -724,6 +664,7 @@ namespace Vanilla.Form.WinForm
             Delete,
             Save,
             Refresh,
+            Attach
         }
 
     }

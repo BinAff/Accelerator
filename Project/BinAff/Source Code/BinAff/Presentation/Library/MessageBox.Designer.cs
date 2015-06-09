@@ -36,20 +36,22 @@
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.picIcon = new System.Windows.Forms.PictureBox();
+            this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.AutoSize = true;
             this.btnOk.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnOk.BackColor = System.Drawing.Color.White;
-            this.btnOk.Image = global::BinAff.Presentation.Library.Properties.Resources.OK;
-            this.btnOk.Location = new System.Drawing.Point(313, 10);
+            this.btnOk.BackColor = System.Drawing.SystemColors.Control;
+            this.btnOk.Font = new System.Drawing.Font("Wingdings 2", 16F);
+            this.btnOk.Location = new System.Drawing.Point(265, 6);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(26, 26);
-            this.btnOk.TabIndex = 2;
+            this.btnOk.Size = new System.Drawing.Size(34, 34);
+            this.btnOk.TabIndex = 1;
+            this.btnOk.Text = "P";
+            this.toolTips.SetToolTip(this.btnOk, "Ok");
             this.btnOk.UseVisualStyleBackColor = false;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
@@ -78,7 +80,7 @@
             this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.Size = new System.Drawing.Size(327, 117);
-            this.txtMessage.TabIndex = 139;
+            this.txtMessage.TabIndex = 2;
             // 
             // picIcon
             // 
@@ -91,12 +93,26 @@
             this.picIcon.TabIndex = 140;
             this.picIcon.TabStop = false;
             // 
+            // btnCancel
+            // 
+            this.btnCancel.Font = new System.Drawing.Font("Wingdings 2", 16F);
+            this.btnCancel.Location = new System.Drawing.Point(305, 6);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(34, 34);
+            this.btnCancel.TabIndex = 141;
+            this.btnCancel.Text = "O";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Visible = false;
+            this.btnCancel.VisibleChanged += new System.EventHandler(this.btnCancel_VisibleChanged);
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // MessageBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(352, 176);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.picIcon);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtMessage);
@@ -110,6 +126,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Message Box";
             this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.Load += new System.EventHandler(this.MessageBox_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -124,5 +141,6 @@
         private System.Windows.Forms.Panel pnlLeft;
         private System.Windows.Forms.TextBox txtMessage;
         private System.Windows.Forms.PictureBox picIcon;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

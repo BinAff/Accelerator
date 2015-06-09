@@ -41,13 +41,8 @@ namespace Retinue.Customer.WinForm
         private void CustomerForm_Load(object sender, System.EventArgs e)
         {
             if (DesignMode) return;
-            base.DisablePickAncestorButton();
-            base.DisableAddAncestorButton();
-            base.DisableAttachButton();
-            base.DisableShowAttachmentButton();
             base.AncestorName = "...";
             //base.AttachmentName = "...";
-
 
             //if loaded form room reservation form , then populate the modules
             //if (this.isLoadedFromRoomReservationForm)
@@ -168,6 +163,13 @@ namespace Retinue.Customer.WinForm
                 ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto(),
             };
             base.facade = new CustFac.Server(base.formDto as Facade.FormDto);
+        }
+
+        protected override void DisableFormControls()
+        {
+            base.DisablePickAncestorButton();
+            base.DisableAddAncestorButton();
+            base.IsEnabledAttchment = false;
         }
 
         protected override void LoadForm()

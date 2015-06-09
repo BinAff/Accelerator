@@ -198,7 +198,7 @@ namespace Retinue.Lodge.WinForm
                     base.IsEnabledDeleteButton = false;
                     base.DisablePickAncestorButton();
                     base.DisableAddAncestorButton();
-                    base.DisableAttachButton();
+                    base.IsEnabledAttchment = false;
                     this.btnCancel.Enabled = false;
 
                     this.ucRoomReservationDataEntry.DisableFormControls();

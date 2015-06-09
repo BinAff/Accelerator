@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 
 using BinAff.Core;
+using System.Drawing;
 
 namespace BinAff.Presentation.Library
 {
@@ -44,6 +45,16 @@ namespace BinAff.Presentation.Library
             }
         }
 
+        public Boolean IsWithOption
+        {
+            set
+            {
+                this.btnCancel.Visible = false;
+            }
+        }
+
+        public Confirmation Result { get; set; }
+
         /// <summary>
         /// Heading of dialogue box
         /// </summary>
@@ -82,19 +93,54 @@ namespace BinAff.Presentation.Library
         {
             this.owner = owner;
         }
+        
+        private void MessageBox_Load(object sender, EventArgs e)
+        {
+            if (!this.btnCancel.Visible) //Move Ok button at end if cancel button is not there
+            {
+                this.btnOk.Top = this.btnCancel.Top;
+                this.btnOk.Left = this.btnCancel.Left;
+            }            
+        }
+
+        private void btnCancel_VisibleChanged(object sender, EventArgs e)
+        {
+            if (!this.btnCancel.Visible) //Move Ok button at end if cancel button is not there
+            {
+                this.btnOk.Top = this.btnCancel.Top;
+                this.btnOk.Left = this.btnCancel.Left;
+            }
+        }
 
         public void Show(String message)
         {
             this.txtMessage.Text = message;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            System.Windows.Forms.DialogResult result;
             if (this.owner != null)
             {
                 this.ShowDialog(this.owner);
             }
             else
             {
-                this.ShowDialog();
+                result = this.ShowDialog();
             }
+        }
+
+        public Confirmation Confirm(String message)
+        {
+            this.txtMessage.Text = message;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            System.Windows.Forms.DialogResult result;
+            if (this.owner != null)
+            {
+                this.ShowDialog(this.owner);
+            }
+            else
+            {
+                result = this.ShowDialog();
+            }
+            return this.Result;
         }
 
         public void Show(List<String> messageList)
@@ -106,6 +152,12 @@ namespace BinAff.Presentation.Library
         {
             this.dialogueType = this.Convert(message.Category);
             this.Show(message.Description);
+        }
+
+        public Confirmation Confirm(Message message)
+        {
+            this.dialogueType = this.Convert(message.Category);
+            return this.Confirm(message.Description);
         }
 
         public void Show(List<Message> messageList)
@@ -155,6 +207,13 @@ namespace BinAff.Presentation.Library
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            this.Result = MessageBox.Confirmation.Ok;
+            this.Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Result = MessageBox.Confirmation.Ok;
             this.Close();
         }
 
@@ -165,6 +224,12 @@ namespace BinAff.Presentation.Library
             Error
         }
 
+        public enum Confirmation
+        {
+            Ok,
+            Cancel
+        }
+        
     }
 
 }
