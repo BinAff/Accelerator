@@ -32,20 +32,7 @@ namespace Vanilla.Form.WinForm
 
         protected DocFac.Dto InitialDto { get; private set; }
 
-        private String ancestorName;
-        public String AncestorName
-        {
-            get
-            {
-                return this.ancestorName;
-            }
-            protected set
-            {
-                this.ancestorName = value;
-                this.btnAddAncestor.ToolTipText += " " + this.ancestorName;
-                this.btnPickAncestor.ToolTipText += " " + this.ancestorName;
-            }
-        }
+        public String AncestorName { get; set; }
 
         public String NextName { get; set; }
 
@@ -116,7 +103,7 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        private Boolean isEnabledAttchment;
+        private Boolean isEnabledAttchment = true;
         public Boolean IsEnabledAttchment
         {
             get
@@ -280,17 +267,6 @@ namespace Vanilla.Form.WinForm
             this.Text += " :: " + this.formDto.DocumentName;
         }
 
-        //private void BindAttachmentList(Document attachment)
-        //{
-        //    if (this.formDto.Document.AttachmentList == null)
-        //    {
-        //        this.formDto.Document.AttachmentList = new List<ArtfFac.Dto>();
-        //    }
-        //    this.formDto.Document.AttachmentList.Add(attachment.Artifact);
-        //    this.dgvAttachmentList.Rows.Add(attachment.Artifact.Path, "Delete");
-        //    this.btnExpandCollapse.Enabled = true;
-        //}
-        
         private Boolean Save()
         {
             if (!this.ValidateForm()) return false;

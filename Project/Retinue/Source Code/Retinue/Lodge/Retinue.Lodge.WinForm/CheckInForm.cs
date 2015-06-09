@@ -319,18 +319,22 @@ namespace Retinue.Lodge.WinForm
                         this.btnCheckOut.Enabled = true;
                         this.btnGenerateInvoice.Enabled = false;
                         this.btnPay.Enabled = false;
+                        base.IsEnabledAttchment = true;
                         break;
                     case RoomRsvFac.Status.CheckOut:
                         this.btnCheckOut.Enabled = false;
                         this.btnGenerateInvoice.Enabled = true;
                         this.btnPay.Enabled = false;
+                        base.IsEnabledAttchment = false;
                         break;
                     case RoomRsvFac.Status.Invoiced:
                         this.btnCheckOut.Enabled = false;
+                        base.IsEnabledAttchment = false;
                         break;
                     case RoomRsvFac.Status.Paid:
                         this.btnCheckOut.Enabled = false;
                         this.btnPay.Enabled = false;
+                        base.IsEnabledAttchment = false;
                         break;
                 }
             }

@@ -34,7 +34,7 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.pnlOptions = new System.Windows.Forms.TableLayoutPanel();
             this.pnlContainer = new System.Windows.Forms.Panel();
-            this.pnlControl = new System.Windows.Forms.Panel();
+            this.pnlControlBar = new System.Windows.Forms.Panel();
             this.pnlTitleBar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -108,24 +108,26 @@
             this.pnlContainer.Size = new System.Drawing.Size(86, 100);
             this.pnlContainer.TabIndex = 2;
             // 
-            // pnlControl
+            // pnlControlBar
             // 
-            this.pnlControl.Location = new System.Drawing.Point(26, 39);
-            this.pnlControl.Name = "pnlControl";
-            this.pnlControl.Size = new System.Drawing.Size(86, 31);
-            this.pnlControl.TabIndex = 3;
+            this.pnlControlBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlControlBar.Location = new System.Drawing.Point(0, 20);
+            this.pnlControlBar.Name = "pnlControlBar";
+            this.pnlControlBar.Size = new System.Drawing.Size(156, 31);
+            this.pnlControlBar.TabIndex = 3;
             // 
             // SidePanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Controls.Add(this.pnlControl);
+            this.Controls.Add(this.pnlControlBar);
             this.Controls.Add(this.pnlContainer);
             this.Controls.Add(this.pnlOptions);
             this.Controls.Add(this.pnlTitleBar);
             this.Name = "SidePanel";
             this.Size = new System.Drawing.Size(156, 227);
+            this.Load += new System.EventHandler(this.SidePanel_Load);
             this.pnlTitleBar.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -139,7 +141,7 @@
         private System.Windows.Forms.Label lblTitleBar;
         private System.Windows.Forms.TableLayoutPanel pnlOptions;
         private System.Windows.Forms.Panel pnlContainer;
-        private System.Windows.Forms.Panel pnlControl;
+        private System.Windows.Forms.Panel pnlControlBar;
 
     }
 }

@@ -126,6 +126,7 @@ namespace Vanilla.Accountant.WinForm
             };
 
             this.facade = new PayFac.Server(this.formDto as PayFac.FormDto);
+            this.AncestorName = "Invoice"; //It may be invoice, may be reservation, may be checkin
         }
 
         protected override void LoadForm()

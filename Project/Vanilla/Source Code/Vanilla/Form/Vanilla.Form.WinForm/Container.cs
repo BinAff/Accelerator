@@ -139,7 +139,6 @@ namespace Vanilla.Form.WinForm
             this.spnlLeftLink.Options[0].Name = child.AncestorName;
             this.spnlLeftLink.Options[1].Name = child.NextName;
 
-
             this.dgvAttachmentList.AutoGenerateColumns = false;
             this.formDto = new Facade.Container.FormDto
             {
@@ -162,6 +161,7 @@ namespace Vanilla.Form.WinForm
                     this.dgvAttachmentList.Rows.Add(attachment.FullPath, "Delete");
                 }
             }
+            this.btnAttach.Enabled = child.IsEnabledAttchment;
             if (document.IsAttachmentSupported)
             {
                 this.dgvAttachmentList.Show();
@@ -170,7 +170,8 @@ namespace Vanilla.Form.WinForm
             {
                 this.dgvAttachmentList.Hide();
             }
-            //Select attachment tab by default
+            this.spnlLeftLink.ShowOption(0);
+            this.spnlRightLink.ShowOption(0);
         }
 
         void child_ButtonStatusChange(Document.ButtonType type, Document.ChangeProperty changeProperty, Boolean status)

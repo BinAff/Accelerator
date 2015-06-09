@@ -62,6 +62,9 @@ namespace Vanilla.Accountant.WinForm
             };
 
             this.facade = new InvFac.Server(base.formDto as InvFac.FormDto);
+
+            this.AncestorName = "Check In";
+            this.NextName = "Payment";
         }
 
         protected override void LoadForm()

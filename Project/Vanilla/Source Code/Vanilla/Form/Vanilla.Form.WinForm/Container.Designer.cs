@@ -33,13 +33,6 @@
             Vanilla.Utility.WinForm.SidePanel.Option option2 = new Vanilla.Utility.WinForm.SidePanel.Option();
             Vanilla.Utility.WinForm.SidePanel.Option option3 = new Vanilla.Utility.WinForm.SidePanel.Option();
             Vanilla.Utility.WinForm.SidePanel.Option option4 = new Vanilla.Utility.WinForm.SidePanel.Option();
-            this.pnlAttachment = new System.Windows.Forms.Panel();
-            this.dgvAttachmentList = new System.Windows.Forms.DataGridView();
-            this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.pnlAttachmentHeading = new System.Windows.Forms.Panel();
-            this.lblAttachmentHeading = new System.Windows.Forms.Label();
-            this.btnAttach = new System.Windows.Forms.Button();
             this.pnlTopActionRibbon = new System.Windows.Forms.Panel();
             this.pnlMenuSeperator2 = new System.Windows.Forms.Panel();
             this.btnSendEmail = new System.Windows.Forms.Button();
@@ -52,92 +45,20 @@
             this.btnOpen = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnAttach = new System.Windows.Forms.Button();
             this.spnlLeftLink = new Vanilla.Utility.WinForm.SidePanel();
             this.spnlRightLink = new Vanilla.Utility.WinForm.SidePanel();
+            this.pnlAttachment = new System.Windows.Forms.Panel();
+            this.dgvAttachmentList = new System.Windows.Forms.DataGridView();
+            this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.pnlAttachmentHeading = new System.Windows.Forms.Panel();
+            this.lblAttachmentHeading = new System.Windows.Forms.Label();
+            this.pnlTopActionRibbon.SuspendLayout();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
             this.pnlAttachmentHeading.SuspendLayout();
-            this.pnlTopActionRibbon.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // pnlAttachment
-            // 
-            this.pnlAttachment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlAttachment.Controls.Add(this.dgvAttachmentList);
-            this.pnlAttachment.Controls.Add(this.pnlAttachmentHeading);
-            this.pnlAttachment.Location = new System.Drawing.Point(391, 238);
-            this.pnlAttachment.Name = "pnlAttachment";
-            this.pnlAttachment.Size = new System.Drawing.Size(125, 91);
-            this.pnlAttachment.TabIndex = 11;
-            this.pnlAttachment.Visible = false;
-            // 
-            // dgvAttachmentList
-            // 
-            this.dgvAttachmentList.AllowUserToAddRows = false;
-            this.dgvAttachmentList.AllowUserToResizeRows = false;
-            this.dgvAttachmentList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAttachmentList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Path,
-            this.Delete});
-            this.dgvAttachmentList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvAttachmentList.Location = new System.Drawing.Point(0, 28);
-            this.dgvAttachmentList.MultiSelect = false;
-            this.dgvAttachmentList.Name = "dgvAttachmentList";
-            this.dgvAttachmentList.ReadOnly = true;
-            this.dgvAttachmentList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAttachmentList.Size = new System.Drawing.Size(125, 63);
-            this.dgvAttachmentList.TabIndex = 12;
-            this.dgvAttachmentList.Visible = false;
-            this.dgvAttachmentList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAttachmentList_CellDoubleClick);
-            this.dgvAttachmentList.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAttachmentList_CellMouseClick);
-            // 
-            // Path
-            // 
-            this.Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Path.HeaderText = "Full Path";
-            this.Path.Name = "Path";
-            this.Path.ReadOnly = true;
-            // 
-            // Delete
-            // 
-            this.Delete.FillWeight = 50F;
-            this.Delete.HeaderText = "Action";
-            this.Delete.Name = "Delete";
-            this.Delete.ReadOnly = true;
-            this.Delete.Text = "Delete";
-            this.Delete.Width = 50;
-            // 
-            // pnlAttachmentHeading
-            // 
-            this.pnlAttachmentHeading.Controls.Add(this.lblAttachmentHeading);
-            this.pnlAttachmentHeading.Controls.Add(this.btnAttach);
-            this.pnlAttachmentHeading.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlAttachmentHeading.Location = new System.Drawing.Point(0, 0);
-            this.pnlAttachmentHeading.Name = "pnlAttachmentHeading";
-            this.pnlAttachmentHeading.Size = new System.Drawing.Size(125, 28);
-            this.pnlAttachmentHeading.TabIndex = 15;
-            // 
-            // lblAttachmentHeading
-            // 
-            this.lblAttachmentHeading.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblAttachmentHeading.Location = new System.Drawing.Point(0, 0);
-            this.lblAttachmentHeading.Name = "lblAttachmentHeading";
-            this.lblAttachmentHeading.Size = new System.Drawing.Size(97, 28);
-            this.lblAttachmentHeading.TabIndex = 13;
-            this.lblAttachmentHeading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnAttach
-            // 
-            this.btnAttach.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnAttach.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnAttach.Location = new System.Drawing.Point(97, 0);
-            this.btnAttach.Name = "btnAttach";
-            this.btnAttach.Size = new System.Drawing.Size(28, 28);
-            this.btnAttach.TabIndex = 14;
-            this.btnAttach.Text = "\'";
-            this.toolTip.SetToolTip(this.btnAttach, "Attach");
-            this.btnAttach.UseVisualStyleBackColor = true;
-            this.btnAttach.Click += new System.EventHandler(this.btnAttach_Click);
             // 
             // pnlTopActionRibbon
             // 
@@ -154,7 +75,7 @@
             this.pnlTopActionRibbon.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTopActionRibbon.Location = new System.Drawing.Point(0, 24);
             this.pnlTopActionRibbon.Name = "pnlTopActionRibbon";
-            this.pnlTopActionRibbon.Size = new System.Drawing.Size(792, 50);
+            this.pnlTopActionRibbon.Size = new System.Drawing.Size(957, 50);
             this.pnlTopActionRibbon.TabIndex = 6;
             // 
             // pnlMenuSeperator2
@@ -169,7 +90,7 @@
             // 
             this.btnSendEmail.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnSendEmail.Font = new System.Drawing.Font("Wingdings", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnSendEmail.Location = new System.Drawing.Point(692, 0);
+            this.btnSendEmail.Location = new System.Drawing.Point(857, 0);
             this.btnSendEmail.Name = "btnSendEmail";
             this.btnSendEmail.Size = new System.Drawing.Size(50, 50);
             this.btnSendEmail.TabIndex = 10;
@@ -181,7 +102,7 @@
             // 
             this.btnSendSMS.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnSendSMS.Font = new System.Drawing.Font("Wingdings 3", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnSendSMS.Location = new System.Drawing.Point(742, 0);
+            this.btnSendSMS.Location = new System.Drawing.Point(907, 0);
             this.btnSendSMS.Name = "btnSendSMS";
             this.btnSendSMS.Size = new System.Drawing.Size(50, 50);
             this.btnSendSMS.TabIndex = 9;
@@ -274,11 +195,24 @@
             this.btnNew.UseCompatibleTextRendering = true;
             this.btnNew.UseVisualStyleBackColor = true;
             // 
+            // btnAttach
+            // 
+            this.btnAttach.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnAttach.Font = new System.Drawing.Font("Webdings", 10F);
+            this.btnAttach.Location = new System.Drawing.Point(209, 0);
+            this.btnAttach.Name = "btnAttach";
+            this.btnAttach.Size = new System.Drawing.Size(28, 28);
+            this.btnAttach.TabIndex = 14;
+            this.btnAttach.Text = "\'";
+            this.toolTip.SetToolTip(this.btnAttach, "Attach");
+            this.btnAttach.UseVisualStyleBackColor = true;
+            // 
             // spnlLeftLink
             // 
             this.spnlLeftLink.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.spnlLeftLink.ControlBarPosition = System.Windows.Forms.DockStyle.Top;
             this.spnlLeftLink.Dock = System.Windows.Forms.DockStyle.Left;
-            this.spnlLeftLink.IsControlPanelOnTop = false;
+            this.spnlLeftLink.IsControlBarVisible = true;
             this.spnlLeftLink.Location = new System.Drawing.Point(0, 74);
             this.spnlLeftLink.Name = "spnlLeftLink";
             option1.Content = null;
@@ -294,9 +228,10 @@
             // spnlRightLink
             // 
             this.spnlRightLink.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.spnlRightLink.ControlBarPosition = System.Windows.Forms.DockStyle.Top;
             this.spnlRightLink.Dock = System.Windows.Forms.DockStyle.Right;
-            this.spnlRightLink.IsControlPanelOnTop = false;
-            this.spnlRightLink.Location = new System.Drawing.Point(538, 74);
+            this.spnlRightLink.IsControlBarVisible = false;
+            this.spnlRightLink.Location = new System.Drawing.Point(797, 74);
             this.spnlRightLink.Name = "spnlRightLink";
             option3.Content = this.pnlAttachment;
             option3.Name = "Attachments";
@@ -304,15 +239,78 @@
             option4.Name = "Remarks";
             this.spnlRightLink.Options.Add(option3);
             this.spnlRightLink.Options.Add(option4);
-            this.spnlRightLink.Size = new System.Drawing.Size(254, 330);
+            this.spnlRightLink.Size = new System.Drawing.Size(160, 330);
             this.spnlRightLink.TabIndex = 10;
             this.spnlRightLink.TitleBar = "Reference";
+            // 
+            // pnlAttachment
+            // 
+            this.pnlAttachment.Controls.Add(this.dgvAttachmentList);
+            this.pnlAttachment.Controls.Add(this.pnlAttachmentHeading);
+            this.pnlAttachment.Location = new System.Drawing.Point(368, 163);
+            this.pnlAttachment.Name = "pnlAttachment";
+            this.pnlAttachment.Size = new System.Drawing.Size(237, 66);
+            this.pnlAttachment.TabIndex = 12;
+            this.pnlAttachment.Visible = false;
+            // 
+            // dgvAttachmentList
+            // 
+            this.dgvAttachmentList.AllowUserToAddRows = false;
+            this.dgvAttachmentList.AllowUserToResizeRows = false;
+            this.dgvAttachmentList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAttachmentList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Path,
+            this.Delete});
+            this.dgvAttachmentList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvAttachmentList.Location = new System.Drawing.Point(0, 28);
+            this.dgvAttachmentList.MultiSelect = false;
+            this.dgvAttachmentList.Name = "dgvAttachmentList";
+            this.dgvAttachmentList.ReadOnly = true;
+            this.dgvAttachmentList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvAttachmentList.Size = new System.Drawing.Size(237, 38);
+            this.dgvAttachmentList.TabIndex = 12;
+            this.dgvAttachmentList.Visible = false;
+            // 
+            // Path
+            // 
+            this.Path.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Path.HeaderText = "Full Path";
+            this.Path.Name = "Path";
+            this.Path.ReadOnly = true;
+            // 
+            // Delete
+            // 
+            this.Delete.FillWeight = 50F;
+            this.Delete.HeaderText = "Action";
+            this.Delete.Name = "Delete";
+            this.Delete.ReadOnly = true;
+            this.Delete.Text = "Delete";
+            this.Delete.Width = 50;
+            // 
+            // pnlAttachmentHeading
+            // 
+            this.pnlAttachmentHeading.Controls.Add(this.lblAttachmentHeading);
+            this.pnlAttachmentHeading.Controls.Add(this.btnAttach);
+            this.pnlAttachmentHeading.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlAttachmentHeading.Location = new System.Drawing.Point(0, 0);
+            this.pnlAttachmentHeading.Name = "pnlAttachmentHeading";
+            this.pnlAttachmentHeading.Size = new System.Drawing.Size(237, 28);
+            this.pnlAttachmentHeading.TabIndex = 15;
+            // 
+            // lblAttachmentHeading
+            // 
+            this.lblAttachmentHeading.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblAttachmentHeading.Location = new System.Drawing.Point(0, 0);
+            this.lblAttachmentHeading.Name = "lblAttachmentHeading";
+            this.lblAttachmentHeading.Size = new System.Drawing.Size(209, 28);
+            this.lblAttachmentHeading.TabIndex = 13;
+            this.lblAttachmentHeading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(792, 426);
+            this.ClientSize = new System.Drawing.Size(957, 426);
             this.Controls.Add(this.pnlAttachment);
             this.Controls.Add(this.spnlRightLink);
             this.Controls.Add(this.spnlLeftLink);
@@ -327,10 +325,10 @@
             this.Controls.SetChildIndex(this.spnlLeftLink, 0);
             this.Controls.SetChildIndex(this.spnlRightLink, 0);
             this.Controls.SetChildIndex(this.pnlAttachment, 0);
+            this.pnlTopActionRibbon.ResumeLayout(false);
             this.pnlAttachment.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).EndInit();
             this.pnlAttachmentHeading.ResumeLayout(false);
-            this.pnlTopActionRibbon.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -356,9 +354,9 @@
         private System.Windows.Forms.DataGridView dgvAttachmentList;
         private System.Windows.Forms.DataGridViewTextBoxColumn Path;
         private System.Windows.Forms.DataGridViewLinkColumn Delete;
-        private System.Windows.Forms.Button btnAttach;
-        private System.Windows.Forms.Label lblAttachmentHeading;
         private System.Windows.Forms.Panel pnlAttachmentHeading;
+        private System.Windows.Forms.Label lblAttachmentHeading;
+        private System.Windows.Forms.Button btnAttach;
 
     }
 }
