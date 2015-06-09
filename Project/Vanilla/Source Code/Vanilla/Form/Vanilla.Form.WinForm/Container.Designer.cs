@@ -37,17 +37,17 @@
             this.dgvAttachmentList = new System.Windows.Forms.DataGridView();
             this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Delete = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.pnlAttachmentHeading = new System.Windows.Forms.Panel();
             this.lblAttachmentHeading = new System.Windows.Forms.Label();
             this.btnAttach = new System.Windows.Forms.Button();
             this.pnlTopActionRibbon = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnlMenuSeperator2 = new System.Windows.Forms.Panel();
             this.btnSendEmail = new System.Windows.Forms.Button();
             this.btnSendSMS = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnlMenuSeperator1 = new System.Windows.Forms.Panel();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
@@ -56,7 +56,7 @@
             this.spnlRightLink = new Vanilla.Utility.WinForm.SidePanel();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
-            this.panel3.SuspendLayout();
+            this.pnlAttachmentHeading.SuspendLayout();
             this.pnlTopActionRibbon.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,10 +64,10 @@
             // 
             this.pnlAttachment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlAttachment.Controls.Add(this.dgvAttachmentList);
-            this.pnlAttachment.Controls.Add(this.panel3);
-            this.pnlAttachment.Location = new System.Drawing.Point(266, 178);
+            this.pnlAttachment.Controls.Add(this.pnlAttachmentHeading);
+            this.pnlAttachment.Location = new System.Drawing.Point(391, 238);
             this.pnlAttachment.Name = "pnlAttachment";
-            this.pnlAttachment.Size = new System.Drawing.Size(250, 178);
+            this.pnlAttachment.Size = new System.Drawing.Size(125, 91);
             this.pnlAttachment.TabIndex = 11;
             this.pnlAttachment.Visible = false;
             // 
@@ -85,8 +85,9 @@
             this.dgvAttachmentList.Name = "dgvAttachmentList";
             this.dgvAttachmentList.ReadOnly = true;
             this.dgvAttachmentList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAttachmentList.Size = new System.Drawing.Size(250, 150);
+            this.dgvAttachmentList.Size = new System.Drawing.Size(125, 63);
             this.dgvAttachmentList.TabIndex = 12;
+            this.dgvAttachmentList.Visible = false;
             this.dgvAttachmentList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAttachmentList_CellDoubleClick);
             this.dgvAttachmentList.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAttachmentList_CellMouseClick);
             // 
@@ -106,22 +107,22 @@
             this.Delete.Text = "Delete";
             this.Delete.Width = 50;
             // 
-            // panel3
+            // pnlAttachmentHeading
             // 
-            this.panel3.Controls.Add(this.lblAttachmentHeading);
-            this.panel3.Controls.Add(this.btnAttach);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(250, 28);
-            this.panel3.TabIndex = 15;
+            this.pnlAttachmentHeading.Controls.Add(this.lblAttachmentHeading);
+            this.pnlAttachmentHeading.Controls.Add(this.btnAttach);
+            this.pnlAttachmentHeading.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlAttachmentHeading.Location = new System.Drawing.Point(0, 0);
+            this.pnlAttachmentHeading.Name = "pnlAttachmentHeading";
+            this.pnlAttachmentHeading.Size = new System.Drawing.Size(125, 28);
+            this.pnlAttachmentHeading.TabIndex = 15;
             // 
             // lblAttachmentHeading
             // 
             this.lblAttachmentHeading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblAttachmentHeading.Location = new System.Drawing.Point(0, 0);
             this.lblAttachmentHeading.Name = "lblAttachmentHeading";
-            this.lblAttachmentHeading.Size = new System.Drawing.Size(222, 28);
+            this.lblAttachmentHeading.Size = new System.Drawing.Size(97, 28);
             this.lblAttachmentHeading.TabIndex = 13;
             this.lblAttachmentHeading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -129,7 +130,7 @@
             // 
             this.btnAttach.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnAttach.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnAttach.Location = new System.Drawing.Point(222, 0);
+            this.btnAttach.Location = new System.Drawing.Point(97, 0);
             this.btnAttach.Name = "btnAttach";
             this.btnAttach.Size = new System.Drawing.Size(28, 28);
             this.btnAttach.TabIndex = 14;
@@ -140,13 +141,13 @@
             // 
             // pnlTopActionRibbon
             // 
-            this.pnlTopActionRibbon.Controls.Add(this.panel2);
+            this.pnlTopActionRibbon.Controls.Add(this.pnlMenuSeperator2);
             this.pnlTopActionRibbon.Controls.Add(this.btnSendEmail);
             this.pnlTopActionRibbon.Controls.Add(this.btnSendSMS);
             this.pnlTopActionRibbon.Controls.Add(this.btnDelete);
             this.pnlTopActionRibbon.Controls.Add(this.btnSave);
             this.pnlTopActionRibbon.Controls.Add(this.btnRefresh);
-            this.pnlTopActionRibbon.Controls.Add(this.panel1);
+            this.pnlTopActionRibbon.Controls.Add(this.pnlMenuSeperator1);
             this.pnlTopActionRibbon.Controls.Add(this.btnSearch);
             this.pnlTopActionRibbon.Controls.Add(this.btnOpen);
             this.pnlTopActionRibbon.Controls.Add(this.btnNew);
@@ -156,13 +157,13 @@
             this.pnlTopActionRibbon.Size = new System.Drawing.Size(792, 50);
             this.pnlTopActionRibbon.TabIndex = 6;
             // 
-            // panel2
+            // pnlMenuSeperator2
             // 
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel2.Location = new System.Drawing.Point(316, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(16, 50);
-            this.panel2.TabIndex = 6;
+            this.pnlMenuSeperator2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnlMenuSeperator2.Location = new System.Drawing.Point(316, 0);
+            this.pnlMenuSeperator2.Name = "pnlMenuSeperator2";
+            this.pnlMenuSeperator2.Size = new System.Drawing.Size(16, 50);
+            this.pnlMenuSeperator2.TabIndex = 6;
             // 
             // btnSendEmail
             // 
@@ -226,13 +227,13 @@
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
-            // panel1
+            // pnlMenuSeperator1
             // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(150, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(16, 50);
-            this.panel1.TabIndex = 3;
+            this.pnlMenuSeperator1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnlMenuSeperator1.Location = new System.Drawing.Point(150, 0);
+            this.pnlMenuSeperator1.Name = "pnlMenuSeperator1";
+            this.pnlMenuSeperator1.Size = new System.Drawing.Size(16, 50);
+            this.pnlMenuSeperator1.TabIndex = 3;
             // 
             // btnSearch
             // 
@@ -281,12 +282,12 @@
             this.spnlLeftLink.Location = new System.Drawing.Point(0, 74);
             this.spnlLeftLink.Name = "spnlLeftLink";
             option1.Content = null;
-            option1.Name = "Reservation";
+            option1.Name = "Previous";
             option2.Content = null;
-            option2.Name = "Invoice";
+            option2.Name = "Next";
             this.spnlLeftLink.Options.Add(option1);
             this.spnlLeftLink.Options.Add(option2);
-            this.spnlLeftLink.Size = new System.Drawing.Size(166, 330);
+            this.spnlLeftLink.Size = new System.Drawing.Size(349, 330);
             this.spnlLeftLink.TabIndex = 9;
             this.spnlLeftLink.TitleBar = "Re";
             // 
@@ -328,7 +329,7 @@
             this.Controls.SetChildIndex(this.pnlAttachment, 0);
             this.pnlAttachment.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).EndInit();
-            this.panel3.ResumeLayout(false);
+            this.pnlAttachmentHeading.ResumeLayout(false);
             this.pnlTopActionRibbon.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -338,7 +339,7 @@
         #endregion
 
         private System.Windows.Forms.Panel pnlTopActionRibbon;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel pnlMenuSeperator2;
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.Button btnSendEmail;
         private System.Windows.Forms.Button btnSendSMS;
@@ -346,7 +347,7 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnlMenuSeperator1;
         private System.Windows.Forms.Button btnNew;
         private System.Windows.Forms.ToolTip toolTip;
         private Utility.WinForm.SidePanel spnlLeftLink;
@@ -357,7 +358,7 @@
         private System.Windows.Forms.DataGridViewLinkColumn Delete;
         private System.Windows.Forms.Button btnAttach;
         private System.Windows.Forms.Label lblAttachmentHeading;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel pnlAttachmentHeading;
 
     }
 }

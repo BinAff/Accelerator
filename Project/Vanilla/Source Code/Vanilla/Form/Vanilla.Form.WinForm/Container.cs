@@ -137,6 +137,8 @@ namespace Vanilla.Form.WinForm
 
             this.lblAttachmentHeading.Text = child.AttachmentName;
             this.spnlLeftLink.Options[0].Name = child.AncestorName;
+            this.spnlLeftLink.Options[1].Name = child.NextName;
+
 
             this.dgvAttachmentList.AutoGenerateColumns = false;
             this.formDto = new Facade.Container.FormDto

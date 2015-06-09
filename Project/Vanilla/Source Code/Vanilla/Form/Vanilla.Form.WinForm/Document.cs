@@ -47,6 +47,8 @@ namespace Vanilla.Form.WinForm
             }
         }
 
+        public String NextName { get; set; }
+
         public String AttachmentName { get; set; }
 
         public List<ArtfFac.Dto> AttachmentList

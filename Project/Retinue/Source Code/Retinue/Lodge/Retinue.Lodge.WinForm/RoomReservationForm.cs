@@ -37,6 +37,7 @@ namespace Retinue.Lodge.WinForm
             InitializeComponent();
 
             base.AncestorName = "Customer";
+            base.NextName = "Check in";
             base.AttachmentName = "Advance Payment";
         }
 

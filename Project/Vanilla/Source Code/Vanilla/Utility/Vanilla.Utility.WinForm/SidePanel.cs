@@ -40,11 +40,18 @@ namespace Vanilla.Utility.WinForm
                 this.pnlOptions.ColumnStyles.Clear();
                 Int32 count = this.options.Count;
                 Int32 i = 0;
-                foreach (Option item in this.options)
+                foreach (Option option in this.options)
                 {
-                    Label label = new Label
+                    option.NameChanged += delegate(String oldName, String newName)
                     {
-                        Text = item.Name,
+                        foreach (Label item in this.pnlOptions.Controls)
+                        {
+                            if (String.Compare(item.Text, oldName) == 0) item.Text = newName;
+                        }
+                    };
+                    Label label = new Label
+                    {                        
+                        Text = option.Name,
                         AutoSize = true,
                         Padding = new Padding(0, 0, 0, 0),
                     };
@@ -63,7 +70,7 @@ namespace Vanilla.Utility.WinForm
                 }
             }
         }
-
+        
         [Description("Control panel will be shown at top"), Category("Configuration")]
         public Boolean IsControlPanelOnTop { get; set; }
 
@@ -118,8 +125,24 @@ namespace Vanilla.Utility.WinForm
         public class Option
         {
 
-            public String Name { get; set; }
+            private String name;
+            public String Name
+            {
+                get
+                {
+                    return this.name;
+                }
+                set
+                {
+                    if (this.NameChanged != null) this.NameChanged(this.name, value);
+                    this.name = value;
+                }
+            }
+
             public Control Content { get; set; }
+
+            public delegate void OnNameChanged(String oldName, String newName);
+            public event OnNameChanged NameChanged;
 
         }
 

@@ -40,7 +40,6 @@ namespace Retinue.Customer.WinForm
 
         private void CustomerForm_Load(object sender, System.EventArgs e)
         {
-            base.AncestorName = "...";
             //base.AttachmentName = "...";
 
             //if loaded form room reservation form , then populate the modules
@@ -157,6 +156,8 @@ namespace Retinue.Customer.WinForm
 
         protected override void Compose()
         {
+            base.AncestorName = String.Empty;
+            base.NextName = "Reservation";
             base.formDto = new Facade.FormDto
             {
                 ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto(),
