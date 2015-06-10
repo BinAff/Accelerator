@@ -33,9 +33,6 @@ namespace Retinue.Lodge.WinForm
             : base(artifact)
         {
             InitializeComponent();
-            base.AncestorName = "Room Reservation";
-            base.NextName = "Invoice";
-            base.AttachmentName = "Advance Payment";
         }
              
         #region Events
@@ -151,6 +148,11 @@ namespace Retinue.Lodge.WinForm
 
         protected override void Compose()
         {
+            base.AncestorName = "Room Reservation";
+            base.NextName = "Invoice";
+            base.AttachmentName = "Advance Payment";
+            base.Previous = new ReservationSummary();
+
             this.formDto = new Fac.FormDto
             {
                 ModuleFormDto = new UtilFac.Module.FormDto(),
@@ -191,6 +193,8 @@ namespace Retinue.Lodge.WinForm
            
             //this.configRuleDto = formDto.ConfigurationRuleDto;
             //if (this.configRuleDto.DateFormat != null) this.dtFrom.CustomFormat = this.configRuleDto.DateFormat;
+
+            (this.Previous as ReservationSummary).LoadForm(((base.formDto as Fac.FormDto).Dto as Fac.Dto).Reservation);
         }
 
         protected override void PopulateDataToForm()

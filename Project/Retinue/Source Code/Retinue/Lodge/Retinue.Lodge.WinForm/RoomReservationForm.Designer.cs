@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ucRoomReservationDataEntry = new Retinue.Lodge.WinForm.RoomReservationDataEntry();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // ucRoomReservationDataEntry
             // 
+            this.ucRoomReservationDataEntry = new RoomReservationDataEntry();
             this.ucRoomReservationDataEntry.Location = new System.Drawing.Point(10, 35);
             this.ucRoomReservationDataEntry.Name = "ucRoomReservationDataEntry";
-            this.ucRoomReservationDataEntry.Size = new System.Drawing.Size(837, 296);
+            this.ucRoomReservationDataEntry.Size = new System.Drawing.Size(537, 296);
             this.ucRoomReservationDataEntry.TabIndex = 1008;
             // 
             // RoomReservationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(856, 334);
+            this.ClientSize = new System.Drawing.Size(549, 334);
             this.Controls.Add(this.ucRoomReservationDataEntry);
             this.Name = "RoomReservationForm";
             this.ShowInTaskbar = false;

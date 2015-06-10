@@ -21,6 +21,20 @@ namespace Retinue.Lodge.Configuration.Facade.Room
             }
         }
 
+        public String Style
+        {
+            get
+            {
+                //String style = (this.Category == null ? "..." : this.Category.Name)
+                //    + " - " + (this.Type == null ? "..." : this.Type.Name)
+                //    + " - " + (this.IsAirconditioned ? "AC" : "Non AC");
+                //return style;
+                return (this.Category == null ? "..." : this.Category.Name)
+                    + " - " + (this.Type == null ? "..." : this.Type.Name)
+                    + " - " + (this.IsAirconditioned ? "AC" : "Non AC");
+            }
+        }
+
         public String Description { get; set; }
 
         public Room.Category.Dto Category { get; set; }

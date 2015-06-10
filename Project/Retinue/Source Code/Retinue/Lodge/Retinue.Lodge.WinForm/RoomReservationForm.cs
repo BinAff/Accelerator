@@ -172,8 +172,6 @@ namespace Retinue.Lodge.WinForm
         protected override void PopulateAnsestorData(FrmDocFac.Dto dto)
         {
             (this.Previous as Customer.WinForm.CustomerSummary).LoadForm(dto as CustFac.Dto);
-
-            this.ucRoomReservationDataEntry.PopulateCustomerSummary(dto as CustFac.Dto);
         }
 
         protected override FormWin.Document GetAttachment()

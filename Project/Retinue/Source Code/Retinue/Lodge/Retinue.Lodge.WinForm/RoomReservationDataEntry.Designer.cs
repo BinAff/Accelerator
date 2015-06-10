@@ -67,7 +67,6 @@
             this.btnRemoveRoom = new System.Windows.Forms.Button();
             this.btnAddRoom = new System.Windows.Forms.Button();
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
-            this.ucCustomerSummary = new Retinue.Customer.WinForm.CustomerSummary();
             this.txtTo = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
@@ -90,7 +89,7 @@
             this.groupBox4.Controls.Add(this.lblTotalRooms);
             this.groupBox4.Controls.Add(this.txtAvailableRoomCount);
             this.groupBox4.Controls.Add(this.lblAvailableRooms);
-            this.groupBox4.Location = new System.Drawing.Point(539, 242);
+            this.groupBox4.Location = new System.Drawing.Point(238, 294);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(295, 50);
             this.groupBox4.TabIndex = 1029;
@@ -294,7 +293,7 @@
             // 
             // txtStatus
             // 
-            this.txtStatus.Location = new System.Drawing.Point(717, 4);
+            this.txtStatus.Location = new System.Drawing.Point(416, 4);
             this.txtStatus.Name = "txtStatus";
             this.txtStatus.ReadOnly = true;
             this.txtStatus.Size = new System.Drawing.Size(117, 20);
@@ -315,7 +314,7 @@
             // lblReservationStatus
             // 
             this.lblReservationStatus.AutoSize = true;
-            this.lblReservationStatus.Location = new System.Drawing.Point(674, 6);
+            this.lblReservationStatus.Location = new System.Drawing.Point(373, 6);
             this.lblReservationStatus.Name = "lblReservationStatus";
             this.lblReservationStatus.Size = new System.Drawing.Size(37, 13);
             this.lblReservationStatus.TabIndex = 1023;
@@ -452,13 +451,6 @@
             this.dtFrom.TabIndex = 1008;
             this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
             // 
-            // ucCustomerSummary
-            // 
-            this.ucCustomerSummary.Location = new System.Drawing.Point(536, 30);
-            this.ucCustomerSummary.Name = "ucCustomerSummary";
-            this.ucCustomerSummary.Size = new System.Drawing.Size(299, 209);
-            this.ucCustomerSummary.TabIndex = 1031;
-            // 
             // txtTo
             // 
             this.txtTo.Location = new System.Drawing.Point(388, 29);
@@ -483,7 +475,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.txtTo);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.ucCustomerSummary);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -508,7 +499,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.dtFrom);
             this.Name = "RoomReservationDataEntry";
-            this.Size = new System.Drawing.Size(837, 296);
+            this.Size = new System.Drawing.Size(538, 347);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -521,7 +512,6 @@
 
         #endregion
 
-        private Customer.WinForm.CustomerSummary ucCustomerSummary;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox txtFilteredRoomCount;

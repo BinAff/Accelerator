@@ -116,12 +116,6 @@ namespace Retinue.Lodge.WinForm
             this.PopulateRoomListsAndCounts();
         }
 
-        internal void PopulateCustomerSummary(CustFac.Dto customer)
-        {
-            this.dto.Customer = customer;
-            this.ucCustomerSummary.LoadForm(this.dto.Customer);
-        }
-
         internal void LoadForm(RoomRsvFac.Dto dto)
         {
             this.dto = dto;
@@ -215,8 +209,6 @@ namespace Retinue.Lodge.WinForm
             this.txtRemarks.Text = String.Empty;
             this.txtStatus.Text = String.Empty;
 
-            this.ucCustomerSummary.ClearForm();
-
             this.txtFilteredRoomCount.Text = String.Empty;
             this.txtAvailableRoomCount.Text = String.Empty;
         }
@@ -235,13 +227,7 @@ namespace Retinue.Lodge.WinForm
             Boolean retVal = true;
             errorProvider.Clear();
 
-            if (this.ucCustomerSummary.IsEmpty())
-            {
-                errorProvider.SetError(this.ucCustomerSummary, "Select a customer for reservation.");
-                //base.FocusPickAncestor();
-                return false;
-            }
-            else if (ValidationRule.IsDateLessThanToday(this.dtFrom.Value))
+            if (ValidationRule.IsDateLessThanToday(this.dtFrom.Value))
             {
                 errorProvider.SetError(this.dtFrom, "Booking date cannot be less than today.");
                 this.dtFrom.Focus();
@@ -342,11 +328,6 @@ namespace Retinue.Lodge.WinForm
 
             if (this.dto != null && dto.Id > 0)
             {
-                if (this.dto.Customer != null)
-                {
-                    this.ucCustomerSummary.LoadForm(this.dto.Customer);
-                }
-
                 if (this.dto.RoomCategory != null && this.dto.RoomCategory.Id > 0 && this.CategoryList != null)
                 {
                     this.cboCategory.SelectedItem = this.CategoryList.FindLast((p) => { return p.Id == this.dto.RoomCategory.Id; });
