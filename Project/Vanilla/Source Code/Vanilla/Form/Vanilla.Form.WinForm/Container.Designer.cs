@@ -45,7 +45,6 @@
             this.btnOpen = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnAttach = new System.Windows.Forms.Button();
             this.spnlLeftLink = new Vanilla.Utility.WinForm.SidePanel();
             this.spnlRightLink = new Vanilla.Utility.WinForm.SidePanel();
             this.pnlAttachment = new System.Windows.Forms.Panel();
@@ -54,6 +53,7 @@
             this.Delete = new System.Windows.Forms.DataGridViewLinkColumn();
             this.pnlAttachmentHeading = new System.Windows.Forms.Panel();
             this.lblAttachmentHeading = new System.Windows.Forms.Label();
+            this.btnAttach = new System.Windows.Forms.Button();
             this.pnlTopActionRibbon.SuspendLayout();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
@@ -195,18 +195,6 @@
             this.btnNew.UseCompatibleTextRendering = true;
             this.btnNew.UseVisualStyleBackColor = true;
             // 
-            // btnAttach
-            // 
-            this.btnAttach.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnAttach.Font = new System.Drawing.Font("Webdings", 10F);
-            this.btnAttach.Location = new System.Drawing.Point(209, 0);
-            this.btnAttach.Name = "btnAttach";
-            this.btnAttach.Size = new System.Drawing.Size(28, 28);
-            this.btnAttach.TabIndex = 14;
-            this.btnAttach.Text = "\'";
-            this.toolTip.SetToolTip(this.btnAttach, "Attach");
-            this.btnAttach.UseVisualStyleBackColor = true;
-            // 
             // spnlLeftLink
             // 
             this.spnlLeftLink.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -221,9 +209,9 @@
             option2.Name = "Next";
             this.spnlLeftLink.Options.Add(option1);
             this.spnlLeftLink.Options.Add(option2);
-            this.spnlLeftLink.Size = new System.Drawing.Size(349, 330);
+            this.spnlLeftLink.Size = new System.Drawing.Size(409, 330);
             this.spnlLeftLink.TabIndex = 9;
-            this.spnlLeftLink.TitleBar = "Re";
+            this.spnlLeftLink.TitleBar = "Summary";
             // 
             // spnlRightLink
             // 
@@ -233,7 +221,6 @@
             this.spnlRightLink.IsControlBarVisible = false;
             this.spnlRightLink.Location = new System.Drawing.Point(797, 74);
             this.spnlRightLink.Name = "spnlRightLink";
-            option3.Content = this.pnlAttachment;
             option3.Name = "Attachments";
             option4.Content = null;
             option4.Name = "Remarks";
@@ -247,10 +234,10 @@
             // 
             this.pnlAttachment.Controls.Add(this.dgvAttachmentList);
             this.pnlAttachment.Controls.Add(this.pnlAttachmentHeading);
-            this.pnlAttachment.Location = new System.Drawing.Point(368, 163);
+            this.pnlAttachment.Location = new System.Drawing.Point(460, 190);
             this.pnlAttachment.Name = "pnlAttachment";
-            this.pnlAttachment.Size = new System.Drawing.Size(237, 66);
-            this.pnlAttachment.TabIndex = 12;
+            this.pnlAttachment.Size = new System.Drawing.Size(223, 132);
+            this.pnlAttachment.TabIndex = 13;
             this.pnlAttachment.Visible = false;
             // 
             // dgvAttachmentList
@@ -267,7 +254,7 @@
             this.dgvAttachmentList.Name = "dgvAttachmentList";
             this.dgvAttachmentList.ReadOnly = true;
             this.dgvAttachmentList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAttachmentList.Size = new System.Drawing.Size(237, 38);
+            this.dgvAttachmentList.Size = new System.Drawing.Size(223, 104);
             this.dgvAttachmentList.TabIndex = 12;
             this.dgvAttachmentList.Visible = false;
             // 
@@ -294,7 +281,7 @@
             this.pnlAttachmentHeading.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlAttachmentHeading.Location = new System.Drawing.Point(0, 0);
             this.pnlAttachmentHeading.Name = "pnlAttachmentHeading";
-            this.pnlAttachmentHeading.Size = new System.Drawing.Size(237, 28);
+            this.pnlAttachmentHeading.Size = new System.Drawing.Size(223, 28);
             this.pnlAttachmentHeading.TabIndex = 15;
             // 
             // lblAttachmentHeading
@@ -302,9 +289,21 @@
             this.lblAttachmentHeading.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblAttachmentHeading.Location = new System.Drawing.Point(0, 0);
             this.lblAttachmentHeading.Name = "lblAttachmentHeading";
-            this.lblAttachmentHeading.Size = new System.Drawing.Size(209, 28);
+            this.lblAttachmentHeading.Size = new System.Drawing.Size(195, 28);
             this.lblAttachmentHeading.TabIndex = 13;
             this.lblAttachmentHeading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnAttach
+            // 
+            this.btnAttach.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnAttach.Font = new System.Drawing.Font("Webdings", 10F);
+            this.btnAttach.Location = new System.Drawing.Point(195, 0);
+            this.btnAttach.Name = "btnAttach";
+            this.btnAttach.Size = new System.Drawing.Size(28, 28);
+            this.btnAttach.TabIndex = 14;
+            this.btnAttach.Text = "\'";
+            this.toolTip.SetToolTip(this.btnAttach, "Attach");
+            this.btnAttach.UseVisualStyleBackColor = true;
             // 
             // Container
             // 
