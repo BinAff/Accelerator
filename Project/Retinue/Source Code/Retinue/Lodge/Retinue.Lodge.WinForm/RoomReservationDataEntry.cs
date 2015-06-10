@@ -47,6 +47,9 @@ namespace Retinue.Lodge.WinForm
         {
             InitializeComponent();
             this.isLoading = true;
+            this.CategoryList = new List<RoomCatFac.Dto>();
+            this.TypeList = new List<RoomTypeFac.Dto>();
+            this.RoomList = new List<RoomFac.Dto>();
         }
 
         #region Event

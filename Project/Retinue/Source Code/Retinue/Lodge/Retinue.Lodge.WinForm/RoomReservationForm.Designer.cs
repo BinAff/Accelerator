@@ -34,13 +34,10 @@
             // 
             // ucRoomReservationDataEntry
             // 
-            this.ucRoomReservationDataEntry.CategoryList = null;
             this.ucRoomReservationDataEntry.Location = new System.Drawing.Point(10, 35);
             this.ucRoomReservationDataEntry.Name = "ucRoomReservationDataEntry";
-            this.ucRoomReservationDataEntry.RoomList = null;
             this.ucRoomReservationDataEntry.Size = new System.Drawing.Size(837, 296);
             this.ucRoomReservationDataEntry.TabIndex = 1008;
-            this.ucRoomReservationDataEntry.TypeList = null;
             // 
             // RoomReservationForm
             // 
