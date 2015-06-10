@@ -133,18 +133,18 @@ namespace Vanilla.Accountant.WinForm
         {
             if (invoiceList != null && invoiceList.Count > 0)
             {
-                dgvProduct.Columns[0].DataPropertyName = "StartDate";
-                dgvProduct.Columns[1].DataPropertyName = "EndDate";
-                dgvProduct.Columns[2].DataPropertyName = "Description";
-                dgvProduct.Columns[3].DataPropertyName = "UnitRate";
-                dgvProduct.Columns[4].DataPropertyName = "Count";
-                dgvProduct.Columns[5].DataPropertyName = "Total";
-                dgvProduct.Columns[6].DataPropertyName = "ServiceTax";
-                dgvProduct.Columns[7].DataPropertyName = "LuxuryTax";
-                dgvProduct.Columns[8].DataPropertyName = "GrandTotal";
-
-                dgvProduct.AutoGenerateColumns = false;
-                dgvProduct.DataSource = invoiceList;               
+                this.dgvProduct.Columns[0].DataPropertyName = "StartDate";
+                this.dgvProduct.Columns[1].DataPropertyName = "EndDate";
+                this.dgvProduct.Columns[2].DataPropertyName = "Description";
+                this.dgvProduct.Columns[3].DataPropertyName = "UnitRate";
+                this.dgvProduct.Columns[4].DataPropertyName = "Count";
+                this.dgvProduct.Columns[5].DataPropertyName = "Total";
+                this.dgvProduct.Columns[6].DataPropertyName = "ServiceTax";
+                this.dgvProduct.Columns[7].DataPropertyName = "LuxuryTax";
+                this.dgvProduct.Columns[8].DataPropertyName = "GrandTotal";
+                
+                this.dgvProduct.AutoGenerateColumns = false;
+                this.dgvProduct.DataSource = invoiceList;               
             }
         }
 
