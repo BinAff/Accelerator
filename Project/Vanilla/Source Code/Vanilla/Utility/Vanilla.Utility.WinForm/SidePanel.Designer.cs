@@ -103,9 +103,10 @@
             // 
             // pnlContainer
             // 
-            this.pnlContainer.Location = new System.Drawing.Point(29, 101);
+            this.pnlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlContainer.Location = new System.Drawing.Point(0, 51);
             this.pnlContainer.Name = "pnlContainer";
-            this.pnlContainer.Size = new System.Drawing.Size(86, 100);
+            this.pnlContainer.Size = new System.Drawing.Size(156, 156);
             this.pnlContainer.TabIndex = 2;
             // 
             // pnlControlBar
@@ -121,8 +122,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Controls.Add(this.pnlControlBar);
             this.Controls.Add(this.pnlContainer);
+            this.Controls.Add(this.pnlControlBar);
             this.Controls.Add(this.pnlOptions);
             this.Controls.Add(this.pnlTitleBar);
             this.Name = "SidePanel";

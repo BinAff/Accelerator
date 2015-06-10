@@ -22,7 +22,7 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        public BindingList<Option> options;
+        private BindingList<Option> options;
         [Description("Options to display"), Category("Configuration")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public BindingList<Option> Options
@@ -49,6 +49,7 @@ namespace Vanilla.Utility.WinForm
                             if (String.Compare(item.Text, oldName) == 0) item.Text = newName;
                         }
                     };
+
                     Label label = new Label
                     {                        
                         Text = option.Name,
@@ -194,9 +195,13 @@ namespace Vanilla.Utility.WinForm
 
         public void ShowOption(Option option)
         {
-            if (option.Content != null)
+            this.SetColorToLabel(option.Name);
+            if (option.Content == null)
             {
-                this.SetColorToLabel(option.Name);
+                this.pnlContainer.Controls.Clear();
+            }
+            else
+            {
                 this.AddContentToContainer(option);
             }
         }

@@ -35,14 +35,15 @@ namespace Retinue.Lodge.WinForm
             : base(artifact)
         {
             InitializeComponent();
-
-            base.AncestorName = "Customer";
-            base.NextName = "Check in";
-            base.AttachmentName = "Advance Payment";
         }
 
         protected override void Compose()
         {
+            base.AncestorName = "Customer";
+            base.NextName = "Check in";
+            base.AttachmentName = "Advance Payment";
+            base.Previous = new Customer.WinForm.CustomerSummary();
+
             base.formDto = new Fac.FormDto
             {
                 //ModuleFormDto = new UtilFac.Module.FormDto(),
@@ -129,6 +130,8 @@ namespace Retinue.Lodge.WinForm
             this.ucRoomReservationDataEntry.RoomList = formDto.AllRoomList;
             this.ucRoomReservationDataEntry.RoomListChanged += ucRoomReservationDataEntry_RoomListChanged;
             this.ucRoomReservationDataEntry.LoadForm((base.formDto as Fac.FormDto).Dto as Fac.Dto);
+
+            (this.Previous as Customer.WinForm.CustomerSummary).LoadForm(((base.formDto as Fac.FormDto).Dto as Fac.Dto).Customer);
         }
 
         protected override void PopulateDataToForm()
@@ -168,6 +171,8 @@ namespace Retinue.Lodge.WinForm
 
         protected override void PopulateAnsestorData(FrmDocFac.Dto dto)
         {
+            (this.Previous as Customer.WinForm.CustomerSummary).LoadForm(dto as CustFac.Dto);
+
             this.ucRoomReservationDataEntry.PopulateCustomerSummary(dto as CustFac.Dto);
         }
 

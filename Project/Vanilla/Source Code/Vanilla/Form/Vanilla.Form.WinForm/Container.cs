@@ -48,7 +48,7 @@ namespace Vanilla.Form.WinForm
 
         private void Container_Load(object sender, EventArgs e)
         {
-
+            this.spnlRightLink.Options[0].Content = this.pnlAttachment;
         }
 
         private void Container_Shown(object sender, EventArgs e)
@@ -137,7 +137,9 @@ namespace Vanilla.Form.WinForm
 
             this.lblAttachmentHeading.Text = child.AttachmentName;
             this.spnlLeftLink.Options[0].Name = child.AncestorName;
+            this.spnlLeftLink.Options[0].Content = child.Previous;
             this.spnlLeftLink.Options[1].Name = child.NextName;
+            this.spnlLeftLink.Options[1].Content = child.Next;
 
             this.dgvAttachmentList.AutoGenerateColumns = false;
             this.formDto = new Facade.Container.FormDto

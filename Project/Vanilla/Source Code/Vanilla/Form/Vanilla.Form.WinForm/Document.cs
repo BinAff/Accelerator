@@ -32,9 +32,13 @@ namespace Vanilla.Form.WinForm
 
         protected DocFac.Dto InitialDto { get; private set; }
 
-        public String AncestorName { get; set; }
+        public String AncestorName { get; protected set; }
+
+        public Control Previous { get; protected set; }
 
         public String NextName { get; set; }
+
+        public Control Next { get; protected set; }
 
         public String AttachmentName { get; set; }
 
