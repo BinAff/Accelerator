@@ -50,7 +50,7 @@
             this.btnAddLink = new System.Windows.Forms.Button();
             this.btnViewLink = new System.Windows.Forms.Button();
             this.spnlLeftLink = new Vanilla.Utility.WinForm.SidePanel();
-            this.spnlRightLink = new Vanilla.Utility.WinForm.SidePanel();
+            this.spnlReference = new Vanilla.Utility.WinForm.SidePanel();
             this.pnlAttachment = new System.Windows.Forms.Panel();
             this.dgvAttachmentList = new System.Windows.Forms.DataGridView();
             this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -276,14 +276,14 @@
             this.spnlLeftLink.TabIndex = 9;
             this.spnlLeftLink.TitleBar = "Summary";
             // 
-            // spnlRightLink
+            // spnlReference
             // 
-            this.spnlRightLink.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.spnlRightLink.ControlBarPosition = System.Windows.Forms.DockStyle.Top;
-            this.spnlRightLink.Dock = System.Windows.Forms.DockStyle.Right;
-            this.spnlRightLink.IsControlBarVisible = false;
-            this.spnlRightLink.Location = new System.Drawing.Point(797, 74);
-            this.spnlRightLink.Name = "spnlRightLink";
+            this.spnlReference.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.spnlReference.ControlBarPosition = System.Windows.Forms.DockStyle.Top;
+            this.spnlReference.Dock = System.Windows.Forms.DockStyle.Right;
+            this.spnlReference.IsControlBarVisible = false;
+            this.spnlReference.Location = new System.Drawing.Point(797, 74);
+            this.spnlReference.Name = "spnlReference";
             option3.Content = null;
             option3.Dto = null;
             option3.Name = "Attachments";
@@ -292,11 +292,11 @@
             option4.Dto = null;
             option4.Name = "Remarks";
             option4.ViewForm = null;
-            this.spnlRightLink.Options.Add(option3);
-            this.spnlRightLink.Options.Add(option4);
-            this.spnlRightLink.Size = new System.Drawing.Size(160, 330);
-            this.spnlRightLink.TabIndex = 10;
-            this.spnlRightLink.TitleBar = "Reference";
+            this.spnlReference.Options.Add(option3);
+            this.spnlReference.Options.Add(option4);
+            this.spnlReference.Size = new System.Drawing.Size(160, 330);
+            this.spnlReference.TabIndex = 10;
+            this.spnlReference.TitleBar = "Reference";
             // 
             // pnlAttachment
             // 
@@ -367,7 +367,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(957, 426);
             this.Controls.Add(this.pnlAttachment);
-            this.Controls.Add(this.spnlRightLink);
+            this.Controls.Add(this.spnlReference);
             this.Controls.Add(this.spnlLeftLink);
             this.Controls.Add(this.pnlTopActionRibbon);
             this.IsMdiContainer = true;
@@ -379,7 +379,7 @@
             this.SizeChanged += new System.EventHandler(this.Container_SizeChanged);
             this.Controls.SetChildIndex(this.pnlTopActionRibbon, 0);
             this.Controls.SetChildIndex(this.spnlLeftLink, 0);
-            this.Controls.SetChildIndex(this.spnlRightLink, 0);
+            this.Controls.SetChildIndex(this.spnlReference, 0);
             this.Controls.SetChildIndex(this.pnlAttachment, 0);
             this.pnlTopActionRibbon.ResumeLayout(false);
             this.pnlAttachment.ResumeLayout(false);
@@ -405,7 +405,7 @@
         private System.Windows.Forms.Button btnNew;
         private System.Windows.Forms.ToolTip toolTip;
         private Utility.WinForm.SidePanel spnlLeftLink;
-        private Utility.WinForm.SidePanel spnlRightLink;
+        private Utility.WinForm.SidePanel spnlReference;
         private System.Windows.Forms.Panel pnlAttachment;
         private System.Windows.Forms.DataGridView dgvAttachmentList;
         private System.Windows.Forms.DataGridViewTextBoxColumn Path;

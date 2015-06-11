@@ -48,7 +48,7 @@ namespace Vanilla.Form.WinForm
 
         private void Container_Load(object sender, EventArgs e)
         {
-            this.spnlRightLink.Options[0].Content = this.pnlAttachment;
+            this.spnlReference.Options[0].Content = this.pnlAttachment;
             this.ReSize();
         }
 
@@ -102,20 +102,8 @@ namespace Vanilla.Form.WinForm
             Document child = this.ActiveMdiChild as Document;
             child.ButtonStatusChange += child_ButtonStatusChange;
 
-            this.btnOpenLink.Enabled = child.IsEnabledPickAncestorButton;
-            this.btnAddLink.Enabled = child.IsEnabledAddAncestorButton;
-            this.btnViewLink.Enabled = child.IsEnabledViewAncestorButton;
-
-            this.spnlLeftLink.Options.Clear();
-            foreach (Vanilla.Utility.WinForm.SidePanel.Option option in child.SummaryList)
-            {
-                this.spnlLeftLink.Options.Add(option);
-            }
-
-            this.HandleAttachment(child);
-
-            this.spnlLeftLink.ShowOption(0);
-            this.spnlRightLink.ShowOption(0);
+            this.HandleSummary(child);
+            this.HandleReference(child);
         }
 
         private void btnOpenLink_Click(object sender, EventArgs e)
@@ -169,7 +157,7 @@ namespace Vanilla.Form.WinForm
 
         protected override void OnRightPanleClick()
         {
-            this.spnlRightLink.Show();
+            this.spnlReference.Show();
         }
 
         void child_ButtonStatusChange(Document.ButtonType type, Document.ChangeProperty changeProperty, Boolean status)
@@ -211,6 +199,26 @@ namespace Vanilla.Form.WinForm
                     button.Visible = status;
                     break;
             }
+        }
+
+        private void HandleSummary(Document child)
+        {
+            this.btnOpenLink.Enabled = child.IsEnabledPickAncestorButton;
+            this.btnAddLink.Enabled = child.IsEnabledAddAncestorButton;
+            this.btnViewLink.Enabled = child.IsEnabledViewAncestorButton;
+
+            this.spnlLeftLink.Options.Clear();
+            foreach (Vanilla.Utility.WinForm.SidePanel.Option option in child.SummaryList)
+            {
+                this.spnlLeftLink.Options.Add(option);
+            }
+            this.spnlLeftLink.ShowOption(0);
+        }
+
+        private void HandleReference(Document child)
+        {
+            this.spnlReference.ShowOption(0);
+            this.HandleAttachment(child);
         }
 
         #region Attachment
@@ -317,7 +325,7 @@ namespace Vanilla.Form.WinForm
         private void ReSize()
         {
             this.spnlLeftLink.Width = (Int32)Math.Floor(this.Width * 0.4);
-            this.spnlRightLink.Width = (Int32)Math.Floor(this.Width * 0.2);
+            this.spnlReference.Width = (Int32)Math.Floor(this.Width * 0.2);
         }
 
     }
