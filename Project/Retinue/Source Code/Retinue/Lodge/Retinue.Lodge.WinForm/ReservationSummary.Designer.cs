@@ -31,6 +31,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tpnlContainer = new System.Windows.Forms.TableLayoutPanel();
+            this.ucCustomerSummary = new Retinue.Customer.WinForm.CustomerSummary();
             this.tpnlGuest = new System.Windows.Forms.TableLayoutPanel();
             this.txtInfant = new System.Windows.Forms.TextBox();
             this.txtFemale = new System.Windows.Forms.TextBox();
@@ -59,7 +60,6 @@
             this.RoomName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Display = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ExtraBed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ucCustomerSummary = new Retinue.Customer.WinForm.CustomerSummary();
             this.tpnlContainer.SuspendLayout();
             this.tpnlGuest.SuspendLayout();
             this.tplHeading.SuspendLayout();
@@ -95,6 +95,16 @@
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tpnlContainer.Size = new System.Drawing.Size(556, 413);
             this.tpnlContainer.TabIndex = 0;
+            // 
+            // ucCustomerSummary
+            // 
+            this.tpnlContainer.SetColumnSpan(this.ucCustomerSummary, 3);
+            this.ucCustomerSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucCustomerSummary.Location = new System.Drawing.Point(0, 0);
+            this.ucCustomerSummary.Margin = new System.Windows.Forms.Padding(0);
+            this.ucCustomerSummary.Name = "ucCustomerSummary";
+            this.ucCustomerSummary.Size = new System.Drawing.Size(556, 196);
+            this.ucCustomerSummary.TabIndex = 1;
             // 
             // tpnlGuest
             // 
@@ -434,16 +444,6 @@
             this.ExtraBed.Name = "ExtraBed";
             this.ExtraBed.ReadOnly = true;
             this.ExtraBed.Width = 80;
-            // 
-            // ucCustomerSummary
-            // 
-            this.tpnlContainer.SetColumnSpan(this.ucCustomerSummary, 3);
-            this.ucCustomerSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucCustomerSummary.Location = new System.Drawing.Point(0, 0);
-            this.ucCustomerSummary.Margin = new System.Windows.Forms.Padding(0);
-            this.ucCustomerSummary.Name = "ucCustomerSummary";
-            this.ucCustomerSummary.Size = new System.Drawing.Size(556, 196);
-            this.ucCustomerSummary.TabIndex = 1;
             // 
             // ReservationSummary
             // 
