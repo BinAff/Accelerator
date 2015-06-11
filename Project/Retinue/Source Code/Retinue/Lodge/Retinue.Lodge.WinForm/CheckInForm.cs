@@ -157,11 +157,11 @@ namespace Retinue.Lodge.WinForm
                     Name = "Room Reservation",
                     Content = new ReservationSummary(),
                 },
-                new UtilWin.SidePanel.Option
-                {
-                    Name = "Invoice",
-                    //Content = new InvoiceSummary(),
-                },
+                //new UtilWin.SidePanel.Option
+                //{
+                //    Name = "Invoice",
+                //    //Content = new InvoiceSummary(),
+                //},
             };
 
             this.formDto = new Fac.FormDto

@@ -38,33 +38,6 @@ namespace Retinue.Lodge.WinForm
         {
             InitializeComponent();
         }
-
-        protected override void Compose()
-        {
-            base.AttachmentName = "Advance Payment";
-
-            this.SummaryList = new List<UtilWin.SidePanel.Option>
-            {
-                new UtilWin.SidePanel.Option
-                {
-                    Name = "Customer",
-                    Content = new Customer.WinForm.CustomerSummary(),
-                },
-                new UtilWin.SidePanel.Option
-                {
-                    Name = "Check in",
-                    //Content = new InvoiceSummary(),
-                },
-            };
-
-            base.formDto = new Fac.FormDto
-            {
-                //ModuleFormDto = new UtilFac.Module.FormDto(),
-                Dto = new Fac.Dto()
-            };
-
-            base.facade = new Fac.Server(this.formDto as Fac.FormDto);
-        }
               
         public RoomReservationForm(Fac.Dto dto)
         {
@@ -111,6 +84,32 @@ namespace Retinue.Lodge.WinForm
         }
         
         #endregion
+
+        #region Override from framework
+
+        protected override void Compose()
+        {
+            base.AttachmentName = "Advance Payment";
+            base.SummaryList = new List<UtilWin.SidePanel.Option>
+            {
+                new UtilWin.SidePanel.Option
+                {
+                    Name = "Customer",
+                    Content = new Customer.WinForm.CustomerSummary(),
+                },
+                //new UtilWin.SidePanel.Option
+                //{
+                //    Name = "Check in",
+                //    //Content = new InvoiceSummary(),
+                //},
+            };
+
+            base.formDto = new Fac.FormDto
+            {
+                Dto = new Fac.Dto()
+            };
+            base.facade = new Fac.Server(this.formDto as Fac.FormDto);
+        }
         
         protected override void LoadForm()
         {
@@ -195,8 +194,6 @@ namespace Retinue.Lodge.WinForm
 
         protected override void AssignDto()
         {
-            //Customer Dto Assignment!
-
             this.ucRoomReservationDataEntry.AssignDto((base.formDto as Fac.FormDto).Dto as Fac.Dto);
         }
 
@@ -218,9 +215,11 @@ namespace Retinue.Lodge.WinForm
 
                     this.ucRoomReservationDataEntry.DisableFormControls();
                 }
-            }            
+            }
         }
-       
+
+        #endregion
+
     }
 
 }

@@ -62,6 +62,15 @@ namespace Vanilla.Form.WinForm
             
         }
 
+        private void Container_MdiChildActivate(object sender, EventArgs e)
+        {
+            Document child = this.ActiveMdiChild as Document;
+            child.ButtonStatusChange += child_ButtonStatusChange;
+
+            this.HandleSummary(child);
+            this.HandleReference(child);
+        }
+
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             (this.ActiveMdiChild as Document).RefreshForm();
@@ -95,15 +104,6 @@ namespace Vanilla.Form.WinForm
             {
                 this.BindAttachmentList(attachment);
             }
-        }
-
-        private void Container_MdiChildActivate(object sender, EventArgs e)
-        {
-            Document child = this.ActiveMdiChild as Document;
-            child.ButtonStatusChange += child_ButtonStatusChange;
-
-            this.HandleSummary(child);
-            this.HandleReference(child);
         }
 
         private void btnOpenLink_Click(object sender, EventArgs e)
