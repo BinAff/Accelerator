@@ -1,5 +1,5 @@
-﻿using System.Windows.Forms;
-using System;
+﻿using System;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Transactions;
 
@@ -15,10 +15,9 @@ using FrmWin = Vanilla.Form.WinForm;
 using InvWin = Vanilla.Accountant.WinForm;
 using UtilWin = Vanilla.Utility.WinForm;
 
-using RoomRsvFac = Retinue.Lodge.Facade.RoomReservation;
+using RsvFac = Retinue.Lodge.Facade.RoomReservation;
 using Fac = Retinue.Lodge.Facade.CheckIn;
 using RuleFac = Retinue.Configuration.Rule.Facade;
-using LodgeFac = Retinue.Lodge.Facade;
 using RoomFac = Retinue.Lodge.Configuration.Facade.Room;
 
 namespace Retinue.Lodge.WinForm
@@ -40,7 +39,7 @@ namespace Retinue.Lodge.WinForm
 
         private void btnCheckOut_Click(object sender, EventArgs e)
         {
-            (this.facade as LodgeFac.CheckIn.Server).CheckOut();
+            (this.facade as Fac.Server).CheckOut();
             new PresLib.MessageBox(this)
             {
                 DialogueType = PresLib.MessageBox.Type.Alert,
@@ -133,7 +132,7 @@ namespace Retinue.Lodge.WinForm
 
         private void ucRoomReservation_RoomListChanged(Int16 days, DateTime from)
         {
-            RoomRsvFac.Dto dto = ((base.formDto as Fac.FormDto).Dto as Fac.Dto).Reservation;
+            RsvFac.Dto dto = ((base.formDto as Fac.FormDto).Dto as Fac.Dto).Reservation;
             dto.BookingFrom = new DateTime(from.Year, from.Month, from.Day, from.Hour, from.Minute, from.Second);
             if (days > 0)
             {
@@ -170,7 +169,7 @@ namespace Retinue.Lodge.WinForm
                 ModuleFormDto = new UtilFac.Module.FormDto(),
                 Dto = new Fac.Dto 
                 {
-                    Reservation = new LodgeFac.RoomReservation.Dto()
+                    Reservation = new RsvFac.Dto()
                 }
             };
 
@@ -257,8 +256,8 @@ namespace Retinue.Lodge.WinForm
             dto.Id = dto == null ? 0 : dto.Id;         
             dto.Date = DateTime.Now;
             this.ucRoomReservation.AssignDto(dto.Reservation);
-            dto.Reservation.Status = RoomRsvFac.Status.CheckedIn;
-            dto.Status = RoomRsvFac.Status.CheckedIn;
+            dto.Reservation.Status = RsvFac.Status.CheckedIn;
+            dto.Status = RsvFac.Status.CheckedIn;
 
             dto.Purpose = txtPurpose.Text.Trim();
             dto.ArrivedFrom = txtArrivedFrom.Text.Trim();
@@ -279,11 +278,14 @@ namespace Retinue.Lodge.WinForm
 
         protected override void PopulateAnsestorData(FormDocFac.Dto dto)
         {
-            LodgeFac.RoomReservation.Dto reservation = dto as LodgeFac.RoomReservation.Dto;
+            ((base.formDto as Fac.FormDto).Dto as Fac.Dto).Reservation = dto as RsvFac.Dto;
+            (this.SummaryList[0].Content as ReservationSummary).LoadForm(dto as RsvFac.Dto);
+
+            RsvFac.Dto reservation = dto as RsvFac.Dto;
             this.ucRoomReservation.LoadForm(reservation);
             ((base.formDto as Fac.FormDto).Dto as Fac.Dto).Reservation = reservation;
             this.ucRoomReservation.PopulateDataToForm();
-            if (reservation.Status == RoomRsvFac.Status.CheckedIn)
+            if (reservation.Status == RsvFac.Status.CheckedIn)
             {
                 base.IsEnabledSaveButton = false;
                 new PresLib.MessageBox(this).Show(new BinAff.Core.Message("Reservation already checked in. Check in not allowed", BinAff.Core.Message.Type.Information));
@@ -323,7 +325,7 @@ namespace Retinue.Lodge.WinForm
                 this.txtPurpose.Enabled = false;
                 this.txtArrivedFrom.Enabled = false;
                 this.txtCheckInRemark.Enabled = false;
-                base.DisablePickAncestorButton();
+                base.IsEnabledPickAncestorButton = false;
                 base.DisableAddAncestorButton();
 
                 base.IsEnabledRefreshButton = false;
@@ -332,24 +334,24 @@ namespace Retinue.Lodge.WinForm
 
                 switch (dto.Reservation.Status)
                 {
-                    case RoomRsvFac.Status.CheckedIn:
+                    case RsvFac.Status.CheckedIn:
                         this.ucRoomReservation.EnableNoOfDays();
                         this.btnCheckOut.Enabled = true;
                         this.btnGenerateInvoice.Enabled = false;
                         this.btnPay.Enabled = false;
                         base.IsEnabledAttchment = true;
                         break;
-                    case RoomRsvFac.Status.CheckOut:
+                    case RsvFac.Status.CheckOut:
                         this.btnCheckOut.Enabled = false;
                         this.btnGenerateInvoice.Enabled = true;
                         this.btnPay.Enabled = false;
                         base.IsEnabledAttchment = false;
                         break;
-                    case RoomRsvFac.Status.Invoiced:
+                    case RsvFac.Status.Invoiced:
                         this.btnCheckOut.Enabled = false;
                         base.IsEnabledAttchment = false;
                         break;
-                    case RoomRsvFac.Status.Paid:
+                    case RsvFac.Status.Paid:
                         this.btnCheckOut.Enabled = false;
                         this.btnPay.Enabled = false;
                         base.IsEnabledAttchment = false;
@@ -370,7 +372,7 @@ namespace Retinue.Lodge.WinForm
 
         private void ResetLoad()
         {
-            //LodgeFac.RoomReservation.IReservation reservation = new LodgeFac.RoomReservation.ReservationServer(null);
+            //RsvFac.IReservation reservation = new RsvFac.ReservationServer(null);
             //this.formDto.dto.Date = this.refreshDto.Date;
             //this.formDto.dto.CustomerDisplayName = this.refreshDto.CustomerDisplayName;
             //this.formDto.dto.Reservation = reservation.CloneReservaion(this.refreshDto.Reservation);
@@ -382,7 +384,7 @@ namespace Retinue.Lodge.WinForm
         private UtilFac.Artifact.Dto GetInvoiceArtifact()
         {
             Facade.CheckIn.Dto dto = base.formDto.Dto as Facade.CheckIn.Dto;
-            Facade.CheckIn.Server checkInServer = new Facade.CheckIn.Server(base.formDto as LodgeFac.CheckIn.FormDto);
+            Facade.CheckIn.Server checkInServer = new Facade.CheckIn.Server(base.formDto as Fac.FormDto);
 
             return checkInServer.ReadInvoice();
         }
@@ -409,7 +411,7 @@ namespace Retinue.Lodge.WinForm
         {
             Fac.Dto dto = (base.formDto as Fac.FormDto).Dto as Fac.Dto;
             dto.Id = dto == null ? 0 : dto.Id;
-            dto.Reservation = dto.Reservation == null ? new LodgeFac.RoomReservation.Dto() : dto.Reservation;
+            dto.Reservation = dto.Reservation == null ? new RsvFac.Dto() : dto.Reservation;
 
             //dto.Reservation.BookingFrom = new DateTime(dtFrom.Value.Year, dtFrom.Value.Month, dtFrom.Value.Day, dtFromTime.Value.Hour, dtFromTime.Value.Minute, dtFromTime.Value.Second);
 
@@ -428,7 +430,7 @@ namespace Retinue.Lodge.WinForm
             Fac.Dto dto = (base.formDto as Fac.FormDto).Dto as Fac.Dto;
 
             if (dto.Reservation == null)
-                dto.Reservation = new LodgeFac.RoomReservation.Dto();
+                dto.Reservation = new RsvFac.Dto();
 
             //dto.Reservation.RoomCategory = this.cboCategory.SelectedItem == null ? null : new Table { Id = (this.cboCategory.SelectedItem as RoomCatFac.Dto).Id };
             //dto.Reservation.RoomType = this.cboType.SelectedItem == null ? null : new Table { Id = (this.cboType.SelectedItem as RoomTypFac.Dto).Id };
@@ -514,7 +516,7 @@ namespace Retinue.Lodge.WinForm
 
             //acPreference = this.cboAC.SelectedIndex;
 
-            ////LodgeFac.RoomReservation.IReservation reservation = new LodgeFac.RoomReservation.ReservationServer(null);
+            ////RsvFac.IReservation reservation = new RsvFac.ReservationServer(null);
             ////Boolean isValidRoom = reservation.ValidateRoomWithCategoryTypeAndACPreference(roomDto, roomCategoryId, roomTypeId, acPreference);
 
             ////if (!isValidRoom) return false;
@@ -559,7 +561,7 @@ namespace Retinue.Lodge.WinForm
             //    //this.formDto.dto.Date = new DateTime(dtCheckIn.Value.Year, dtCheckIn.Value.Month, dtCheckIn.Value.Day, dtCheckIn.Value.Hour, dtCheckIn.Value.Minute, dtCheckIn.Value.Second);
             //    this.formDto.dto.Date = DateTime.Now;
 
-            //    if (this.formDto.dto.Reservation == null) this.formDto.dto.Reservation = new LodgeFac.RoomReservation.Dto();
+            //    if (this.formDto.dto.Reservation == null) this.formDto.dto.Reservation = new RsvFac.Dto();
             //    this.formDto.dto.Reservation.Id = this.formDto.dto.Reservation == null ? 0 : this.formDto.dto.Reservation.Id;
 
             //    this.formDto.dto.Reservation.isCheckedIn = true;

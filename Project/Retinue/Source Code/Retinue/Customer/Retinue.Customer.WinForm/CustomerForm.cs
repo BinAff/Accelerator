@@ -179,7 +179,7 @@ namespace Retinue.Customer.WinForm
 
         protected override void DisableFormControls()
         {
-            base.DisablePickAncestorButton();
+            base.IsEnabledPickAncestorButton = false;
             base.DisableAddAncestorButton();
             base.IsEnabledAttchment = false;
         }

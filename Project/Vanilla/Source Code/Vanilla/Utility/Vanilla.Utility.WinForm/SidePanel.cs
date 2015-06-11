@@ -258,6 +258,8 @@ namespace Vanilla.Utility.WinForm
 
             public Form ViewForm { get; set; }
 
+            public Facade.Document.Dto Dto { get; set; }
+
             public delegate void OnNameChanged(String oldName, String newName);
             public event OnNameChanged NameChanged;
 

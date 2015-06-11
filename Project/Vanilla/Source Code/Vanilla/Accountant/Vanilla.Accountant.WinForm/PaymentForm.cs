@@ -36,6 +36,9 @@ namespace Vanilla.Accountant.WinForm
             : base(artifact)
         {
             InitializeComponent();
+            base.AddToolStripSeparator();
+            this.btnPrint = base.AddToolStripButton("6", "Wingdings 2", "Print");
+            this.btnPrint.Click += btnPrint_Click;
         }
 
         #region Event
@@ -150,10 +153,6 @@ namespace Vanilla.Accountant.WinForm
 
         protected override void LoadForm()
         {
-            base.AddToolStripSeparator();
-            this.btnPrint = base.AddToolStripButton("6", "Wingdings 2", "Print");
-            this.btnPrint.Click += btnPrint_Click;
-
             base.facade.LoadForm();
             this.SetPaymentGridViewSettings();
 
@@ -241,9 +240,8 @@ namespace Vanilla.Accountant.WinForm
             }
             else
             {
-                btnPrint.Enabled = false;
+                this.btnPrint.Enabled = false;
             }
-
         }
 
         protected override FrmWin.Document GetAnsestorForm()

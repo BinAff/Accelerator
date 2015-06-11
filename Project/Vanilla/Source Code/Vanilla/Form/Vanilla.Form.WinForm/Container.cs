@@ -102,7 +102,9 @@ namespace Vanilla.Form.WinForm
             Document child = this.ActiveMdiChild as Document;
             child.ButtonStatusChange += child_ButtonStatusChange;
 
-            this.lblAttachmentHeading.Text = child.AttachmentName;
+            this.btnOpenLink.Enabled = child.IsEnabledPickAncestorButton;
+            this.btnAddLink.Enabled = child.IsEnabledAddAncestorButton;
+            this.btnViewLink.Enabled = child.IsEnabledViewAncestorButton;
 
             this.spnlLeftLink.Options.Clear();
             foreach (Vanilla.Utility.WinForm.SidePanel.Option option in child.SummaryList)
@@ -110,39 +112,20 @@ namespace Vanilla.Form.WinForm
                 this.spnlLeftLink.Options.Add(option);
             }
 
-            this.dgvAttachmentList.AutoGenerateColumns = false;
-            this.formDto = new Facade.Container.FormDto
-            {
-                DocumentFormDto = new Facade.Document.FormDto
-                {
-                    Document = new ArtfFac.Dto
-                    {
-                        IsAttachmentSupported = child.IsAttachmentSupported,
-                        AttachmentList = child.AttachmentList,
-                    }
-                }
-            };
+            this.HandleAttachment(child);
 
-            this.dgvAttachmentList.Rows.Clear();
-            ArtfFac.Dto document = (this.formDto as Facade.Container.FormDto).DocumentFormDto.Document;
-            if (document.AttachmentList != null)
-            {
-                foreach (ArtfFac.Dto attachment in document.AttachmentList)
-                {
-                    this.dgvAttachmentList.Rows.Add(attachment.FullPath, "Delete");
-                }
-            }
-            this.btnAttach.Enabled = child.IsEnabledAttchment;
-            if (document.IsAttachmentSupported)
-            {
-                this.dgvAttachmentList.Show();
-            }
-            else
-            {
-                this.dgvAttachmentList.Hide();
-            }
             this.spnlLeftLink.ShowOption(0);
             this.spnlRightLink.ShowOption(0);
+        }
+
+        private void btnOpenLink_Click(object sender, EventArgs e)
+        {
+            (this.ActiveMdiChild as Document).PickAnsestor();
+        }
+
+        private void btnAddLink_Click(object sender, EventArgs e)
+        {
+            (this.ActiveMdiChild as Document).AddAnsestor();
         }
 
         private void btnViewLink_Click(object sender, EventArgs e)
@@ -206,6 +189,15 @@ namespace Vanilla.Form.WinForm
                 case Document.ButtonType.Attach:
                     button = this.btnAttach;
                     break;
+                case Document.ButtonType.AddAncestor:
+                    button = this.btnAddLink;
+                    break;
+                case Document.ButtonType.PickAncestor:
+                    button = this.btnOpenLink;
+                    break;
+                case Document.ButtonType.ViewAncestor:
+                    button = this.btnViewLink;
+                    break;
                 default:
                     button = this.btnDelete;
                     break;
@@ -218,6 +210,45 @@ namespace Vanilla.Form.WinForm
                 case Document.ChangeProperty.Visible:
                     button.Visible = status;
                     break;
+            }
+        }
+
+        #region Attachment
+
+        private void HandleAttachment(Document child)
+        {
+            this.lblAttachmentHeading.Text = child.AttachmentName;
+
+            this.dgvAttachmentList.AutoGenerateColumns = false;
+            this.formDto = new Facade.Container.FormDto
+            {
+                DocumentFormDto = new Facade.Document.FormDto
+                {
+                    Document = new ArtfFac.Dto
+                    {
+                        IsAttachmentSupported = child.IsAttachmentSupported,
+                        AttachmentList = child.AttachmentList,
+                    }
+                }
+            };
+
+            this.dgvAttachmentList.Rows.Clear();
+            ArtfFac.Dto document = (this.formDto as Facade.Container.FormDto).DocumentFormDto.Document;
+            if (document.AttachmentList != null)
+            {
+                foreach (ArtfFac.Dto attachment in document.AttachmentList)
+                {
+                    this.dgvAttachmentList.Rows.Add(attachment.FullPath, "Delete");
+                }
+            }
+            this.btnAttach.Enabled = child.IsEnabledAttchment;
+            if (document.IsAttachmentSupported)
+            {
+                this.dgvAttachmentList.Show();
+            }
+            else
+            {
+                this.dgvAttachmentList.Hide();
             }
         }
 
@@ -280,6 +311,8 @@ namespace Vanilla.Form.WinForm
             (this.ActiveMdiChild as Document).RaiseAttachmentArtifactLoaded(form);
             form.Show();
         }
+
+        #endregion
 
         private void ReSize()
         {

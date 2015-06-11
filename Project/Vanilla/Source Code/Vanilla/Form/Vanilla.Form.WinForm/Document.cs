@@ -34,8 +34,6 @@ namespace Vanilla.Form.WinForm
 
         public List<UtilWin.SidePanel.Option> SummaryList { get; set; }
 
-        //public String AncestorName { get; protected set; }
-
         public String AttachmentName { get; set; }
 
         public List<ArtfFac.Dto> AttachmentList
@@ -61,7 +59,7 @@ namespace Vanilla.Form.WinForm
         public delegate void OnButtonStatusChange(ButtonType type, ChangeProperty changeProperty, Boolean status);
         public event OnButtonStatusChange ButtonStatusChange;
 
-        public Boolean isEnabledRefreshButton;
+        public Boolean isEnabledRefreshButton = true;
         public Boolean IsEnabledRefreshButton
         {
             get
@@ -75,7 +73,7 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        public Boolean isEnabledSaveButton;
+        public Boolean isEnabledSaveButton = true;
         public Boolean IsEnabledSaveButton
         {
             get
@@ -89,7 +87,7 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        public Boolean isEnabledDeleteButton;
+        public Boolean isEnabledDeleteButton = true;
         public Boolean IsEnabledDeleteButton
         {
             get
@@ -100,6 +98,48 @@ namespace Vanilla.Form.WinForm
             {
                 this.isEnabledDeleteButton = value;
                 this.ButtonStatusChange(ButtonType.Delete, ChangeProperty.Enabled, value);
+            }
+        }
+
+        public Boolean isEnabledPickAncestorButton = true;
+        public Boolean IsEnabledPickAncestorButton
+        {
+            get
+            {
+                return this.isEnabledPickAncestorButton;
+            }
+            protected set
+            {
+                this.isEnabledPickAncestorButton = value;
+                this.ButtonStatusChange(ButtonType.PickAncestor, ChangeProperty.Enabled, value);
+            }
+        }
+
+        public Boolean isEnabledAddAncestorButton = true;
+        public Boolean IsEnabledAddAncestorButton
+        {
+            get
+            {
+                return this.isEnabledAddAncestorButton;
+            }
+            protected set
+            {
+                this.isEnabledAddAncestorButton = value;
+                this.ButtonStatusChange(ButtonType.AddAncestor, ChangeProperty.Enabled, value);
+            }
+        }
+
+        public Boolean isEnabledViewAncestorButton = true;
+        public Boolean IsEnabledViewAncestorButton
+        {
+            get
+            {
+                return this.isEnabledViewAncestorButton;
+            }
+            protected set
+            {
+                this.isEnabledViewAncestorButton = value;
+                this.ButtonStatusChange(ButtonType.ViewAncestor, ChangeProperty.Enabled, value);
             }
         }
 
@@ -407,7 +447,7 @@ namespace Vanilla.Form.WinForm
         /// <summary>
         /// Add method to pick existing ancestor artifact
         /// </summary>
-        protected void PickAnsestor()
+        public void PickAnsestor()
         {
             FrmWin.OpenDialog search = new FrmWin.OpenDialog
             {
@@ -434,7 +474,7 @@ namespace Vanilla.Form.WinForm
         /// <summary>
         /// Add method to add new ancestor artifact
         /// </summary>
-        protected void AddAnsestor()
+        public void AddAnsestor()
         {
             Document form = this.GetAnsestorForm();
             form.ArtifactSaved += delegate(ArtfFac.Dto document)
@@ -594,20 +634,20 @@ namespace Vanilla.Form.WinForm
             this.btnAddAncestor.Select();
         }
 
-        protected void EnablePickAncestorButton()
-        {
-            this.btnPickAncestor.Enabled = true;
-        }
+        //protected void EnablePickAncestorButton()
+        //{
+        //    this.btnPickAncestor.Enabled = true;
+        //}
 
-        protected void DisablePickAncestorButton()
-        {
-            this.btnPickAncestor.Enabled = false;
-        }
+        //protected void DisablePickAncestorButton()
+        //{
+        //    this.btnPickAncestor.Enabled = false;
+        //}
 
-        protected void FocusPickAncestor()
-        {
-            this.btnPickAncestor.Select();
-        }
+        //protected void FocusPickAncestor()
+        //{
+        //    this.btnPickAncestor.Select();
+        //}
 
         protected void AddToolStripSeparator()
         {
@@ -643,7 +683,10 @@ namespace Vanilla.Form.WinForm
             Delete,
             Save,
             Refresh,
-            Attach
+            Attach,
+            PickAncestor,
+            AddAncestor,
+            ViewAncestor,
         }
 
     }

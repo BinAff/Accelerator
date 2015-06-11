@@ -209,6 +209,7 @@
             this.btnAttach.Text = "\'";
             this.toolTip.SetToolTip(this.btnAttach, "Attach");
             this.btnAttach.UseVisualStyleBackColor = true;
+            this.btnAttach.Click += new System.EventHandler(this.btnAttach_Click);
             // 
             // btnOpenLink
             // 
@@ -222,6 +223,7 @@
             this.toolTip.SetToolTip(this.btnOpenLink, "Pick");
             this.btnOpenLink.UseMnemonic = false;
             this.btnOpenLink.UseVisualStyleBackColor = true;
+            this.btnOpenLink.Click += new System.EventHandler(this.btnOpenLink_Click);
             // 
             // btnAddLink
             // 
@@ -234,6 +236,7 @@
             this.btnAddLink.Text = "+";
             this.toolTip.SetToolTip(this.btnAddLink, "Add");
             this.btnAddLink.UseVisualStyleBackColor = true;
+            this.btnAddLink.Click += new System.EventHandler(this.btnAddLink_Click);
             // 
             // btnViewLink
             // 
@@ -260,9 +263,11 @@
             this.spnlLeftLink.Location = new System.Drawing.Point(0, 74);
             this.spnlLeftLink.Name = "spnlLeftLink";
             option1.Content = null;
+            option1.Dto = null;
             option1.Name = "Previous";
             option1.ViewForm = null;
             option2.Content = null;
+            option2.Dto = null;
             option2.Name = "Next";
             option2.ViewForm = null;
             this.spnlLeftLink.Options.Add(option1);
@@ -280,9 +285,11 @@
             this.spnlRightLink.Location = new System.Drawing.Point(797, 74);
             this.spnlRightLink.Name = "spnlRightLink";
             option3.Content = null;
+            option3.Dto = null;
             option3.Name = "Attachments";
             option3.ViewForm = null;
             option4.Content = null;
+            option4.Dto = null;
             option4.Name = "Remarks";
             option4.ViewForm = null;
             this.spnlRightLink.Options.Add(option3);

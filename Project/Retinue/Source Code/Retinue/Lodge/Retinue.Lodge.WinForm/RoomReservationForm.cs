@@ -172,11 +172,6 @@ namespace Retinue.Lodge.WinForm
             errorProvider.Clear();
         }
 
-        //protected override void RefreshFormAfter()
-        //{           
-        //    txtDays.Focus();
-        //}
-
         protected override FormWin.Document GetAnsestorForm()
         {
             return new Retinue.Customer.WinForm.CustomerForm(new ArtfFac.Dto());
@@ -184,6 +179,7 @@ namespace Retinue.Lodge.WinForm
 
         protected override void PopulateAnsestorData(FrmDocFac.Dto dto)
         {
+            ((base.formDto as FormDto).Dto as Dto).Customer = dto as CustFac.Dto;
             (this.SummaryList[0].Content as Customer.WinForm.CustomerSummary).LoadForm(dto as CustFac.Dto);
         }
 
@@ -199,6 +195,8 @@ namespace Retinue.Lodge.WinForm
 
         protected override void AssignDto()
         {
+            //Customer Dto Assignment!
+
             this.ucRoomReservationDataEntry.AssignDto((base.formDto as Fac.FormDto).Dto as Fac.Dto);
         }
 
@@ -213,7 +211,7 @@ namespace Retinue.Lodge.WinForm
                     base.IsEnabledRefreshButton = false;
                     base.IsEnabledSaveButton = false;
                     base.IsEnabledDeleteButton = false;
-                    base.DisablePickAncestorButton();
+                    base.IsEnabledPickAncestorButton = false;
                     base.DisableAddAncestorButton();
                     base.IsEnabledAttchment = false;
                     this.btnCancel.Enabled = false;

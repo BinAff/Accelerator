@@ -37,7 +37,6 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btnOk = new System.Windows.Forms.ToolStripButton();
-            this.btnPickAncestor = new System.Windows.Forms.ToolStripButton();
             this.btnAddAncestor = new System.Windows.Forms.ToolStripButton();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
@@ -97,7 +96,6 @@
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnOk,
-            this.btnPickAncestor,
             this.btnAddAncestor});
             this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
@@ -117,18 +115,6 @@
             this.btnOk.Text = "P";
             this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
-            // btnPickAncestor
-            // 
-            this.btnPickAncestor.AutoSize = false;
-            this.btnPickAncestor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnPickAncestor.Font = new System.Drawing.Font("Wingdings 3", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnPickAncestor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPickAncestor.Name = "btnPickAncestor";
-            this.btnPickAncestor.Size = new System.Drawing.Size(28, 28);
-            this.btnPickAncestor.Text = "Ì";
-            this.btnPickAncestor.ToolTipText = "Pick ";
-            this.btnPickAncestor.Click += new System.EventHandler(this.btnPickAncestor_Click);
             // 
             // btnAddAncestor
             // 
@@ -171,7 +157,6 @@
         private System.Windows.Forms.DataGridView dgvAttachmentList;
         protected System.Windows.Forms.ToolTip toolTip;
         protected System.Windows.Forms.ErrorProvider errorProvider;
-        private System.Windows.Forms.ToolStripButton btnPickAncestor;
         private System.Windows.Forms.ToolStripButton btnAddAncestor;
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.DataGridViewTextBoxColumn Path;
