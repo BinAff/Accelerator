@@ -49,6 +49,12 @@ namespace Vanilla.Form.WinForm
         private void Container_Load(object sender, EventArgs e)
         {
             this.spnlRightLink.Options[0].Content = this.pnlAttachment;
+            this.ReSize();
+        }
+
+        private void Container_SizeChanged(object sender, EventArgs e)
+        {
+            this.ReSize();
         }
 
         private void Container_Shown(object sender, EventArgs e)
@@ -266,6 +272,12 @@ namespace Vanilla.Form.WinForm
             form.MdiParent = this;
             (this.ActiveMdiChild as Document).RaiseAttachmentArtifactLoaded(form);
             form.Show();
+        }
+
+        private void ReSize()
+        {
+            this.spnlLeftLink.Width = (Int32)Math.Floor(this.Width * 0.4);
+            this.spnlRightLink.Width = (Int32)Math.Floor(this.Width * 0.2);
         }
 
     }

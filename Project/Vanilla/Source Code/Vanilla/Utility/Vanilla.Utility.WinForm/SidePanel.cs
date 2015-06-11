@@ -115,23 +115,27 @@ namespace Vanilla.Utility.WinForm
 
                 this.pnlControlBar.Controls.Clear();
 
-                //this.pnlOptions.ColumnStyles.Clear();
-                //Int32 count = this.options.Count;
-                //Int32 i = 0;
-                //foreach (Option option in this.options)
-                //{
+                Int32 count = this.options.Count;
+                Int32 i = 0;
+                foreach (Button controlButton in this.buttons)
+                {
+                    //Button button = new Button
+                    //{
+                    //    Name = controlButton.Name,
+                    //    Text = controlButton.Text,
+                    //    Dock = DockStyle.Left,
+                    //    Height = this.pnlControlBar.Height,
+                    //    Width = this.pnlControlBar.Height,
+                    //};
+                    //if (controlButton.Font != null) button.Font = controlButton.Font;
+                    this.pnlControlBar.Controls.Add(controlButton);
+                    controlButton.BringToFront();
                 //    option.NameChanged += delegate(String oldName, String newName)
                 //    {
                 //        foreach (Label item in this.pnlOptions.Controls)
                 //        {
                 //            if (String.Compare(item.Text, oldName) == 0) item.Text = newName;
                 //        }
-                //    };
-                //    Label label = new Label
-                //    {
-                //        Text = option.Name,
-                //        AutoSize = true,
-                //        Padding = new Padding(0, 0, 0, 0),
                 //    };
                 //    label.MouseEnter += delegate(object sender, EventArgs e)
                 //    {
@@ -145,9 +149,63 @@ namespace Vanilla.Utility.WinForm
                 //    label.Click += label_Click;
 
                 //    this.pnlOptions.Controls.Add(label, i++, 0);
-                //}
+                }
             }
         }
+
+        //public BindingList<ControlButton> buttons;
+        //[Description("Controls in control bar"), Category("Configuration")]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //public BindingList<ControlButton> ControlButtons
+        //{
+        //    get
+        //    {
+        //        return this.buttons;
+        //    }
+        //    set
+        //    {
+        //        if (this.buttons == null || this.buttons.Count == 0) return;
+        //        this.buttons = value;
+
+        //        this.pnlControlBar.Controls.Clear();
+
+        //        Int32 count = this.options.Count;
+        //        Int32 i = 0;
+        //        foreach (ControlButton controlButton in this.buttons)
+        //        {
+        //            Button button = new Button
+        //            {
+        //                Name = controlButton.Name,
+        //                Text = controlButton.Text,
+        //                Dock = DockStyle.Left,
+        //                Height = this.pnlControlBar.Height,
+        //                Width = this.pnlControlBar.Height,
+        //            };
+        //            if (controlButton.Font != null) button.Font = controlButton.Font;
+        //            this.pnlControlBar.Controls.Add(button);
+        //            button.BringToFront();
+        //            //    option.NameChanged += delegate(String oldName, String newName)
+        //            //    {
+        //            //        foreach (Label item in this.pnlOptions.Controls)
+        //            //        {
+        //            //            if (String.Compare(item.Text, oldName) == 0) item.Text = newName;
+        //            //        }
+        //            //    };
+        //            //    label.MouseEnter += delegate(object sender, EventArgs e)
+        //            //    {
+        //            //        (sender as Label).BackColor = SystemColors.ControlDark;
+        //            //    };
+        //            //    label.MouseLeave += delegate(object sender, EventArgs e)
+        //            //    {
+        //            //        (sender as Label).BackColor = SystemColors.Control;
+        //            //    };
+
+        //            //    label.Click += label_Click;
+
+        //            //    this.pnlOptions.Controls.Add(label, i++, 0);
+        //        }
+        //    }
+        //}
 
         public SidePanel()
         {
@@ -161,6 +219,11 @@ namespace Vanilla.Utility.WinForm
             {
                 this.ControlButtons = this.buttons;
             };
+            //this.buttons = new BindingList<ControlButton>();
+            //this.buttons.ListChanged += delegate(object sender, ListChangedEventArgs e)
+            //{
+            //    this.ControlButtons = this.buttons;
+            //};
             InitializeComponent();
             this.pnlContainer.Dock = DockStyle.Fill;
         }
@@ -263,6 +326,16 @@ namespace Vanilla.Utility.WinForm
 
             public delegate void OnNameChanged(String oldName, String newName);
             public event OnNameChanged NameChanged;
+
+        }
+
+        public class ControlButton
+        {
+
+            public String Name { get; set; }
+            public String Text { get; set; }
+            public String ToolTipText { get; set; }
+            public Font Font { get; set; }
 
         }
 

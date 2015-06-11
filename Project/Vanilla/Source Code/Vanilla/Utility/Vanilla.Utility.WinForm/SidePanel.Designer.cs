@@ -40,49 +40,59 @@
             // 
             // pnlTitleBar
             // 
-            this.pnlTitleBar.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pnlTitleBar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlTitleBar.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlTitleBar.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pnlTitleBar.Controls.Add(this.lblTitleBar);
             this.pnlTitleBar.Controls.Add(this.btnHide);
             this.pnlTitleBar.Controls.Add(this.btnClose);
             this.pnlTitleBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTitleBar.Location = new System.Drawing.Point(0, 0);
             this.pnlTitleBar.Name = "pnlTitleBar";
-            this.pnlTitleBar.Size = new System.Drawing.Size(156, 20);
+            this.pnlTitleBar.Size = new System.Drawing.Size(156, 26);
             this.pnlTitleBar.TabIndex = 0;
             // 
             // lblTitleBar
             // 
+            this.lblTitleBar.BackColor = System.Drawing.SystemColors.Control;
             this.lblTitleBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblTitleBar.Location = new System.Drawing.Point(0, 0);
             this.lblTitleBar.Name = "lblTitleBar";
-            this.lblTitleBar.Size = new System.Drawing.Size(114, 18);
+            this.lblTitleBar.Size = new System.Drawing.Size(100, 22);
             this.lblTitleBar.TabIndex = 2;
             this.lblTitleBar.Text = "Panel Title Bar";
             this.lblTitleBar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnHide
             // 
+            this.btnHide.BackColor = System.Drawing.SystemColors.Control;
             this.btnHide.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnHide.Font = new System.Drawing.Font("Wingdings", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnHide.Location = new System.Drawing.Point(114, 0);
+            this.btnHide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHide.Font = new System.Drawing.Font("Webdings", 8F);
+            this.btnHide.Location = new System.Drawing.Point(100, 0);
+            this.btnHide.Margin = new System.Windows.Forms.Padding(0);
             this.btnHide.Name = "btnHide";
-            this.btnHide.Size = new System.Drawing.Size(20, 18);
+            this.btnHide.Size = new System.Drawing.Size(26, 22);
             this.btnHide.TabIndex = 1;
-            this.btnHide.Text = "×";
-            this.btnHide.UseVisualStyleBackColor = true;
+            this.btnHide.Text = "ë";
+            this.btnHide.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnHide.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.btnHide.UseMnemonic = false;
+            this.btnHide.UseVisualStyleBackColor = false;
             this.btnHide.Click += new System.EventHandler(this.btnHide_Click);
             // 
             // btnClose
             // 
+            this.btnClose.BackColor = System.Drawing.SystemColors.Control;
+            this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnClose.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
-            this.btnClose.Location = new System.Drawing.Point(134, 0);
+            this.btnClose.Location = new System.Drawing.Point(126, 0);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(20, 18);
+            this.btnClose.Size = new System.Drawing.Size(26, 22);
             this.btnClose.TabIndex = 0;
             this.btnClose.Text = "X";
-            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // pnlOptions
@@ -104,15 +114,15 @@
             // pnlContainer
             // 
             this.pnlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlContainer.Location = new System.Drawing.Point(0, 51);
+            this.pnlContainer.Location = new System.Drawing.Point(0, 57);
             this.pnlContainer.Name = "pnlContainer";
-            this.pnlContainer.Size = new System.Drawing.Size(156, 156);
+            this.pnlContainer.Size = new System.Drawing.Size(156, 150);
             this.pnlContainer.TabIndex = 2;
             // 
             // pnlControlBar
             // 
             this.pnlControlBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlControlBar.Location = new System.Drawing.Point(0, 20);
+            this.pnlControlBar.Location = new System.Drawing.Point(0, 26);
             this.pnlControlBar.Name = "pnlControlBar";
             this.pnlControlBar.Size = new System.Drawing.Size(156, 31);
             this.pnlControlBar.TabIndex = 3;
