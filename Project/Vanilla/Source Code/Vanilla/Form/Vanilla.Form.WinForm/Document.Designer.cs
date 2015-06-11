@@ -37,7 +37,6 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btnOk = new System.Windows.Forms.ToolStripButton();
-            this.btnAddAncestor = new System.Windows.Forms.ToolStripButton();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -95,13 +94,12 @@
             // toolStrip
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnOk,
-            this.btnAddAncestor});
+            this.btnOk});
             this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip.Size = new System.Drawing.Size(962, 31);
+            this.toolStrip.Size = new System.Drawing.Size(962, 27);
             this.toolStrip.TabIndex = 100;
             // 
             // btnOk
@@ -111,22 +109,10 @@
             this.btnOk.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
             this.btnOk.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(28, 28);
+            this.btnOk.Size = new System.Drawing.Size(28, 24);
             this.btnOk.Text = "P";
             this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
-            // btnAddAncestor
-            // 
-            this.btnAddAncestor.AutoSize = false;
-            this.btnAddAncestor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnAddAncestor.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnAddAncestor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddAncestor.Name = "btnAddAncestor";
-            this.btnAddAncestor.Size = new System.Drawing.Size(28, 28);
-            this.btnAddAncestor.Text = "Ç";
-            this.btnAddAncestor.ToolTipText = "Add ";
-            this.btnAddAncestor.Click += new System.EventHandler(this.btnAddAncestor_Click);
             // 
             // Document
             // 
@@ -157,7 +143,6 @@
         private System.Windows.Forms.DataGridView dgvAttachmentList;
         protected System.Windows.Forms.ToolTip toolTip;
         protected System.Windows.Forms.ErrorProvider errorProvider;
-        private System.Windows.Forms.ToolStripButton btnAddAncestor;
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.DataGridViewTextBoxColumn Path;
         private System.Windows.Forms.DataGridViewLinkColumn Action;

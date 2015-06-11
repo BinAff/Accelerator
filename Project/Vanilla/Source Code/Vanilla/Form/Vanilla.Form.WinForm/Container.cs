@@ -118,7 +118,7 @@ namespace Vanilla.Form.WinForm
 
         private void btnViewLink_Click(object sender, EventArgs e)
         {
-            Document child = this.ActiveMdiChild as Document;
+            (this.ActiveMdiChild as Document).ViewAncestor();
         }
 
         protected override void Compose()

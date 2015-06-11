@@ -69,7 +69,7 @@ namespace Vanilla.Form.WinForm
             protected set
             {
                 this.isEnabledRefreshButton = value;
-                this.ButtonStatusChange(ButtonType.Refresh, ChangeProperty.Enabled, value);
+                if (this.ButtonStatusChange != null) this.ButtonStatusChange(ButtonType.Refresh, ChangeProperty.Enabled, value);
             }
         }
 
@@ -83,7 +83,7 @@ namespace Vanilla.Form.WinForm
             protected set
             {
                 this.isEnabledSaveButton = value;
-                this.ButtonStatusChange(ButtonType.Save, ChangeProperty.Enabled, value);
+                if (this.ButtonStatusChange != null) this.ButtonStatusChange(ButtonType.Save, ChangeProperty.Enabled, value);
             }
         }
 
@@ -97,7 +97,7 @@ namespace Vanilla.Form.WinForm
             protected set
             {
                 this.isEnabledDeleteButton = value;
-                this.ButtonStatusChange(ButtonType.Delete, ChangeProperty.Enabled, value);
+                if (this.ButtonStatusChange != null) this.ButtonStatusChange(ButtonType.Delete, ChangeProperty.Enabled, value);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Vanilla.Form.WinForm
             protected set
             {
                 this.isEnabledPickAncestorButton = value;
-                this.ButtonStatusChange(ButtonType.PickAncestor, ChangeProperty.Enabled, value);
+                if (this.ButtonStatusChange != null) this.ButtonStatusChange(ButtonType.PickAncestor, ChangeProperty.Enabled, value);
             }
         }
 
@@ -125,7 +125,7 @@ namespace Vanilla.Form.WinForm
             protected set
             {
                 this.isEnabledAddAncestorButton = value;
-                this.ButtonStatusChange(ButtonType.AddAncestor, ChangeProperty.Enabled, value);
+                if (this.ButtonStatusChange != null) this.ButtonStatusChange(ButtonType.AddAncestor, ChangeProperty.Enabled, value);
             }
         }
 
@@ -139,7 +139,7 @@ namespace Vanilla.Form.WinForm
             protected set
             {
                 this.isEnabledViewAncestorButton = value;
-                this.ButtonStatusChange(ButtonType.ViewAncestor, ChangeProperty.Enabled, value);
+                if (this.ButtonStatusChange != null) this.ButtonStatusChange(ButtonType.ViewAncestor, ChangeProperty.Enabled, value);
             }
         }
 
@@ -153,7 +153,7 @@ namespace Vanilla.Form.WinForm
             set
             {
                 this.isEnabledAttchment = value;
-                this.ButtonStatusChange(ButtonType.Attach, ChangeProperty.Enabled, value);
+                if (this.ButtonStatusChange != null) this.ButtonStatusChange(ButtonType.Attach, ChangeProperty.Enabled, value);
             }
         }
 
@@ -436,16 +436,7 @@ namespace Vanilla.Form.WinForm
         }
 
         /// <summary>
-        /// Revert form data to initial state when form loaded
-        /// </summary>
-        protected void RevertForm()
-        {
-            base.formDto.Dto = this.InitialDto;
-            this.PopulateDataToForm();
-        }
-
-        /// <summary>
-        /// Add method to pick existing ancestor artifact
+        /// Pick existing ancestor artifact
         /// </summary>
         public void PickAnsestor()
         {
@@ -454,7 +445,10 @@ namespace Vanilla.Form.WinForm
                 ModuleForFilter = (this.facade as Facade.Document.Server).GetAncestorComponentCode(),
                 Mode = FrmWin.OpenDialog.ActionMode.Search,
             };
-            search.FolderSaved += dialog_FolderSaved;
+            search.FolderSaved += delegate(ArtfFac.Dto document)
+            {
+                base.saveDialogue_FolderSaved(document);
+            };
             base.ArtifactSaved += delegate(ArtfFac.Dto document)
             {
                 base.RaiseChildArtifactSaved(document);
@@ -466,13 +460,8 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        protected void dialog_FolderSaved(ArtfFac.Dto document)
-        {
-            base.saveDialogue_FolderSaved(document);
-        }
-
         /// <summary>
-        /// Add method to add new ancestor artifact
+        /// Add new ancestor artifact
         /// </summary>
         public void AddAnsestor()
         {
@@ -486,6 +475,22 @@ namespace Vanilla.Form.WinForm
             {
                 this.PopulateAnsestorData(form.Artifact.Module as Facade.Document.Dto);
             }
+        }
+
+        /// <summary>
+        /// View ancestor form in different window
+        /// </summary>
+        public void ViewAncestor()
+        {
+        }
+
+        /// <summary>
+        /// Revert form data to initial state when form loaded
+        /// </summary>
+        protected void RevertForm()
+        {
+            base.formDto.Dto = this.InitialDto;
+            this.PopulateDataToForm();
         }
 
         #region Mandatory Hooks
@@ -589,66 +594,6 @@ namespace Vanilla.Form.WinForm
 
         #region Visual Control
 
-        //protected void EnableRefreshButton()
-        //{
-        //    this.btnRefresh.Enabled = true;
-        //}
-
-        //protected void DisableRefreshButton()
-        //{
-        //    this.btnRefresh.Enabled = false;
-        //}
-
-        //protected void EnableOkButton()
-        //{
-        //    this.btnOk.Enabled = true;
-        //}
-
-        //protected void DisableOkButton()
-        //{
-        //    this.btnOk.Enabled = false;
-        //}
-
-        //protected void EnableDeleteButton()
-        //{
-        //    this.btnDelete.Enabled = true;
-        //}
-
-        //protected void DisableDeleteButton()
-        //{
-        //    this.btnDelete.Enabled = false;
-        //}
-
-        protected void EnableAddAncestorButton()
-        {
-            this.btnAddAncestor.Enabled = true;
-        }
-
-        protected void DisableAddAncestorButton()
-        {
-            this.btnAddAncestor.Enabled = false;
-        }
-
-        protected void FocusAddAncestor()
-        {
-            this.btnAddAncestor.Select();
-        }
-
-        //protected void EnablePickAncestorButton()
-        //{
-        //    this.btnPickAncestor.Enabled = true;
-        //}
-
-        //protected void DisablePickAncestorButton()
-        //{
-        //    this.btnPickAncestor.Enabled = false;
-        //}
-
-        //protected void FocusPickAncestor()
-        //{
-        //    this.btnPickAncestor.Select();
-        //}
-
         protected void AddToolStripSeparator()
         {
             this.toolStrip.Items.Add(new ToolStripSeparator());
@@ -675,7 +620,6 @@ namespace Vanilla.Form.WinForm
         {
             Enabled,
             Visible,
-            //Locked,
         }
 
         public enum ButtonType

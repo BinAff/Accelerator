@@ -209,7 +209,7 @@ namespace Retinue.Lodge.WinForm
                     base.IsEnabledSaveButton = false;
                     base.IsEnabledDeleteButton = false;
                     base.IsEnabledPickAncestorButton = false;
-                    base.DisableAddAncestorButton();
+                    base.IsEnabledAddAncestorButton = false;
                     base.IsEnabledAttchment = false;
                     this.btnCancel.Enabled = false;
 

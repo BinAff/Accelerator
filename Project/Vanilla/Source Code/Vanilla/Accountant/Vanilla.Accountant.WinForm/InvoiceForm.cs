@@ -118,7 +118,7 @@ namespace Vanilla.Accountant.WinForm
             else
             {
                 base.IsEnabledSaveButton = false;
-                base.DisableAddAncestorButton();
+                base.IsEnabledAddAncestorButton = false;
                 base.isEnabledPickAncestorButton = false;
                 this.txtDiscount.Enabled = false;
             }

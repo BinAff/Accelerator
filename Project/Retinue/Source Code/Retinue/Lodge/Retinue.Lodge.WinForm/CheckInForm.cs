@@ -326,7 +326,7 @@ namespace Retinue.Lodge.WinForm
                 this.txtArrivedFrom.Enabled = false;
                 this.txtCheckInRemark.Enabled = false;
                 base.IsEnabledPickAncestorButton = false;
-                base.DisableAddAncestorButton();
+                base.IsEnabledAddAncestorButton = false;
 
                 base.IsEnabledRefreshButton = false;
                 base.IsEnabledSaveButton = false;
