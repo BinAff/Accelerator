@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.ucRoomReservationDataEntry = new Retinue.Lodge.WinForm.RoomReservationDataEntry();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -37,7 +38,7 @@
             this.ucRoomReservationDataEntry.Location = new System.Drawing.Point(0, 27);
             this.ucRoomReservationDataEntry.Name = "ucRoomReservationDataEntry";
             this.ucRoomReservationDataEntry.Size = new System.Drawing.Size(717, 358);
-            this.ucRoomReservationDataEntry.TabIndex = 1008;
+            this.ucRoomReservationDataEntry.TabIndex = 101;
             // 
             // RoomReservationForm
             // 
@@ -58,5 +59,6 @@
         #endregion
 
         private RoomReservationDataEntry ucRoomReservationDataEntry;
+
     }
 }

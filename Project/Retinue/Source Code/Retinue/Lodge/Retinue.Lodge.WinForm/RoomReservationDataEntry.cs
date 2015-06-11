@@ -16,7 +16,7 @@ using RoomTypeFac = Retinue.Lodge.Configuration.Facade.Room.Type;
 namespace Retinue.Lodge.WinForm
 {
 
-    internal partial class RoomReservationDataEntry : UserControl
+    public partial class RoomReservationDataEntry : UserControl
     {
 
         internal List<RoomCatFac.Dto> CategoryList { get; set; }
@@ -43,7 +43,7 @@ namespace Retinue.Lodge.WinForm
         internal delegate void OnRoomListChange(Int16 days, DateTime from);
         internal event OnRoomListChange RoomListChanged;
 
-        internal RoomReservationDataEntry()
+        public RoomReservationDataEntry()
         {
             InitializeComponent();
             this.isLoading = true;

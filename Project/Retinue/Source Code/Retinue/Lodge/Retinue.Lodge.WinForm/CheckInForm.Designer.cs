@@ -34,21 +34,25 @@
             this.txtCheckInRemark = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.txtPurpose = new System.Windows.Forms.TextBox();
+            this.tpnlContainer = new System.Windows.Forms.TableLayoutPanel();
+            this.ucRoomReservationDataEntry = new Retinue.Lodge.WinForm.RoomReservationDataEntry();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            this.tpnlContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtArrivedFrom
             // 
             this.txtArrivedFrom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtArrivedFrom.Location = new System.Drawing.Point(89, 446);
+            this.txtArrivedFrom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtArrivedFrom.Location = new System.Drawing.Point(217, 411);
             this.txtArrivedFrom.Name = "txtArrivedFrom";
-            this.txtArrivedFrom.Size = new System.Drawing.Size(450, 20);
+            this.txtArrivedFrom.Size = new System.Drawing.Size(396, 20);
             this.txtArrivedFrom.TabIndex = 17;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(6, 449);
+            this.label15.Location = new System.Drawing.Point(3, 408);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(66, 13);
             this.label15.TabIndex = 1032;
@@ -57,7 +61,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(6, 391);
+            this.label18.Location = new System.Drawing.Point(3, 360);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(46, 13);
             this.label18.TabIndex = 1034;
@@ -65,16 +69,17 @@
             // 
             // txtCheckInRemark
             // 
-            this.txtCheckInRemark.Location = new System.Drawing.Point(89, 472);
+            this.txtCheckInRemark.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtCheckInRemark.Location = new System.Drawing.Point(217, 435);
             this.txtCheckInRemark.Multiline = true;
             this.txtCheckInRemark.Name = "txtCheckInRemark";
-            this.txtCheckInRemark.Size = new System.Drawing.Size(450, 50);
+            this.txtCheckInRemark.Size = new System.Drawing.Size(396, 42);
             this.txtCheckInRemark.TabIndex = 18;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(6, 475);
+            this.label19.Location = new System.Drawing.Point(3, 432);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(49, 13);
             this.label19.TabIndex = 1036;
@@ -83,43 +88,59 @@
             // txtPurpose
             // 
             this.txtPurpose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtPurpose.Location = new System.Drawing.Point(89, 388);
+            this.txtPurpose.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtPurpose.Location = new System.Drawing.Point(217, 363);
             this.txtPurpose.Multiline = true;
             this.txtPurpose.Name = "txtPurpose";
-            this.txtPurpose.Size = new System.Drawing.Size(450, 50);
+            this.txtPurpose.Size = new System.Drawing.Size(396, 42);
             this.txtPurpose.TabIndex = 16;
             // 
-            // ucRoomReservation
+            // tpnlContainer
             // 
-            this.ucRoomReservation = new RoomReservationDataEntry();
-            this.ucRoomReservation.Location = new System.Drawing.Point(6, 35);
-            this.ucRoomReservation.Name = "ucRoomReservation";
-            this.ucRoomReservation.Size = new System.Drawing.Size(538, 347);
-            this.ucRoomReservation.TabIndex = 1037;
+            this.tpnlContainer.ColumnCount = 3;
+            this.tpnlContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tpnlContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tpnlContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
+            this.tpnlContainer.Controls.Add(this.label18, 0, 1);
+            this.tpnlContainer.Controls.Add(this.txtPurpose, 2, 1);
+            this.tpnlContainer.Controls.Add(this.txtCheckInRemark, 2, 3);
+            this.tpnlContainer.Controls.Add(this.label15, 0, 2);
+            this.tpnlContainer.Controls.Add(this.label19, 0, 3);
+            this.tpnlContainer.Controls.Add(this.txtArrivedFrom, 2, 2);
+            this.tpnlContainer.Controls.Add(this.ucRoomReservationDataEntry, 0, 0);
+            this.tpnlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tpnlContainer.Location = new System.Drawing.Point(0, 27);
+            this.tpnlContainer.Name = "tpnlContainer";
+            this.tpnlContainer.RowCount = 4;
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 360F));
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            this.tpnlContainer.Size = new System.Drawing.Size(616, 472);
+            this.tpnlContainer.TabIndex = 1038;
+            // 
+            // ucRoomReservationDataEntry
+            // 
+            this.tpnlContainer.SetColumnSpan(this.ucRoomReservationDataEntry, 3);
+            this.ucRoomReservationDataEntry.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucRoomReservationDataEntry.Location = new System.Drawing.Point(3, 3);
+            this.ucRoomReservationDataEntry.Name = "ucRoomReservationDataEntry";
+            this.ucRoomReservationDataEntry.Size = new System.Drawing.Size(610, 354);
+            this.ucRoomReservationDataEntry.TabIndex = 1037;
             // 
             // CheckInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(551, 530);
-            this.Controls.Add(this.ucRoomReservation);
-            this.Controls.Add(this.txtCheckInRemark);
-            this.Controls.Add(this.label19);
-            this.Controls.Add(this.txtPurpose);
-            this.Controls.Add(this.label18);
-            this.Controls.Add(this.txtArrivedFrom);
-            this.Controls.Add(this.label15);
+            this.ClientSize = new System.Drawing.Size(616, 499);
+            this.Controls.Add(this.tpnlContainer);
             this.Name = "CheckInForm";
             this.ShowInTaskbar = false;
             this.Text = "Check In Form";
-            this.Controls.SetChildIndex(this.label15, 0);
-            this.Controls.SetChildIndex(this.txtArrivedFrom, 0);
-            this.Controls.SetChildIndex(this.label18, 0);
-            this.Controls.SetChildIndex(this.txtPurpose, 0);
-            this.Controls.SetChildIndex(this.label19, 0);
-            this.Controls.SetChildIndex(this.txtCheckInRemark, 0);
-            this.Controls.SetChildIndex(this.ucRoomReservation, 0);
+            this.Controls.SetChildIndex(this.tpnlContainer, 0);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            this.tpnlContainer.ResumeLayout(false);
+            this.tpnlContainer.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -134,6 +155,8 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox txtPurpose;
         private RoomReservationDataEntry ucRoomReservation;
+        private System.Windows.Forms.TableLayoutPanel tpnlContainer;
+        private RoomReservationDataEntry ucRoomReservationDataEntry;
 
     }
 }

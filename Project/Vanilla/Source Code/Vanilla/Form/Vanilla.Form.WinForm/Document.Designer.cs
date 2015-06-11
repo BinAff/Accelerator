@@ -122,9 +122,9 @@
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.pnlAttachment);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.MaximizeBox = false;
             this.Name = "Document";
             this.Text = "Forms";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Controls.SetChildIndex(this.pnlAttachment, 0);
             this.Controls.SetChildIndex(this.toolStrip, 0);
             this.pnlAttachment.ResumeLayout(false);
