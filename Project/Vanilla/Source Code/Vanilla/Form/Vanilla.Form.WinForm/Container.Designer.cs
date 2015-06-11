@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Vanilla.Utility.WinForm.SidePanel.Option option5 = new Vanilla.Utility.WinForm.SidePanel.Option();
-            Vanilla.Utility.WinForm.SidePanel.Option option6 = new Vanilla.Utility.WinForm.SidePanel.Option();
-            Vanilla.Utility.WinForm.SidePanel.Option option7 = new Vanilla.Utility.WinForm.SidePanel.Option();
-            Vanilla.Utility.WinForm.SidePanel.Option option8 = new Vanilla.Utility.WinForm.SidePanel.Option();
+            Vanilla.Utility.WinForm.SidePanel.Option option1 = new Vanilla.Utility.WinForm.SidePanel.Option();
+            Vanilla.Utility.WinForm.SidePanel.Option option2 = new Vanilla.Utility.WinForm.SidePanel.Option();
+            Vanilla.Utility.WinForm.SidePanel.Option option3 = new Vanilla.Utility.WinForm.SidePanel.Option();
+            Vanilla.Utility.WinForm.SidePanel.Option option4 = new Vanilla.Utility.WinForm.SidePanel.Option();
             this.pnlTopActionRibbon = new System.Windows.Forms.Panel();
             this.pnlMenuSeperator2 = new System.Windows.Forms.Panel();
             this.btnSendEmail = new System.Windows.Forms.Button();
@@ -46,6 +46,9 @@
             this.btnNew = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnAttach = new System.Windows.Forms.Button();
+            this.btnOpenLink = new System.Windows.Forms.Button();
+            this.btnAddLink = new System.Windows.Forms.Button();
+            this.btnViewLink = new System.Windows.Forms.Button();
             this.spnlLeftLink = new Vanilla.Utility.WinForm.SidePanel();
             this.spnlRightLink = new Vanilla.Utility.WinForm.SidePanel();
             this.pnlAttachment = new System.Windows.Forms.Panel();
@@ -54,9 +57,6 @@
             this.Delete = new System.Windows.Forms.DataGridViewLinkColumn();
             this.pnlAttachmentHeading = new System.Windows.Forms.Panel();
             this.lblAttachmentHeading = new System.Windows.Forms.Label();
-            this.btnOpenLink = new System.Windows.Forms.Button();
-            this.btnAddLink = new System.Windows.Forms.Button();
-            this.btnViewLink = new System.Windows.Forms.Button();
             this.pnlTopActionRibbon.SuspendLayout();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
@@ -210,6 +210,44 @@
             this.toolTip.SetToolTip(this.btnAttach, "Attach");
             this.btnAttach.UseVisualStyleBackColor = true;
             // 
+            // btnOpenLink
+            // 
+            this.btnOpenLink.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnOpenLink.Font = new System.Drawing.Font("Wingdings", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnOpenLink.Location = new System.Drawing.Point(0, 0);
+            this.btnOpenLink.Name = "btnOpenLink";
+            this.btnOpenLink.Size = new System.Drawing.Size(31, 31);
+            this.btnOpenLink.TabIndex = 0;
+            this.btnOpenLink.Text = "&";
+            this.toolTip.SetToolTip(this.btnOpenLink, "Pick");
+            this.btnOpenLink.UseMnemonic = false;
+            this.btnOpenLink.UseVisualStyleBackColor = true;
+            // 
+            // btnAddLink
+            // 
+            this.btnAddLink.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnAddLink.Font = new System.Drawing.Font("Vrinda", 14F);
+            this.btnAddLink.Location = new System.Drawing.Point(31, 0);
+            this.btnAddLink.Name = "btnAddLink";
+            this.btnAddLink.Size = new System.Drawing.Size(31, 31);
+            this.btnAddLink.TabIndex = 1;
+            this.btnAddLink.Text = "+";
+            this.toolTip.SetToolTip(this.btnAddLink, "Add");
+            this.btnAddLink.UseVisualStyleBackColor = true;
+            // 
+            // btnViewLink
+            // 
+            this.btnViewLink.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnViewLink.Font = new System.Drawing.Font("Webdings", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnViewLink.Location = new System.Drawing.Point(62, 0);
+            this.btnViewLink.Name = "btnViewLink";
+            this.btnViewLink.Size = new System.Drawing.Size(31, 31);
+            this.btnViewLink.TabIndex = 2;
+            this.btnViewLink.Text = "L";
+            this.toolTip.SetToolTip(this.btnViewLink, "View");
+            this.btnViewLink.UseVisualStyleBackColor = true;
+            this.btnViewLink.Click += new System.EventHandler(this.btnViewLink_Click);
+            // 
             // spnlLeftLink
             // 
             this.spnlLeftLink.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -221,13 +259,15 @@
             this.spnlLeftLink.IsControlBarVisible = true;
             this.spnlLeftLink.Location = new System.Drawing.Point(0, 74);
             this.spnlLeftLink.Name = "spnlLeftLink";
-            option5.Content = null;
-            option5.Name = "Previous";
-            option6.Content = null;
-            option6.Name = "Next";
-            this.spnlLeftLink.Options.Add(option5);
-            this.spnlLeftLink.Options.Add(option6);
-            this.spnlLeftLink.Size = new System.Drawing.Size(412, 330);
+            option1.Content = null;
+            option1.Name = "Previous";
+            option1.ViewForm = null;
+            option2.Content = null;
+            option2.Name = "Next";
+            option2.ViewForm = null;
+            this.spnlLeftLink.Options.Add(option1);
+            this.spnlLeftLink.Options.Add(option2);
+            this.spnlLeftLink.Size = new System.Drawing.Size(199, 330);
             this.spnlLeftLink.TabIndex = 9;
             this.spnlLeftLink.TitleBar = "Summary";
             // 
@@ -239,12 +279,14 @@
             this.spnlRightLink.IsControlBarVisible = false;
             this.spnlRightLink.Location = new System.Drawing.Point(797, 74);
             this.spnlRightLink.Name = "spnlRightLink";
-            option7.Content = null;
-            option7.Name = "Attachments";
-            option8.Content = null;
-            option8.Name = "Remarks";
-            this.spnlRightLink.Options.Add(option7);
-            this.spnlRightLink.Options.Add(option8);
+            option3.Content = null;
+            option3.Name = "Attachments";
+            option3.ViewForm = null;
+            option4.Content = null;
+            option4.Name = "Remarks";
+            option4.ViewForm = null;
+            this.spnlRightLink.Options.Add(option3);
+            this.spnlRightLink.Options.Add(option4);
             this.spnlRightLink.Size = new System.Drawing.Size(160, 330);
             this.spnlRightLink.TabIndex = 10;
             this.spnlRightLink.TitleBar = "Reference";
@@ -311,43 +353,6 @@
             this.lblAttachmentHeading.Size = new System.Drawing.Size(195, 28);
             this.lblAttachmentHeading.TabIndex = 13;
             this.lblAttachmentHeading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnOpenLink
-            // 
-            this.btnOpenLink.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnOpenLink.Font = new System.Drawing.Font("Wingdings", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnOpenLink.Location = new System.Drawing.Point(0, 0);
-            this.btnOpenLink.Name = "btnOpenLink";
-            this.btnOpenLink.Size = new System.Drawing.Size(31, 31);
-            this.btnOpenLink.TabIndex = 0;
-            this.btnOpenLink.Text = "&";
-            this.toolTip.SetToolTip(this.btnOpenLink, "Pick");
-            this.btnOpenLink.UseMnemonic = false;
-            this.btnOpenLink.UseVisualStyleBackColor = true;
-            // 
-            // btnAddLink
-            // 
-            this.btnAddLink.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnAddLink.Font = new System.Drawing.Font("Vrinda", 14F);
-            this.btnAddLink.Location = new System.Drawing.Point(31, 0);
-            this.btnAddLink.Name = "btnAddLink";
-            this.btnAddLink.Size = new System.Drawing.Size(31, 31);
-            this.btnAddLink.TabIndex = 1;
-            this.btnAddLink.Text = "+";
-            this.toolTip.SetToolTip(this.btnAddLink, "Add");
-            this.btnAddLink.UseVisualStyleBackColor = true;
-            // 
-            // btnViewLink
-            // 
-            this.btnViewLink.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnViewLink.Font = new System.Drawing.Font("Webdings", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnViewLink.Location = new System.Drawing.Point(62, 0);
-            this.btnViewLink.Name = "btnViewLink";
-            this.btnViewLink.Size = new System.Drawing.Size(31, 31);
-            this.btnViewLink.TabIndex = 2;
-            this.btnViewLink.Text = "L";
-            this.toolTip.SetToolTip(this.btnViewLink, "View");
-            this.btnViewLink.UseVisualStyleBackColor = true;
             // 
             // Container
             // 

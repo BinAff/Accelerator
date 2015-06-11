@@ -31,6 +31,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tpnlContainer = new System.Windows.Forms.TableLayoutPanel();
+            this.ucCustomerSummary = new Retinue.Customer.WinForm.CustomerSummary();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.txtInfant = new System.Windows.Forms.TextBox();
             this.txtFemale = new System.Windows.Forms.TextBox();
@@ -55,11 +56,10 @@
             this.txtDate = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvRoom = new System.Windows.Forms.DataGridView();
-            this.ucCustomerSummary = new Retinue.Customer.WinForm.CustomerSummary();
-            this.ExtraBed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Display = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RoomName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RoomName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Display = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ExtraBed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tpnlContainer.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -95,6 +95,16 @@
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tpnlContainer.Size = new System.Drawing.Size(556, 413);
             this.tpnlContainer.TabIndex = 0;
+            // 
+            // ucCustomerSummary
+            // 
+            this.tpnlContainer.SetColumnSpan(this.ucCustomerSummary, 3);
+            this.ucCustomerSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucCustomerSummary.Location = new System.Drawing.Point(0, 0);
+            this.ucCustomerSummary.Margin = new System.Windows.Forms.Padding(0);
+            this.ucCustomerSummary.Name = "ucCustomerSummary";
+            this.ucCustomerSummary.Size = new System.Drawing.Size(556, 196);
+            this.ucCustomerSummary.TabIndex = 1;
             // 
             // tableLayoutPanel4
             // 
@@ -403,23 +413,21 @@
             this.dgvRoom.Size = new System.Drawing.Size(550, 111);
             this.dgvRoom.TabIndex = 1034;
             // 
-            // ucCustomerSummary
+            // Number
             // 
-            this.tpnlContainer.SetColumnSpan(this.ucCustomerSummary, 3);
-            this.ucCustomerSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucCustomerSummary.Location = new System.Drawing.Point(0, 0);
-            this.ucCustomerSummary.Margin = new System.Windows.Forms.Padding(0);
-            this.ucCustomerSummary.Name = "ucCustomerSummary";
-            this.ucCustomerSummary.Size = new System.Drawing.Size(556, 196);
-            this.ucCustomerSummary.TabIndex = 1;
+            this.Number.FillWeight = 50F;
+            this.Number.Frozen = true;
+            this.Number.HeaderText = "Number";
+            this.Number.Name = "Number";
+            this.Number.ReadOnly = true;
+            this.Number.Width = 50;
             // 
-            // ExtraBed
+            // RoomName
             // 
-            this.ExtraBed.FillWeight = 80F;
-            this.ExtraBed.HeaderText = "Extra Bed";
-            this.ExtraBed.Name = "ExtraBed";
-            this.ExtraBed.ReadOnly = true;
-            this.ExtraBed.Width = 80;
+            this.RoomName.Frozen = true;
+            this.RoomName.HeaderText = "Name";
+            this.RoomName.Name = "RoomName";
+            this.RoomName.ReadOnly = true;
             // 
             // Display
             // 
@@ -429,21 +437,13 @@
             this.Display.ReadOnly = true;
             this.Display.Width = 200;
             // 
-            // RoomName
+            // ExtraBed
             // 
-            this.RoomName.Frozen = true;
-            this.RoomName.HeaderText = "Name";
-            this.RoomName.Name = "RoomName";
-            this.RoomName.ReadOnly = true;
-            // 
-            // Number
-            // 
-            this.Number.FillWeight = 50F;
-            this.Number.Frozen = true;
-            this.Number.HeaderText = "Number";
-            this.Number.Name = "Number";
-            this.Number.ReadOnly = true;
-            this.Number.Width = 50;
+            this.ExtraBed.FillWeight = 80F;
+            this.ExtraBed.HeaderText = "Extra Bed";
+            this.ExtraBed.Name = "ExtraBed";
+            this.ExtraBed.ReadOnly = true;
+            this.ExtraBed.Width = 80;
             // 
             // ReservationSummary
             // 

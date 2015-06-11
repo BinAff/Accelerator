@@ -13,6 +13,7 @@ using FormDocFac = Vanilla.Form.Facade.Document;
 
 using FrmWin = Vanilla.Form.WinForm;
 using InvWin = Vanilla.Accountant.WinForm;
+using UtilWin = Vanilla.Utility.WinForm;
 
 using RoomRsvFac = Retinue.Lodge.Facade.RoomReservation;
 using Fac = Retinue.Lodge.Facade.CheckIn;
@@ -148,10 +149,21 @@ namespace Retinue.Lodge.WinForm
 
         protected override void Compose()
         {
-            base.AncestorName = "Room Reservation";
-            base.NextName = "Invoice";
             base.AttachmentName = "Advance Payment";
-            base.Previous = new ReservationSummary();
+
+            this.SummaryList = new List<UtilWin.SidePanel.Option>
+            {
+                new UtilWin.SidePanel.Option
+                {
+                    Name = "Room Reservation",
+                    Content = new ReservationSummary(),
+                },
+                new UtilWin.SidePanel.Option
+                {
+                    Name = "Invoice",
+                    //Content = new InvoiceSummary(),
+                },
+            };
 
             this.formDto = new Fac.FormDto
             {
@@ -194,7 +206,7 @@ namespace Retinue.Lodge.WinForm
             //this.configRuleDto = formDto.ConfigurationRuleDto;
             //if (this.configRuleDto.DateFormat != null) this.dtFrom.CustomFormat = this.configRuleDto.DateFormat;
 
-            (this.Previous as ReservationSummary).LoadForm(((base.formDto as Fac.FormDto).Dto as Fac.Dto).Reservation);
+            (this.SummaryList[0].Content as ReservationSummary).LoadForm(((base.formDto as Fac.FormDto).Dto as Fac.Dto).Reservation);
         }
 
         protected override void PopulateDataToForm()
@@ -208,6 +220,8 @@ namespace Retinue.Lodge.WinForm
                 this.ucRoomReservation.PopulateDataToForm();
             }
             this.btnGenerateInvoice.ToolTipText = ((base.formDto.Dto as Facade.CheckIn.Dto).Invoice == null ? "Generate" : "View") + " Invoice";
+            //base.SummaryList[0].ViewForm = new RoomReservationForm((base.formDto.Dto as Facade.CheckIn.Dto).Reservation);
+            //base.SummaryList[0].ViewForm = new Vanilla.Accountant.WinForm.InvoiceForm((base.formDto.Dto as Facade.CheckIn.Dto).Invoice);
         }
 
         protected override void SetDefault()

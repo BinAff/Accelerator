@@ -7,12 +7,15 @@ using BinAff.Utility;
 using BinAff.Presentation.Library.Extension;
 
 using AccFac = Vanilla.Guardian.Facade.Account;
-using CustFac = Retinue.Customer.Facade;
-using ConfRuleFac = Retinue.Configuration.Rule.Facade;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using UtilFac = Vanilla.Utility.Facade;
-using FormWin = Vanilla.Form.WinForm;
 using DocFac = Vanilla.Utility.Facade.Document;
+
+using UtilWin = Vanilla.Utility.WinForm;
+using FormWin = Vanilla.Form.WinForm;
+
+using CustFac = Retinue.Customer.Facade;
+using ConfRuleFac = Retinue.Configuration.Rule.Facade;
 
 namespace Retinue.Customer.WinForm
 {
@@ -40,8 +43,6 @@ namespace Retinue.Customer.WinForm
 
         private void CustomerForm_Load(object sender, System.EventArgs e)
         {
-            //base.AttachmentName = "...";
-
             //if loaded form room reservation form , then populate the modules
             //if (this.isLoadedFromRoomReservationForm)
             //{
@@ -156,8 +157,19 @@ namespace Retinue.Customer.WinForm
 
         protected override void Compose()
         {
-            base.AncestorName = String.Empty;
-            base.NextName = "Reservation";
+            this.SummaryList = new List<UtilWin.SidePanel.Option>
+            {
+                new UtilWin.SidePanel.Option
+                {
+                    Name = String.Empty,
+                    //Content = new Customer.WinForm.CustomerSummary(),
+                },
+                new UtilWin.SidePanel.Option
+                {
+                    Name = "Reservation",
+                    //Content = new InvoiceSummary(),
+                },
+            };
             base.formDto = new Facade.FormDto
             {
                 ModuleFormDto = new Vanilla.Utility.Facade.Module.FormDto(),

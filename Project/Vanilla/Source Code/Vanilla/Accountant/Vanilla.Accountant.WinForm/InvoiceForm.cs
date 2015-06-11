@@ -5,8 +5,10 @@ using BinAff.Utility;
 using BinAff.Core;
 using PresLib = BinAff.Presentation.Library;
 
-using FrmWin = Vanilla.Form.WinForm;
 using UtilFac = Vanilla.Utility.Facade;
+
+using FrmWin = Vanilla.Form.WinForm;
+using UtilWin = Vanilla.Utility.WinForm;
 
 using PayFac = Vanilla.Accountant.Facade.Payment;
 using InvFac = Vanilla.Accountant.Facade.Invoice;
@@ -63,8 +65,19 @@ namespace Vanilla.Accountant.WinForm
 
             this.facade = new InvFac.Server(base.formDto as InvFac.FormDto);
 
-            this.AncestorName = "Check In";
-            this.NextName = "Payment";
+            this.SummaryList = new List<UtilWin.SidePanel.Option>
+            {
+                new UtilWin.SidePanel.Option
+                {
+                    Name = "Check In",
+                    //Content = new Customer.WinForm.CustomerSummary(),
+                },
+                new UtilWin.SidePanel.Option
+                {
+                    Name = "Payment",
+                    //Content = new InvoiceSummary(),
+                },
+            };
         }
 
         protected override void LoadForm()

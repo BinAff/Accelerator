@@ -8,10 +8,12 @@ using BinAff.Core;
 using BinAff.Presentation.Library.Extension;
 using PresLib = BinAff.Presentation.Library;
 
-using FrmWin = Vanilla.Form.WinForm;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using InvFac = Vanilla.Accountant.Facade.Invoice;
 using PayFac = Vanilla.Accountant.Facade.Payment;
+
+using FrmWin = Vanilla.Form.WinForm;
+using UtilWin = Vanilla.Utility.WinForm;
 
 namespace Vanilla.Accountant.WinForm
 {
@@ -126,7 +128,24 @@ namespace Vanilla.Accountant.WinForm
             };
 
             this.facade = new PayFac.Server(this.formDto as PayFac.FormDto);
-            this.AncestorName = "Invoice"; //It may be invoice, may be reservation, may be checkin
+            this.SummaryList = new List<UtilWin.SidePanel.Option>
+            {
+                new UtilWin.SidePanel.Option
+                {
+                    Name = "Invoice",
+                    //Content = new Customer.WinForm.CustomerSummary(), //Difficult to assign
+                },
+                new UtilWin.SidePanel.Option
+                {
+                    Name = "Reservation",
+                    //Content = new ReservationSummary(), //Difficult to assign
+                },
+                new UtilWin.SidePanel.Option
+                {
+                    Name = "Check In",
+                    //Content = new InvoiceSummary(), //Difficult to assign
+                },
+            };
         }
 
         protected override void LoadForm()

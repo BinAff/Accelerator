@@ -11,8 +11,10 @@ using AccFac = Vanilla.Guardian.Facade.Account;
 using DocFac = Vanilla.Utility.Facade.Document;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using FrmDocFac = Vanilla.Form.Facade.Document;
+
 using InvWin = Vanilla.Accountant.WinForm;
 using FormWin = Vanilla.Form.WinForm;
+using UtilWin = Vanilla.Utility.WinForm;
 
 using Fac = Retinue.Lodge.Facade.RoomReservation;
 using RuleFac = Retinue.Configuration.Rule.Facade;
@@ -39,10 +41,21 @@ namespace Retinue.Lodge.WinForm
 
         protected override void Compose()
         {
-            base.AncestorName = "Customer";
-            base.NextName = "Check in";
             base.AttachmentName = "Advance Payment";
-            base.Previous = new Customer.WinForm.CustomerSummary();
+
+            this.SummaryList = new List<UtilWin.SidePanel.Option>
+            {
+                new UtilWin.SidePanel.Option
+                {
+                    Name = "Customer",
+                    Content = new Customer.WinForm.CustomerSummary(),
+                },
+                new UtilWin.SidePanel.Option
+                {
+                    Name = "Check in",
+                    //Content = new InvoiceSummary(),
+                },
+            };
 
             base.formDto = new Fac.FormDto
             {
@@ -131,7 +144,7 @@ namespace Retinue.Lodge.WinForm
             this.ucRoomReservationDataEntry.RoomListChanged += ucRoomReservationDataEntry_RoomListChanged;
             this.ucRoomReservationDataEntry.LoadForm((base.formDto as Fac.FormDto).Dto as Fac.Dto);
 
-            (this.Previous as Customer.WinForm.CustomerSummary).LoadForm(((base.formDto as Fac.FormDto).Dto as Fac.Dto).Customer);
+            (this.SummaryList[0].Content as Customer.WinForm.CustomerSummary).LoadForm(((base.formDto as Fac.FormDto).Dto as Fac.Dto).Customer);
         }
 
         protected override void PopulateDataToForm()
@@ -171,7 +184,7 @@ namespace Retinue.Lodge.WinForm
 
         protected override void PopulateAnsestorData(FrmDocFac.Dto dto)
         {
-            (this.Previous as Customer.WinForm.CustomerSummary).LoadForm(dto as CustFac.Dto);
+            (this.SummaryList[0].Content as Customer.WinForm.CustomerSummary).LoadForm(dto as CustFac.Dto);
         }
 
         protected override FormWin.Document GetAttachment()

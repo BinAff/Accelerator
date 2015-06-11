@@ -97,6 +97,59 @@ namespace Vanilla.Form.WinForm
             }
         }
 
+        private void Container_MdiChildActivate(object sender, EventArgs e)
+        {
+            Document child = this.ActiveMdiChild as Document;
+            child.ButtonStatusChange += child_ButtonStatusChange;
+
+            this.lblAttachmentHeading.Text = child.AttachmentName;
+
+            this.spnlLeftLink.Options.Clear();
+            foreach (Vanilla.Utility.WinForm.SidePanel.Option option in child.SummaryList)
+            {
+                this.spnlLeftLink.Options.Add(option);
+            }
+
+            this.dgvAttachmentList.AutoGenerateColumns = false;
+            this.formDto = new Facade.Container.FormDto
+            {
+                DocumentFormDto = new Facade.Document.FormDto
+                {
+                    Document = new ArtfFac.Dto
+                    {
+                        IsAttachmentSupported = child.IsAttachmentSupported,
+                        AttachmentList = child.AttachmentList,
+                    }
+                }
+            };
+
+            this.dgvAttachmentList.Rows.Clear();
+            ArtfFac.Dto document = (this.formDto as Facade.Container.FormDto).DocumentFormDto.Document;
+            if (document.AttachmentList != null)
+            {
+                foreach (ArtfFac.Dto attachment in document.AttachmentList)
+                {
+                    this.dgvAttachmentList.Rows.Add(attachment.FullPath, "Delete");
+                }
+            }
+            this.btnAttach.Enabled = child.IsEnabledAttchment;
+            if (document.IsAttachmentSupported)
+            {
+                this.dgvAttachmentList.Show();
+            }
+            else
+            {
+                this.dgvAttachmentList.Hide();
+            }
+            this.spnlLeftLink.ShowOption(0);
+            this.spnlRightLink.ShowOption(0);
+        }
+
+        private void btnViewLink_Click(object sender, EventArgs e)
+        {
+            Document child = this.ActiveMdiChild as Document;
+        }
+
         protected override void Compose()
         {
             base.facade = new Facade.Container.Server(null);
@@ -134,52 +187,6 @@ namespace Vanilla.Form.WinForm
         protected override void OnRightPanleClick()
         {
             this.spnlRightLink.Show();
-        }
-
-        private void Container_MdiChildActivate(object sender, EventArgs e)
-        {
-            Document child = this.ActiveMdiChild as Document;
-            child.ButtonStatusChange += child_ButtonStatusChange;
-
-            this.lblAttachmentHeading.Text = child.AttachmentName;
-            this.spnlLeftLink.Options[0].Name = child.AncestorName;
-            this.spnlLeftLink.Options[0].Content = child.Previous;
-            this.spnlLeftLink.Options[1].Name = child.NextName;
-            this.spnlLeftLink.Options[1].Content = child.Next;
-
-            this.dgvAttachmentList.AutoGenerateColumns = false;
-            this.formDto = new Facade.Container.FormDto
-            {
-                DocumentFormDto = new Facade.Document.FormDto
-                {
-                    Document = new ArtfFac.Dto
-                    {
-                        IsAttachmentSupported = child.IsAttachmentSupported,
-                        AttachmentList = child.AttachmentList,
-                    }
-                }
-            };
-
-            this.dgvAttachmentList.Rows.Clear();
-            ArtfFac.Dto document = (this.formDto as Facade.Container.FormDto).DocumentFormDto.Document;
-            if (document.AttachmentList != null)
-            {
-                foreach (ArtfFac.Dto attachment in document.AttachmentList)
-                {
-                    this.dgvAttachmentList.Rows.Add(attachment.FullPath, "Delete");
-                }
-            }
-            this.btnAttach.Enabled = child.IsEnabledAttchment;
-            if (document.IsAttachmentSupported)
-            {
-                this.dgvAttachmentList.Show();
-            }
-            else
-            {
-                this.dgvAttachmentList.Hide();
-            }
-            this.spnlLeftLink.ShowOption(0);
-            this.spnlRightLink.ShowOption(0);
         }
 
         void child_ButtonStatusChange(Document.ButtonType type, Document.ChangeProperty changeProperty, Boolean status)
