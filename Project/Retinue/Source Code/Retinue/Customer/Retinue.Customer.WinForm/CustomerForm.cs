@@ -181,6 +181,7 @@ namespace Retinue.Customer.WinForm
         {
             base.IsEnabledPickAncestorButton = false;
             base.IsEnabledAddAncestorButton = false;
+            base.IsEnabledViewAncestorButton = false;
             base.IsEnabledAttchment = false;
         }
 

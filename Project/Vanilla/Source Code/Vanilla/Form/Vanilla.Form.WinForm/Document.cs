@@ -59,7 +59,7 @@ namespace Vanilla.Form.WinForm
         public delegate void OnButtonStatusChange(ButtonType type, ChangeProperty changeProperty, Boolean status);
         public event OnButtonStatusChange ButtonStatusChange;
 
-        public Boolean isEnabledRefreshButton = true;
+        private Boolean isEnabledRefreshButton = true;
         public Boolean IsEnabledRefreshButton
         {
             get
@@ -73,7 +73,7 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        public Boolean isEnabledSaveButton = true;
+        private Boolean isEnabledSaveButton = true;
         public Boolean IsEnabledSaveButton
         {
             get
@@ -87,7 +87,7 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        public Boolean isEnabledDeleteButton = true;
+        private Boolean isEnabledDeleteButton = true;
         public Boolean IsEnabledDeleteButton
         {
             get
@@ -101,7 +101,7 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        public Boolean isEnabledPickAncestorButton = true;
+        private Boolean isEnabledPickAncestorButton = true;
         public Boolean IsEnabledPickAncestorButton
         {
             get
@@ -115,7 +115,7 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        public Boolean isEnabledAddAncestorButton = true;
+        private Boolean isEnabledAddAncestorButton = true;
         public Boolean IsEnabledAddAncestorButton
         {
             get
@@ -129,7 +129,7 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        public Boolean isEnabledViewAncestorButton = true;
+        private Boolean isEnabledViewAncestorButton = true;
         public Boolean IsEnabledViewAncestorButton
         {
             get
