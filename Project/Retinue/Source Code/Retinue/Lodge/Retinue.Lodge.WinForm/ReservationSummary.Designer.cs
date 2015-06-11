@@ -31,8 +31,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tpnlContainer = new System.Windows.Forms.TableLayoutPanel();
-            this.ucCustomerSummary = new Retinue.Customer.WinForm.CustomerSummary();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.tpnlGuest = new System.Windows.Forms.TableLayoutPanel();
             this.txtInfant = new System.Windows.Forms.TextBox();
             this.txtFemale = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -41,7 +40,7 @@
             this.txtMale = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtChild = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tplHeading = new System.Windows.Forms.TableLayoutPanel();
             this.label17 = new System.Windows.Forms.Label();
             this.txtReservationNo = new System.Windows.Forms.TextBox();
             this.txtStatus = new System.Windows.Forms.TextBox();
@@ -60,9 +59,10 @@
             this.RoomName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Display = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ExtraBed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ucCustomerSummary = new Retinue.Customer.WinForm.CustomerSummary();
             this.tpnlContainer.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tpnlGuest.SuspendLayout();
+            this.tplHeading.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tpnlFrom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRoom)).BeginInit();
@@ -75,8 +75,8 @@
             this.tpnlContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
             this.tpnlContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
             this.tpnlContainer.Controls.Add(this.ucCustomerSummary, 0, 0);
-            this.tpnlContainer.Controls.Add(this.tableLayoutPanel4, 0, 5);
-            this.tpnlContainer.Controls.Add(this.tableLayoutPanel1, 0, 1);
+            this.tpnlContainer.Controls.Add(this.tpnlGuest, 0, 5);
+            this.tpnlContainer.Controls.Add(this.tplHeading, 0, 1);
             this.tpnlContainer.Controls.Add(this.tableLayoutPanel3, 0, 3);
             this.tpnlContainer.Controls.Add(this.tpnlFrom, 2, 2);
             this.tpnlContainer.Controls.Add(this.label1, 0, 2);
@@ -96,44 +96,34 @@
             this.tpnlContainer.Size = new System.Drawing.Size(556, 413);
             this.tpnlContainer.TabIndex = 0;
             // 
-            // ucCustomerSummary
+            // tpnlGuest
             // 
-            this.tpnlContainer.SetColumnSpan(this.ucCustomerSummary, 3);
-            this.ucCustomerSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucCustomerSummary.Location = new System.Drawing.Point(0, 0);
-            this.ucCustomerSummary.Margin = new System.Windows.Forms.Padding(0);
-            this.ucCustomerSummary.Name = "ucCustomerSummary";
-            this.ucCustomerSummary.Size = new System.Drawing.Size(556, 196);
-            this.ucCustomerSummary.TabIndex = 1;
-            // 
-            // tableLayoutPanel4
-            // 
-            this.tableLayoutPanel4.ColumnCount = 8;
-            this.tpnlContainer.SetColumnSpan(this.tableLayoutPanel4, 3);
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel4.Controls.Add(this.txtInfant, 7, 0);
-            this.tableLayoutPanel4.Controls.Add(this.txtFemale, 3, 0);
-            this.tableLayoutPanel4.Controls.Add(this.label11, 6, 0);
-            this.tableLayoutPanel4.Controls.Add(this.label10, 4, 0);
-            this.tableLayoutPanel4.Controls.Add(this.label9, 2, 0);
-            this.tableLayoutPanel4.Controls.Add(this.txtMale, 1, 0);
-            this.tableLayoutPanel4.Controls.Add(this.label3, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.txtChild, 5, 0);
-            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 385);
-            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(556, 26);
-            this.tableLayoutPanel4.TabIndex = 1;
+            this.tpnlGuest.ColumnCount = 8;
+            this.tpnlContainer.SetColumnSpan(this.tpnlGuest, 3);
+            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tpnlGuest.Controls.Add(this.txtInfant, 7, 0);
+            this.tpnlGuest.Controls.Add(this.txtFemale, 3, 0);
+            this.tpnlGuest.Controls.Add(this.label11, 6, 0);
+            this.tpnlGuest.Controls.Add(this.label10, 4, 0);
+            this.tpnlGuest.Controls.Add(this.label9, 2, 0);
+            this.tpnlGuest.Controls.Add(this.txtMale, 1, 0);
+            this.tpnlGuest.Controls.Add(this.label3, 0, 0);
+            this.tpnlGuest.Controls.Add(this.txtChild, 5, 0);
+            this.tpnlGuest.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tpnlGuest.Location = new System.Drawing.Point(0, 385);
+            this.tpnlGuest.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlGuest.Name = "tpnlGuest";
+            this.tpnlGuest.RowCount = 1;
+            this.tpnlGuest.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlGuest.Size = new System.Drawing.Size(556, 26);
+            this.tpnlGuest.TabIndex = 1;
             // 
             // txtInfant
             // 
@@ -215,26 +205,26 @@
             this.txtChild.Size = new System.Drawing.Size(49, 20);
             this.txtChild.TabIndex = 118;
             // 
-            // tableLayoutPanel1
+            // tplHeading
             // 
-            this.tableLayoutPanel1.ColumnCount = 4;
-            this.tpnlContainer.SetColumnSpan(this.tableLayoutPanel1, 3);
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel1.Controls.Add(this.label17, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txtReservationNo, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.txtStatus, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblReservationStatus, 2, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 196);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(556, 24);
-            this.tableLayoutPanel1.TabIndex = 1;
+            this.tplHeading.ColumnCount = 4;
+            this.tpnlContainer.SetColumnSpan(this.tplHeading, 3);
+            this.tplHeading.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tplHeading.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tplHeading.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tplHeading.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tplHeading.Controls.Add(this.label17, 0, 0);
+            this.tplHeading.Controls.Add(this.txtReservationNo, 1, 0);
+            this.tplHeading.Controls.Add(this.txtStatus, 3, 0);
+            this.tplHeading.Controls.Add(this.lblReservationStatus, 2, 0);
+            this.tplHeading.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tplHeading.Location = new System.Drawing.Point(0, 196);
+            this.tplHeading.Margin = new System.Windows.Forms.Padding(0);
+            this.tplHeading.Name = "tplHeading";
+            this.tplHeading.RowCount = 1;
+            this.tplHeading.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tplHeading.Size = new System.Drawing.Size(556, 24);
+            this.tplHeading.TabIndex = 1;
             // 
             // label17
             // 
@@ -310,11 +300,11 @@
             // txtDays
             // 
             this.txtDays.BackColor = System.Drawing.SystemColors.Control;
-            this.txtDays.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtDays.Dock = System.Windows.Forms.DockStyle.Left;
             this.txtDays.Location = new System.Drawing.Point(114, 3);
             this.txtDays.MaxLength = 3;
             this.txtDays.Name = "txtDays";
-            this.txtDays.Size = new System.Drawing.Size(160, 20);
+            this.txtDays.Size = new System.Drawing.Size(50, 20);
             this.txtDays.TabIndex = 1018;
             // 
             // label2
@@ -330,11 +320,11 @@
             // txtRooms
             // 
             this.txtRooms.BackColor = System.Drawing.SystemColors.Control;
-            this.txtRooms.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtRooms.Dock = System.Windows.Forms.DockStyle.Left;
             this.txtRooms.Location = new System.Drawing.Point(391, 3);
             this.txtRooms.MaxLength = 3;
             this.txtRooms.Name = "txtRooms";
-            this.txtRooms.Size = new System.Drawing.Size(162, 20);
+            this.txtRooms.Size = new System.Drawing.Size(50, 20);
             this.txtRooms.TabIndex = 1020;
             // 
             // tpnlFrom
@@ -445,6 +435,16 @@
             this.ExtraBed.ReadOnly = true;
             this.ExtraBed.Width = 80;
             // 
+            // ucCustomerSummary
+            // 
+            this.tpnlContainer.SetColumnSpan(this.ucCustomerSummary, 3);
+            this.ucCustomerSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucCustomerSummary.Location = new System.Drawing.Point(0, 0);
+            this.ucCustomerSummary.Margin = new System.Windows.Forms.Padding(0);
+            this.ucCustomerSummary.Name = "ucCustomerSummary";
+            this.ucCustomerSummary.Size = new System.Drawing.Size(556, 196);
+            this.ucCustomerSummary.TabIndex = 1;
+            // 
             // ReservationSummary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -453,10 +453,10 @@
             this.Name = "ReservationSummary";
             this.Size = new System.Drawing.Size(556, 413);
             this.tpnlContainer.ResumeLayout(false);
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel4.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.tpnlGuest.ResumeLayout(false);
+            this.tpnlGuest.PerformLayout();
+            this.tplHeading.ResumeLayout(false);
+            this.tplHeading.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
             this.tpnlFrom.ResumeLayout(false);
@@ -480,8 +480,8 @@
         private System.Windows.Forms.TextBox txtDays;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtRooms;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.TableLayoutPanel tplHeading;
+        private System.Windows.Forms.TableLayoutPanel tpnlGuest;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtMale;
         private System.Windows.Forms.Label label9;
@@ -490,7 +490,6 @@
         private System.Windows.Forms.TextBox txtChild;
         private System.Windows.Forms.TextBox txtInfant;
         private System.Windows.Forms.Label label11;
-        private Customer.WinForm.CustomerSummary ucCustomerSummary;
         private System.Windows.Forms.TextBox txtTime;
         private System.Windows.Forms.TextBox txtDate;
         private System.Windows.Forms.DataGridView dgvRoom;
@@ -498,5 +497,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn RoomName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Display;
         private System.Windows.Forms.DataGridViewTextBoxColumn ExtraBed;
+        private Customer.WinForm.CustomerSummary ucCustomerSummary;
     }
 }
