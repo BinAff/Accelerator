@@ -161,12 +161,17 @@ namespace Retinue.Customer.WinForm
             {
                 new UtilWin.SidePanel.Option
                 {
-                    Name = String.Empty,
-                    //Content = new Customer.WinForm.CustomerSummary(),
+                    Name = "Reservation",
+                    //Content = new InvoiceSummary(),
                 },
                 new UtilWin.SidePanel.Option
                 {
-                    Name = "Reservation",
+                    Name = "Invoice",
+                    //Content = new InvoiceSummary(),
+                },
+                new UtilWin.SidePanel.Option
+                {
+                    Name = "Payment Reciept",
                     //Content = new InvoiceSummary(),
                 },
             };
@@ -181,7 +186,6 @@ namespace Retinue.Customer.WinForm
         {
             base.IsEnabledPickAncestorButton = false;
             base.IsEnabledAddAncestorButton = false;
-            base.IsEnabledViewAncestorButton = false;
             base.IsEnabledAttchment = false;
         }
 

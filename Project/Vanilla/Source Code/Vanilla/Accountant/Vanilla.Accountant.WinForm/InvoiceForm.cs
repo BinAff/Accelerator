@@ -72,11 +72,11 @@ namespace Vanilla.Accountant.WinForm
                     Name = "Check In",
                     //Content = new Customer.WinForm.CustomerSummary(),
                 },
-                new UtilWin.SidePanel.Option
-                {
-                    Name = "Payment",
-                    //Content = new InvoiceSummary(),
-                },
+                //new UtilWin.SidePanel.Option
+                //{
+                //    Name = "Payment",
+                //    //Content = new InvoiceSummary(),
+                //},
             };
         }
 
@@ -119,7 +119,7 @@ namespace Vanilla.Accountant.WinForm
             {
                 base.IsEnabledSaveButton = false;
                 base.IsEnabledAddAncestorButton = false;
-                base.isEnabledPickAncestorButton = false;
+                base.IsEnabledPickAncestorButton = false;
                 this.txtDiscount.Enabled = false;
             }
         }
