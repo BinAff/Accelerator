@@ -33,17 +33,17 @@
             // 
             // ucRoomReservationDataEntry
             // 
-            this.ucRoomReservationDataEntry = new RoomReservationDataEntry();
-            this.ucRoomReservationDataEntry.Location = new System.Drawing.Point(10, 35);
+            this.ucRoomReservationDataEntry.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucRoomReservationDataEntry.Location = new System.Drawing.Point(0, 27);
             this.ucRoomReservationDataEntry.Name = "ucRoomReservationDataEntry";
-            this.ucRoomReservationDataEntry.Size = new System.Drawing.Size(537, 296);
+            this.ucRoomReservationDataEntry.Size = new System.Drawing.Size(717, 358);
             this.ucRoomReservationDataEntry.TabIndex = 1008;
             // 
             // RoomReservationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(549, 334);
+            this.ClientSize = new System.Drawing.Size(717, 385);
             this.Controls.Add(this.ucRoomReservationDataEntry);
             this.Name = "RoomReservationForm";
             this.ShowInTaskbar = false;

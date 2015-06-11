@@ -42,6 +42,7 @@ namespace Retinue.Lodge.WinForm
         public RoomReservationForm(Fac.Dto dto)
         {
             InitializeComponent();
+            this.ucRoomReservationDataEntry = new RoomReservationDataEntry();
         }
 
         #region Events
