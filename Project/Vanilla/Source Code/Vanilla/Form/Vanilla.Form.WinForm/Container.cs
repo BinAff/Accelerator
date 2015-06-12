@@ -25,16 +25,12 @@ namespace Vanilla.Form.WinForm
             : base()
         {
             InitializeComponent();
-            this.Text = "Forms";
-            this.sCntMain.Dock = System.Windows.Forms.DockStyle.Fill;
         }
 
         protected Container(AccFac.Dto account)
             : base(account)
         {
             InitializeComponent();
-            this.Text = "Forms";
-            this.sCntMain.Dock = System.Windows.Forms.DockStyle.Fill;
         }
 
         private static Container currentInstance;
@@ -53,6 +49,7 @@ namespace Vanilla.Form.WinForm
 
         private void Container_Load(object sender, EventArgs e)
         {
+            this.sCntMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.spnlReference.Options[0].Content = this.pnlAttachment;
             this.ReSize();
             this.leftPanelWidth = this.sCntData.Panel1.Width;
@@ -156,6 +153,22 @@ namespace Vanilla.Form.WinForm
         private void spnlReference_Close(EventArgs e)
         {
             this.sCntMain.SplitterDistance = this.sCntMain.Width;
+        }
+
+        private void sCntData_SplitterMoved(object sender, System.Windows.Forms.SplitterEventArgs e)
+        {
+            if (this.sCntData.Panel1.Width > 25) //25 is the magic number when Panel1 is hidden
+            {
+                this.leftPanelWidth = this.sCntData.Panel1.Width;
+            }
+        }
+
+        private void sCntMain_SplitterMoved(object sender, System.Windows.Forms.SplitterEventArgs e)
+        {
+            if (this.sCntMain.Panel2.Width > 25) //25 is the magic number when Panel1 is hidden
+            {
+                this.formPanellWidth = this.sCntMain.Panel1.Width;
+            }
         }
 
         protected override void Compose()
@@ -364,8 +377,9 @@ namespace Vanilla.Form.WinForm
 
         private void ReSize()
         {
-            this.spnlLeftLink.Width = (Int32)Math.Floor(this.Width * 0.4);
-            this.spnlReference.Width = (Int32)Math.Floor(this.Width * 0.2);
+            this.sCntMain.Width = this.Width;
+            this.sCntMain.SplitterDistance = (Int32)Math.Floor(this.Width * 0.8);
+            this.sCntData.SplitterDistance = (Int32)Math.Floor(this.Width * 0.4);
         }
 
     }

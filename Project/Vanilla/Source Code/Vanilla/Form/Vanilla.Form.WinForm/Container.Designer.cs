@@ -389,6 +389,7 @@
             this.sCntMain.Size = new System.Drawing.Size(524, 299);
             this.sCntMain.SplitterDistance = 386;
             this.sCntMain.TabIndex = 14;
+            this.sCntMain.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.sCntMain_SplitterMoved);
             // 
             // sCntData
             // 
@@ -406,6 +407,7 @@
             this.sCntData.Size = new System.Drawing.Size(386, 299);
             this.sCntData.SplitterDistance = 128;
             this.sCntData.TabIndex = 0;
+            this.sCntData.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.sCntData_SplitterMoved);
             // 
             // pnlHeading
             // 

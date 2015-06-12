@@ -198,61 +198,6 @@ namespace Vanilla.Form.WinForm
             this.SaveForm();
             if (this.IsModified) this.Close();
         }
-        
-        private void btnPickAncestor_Click(object sender, EventArgs e)
-        {
-            this.PickAnsestor();
-        }
-
-        private void btnAddAncestor_Click(object sender, EventArgs e)
-        {
-            this.AddAnsestor();
-        }
-
-        private void dgvAttachmentList_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            ArtfFac.Dto document = this.formDto.Document.AttachmentList[e.RowIndex];
-            ModFac.Server server = new ModFac.Server(new ModFac.FormDto
-            {
-                Dto = new ModFac.Dto
-                {
-                    Code = document.ComponentDefinition.Code,
-                },
-                CurrentArtifact = new ArtfFac.FormDto
-                {
-                    Dto = document,
-                },
-            });
-            document = server.ReadArtifact();
-
-            Type type = Type.GetType(document.ComponentDefinition.ComponentFormType, true);
-            FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, document);
-            form.MdiParent = this.MdiParent;
-            this.RaiseAttachmentArtifactLoaded(form);
-            form.Show();
-        }
-
-        private void dgvAttachmentList_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.ColumnIndex < 0 || e.RowIndex < 0) return;
-            if (e.ColumnIndex == 1)
-            {
-                //Delete Attachment
-                ArtfFac.Dto document = this.formDto.Document.AttachmentList[e.RowIndex];
-                (this.facade as Facade.Document.Server).DeleteAttachment(document);
-                if (this.facade.IsError) //Some problem to delete attachment
-                {
-                    new BinAff.Presentation.Library.MessageBox
-                    {
-                        Heading = "Error",
-                        DialogueType = PresLib.MessageBox.Type.Error
-                    }.Show(this.facade.DisplayMessageList);
-                    return;
-                }
-
-                this.dgvAttachmentList.Rows.RemoveAt(e.RowIndex);
-            }
-        }
 
         #endregion
 
@@ -260,7 +205,7 @@ namespace Vanilla.Form.WinForm
         {
             if (this.Artifact != null && this.Artifact.Id != 0)
             {
-                this.SetTitle();
+                //this.SetTitle();
                 this.formDto.Document = this.Artifact;
                 if (this.Artifact.Module != null)
                 {
