@@ -121,7 +121,7 @@
             this.ClientSize = new System.Drawing.Size(962, 592);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.pnlAttachment);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Document";
             this.Text = "Forms";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

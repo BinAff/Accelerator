@@ -144,6 +144,9 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        public delegate void OnClose(EventArgs e);
+        public event OnClose Close;
+
         public SidePanel()
         {
             this.options = new BindingList<Option>();
@@ -212,6 +215,7 @@ namespace Vanilla.Utility.WinForm
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Hide();
+            if (this.Close != null) this.Close(e);
         }
 
         private void btnHide_Click(object sender, EventArgs e)

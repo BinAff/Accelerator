@@ -13,7 +13,7 @@ namespace Vanilla.Utility.WinForm
 
         private Boolean isNewDocument;
 
-        protected Facade.Document.FormDto formDto;
+        public Facade.Document.FormDto formDto;
         public Facade.Document.Server facade;
 
         public delegate void OnAuditInfoChanged(ArtfFac.Dto artifact);

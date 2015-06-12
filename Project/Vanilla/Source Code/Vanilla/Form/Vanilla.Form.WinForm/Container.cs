@@ -17,12 +17,16 @@ namespace Vanilla.Form.WinForm
 
     public partial class Container : UtilWin.Container
     {
+
+        private Int32 leftPanelWidth;
+        private Int32 formPanellWidth;
         
         protected Container()
             : base()
         {
             InitializeComponent();
             this.Text = "Forms";
+            this.sCntMain.Dock = System.Windows.Forms.DockStyle.Fill;
         }
 
         protected Container(AccFac.Dto account)
@@ -30,6 +34,7 @@ namespace Vanilla.Form.WinForm
         {
             InitializeComponent();
             this.Text = "Forms";
+            this.sCntMain.Dock = System.Windows.Forms.DockStyle.Fill;
         }
 
         private static Container currentInstance;
@@ -50,6 +55,8 @@ namespace Vanilla.Form.WinForm
         {
             this.spnlReference.Options[0].Content = this.pnlAttachment;
             this.ReSize();
+            this.leftPanelWidth = this.sCntData.Panel1.Width;
+            this.formPanellWidth = this.sCntMain.Panel1.Width;
         }
 
         private void Container_SizeChanged(object sender, EventArgs e)
@@ -65,6 +72,26 @@ namespace Vanilla.Form.WinForm
         private void Container_MdiChildActivate(object sender, EventArgs e)
         {
             Document child = this.ActiveMdiChild as Document;
+            this.sCntData.Panel2.Controls.Add(child);
+            child.Dock = System.Windows.Forms.DockStyle.Fill;
+            UtilWin.DocumentHeading heading = new UtilWin.DocumentHeading
+            {
+                Heading = child.formDto.DocumentName,
+                ToolTip = child.formDto.DocumentPath,
+                Dock = System.Windows.Forms.DockStyle.Left,
+                Tag = child,
+            };
+            heading.SendToBack();
+            heading.Click += delegate(object sender1, EventArgs e1)
+            {
+                child.BringToFront();
+            };
+            heading.Close += delegate(object sender2, EventArgs e3)
+            {
+                child.Close();
+            };
+            this.pnlHeading.Controls.Add(heading);
+            child.BringToFront();
             child.ButtonStatusChange += child_ButtonStatusChange;
 
             this.HandleSummary(child);
@@ -121,6 +148,16 @@ namespace Vanilla.Form.WinForm
             (this.ActiveMdiChild as Document).ViewAncestor();
         }
 
+        private void spnlLeftLink_Close(EventArgs e)
+        {
+            this.sCntData.SplitterDistance = 0;
+        }
+
+        private void spnlReference_Close(EventArgs e)
+        {
+            this.sCntMain.SplitterDistance = this.sCntMain.Width;
+        }
+
         protected override void Compose()
         {
             base.facade = new Facade.Container.Server(null);
@@ -153,11 +190,14 @@ namespace Vanilla.Form.WinForm
         protected override void OnLeftPanleClick()
         {
             this.spnlLeftLink.Show();
+            this.sCntData.SplitterDistance = this.leftPanelWidth;
         }
 
         protected override void OnRightPanleClick()
         {
+            this.sCntMain.Panel2.Show();
             this.spnlReference.Show();
+            this.sCntMain.SplitterDistance = this.formPanellWidth;
         }
 
         void child_ButtonStatusChange(Document.ButtonType type, Document.ChangeProperty changeProperty, Boolean status)

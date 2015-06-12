@@ -57,10 +57,21 @@
             this.Delete = new System.Windows.Forms.DataGridViewLinkColumn();
             this.pnlAttachmentHeading = new System.Windows.Forms.Panel();
             this.lblAttachmentHeading = new System.Windows.Forms.Label();
+            this.sCntMain = new System.Windows.Forms.SplitContainer();
+            this.sCntData = new System.Windows.Forms.SplitContainer();
+            this.pnlHeading = new System.Windows.Forms.Panel();
             this.pnlTopActionRibbon.SuspendLayout();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
             this.pnlAttachmentHeading.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sCntMain)).BeginInit();
+            this.sCntMain.Panel1.SuspendLayout();
+            this.sCntMain.Panel2.SuspendLayout();
+            this.sCntMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sCntData)).BeginInit();
+            this.sCntData.Panel1.SuspendLayout();
+            this.sCntData.Panel2.SuspendLayout();
+            this.sCntData.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTopActionRibbon
@@ -258,9 +269,9 @@
             this.spnlLeftLink.ControlButtons.Add(this.btnOpenLink);
             this.spnlLeftLink.ControlButtons.Add(this.btnAddLink);
             this.spnlLeftLink.ControlButtons.Add(this.btnViewLink);
-            this.spnlLeftLink.Dock = System.Windows.Forms.DockStyle.Left;
+            this.spnlLeftLink.Dock = System.Windows.Forms.DockStyle.Fill;
             this.spnlLeftLink.IsControlBarVisible = true;
-            this.spnlLeftLink.Location = new System.Drawing.Point(0, 74);
+            this.spnlLeftLink.Location = new System.Drawing.Point(0, 0);
             this.spnlLeftLink.Name = "spnlLeftLink";
             option1.Content = null;
             option1.Dto = null;
@@ -272,17 +283,18 @@
             option2.ViewForm = null;
             this.spnlLeftLink.Options.Add(option1);
             this.spnlLeftLink.Options.Add(option2);
-            this.spnlLeftLink.Size = new System.Drawing.Size(199, 330);
+            this.spnlLeftLink.Size = new System.Drawing.Size(128, 299);
             this.spnlLeftLink.TabIndex = 9;
             this.spnlLeftLink.TitleBar = "Summary";
+            this.spnlLeftLink.Close += new Vanilla.Utility.WinForm.SidePanel.OnClose(this.spnlLeftLink_Close);
             // 
             // spnlReference
             // 
             this.spnlReference.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.spnlReference.ControlBarPosition = System.Windows.Forms.DockStyle.Top;
-            this.spnlReference.Dock = System.Windows.Forms.DockStyle.Right;
+            this.spnlReference.Dock = System.Windows.Forms.DockStyle.Fill;
             this.spnlReference.IsControlBarVisible = false;
-            this.spnlReference.Location = new System.Drawing.Point(797, 74);
+            this.spnlReference.Location = new System.Drawing.Point(0, 0);
             this.spnlReference.Name = "spnlReference";
             option3.Content = null;
             option3.Dto = null;
@@ -294,15 +306,16 @@
             option4.ViewForm = null;
             this.spnlReference.Options.Add(option3);
             this.spnlReference.Options.Add(option4);
-            this.spnlReference.Size = new System.Drawing.Size(160, 330);
+            this.spnlReference.Size = new System.Drawing.Size(134, 299);
             this.spnlReference.TabIndex = 10;
             this.spnlReference.TitleBar = "Reference";
+            this.spnlReference.Close += new Vanilla.Utility.WinForm.SidePanel.OnClose(this.spnlReference_Close);
             // 
             // pnlAttachment
             // 
             this.pnlAttachment.Controls.Add(this.dgvAttachmentList);
             this.pnlAttachment.Controls.Add(this.pnlAttachmentHeading);
-            this.pnlAttachment.Location = new System.Drawing.Point(568, 198);
+            this.pnlAttachment.Location = new System.Drawing.Point(587, 256);
             this.pnlAttachment.Name = "pnlAttachment";
             this.pnlAttachment.Size = new System.Drawing.Size(223, 132);
             this.pnlAttachment.TabIndex = 13;
@@ -361,14 +374,54 @@
             this.lblAttachmentHeading.TabIndex = 13;
             this.lblAttachmentHeading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // sCntMain
+            // 
+            this.sCntMain.Location = new System.Drawing.Point(12, 80);
+            this.sCntMain.Name = "sCntMain";
+            // 
+            // sCntMain.Panel1
+            // 
+            this.sCntMain.Panel1.Controls.Add(this.sCntData);
+            // 
+            // sCntMain.Panel2
+            // 
+            this.sCntMain.Panel2.Controls.Add(this.spnlReference);
+            this.sCntMain.Size = new System.Drawing.Size(524, 299);
+            this.sCntMain.SplitterDistance = 386;
+            this.sCntMain.TabIndex = 14;
+            // 
+            // sCntData
+            // 
+            this.sCntData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sCntData.Location = new System.Drawing.Point(0, 0);
+            this.sCntData.Name = "sCntData";
+            // 
+            // sCntData.Panel1
+            // 
+            this.sCntData.Panel1.Controls.Add(this.spnlLeftLink);
+            // 
+            // sCntData.Panel2
+            // 
+            this.sCntData.Panel2.Controls.Add(this.pnlHeading);
+            this.sCntData.Size = new System.Drawing.Size(386, 299);
+            this.sCntData.SplitterDistance = 128;
+            this.sCntData.TabIndex = 0;
+            // 
+            // pnlHeading
+            // 
+            this.pnlHeading.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlHeading.Location = new System.Drawing.Point(0, 0);
+            this.pnlHeading.Name = "pnlHeading";
+            this.pnlHeading.Size = new System.Drawing.Size(254, 23);
+            this.pnlHeading.TabIndex = 0;
+            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(957, 426);
+            this.Controls.Add(this.sCntMain);
             this.Controls.Add(this.pnlAttachment);
-            this.Controls.Add(this.spnlReference);
-            this.Controls.Add(this.spnlLeftLink);
             this.Controls.Add(this.pnlTopActionRibbon);
             this.IsMdiContainer = true;
             this.Location = new System.Drawing.Point(0, 0);
@@ -378,13 +431,20 @@
             this.Shown += new System.EventHandler(this.Container_Shown);
             this.SizeChanged += new System.EventHandler(this.Container_SizeChanged);
             this.Controls.SetChildIndex(this.pnlTopActionRibbon, 0);
-            this.Controls.SetChildIndex(this.spnlLeftLink, 0);
-            this.Controls.SetChildIndex(this.spnlReference, 0);
             this.Controls.SetChildIndex(this.pnlAttachment, 0);
+            this.Controls.SetChildIndex(this.sCntMain, 0);
             this.pnlTopActionRibbon.ResumeLayout(false);
             this.pnlAttachment.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).EndInit();
             this.pnlAttachmentHeading.ResumeLayout(false);
+            this.sCntMain.Panel1.ResumeLayout(false);
+            this.sCntMain.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.sCntMain)).EndInit();
+            this.sCntMain.ResumeLayout(false);
+            this.sCntData.Panel1.ResumeLayout(false);
+            this.sCntData.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.sCntData)).EndInit();
+            this.sCntData.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -416,6 +476,9 @@
         private System.Windows.Forms.Button btnOpenLink;
         private System.Windows.Forms.Button btnAddLink;
         private System.Windows.Forms.Button btnViewLink;
+        private System.Windows.Forms.SplitContainer sCntMain;
+        private System.Windows.Forms.SplitContainer sCntData;
+        private System.Windows.Forms.Panel pnlHeading;
 
     }
 }
