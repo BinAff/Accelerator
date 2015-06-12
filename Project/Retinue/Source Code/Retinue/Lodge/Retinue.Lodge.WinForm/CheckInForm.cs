@@ -33,7 +33,6 @@ namespace Retinue.Lodge.WinForm
             : base(artifact)
         {
             InitializeComponent();
-            this.ucRoomReservation = new RoomReservationDataEntry();
         }
              
         #region Events
