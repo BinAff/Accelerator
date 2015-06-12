@@ -9,6 +9,8 @@ namespace Vanilla.Utility.WinForm
     public partial class SidePanel : UserControl
     {
 
+        private Int32 width;
+
         [Description("Title bar of side panel"), Category("Configuration")]
         public String TitleBar
         {
@@ -145,10 +147,14 @@ namespace Vanilla.Utility.WinForm
         }
 
         public delegate void OnClose(EventArgs e);
-        public event OnClose Close;
+        public event OnClose ClosePanel;
+
+        public delegate void OnShow(EventArgs e);
+        public event OnShow ShowPanel;
 
         public SidePanel()
         {
+            InitializeComponent();
             this.options = new BindingList<Option>();
             this.options.ListChanged += delegate(object sender, ListChangedEventArgs e)
             {
@@ -159,7 +165,6 @@ namespace Vanilla.Utility.WinForm
             {
                 this.ControlButtons = this.buttons;
             };
-            InitializeComponent();
             this.pnlContainer.Dock = DockStyle.Fill;
         }
 
@@ -191,6 +196,40 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            if (this.ClosePanel != null) this.ClosePanel(e);
+        }
+
+        private void btnShow_Click(object sender, EventArgs e)
+        {
+            this.pnlContainer.Show();
+            this.pnlOptions.Show();
+            this.pnlControlBar.Show();
+            this.btnClose.Show();
+            this.btnHide.Show();
+            this.btnShow.Hide();
+            if (this.ShowPanel != null) this.ShowPanel(e);
+        }
+
+        private void btnHide_Click(object sender, EventArgs e)
+        {
+            //Need to show icons in left side
+            this.pnlContainer.Hide();
+            this.pnlOptions.Hide();
+            this.pnlControlBar.Hide();
+            this.btnClose.Hide();
+            this.btnHide.Hide();
+            this.btnShow.Show();
+            if (this.ClosePanel != null) this.ClosePanel(e);
+        }
+
+        private void SidePanel_Resize(object sender, EventArgs e)
+        {
+            if (this.Width > 22) this.width = this.Width;
+        }
+
         public void ShowOption(Option option)
         {
             this.SetColorToLabel(option.Name);
@@ -210,18 +249,6 @@ namespace Vanilla.Utility.WinForm
             {
                 this.ShowOption(this.options[index]);
             }
-        }
-
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            if (this.Close != null) this.Close(e);
-        }
-
-        private void btnHide_Click(object sender, EventArgs e)
-        {
-            //Need to show icons in left side
-            this.Hide();
         }
 
         private void AddContentToContainer(Option option)

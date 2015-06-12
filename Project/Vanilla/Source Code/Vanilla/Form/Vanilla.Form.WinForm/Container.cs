@@ -166,14 +166,24 @@ namespace Vanilla.Form.WinForm
             (this.ActiveMdiChild as Document).ViewAncestor();
         }
 
-        private void spnlLeftLink_Close(EventArgs e)
+        private void spnlLeftLink_ClosePanel(EventArgs e)
         {
             this.sCntData.SplitterDistance = 0;
         }
 
-        private void spnlReference_Close(EventArgs e)
+        private void spnlLeftLink_ShowPanel(EventArgs e)
+        {
+            this.OnLeftPanleClick();
+        }
+
+        private void spnlReference_ClosePanel(EventArgs e)
         {
             this.sCntMain.SplitterDistance = this.sCntMain.Width;
+        }
+
+        private void spnlReference_ShowPanel(EventArgs e)
+        {
+            this.OnRightPanleClick();
         }
 
         private void sCntData_SplitterMoved(object sender, System.Windows.Forms.SplitterEventArgs e)

@@ -286,7 +286,8 @@
             this.spnlLeftLink.Size = new System.Drawing.Size(128, 299);
             this.spnlLeftLink.TabIndex = 9;
             this.spnlLeftLink.TitleBar = "Summary";
-            this.spnlLeftLink.Close += new Vanilla.Utility.WinForm.SidePanel.OnClose(this.spnlLeftLink_Close);
+            this.spnlLeftLink.ClosePanel += new Vanilla.Utility.WinForm.SidePanel.OnClose(this.spnlLeftLink_ClosePanel);
+            this.spnlLeftLink.ShowPanel += new Vanilla.Utility.WinForm.SidePanel.OnShow(this.spnlLeftLink_ShowPanel);
             // 
             // spnlReference
             // 
@@ -309,7 +310,8 @@
             this.spnlReference.Size = new System.Drawing.Size(134, 299);
             this.spnlReference.TabIndex = 10;
             this.spnlReference.TitleBar = "Reference";
-            this.spnlReference.Close += new Vanilla.Utility.WinForm.SidePanel.OnClose(this.spnlReference_Close);
+            this.spnlReference.ClosePanel += new Vanilla.Utility.WinForm.SidePanel.OnClose(this.spnlReference_ClosePanel);
+            this.spnlReference.ShowPanel += new Vanilla.Utility.WinForm.SidePanel.OnShow(this.spnlReference_ShowPanel);
             // 
             // pnlAttachment
             // 
