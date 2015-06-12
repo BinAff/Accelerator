@@ -20,6 +20,8 @@ namespace Vanilla.Form.WinForm
 
         private Int32 leftPanelWidth;
         private Int32 formPanellWidth;
+
+        private Document activeForm;
         
         protected Container()
             : base()
@@ -71,21 +73,39 @@ namespace Vanilla.Form.WinForm
             Document child = this.ActiveMdiChild as Document;
             this.sCntData.Panel2.Controls.Add(child);
             child.Dock = System.Windows.Forms.DockStyle.Fill;
+
+            if (this.activeForm != null)
+            {
+                (this.activeForm.Tag as UtilWin.DocumentHeading).BackColor = System.Drawing.SystemColors.InactiveCaption;
+                (this.activeForm.Tag as UtilWin.DocumentHeading).ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
+            }
             UtilWin.DocumentHeading heading = new UtilWin.DocumentHeading
             {
                 Heading = child.formDto.DocumentName,
                 ToolTip = child.formDto.DocumentPath,
                 Dock = System.Windows.Forms.DockStyle.Left,
                 Tag = child,
+                BackColor = System.Drawing.SystemColors.Control,
+                ForeColor = System.Drawing.SystemColors.ActiveCaptionText,
             };
+            child.Tag = heading;
             heading.SendToBack();
             heading.Click += delegate(object sender1, EventArgs e1)
             {
-                child.BringToFront();
+                if (this.activeForm.Tag != child.Tag)
+                {
+                    (child.Tag as UtilWin.DocumentHeading).BackColor = System.Drawing.SystemColors.Control;
+                    (child.Tag as UtilWin.DocumentHeading).ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+                    (this.activeForm.Tag as UtilWin.DocumentHeading).BackColor = System.Drawing.SystemColors.InactiveCaption;
+                    (this.activeForm.Tag as UtilWin.DocumentHeading).ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
+                    child.BringToFront();
+                    this.activeForm = child;
+                }
             };
             heading.Close += delegate(object sender2, EventArgs e3)
             {
                 child.Close();
+                (child.Tag as UtilWin.DocumentHeading).Dispose();
             };
             this.pnlHeading.Controls.Add(heading);
             child.BringToFront();
@@ -93,6 +113,7 @@ namespace Vanilla.Form.WinForm
 
             this.HandleSummary(child);
             this.HandleReference(child);
+            this.activeForm = child;
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
