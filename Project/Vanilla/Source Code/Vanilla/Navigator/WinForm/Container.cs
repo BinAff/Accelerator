@@ -153,12 +153,29 @@ namespace Vanilla.Navigator.WinForm
 
             Type type = Type.GetType(currentArtifact.ComponentDefinition.ComponentFormType, true);
             //currentArtifact.Module.artifactPath = currentArtifact.Path;
-            FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);
-            form.MdiParent = this.formExecutable;
-            form.ChildArtifactSaved += form_ChildArtifactSaved;
-            form.AuditInfoChanged += form_AuditInfoChanged;
-            form.AttachmentArtifactLoaded += form_AttachmentArtifactLoaded;
-            form.Show();
+
+            System.Threading.Thread t = new System.Threading.Thread(delegate()
+            {
+                FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new MethodInvoker(delegate
+                    {
+                        form.MdiParent = this.formExecutable;
+                    }));
+                }
+                form.ChildArtifactSaved += form_ChildArtifactSaved;
+                form.AuditInfoChanged += form_AuditInfoChanged;
+                form.AttachmentArtifactLoaded += form_AttachmentArtifactLoaded;
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new MethodInvoker(delegate
+                    {
+                        form.Show();
+                    }));
+                }
+            });
+            t.Start();            
         }
 
         void form_ChildArtifactSaved(ArtfFac.Dto artifact)
