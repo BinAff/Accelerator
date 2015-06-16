@@ -29,10 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Vanilla.Utility.WinForm.SidePanel.Option option1 = new Vanilla.Utility.WinForm.SidePanel.Option();
-            Vanilla.Utility.WinForm.SidePanel.Option option2 = new Vanilla.Utility.WinForm.SidePanel.Option();
-            Vanilla.Utility.WinForm.SidePanel.Option option3 = new Vanilla.Utility.WinForm.SidePanel.Option();
-            Vanilla.Utility.WinForm.SidePanel.Option option4 = new Vanilla.Utility.WinForm.SidePanel.Option();
             this.pnlTopActionRibbon = new System.Windows.Forms.Panel();
             this.pnlMenuSeperator2 = new System.Windows.Forms.Panel();
             this.btnSendEmail = new System.Windows.Forms.Button();
@@ -273,17 +269,7 @@
             this.spnlLeftLink.IsControlBarVisible = true;
             this.spnlLeftLink.Location = new System.Drawing.Point(0, 0);
             this.spnlLeftLink.Name = "spnlLeftLink";
-            option1.Content = null;
-            option1.Dto = null;
-            option1.Name = "Previous";
-            option1.ViewForm = null;
-            option2.Content = null;
-            option2.Dto = null;
-            option2.Name = "Next";
-            option2.ViewForm = null;
-            this.spnlLeftLink.Options.Add(option1);
-            this.spnlLeftLink.Options.Add(option2);
-            this.spnlLeftLink.Size = new System.Drawing.Size(128, 299);
+            this.spnlLeftLink.Size = new System.Drawing.Size(200, 299);
             this.spnlLeftLink.TabIndex = 9;
             this.spnlLeftLink.TitleBar = "Summary";
             this.spnlLeftLink.ClosePanel += new Vanilla.Utility.WinForm.SidePanel.OnClose(this.spnlLeftLink_ClosePanel);
@@ -297,16 +283,6 @@
             this.spnlReference.IsControlBarVisible = false;
             this.spnlReference.Location = new System.Drawing.Point(0, 0);
             this.spnlReference.Name = "spnlReference";
-            option3.Content = null;
-            option3.Dto = null;
-            option3.Name = "Attachments";
-            option3.ViewForm = null;
-            option4.Content = null;
-            option4.Dto = null;
-            option4.Name = "Remarks";
-            option4.ViewForm = null;
-            this.spnlReference.Options.Add(option3);
-            this.spnlReference.Options.Add(option4);
             this.spnlReference.Size = new System.Drawing.Size(134, 299);
             this.spnlReference.TabIndex = 10;
             this.spnlReference.TitleBar = "Reference";
@@ -407,7 +383,7 @@
             // 
             this.sCntData.Panel2.Controls.Add(this.pnlHeading);
             this.sCntData.Size = new System.Drawing.Size(386, 299);
-            this.sCntData.SplitterDistance = 128;
+            this.sCntData.SplitterDistance = 200;
             this.sCntData.TabIndex = 0;
             this.sCntData.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.sCntData_SplitterMoved);
             // 
@@ -416,7 +392,7 @@
             this.pnlHeading.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeading.Location = new System.Drawing.Point(0, 0);
             this.pnlHeading.Name = "pnlHeading";
-            this.pnlHeading.Size = new System.Drawing.Size(254, 23);
+            this.pnlHeading.Size = new System.Drawing.Size(182, 23);
             this.pnlHeading.TabIndex = 0;
             // 
             // Container

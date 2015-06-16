@@ -22,7 +22,7 @@ namespace Vanilla.Form.WinForm
         private Int32 formPanellWidth;
 
         private Document activeForm;
-        
+
         protected Container()
             : base()
         {
@@ -52,7 +52,6 @@ namespace Vanilla.Form.WinForm
         private void Container_Load(object sender, EventArgs e)
         {
             this.sCntMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spnlReference.Options[0].Content = this.pnlAttachment;
             this.ReSize();
             this.leftPanelWidth = this.sCntData.Panel1.Width;
             this.formPanellWidth = this.sCntMain.Panel1.Width;
@@ -65,7 +64,7 @@ namespace Vanilla.Form.WinForm
 
         private void Container_Shown(object sender, EventArgs e)
         {
-            
+
         }
 
         private void Container_MdiChildActivate(object sender, EventArgs e)
@@ -99,6 +98,8 @@ namespace Vanilla.Form.WinForm
                     (this.activeForm.Tag as UtilWin.DocumentHeading).BackColor = System.Drawing.SystemColors.InactiveCaption;
                     (this.activeForm.Tag as UtilWin.DocumentHeading).ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
                     child.BringToFront();
+                    this.HandleSummary(child);
+                    this.HandleReference(child);
                     this.activeForm = child;
                 }
             };
@@ -169,21 +170,27 @@ namespace Vanilla.Form.WinForm
         private void spnlLeftLink_ClosePanel(EventArgs e)
         {
             this.sCntData.SplitterDistance = 0;
+            this.sCntData.IsSplitterFixed = true;
+            this.sCntData.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
         }
 
         private void spnlLeftLink_ShowPanel(EventArgs e)
         {
             this.OnLeftPanleClick();
+            this.sCntData.IsSplitterFixed = false;
+            this.sCntData.FixedPanel = System.Windows.Forms.FixedPanel.None;
         }
 
         private void spnlReference_ClosePanel(EventArgs e)
         {
             this.sCntMain.SplitterDistance = this.sCntMain.Width;
+            this.sCntMain.IsSplitterFixed = true;
         }
 
         private void spnlReference_ShowPanel(EventArgs e)
         {
             this.OnRightPanleClick();
+            this.sCntMain.IsSplitterFixed = false;
         }
 
         private void sCntData_SplitterMoved(object sender, System.Windows.Forms.SplitterEventArgs e)
@@ -292,15 +299,26 @@ namespace Vanilla.Form.WinForm
             this.btnViewLink.Enabled = child.IsEnabledViewAncestorButton;
 
             this.spnlLeftLink.Options.Clear();
-            foreach (Vanilla.Utility.WinForm.SidePanel.Option option in child.SummaryList)
-            {
-                this.spnlLeftLink.Options.Add(option);
-            }
+            this.spnlLeftLink.Options = child.SummaryList;
             this.spnlLeftLink.ShowOption(0);
         }
 
         private void HandleReference(Document child)
         {
+            this.spnlReference.Options = new List<UtilWin.SidePanel.Option>
+            {
+                new Vanilla.Utility.WinForm.SidePanel.Option
+                {
+                    Name = "Attachments",
+                    Content = this.pnlAttachment,
+                    IsFlipped = true,
+                },
+                new Vanilla.Utility.WinForm.SidePanel.Option
+                {
+                    Name = "Remarks",
+                    IsFlipped = true,
+                },
+            };
             this.spnlReference.ShowOption(0);
             this.HandleAttachment(child);
         }
@@ -362,7 +380,7 @@ namespace Vanilla.Form.WinForm
             {
                 //Delete Attachment
                 ArtfFac.Dto document = (this.formDto as Facade.Container.FormDto).DocumentFormDto.Document.AttachmentList[e.RowIndex];
-                
+
                 //Not correct way
                 (this.facade as Facade.Container.Server).DeleteAttachment(document, (this.ActiveMdiChild as Document).facade as Facade.Document.Server);
 

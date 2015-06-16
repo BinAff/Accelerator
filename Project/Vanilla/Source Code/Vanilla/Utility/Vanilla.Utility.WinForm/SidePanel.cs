@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using PresLib = BinAff.Presentation.Library;
 
 namespace Vanilla.Utility.WinForm
 {
@@ -24,10 +26,10 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        private BindingList<Option> options;
-        [Description("Options to display"), Category("Configuration")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public BindingList<Option> Options
+        private List<Option> options;
+        //[Description("Options to display"), Category("Configuration")]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public List<Option> Options
         {
             get
             {
@@ -35,7 +37,7 @@ namespace Vanilla.Utility.WinForm
             }
             set
             {
-                if (this.options == null || this.options.Count == 0) return;
+                if (value == null || value.Count == 0) return;
                 this.options = value;
 
                 this.pnlOptions.Controls.Clear();
@@ -69,6 +71,14 @@ namespace Vanilla.Utility.WinForm
 
                     label.Click += label_Click;
 
+                    option.VerticalHeading = new PresLib.VerticalLabel
+                    {
+                        Text = option.Name,
+                        BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D,
+                        Dock = DockStyle.Top,
+                        IsFlipped = option.IsFlipped,
+                        Height = 100,
+                    };
                     this.pnlOptions.Controls.Add(label, i++, 0);
                 }
             }
@@ -155,11 +165,11 @@ namespace Vanilla.Utility.WinForm
         public SidePanel()
         {
             InitializeComponent();
-            this.options = new BindingList<Option>();
-            this.options.ListChanged += delegate(object sender, ListChangedEventArgs e)
-            {
-                this.Options = this.options;
-            };
+            this.options = new List<Option>();
+            //this.options.ListChanged += delegate(object sender, ListChangedEventArgs e)
+            //{
+            //    this.Options = this.options;
+            //};
             this.buttons = new BindingList<Button>();
             this.buttons.ListChanged += delegate(object sender, ListChangedEventArgs e)
             {
@@ -209,7 +219,13 @@ namespace Vanilla.Utility.WinForm
             this.pnlControlBar.Show();
             this.btnClose.Show();
             this.btnHide.Show();
+
             this.btnShow.Hide();
+            foreach (Option option in this.Options)
+            {
+                this.Controls.Remove(option.VerticalHeading);
+            }
+
             if (this.ShowPanel != null) this.ShowPanel(e);
         }
 
@@ -221,8 +237,16 @@ namespace Vanilla.Utility.WinForm
             this.pnlControlBar.Hide();
             this.btnClose.Hide();
             this.btnHide.Hide();
+
             this.btnShow.Show();
+            foreach (Option option in this.Options)
+            {
+                this.Controls.Add(option.VerticalHeading);
+                option.VerticalHeading.Dock = DockStyle.Top;
+            }
+
             if (this.ClosePanel != null) this.ClosePanel(e);
+            this.pnlTitleBar.SendToBack();
         }
 
         private void SidePanel_Resize(object sender, EventArgs e)
@@ -288,6 +312,10 @@ namespace Vanilla.Utility.WinForm
             public Control Content { get; set; }
 
             public Form ViewForm { get; set; }
+
+            internal Label VerticalHeading { get; set; }
+
+            public Boolean IsFlipped { get; set; }
 
             public Facade.Document.Dto Dto { get; set; }
 

@@ -85,6 +85,9 @@
     </Compile>
     <Compile Include="Theme\Base.cs" />
     <Compile Include="Theme\Blue.cs" />
+    <Compile Include="VerticalLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormWithRightButtons.resx">
