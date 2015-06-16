@@ -298,13 +298,13 @@ namespace Vanilla.Form.WinForm
             this.btnAddLink.Enabled = child.IsEnabledAddAncestorButton;
             this.btnViewLink.Enabled = child.IsEnabledViewAncestorButton;
 
-            this.spnlLeftLink.Options.Clear();
             this.spnlLeftLink.Options = child.SummaryList;
             this.spnlLeftLink.ShowOption(0);
         }
 
         private void HandleReference(Document child)
         {
+            this.ucReference.Message = (child.formDto.Dto as Facade.Document.Dto).Remarks;
             this.spnlReference.Options = new List<UtilWin.SidePanel.Option>
             {
                 new Vanilla.Utility.WinForm.SidePanel.Option
@@ -316,6 +316,7 @@ namespace Vanilla.Form.WinForm
                 new Vanilla.Utility.WinForm.SidePanel.Option
                 {
                     Name = "Remarks",
+                    Content = this.ucReference,
                     IsFlipped = true,
                 },
             };

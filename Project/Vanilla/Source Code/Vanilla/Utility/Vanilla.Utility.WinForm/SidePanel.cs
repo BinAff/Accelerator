@@ -291,6 +291,7 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        [Serializable]
         public class Option
         {
 

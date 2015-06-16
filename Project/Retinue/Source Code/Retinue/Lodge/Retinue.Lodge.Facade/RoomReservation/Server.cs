@@ -49,30 +49,31 @@ namespace Retinue.Lodge.Facade.RoomReservation
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            RoomRsvCrys.Data reservation = data as RoomRsvCrys.Data;
+            RoomRsvCrys.Data comp = data as RoomRsvCrys.Data;
             Dto dto = new Dto
             {
                 Id = data.Id,
-                IsBackDateEntry = reservation.IsBackDateEntry,
-                NoOfDays = reservation.NoOfDays,
-                NoOfRooms = reservation.NoOfRooms,
-                BookingFrom = reservation.ActivityDate,
-                ACPreference = reservation.ACPreference,
-                BookingDate = reservation.Date,
-                NoOfMale = reservation.NoOfMale,
-                NoOfFemale = reservation.NoOfFemale,
-                NoOfChild = reservation.NoOfChild,
-                NoOfInfant = reservation.NoOfInfant,
-                Remark = reservation.Remark,
-                ReservationNo = reservation.ReservationNo,
+                IsBackDateEntry = comp.IsBackDateEntry,
+                NoOfDays = comp.NoOfDays,
+                NoOfRooms = comp.NoOfRooms,
+                BookingFrom = comp.ActivityDate,
+                ACPreference = comp.ACPreference,
+                BookingDate = comp.Date,
+                NoOfMale = comp.NoOfMale,
+                NoOfFemale = comp.NoOfFemale,
+                NoOfChild = comp.NoOfChild,
+                NoOfInfant = comp.NoOfInfant,
+                Remark = comp.Remark,
+                ReservationNo = comp.ReservationNo,
 
                 Customer = this.GetCustomer(data.Id),
             };
+            dto.Remarks = comp.Remark;
 
-            if (reservation.Status != null) dto.Status = (Status)reservation.Status.Id;
-            dto.RoomList = reservation.ProductList == null ? null : new RoomFac.Server(null).ConvertAll<Data, RoomFac.Dto>(reservation.ProductList);
-            if (reservation.RoomCategory != null) dto.RoomCategory = reservation.RoomCategory == null ? null : new Table { Id = reservation.RoomCategory.Id };
-            if(reservation.RoomType != null) dto.RoomType = reservation.RoomType == null ? null : new Table { Id = reservation.RoomType.Id };
+            if (comp.Status != null) dto.Status = (Status)comp.Status.Id;
+            dto.RoomList = comp.ProductList == null ? null : new RoomFac.Server(null).ConvertAll<Data, RoomFac.Dto>(comp.ProductList);
+            if (comp.RoomCategory != null) dto.RoomCategory = comp.RoomCategory == null ? null : new Table { Id = comp.RoomCategory.Id };
+            if(comp.RoomType != null) dto.RoomType = comp.RoomType == null ? null : new Table { Id = comp.RoomType.Id };
             
             return dto;
         }

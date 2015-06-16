@@ -36,6 +36,8 @@ namespace Vanilla.Form.WinForm
 
         public String AttachmentName { get; set; }
 
+        public UtilWin.Reference Reference { get; set; }
+
         public List<ArtfFac.Dto> AttachmentList
         {
             get

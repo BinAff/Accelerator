@@ -88,28 +88,29 @@ namespace Retinue.Lodge.Facade.CheckIn
 
         public override BinAff.Facade.Library.Dto Convert(BinAff.Core.Data data)
         {
-            LodgeCrys.Room.CheckIn.Data checkIn = data as LodgeCrys.Room.CheckIn.Data;
+            LodgeCrys.Room.CheckIn.Data comp = data as LodgeCrys.Room.CheckIn.Data;
             Dto dto = new Dto
             {
                 Id = data.Id,
-                Date = checkIn.ActivityDate,
-                InvoiceNumber = checkIn.invoiceNumber,
-                Purpose = checkIn.Purpose,
-                ArrivedFrom = checkIn.ArrivedFrom,
-                Remark = checkIn.Remark,
-                CheckOutTime = checkIn.CompletionTime,
+                Date = comp.ActivityDate,
+                InvoiceNumber = comp.invoiceNumber,
+                Purpose = comp.Purpose,
+                ArrivedFrom = comp.ArrivedFrom,
+                Remark = comp.Remark,
+                CheckOutTime = comp.CompletionTime,
                 
-                Invoice = checkIn.Invoice == null?
-                    null : new InvFac.Server(null).Convert(checkIn.Invoice) as InvFac.Dto,
+                Invoice = comp.Invoice == null?
+                    null : new InvFac.Server(null).Convert(comp.Invoice) as InvFac.Dto,
             };
-            if(checkIn.Reservation != null)
+            dto.Remarks = comp.Remark;
+            if(comp.Reservation != null)
             {
-                dto.Reservation = new RoomRsvFac.Server(null).Convert(checkIn.Reservation) as RoomReservation.Dto;
+                dto.Reservation = new RoomRsvFac.Server(null).Convert(comp.Reservation) as RoomReservation.Dto;
                 dto.Reservation.To = dto.CheckOutTime;
             }
-            if (checkIn.Status != null && checkIn.Status.Id != 0)
+            if (comp.Status != null && comp.Status.Id != 0)
             {
-                dto.Status = (RoomRsvFac.Status)checkIn.Status.Id;
+                dto.Status = (RoomRsvFac.Status)comp.Status.Id;
                 if (dto.Reservation != null) dto.Reservation.Status = dto.Status;
             }
             return dto;

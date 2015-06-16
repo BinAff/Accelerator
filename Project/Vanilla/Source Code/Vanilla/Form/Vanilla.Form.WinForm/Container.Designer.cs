@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Container));
             this.pnlTopActionRibbon = new System.Windows.Forms.Panel();
             this.pnlMenuSeperator2 = new System.Windows.Forms.Panel();
             this.btnSendEmail = new System.Windows.Forms.Button();
@@ -56,6 +57,7 @@
             this.sCntMain = new System.Windows.Forms.SplitContainer();
             this.sCntData = new System.Windows.Forms.SplitContainer();
             this.pnlHeading = new System.Windows.Forms.Panel();
+            this.ucReference = new Vanilla.Utility.WinForm.Reference();
             this.pnlTopActionRibbon.SuspendLayout();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
@@ -269,6 +271,7 @@
             this.spnlLeftLink.IsControlBarVisible = true;
             this.spnlLeftLink.Location = new System.Drawing.Point(0, 0);
             this.spnlLeftLink.Name = "spnlLeftLink";
+            this.spnlLeftLink.Options = ((System.Collections.Generic.List<Vanilla.Utility.WinForm.SidePanel.Option>)(resources.GetObject("spnlLeftLink.Options")));
             this.spnlLeftLink.Size = new System.Drawing.Size(200, 299);
             this.spnlLeftLink.TabIndex = 9;
             this.spnlLeftLink.TitleBar = "Summary";
@@ -283,6 +286,7 @@
             this.spnlReference.IsControlBarVisible = false;
             this.spnlReference.Location = new System.Drawing.Point(0, 0);
             this.spnlReference.Name = "spnlReference";
+            this.spnlReference.Options = ((System.Collections.Generic.List<Vanilla.Utility.WinForm.SidePanel.Option>)(resources.GetObject("spnlReference.Options")));
             this.spnlReference.Size = new System.Drawing.Size(134, 299);
             this.spnlReference.TabIndex = 10;
             this.spnlReference.TitleBar = "Reference";
@@ -395,11 +399,22 @@
             this.pnlHeading.Size = new System.Drawing.Size(182, 23);
             this.pnlHeading.TabIndex = 0;
             // 
+            // ucReference
+            // 
+            this.ucReference.Heading = "";
+            this.ucReference.Location = new System.Drawing.Point(566, 103);
+            this.ucReference.Message = "";
+            this.ucReference.Name = "ucReference";
+            this.ucReference.Size = new System.Drawing.Size(123, 104);
+            this.ucReference.TabIndex = 15;
+            this.ucReference.Visible = false;
+            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(957, 426);
+            this.Controls.Add(this.ucReference);
             this.Controls.Add(this.sCntMain);
             this.Controls.Add(this.pnlAttachment);
             this.Controls.Add(this.pnlTopActionRibbon);
@@ -413,6 +428,7 @@
             this.Controls.SetChildIndex(this.pnlTopActionRibbon, 0);
             this.Controls.SetChildIndex(this.pnlAttachment, 0);
             this.Controls.SetChildIndex(this.sCntMain, 0);
+            this.Controls.SetChildIndex(this.ucReference, 0);
             this.pnlTopActionRibbon.ResumeLayout(false);
             this.pnlAttachment.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).EndInit();
@@ -459,6 +475,7 @@
         private System.Windows.Forms.SplitContainer sCntMain;
         private System.Windows.Forms.SplitContainer sCntData;
         private System.Windows.Forms.Panel pnlHeading;
+        private Utility.WinForm.Reference ucReference;
 
     }
 }
