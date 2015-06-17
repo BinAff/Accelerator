@@ -49,6 +49,8 @@ namespace Vanilla.Form.WinForm
             return currentInstance;
         }
 
+        #region Events
+
         private void Container_Load(object sender, EventArgs e)
         {
             this.sCntMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -98,8 +100,8 @@ namespace Vanilla.Form.WinForm
                     (this.activeForm.Tag as UtilWin.DocumentHeading).BackColor = System.Drawing.SystemColors.InactiveCaption;
                     (this.activeForm.Tag as UtilWin.DocumentHeading).ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
                     child.BringToFront();
-                    this.HandleSummary(child);
-                    this.HandleReference(child);
+                    this.LoadSummary(child);
+                    this.LoadReference(child);
                     this.activeForm = child;
                 }
             };
@@ -112,8 +114,8 @@ namespace Vanilla.Form.WinForm
             child.BringToFront();
             child.ButtonStatusChange += child_ButtonStatusChange;
 
-            this.HandleSummary(child);
-            this.HandleReference(child);
+            this.LoadSummary(child);
+            this.LoadReference(child);
             this.activeForm = child;
         }
 
@@ -209,6 +211,10 @@ namespace Vanilla.Form.WinForm
             }
         }
 
+        #endregion
+
+        #region Framework
+
         protected override void Compose()
         {
             base.facade = new Facade.Container.Server(null);
@@ -292,7 +298,9 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        private void HandleSummary(Document child)
+        #endregion
+
+        private void LoadSummary(Document child)
         {
             this.btnOpenLink.Enabled = child.IsEnabledPickAncestorButton;
             this.btnAddLink.Enabled = child.IsEnabledAddAncestorButton;
@@ -302,7 +310,7 @@ namespace Vanilla.Form.WinForm
             this.spnlLeftLink.ShowOption(0);
         }
 
-        private void HandleReference(Document child)
+        private void LoadReference(Document child)
         {
             this.ucReference.Message = (child.formDto.Dto as Facade.Document.Dto).Remarks;
             this.spnlReference.Options = new List<UtilWin.SidePanel.Option>
