@@ -153,6 +153,14 @@ namespace Vanilla.Navigator.WinForm
 
             Type type = Type.GetType(currentArtifact.ComponentDefinition.ComponentFormType, true);
             //currentArtifact.Module.artifactPath = currentArtifact.Path;
+            
+            ////Sync
+            //FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);
+            //form.MdiParent = this.formExecutable;
+            //form.ChildArtifactSaved += form_ChildArtifactSaved;
+            //form.AuditInfoChanged += form_AuditInfoChanged;
+            //form.AttachmentArtifactLoaded += form_AttachmentArtifactLoaded;
+            //form.Show();
 
             System.Threading.Thread t = new System.Threading.Thread(delegate()
             {
