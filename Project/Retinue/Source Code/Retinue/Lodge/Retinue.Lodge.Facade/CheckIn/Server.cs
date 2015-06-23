@@ -180,21 +180,28 @@ namespace Retinue.Lodge.Facade.CheckIn
             return RoomDataList;
         }
 
-        public void CheckOut()
+        public Boolean ValidateCheckOut()
         {
             Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;
 
-            //To Do :: This code will be moved to WinForm
             Int32 noOfDays = new Calender().DaysBetweenTwoDays(dto.Reservation.BookingFrom, DateTime.Today);
             if (noOfDays != dto.Reservation.NoOfDays)
             {
                 this.DisplayMessageList = new List<String>
                 {
-                    "Check out date is not matching with reservation end date. Reservation end date will be changed with checkout.",
+                    "Reserved Duration: " + dto.Reservation.NoOfDays.ToString() + Environment.NewLine +
+                    "Stay Duration: " + noOfDays.ToString() + Environment.NewLine+
+                    "Reservation end date is changed based on checkout.",
                 };
+                dto.Reservation.NoOfDays = noOfDays == 0 ? 1 : noOfDays;
+                return false;
             }
+            return true;
+        }
 
-            dto.Reservation.NoOfDays = noOfDays == 0 ? 1 : noOfDays;
+        public void CheckOut()
+        {
+            Dto dto = (this.FormDto as FormDto).Dto as Facade.CheckIn.Dto;            
             dto.Reservation.Status = RoomRsvFac.Status.CheckOut;
             dto.Reservation.IsBackDateEntry = true;
             RoomChkCrys.Data checkinData = this.Convert(dto) as RoomChkCrys.Data;

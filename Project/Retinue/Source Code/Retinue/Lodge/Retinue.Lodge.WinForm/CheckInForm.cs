@@ -39,11 +39,20 @@ namespace Retinue.Lodge.WinForm
 
         private void btnCheckOut_Click(object sender, EventArgs e)
         {
+            if (!(this.facade as Fac.Server).ValidateCheckOut())
+            {
+                this.ucRoomReservation.PopulateDataToForm();
+                new PresLib.MessageBox(this)
+                {
+                    DialogueType = PresLib.MessageBox.Type.Alert,
+                    Heading = "Lodge"
+                }.Show(this.facade.DisplayMessageList);
+            }
             (this.facade as Fac.Server).CheckOut();
             new PresLib.MessageBox(this)
             {
-                DialogueType = PresLib.MessageBox.Type.Alert,
-                Heading = "Splash"
+                DialogueType = PresLib.MessageBox.Type.Information,
+                Heading = "Lodge"
             }.Show(this.facade.DisplayMessageList);
             this.ucRoomReservation.AssignTo((this.formDto.Dto as Fac.Dto).CheckOutTime);
             this.ucRoomReservation.PopulateDataToForm();
