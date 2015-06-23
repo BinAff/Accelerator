@@ -74,6 +74,8 @@ namespace Vanilla.Form.WinForm
             Document child = this.ActiveMdiChild as Document;
             this.sCntData.Panel2.Controls.Add(child);
             child.Dock = System.Windows.Forms.DockStyle.Fill;
+            child.IsVisibleCloseButton = false;
+            child.IsVisibleOkButton = false;
 
             if (this.activeForm != null)
             {

@@ -159,6 +159,54 @@ namespace Vanilla.Form.WinForm
             }
         }
 
+        public Boolean IsEnabledCloseButton
+        {
+            get
+            {
+                return this.btnClose.Enabled;
+            }
+            set
+            {
+                this.btnClose.Enabled = value;
+            }
+        }
+
+        public Boolean IsEnabledOkButton
+        {
+            get
+            {
+                return this.btnOk.Enabled;
+            }
+            set
+            {
+                this.btnOk.Enabled = value;
+            }
+        }
+
+        public Boolean IsVisibleCloseButton
+        {
+            get
+            {
+                return this.btnClose.Visible;
+            }
+            set
+            {
+                this.btnClose.Visible = value;
+            }
+        }
+
+        public Boolean IsVisibleOkButton
+        {
+            get
+            {
+                return this.btnOk.Visible;
+            }
+            set
+            {
+                this.btnOk.Visible = value;
+            }
+        }
+
         public Document()
             : base()
         {
@@ -199,6 +247,11 @@ namespace Vanilla.Form.WinForm
         {
             this.SaveForm();
             if (this.IsModified) this.Close();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         #endregion

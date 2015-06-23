@@ -33,6 +33,7 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btnOk = new System.Windows.Forms.ToolStripButton();
+            this.btnClose = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -44,6 +45,7 @@
             // toolStrip
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnClose,
             this.btnOk});
             this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
@@ -63,6 +65,18 @@
             this.btnOk.Text = "P";
             this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnClose.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(25, 24);
+            this.btnClose.Text = "O";
+            this.btnClose.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // Document
             // 
@@ -92,6 +106,7 @@
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.DataGridViewLinkColumn Action;
         private System.Windows.Forms.ToolStripButton btnOk;
+        private System.Windows.Forms.ToolStripButton btnClose;
 
     }
 }

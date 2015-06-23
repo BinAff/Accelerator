@@ -74,6 +74,13 @@ namespace Retinue.Lodge.WinForm
             else
             {
                 inv = this.GetInvoiceArtifact();
+                new InvWin.InvoiceForm(inv)
+                {
+                    StartPosition = FormStartPosition.CenterScreen,
+                    Owner = this,
+                    IsEnabledOkButton = false,
+                }.ShowDialog();
+                return;
             }
 
             using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
@@ -81,6 +88,7 @@ namespace Retinue.Lodge.WinForm
                 FrmWin.Document form = new InvWin.InvoiceForm(inv)
                 {
                     StartPosition = FormStartPosition.CenterScreen,
+                    Owner = this,
                 };
                 if (inv.Id == 0)
                 {
