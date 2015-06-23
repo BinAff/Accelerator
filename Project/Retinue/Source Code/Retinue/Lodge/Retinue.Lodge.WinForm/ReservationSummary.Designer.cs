@@ -137,21 +137,21 @@
             // 
             // txtInfant
             // 
-            this.txtInfant.BackColor = System.Drawing.SystemColors.Control;
             this.txtInfant.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtInfant.Location = new System.Drawing.Point(500, 3);
             this.txtInfant.MaxLength = 3;
             this.txtInfant.Name = "txtInfant";
+            this.txtInfant.ReadOnly = true;
             this.txtInfant.Size = new System.Drawing.Size(53, 20);
             this.txtInfant.TabIndex = 119;
             // 
             // txtFemale
             // 
-            this.txtFemale.BackColor = System.Drawing.SystemColors.Control;
             this.txtFemale.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtFemale.Location = new System.Drawing.Point(224, 3);
             this.txtFemale.MaxLength = 3;
             this.txtFemale.Name = "txtFemale";
+            this.txtFemale.ReadOnly = true;
             this.txtFemale.Size = new System.Drawing.Size(49, 20);
             this.txtFemale.TabIndex = 116;
             // 
@@ -187,11 +187,11 @@
             // 
             // txtMale
             // 
-            this.txtMale.BackColor = System.Drawing.SystemColors.Control;
             this.txtMale.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtMale.Location = new System.Drawing.Point(86, 3);
             this.txtMale.MaxLength = 3;
             this.txtMale.Name = "txtMale";
+            this.txtMale.ReadOnly = true;
             this.txtMale.Size = new System.Drawing.Size(49, 20);
             this.txtMale.TabIndex = 86;
             // 
@@ -207,11 +207,11 @@
             // 
             // txtChild
             // 
-            this.txtChild.BackColor = System.Drawing.SystemColors.Control;
             this.txtChild.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtChild.Location = new System.Drawing.Point(362, 3);
             this.txtChild.MaxLength = 3;
             this.txtChild.Name = "txtChild";
+            this.txtChild.ReadOnly = true;
             this.txtChild.Size = new System.Drawing.Size(49, 20);
             this.txtChild.TabIndex = 118;
             // 
@@ -309,11 +309,11 @@
             // 
             // txtDays
             // 
-            this.txtDays.BackColor = System.Drawing.SystemColors.Control;
             this.txtDays.Dock = System.Windows.Forms.DockStyle.Left;
             this.txtDays.Location = new System.Drawing.Point(114, 3);
             this.txtDays.MaxLength = 3;
             this.txtDays.Name = "txtDays";
+            this.txtDays.ReadOnly = true;
             this.txtDays.Size = new System.Drawing.Size(50, 20);
             this.txtDays.TabIndex = 1018;
             // 
@@ -329,11 +329,11 @@
             // 
             // txtRooms
             // 
-            this.txtRooms.BackColor = System.Drawing.SystemColors.Control;
             this.txtRooms.Dock = System.Windows.Forms.DockStyle.Left;
             this.txtRooms.Location = new System.Drawing.Point(391, 3);
             this.txtRooms.MaxLength = 3;
             this.txtRooms.Name = "txtRooms";
+            this.txtRooms.ReadOnly = true;
             this.txtRooms.Size = new System.Drawing.Size(50, 20);
             this.txtRooms.TabIndex = 1020;
             // 
@@ -355,19 +355,19 @@
             // 
             // txtTime
             // 
-            this.txtTime.BackColor = System.Drawing.SystemColors.Control;
             this.txtTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtTime.Location = new System.Drawing.Point(257, 3);
             this.txtTime.Name = "txtTime";
+            this.txtTime.ReadOnly = true;
             this.txtTime.Size = new System.Drawing.Size(103, 20);
             this.txtTime.TabIndex = 2;
             // 
             // txtDate
             // 
-            this.txtDate.BackColor = System.Drawing.SystemColors.Control;
             this.txtDate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtDate.Location = new System.Drawing.Point(3, 3);
             this.txtDate.Name = "txtDate";
+            this.txtDate.ReadOnly = true;
             this.txtDate.Size = new System.Drawing.Size(248, 20);
             this.txtDate.TabIndex = 1;
             // 
