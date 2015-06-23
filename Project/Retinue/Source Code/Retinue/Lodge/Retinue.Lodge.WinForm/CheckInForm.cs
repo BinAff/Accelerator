@@ -19,6 +19,7 @@ using RsvFac = Retinue.Lodge.Facade.RoomReservation;
 using Fac = Retinue.Lodge.Facade.CheckIn;
 using RuleFac = Retinue.Configuration.Rule.Facade;
 using RoomFac = Retinue.Lodge.Configuration.Facade.Room;
+using System.Drawing;
 
 namespace Retinue.Lodge.WinForm
 {
@@ -331,9 +332,13 @@ namespace Retinue.Lodge.WinForm
             if (dto.Id > 0)
             {
                 this.ucRoomReservation.DisableFormControls();
-                this.txtPurpose.Enabled = false;
-                this.txtArrivedFrom.Enabled = false;
-                this.txtCheckInRemark.Enabled = false;
+
+                this.txtPurpose.ReadOnly = true;
+                this.txtPurpose.BackColor = SystemColors.Control;
+                this.txtArrivedFrom.ReadOnly = true;
+                this.txtArrivedFrom.BackColor = SystemColors.Control;
+                this.txtCheckInRemark.ReadOnly = true;
+
                 base.IsEnabledPickAncestorButton = false;
                 base.IsEnabledAddAncestorButton = false;
 
