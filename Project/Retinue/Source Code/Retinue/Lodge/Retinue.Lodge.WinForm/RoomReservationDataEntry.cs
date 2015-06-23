@@ -7,11 +7,11 @@ using BinAff.Core;
 using BinAff.Utility;
 using BinAff.Presentation.Library.Extension;
 
-using CustFac = Retinue.Customer.Facade;
 using RoomRsvFac = Retinue.Lodge.Facade.RoomReservation;
 using RoomFac = Retinue.Lodge.Configuration.Facade.Room;
 using RoomCatFac = Retinue.Lodge.Configuration.Facade.Room.Category;
 using RoomTypeFac = Retinue.Lodge.Configuration.Facade.Room.Type;
+using System.Drawing;
 
 namespace Retinue.Lodge.WinForm
 {
@@ -360,7 +360,12 @@ namespace Retinue.Lodge.WinForm
                     this.dtFromTime.Value = this.dto.BookingFrom;
                     this.dtFrom.Value = this.dto.BookingFrom;
                 }
-                this.txtTo.Text = Convert.ToString(this.dto.To);
+                if (this.dto.To != null)
+                {
+                    DateTime to = (DateTime)this.dto.To;
+                    this.txtToDate.Text = to.ToShortDateString();
+                    this.txtToTime.Text = to.ToShortTimeString();
+                }
                 this.txtRooms.Text = this.dto.NoOfRooms == 0 ? String.Empty : this.dto.NoOfRooms.ToString();
                 this.txtDays.Text = this.dto.NoOfDays == 0 ? String.Empty : this.dto.NoOfDays.ToString();
 
@@ -413,7 +418,9 @@ namespace Retinue.Lodge.WinForm
 
             this.dtFrom.Enabled = false;
             this.dtFromTime.Enabled = false;
+
             this.txtDays.ReadOnly = true;
+            this.txtDays.BackColor = SystemColors.Control;
             this.txtMale.ReadOnly = true;
             this.txtFemale.ReadOnly = true;
             this.txtChild.ReadOnly = true;
@@ -421,6 +428,7 @@ namespace Retinue.Lodge.WinForm
             this.txtRemarks.ReadOnly = true;
 
             this.txtRooms.ReadOnly = true;
+            this.txtRooms.BackColor = SystemColors.Control;
 
             this.lstRoomList.Enabled = false;
             this.lstSelectedRoom.Enabled = false;
