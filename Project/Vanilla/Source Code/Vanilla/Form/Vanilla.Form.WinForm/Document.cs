@@ -411,7 +411,7 @@ namespace Vanilla.Form.WinForm
         public void DeleteForm()
         {
             String Msg = String.Format("Do you want to delete {0}: {1}?", this.Artifact.Category.ToString(), this.Artifact.FullFileName);
-            DialogResult dialogResult = MessageBox.Show(this, Msg, "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult dialogResult = new PresLib.MessageBox(this).Confirm( new BinAff.Core.Message(Msg, BinAff.Core.Message.Type.Question));
             if (dialogResult == DialogResult.Yes)
             {
                 this.AssignDto();
