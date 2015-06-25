@@ -117,6 +117,10 @@
       <Project>{1ee9a9dd-9151-437a-b1a3-28015975ef52}</Project>
       <Name>BinAff.Presentation.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\BinAff\Source Code\BinAff\Utility\BinAff.Utility.csproj">
+      <Project>{ed04bf0c-b4f1-4e9c-80c5-799027ebe260}</Project>
+      <Name>BinAff.Utility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Gaurdian\Facade\Vanilla.Guardian.Facade.csproj">
       <Project>{24a3cc18-9fa6-4976-8ade-ac07ee6844fb}</Project>
       <Name>Vanilla.Guardian.Facade</Name>

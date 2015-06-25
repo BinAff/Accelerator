@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using ModFac = Vanilla.Utility.Facade.Module;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace Vanilla.Utility.WinForm
 {
@@ -15,6 +16,8 @@ namespace Vanilla.Utility.WinForm
 
         public Facade.Document.FormDto formDto;
         public Facade.Document.Server facade;
+
+        public DocumentHeading Heading { get; set; }
 
         public delegate void OnAuditInfoChanged(ArtfFac.Dto artifact);
         public event OnAuditInfoChanged AuditInfoChanged;
@@ -70,6 +73,9 @@ namespace Vanilla.Utility.WinForm
                 currentEvent(document);
             }
         }
+
+        public delegate void OnHeadingClicked(object sender1, EventArgs e1);
+        public event OnHeadingClicked HeadingClicked;
 
         public Facade.Artifact.Dto Artifact
         {
@@ -157,6 +163,7 @@ namespace Vanilla.Utility.WinForm
             }
             this.LoadData();
             this.LoadFormChildSealed();
+            this.AttachHeading();
         }
 
         private void Document_Shown(object sender, EventArgs e)
@@ -257,6 +264,41 @@ namespace Vanilla.Utility.WinForm
         protected virtual void LoadData()
         {
 
+        }
+
+        public void MakeActive()
+        {
+            this.Heading.BackColor = SystemColors.Control;
+            this.Heading.ForeColor = SystemColors.ActiveCaptionText;
+            this.BringToFront();
+        }
+
+        public void MakeInactivate()
+        {
+            this.Heading.BackColor = SystemColors.InactiveCaption;
+            this.Heading.ForeColor = SystemColors.InactiveCaptionText;
+        }
+
+        public void AttachHeading()
+        {
+            this.Heading = new DocumentHeading
+            {
+                Heading = this.formDto.DocumentName,
+                ToolTip = this.formDto.DocumentPath,
+                Dock = System.Windows.Forms.DockStyle.Left,
+                Document = this,
+                BackColor = SystemColors.Control,
+                ForeColor = SystemColors.ActiveCaptionText,
+            };
+            this.Heading.SendToBack();
+            this.Heading.Click += delegate(object sender, EventArgs e)
+            {
+                if (this.HeadingClicked != null) this.HeadingClicked(sender, e);
+            };
+            this.Heading.Close += delegate(object sender2, EventArgs e2)
+            {
+                this.Close();
+            };
         }
 
     }

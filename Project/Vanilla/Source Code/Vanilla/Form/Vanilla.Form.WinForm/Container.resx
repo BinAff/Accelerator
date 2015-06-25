@@ -124,10 +124,30 @@
     <value>236, 17</value>
   </metadata>
   <data name="spnlLeftLink.Options" mimetype="application/x-microsoft.net.object.binary.base64">
-    
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAJ0BVmFuaWxsYS5VdGlsaXR5LldpbkZvcm0sIFZlcnNpb249MS4w
+        LjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsXV0sIG1zY29ybGliLCBWZXJz
+        aW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4
+        OQwDAAAATlZhbmlsbGEuVXRpbGl0eS5XaW5Gb3JtLCBWZXJzaW9uPTEuMC4wLjAsIEN1bHR1cmU9bmV1
+        dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAAS1N5c3RlbS5Db2xsZWN0aW9ucy5HZW5lcmljLkxp
+        c3RgMVtbVmFuaWxsYS5VdGlsaXR5LldpbkZvcm0uU2lkZVBhbmVsK09wdGlvbgMAAAAGX2l0ZW1zBV9z
+        aXplCF92ZXJzaW9uBAAAKlZhbmlsbGEuVXRpbGl0eS5XaW5Gb3JtLlNpZGVQYW5lbCtPcHRpb25bXQMA
+        AAAICAIAAAAJBAAAAAAAAAAAAAAABwQAAAAAAQAAAAAAAAAEKFZhbmlsbGEuVXRpbGl0eS5XaW5Gb3Jt
+        LlNpZGVQYW5lbCtPcHRpb24DAAAACw==
+</value>
   </data>
   <data name="spnlReference.Options" mimetype="application/x-microsoft.net.object.binary.base64">
-    
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAJ0BVmFuaWxsYS5VdGlsaXR5LldpbkZvcm0sIFZlcnNpb249MS4w
+        LjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsXV0sIG1zY29ybGliLCBWZXJz
+        aW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4
+        OQwDAAAATlZhbmlsbGEuVXRpbGl0eS5XaW5Gb3JtLCBWZXJzaW9uPTEuMC4wLjAsIEN1bHR1cmU9bmV1
+        dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAAS1N5c3RlbS5Db2xsZWN0aW9ucy5HZW5lcmljLkxp
+        c3RgMVtbVmFuaWxsYS5VdGlsaXR5LldpbkZvcm0uU2lkZVBhbmVsK09wdGlvbgMAAAAGX2l0ZW1zBV9z
+        aXplCF92ZXJzaW9uBAAAKlZhbmlsbGEuVXRpbGl0eS5XaW5Gb3JtLlNpZGVQYW5lbCtPcHRpb25bXQMA
+        AAAICAIAAAAJBAAAAAAAAAAAAAAABwQAAAAAAQAAAAAAAAAEKFZhbmlsbGEuVXRpbGl0eS5XaW5Gb3Jt
+        LlNpZGVQYW5lbCtPcHRpb24DAAAACw==
+</value>
   </data>
   <metadata name="Path.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

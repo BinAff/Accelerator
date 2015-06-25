@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using BinAff.Facade.Cache;
 
 using AccFac = Vanilla.Guardian.Facade.Account;
-using GuardWin = Vanilla.Guardian.WinForm;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using ContFac = Vanilla.Utility.Facade.Container;
+
+using GuardWin = Vanilla.Guardian.WinForm;
 
 namespace Vanilla.Utility.WinForm
 {
@@ -21,10 +22,11 @@ namespace Vanilla.Utility.WinForm
         private Boolean isLoginFormOpen;
         private Boolean isAlreadyLoggedIn;
 
+        protected DocumentCollection documentCollection = new DocumentCollection();
+
         protected Facade.Container.Server facade;
 
-        private Int16 mdiChildrenCount;
-        private Boolean isMdiChildClosing;
+        private Int16 childrenCount;
         private Boolean isLoginFormOpening;
 
         private Container executable;
@@ -47,51 +49,99 @@ namespace Vanilla.Utility.WinForm
             InitializeComponent();
             this.isLoginFormOpen = false;
             this.isAlreadyLoggedIn = false;
-            this.mdiChildrenCount = 0;
-            this.MdiChildActivate += Container_MdiChildActivate;
+            this.childrenCount = 0;
         }
 
-        private void Container_MdiChildActivate(object sender, EventArgs e)
+        public Boolean AddDocument(Document child)
         {
-            Document currentForm = this.ActiveMdiChild as Document;
-            if (this.isMdiChildClosing)
-            {
-                this.isMdiChildClosing = false;
-                return;
-            }
             if (this.isLoginFormOpen)
             {
                 this.Login();
                 this.loginForm.Close();
             }
-            if (currentForm != null && currentForm.Text != "Login")
+            child.HeadingClicked += child_HeadingClicked;
+            this.ActivateDocument(child);
+            this.BringToFront();
+
+            //Check if the document is already open or not
+            if (this.documentCollection.Find((p) =>
             {
-                if (this.isLoginFormOpening) return;
-                                
-                if (this.MdiChildren.Length != this.mdiChildrenCount)
+                if (child.formDto != null && child.formDto.Document != null)
                 {
-                    this.mdiChildrenCount++;
-                    currentForm.FormClosed += currentForm_FormClosed;
-                    this.ManageRecentFile(currentForm.DocumentPath, currentForm.ComponentCode);
+                    return child.formDto.Document.Id == p.formDto.Document.Id;
                 }
-                this.tlsVersion.Text = currentForm.AuditInfo.Version.ToString();
-                this.tlsCreatedBy.Text = currentForm.AuditInfo.CreatedBy.Name;
-                this.tlsCreatedAt.Text = currentForm.AuditInfo.CreatedAt.ToString();
-                if (currentForm.AuditInfo.ModifiedBy != null)
+                return false;
+            }) == null)
+            {
+                documentCollection.Add(child);
+                if (this.documentCollection.Count != this.childrenCount)
                 {
-                    this.tlsModifiedBy.Text = currentForm.AuditInfo.ModifiedBy.Name;
-                    this.tlsModifiedAt.Text = currentForm.AuditInfo.ModifiedAt.ToString();
+                    this.childrenCount++;
+                    child.FormClosed += currentForm_FormClosed;
+                    this.ManageRecentFile(child.DocumentPath, child.ComponentCode);
                 }
-                this.tlsPath.Text = currentForm.DocumentPath;
             }
+            else //Duplicate document
+            {
+                //this.ActivateDocument(this.activeDocument);
+                return false;
+            }
+            return true;
+        }
+
+        void child_HeadingClicked(object sender1, EventArgs e1)
+        {
+            if (this.documentCollection.Current.Heading != sender1)
+            {
+                this.ActivateDocument((sender1 as DocumentHeading).Document);
+            }
+        }
+
+        private void ActivateDocument(Document document)
+        {
+            this.tlsVersion.Text = document.AuditInfo.Version.ToString();
+            this.tlsCreatedBy.Text = document.AuditInfo.CreatedBy.Name;
+            this.tlsCreatedAt.Text = document.AuditInfo.CreatedAt.ToString();
+            if (document.AuditInfo.ModifiedBy != null)
+            {
+                this.tlsModifiedBy.Text = document.AuditInfo.ModifiedBy.Name;
+                this.tlsModifiedAt.Text = document.AuditInfo.ModifiedAt.ToString();
+            }
+            this.tlsPath.Text = document.DocumentPath;
+
+            this.documentCollection.Activate(document);
+
+            this.LoadSummary(document);
+            this.LoadReference(document);
+        }
+
+        protected virtual void LoadSummary(Document child)
+        {
+            
+        }
+
+        protected virtual void LoadReference(Document child)
+        {
 
         }
 
         private void currentForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.isMdiChildClosing = true;
-            this.mdiChildrenCount--;
-            if (this.mdiChildrenCount == 0 && !this.isLoginFormOpening) this.Close();
+            this.childrenCount--;
+
+            if (this.documentCollection.Count > 1)
+            {
+                this.documentCollection.Remove(sender as Document);
+                if (this.documentCollection.Current == sender as Document)
+                {
+                    this.ActivateDocument(this.documentCollection[this.documentCollection.Count - 1] as Document);
+                }
+                (sender as Document).Heading.Dispose();
+            }
+            else
+            {
+                if (!this.isLoginFormOpening) this.Close();
+            }
         }
 
         protected Container(AccFac.Dto account)
@@ -117,12 +167,11 @@ namespace Vanilla.Utility.WinForm
                 this.AttachRecentDocuments(recentItemList);
                 this.ShowControlAfterLogin();
             }
-            this.IsMdiContainer = true;
         }
 
         protected virtual void Compose()
         {
-            
+
         }
 
         #region Menu
@@ -139,11 +188,10 @@ namespace Vanilla.Utility.WinForm
             this.facade.Logout();
 
             this.isLoginFormOpening = true;
-            foreach (Form frm in this.MdiChildren)
+            foreach (Form frm in this.documentCollection)
             {
                 frm.Close();
             }
-            this.IsMdiContainer = true; //No clue why it is being false
             this.ShowControlBeforeLogin();
             this.ShowLoginForm();
             this.Text = this.Text.Split(new Char[] { ' ', ':', ' ' })[0];
@@ -297,12 +345,12 @@ namespace Vanilla.Utility.WinForm
 
         protected virtual void ShowControlBeforeLoginExtra()
         {
-            
+
         }
 
         protected virtual void ShowControlAfterLoginExtra()
         {
-            
+
         }
 
         private void ManageRecentFile(String documentPath, String componentCode)
@@ -312,7 +360,7 @@ namespace Vanilla.Utility.WinForm
         }
 
         private void AttachRecentDocuments(List<ContFac.Server.XmlBucket> recentItemList)
-        {            
+        {
             this.mnuRecentFiles.DropDownItems.Clear();
             if (recentItemList != null)
             {
@@ -347,8 +395,7 @@ namespace Vanilla.Utility.WinForm
             this.executable.Show();
             ArtfFac.Dto currentArtifact = new ArtfFac.Server(null).Read(path, this.facade.GetCategory(), componentCode);
             Document form = this.InstantiateForm(currentArtifact);
-            form.MdiParent = this.executable;
-            form.Show();
+            this.AddDocument(form);
         }
 
         private void clearMenu_Click(object sender, EventArgs e)
@@ -369,7 +416,7 @@ namespace Vanilla.Utility.WinForm
 
         protected virtual Document InstantiateForm(ArtfFac.Dto currentArtifact)
         {
-            currentArtifact.ComponentDefinition.ComponentFormType = this.facade.GetComponentFormType(currentArtifact.ComponentDefinition.Code); 
+            currentArtifact.ComponentDefinition.ComponentFormType = this.facade.GetComponentFormType(currentArtifact.ComponentDefinition.Code);
             Type type = Type.GetType(currentArtifact.ComponentDefinition.ComponentFormType, true);
             //currentArtifact.Module.artifactPath = currentArtifact.Path;
             return (Document)Activator.CreateInstance(type, currentArtifact);

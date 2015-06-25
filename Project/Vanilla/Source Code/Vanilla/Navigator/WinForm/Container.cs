@@ -165,23 +165,25 @@ namespace Vanilla.Navigator.WinForm
             System.Threading.Thread t = new System.Threading.Thread(delegate()
             {
                 FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, currentArtifact);
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(new MethodInvoker(delegate
-                    {
-                        form.MdiParent = this.formExecutable;
-                    }));
-                }
-                form.ChildArtifactSaved += form_ChildArtifactSaved;
-                form.AuditInfoChanged += form_AuditInfoChanged;
-                form.AttachmentArtifactLoaded += form_AttachmentArtifactLoaded;
+                form.TopLevel = false;
                 if (this.InvokeRequired)
                 {
                     this.Invoke(new MethodInvoker(delegate
                     {
                         form.Show();
+                        this.formExecutable.AddDocument(form);
                     }));
                 }
+                form.ChildArtifactSaved += form_ChildArtifactSaved;
+                form.AuditInfoChanged += form_AuditInfoChanged;
+                form.AttachmentArtifactLoaded += form_AttachmentArtifactLoaded;
+                //if (this.InvokeRequired)
+                //{
+                //    this.Invoke(new MethodInvoker(delegate
+                //    {
+                //        form.Show();
+                //    }));
+                //}
             });
             t.Start();            
         }

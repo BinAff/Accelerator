@@ -21,7 +21,8 @@ namespace Vanilla.Form.WinForm
         private Int32 leftPanelWidth;
         private Int32 formPanellWidth;
 
-        private Document activeForm;
+        //private Document activeDocument;
+        //private List<Document> documentList;
 
         protected Container()
             : base()
@@ -49,6 +50,24 @@ namespace Vanilla.Form.WinForm
             return currentInstance;
         }
 
+        public Boolean AddDocument(Document child)
+        {
+            if (!base.AddDocument(child)) return false;
+
+            this.pnlDocument.Controls.Add(child);
+            child.Dock = System.Windows.Forms.DockStyle.Fill;
+            child.IsVisibleCloseButton = false;
+            child.IsVisibleOkButton = false;
+
+            this.pnlHeading.Controls.Add(child.Heading);
+            child.BringToFront();
+            child.ButtonStatusChange += child_ButtonStatusChange;
+
+            this.LoadSummary(child);
+            this.LoadReference(child);
+            return true;
+        }
+
         #region Events
 
         private void Container_Load(object sender, EventArgs e)
@@ -71,66 +90,18 @@ namespace Vanilla.Form.WinForm
 
         private void Container_MdiChildActivate(object sender, EventArgs e)
         {
-            Document child = this.ActiveMdiChild as Document;
-            this.sCntData.Panel2.Controls.Add(child);
-            child.Dock = System.Windows.Forms.DockStyle.Fill;
-            child.IsVisibleCloseButton = false;
-            child.IsVisibleOkButton = false;
 
-            if (this.activeForm != null)
-            {
-                (this.activeForm.Tag as UtilWin.DocumentHeading).BackColor = System.Drawing.SystemColors.InactiveCaption;
-                (this.activeForm.Tag as UtilWin.DocumentHeading).ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            }
-            UtilWin.DocumentHeading heading = new UtilWin.DocumentHeading
-            {
-                Heading = child.formDto.DocumentName,
-                ToolTip = child.formDto.DocumentPath,
-                Dock = System.Windows.Forms.DockStyle.Left,
-                Tag = child,
-                BackColor = System.Drawing.SystemColors.Control,
-                ForeColor = System.Drawing.SystemColors.ActiveCaptionText,
-            };
-            child.Tag = heading;
-            heading.SendToBack();
-            heading.Click += delegate(object sender1, EventArgs e1)
-            {
-                if (this.activeForm.Tag != child.Tag)
-                {
-                    (child.Tag as UtilWin.DocumentHeading).BackColor = System.Drawing.SystemColors.Control;
-                    (child.Tag as UtilWin.DocumentHeading).ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-                    (this.activeForm.Tag as UtilWin.DocumentHeading).BackColor = System.Drawing.SystemColors.InactiveCaption;
-                    (this.activeForm.Tag as UtilWin.DocumentHeading).ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-                    child.BringToFront();
-                    this.LoadSummary(child);
-                    this.LoadReference(child);
-                    this.activeForm = child;
-                }
-            };
-            heading.Close += delegate(object sender2, EventArgs e3)
-            {
-                child.Close();
-                (child.Tag as UtilWin.DocumentHeading).Dispose();
-            };
-            this.pnlHeading.Controls.Add(heading);
-            child.BringToFront();
-            child.ButtonStatusChange += child_ButtonStatusChange;
-
-            this.LoadSummary(child);
-            this.LoadReference(child);
-            this.activeForm = child;
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            (this.ActiveMdiChild as Document).RefreshForm();
+            (this.documentCollection.Current as Document).RefreshForm();
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            Document current = this.ActiveMdiChild as Document;
-            current.SaveForm();
-            if (current.IsModified && current.IsAttachmentSupported) // && String.Compare(this.AttachmentName, "Attach", true) != 0)
+            (this.documentCollection.Current as Document).SaveForm();
+            if (this.documentCollection.Current.IsModified && (this.documentCollection.Current as Document).IsAttachmentSupported) // && String.Compare(this.AttachmentName, "Attach", true) != 0)
             {
                 System.Windows.Forms.DialogResult confirmation = new MessageBox(this).Confirm(new Message("Do yo want to attach any document?", Message.Type.Question));
                 if (confirmation == System.Windows.Forms.DialogResult.OK)
@@ -139,17 +110,18 @@ namespace Vanilla.Form.WinForm
                     return;
                 }
             }
-            if (current.IsModified) this.Close();
+            if (this.documentCollection.Current.IsModified) this.Close();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            (this.ActiveMdiChild as Document).DeleteForm();
+            (this.documentCollection.Current as Document).DeleteForm();
+            this.documentCollection.Remove(this.documentCollection.Current as Document);
         }
 
         private void btnAttach_Click(object sender, EventArgs e)
         {
-            Document attachment = (this.ActiveMdiChild as Document).AttachDocument();
+            Document attachment = (this.documentCollection.Current as Document).AttachDocument();
             if (attachment.Artifact.Id != 0)
             {
                 this.BindAttachmentList(attachment);
@@ -158,17 +130,17 @@ namespace Vanilla.Form.WinForm
 
         private void btnOpenLink_Click(object sender, EventArgs e)
         {
-            (this.ActiveMdiChild as Document).PickAnsestor();
+            (this.documentCollection.Current as Document).PickAnsestor();
         }
 
         private void btnAddLink_Click(object sender, EventArgs e)
         {
-            (this.ActiveMdiChild as Document).AddAnsestor();
+            (this.documentCollection.Current as Document).AddAnsestor();
         }
 
         private void btnViewLink_Click(object sender, EventArgs e)
         {
-            (this.ActiveMdiChild as Document).ViewAncestor();
+            (this.documentCollection.Current as Document).ViewAncestor();
         }
 
         private void spnlLeftLink_ClosePanel(EventArgs e)
@@ -302,36 +274,40 @@ namespace Vanilla.Form.WinForm
 
         #endregion
 
-        private void LoadSummary(Document child)
+        protected override void LoadSummary(UtilWin.Document child)
         {
-            this.btnOpenLink.Enabled = child.IsEnabledPickAncestorButton;
-            this.btnAddLink.Enabled = child.IsEnabledAddAncestorButton;
-            this.btnViewLink.Enabled = child.IsEnabledViewAncestorButton;
+            Document c = child as Document;
+            this.btnOpenLink.Enabled = c.IsEnabledPickAncestorButton;
+            this.btnAddLink.Enabled = c.IsEnabledAddAncestorButton;
+            this.btnViewLink.Enabled = c.IsEnabledViewAncestorButton;
 
-            this.spnlLeftLink.Options = child.SummaryList;
+            this.spnlLeftLink.Options = c.SummaryList;
             this.spnlLeftLink.ShowOption(0);
         }
 
-        private void LoadReference(Document child)
+        protected override void LoadReference(UtilWin.Document child)
         {
-            this.ucReference.Message = (child.formDto.Dto as Facade.Document.Dto).Remarks;
-            this.spnlReference.Options = new List<UtilWin.SidePanel.Option>
+            if (child.formDto != null && child.formDto.Dto != null)
             {
-                new Vanilla.Utility.WinForm.SidePanel.Option
+                this.ucReference.Message = (child.formDto.Dto as Facade.Document.Dto).Remarks;
+                this.spnlReference.Options = new List<UtilWin.SidePanel.Option>
                 {
-                    Name = "Attachments",
-                    Content = this.pnlAttachment,
-                    IsFlipped = true,
-                },
-                new Vanilla.Utility.WinForm.SidePanel.Option
-                {
-                    Name = "Remarks",
-                    Content = this.ucReference,
-                    IsFlipped = true,
-                },
-            };
-            this.spnlReference.ShowOption(0);
-            this.HandleAttachment(child);
+                    new Vanilla.Utility.WinForm.SidePanel.Option
+                    {
+                        Name = "Attachments",
+                        Content = this.pnlAttachment,
+                        IsFlipped = true,
+                    },
+                    new Vanilla.Utility.WinForm.SidePanel.Option
+                    {
+                        Name = "Remarks",
+                        Content = this.ucReference,
+                        IsFlipped = true,
+                    },
+                };
+                this.spnlReference.ShowOption(0);
+                this.HandleAttachment(child as Document);
+            }
         }
 
         #region Attachment
@@ -393,7 +369,7 @@ namespace Vanilla.Form.WinForm
                 ArtfFac.Dto document = (this.formDto as Facade.Container.FormDto).DocumentFormDto.Document.AttachmentList[e.RowIndex];
 
                 //Not correct way
-                (this.facade as Facade.Container.Server).DeleteAttachment(document, (this.ActiveMdiChild as Document).facade as Facade.Document.Server);
+                (this.facade as Facade.Container.Server).DeleteAttachment(document, this.documentCollection.Current.facade as Facade.Document.Server);
 
                 if (this.facade.IsError) //Some problem to delete attachment
                 {
@@ -428,8 +404,7 @@ namespace Vanilla.Form.WinForm
 
             Type type = Type.GetType(document.ComponentDefinition.ComponentFormType, true);
             FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, document);
-            form.MdiParent = this;
-            (this.ActiveMdiChild as Document).RaiseAttachmentArtifactLoaded(form);
+            this.documentCollection.Current.RaiseAttachmentArtifactLoaded(form);
             form.Show();
         }
 

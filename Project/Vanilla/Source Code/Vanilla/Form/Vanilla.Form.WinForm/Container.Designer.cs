@@ -58,6 +58,7 @@
             this.sCntData = new System.Windows.Forms.SplitContainer();
             this.pnlHeading = new System.Windows.Forms.Panel();
             this.ucReference = new Vanilla.Utility.WinForm.Reference();
+            this.pnlDocument = new System.Windows.Forms.Panel();
             this.pnlTopActionRibbon.SuspendLayout();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
@@ -385,6 +386,7 @@
             // 
             // sCntData.Panel2
             // 
+            this.sCntData.Panel2.Controls.Add(this.pnlDocument);
             this.sCntData.Panel2.Controls.Add(this.pnlHeading);
             this.sCntData.Size = new System.Drawing.Size(386, 299);
             this.sCntData.SplitterDistance = 200;
@@ -409,6 +411,15 @@
             this.ucReference.TabIndex = 15;
             this.ucReference.Visible = false;
             // 
+            // pnlDocument
+            // 
+            this.pnlDocument.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlDocument.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlDocument.Location = new System.Drawing.Point(0, 23);
+            this.pnlDocument.Name = "pnlDocument";
+            this.pnlDocument.Size = new System.Drawing.Size(182, 276);
+            this.pnlDocument.TabIndex = 1;
+            // 
             // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -418,11 +429,9 @@
             this.Controls.Add(this.sCntMain);
             this.Controls.Add(this.pnlAttachment);
             this.Controls.Add(this.pnlTopActionRibbon);
-            this.IsMdiContainer = true;
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "Container";
             this.Load += new System.EventHandler(this.Container_Load);
-            this.MdiChildActivate += new System.EventHandler(this.Container_MdiChildActivate);
             this.Shown += new System.EventHandler(this.Container_Shown);
             this.SizeChanged += new System.EventHandler(this.Container_SizeChanged);
             this.Controls.SetChildIndex(this.pnlTopActionRibbon, 0);
@@ -476,6 +485,7 @@
         private System.Windows.Forms.SplitContainer sCntData;
         private System.Windows.Forms.Panel pnlHeading;
         private Utility.WinForm.Reference ucReference;
+        private System.Windows.Forms.Panel pnlDocument;
 
     }
 }

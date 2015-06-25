@@ -61,6 +61,7 @@
     <Compile Include="Document.Designer.cs">
       <DependentUpon>Document.cs</DependentUpon>
     </Compile>
+    <Compile Include="DocumentCollection.cs" />
     <Compile Include="DocumentHeading.cs">
       <SubType>UserControl</SubType>
     </Compile>
