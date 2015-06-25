@@ -28,6 +28,8 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        public Document Document { get; set; }
+
         public delegate void OnClose(object sender, EventArgs e);
         public event OnClose Close;
 
