@@ -56,9 +56,9 @@
             this.lblAttachmentHeading = new System.Windows.Forms.Label();
             this.sCntMain = new System.Windows.Forms.SplitContainer();
             this.sCntData = new System.Windows.Forms.SplitContainer();
+            this.pnlDocument = new System.Windows.Forms.Panel();
             this.pnlHeading = new System.Windows.Forms.Panel();
             this.ucReference = new Vanilla.Utility.WinForm.Reference();
-            this.pnlDocument = new System.Windows.Forms.Panel();
             this.pnlTopActionRibbon.SuspendLayout();
             this.pnlAttachment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachmentList)).BeginInit();
@@ -263,7 +263,6 @@
             // 
             // spnlLeftLink
             // 
-            this.spnlLeftLink.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.spnlLeftLink.ControlBarPosition = System.Windows.Forms.DockStyle.Top;
             this.spnlLeftLink.ControlButtons.Add(this.btnOpenLink);
             this.spnlLeftLink.ControlButtons.Add(this.btnAddLink);
@@ -273,7 +272,7 @@
             this.spnlLeftLink.Location = new System.Drawing.Point(0, 0);
             this.spnlLeftLink.Name = "spnlLeftLink";
             this.spnlLeftLink.Options = ((System.Collections.Generic.List<Vanilla.Utility.WinForm.SidePanel.Option>)(resources.GetObject("spnlLeftLink.Options")));
-            this.spnlLeftLink.Size = new System.Drawing.Size(200, 299);
+            this.spnlLeftLink.Size = new System.Drawing.Size(197, 295);
             this.spnlLeftLink.TabIndex = 9;
             this.spnlLeftLink.TitleBar = "Summary";
             this.spnlLeftLink.ClosePanel += new Vanilla.Utility.WinForm.SidePanel.OnClose(this.spnlLeftLink_ClosePanel);
@@ -281,14 +280,13 @@
             // 
             // spnlReference
             // 
-            this.spnlReference.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.spnlReference.ControlBarPosition = System.Windows.Forms.DockStyle.Top;
             this.spnlReference.Dock = System.Windows.Forms.DockStyle.Fill;
             this.spnlReference.IsControlBarVisible = false;
             this.spnlReference.Location = new System.Drawing.Point(0, 0);
             this.spnlReference.Name = "spnlReference";
             this.spnlReference.Options = ((System.Collections.Generic.List<Vanilla.Utility.WinForm.SidePanel.Option>)(resources.GetObject("spnlReference.Options")));
-            this.spnlReference.Size = new System.Drawing.Size(134, 299);
+            this.spnlReference.Size = new System.Drawing.Size(130, 295);
             this.spnlReference.TabIndex = 10;
             this.spnlReference.TitleBar = "Reference";
             this.spnlReference.ClosePanel += new Vanilla.Utility.WinForm.SidePanel.OnClose(this.spnlReference_ClosePanel);
@@ -359,6 +357,7 @@
             // 
             // sCntMain
             // 
+            this.sCntMain.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.sCntMain.Location = new System.Drawing.Point(12, 80);
             this.sCntMain.Name = "sCntMain";
             // 
@@ -388,17 +387,26 @@
             // 
             this.sCntData.Panel2.Controls.Add(this.pnlDocument);
             this.sCntData.Panel2.Controls.Add(this.pnlHeading);
-            this.sCntData.Size = new System.Drawing.Size(386, 299);
-            this.sCntData.SplitterDistance = 200;
+            this.sCntData.Size = new System.Drawing.Size(382, 295);
+            this.sCntData.SplitterDistance = 197;
             this.sCntData.TabIndex = 0;
             this.sCntData.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.sCntData_SplitterMoved);
+            // 
+            // pnlDocument
+            // 
+            this.pnlDocument.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlDocument.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlDocument.Location = new System.Drawing.Point(0, 23);
+            this.pnlDocument.Name = "pnlDocument";
+            this.pnlDocument.Size = new System.Drawing.Size(181, 272);
+            this.pnlDocument.TabIndex = 1;
             // 
             // pnlHeading
             // 
             this.pnlHeading.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeading.Location = new System.Drawing.Point(0, 0);
             this.pnlHeading.Name = "pnlHeading";
-            this.pnlHeading.Size = new System.Drawing.Size(182, 23);
+            this.pnlHeading.Size = new System.Drawing.Size(181, 23);
             this.pnlHeading.TabIndex = 0;
             // 
             // ucReference
@@ -410,15 +418,6 @@
             this.ucReference.Size = new System.Drawing.Size(123, 104);
             this.ucReference.TabIndex = 15;
             this.ucReference.Visible = false;
-            // 
-            // pnlDocument
-            // 
-            this.pnlDocument.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnlDocument.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlDocument.Location = new System.Drawing.Point(0, 23);
-            this.pnlDocument.Name = "pnlDocument";
-            this.pnlDocument.Size = new System.Drawing.Size(182, 276);
-            this.pnlDocument.TabIndex = 1;
             // 
             // Container
             // 
