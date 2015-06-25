@@ -171,19 +171,13 @@ namespace Vanilla.Navigator.WinForm
                     this.Invoke(new MethodInvoker(delegate
                     {
                         form.Show();
+                        this.formExecutable.BringToFront();
                         this.formExecutable.AddDocument(form);
                     }));
                 }
                 form.ChildArtifactSaved += form_ChildArtifactSaved;
                 form.AuditInfoChanged += form_AuditInfoChanged;
                 form.AttachmentArtifactLoaded += form_AttachmentArtifactLoaded;
-                //if (this.InvokeRequired)
-                //{
-                //    this.Invoke(new MethodInvoker(delegate
-                //    {
-                //        form.Show();
-                //    }));
-                //}
             });
             t.Start();            
         }

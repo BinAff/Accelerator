@@ -22,11 +22,9 @@ namespace Vanilla.Utility.WinForm
         private Boolean isLoginFormOpen;
         private Boolean isAlreadyLoggedIn;
 
-        protected DocumentCollection documentCollection = new DocumentCollection();
-
+        protected DocumentCollection documentCollection;
         protected Facade.Container.Server facade;
 
-        private Int16 childrenCount;
         private Boolean isLoginFormOpening;
 
         private Container executable;
@@ -49,99 +47,18 @@ namespace Vanilla.Utility.WinForm
             InitializeComponent();
             this.isLoginFormOpen = false;
             this.isAlreadyLoggedIn = false;
-            this.childrenCount = 0;
-        }
-
-        public Boolean AddDocument(Document child)
-        {
-            if (this.isLoginFormOpen)
+            this.documentCollection = new DocumentCollection();
+            this.documentCollection.Added += delegate(Document item)
             {
-                this.Login();
-                this.loginForm.Close();
-            }
-            child.HeadingClicked += child_HeadingClicked;
-            this.ActivateDocument(child);
-            this.BringToFront();
-
-            //Check if the document is already open or not
-            if (this.documentCollection.Find((p) =>
+                this.ActivateDocument(item);
+                this.ManageRecentFile(item.DocumentPath, item.ComponentCode);
+            };
+            this.documentCollection.ActiveClosed += this.ActivateDocument;
+            this.documentCollection.Closed += delegate()
             {
-                if (child.formDto != null && child.formDto.Document != null)
-                {
-                    return child.formDto.Document.Id == p.formDto.Document.Id;
-                }
-                return false;
-            }) == null)
-            {
-                documentCollection.Add(child);
-                if (this.documentCollection.Count != this.childrenCount)
-                {
-                    this.childrenCount++;
-                    child.FormClosed += currentForm_FormClosed;
-                    this.ManageRecentFile(child.DocumentPath, child.ComponentCode);
-                }
-            }
-            else //Duplicate document
-            {
-                //this.ActivateDocument(this.activeDocument);
-                return false;
-            }
-            return true;
-        }
-
-        void child_HeadingClicked(object sender1, EventArgs e1)
-        {
-            if (this.documentCollection.Current.Heading != sender1)
-            {
-                this.ActivateDocument((sender1 as DocumentHeading).Document);
-            }
-        }
-
-        private void ActivateDocument(Document document)
-        {
-            this.tlsVersion.Text = document.AuditInfo.Version.ToString();
-            this.tlsCreatedBy.Text = document.AuditInfo.CreatedBy.Name;
-            this.tlsCreatedAt.Text = document.AuditInfo.CreatedAt.ToString();
-            if (document.AuditInfo.ModifiedBy != null)
-            {
-                this.tlsModifiedBy.Text = document.AuditInfo.ModifiedBy.Name;
-                this.tlsModifiedAt.Text = document.AuditInfo.ModifiedAt.ToString();
-            }
-            this.tlsPath.Text = document.DocumentPath;
-
-            this.documentCollection.Activate(document);
-
-            this.LoadSummary(document);
-            this.LoadReference(document);
-        }
-
-        protected virtual void LoadSummary(Document child)
-        {
-            
-        }
-
-        protected virtual void LoadReference(Document child)
-        {
-
-        }
-
-        private void currentForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            this.childrenCount--;
-
-            if (this.documentCollection.Count > 1)
-            {
-                this.documentCollection.Remove(sender as Document);
-                if (this.documentCollection.Current == sender as Document)
-                {
-                    this.ActivateDocument(this.documentCollection[this.documentCollection.Count - 1] as Document);
-                }
-                (sender as Document).Heading.Dispose();
-            }
-            else
-            {
-                if (!this.isLoginFormOpening) this.Close();
-            }
+                if (this.documentCollection.Count == 0) this.Close();
+            };
+            this.documentCollection.Selected += this.ActivateDocument;
         }
 
         protected Container(AccFac.Dto account)
@@ -168,12 +85,7 @@ namespace Vanilla.Utility.WinForm
                 this.ShowControlAfterLogin();
             }
         }
-
-        protected virtual void Compose()
-        {
-
-        }
-
+        
         #region Menu
 
         #region File
@@ -254,6 +166,42 @@ namespace Vanilla.Utility.WinForm
 
         #endregion
 
+        private void recentItemMenu_Click(object sender, EventArgs e)
+        {
+            String path = (sender as ToolStripMenuItem).Text;
+            String componentCode = (sender as ToolStripMenuItem).Tag as String;
+            if (this.executable == null)
+            {
+                this.executable = this.CreateExecutableInstance(Server.Current.Cache["User"] as AccFac.Dto);
+                this.executable.FormClosed += executable_FormClosed;
+            }
+            this.executable.Show();
+            ArtfFac.Dto currentArtifact = new ArtfFac.Server(null).Read(path, this.facade.GetCategory(), componentCode);
+            Document form = this.InstantiateForm(currentArtifact);
+            this.AddDocument(form);
+        }
+
+        private void clearMenu_Click(object sender, EventArgs e)
+        {
+            this.mnuRecentFiles.DropDownItems.Clear();
+            this.facade.RemoveRecentFile(Application.StartupPath + @"\Files\Recent.xml");
+        }
+
+        private void executable_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.executable = null;
+        }
+
+        private void mnuLeftPanel_Click(object sender, EventArgs e)
+        {
+            this.OnLeftPanleClick();
+        }
+
+        private void mnuRightPanel_Click(object sender, EventArgs e)
+        {
+            this.OnRightPanleClick();
+        }
+
         public Boolean Login(AccFac.Dto user)
         {
             AccFac.Dto loggedInUser = (Server.Current.Cache["User"] as AccFac.Dto);
@@ -266,6 +214,76 @@ namespace Vanilla.Utility.WinForm
             }
             return false;
         }
+
+        public void AddDocument(Document document)
+        {
+            this.documentCollection.Add(document);
+            if (this.documentCollection.IsAdded)
+            {
+                this.AddDocumentAfter(document);
+            }
+        }
+
+        protected virtual Document InstantiateForm(ArtfFac.Dto currentArtifact)
+        {
+            currentArtifact.ComponentDefinition.ComponentFormType = this.facade.GetComponentFormType(currentArtifact.ComponentDefinition.Code);
+            Type type = Type.GetType(currentArtifact.ComponentDefinition.ComponentFormType, true);
+            //currentArtifact.Module.artifactPath = currentArtifact.Path;
+            return (Document)Activator.CreateInstance(type, currentArtifact);
+        }
+
+        #region Mandatory Hook
+
+        protected virtual Container CreateExecutableInstance(AccFac.Dto dto)
+        {
+            throw new NotImplementedException();
+        }
+        
+        protected virtual void OnLeftPanleClick()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void OnRightPanleClick()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Optional Hook
+
+        protected virtual void Compose()
+        {
+
+        }
+        
+        protected virtual void ShowControlBeforeLoginExtra()
+        {
+
+        }
+
+        protected virtual void ShowControlAfterLoginExtra()
+        {
+
+        }
+
+        protected virtual void AddDocumentAfter(Document document)
+        {
+
+        }
+
+        protected virtual void LoadSummary(Document document)
+        {
+
+        }
+
+        protected virtual void LoadReference(Document document)
+        {
+
+        }
+
+        #endregion
 
         private void Login()
         {
@@ -343,16 +361,6 @@ namespace Vanilla.Utility.WinForm
             this.ShowControlAfterLoginExtra();
         }
 
-        protected virtual void ShowControlBeforeLoginExtra()
-        {
-
-        }
-
-        protected virtual void ShowControlAfterLoginExtra()
-        {
-
-        }
-
         private void ManageRecentFile(String documentPath, String componentCode)
         {
             List<ContFac.Server.XmlBucket> recentItemList = this.facade.SaveRecentFile(documentPath, componentCode, Application.StartupPath + @"\Files\Recent.xml");
@@ -383,63 +391,20 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        private void recentItemMenu_Click(object sender, EventArgs e)
+        private void ActivateDocument(Document document)
         {
-            String path = (sender as ToolStripMenuItem).Text;
-            String componentCode = (sender as ToolStripMenuItem).Tag as String;
-            if (this.executable == null)
+            this.tlsVersion.Text = document.AuditInfo.Version.ToString();
+            this.tlsCreatedBy.Text = document.AuditInfo.CreatedBy.Name;
+            this.tlsCreatedAt.Text = document.AuditInfo.CreatedAt.ToString();
+            if (document.AuditInfo.ModifiedBy != null)
             {
-                this.executable = this.CreateExecutableInstance(Server.Current.Cache["User"] as AccFac.Dto);
-                this.executable.FormClosed += executable_FormClosed;
+                this.tlsModifiedBy.Text = document.AuditInfo.ModifiedBy.Name;
+                this.tlsModifiedAt.Text = document.AuditInfo.ModifiedAt.ToString();
             }
-            this.executable.Show();
-            ArtfFac.Dto currentArtifact = new ArtfFac.Server(null).Read(path, this.facade.GetCategory(), componentCode);
-            Document form = this.InstantiateForm(currentArtifact);
-            this.AddDocument(form);
-        }
-
-        private void clearMenu_Click(object sender, EventArgs e)
-        {
-            this.mnuRecentFiles.DropDownItems.Clear();
-            this.facade.RemoveRecentFile(Application.StartupPath + @"\Files\Recent.xml");
-        }
-
-        private void executable_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            this.executable = null;
-        }
-
-        protected virtual Container CreateExecutableInstance(AccFac.Dto dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected virtual Document InstantiateForm(ArtfFac.Dto currentArtifact)
-        {
-            currentArtifact.ComponentDefinition.ComponentFormType = this.facade.GetComponentFormType(currentArtifact.ComponentDefinition.Code);
-            Type type = Type.GetType(currentArtifact.ComponentDefinition.ComponentFormType, true);
-            //currentArtifact.Module.artifactPath = currentArtifact.Path;
-            return (Document)Activator.CreateInstance(type, currentArtifact);
-        }
-
-        private void mnuLeftPanel_Click(object sender, EventArgs e)
-        {
-            this.OnLeftPanleClick();
-        }
-
-        protected virtual void OnLeftPanleClick()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void mnuRightPanel_Click(object sender, EventArgs e)
-        {
-            this.OnRightPanleClick();
-        }
-
-        protected virtual void OnRightPanleClick()
-        {
-            throw new NotImplementedException();
+            this.tlsPath.Text = document.DocumentPath;
+            document.BringToFront();
+            this.LoadSummary(document);
+            this.LoadReference(document);
         }
 
     }

@@ -8,7 +8,7 @@ namespace Vanilla.Utility.WinForm
     public class DocumentCollection : ICollection<Document>, IList<Document>
     {
 
-        private List<Document> items = new List<Document>();
+        private List<Document> items;
 
         public Document Current { get; set; }
 
@@ -19,7 +19,68 @@ namespace Vanilla.Utility.WinForm
 
         public Boolean IsReadOnly { get; set; }
 
-        public void Activate(Document item)
+        public Boolean IsAdded { get; private set; }
+
+        public delegate void OnAdded(Document item);
+        public event OnAdded Added;
+
+        public delegate void OnActiveClosed(Document item);
+        public event OnActiveClosed ActiveClosed;
+
+        public delegate void OnClosed();
+        public event OnClosed Closed;
+
+        public delegate void OnSelected(Document item);
+        public event OnSelected Selected;
+
+        public DocumentCollection()
+        {
+            this.items = new List<Document>();
+        }
+
+        public void Add(Document item)
+        {
+            this.IsAdded = false;
+
+            //Check if the document is already open or not
+            if (this.Find((p) =>
+            {
+                if (item.formDto != null && item.formDto.Document != null)
+                {
+                    return item.formDto.Document.Id == p.formDto.Document.Id;
+                }
+                return false;
+            }) == null)
+            {
+                this.items.Add(item);
+                this.Activate(item);
+                this.IsAdded = true;
+                if (this.Added != null) this.Added(item);
+            }
+            item.FormClosed += delegate(object sender, System.Windows.Forms.FormClosedEventArgs e)
+            {
+                this.items.Remove(sender as Document);
+                if (this.items.Count > 0 && this.Current == sender as Document)
+                {
+                    this.Activate(this.items[this.Count - 1]);
+                    if (this.ActiveClosed != null) this.ActiveClosed(this.items[this.Count - 1] as Document);
+                }
+                (sender as Document).Heading.Dispose();
+                if (this.Closed != null) this.Closed();
+            };
+            item.HeadingClicked += delegate(object sender1, EventArgs e1)
+            {
+                if (this.Current.Heading != sender1)
+                {
+                    this.Activate((sender1 as DocumentHeading).Document);
+                    this.Current = (sender1 as DocumentHeading).Document;
+                    if (this.Selected != null) this.Selected(this.Current);
+                }
+            };
+            this.Current = item;
+        }
+
+        private void Activate(Document item)
         {
             item.MakeActive();
             if (this.Current != null)
@@ -27,12 +88,6 @@ namespace Vanilla.Utility.WinForm
                 this.Current.MakeInactivate();
             }
             this.Current = item;
-        }
-
-        public void Add(Document item)
-        {
-            this.Current = item;
-            this.items.Add(item);
         }
 
         public void Clear()

@@ -21,9 +21,6 @@ namespace Vanilla.Form.WinForm
         private Int32 leftPanelWidth;
         private Int32 formPanellWidth;
 
-        //private Document activeDocument;
-        //private List<Document> documentList;
-
         protected Container()
             : base()
         {
@@ -48,24 +45,6 @@ namespace Vanilla.Form.WinForm
         {
             if (currentInstance == null || currentInstance.IsDisposed) currentInstance = new Container();
             return currentInstance;
-        }
-
-        public Boolean AddDocument(Document child)
-        {
-            if (!base.AddDocument(child)) return false;
-
-            this.pnlDocument.Controls.Add(child);
-            child.Dock = System.Windows.Forms.DockStyle.Fill;
-            child.IsVisibleCloseButton = false;
-            child.IsVisibleOkButton = false;
-
-            this.pnlHeading.Controls.Add(child.Heading);
-            child.BringToFront();
-            child.ButtonStatusChange += child_ButtonStatusChange;
-
-            this.LoadSummary(child);
-            this.LoadReference(child);
-            return true;
         }
 
         #region Events
@@ -229,6 +208,22 @@ namespace Vanilla.Form.WinForm
             this.sCntMain.Panel2.Show();
             this.spnlReference.Show();
             this.sCntMain.SplitterDistance = this.formPanellWidth;
+        }
+
+        protected override void AddDocumentAfter(UtilWin.Document document)
+        {
+            Document doc = document as Document;
+            this.pnlDocument.Controls.Add(document);
+            document.Dock = System.Windows.Forms.DockStyle.Fill;
+            doc.IsVisibleCloseButton = false;
+            doc.IsVisibleOkButton = false;
+
+            this.pnlHeading.Controls.Add(document.Heading);
+            document.BringToFront();
+            doc.ButtonStatusChange += child_ButtonStatusChange;
+
+            this.LoadSummary(document);
+            this.LoadReference(document);
         }
 
         void child_ButtonStatusChange(Document.ButtonType type, Document.ChangeProperty changeProperty, Boolean status)
