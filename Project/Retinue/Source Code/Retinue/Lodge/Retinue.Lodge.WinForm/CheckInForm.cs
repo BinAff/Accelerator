@@ -347,8 +347,8 @@ namespace Retinue.Lodge.WinForm
                 this.txtArrivedFrom.BackColor = SystemColors.Control;
                 this.txtCheckInRemark.ReadOnly = true;
 
-                base.IsEnabledPickAncestorButton = false;
-                base.IsEnabledAddAncestorButton = false;
+                base.IsEnabledOpenLinkButton = false;
+                base.IsEnabledAddLinkButton = false;
 
                 base.IsEnabledRefreshButton = false;
                 base.IsEnabledSaveButton = false;
@@ -386,8 +386,8 @@ namespace Retinue.Lodge.WinForm
                 base.IsEnabledSaveButton = true;
                 base.IsEnabledDeleteButton = true;
 
-                base.IsEnabledPickAncestorButton = true;
-                base.IsEnabledAddAncestorButton = true;
+                base.IsEnabledOpenLinkButton = true;
+                base.IsEnabledAddLinkButton = true;
                 base.IsEnabledAttchment = true;
 
                 this.btnCheckOut.Enabled = false;

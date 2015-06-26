@@ -125,8 +125,8 @@ namespace Vanilla.Accountant.WinForm
                 base.IsEnabledSaveButton = false;
                 base.IsEnabledDeleteButton = false;
 
-                base.IsEnabledAddAncestorButton = false;
-                base.IsEnabledPickAncestorButton = false;
+                base.IsEnabledAddLinkButton = false;
+                base.IsEnabledOpenLinkButton = false;
 
                 this.txtDiscount.Enabled = false;
                 this.btnPrint.Enabled = true;

@@ -184,8 +184,8 @@ namespace Retinue.Customer.WinForm
 
         protected override void DisableFormControls()
         {
-            base.IsEnabledPickAncestorButton = false;
-            base.IsEnabledAddAncestorButton = false;
+            base.IsEnabledOpenLinkButton = false;
+            base.IsEnabledAddLinkButton = false;
             base.IsEnabledAttchment = false;
 
             base.IsEnabledRefreshButton = true;

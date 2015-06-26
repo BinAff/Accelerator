@@ -224,6 +224,11 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        protected virtual void ManipulateMenu(Document document)
+        {
+            throw new NotImplementedException();
+        }
+
         protected virtual Document InstantiateForm(ArtfFac.Dto currentArtifact)
         {
             currentArtifact.ComponentDefinition.ComponentFormType = this.facade.GetComponentFormType(currentArtifact.ComponentDefinition.Code);
@@ -393,6 +398,7 @@ namespace Vanilla.Utility.WinForm
 
         private void ActivateDocument(Document document)
         {
+            this.ManipulateMenu(document);
             this.tlsVersion.Text = document.AuditInfo.Version.ToString();
             this.tlsCreatedBy.Text = document.AuditInfo.CreatedBy.Name;
             this.tlsCreatedAt.Text = document.AuditInfo.CreatedAt.ToString();

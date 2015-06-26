@@ -67,11 +67,6 @@ namespace Vanilla.Form.WinForm
 
         }
 
-        private void Container_MdiChildActivate(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             (this.documentCollection.Current as Document).RefreshForm();
@@ -210,6 +205,19 @@ namespace Vanilla.Form.WinForm
             this.sCntMain.SplitterDistance = this.formPanellWidth;
         }
 
+        protected override void ManipulateMenu(UtilWin.Document document)
+        {
+            Document doc = document as Document;
+
+            this.btnRefresh.Enabled = doc.IsEnabledRefreshButton;
+            this.btnSave.Enabled = doc.IsEnabledSaveButton;
+            this.btnDelete.Enabled = doc.IsEnabledDeleteButton;
+
+            this.btnOpenLink.Enabled = doc.IsEnabledOpenLinkButton;
+            this.btnAddLink.Enabled = doc.IsEnabledAddLinkButton;
+            this.btnViewLink.Enabled = doc.IsEnabledViewLinkButton;
+        }
+
         protected override void AddDocumentAfter(UtilWin.Document document)
         {
             Document doc = document as Document;
@@ -272,9 +280,9 @@ namespace Vanilla.Form.WinForm
         protected override void LoadSummary(UtilWin.Document child)
         {
             Document c = child as Document;
-            this.btnOpenLink.Enabled = c.IsEnabledPickAncestorButton;
-            this.btnAddLink.Enabled = c.IsEnabledAddAncestorButton;
-            this.btnViewLink.Enabled = c.IsEnabledViewAncestorButton;
+            this.btnOpenLink.Enabled = c.IsEnabledOpenLinkButton;
+            this.btnAddLink.Enabled = c.IsEnabledAddLinkButton;
+            this.btnViewLink.Enabled = c.IsEnabledViewLinkButton;
 
             this.spnlLeftLink.Options = c.SummaryList;
             this.spnlLeftLink.ShowOption(0);

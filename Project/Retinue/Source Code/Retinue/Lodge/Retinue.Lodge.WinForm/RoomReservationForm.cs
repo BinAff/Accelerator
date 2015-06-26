@@ -210,8 +210,8 @@ namespace Retinue.Lodge.WinForm
                     base.IsEnabledSaveButton = false;
                     base.IsEnabledDeleteButton = false;
 
-                    base.IsEnabledPickAncestorButton = false;
-                    base.IsEnabledAddAncestorButton = false;
+                    base.IsEnabledOpenLinkButton = false;
+                    base.IsEnabledAddLinkButton = false;
                     base.IsEnabledAttchment = false;
 
                     this.btnCancel.Enabled = false;
@@ -224,8 +224,8 @@ namespace Retinue.Lodge.WinForm
                     base.IsEnabledSaveButton = true;
                     base.IsEnabledDeleteButton = true;
 
-                    base.IsEnabledPickAncestorButton = true;
-                    base.IsEnabledAddAncestorButton = true;
+                    base.IsEnabledOpenLinkButton = true;
+                    base.IsEnabledAddLinkButton = true;
                     base.IsEnabledAttchment = true;
 
                     this.btnCancel.Enabled = true;

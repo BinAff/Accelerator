@@ -103,44 +103,44 @@ namespace Vanilla.Form.WinForm
             }
         }
 
-        private Boolean isEnabledPickAncestorButton = true;
-        public Boolean IsEnabledPickAncestorButton
+        private Boolean isEnabledOpenLinkButton = true;
+        public Boolean IsEnabledOpenLinkButton
         {
             get
             {
-                return this.isEnabledPickAncestorButton;
+                return this.isEnabledOpenLinkButton;
             }
             protected set
             {
-                this.isEnabledPickAncestorButton = value;
+                this.isEnabledOpenLinkButton = value;
                 if (this.ButtonStatusChange != null) this.ButtonStatusChange(ButtonType.PickAncestor, ChangeProperty.Enabled, value);
             }
         }
 
-        private Boolean isEnabledAddAncestorButton = true;
-        public Boolean IsEnabledAddAncestorButton
+        private Boolean isEnabledAddLinkButton = true;
+        public Boolean IsEnabledAddLinkButton
         {
             get
             {
-                return this.isEnabledAddAncestorButton;
+                return this.isEnabledAddLinkButton;
             }
             protected set
             {
-                this.isEnabledAddAncestorButton = value;
+                this.isEnabledAddLinkButton = value;
                 if (this.ButtonStatusChange != null) this.ButtonStatusChange(ButtonType.AddAncestor, ChangeProperty.Enabled, value);
             }
         }
 
-        private Boolean isEnabledViewAncestorButton = true;
-        public Boolean IsEnabledViewAncestorButton
+        private Boolean isEnabledViewLinkButton = true;
+        public Boolean IsEnabledViewLinkButton
         {
             get
             {
-                return this.isEnabledViewAncestorButton;
+                return this.isEnabledViewLinkButton;
             }
             protected set
             {
-                this.isEnabledViewAncestorButton = value;
+                this.isEnabledViewLinkButton = value;
                 if (this.ButtonStatusChange != null) this.ButtonStatusChange(ButtonType.ViewAncestor, ChangeProperty.Enabled, value);
             }
         }
