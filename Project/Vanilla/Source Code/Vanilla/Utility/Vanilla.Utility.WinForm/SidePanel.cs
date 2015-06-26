@@ -27,8 +27,7 @@ namespace Vanilla.Utility.WinForm
         }
 
         private List<Option> options;
-        //[Description("Options to display"), Category("Configuration")]
-        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Description("Options to display"), Category("Configuration")]
         public List<Option> Options
         {
             get
@@ -291,7 +290,6 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
-        [Serializable]
         public class Option
         {
 
