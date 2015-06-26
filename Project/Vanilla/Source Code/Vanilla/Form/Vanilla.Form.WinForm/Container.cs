@@ -165,6 +165,7 @@ namespace Vanilla.Form.WinForm
 
         protected override void Compose()
         {
+            this.Text = "Forms";
             base.facade = new Facade.Container.Server(null);
             base.IsPathShown = true;
         }

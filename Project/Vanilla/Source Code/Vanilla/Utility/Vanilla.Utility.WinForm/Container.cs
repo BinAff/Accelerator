@@ -224,6 +224,25 @@ namespace Vanilla.Utility.WinForm
             }
         }
 
+        private void SetHeading()
+        {
+            AccFac.Dto loggedInUser = (Server.Current.Cache["User"] as AccFac.Dto);
+            String roleName = String.Empty;
+            if (loggedInUser.RoleList != null)
+            {
+                Int32 i = loggedInUser.RoleList.Count - 1;
+                while (i >= 0)
+                {
+                    roleName += loggedInUser.RoleList[i].Name;
+                    if (i-- != 0) roleName += "/";
+                }
+            }
+            this.Text = String.Format("{0} : {1} - {2} ({3})", this.Text.Split(':')[0],
+                this.documentCollection.Current.formDto.DocumentName,
+                loggedInUser.Profile.Name,
+                roleName);
+        }
+
         protected virtual void ManipulateMenu(Document document)
         {
             throw new NotImplementedException();
@@ -293,18 +312,6 @@ namespace Vanilla.Utility.WinForm
         private void Login()
         {
             this.isAlreadyLoggedIn = true;
-            AccFac.Dto loggedInUser = (Server.Current.Cache["User"] as AccFac.Dto);
-            String heading = this.Text + " : " + loggedInUser.Profile.Name + " - ";
-            if (loggedInUser.RoleList != null)
-            {
-                Int32 i = loggedInUser.RoleList.Count - 1;
-                while (i >= 0)
-                {
-                    heading += loggedInUser.RoleList[i].Name;
-                    if (i-- != 0) heading += "/";
-                }
-            }
-            this.Text = heading;
             this.ShowControlAfterLogin();
         }
 
@@ -399,6 +406,7 @@ namespace Vanilla.Utility.WinForm
         private void ActivateDocument(Document document)
         {
             this.ManipulateMenu(document);
+            this.SetHeading();
             this.tlsVersion.Text = document.AuditInfo.Version.ToString();
             this.tlsCreatedBy.Text = document.AuditInfo.CreatedBy.Name;
             this.tlsCreatedAt.Text = document.AuditInfo.CreatedAt.ToString();
