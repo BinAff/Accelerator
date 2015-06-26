@@ -205,15 +205,30 @@ namespace Retinue.Lodge.WinForm
                 if (initialDto.Status == Status.CheckedIn || initialDto.Status == Status.CheckOut || initialDto.Status == Status.Canceled)
                 {
                     base.errorProvider.Clear();
+
                     base.IsEnabledRefreshButton = false;
                     base.IsEnabledSaveButton = false;
                     base.IsEnabledDeleteButton = false;
+
                     base.IsEnabledPickAncestorButton = false;
                     base.IsEnabledAddAncestorButton = false;
                     base.IsEnabledAttchment = false;
+
                     this.btnCancel.Enabled = false;
 
                     this.ucRoomReservationDataEntry.DisableFormControls();
+                }
+                else
+                {
+                    base.IsEnabledRefreshButton = true;
+                    base.IsEnabledSaveButton = true;
+                    base.IsEnabledDeleteButton = true;
+
+                    base.IsEnabledPickAncestorButton = true;
+                    base.IsEnabledAddAncestorButton = true;
+                    base.IsEnabledAttchment = true;
+
+                    this.btnCancel.Enabled = true;
                 }
             }
         }

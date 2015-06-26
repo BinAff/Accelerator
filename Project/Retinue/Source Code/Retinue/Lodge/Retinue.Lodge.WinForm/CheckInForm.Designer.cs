@@ -134,6 +134,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(616, 499);
             this.Controls.Add(this.tpnlContainer);
+            this.IsVisibleCloseButton = true;
+            this.IsVisibleOkButton = true;
             this.Name = "CheckInForm";
             this.ShowInTaskbar = false;
             this.Text = "Check In Form";

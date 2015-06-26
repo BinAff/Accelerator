@@ -382,6 +382,14 @@ namespace Retinue.Lodge.WinForm
             }
             else
             {
+                base.IsEnabledRefreshButton = true;
+                base.IsEnabledSaveButton = true;
+                base.IsEnabledDeleteButton = true;
+
+                base.IsEnabledPickAncestorButton = true;
+                base.IsEnabledAddAncestorButton = true;
+                base.IsEnabledAttchment = true;
+
                 this.btnCheckOut.Enabled = false;
                 this.btnGenerateInvoice.Enabled = false;
                 this.btnPay.Enabled = false;

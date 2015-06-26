@@ -187,6 +187,10 @@ namespace Retinue.Customer.WinForm
             base.IsEnabledPickAncestorButton = false;
             base.IsEnabledAddAncestorButton = false;
             base.IsEnabledAttchment = false;
+
+            base.IsEnabledRefreshButton = true;
+            base.IsEnabledSaveButton = true;
+            base.IsEnabledDeleteButton = true;
         }
 
         protected override void LoadForm()

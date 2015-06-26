@@ -109,18 +109,28 @@ namespace Vanilla.Accountant.WinForm
 
         protected override void DisableFormControls()
         {
+            base.IsEnabledRefreshButton = true;
+
             InvFac.Dto dto = base.Artifact.Module as InvFac.Dto;
             if (dto.Id == 0)
             {
+                base.IsEnabledSaveButton = true;
+                base.IsEnabledDeleteButton = true;
+
                 this.btnPrint.Enabled = false;
                 this.btnCancel.Enabled = false;
             }
             else
             {
                 base.IsEnabledSaveButton = false;
+                base.IsEnabledDeleteButton = false;
+
                 base.IsEnabledAddAncestorButton = false;
                 base.IsEnabledPickAncestorButton = false;
+
                 this.txtDiscount.Enabled = false;
+                this.btnPrint.Enabled = true;
+                this.btnCancel.Enabled = true;
             }
         }
 
