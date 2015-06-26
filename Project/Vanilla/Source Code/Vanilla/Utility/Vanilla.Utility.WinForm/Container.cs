@@ -402,7 +402,6 @@ namespace Vanilla.Utility.WinForm
                 this.tlsModifiedAt.Text = document.AuditInfo.ModifiedAt.ToString();
             }
             this.tlsPath.Text = document.DocumentPath;
-            document.BringToFront();
             this.LoadSummary(document);
             this.LoadReference(document);
         }

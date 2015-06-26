@@ -43,19 +43,26 @@ namespace Vanilla.Utility.WinForm
             this.IsAdded = false;
 
             //Check if the document is already open or not
-            if (this.Find((p) =>
+            Document existing = this.Find((p) =>
             {
                 if (item.formDto != null && item.formDto.Document != null)
                 {
                     return item.formDto.Document.Id == p.formDto.Document.Id;
                 }
                 return false;
-            }) == null)
+            });
+            if (existing == null)
             {
                 this.items.Add(item);
                 this.Activate(item);
                 this.IsAdded = true;
                 if (this.Added != null) this.Added(item);
+            }
+            else
+            {
+                this.Activate(existing);
+                item.Dispose();
+                if (this.Selected != null) this.Selected(this.Current);
             }
             item.FormClosed += delegate(object sender, System.Windows.Forms.FormClosedEventArgs e)
             {
@@ -77,7 +84,6 @@ namespace Vanilla.Utility.WinForm
                     if (this.Selected != null) this.Selected(this.Current);
                 }
             };
-            this.Current = item;
         }
 
         private void Activate(Document item)
