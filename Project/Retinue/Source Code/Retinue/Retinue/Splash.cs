@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Threading;
-using System.Configuration;
 using System.IO;
 using System.Collections.Generic;
 
@@ -10,9 +9,7 @@ namespace Retinue
 
     public partial class Splash : Form
     {
-
-        private Int32 TimerCount = 0;
-
+        
         public Splash()
         {
             InitializeComponent();
@@ -36,10 +33,17 @@ namespace Retinue
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            this.CreateFoldersAndFiles();
-
+            new Thread(delegate()
+            {
+                this.CreateFoldersAndFiles();
+            }).Start();
+            
             //new Vanilla.Navigator.Facade.Splash.Server(null).LoadForm();
-            new Retinue.Utility.Facade.Cache.Server().Cache();
+            new Thread(delegate()
+            {
+                new Retinue.Utility.Facade.Cache.Server().Cache();
+            }).Start();
+            
             Thread t = new Thread(delegate()
             {
                 Application.Run(Vanilla.Navigator.WinForm.Container.CreateInstance());
