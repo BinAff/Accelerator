@@ -182,9 +182,6 @@
       <Name>Retinue.Customer.Facade</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)..\..\..\Vanilla\Source Code\Vanilla\Reference\Lib\$(TargetFileName)" /Y
