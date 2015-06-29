@@ -38,7 +38,7 @@ namespace Retinue.Lodge.WinForm
         private List<RoomFac.Dto> filteredRoomList;
         private Boolean isLoading = false;
 
-        RoomRsvFac.Dto dto;
+        private RoomRsvFac.Dto dto;
 
         internal delegate void OnRoomListChange(Int16 days, DateTime from);
         internal event OnRoomListChange RoomListChanged;
@@ -50,6 +50,7 @@ namespace Retinue.Lodge.WinForm
             this.CategoryList = new List<RoomCatFac.Dto>();
             this.TypeList = new List<RoomTypeFac.Dto>();
             this.RoomList = new List<RoomFac.Dto>();
+            this.tpnlContainer.Dock = DockStyle.Fill;
         }
 
         #region Event
@@ -222,6 +223,92 @@ namespace Retinue.Lodge.WinForm
             return true;
         }
 
+        internal BinAff.Core.Message IsExtraBed()
+        {
+            BinAff.Core.Message message = new BinAff.Core.Message();
+            Int32 totalBed = 0;
+            Int32 extraBed = 0;
+            Int32 totalNoOfGuest = (String.IsNullOrEmpty(this.txtMale.Text.Trim()) ? 0 : Convert.ToInt32(this.txtMale.Text))
+                + (String.IsNullOrEmpty(this.txtFemale.Text.Trim()) ? 0 : Convert.ToInt32(this.txtFemale.Text));
+            Int32 noOfRooms = Convert.ToInt32(this.txtRooms.Text);
+            RoomTypeFac.Dto roomType = this.cboType.SelectedItem as RoomTypeFac.Dto;
+            if (this.dto.RoomList == null)
+            {
+                if (totalNoOfGuest == 1 && noOfRooms == 1)
+                {
+                    foreach (RoomFac.Dto room in this.lstSelectedRoom.Items)
+                    {
+                        room.ExtraAccomodation = 0;
+                    }
+                    return message;
+                }
+                else if (roomType == null || roomType.Name == "All")
+                {
+                    foreach (RoomFac.Dto room in this.lstSelectedRoom.Items)
+                    {
+                        room.ExtraAccomodation = 0;
+                    }
+                    message.Description = "Unable to calculate accomodation for guests. Room type is required for sugession. Do you want to Continue?";
+                    message.Category = BinAff.Core.Message.Type.Question;
+                    return message;
+                }
+                else
+                {
+                    totalBed = roomType.Accomodation * noOfRooms;
+                    extraBed = roomType.ExtraAccomodation * noOfRooms;
+                }
+            }
+            else
+            {
+                foreach (RoomFac.Dto room in this.dto.RoomList)
+                {
+                    totalBed += room.Accomodation;
+                    extraBed += room.ExtraAccomodation;
+                }
+            }
+            if (totalNoOfGuest > totalBed + extraBed)
+            {
+                message.Description = String.Format("Available bed: {0} + {1} = {2}", totalBed, extraBed, totalBed + extraBed) + Environment.NewLine;
+                message.Description += String.Format("Total Guest: {0}({1})", totalNoOfGuest, this.dto.NoOfChild) + Environment.NewLine + Environment.NewLine;
+                message.Description += String.Format("Reservation not allowed.", totalNoOfGuest, this.dto.NoOfChild);
+                message.Category = BinAff.Core.Message.Type.Error;
+            }
+            else if (totalNoOfGuest == totalBed + extraBed)
+            {
+                message.Description = String.Format("Available bed: {0}", totalBed) + Environment.NewLine;
+                message.Description += String.Format("Available extra bed: {0}", extraBed) + Environment.NewLine;
+                message.Description += String.Format("Total guests: {0}(Child - {1})", totalNoOfGuest, this.dto.NoOfChild) + Environment.NewLine + Environment.NewLine;
+                message.Description += String.Format("Extra bed required: {0}", totalNoOfGuest - totalBed) + Environment.NewLine;
+                message.Category = BinAff.Core.Message.Type.Information;
+            }
+            else if (totalNoOfGuest > totalBed)
+            {
+                message.Description = String.Format("Available bed: {0}", totalBed) + Environment.NewLine;
+                message.Description += String.Format("Available extra bed: {0}", extraBed) + Environment.NewLine;
+                message.Description += String.Format("Total guests: {0}(Child - {1})", totalNoOfGuest, this.dto.NoOfChild) + Environment.NewLine + Environment.NewLine;
+                message.Description += String.Format("Extra bed required: {0}", totalNoOfGuest - totalBed) + Environment.NewLine + Environment.NewLine;
+                message.Category = BinAff.Core.Message.Type.Information;
+                if (this.lstSelectedRoom.Items == null || this.lstSelectedRoom.Items.Count == 0)
+                {
+                    message.Description += String.Format("Since rooms are not choosen, assumption is every '{0}' will have {1} extra bed.",
+                        roomType.Name, roomType.ExtraAccomodation);
+                }
+                else
+                {
+                    ExtraBedCaptureForm frm = new ExtraBedCaptureForm
+                    {
+                        TotalGuest = totalNoOfGuest,
+                    };
+                    foreach (RoomFac.Dto room in this.lstSelectedRoom.Items)
+                    {
+                        frm.DataSource.Add(room);
+                    }
+                    frm.ShowDialog(this);
+                }
+            }
+            return message;
+        }
+
         internal Boolean ValidateForm(ErrorProvider errorProvider)
         {
             Boolean retVal = true;
@@ -388,7 +475,7 @@ namespace Retinue.Lodge.WinForm
 
             //non-mandatory
             dto.RoomCategory = this.GetSelectedCategory(this.cboCategory.SelectedItem as RoomCatFac.Dto);
-            dto.RoomType = this.GetSelectedType(this.cboType.SelectedItem as RoomTypeFac.Dto);
+            dto.RoomType = this.cboType.SelectedItem as RoomTypeFac.Dto;
             dto.ACPreference = this.cboAC.SelectedIndex;
             dto.NoOfMale = String.IsNullOrEmpty(this.txtMale.Text.Trim()) ? 0 : Convert.ToInt32(this.txtMale.Text);
             dto.NoOfFemale = String.IsNullOrEmpty(this.txtFemale.Text.Trim()) ? 0 : Convert.ToInt32(this.txtFemale.Text);
@@ -448,15 +535,6 @@ namespace Retinue.Lodge.WinForm
         #endregion
 
         private Table GetSelectedCategory(RoomCatFac.Dto selectedItem)
-        {
-            return selectedItem == null ? null : new Table
-            {
-                Id = selectedItem.Id,
-                Name = selectedItem.Name,
-            };
-        }
-
-        private Table GetSelectedType(RoomTypeFac.Dto selectedItem)
         {
             return selectedItem == null ? null : new Table
             {

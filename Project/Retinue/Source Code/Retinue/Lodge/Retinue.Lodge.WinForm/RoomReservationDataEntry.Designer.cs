@@ -90,7 +90,7 @@
             // txtFilteredRoomCount
             // 
             this.txtFilteredRoomCount.Dock = System.Windows.Forms.DockStyle.Left;
-            this.txtFilteredRoomCount.Location = new System.Drawing.Point(137, 3);
+            this.txtFilteredRoomCount.Location = new System.Drawing.Point(138, 3);
             this.txtFilteredRoomCount.Name = "txtFilteredRoomCount";
             this.txtFilteredRoomCount.ReadOnly = true;
             this.txtFilteredRoomCount.Size = new System.Drawing.Size(32, 20);
@@ -103,7 +103,7 @@
             this.lblTotalRooms.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblTotalRooms.Location = new System.Drawing.Point(3, 0);
             this.lblTotalRooms.Name = "lblTotalRooms";
-            this.lblTotalRooms.Size = new System.Drawing.Size(128, 24);
+            this.lblTotalRooms.Size = new System.Drawing.Size(129, 24);
             this.lblTotalRooms.TabIndex = 106;
             this.lblTotalRooms.Text = "Total Rooms";
             this.lblTotalRooms.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -111,7 +111,7 @@
             // txtAvailableRoomCount
             // 
             this.txtAvailableRoomCount.Dock = System.Windows.Forms.DockStyle.Left;
-            this.txtAvailableRoomCount.Location = new System.Drawing.Point(472, 3);
+            this.txtAvailableRoomCount.Location = new System.Drawing.Point(475, 3);
             this.txtAvailableRoomCount.Name = "txtAvailableRoomCount";
             this.txtAvailableRoomCount.ReadOnly = true;
             this.txtAvailableRoomCount.Size = new System.Drawing.Size(32, 20);
@@ -122,9 +122,9 @@
             // 
             this.lblAvailableRooms.AutoSize = true;
             this.lblAvailableRooms.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblAvailableRooms.Location = new System.Drawing.Point(338, 0);
+            this.lblAvailableRooms.Location = new System.Drawing.Point(340, 0);
             this.lblAvailableRooms.Name = "lblAvailableRooms";
-            this.lblAvailableRooms.Size = new System.Drawing.Size(128, 24);
+            this.lblAvailableRooms.Size = new System.Drawing.Size(129, 24);
             this.lblAvailableRooms.TabIndex = 108;
             this.lblAvailableRooms.Text = "Available Rooms";
             this.lblAvailableRooms.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -404,7 +404,6 @@
             this.tpnlContainer.Controls.Add(this.label1, 0, 1);
             this.tpnlContainer.Controls.Add(this.tpnlGuest, 0, 7);
             this.tpnlContainer.Controls.Add(this.label3, 0, 4);
-            this.tpnlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tpnlContainer.Location = new System.Drawing.Point(0, 0);
             this.tpnlContainer.Name = "tpnlContainer";
             this.tpnlContainer.RowCount = 10;
@@ -458,12 +457,13 @@
             this.tpnlRooms.Controls.Add(this.txtFilteredRoomCount, 1, 0);
             this.tpnlRooms.Controls.Add(this.lblAvailableRooms, 2, 0);
             this.tpnlRooms.Controls.Add(this.lblTotalRooms, 0, 0);
+            this.tpnlRooms.Dock = System.Windows.Forms.DockStyle.Top;
             this.tpnlRooms.Location = new System.Drawing.Point(0, 332);
             this.tpnlRooms.Margin = new System.Windows.Forms.Padding(0);
             this.tpnlRooms.Name = "tpnlRooms";
             this.tpnlRooms.RowCount = 1;
             this.tpnlRooms.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlRooms.Size = new System.Drawing.Size(673, 24);
+            this.tpnlRooms.Size = new System.Drawing.Size(676, 24);
             this.tpnlRooms.TabIndex = 1036;
             // 
             // tpnlFilter
@@ -706,7 +706,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tpnlContainer);
             this.Name = "RoomReservationDataEntry";
-            this.Size = new System.Drawing.Size(676, 357);
+            this.Size = new System.Drawing.Size(773, 455);
             this.tpnlContainer.ResumeLayout(false);
             this.tpnlContainer.PerformLayout();
             this.tpnlTo.ResumeLayout(false);

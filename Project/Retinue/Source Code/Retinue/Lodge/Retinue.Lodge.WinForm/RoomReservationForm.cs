@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 using BinAff.Core;
-using BinAff.Utility;
-using BinAff.Presentation.Library.Extension;
+using PresLib = BinAff.Presentation.Library;
 
 using AccFac = Vanilla.Guardian.Facade.Account;
-using DocFac = Vanilla.Utility.Facade.Document;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using FrmDocFac = Vanilla.Form.Facade.Document;
 
@@ -19,9 +16,6 @@ using UtilWin = Vanilla.Utility.WinForm;
 using Fac = Retinue.Lodge.Facade.RoomReservation;
 using RuleFac = Retinue.Configuration.Rule.Facade;
 using CustFac = Retinue.Customer.Facade;
-using RoomFac = Retinue.Lodge.Configuration.Facade.Room;
-using RoomCatFac = Retinue.Lodge.Configuration.Facade.Room.Category;
-using RoomTypFac = Retinue.Lodge.Configuration.Facade.Room.Type;
 using Retinue.Lodge.Facade.RoomReservation;
 
 namespace Retinue.Lodge.WinForm
@@ -164,6 +158,34 @@ namespace Retinue.Lodge.WinForm
         protected override Boolean ValidateForm()
         {
             return this.ucRoomReservationDataEntry.ValidateForm(this.errorProvider);
+        }
+
+        protected override Boolean SaveBefore()
+        {
+            BinAff.Core.Message message = this.ucRoomReservationDataEntry.IsExtraBed();
+            if (String.IsNullOrEmpty(message.Description))
+            {
+                return true;
+            }
+            else
+            {
+                switch (message.Category)
+                {
+                    case BinAff.Core.Message.Type.Question:
+                        DialogResult ans = new PresLib.MessageBox(this).Confirm(message);
+                        if (ans == System.Windows.Forms.DialogResult.OK) return true;
+                        return false;
+                    case BinAff.Core.Message.Type.Information:
+                        new PresLib.MessageBox(this).Show(message);
+                        return true;
+                    case BinAff.Core.Message.Type.Error:
+                        new PresLib.MessageBox(this).Show(message);
+                        return false;
+                    default:
+                        new PresLib.MessageBox(this).Show(message);
+                        return false;
+                }
+            }
         }
 
         protected override void RefreshFormBefore()

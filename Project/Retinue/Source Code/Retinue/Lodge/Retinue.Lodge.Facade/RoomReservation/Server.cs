@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using BinAff.Core;
 
-using LodgeCrys = Retinue.Lodge.Component;
 using ArtfCrys = Crystal.Navigator.Component.Artifact;
 using CustCrys = Crystal.Customer.Component;
 using RoomRsvCrys = Retinue.Lodge.Component.Room.Reservation;
@@ -14,7 +13,9 @@ using FrmFac = Vanilla.Form.Facade.Document;
 using ArtfFac = Vanilla.Utility.Facade.Artifact;
 using PayFac = Vanilla.Accountant.Facade.Payment;
 
-using CustAuto = Retinue.Customer.Component;
+using CustRet = Retinue.Customer.Component;
+using LodgeComp = Retinue.Lodge.Component;
+using RoomTypComp = Retinue.Lodge.Component.Room.Type;
 
 using RoomFac = Retinue.Lodge.Configuration.Facade.Room;
 using RuleFac = Retinue.Configuration.Rule.Facade;
@@ -73,7 +74,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
             if (comp.Status != null) dto.Status = (Status)comp.Status.Id;
             dto.RoomList = comp.ProductList == null ? null : new RoomFac.Server(null).ConvertAll<Data, RoomFac.Dto>(comp.ProductList);
             if (comp.RoomCategory != null) dto.RoomCategory = comp.RoomCategory == null ? null : new Table { Id = comp.RoomCategory.Id };
-            if(comp.RoomType != null) dto.RoomType = comp.RoomType == null ? null : new Table { Id = comp.RoomType.Id };
+            if(comp.RoomType != null) dto.RoomType = new RoomFac.Type.Server(null).Convert(comp.RoomType) as RoomFac.Type.Dto;
             
             return dto;
         }
@@ -81,7 +82,8 @@ namespace Retinue.Lodge.Facade.RoomReservation
         public override BinAff.Core.Data Convert(BinAff.Facade.Library.Dto dto)
         {
             Dto reservation = dto as Dto;
-            return new RoomRsvCrys.Data
+
+            RoomRsvCrys.Data data = new RoomRsvCrys.Data
             {
                 Id = dto.Id,
                 NoOfDays = reservation.NoOfDays,
@@ -93,17 +95,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
                 Status = new Crystal.Customer.Component.Action.Status.Data
                 {
                     Id = (Int64)reservation.Status
-                },
-                RoomCategory = reservation.RoomCategory == null ? null : new LodgeCrys.Room.Category.Data
-                {
-                    Id = reservation.RoomCategory.Id,
-                    Name = reservation.RoomCategory.Name,
-                },
-                RoomType = reservation.RoomType == null ? null : new LodgeCrys.Room.Type.Data
-                {
-                    Id = reservation.RoomType.Id,
-                    Name = reservation.RoomType.Name,
-                },
+                },                               
                 ACPreference = reservation.ACPreference,
                 NoOfMale = reservation.NoOfMale,
                 NoOfFemale = reservation.NoOfFemale,
@@ -111,6 +103,19 @@ namespace Retinue.Lodge.Facade.RoomReservation
                 NoOfInfant = reservation.NoOfInfant,
                 Remark = reservation.Remark,
             };
+            if (reservation.RoomType != null)
+            {
+                data.RoomType = new RoomFac.Type.Server(null).Convert(reservation.RoomType) as RoomTypComp.Data;
+            }
+            if (reservation.RoomCategory != null)
+            {
+                data.RoomCategory = new LodgeComp.Room.Category.Data
+                {
+                    Id = reservation.RoomCategory.Id,
+                    Name = reservation.RoomCategory.Name,
+                };
+            }
+            return data;
         }
 
         public override void Add()
@@ -338,7 +343,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
                     {
                         if (reservationData.ProductList != null && reservationData.ProductList.Count > 0)
                         {
-                            foreach (LodgeCrys.Room.Data roomData in reservationData.ProductList)
+                            foreach (LodgeComp.Room.Data roomData in reservationData.ProductList)
                             {
                                 if (roomData.Id > 0)
                                     bookedRoomList.Add(new RoomFac.Dto { Id = roomData.Id });
@@ -386,7 +391,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
 
             if (this.componentServer == null) this.componentServer = this.GetComponentServer();
 
-            LodgeCrys.Room.Reservation.Data reservationData = (this.componentServer as LodgeCrys.Room.Reservation.Server).Data as LodgeCrys.Room.Reservation.Data;
+            LodgeComp.Room.Reservation.Data reservationData = (this.componentServer as LodgeComp.Room.Reservation.Server).Data as LodgeComp.Room.Reservation.Data;
             reservationData.Status = new CustCrys.Action.Status.Data
             {
                 Id = (Int64)((this.FormDto as FormDto).Dto as Dto).Status
@@ -412,7 +417,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
 
         public CustFac.Dto GetCustomer(Int64 reservationId)
         {
-            CustAuto.ICustomer server = new CustAuto.Server(null);
+            CustRet.ICustomer server = new CustRet.Server(null);
             CustCrys.Data data = server.GetCustomerForReservation(reservationId);
             return data == null ? null : new CustFac.Server(null).Convert(data) as CustFac.Dto;
         }
@@ -422,7 +427,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
             List<Data> RoomDataList = new List<Data>();
             foreach (RoomFac.Dto dto in RoomList)
             {
-                RoomDataList.Add(new LodgeCrys.Room.Data
+                RoomDataList.Add(new LodgeComp.Room.Data
                 {
                     Id = dto.Id,
                     Number = dto.Number,
@@ -435,7 +440,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
         //private List<RoomFac.Dto> GetRoomDtoList(List<Data> RoomList)
         //{
         //    List<RoomFac.Dto> RoomDtoList = new List<RoomFac.Dto>();
-        //    foreach (LodgeCrys.Room.Data data in RoomList)
+        //    foreach (LodgeComp.Room.Data data in RoomList)
         //    {
         //        RoomDtoList.Add(new RoomFac.Dto
         //        {
@@ -492,7 +497,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
             if (ret.Value != null && ret.Value.Count > 0)
             {
                 List<Crystal.Customer.Component.Action.Data> actionList = this.RemoveDuplicateReservation(ret.Value);
-                foreach (LodgeCrys.Room.Reservation.Data reservationData in actionList)
+                foreach (LodgeComp.Room.Reservation.Data reservationData in actionList)
                 {
                     if (reservationData.Id != reservationId)
                         retVal += reservationData.NoOfRooms;
@@ -511,7 +516,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
             if (ret.Value != null && ret.Value.Count > 0)
             {
                 List<Crystal.Customer.Component.Action.Data> actionList = this.RemoveDuplicateReservation(ret.Value);
-                foreach (LodgeCrys.Room.Reservation.Data reservationData in actionList)
+                foreach (LodgeComp.Room.Reservation.Data reservationData in actionList)
                 {
                     if (reservationData.Id != reservationId && ValidateRoomWithCategoryTypeAndACPreference(reservationData, categoryId, typeId, acPreference))
                         retVal += reservationData.NoOfRooms;
@@ -661,7 +666,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
                 if (reservationData.ProductList != null && reservationData.ProductList.Count > 0)
                 {
                     NoOfRoom = reservation.NoOfRooms - GetProductCount(reservationData.ProductList);
-                    foreach (LodgeCrys.Room.Data roomData in reservationData.ProductList)
+                    foreach (LodgeComp.Room.Data roomData in reservationData.ProductList)
                     {
                         if (roomData.Id > 0)
                             AllBookedRoom.Add(new RoomFac.Dto { Id = roomData.Id });
@@ -814,7 +819,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
             return true;
         }
 
-        private Boolean ValidateRoomWithCategoryTypeAndACPreference(LodgeCrys.Room.Data room, Int64 categoryId, Int64 typeId, Int32 acPreference)
+        private Boolean ValidateRoomWithCategoryTypeAndACPreference(LodgeComp.Room.Data room, Int64 categoryId, Int64 typeId, Int32 acPreference)
         {
             if (room.Id == 0) return false;
             if (categoryId > 0 && categoryId != room.Category.Id) return false;
@@ -829,7 +834,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
             return true;
         }
 
-        private Boolean ValidateRoomWithCategoryTypeAndACPreference(LodgeCrys.Room.Reservation.Data reservationData, Int64 categoryId, Int64 typeId, Int32 acPreference)
+        private Boolean ValidateRoomWithCategoryTypeAndACPreference(LodgeComp.Room.Reservation.Data reservationData, Int64 categoryId, Int64 typeId, Int32 acPreference)
         {
             Int64 catId = reservationData.RoomCategory == null ? 0 : reservationData.RoomCategory.Id;
             Int64 typId = reservationData.RoomType == null ? 0 : reservationData.RoomType.Id;
@@ -915,13 +920,13 @@ namespace Retinue.Lodge.Facade.RoomReservation
             using (System.Transactions.TransactionScope T = new System.Transactions.TransactionScope())
             {
                 Dto dto = (this.FormDto as FormDto).Dto as Dto;
-                CustAuto.Data cust = new CustFac.Server(null).Convert(dto.Customer) as CustAuto.Data;
+                CustRet.Data cust = new CustFac.Server(null).Convert(dto.Customer) as CustRet.Data;
 
                 //Attach reservation
                 cust.RoomReserver.Active = this.Convert(dto) as CustCrys.Action.Data;
                 cust.RoomReserver.Active.ProductList = dto.RoomList == null ? null : this.GetRoomDataList(dto.RoomList);
 
-                ReturnObject<Boolean> ret = (new CustAuto.Server(cust) as ICrud).Save();
+                ReturnObject<Boolean> ret = (new CustRet.Server(cust) as ICrud).Save();
                 if(this.IsError = ret.HasError())
                 {
                     this.DisplayMessageList = ret.GetMessage((this.IsError) ? Message.Type.Error : Message.Type.Information);
