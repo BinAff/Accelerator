@@ -162,7 +162,7 @@ namespace Retinue.Lodge.WinForm
 
         protected override Boolean SaveBefore()
         {
-            BinAff.Core.Message message = this.ucRoomReservationDataEntry.IsExtraBed();
+            BinAff.Core.Message message = this.ucRoomReservationDataEntry.ManageExtraBed();
             if (String.IsNullOrEmpty(message.Description))
             {
                 return true;

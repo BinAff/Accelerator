@@ -223,11 +223,11 @@ namespace Retinue.Lodge.WinForm
             return true;
         }
 
-        internal BinAff.Core.Message IsExtraBed()
+        internal BinAff.Core.Message ManageExtraBed()
         {
             BinAff.Core.Message message = new BinAff.Core.Message();
-            Int32 totalBed = 0;
-            Int32 extraBed = 0;
+            Int32 availableBed = 0;
+            Int32 availableExtraBed = 0;
             Int32 totalNoOfGuest = (String.IsNullOrEmpty(this.txtMale.Text.Trim()) ? 0 : Convert.ToInt32(this.txtMale.Text))
                 + (String.IsNullOrEmpty(this.txtFemale.Text.Trim()) ? 0 : Convert.ToInt32(this.txtFemale.Text));
             Int32 noOfRooms = Convert.ToInt32(this.txtRooms.Text);
@@ -254,39 +254,39 @@ namespace Retinue.Lodge.WinForm
                 }
                 else
                 {
-                    totalBed = roomType.Accomodation * noOfRooms;
-                    extraBed = roomType.ExtraAccomodation * noOfRooms;
+                    availableBed = roomType.Accomodation * noOfRooms;
+                    availableExtraBed = roomType.ExtraAccomodation * noOfRooms;
                 }
             }
             else
             {
                 foreach (RoomFac.Dto room in this.dto.RoomList)
                 {
-                    totalBed += room.Accomodation;
-                    extraBed += room.ExtraAccomodation;
+                    availableBed += room.Accomodation;
+                    availableExtraBed += room.ExtraAccomodation;
                 }
             }
-            if (totalNoOfGuest > totalBed + extraBed)
+            if (totalNoOfGuest > availableBed + availableExtraBed)
             {
-                message.Description = String.Format("Available bed: {0} + {1} = {2}", totalBed, extraBed, totalBed + extraBed) + Environment.NewLine;
+                message.Description = String.Format("Available bed: {0} + {1} = {2}", availableBed, availableExtraBed, availableBed + availableExtraBed) + Environment.NewLine;
                 message.Description += String.Format("Total Guest: {0}({1})", totalNoOfGuest, this.dto.NoOfChild) + Environment.NewLine + Environment.NewLine;
                 message.Description += String.Format("Reservation not allowed.", totalNoOfGuest, this.dto.NoOfChild);
                 message.Category = BinAff.Core.Message.Type.Error;
             }
-            else if (totalNoOfGuest == totalBed + extraBed)
+            else if (totalNoOfGuest == availableBed + availableExtraBed)
             {
-                message.Description = String.Format("Available bed: {0}", totalBed) + Environment.NewLine;
-                message.Description += String.Format("Available extra bed: {0}", extraBed) + Environment.NewLine;
+                message.Description = String.Format("Available bed: {0}", availableBed) + Environment.NewLine;
+                message.Description += String.Format("Available extra bed: {0}", availableExtraBed) + Environment.NewLine;
                 message.Description += String.Format("Total guests: {0}(Child - {1})", totalNoOfGuest, this.dto.NoOfChild) + Environment.NewLine + Environment.NewLine;
-                message.Description += String.Format("Extra bed required: {0}", totalNoOfGuest - totalBed) + Environment.NewLine;
+                message.Description += String.Format("Extra bed required: {0}", totalNoOfGuest - availableBed) + Environment.NewLine;
                 message.Category = BinAff.Core.Message.Type.Information;
             }
-            else if (totalNoOfGuest > totalBed)
+            else if (totalNoOfGuest > availableBed)
             {
-                message.Description = String.Format("Available bed: {0}", totalBed) + Environment.NewLine;
-                message.Description += String.Format("Available extra bed: {0}", extraBed) + Environment.NewLine;
+                message.Description = String.Format("Available bed: {0}", availableBed) + Environment.NewLine;
+                message.Description += String.Format("Available extra bed: {0}", availableExtraBed) + Environment.NewLine;
                 message.Description += String.Format("Total guests: {0}(Child - {1})", totalNoOfGuest, this.dto.NoOfChild) + Environment.NewLine + Environment.NewLine;
-                message.Description += String.Format("Extra bed required: {0}", totalNoOfGuest - totalBed) + Environment.NewLine + Environment.NewLine;
+                message.Description += String.Format("Extra bed required: {0}", totalNoOfGuest - availableBed) + Environment.NewLine + Environment.NewLine;
                 message.Category = BinAff.Core.Message.Type.Information;
                 if (this.lstSelectedRoom.Items == null || this.lstSelectedRoom.Items.Count == 0)
                 {
@@ -301,9 +301,37 @@ namespace Retinue.Lodge.WinForm
                     };
                     foreach (RoomFac.Dto room in this.lstSelectedRoom.Items)
                     {
-                        frm.DataSource.Add(room);
+                        frm.DataSource.Add(room.Clone() as RoomFac.Dto);
                     }
                     frm.ShowDialog(this);
+                    Int32 occupiedExtraBed = 0;
+                    for (Int32 i = 0; i < frm.DataSource.Count; i++)
+                    {
+                        if (frm.DataSource[i].ExtraAccomodation > (this.lstRoomList.Items[0] as RoomFac.Dto).ExtraAccomodation)
+                        {
+                            message.Description += String.Format("Extra accomodation available in room {0} is {1}, where assigned {2}.",
+                                frm.DataSource[i].Number, (this.lstRoomList.Items[0] as RoomFac.Dto).ExtraAccomodation,
+                                frm.DataSource[i].ExtraAccomodation);
+                            message.Category = BinAff.Core.Message.Type.Error;
+                            return message;
+                        }
+                        occupiedExtraBed += frm.DataSource[i].ExtraAccomodation;
+                    }
+                    if (availableExtraBed < occupiedExtraBed) //May be this condition will never come
+                    {
+                        message.Description += String.Format("Extra accomodation(s) {0} available in rooms is more than assigned ({1}).",
+                            availableExtraBed, occupiedExtraBed);
+                        message.Category = BinAff.Core.Message.Type.Error;
+                        return message;
+                    }
+                    if (totalNoOfGuest != availableBed + occupiedExtraBed)
+                    {
+                        message.Description += String.Format("Total number of accomodation {0} is not matching occupied {1} accomodation(s).",
+                            totalNoOfGuest, availableBed + occupiedExtraBed);
+                        message.Category = BinAff.Core.Message.Type.Error;
+                        return message;
+                    }
+                    this.dto.RoomList = frm.DataSource;
                 }
             }
             return message;
