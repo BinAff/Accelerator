@@ -303,35 +303,15 @@ namespace Retinue.Lodge.WinForm
                     {
                         frm.DataSource.Add(room.Clone() as RoomFac.Dto);
                     }
-                    frm.ShowDialog(this);
-                    Int32 occupiedExtraBed = 0;
-                    for (Int32 i = 0; i < frm.DataSource.Count; i++)
+                    if (frm.ShowDialog(this) == DialogResult.OK)
                     {
-                        if (frm.DataSource[i].ExtraAccomodation > (this.lstRoomList.Items[0] as RoomFac.Dto).ExtraAccomodation)
-                        {
-                            message.Description += String.Format("Extra accomodation available in room {0} is {1}, where assigned {2}.",
-                                frm.DataSource[i].Number, (this.lstRoomList.Items[0] as RoomFac.Dto).ExtraAccomodation,
-                                frm.DataSource[i].ExtraAccomodation);
-                            message.Category = BinAff.Core.Message.Type.Error;
-                            return message;
-                        }
-                        occupiedExtraBed += frm.DataSource[i].ExtraAccomodation;
+                        this.dto.RoomList = frm.DataSource;
                     }
-                    if (availableExtraBed < occupiedExtraBed) //May be this condition will never come
+                    else
                     {
-                        message.Description += String.Format("Extra accomodation(s) {0} available in rooms is more than assigned ({1}).",
-                            availableExtraBed, occupiedExtraBed);
+                        message.Description = "Extra room details is not captured";
                         message.Category = BinAff.Core.Message.Type.Error;
-                        return message;
                     }
-                    if (totalNoOfGuest != availableBed + occupiedExtraBed)
-                    {
-                        message.Description += String.Format("Total number of accomodation {0} is not matching occupied {1} accomodation(s).",
-                            totalNoOfGuest, availableBed + occupiedExtraBed);
-                        message.Category = BinAff.Core.Message.Type.Error;
-                        return message;
-                    }
-                    this.dto.RoomList = frm.DataSource;
                 }
             }
             return message;

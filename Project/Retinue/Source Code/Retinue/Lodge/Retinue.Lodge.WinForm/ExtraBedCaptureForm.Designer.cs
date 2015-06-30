@@ -35,9 +35,9 @@
             this.ExtraAccomodation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ExtraAccomodationAvailed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlHeader = new System.Windows.Forms.Panel();
+            this.btnOk = new System.Windows.Forms.Button();
             this.txtTotalGuest = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnOk = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRooms)).BeginInit();
             this.pnlHeader.SuspendLayout();
             this.SuspendLayout();
@@ -107,6 +107,21 @@
             this.pnlHeader.Size = new System.Drawing.Size(423, 22);
             this.pnlHeader.TabIndex = 1038;
             // 
+            // btnOk
+            // 
+            this.btnOk.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnOk.BackColor = System.Drawing.SystemColors.Control;
+            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnOk.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnOk.Font = new System.Drawing.Font("Wingdings 2", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnOk.Location = new System.Drawing.Point(388, 0);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(35, 22);
+            this.btnOk.TabIndex = 2;
+            this.btnOk.Text = "P";
+            this.btnOk.UseVisualStyleBackColor = false;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
             // txtTotalGuest
             // 
             this.txtTotalGuest.Dock = System.Windows.Forms.DockStyle.Left;
@@ -126,21 +141,6 @@
             this.label1.Text = "Total Guests:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // btnOk
-            // 
-            this.btnOk.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnOk.BackColor = System.Drawing.SystemColors.Control;
-            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOk.Font = new System.Drawing.Font("Wingdings 2", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnOk.Location = new System.Drawing.Point(388, 0);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(35, 22);
-            this.btnOk.TabIndex = 2;
-            this.btnOk.Text = "P";
-            this.btnOk.UseVisualStyleBackColor = false;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
             // ExtraBedCaptureForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -148,7 +148,7 @@
             this.ClientSize = new System.Drawing.Size(423, 164);
             this.Controls.Add(this.dgvRooms);
             this.Controls.Add(this.pnlHeader);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ExtraBedCaptureForm";
