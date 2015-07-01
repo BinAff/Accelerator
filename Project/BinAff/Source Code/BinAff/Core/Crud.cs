@@ -654,9 +654,32 @@ namespace BinAff.Core
             return retObj;
         }
 
+        private ReturnObject<Data> ReadInternal()
+        {
+            ReturnObject<Data> retObj = new ReturnObject<Data>
+            {
+                MessageList = new List<Message>()
+            };
+
+            this.actionType = Action.Read;
+
+            if (this.Data.Id != 0) //There is data to read
+            {
+                //Manage before hook
+                if (this.ManipulateReturnObject(retObj, this.ReadBefore()).HasError()) return retObj;
+                
+                //Read own
+                if (this.ManipulateReturnObject(retObj, this.Read()).HasError()) return retObj;
+
+                //Manage after hook
+                if (this.ManipulateReturnObject(retObj, this.ReadAfter()).HasError()) return retObj;
+            }
+
+            return retObj;
+        }
+
         protected virtual ReturnObject<Data> Read()
         {
-            this.actionType = Action.Read;
             //Read own
             ReturnObject<Data> retObj = ReadOwn();
 
@@ -837,6 +860,22 @@ namespace BinAff.Core
             };
         }
 
+        protected virtual ReturnObject<Data> ReadBefore()
+        {
+            return new ReturnObject<Data>
+            {
+                MessageList = new List<Message>()
+            };
+        }
+
+        protected virtual ReturnObject<Data> ReadAfter()
+        {
+            return new ReturnObject<Data>
+            {
+                MessageList = new List<Message>()
+            };
+        }
+
         #endregion
 
         #region ICrud Members
@@ -853,7 +892,7 @@ namespace BinAff.Core
 
         ReturnObject<Data> ICrud.Read()
         {
-            return this.Read();
+            return this.ReadInternal();
         }
 
         ReturnObject<List<Data>> ICrud.ReadAll()
@@ -872,6 +911,18 @@ namespace BinAff.Core
             }
             retObj.Value &= result.Value;
             if (retObj.HasError()) retObj.Value = false;
+            return retObj;
+        }
+
+        protected ReturnObject<Data> ManipulateReturnObject(ReturnObject<Data> retObj, ReturnObject<Data> result)
+        {
+            if (result.MessageList != null && result.MessageList.Count > 0)
+            {
+                if (retObj.MessageList == null) retObj.MessageList = new List<Message>();
+                retObj.MessageList.AddRange(result.MessageList);
+            }
+            retObj.Value = this.Data;
+            if (retObj.HasError()) retObj.Value = null;
             return retObj;
         }
 
