@@ -25,8 +25,6 @@ namespace Crystal.Customer.Component.Action
 
         protected override void CreateChildren()
         {
-            base.CreateChildren();
-
             base.AddChild(new Status.Server(((Data)this.Data).Status)
             {
                 Type = ChildType.Independent,
