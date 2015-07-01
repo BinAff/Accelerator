@@ -17,6 +17,7 @@ namespace Retinue.Lodge.WinForm
         public ReservationSummary()
         {
             InitializeComponent();
+            this.tpnlContainer.Dock = DockStyle.Fill;
         }
 
         public void LoadForm(DocFac.Dto dto)

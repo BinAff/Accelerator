@@ -34,6 +34,7 @@ namespace Retinue.Lodge.WinForm
             : base(artifact)
         {
             InitializeComponent();
+            this.tpnlContainer.Dock = DockStyle.Fill;
         }
              
         #region Events

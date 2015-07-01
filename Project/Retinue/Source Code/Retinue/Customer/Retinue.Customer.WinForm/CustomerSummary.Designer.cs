@@ -43,20 +43,25 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 168);
+            this.label8.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label8.Location = new System.Drawing.Point(3, 142);
+            this.label8.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(33, 13);
+            this.label8.Size = new System.Drawing.Size(161, 13);
             this.label8.TabIndex = 84;
             this.label8.Text = "EMail";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label7
             // 
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Location = new System.Drawing.Point(3, 73);
+            this.label7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label7.Location = new System.Drawing.Point(3, 79);
+            this.label7.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(161, 95);
+            this.label7.Size = new System.Drawing.Size(161, 13);
             this.label7.TabIndex = 82;
             this.label7.Text = "Address";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lstContact
             // 
@@ -71,10 +76,11 @@
             // 
             // label5
             // 
-            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(3, 24);
+            this.label5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label5.Location = new System.Drawing.Point(3, 30);
+            this.label5.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(161, 49);
+            this.label5.Size = new System.Drawing.Size(161, 13);
             this.label5.TabIndex = 80;
             this.label5.Text = "Contact Numbers";
             // 
@@ -96,6 +102,7 @@
             this.lblName.Size = new System.Drawing.Size(161, 24);
             this.lblName.TabIndex = 22;
             this.lblName.Text = "Name";
+            this.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtAdds
             // 
@@ -104,14 +111,14 @@
             this.txtAdds.Multiline = true;
             this.txtAdds.Name = "txtAdds";
             this.txtAdds.ReadOnly = true;
-            this.txtAdds.Size = new System.Drawing.Size(357, 89);
+            this.txtAdds.Size = new System.Drawing.Size(357, 57);
             this.txtAdds.TabIndex = 999;
             this.txtAdds.TabStop = false;
             // 
             // txtEmail
             // 
             this.txtEmail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtEmail.Location = new System.Drawing.Point(197, 171);
+            this.txtEmail.Location = new System.Drawing.Point(197, 139);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.ReadOnly = true;
             this.txtEmail.Size = new System.Drawing.Size(357, 20);
@@ -138,9 +145,9 @@
             this.tpnlContainer.RowCount = 4;
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 95F));
-            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tpnlContainer.Size = new System.Drawing.Size(557, 196);
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 63F));
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
+            this.tpnlContainer.Size = new System.Drawing.Size(557, 164);
             this.tpnlContainer.TabIndex = 2;
             // 
             // CustomerSummary
@@ -149,7 +156,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tpnlContainer);
             this.Name = "CustomerSummary";
-            this.Size = new System.Drawing.Size(557, 196);
+            this.Size = new System.Drawing.Size(557, 164);
             this.tpnlContainer.ResumeLayout(false);
             this.tpnlContainer.PerformLayout();
             this.ResumeLayout(false);

@@ -37,15 +37,17 @@
             this.ucRoomReservationDataEntry.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucRoomReservationDataEntry.Location = new System.Drawing.Point(0, 27);
             this.ucRoomReservationDataEntry.Name = "ucRoomReservationDataEntry";
-            this.ucRoomReservationDataEntry.Size = new System.Drawing.Size(717, 358);
+            this.ucRoomReservationDataEntry.Size = new System.Drawing.Size(717, 514);
             this.ucRoomReservationDataEntry.TabIndex = 101;
             // 
             // RoomReservationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(717, 385);
+            this.ClientSize = new System.Drawing.Size(717, 541);
             this.Controls.Add(this.ucRoomReservationDataEntry);
+            this.IsVisibleCloseButton = true;
+            this.IsVisibleOkButton = true;
             this.Name = "RoomReservationForm";
             this.ShowInTaskbar = false;
             this.Text = "Room Reservation Form";

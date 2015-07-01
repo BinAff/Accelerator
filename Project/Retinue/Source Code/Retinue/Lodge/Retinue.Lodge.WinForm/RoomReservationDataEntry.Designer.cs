@@ -47,7 +47,6 @@
             this.cboCategory = new System.Windows.Forms.ComboBox();
             this.txtRooms = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtDays = new System.Windows.Forms.TextBox();
             this.dtFromTime = new System.Windows.Forms.DateTimePicker();
             this.lstSelectedRoom = new System.Windows.Forms.ListBox();
             this.lstRoomList = new System.Windows.Forms.ListBox();
@@ -57,43 +56,36 @@
             this.txtToDate = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tpnlContainer = new System.Windows.Forms.TableLayoutPanel();
-            this.tpnlTo = new System.Windows.Forms.TableLayoutPanel();
-            this.txtToTime = new System.Windows.Forms.TextBox();
             this.tpnlRooms = new System.Windows.Forms.TableLayoutPanel();
-            this.tpnlFilter = new System.Windows.Forms.TableLayoutPanel();
-            this.tpnlRoom = new System.Windows.Forms.TableLayoutPanel();
-            this.tplCriteria = new System.Windows.Forms.TableLayoutPanel();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.tpnlFrom = new System.Windows.Forms.TableLayoutPanel();
-            this.tplHeading = new System.Windows.Forms.TableLayoutPanel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtReservationNo = new System.Windows.Forms.TextBox();
-            this.tpnlGuest = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
+            this.txtDays = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtReservationNo = new System.Windows.Forms.TextBox();
+            this.tpnlTo = new System.Windows.Forms.TableLayoutPanel();
+            this.txtToTime = new System.Windows.Forms.TextBox();
+            this.tpnlRoom = new System.Windows.Forms.TableLayoutPanel();
+            this.tpnlFrom = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.tpnlContainer.SuspendLayout();
-            this.tpnlTo.SuspendLayout();
             this.tpnlRooms.SuspendLayout();
-            this.tpnlFilter.SuspendLayout();
+            this.tpnlTo.SuspendLayout();
             this.tpnlRoom.SuspendLayout();
-            this.tplCriteria.SuspendLayout();
             this.tpnlFrom.SuspendLayout();
-            this.tplHeading.SuspendLayout();
-            this.tpnlGuest.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtFilteredRoomCount
             // 
-            this.txtFilteredRoomCount.Dock = System.Windows.Forms.DockStyle.Left;
-            this.txtFilteredRoomCount.Location = new System.Drawing.Point(138, 3);
+            this.txtFilteredRoomCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtFilteredRoomCount.Location = new System.Drawing.Point(116, 3);
             this.txtFilteredRoomCount.Name = "txtFilteredRoomCount";
             this.txtFilteredRoomCount.ReadOnly = true;
-            this.txtFilteredRoomCount.Size = new System.Drawing.Size(32, 20);
+            this.txtFilteredRoomCount.Size = new System.Drawing.Size(103, 20);
             this.txtFilteredRoomCount.TabIndex = 999;
             this.txtFilteredRoomCount.TabStop = false;
             // 
@@ -101,20 +93,21 @@
             // 
             this.lblTotalRooms.AutoSize = true;
             this.lblTotalRooms.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTotalRooms.Location = new System.Drawing.Point(3, 0);
+            this.lblTotalRooms.Location = new System.Drawing.Point(43, 3);
+            this.lblTotalRooms.Margin = new System.Windows.Forms.Padding(3);
             this.lblTotalRooms.Name = "lblTotalRooms";
-            this.lblTotalRooms.Size = new System.Drawing.Size(129, 24);
+            this.lblTotalRooms.Size = new System.Drawing.Size(67, 18);
             this.lblTotalRooms.TabIndex = 106;
             this.lblTotalRooms.Text = "Total Rooms";
             this.lblTotalRooms.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtAvailableRoomCount
             // 
-            this.txtAvailableRoomCount.Dock = System.Windows.Forms.DockStyle.Left;
-            this.txtAvailableRoomCount.Location = new System.Drawing.Point(475, 3);
+            this.txtAvailableRoomCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtAvailableRoomCount.Location = new System.Drawing.Point(298, 3);
             this.txtAvailableRoomCount.Name = "txtAvailableRoomCount";
             this.txtAvailableRoomCount.ReadOnly = true;
-            this.txtAvailableRoomCount.Size = new System.Drawing.Size(32, 20);
+            this.txtAvailableRoomCount.Size = new System.Drawing.Size(104, 20);
             this.txtAvailableRoomCount.TabIndex = 999;
             this.txtAvailableRoomCount.TabStop = false;
             // 
@@ -122,9 +115,10 @@
             // 
             this.lblAvailableRooms.AutoSize = true;
             this.lblAvailableRooms.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblAvailableRooms.Location = new System.Drawing.Point(340, 0);
+            this.lblAvailableRooms.Location = new System.Drawing.Point(225, 3);
+            this.lblAvailableRooms.Margin = new System.Windows.Forms.Padding(3);
             this.lblAvailableRooms.Name = "lblAvailableRooms";
-            this.lblAvailableRooms.Size = new System.Drawing.Size(129, 24);
+            this.lblAvailableRooms.Size = new System.Drawing.Size(67, 18);
             this.lblAvailableRooms.TabIndex = 108;
             this.lblAvailableRooms.Text = "Available Rooms";
             this.lblAvailableRooms.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -132,53 +126,53 @@
             // txtMale
             // 
             this.txtMale.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtMale.Location = new System.Drawing.Point(104, 3);
+            this.txtMale.Location = new System.Drawing.Point(238, 359);
             this.txtMale.MaxLength = 3;
             this.txtMale.Name = "txtMale";
-            this.txtMale.Size = new System.Drawing.Size(61, 20);
+            this.txtMale.Size = new System.Drawing.Size(399, 20);
             this.txtMale.TabIndex = 12;
             // 
             // txtFemale
             // 
             this.txtFemale.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtFemale.Location = new System.Drawing.Point(272, 3);
+            this.txtFemale.Location = new System.Drawing.Point(238, 383);
             this.txtFemale.MaxLength = 3;
             this.txtFemale.Name = "txtFemale";
-            this.txtFemale.Size = new System.Drawing.Size(61, 20);
+            this.txtFemale.Size = new System.Drawing.Size(399, 20);
             this.txtFemale.TabIndex = 13;
             // 
             // txtChild
             // 
             this.txtChild.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtChild.Location = new System.Drawing.Point(440, 3);
+            this.txtChild.Location = new System.Drawing.Point(238, 407);
             this.txtChild.MaxLength = 3;
             this.txtChild.Name = "txtChild";
-            this.txtChild.Size = new System.Drawing.Size(61, 20);
+            this.txtChild.Size = new System.Drawing.Size(399, 20);
             this.txtChild.TabIndex = 14;
             // 
             // txtInfant
             // 
             this.txtInfant.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtInfant.Location = new System.Drawing.Point(608, 3);
+            this.txtInfant.Location = new System.Drawing.Point(238, 431);
             this.txtInfant.MaxLength = 3;
             this.txtInfant.Name = "txtInfant";
-            this.txtInfant.Size = new System.Drawing.Size(65, 20);
+            this.txtInfant.Size = new System.Drawing.Size(399, 20);
             this.txtInfant.TabIndex = 15;
             // 
             // txtRemarks
             // 
-            this.txtRemarks.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtRemarks.Location = new System.Drawing.Point(238, 287);
+            this.txtRemarks.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtRemarks.Location = new System.Drawing.Point(238, 455);
             this.txtRemarks.Multiline = true;
             this.txtRemarks.Name = "txtRemarks";
-            this.txtRemarks.Size = new System.Drawing.Size(435, 42);
+            this.txtRemarks.Size = new System.Drawing.Size(399, 42);
             this.txtRemarks.TabIndex = 1015;
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 287);
-            this.label16.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.label16.Location = new System.Drawing.Point(3, 455);
+            this.label16.Margin = new System.Windows.Forms.Padding(3);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(109, 13);
             this.label16.TabIndex = 1026;
@@ -188,9 +182,10 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label14.Location = new System.Drawing.Point(447, 0);
+            this.label14.Location = new System.Drawing.Point(3, 219);
+            this.label14.Margin = new System.Windows.Forms.Padding(3);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(81, 24);
+            this.label14.Size = new System.Drawing.Size(196, 18);
             this.label14.TabIndex = 1021;
             this.label14.Text = "Accessory";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -199,9 +194,10 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label13.Location = new System.Drawing.Point(225, 0);
+            this.label13.Location = new System.Drawing.Point(3, 195);
+            this.label13.Margin = new System.Windows.Forms.Padding(3);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(75, 24);
+            this.label13.Size = new System.Drawing.Size(196, 18);
             this.label13.TabIndex = 1020;
             this.label13.Text = "Type";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -210,9 +206,10 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label12.Location = new System.Drawing.Point(3, 0);
+            this.label12.Location = new System.Drawing.Point(3, 171);
+            this.label12.Margin = new System.Windows.Forms.Padding(3);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(75, 24);
+            this.label12.Size = new System.Drawing.Size(196, 18);
             this.label12.TabIndex = 1019;
             this.label12.Text = "Category";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -224,19 +221,19 @@
             this.cboAC.FormattingEnabled = true;
             this.cboAC.Items.AddRange(new object[] {
             "All"});
-            this.cboAC.Location = new System.Drawing.Point(534, 3);
+            this.cboAC.Location = new System.Drawing.Point(238, 219);
             this.cboAC.Name = "cboAC";
-            this.cboAC.Size = new System.Drawing.Size(139, 21);
+            this.cboAC.Size = new System.Drawing.Size(399, 21);
             this.cboAC.TabIndex = 1014;
             this.cboAC.SelectedIndexChanged += new System.EventHandler(this.cboAC_SelectedIndexChanged);
             // 
             // txtStatus
             // 
             this.txtStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtStatus.Location = new System.Drawing.Point(475, 3);
+            this.txtStatus.Location = new System.Drawing.Point(238, 27);
             this.txtStatus.Name = "txtStatus";
             this.txtStatus.ReadOnly = true;
-            this.txtStatus.Size = new System.Drawing.Size(198, 20);
+            this.txtStatus.Size = new System.Drawing.Size(399, 20);
             this.txtStatus.TabIndex = 1025;
             this.txtStatus.TabStop = false;
             // 
@@ -245,9 +242,9 @@
             this.cboType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboType.FormattingEnabled = true;
-            this.cboType.Location = new System.Drawing.Point(306, 3);
+            this.cboType.Location = new System.Drawing.Point(238, 195);
             this.cboType.Name = "cboType";
-            this.cboType.Size = new System.Drawing.Size(135, 21);
+            this.cboType.Size = new System.Drawing.Size(399, 21);
             this.cboType.Sorted = true;
             this.cboType.TabIndex = 1013;
             this.cboType.SelectedIndexChanged += new System.EventHandler(this.cboType_SelectedIndexChanged);
@@ -257,9 +254,9 @@
             this.cboCategory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCategory.FormattingEnabled = true;
-            this.cboCategory.Location = new System.Drawing.Point(84, 3);
+            this.cboCategory.Location = new System.Drawing.Point(238, 171);
             this.cboCategory.Name = "cboCategory";
-            this.cboCategory.Size = new System.Drawing.Size(135, 21);
+            this.cboCategory.Size = new System.Drawing.Size(399, 21);
             this.cboCategory.Sorted = true;
             this.cboCategory.TabIndex = 1012;
             this.cboCategory.SelectedIndexChanged += new System.EventHandler(this.cboCategory_SelectedIndexChanged);
@@ -267,53 +264,43 @@
             // txtRooms
             // 
             this.txtRooms.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtRooms.Dock = System.Windows.Forms.DockStyle.Left;
-            this.txtRooms.Location = new System.Drawing.Point(475, 3);
+            this.txtRooms.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtRooms.Location = new System.Drawing.Point(3, 3);
             this.txtRooms.MaxLength = 3;
             this.txtRooms.Name = "txtRooms";
-            this.txtRooms.Size = new System.Drawing.Size(32, 20);
+            this.txtRooms.Size = new System.Drawing.Size(34, 20);
             this.txtRooms.TabIndex = 1011;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 24);
+            this.label1.Location = new System.Drawing.Point(3, 51);
+            this.label1.Margin = new System.Windows.Forms.Padding(3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(196, 24);
+            this.label1.Size = new System.Drawing.Size(196, 18);
             this.label1.TabIndex = 1017;
             this.label1.Text = "From";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtDays
-            // 
-            this.txtDays.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
-            this.txtDays.Dock = System.Windows.Forms.DockStyle.Left;
-            this.txtDays.Location = new System.Drawing.Point(138, 3);
-            this.txtDays.MaxLength = 3;
-            this.txtDays.Name = "txtDays";
-            this.txtDays.Size = new System.Drawing.Size(32, 20);
-            this.txtDays.TabIndex = 1010;
-            this.txtDays.TextChanged += new System.EventHandler(this.txtDays_TextChanged);
             // 
             // dtFromTime
             // 
             this.dtFromTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtFromTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtFromTime.Location = new System.Drawing.Point(298, 3);
+            this.dtFromTime.Location = new System.Drawing.Point(274, 3);
             this.dtFromTime.Name = "dtFromTime";
             this.dtFromTime.ShowUpDown = true;
-            this.dtFromTime.Size = new System.Drawing.Size(140, 20);
+            this.dtFromTime.Size = new System.Drawing.Size(128, 20);
             this.dtFromTime.TabIndex = 1009;
             // 
             // lstSelectedRoom
             // 
             this.lstSelectedRoom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstSelectedRoom.FormattingEnabled = true;
-            this.lstSelectedRoom.Location = new System.Drawing.Point(357, 3);
+            this.lstSelectedRoom.Location = new System.Drawing.Point(338, 3);
             this.lstSelectedRoom.Name = "lstSelectedRoom";
             this.tpnlRoom.SetRowSpan(this.lstSelectedRoom, 2);
-            this.lstSelectedRoom.Size = new System.Drawing.Size(316, 110);
+            this.lstSelectedRoom.Size = new System.Drawing.Size(299, 110);
             this.lstSelectedRoom.Sorted = true;
             this.lstSelectedRoom.TabIndex = 10;
             this.lstSelectedRoom.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstSelectedRoom_MouseDoubleClick);
@@ -325,7 +312,7 @@
             this.lstRoomList.Location = new System.Drawing.Point(3, 3);
             this.lstRoomList.Name = "lstRoomList";
             this.tpnlRoom.SetRowSpan(this.lstRoomList, 2);
-            this.lstRoomList.Size = new System.Drawing.Size(309, 110);
+            this.lstRoomList.Size = new System.Drawing.Size(292, 110);
             this.lstRoomList.Sorted = true;
             this.lstRoomList.TabIndex = 8;
             this.lstRoomList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstRoomList_MouseDoubleClick);
@@ -334,9 +321,9 @@
             // 
             this.btnRemoveRoom.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnRemoveRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveRoom.Location = new System.Drawing.Point(318, 65);
+            this.btnRemoveRoom.Location = new System.Drawing.Point(301, 65);
             this.btnRemoveRoom.Name = "btnRemoveRoom";
-            this.btnRemoveRoom.Size = new System.Drawing.Size(33, 22);
+            this.btnRemoveRoom.Size = new System.Drawing.Size(31, 22);
             this.btnRemoveRoom.TabIndex = 11;
             this.btnRemoveRoom.Text = "◄";
             this.btnRemoveRoom.UseVisualStyleBackColor = true;
@@ -346,9 +333,9 @@
             // 
             this.btnAddRoom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddRoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddRoom.Location = new System.Drawing.Point(318, 37);
+            this.btnAddRoom.Location = new System.Drawing.Point(301, 37);
             this.btnAddRoom.Name = "btnAddRoom";
-            this.btnAddRoom.Size = new System.Drawing.Size(33, 22);
+            this.btnAddRoom.Size = new System.Drawing.Size(31, 22);
             this.btnAddRoom.TabIndex = 9;
             this.btnAddRoom.Text = "►";
             this.btnAddRoom.UseVisualStyleBackColor = true;
@@ -360,7 +347,7 @@
             this.dtFrom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtFrom.Location = new System.Drawing.Point(3, 3);
             this.dtFrom.Name = "dtFrom";
-            this.dtFrom.Size = new System.Drawing.Size(289, 20);
+            this.dtFrom.Size = new System.Drawing.Size(265, 20);
             this.dtFrom.TabIndex = 1008;
             this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
             // 
@@ -370,7 +357,7 @@
             this.txtToDate.Location = new System.Drawing.Point(3, 3);
             this.txtToDate.Name = "txtToDate";
             this.txtToDate.ReadOnly = true;
-            this.txtToDate.Size = new System.Drawing.Size(285, 20);
+            this.txtToDate.Size = new System.Drawing.Size(265, 20);
             this.txtToDate.TabIndex = 1033;
             this.txtToDate.TabStop = false;
             // 
@@ -378,35 +365,58 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(3, 48);
+            this.label5.Location = new System.Drawing.Point(3, 75);
+            this.label5.Margin = new System.Windows.Forms.Padding(3);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(196, 24);
+            this.label5.Size = new System.Drawing.Size(196, 18);
             this.label5.TabIndex = 1032;
             this.label5.Text = "To";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tpnlContainer
             // 
-            this.tpnlContainer.ColumnCount = 3;
+            this.tpnlContainer.ColumnCount = 4;
             this.tpnlContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tpnlContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
-            this.tpnlContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
-            this.tpnlContainer.Controls.Add(this.tpnlTo, 2, 2);
-            this.tpnlContainer.Controls.Add(this.tpnlRooms, 0, 9);
-            this.tpnlContainer.Controls.Add(this.tpnlFilter, 0, 5);
-            this.tpnlContainer.Controls.Add(this.tpnlRoom, 0, 6);
-            this.tpnlContainer.Controls.Add(this.tplCriteria, 0, 3);
-            this.tpnlContainer.Controls.Add(this.txtRemarks, 2, 8);
-            this.tpnlContainer.Controls.Add(this.tpnlFrom, 2, 1);
-            this.tpnlContainer.Controls.Add(this.label16, 0, 8);
-            this.tpnlContainer.Controls.Add(this.tplHeading, 0, 0);
-            this.tpnlContainer.Controls.Add(this.label5, 0, 2);
-            this.tpnlContainer.Controls.Add(this.label1, 0, 1);
-            this.tpnlContainer.Controls.Add(this.tpnlGuest, 0, 7);
-            this.tpnlContainer.Controls.Add(this.label3, 0, 4);
+            this.tpnlContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tpnlContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tpnlContainer.Controls.Add(this.txtInfant, 2, 14);
+            this.tpnlContainer.Controls.Add(this.tpnlRooms, 2, 5);
+            this.tpnlContainer.Controls.Add(this.txtChild, 2, 13);
+            this.tpnlContainer.Controls.Add(this.txtFemale, 2, 12);
+            this.tpnlContainer.Controls.Add(this.label2, 0, 14);
+            this.tpnlContainer.Controls.Add(this.txtMale, 2, 11);
+            this.tpnlContainer.Controls.Add(this.cboAC, 2, 9);
+            this.tpnlContainer.Controls.Add(this.label4, 0, 13);
+            this.tpnlContainer.Controls.Add(this.cboType, 2, 8);
+            this.tpnlContainer.Controls.Add(this.label14, 0, 9);
+            this.tpnlContainer.Controls.Add(this.cboCategory, 2, 7);
+            this.tpnlContainer.Controls.Add(this.label18, 0, 12);
+            this.tpnlContainer.Controls.Add(this.label13, 0, 8);
+            this.tpnlContainer.Controls.Add(this.label12, 0, 7);
+            this.tpnlContainer.Controls.Add(this.txtStatus, 2, 1);
+            this.tpnlContainer.Controls.Add(this.label19, 0, 11);
+            this.tpnlContainer.Controls.Add(this.txtDays, 2, 4);
+            this.tpnlContainer.Controls.Add(this.label17, 0, 4);
+            this.tpnlContainer.Controls.Add(this.label7, 0, 0);
+            this.tpnlContainer.Controls.Add(this.txtReservationNo, 2, 0);
+            this.tpnlContainer.Controls.Add(this.tpnlTo, 2, 3);
+            this.tpnlContainer.Controls.Add(this.tpnlRoom, 0, 10);
+            this.tpnlContainer.Controls.Add(this.txtRemarks, 2, 15);
+            this.tpnlContainer.Controls.Add(this.tpnlFrom, 2, 2);
+            this.tpnlContainer.Controls.Add(this.label16, 0, 15);
+            this.tpnlContainer.Controls.Add(this.label5, 0, 3);
+            this.tpnlContainer.Controls.Add(this.label1, 0, 2);
+            this.tpnlContainer.Controls.Add(this.label3, 0, 6);
+            this.tpnlContainer.Controls.Add(this.label8, 0, 1);
+            this.tpnlContainer.Controls.Add(this.label15, 0, 5);
             this.tpnlContainer.Location = new System.Drawing.Point(0, 0);
             this.tpnlContainer.Name = "tpnlContainer";
-            this.tpnlContainer.RowCount = 10;
+            this.tpnlContainer.RowCount = 16;
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
@@ -415,10 +425,121 @@
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 116F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tpnlContainer.Size = new System.Drawing.Size(676, 357);
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            this.tpnlContainer.Size = new System.Drawing.Size(676, 514);
             this.tpnlContainer.TabIndex = 1034;
+            // 
+            // tpnlRooms
+            // 
+            this.tpnlRooms.ColumnCount = 5;
+            this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tpnlRooms.Controls.Add(this.txtAvailableRoomCount, 4, 0);
+            this.tpnlRooms.Controls.Add(this.lblAvailableRooms, 3, 0);
+            this.tpnlRooms.Controls.Add(this.txtFilteredRoomCount, 2, 0);
+            this.tpnlRooms.Controls.Add(this.lblTotalRooms, 1, 0);
+            this.tpnlRooms.Controls.Add(this.txtRooms, 0, 0);
+            this.tpnlRooms.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tpnlRooms.Location = new System.Drawing.Point(235, 120);
+            this.tpnlRooms.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlRooms.Name = "tpnlRooms";
+            this.tpnlRooms.RowCount = 1;
+            this.tpnlRooms.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlRooms.Size = new System.Drawing.Size(405, 24);
+            this.tpnlRooms.TabIndex = 1036;
+            // 
+            // label2
+            // 
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(3, 431);
+            this.label2.Margin = new System.Windows.Forms.Padding(3);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(196, 18);
+            this.label2.TabIndex = 120;
+            this.label2.Text = "Infant";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label4
+            // 
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Location = new System.Drawing.Point(3, 407);
+            this.label4.Margin = new System.Windows.Forms.Padding(3);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(196, 18);
+            this.label4.TabIndex = 117;
+            this.label4.Text = "Child";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label18
+            // 
+            this.label18.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label18.Location = new System.Drawing.Point(3, 383);
+            this.label18.Margin = new System.Windows.Forms.Padding(3);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(196, 18);
+            this.label18.TabIndex = 115;
+            this.label18.Text = "Female";
+            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label19
+            // 
+            this.label19.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label19.Location = new System.Drawing.Point(3, 359);
+            this.label19.Margin = new System.Windows.Forms.Padding(3);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(196, 18);
+            this.label19.TabIndex = 85;
+            this.label19.Text = "Male";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtDays
+            // 
+            this.txtDays.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
+            this.txtDays.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtDays.Location = new System.Drawing.Point(238, 99);
+            this.txtDays.MaxLength = 3;
+            this.txtDays.Name = "txtDays";
+            this.txtDays.Size = new System.Drawing.Size(399, 20);
+            this.txtDays.TabIndex = 1010;
+            this.txtDays.TextChanged += new System.EventHandler(this.txtDays_TextChanged);
+            // 
+            // label17
+            // 
+            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label17.Location = new System.Drawing.Point(3, 99);
+            this.label17.Margin = new System.Windows.Forms.Padding(3);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(196, 18);
+            this.label17.TabIndex = 1017;
+            this.label17.Text = "No of Days";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label7
+            // 
+            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label7.Location = new System.Drawing.Point(3, 3);
+            this.label7.Margin = new System.Windows.Forms.Padding(3);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(196, 18);
+            this.label7.TabIndex = 1028;
+            this.label7.Text = "Reservation No";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtReservationNo
+            // 
+            this.txtReservationNo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtReservationNo.Location = new System.Drawing.Point(238, 3);
+            this.txtReservationNo.Name = "txtReservationNo";
+            this.txtReservationNo.ReadOnly = true;
+            this.txtReservationNo.Size = new System.Drawing.Size(399, 20);
+            this.txtReservationNo.TabIndex = 1024;
+            this.txtReservationNo.TabStop = false;
             // 
             // tpnlTo
             // 
@@ -428,68 +549,23 @@
             this.tpnlTo.Controls.Add(this.txtToTime, 1, 0);
             this.tpnlTo.Controls.Add(this.txtToDate, 0, 0);
             this.tpnlTo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tpnlTo.Location = new System.Drawing.Point(238, 51);
+            this.tpnlTo.Location = new System.Drawing.Point(235, 72);
+            this.tpnlTo.Margin = new System.Windows.Forms.Padding(0);
             this.tpnlTo.Name = "tpnlTo";
             this.tpnlTo.RowCount = 1;
             this.tpnlTo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlTo.Size = new System.Drawing.Size(435, 18);
+            this.tpnlTo.Size = new System.Drawing.Size(405, 24);
             this.tpnlTo.TabIndex = 1035;
             // 
             // txtToTime
             // 
             this.txtToTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtToTime.Location = new System.Drawing.Point(294, 3);
+            this.txtToTime.Location = new System.Drawing.Point(274, 3);
             this.txtToTime.Name = "txtToTime";
             this.txtToTime.ReadOnly = true;
-            this.txtToTime.Size = new System.Drawing.Size(138, 20);
+            this.txtToTime.Size = new System.Drawing.Size(128, 20);
             this.txtToTime.TabIndex = 1034;
             this.txtToTime.TabStop = false;
-            // 
-            // tpnlRooms
-            // 
-            this.tpnlRooms.ColumnCount = 4;
-            this.tpnlContainer.SetColumnSpan(this.tpnlRooms, 3);
-            this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tpnlRooms.Controls.Add(this.txtAvailableRoomCount, 3, 0);
-            this.tpnlRooms.Controls.Add(this.txtFilteredRoomCount, 1, 0);
-            this.tpnlRooms.Controls.Add(this.lblAvailableRooms, 2, 0);
-            this.tpnlRooms.Controls.Add(this.lblTotalRooms, 0, 0);
-            this.tpnlRooms.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tpnlRooms.Location = new System.Drawing.Point(0, 332);
-            this.tpnlRooms.Margin = new System.Windows.Forms.Padding(0);
-            this.tpnlRooms.Name = "tpnlRooms";
-            this.tpnlRooms.RowCount = 1;
-            this.tpnlRooms.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlRooms.Size = new System.Drawing.Size(676, 24);
-            this.tpnlRooms.TabIndex = 1036;
-            // 
-            // tpnlFilter
-            // 
-            this.tpnlFilter.ColumnCount = 6;
-            this.tpnlContainer.SetColumnSpan(this.tpnlFilter, 3);
-            this.tpnlFilter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12F));
-            this.tpnlFilter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21F));
-            this.tpnlFilter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12F));
-            this.tpnlFilter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21F));
-            this.tpnlFilter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13F));
-            this.tpnlFilter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21F));
-            this.tpnlFilter.Controls.Add(this.label12, 0, 0);
-            this.tpnlFilter.Controls.Add(this.cboCategory, 1, 0);
-            this.tpnlFilter.Controls.Add(this.cboType, 3, 0);
-            this.tpnlFilter.Controls.Add(this.label13, 2, 0);
-            this.tpnlFilter.Controls.Add(this.label14, 4, 0);
-            this.tpnlFilter.Controls.Add(this.cboAC, 5, 0);
-            this.tpnlFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tpnlFilter.Location = new System.Drawing.Point(0, 120);
-            this.tpnlFilter.Margin = new System.Windows.Forms.Padding(0);
-            this.tpnlFilter.Name = "tpnlFilter";
-            this.tpnlFilter.RowCount = 1;
-            this.tpnlFilter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlFilter.Size = new System.Drawing.Size(676, 24);
-            this.tpnlFilter.TabIndex = 1035;
             // 
             // tpnlRoom
             // 
@@ -503,55 +579,14 @@
             this.tpnlRoom.Controls.Add(this.btnAddRoom, 1, 0);
             this.tpnlRoom.Controls.Add(this.lstSelectedRoom, 2, 0);
             this.tpnlRoom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tpnlRoom.Location = new System.Drawing.Point(0, 144);
+            this.tpnlRoom.Location = new System.Drawing.Point(0, 240);
             this.tpnlRoom.Margin = new System.Windows.Forms.Padding(0);
             this.tpnlRoom.Name = "tpnlRoom";
             this.tpnlRoom.RowCount = 2;
             this.tpnlRoom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tpnlRoom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
-            this.tpnlRoom.Size = new System.Drawing.Size(676, 116);
+            this.tpnlRoom.Size = new System.Drawing.Size(640, 116);
             this.tpnlRoom.TabIndex = 1035;
-            // 
-            // tplCriteria
-            // 
-            this.tplCriteria.ColumnCount = 4;
-            this.tpnlContainer.SetColumnSpan(this.tplCriteria, 3);
-            this.tplCriteria.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tplCriteria.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tplCriteria.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tplCriteria.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tplCriteria.Controls.Add(this.label15, 2, 0);
-            this.tplCriteria.Controls.Add(this.label17, 0, 0);
-            this.tplCriteria.Controls.Add(this.txtDays, 1, 0);
-            this.tplCriteria.Controls.Add(this.txtRooms, 3, 0);
-            this.tplCriteria.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tplCriteria.Location = new System.Drawing.Point(0, 72);
-            this.tplCriteria.Margin = new System.Windows.Forms.Padding(0);
-            this.tplCriteria.Name = "tplCriteria";
-            this.tplCriteria.RowCount = 1;
-            this.tplCriteria.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tplCriteria.Size = new System.Drawing.Size(676, 24);
-            this.tplCriteria.TabIndex = 1035;
-            // 
-            // label15
-            // 
-            this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label15.Location = new System.Drawing.Point(340, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(129, 24);
-            this.label15.TabIndex = 1019;
-            this.label15.Text = "Total Rooms";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label17
-            // 
-            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label17.Location = new System.Drawing.Point(3, 0);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(129, 24);
-            this.label17.TabIndex = 1017;
-            this.label17.Text = "No of Days";
-            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tpnlFrom
             // 
@@ -561,144 +596,47 @@
             this.tpnlFrom.Controls.Add(this.dtFromTime, 1, 0);
             this.tpnlFrom.Controls.Add(this.dtFrom, 0, 0);
             this.tpnlFrom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tpnlFrom.Location = new System.Drawing.Point(235, 24);
+            this.tpnlFrom.Location = new System.Drawing.Point(235, 48);
             this.tpnlFrom.Margin = new System.Windows.Forms.Padding(0);
             this.tpnlFrom.Name = "tpnlFrom";
             this.tpnlFrom.RowCount = 1;
             this.tpnlFrom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlFrom.Size = new System.Drawing.Size(441, 24);
+            this.tpnlFrom.Size = new System.Drawing.Size(405, 24);
             this.tpnlFrom.TabIndex = 1036;
-            // 
-            // tplHeading
-            // 
-            this.tplHeading.ColumnCount = 4;
-            this.tpnlContainer.SetColumnSpan(this.tplHeading, 3);
-            this.tplHeading.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tplHeading.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tplHeading.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tplHeading.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tplHeading.Controls.Add(this.label7, 0, 0);
-            this.tplHeading.Controls.Add(this.label8, 2, 0);
-            this.tplHeading.Controls.Add(this.txtReservationNo, 1, 0);
-            this.tplHeading.Controls.Add(this.txtStatus, 3, 0);
-            this.tplHeading.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tplHeading.Location = new System.Drawing.Point(0, 0);
-            this.tplHeading.Margin = new System.Windows.Forms.Padding(0);
-            this.tplHeading.Name = "tplHeading";
-            this.tplHeading.RowCount = 1;
-            this.tplHeading.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tplHeading.Size = new System.Drawing.Size(676, 24);
-            this.tplHeading.TabIndex = 2;
-            // 
-            // label7
-            // 
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Location = new System.Drawing.Point(3, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(129, 24);
-            this.label7.TabIndex = 1028;
-            this.label7.Text = "Reservation No";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label8
-            // 
-            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Location = new System.Drawing.Point(340, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(129, 24);
-            this.label8.TabIndex = 1030;
-            this.label8.Text = "Status";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtReservationNo
-            // 
-            this.txtReservationNo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtReservationNo.Location = new System.Drawing.Point(138, 3);
-            this.txtReservationNo.Name = "txtReservationNo";
-            this.txtReservationNo.ReadOnly = true;
-            this.txtReservationNo.Size = new System.Drawing.Size(196, 20);
-            this.txtReservationNo.TabIndex = 1024;
-            this.txtReservationNo.TabStop = false;
-            // 
-            // tpnlGuest
-            // 
-            this.tpnlGuest.ColumnCount = 8;
-            this.tpnlContainer.SetColumnSpan(this.tpnlGuest, 3);
-            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tpnlGuest.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tpnlGuest.Controls.Add(this.txtMale, 1, 0);
-            this.tpnlGuest.Controls.Add(this.txtFemale, 3, 0);
-            this.tpnlGuest.Controls.Add(this.txtChild, 5, 0);
-            this.tpnlGuest.Controls.Add(this.txtInfant, 7, 0);
-            this.tpnlGuest.Controls.Add(this.label2, 6, 0);
-            this.tpnlGuest.Controls.Add(this.label4, 4, 0);
-            this.tpnlGuest.Controls.Add(this.label18, 2, 0);
-            this.tpnlGuest.Controls.Add(this.label19, 0, 0);
-            this.tpnlGuest.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tpnlGuest.Location = new System.Drawing.Point(0, 260);
-            this.tpnlGuest.Margin = new System.Windows.Forms.Padding(0);
-            this.tpnlGuest.Name = "tpnlGuest";
-            this.tpnlGuest.RowCount = 1;
-            this.tpnlGuest.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlGuest.Size = new System.Drawing.Size(676, 24);
-            this.tpnlGuest.TabIndex = 1035;
-            // 
-            // label2
-            // 
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(507, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 24);
-            this.label2.TabIndex = 120;
-            this.label2.Text = "Infant";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label4
-            // 
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(339, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(95, 24);
-            this.label4.TabIndex = 117;
-            this.label4.Text = "Child";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label18
-            // 
-            this.label18.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label18.Location = new System.Drawing.Point(171, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(95, 24);
-            this.label18.TabIndex = 115;
-            this.label18.Text = "Female";
-            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label19
-            // 
-            this.label19.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label19.Location = new System.Drawing.Point(3, 0);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(95, 24);
-            this.label19.TabIndex = 85;
-            this.label19.Text = "Male";
-            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(3, 96);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(3, 147);
+            this.label3.Margin = new System.Windows.Forms.Padding(3);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(196, 24);
+            this.label3.Size = new System.Drawing.Size(196, 18);
             this.label3.TabIndex = 1037;
             this.label3.Text = "Preffered Room";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label8
+            // 
+            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label8.Location = new System.Drawing.Point(3, 27);
+            this.label8.Margin = new System.Windows.Forms.Padding(3);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(196, 18);
+            this.label8.TabIndex = 1030;
+            this.label8.Text = "Status";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(3, 123);
+            this.label15.Margin = new System.Windows.Forms.Padding(3);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(129, 18);
+            this.label15.TabIndex = 1019;
+            this.label15.Text = "Total Rooms";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // RoomReservationDataEntry
             // 
@@ -706,23 +644,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tpnlContainer);
             this.Name = "RoomReservationDataEntry";
-            this.Size = new System.Drawing.Size(773, 455);
+            this.Size = new System.Drawing.Size(689, 528);
             this.tpnlContainer.ResumeLayout(false);
             this.tpnlContainer.PerformLayout();
-            this.tpnlTo.ResumeLayout(false);
-            this.tpnlTo.PerformLayout();
             this.tpnlRooms.ResumeLayout(false);
             this.tpnlRooms.PerformLayout();
-            this.tpnlFilter.ResumeLayout(false);
-            this.tpnlFilter.PerformLayout();
+            this.tpnlTo.ResumeLayout(false);
+            this.tpnlTo.PerformLayout();
             this.tpnlRoom.ResumeLayout(false);
-            this.tplCriteria.ResumeLayout(false);
-            this.tplCriteria.PerformLayout();
             this.tpnlFrom.ResumeLayout(false);
-            this.tplHeading.ResumeLayout(false);
-            this.tplHeading.PerformLayout();
-            this.tpnlGuest.ResumeLayout(false);
-            this.tpnlGuest.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -748,7 +678,6 @@
         private System.Windows.Forms.ComboBox cboCategory;
         private System.Windows.Forms.TextBox txtRooms;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtDays;
         private System.Windows.Forms.DateTimePicker dtFromTime;
         private System.Windows.Forms.ListBox lstSelectedRoom;
         private System.Windows.Forms.ListBox lstRoomList;
@@ -758,16 +687,12 @@
         private System.Windows.Forms.TextBox txtToDate;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TableLayoutPanel tpnlContainer;
-        private System.Windows.Forms.TableLayoutPanel tplHeading;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtReservationNo;
         private System.Windows.Forms.TableLayoutPanel tpnlFrom;
-        private System.Windows.Forms.TableLayoutPanel tplCriteria;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TableLayoutPanel tpnlFilter;
-        private System.Windows.Forms.TableLayoutPanel tpnlGuest;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label18;
@@ -777,5 +702,6 @@
         private System.Windows.Forms.TableLayoutPanel tpnlRooms;
         private System.Windows.Forms.TableLayoutPanel tpnlTo;
         private System.Windows.Forms.TextBox txtToTime;
+        private System.Windows.Forms.TextBox txtDays;
     }
 }
