@@ -82,11 +82,9 @@ namespace Vanilla.Accountant.WinForm
 
         protected override void LoadForm()
         {
-            InvFac.Dto dto = base.Artifact.Module as InvFac.Dto;
-            if(String.IsNullOrEmpty(dto.InvoiceNumber)) dto.InvoiceNumber = Common.GenerateInvoiceNumber();
             new InvFac.Server(new InvFac.FormDto
             {
-                Dto = dto,
+                Dto = base.Artifact.Module as InvFac.Dto,
             }).LoadForm();
         }
 

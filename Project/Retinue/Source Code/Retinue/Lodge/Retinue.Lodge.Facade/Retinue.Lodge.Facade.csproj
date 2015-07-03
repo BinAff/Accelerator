@@ -65,6 +65,8 @@
     <Compile Include="RoomReservation\Dto.cs" />
     <Compile Include="RoomReservation\FormDto.cs" />
     <Compile Include="RoomReservation\IReservation.cs" />
+    <Compile Include="RoomReservation\RoomDetails\Dto.cs" />
+    <Compile Include="RoomReservation\RoomDetails\Server.cs" />
     <Compile Include="RoomReservation\Server.cs" />
     <Compile Include="RoomReservation\Status.cs" />
     <Compile Include="Server.cs" />

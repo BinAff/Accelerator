@@ -20,6 +20,7 @@ using RoomTypComp = Retinue.Lodge.Component.Room.Type;
 using RoomFac = Retinue.Lodge.Configuration.Facade.Room;
 using RuleFac = Retinue.Configuration.Rule.Facade;
 using CustFac = Retinue.Customer.Facade;
+using RoomDtlFac = Retinue.Lodge.Facade.RoomReservation.RoomDetails;
 
 namespace Retinue.Lodge.Facade.RoomReservation
 {
@@ -72,7 +73,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
             dto.Remarks = comp.Remark;
 
             if (comp.Status != null) dto.Status = (Status)comp.Status.Id;
-            dto.RoomList = comp.ProductList == null ? null : new RoomFac.Server(null).ConvertAll<Data, RoomFac.Dto>(comp.ProductList);
+            dto.RoomList = comp.ProductList == null ? null : new RoomDtlFac.Server(null).ConvertAll<Data, RoomDtlFac.Dto>(comp.ProductList);
             if (comp.RoomCategory != null) dto.RoomCategory = comp.RoomCategory == null ? null : new Table { Id = comp.RoomCategory.Id };
             if(comp.RoomType != null) dto.RoomType = new RoomFac.Type.Server(null).Convert(comp.RoomType) as RoomFac.Type.Dto;
             
@@ -91,11 +92,11 @@ namespace Retinue.Lodge.Facade.RoomReservation
                 NoOfRooms = reservation.NoOfRooms,
                 ActivityDate = reservation.BookingFrom,
                 Date = DateTime.Now,
-                ProductList = reservation.RoomList == null ? null : this.GetRoomDataList(reservation.RoomList),
+                ProductList = reservation.RoomList == null ? null : new RoomDtlFac.Server(null).ConvertAll<Data, RoomDtlFac.Dto>(reservation.RoomList),
                 Status = new Crystal.Customer.Component.Action.Status.Data
                 {
                     Id = (Int64)reservation.Status
-                },                               
+                },
                 ACPreference = reservation.ACPreference,
                 NoOfMale = reservation.NoOfMale,
                 NoOfFemale = reservation.NoOfFemale,
@@ -422,20 +423,20 @@ namespace Retinue.Lodge.Facade.RoomReservation
             return data == null ? null : new CustFac.Server(null).Convert(data) as CustFac.Dto;
         }
 
-        private List<Data> GetRoomDataList(List<RoomFac.Dto> RoomList)
-        {
-            List<Data> RoomDataList = new List<Data>();
-            foreach (RoomFac.Dto dto in RoomList)
-            {
-                RoomDataList.Add(new LodgeComp.Room.Data
-                {
-                    Id = dto.Id,
-                    Number = dto.Number,
-                    ExtraAccomodation = dto.ExtraAccomodation,
-                });
-            }
-            return RoomDataList;
-        }
+        //private List<Data> GetRoomDataList(List<RoomDtlFac.Dto> RoomList)
+        //{
+        //    List<Data> RoomDataList = new List<Data>();
+        //    foreach (RoomDtlFac.Dto dto in RoomList)
+        //    {
+        //        RoomDataList.Add(new LodgeComp.Room.Data
+        //        {
+        //            Id = dto.Id,
+        //            Number = dto.Number,
+        //            ExtraAccomodation = dto.ExtraAccomodation,
+        //        });
+        //    }
+        //    return RoomDataList;
+        //}
 
         //private List<RoomFac.Dto> GetRoomDtoList(List<Data> RoomList)
         //{
@@ -924,7 +925,7 @@ namespace Retinue.Lodge.Facade.RoomReservation
 
                 //Attach reservation
                 cust.RoomReserver.Active = this.Convert(dto) as CustCrys.Action.Data;
-                cust.RoomReserver.Active.ProductList = dto.RoomList == null ? null : this.GetRoomDataList(dto.RoomList);
+                cust.RoomReserver.Active.ProductList = dto.RoomList == null ? null : new RoomDtlFac.Server(null).ConvertAll<Data, RoomDtlFac.Dto>(dto.RoomList);
 
                 ReturnObject<Boolean> ret = (new CustRet.Server(cust) as ICrud).Save();
                 if(this.IsError = ret.HasError())

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+
 using BinAff.Core;
 
 namespace Retinue.Lodge.Component.Room.Reservation
@@ -69,7 +70,6 @@ namespace Retinue.Lodge.Component.Room.Reservation
             dt.NoOfChild = Convert.IsDBNull(dr["NoOfChild"]) ? 0 : Convert.ToInt32(dr["NoOfChild"]);
             dt.NoOfInfant = Convert.IsDBNull(dr["NoOfInfant"]) ? 0 : Convert.ToInt32(dr["NoOfInfant"]);
             dt.Remark = Convert.IsDBNull(dr["Remark"]) ? String.Empty : dr["Remark"].ToString();
-            dt.ReservationNo = dt.Id > 0 ? this.ReadReservationNo(dt.Id) : String.Empty;
             
             return dt;
         }
@@ -87,102 +87,89 @@ namespace Retinue.Lodge.Component.Room.Reservation
             return roomData;
         }
 
-        protected override Boolean CreateAfter()
-        {
-            return this.InsertRoomList();
-        }
-
-        protected override Boolean UpdateAfter()
-        {
-            if(this.DeleteRoomList())
-                return this.InsertRoomList();
-            return false;
-        }
+        //protected override Boolean UpdateAfter()
+        //{
+        //    if(this.DeleteRoomList())
+        //        return this.InsertRoomList();
+        //    return false;
+        //}
 
         protected override Boolean DeleteBefore()
         {
             Boolean retVal = true;
 
             retVal = this.DeleteCustomerRoomReservationLink();
-            if (retVal) retVal = this.DeleteRoomList();
+            //if (retVal) retVal = this.DeleteRoomList();
 
             return retVal;
         }
 
-        protected override Boolean ReadAfter()
-        {
-            Data data = this.Data as Data;
-            data.ReservationNo = this.ReadReservationNo(data.Id);
+        //internal Boolean UpdateExtraRoomDetails()
+        //{
+        //    Data data = this.Data as Data;
 
-            this.CreateCommand("Lodge.RoomReservationDetailsRead");
-            this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
+        //    this.CreateCommand("Lodge.RoomReservationDetailsRead");
+        //    this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
 
-            DataSet ds = this.ExecuteDataSet();
+        //    DataSet ds = this.ExecuteDataSet();
 
-            if (ds.Tables.Count > 0)
-            {
-                data.ProductList = new List<BinAff.Core.Data>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    data.ProductList.Add(new Room.Data
-                    {
-                        Id = Convert.IsDBNull(dr["RoomId"]) ? 0 : Convert.ToInt64(dr["RoomId"]),
-                        ExtraAccomodation = Convert.ToInt16(Convert.IsDBNull(dr["ExtraAccomodation"]) ? 0 : dr["ExtraAccomodation"]),
-                    });
-                }
-            }
+        //    if (ds.Tables.Count > 0)
+        //    {
+        //        foreach (DataRow dr in ds.Tables[0].Rows)
+        //        {
+        //            (data.ProductList.Find((p) =>
+        //            {
+        //                return p.Id == Convert.ToInt64(dr["RoomId"]);
+        //            }) as Room.Data).ExtraAccomodation = Convert.ToInt16(Convert.IsDBNull(dr["ExtraAccomodation"]) ? 0 : dr["ExtraAccomodation"]);
+        //        }
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        private String ReadReservationNo(Int64 reservationId)
-        {
-            return "Res-" + reservationId.ToString(); //TO DO : Rule based
-        }
+        //private Boolean InsertRoomList()
+        //{
+        //    Data data = this.Data as Data;
+        //    Boolean retVal = true;
+        //    Int64 reservationId = 0;
+        //    if (data.ProductList != null)
+        //    {
+        //        foreach (Room.Data roomData in data.ProductList)
+        //        {
+        //            this.CreateCommand("Lodge.RoomReservationDetailsInsert");
+        //            this.AddInParameter("@RoomId", DbType.Int64, roomData.Id);
+        //            this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
+        //            this.AddInParameter("@ExtraAccomodation", DbType.Int16, roomData.ExtraAccomodation);
+        //            this.AddInParameter("@Id", DbType.Int64, reservationId);
+        //            Int32 ret = this.ExecuteNonQuery();
 
-        private Boolean InsertRoomList()
-        {
-            Data data = this.Data as Data;
-            Boolean retVal = true;
-            Int64 reservationId = 0;
-            if (data.ProductList != null)
-            {
-                foreach (Room.Data roomData in data.ProductList)
-                {
-                    this.CreateCommand("Lodge.RoomReservationDetailsInsert");
-                    this.AddInParameter("@RoomId", DbType.Int64, roomData.Id);
-                    this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
-                    this.AddInParameter("@ExtraAccomodation", DbType.Int16, roomData.ExtraAccomodation);
-                    this.AddInParameter("@Id", DbType.Int64, reservationId);
-                    Int32 ret = this.ExecuteNonQuery();
+        //            if (ret == -2146232060)
+        //                return false;//Foreign key violation
+        //            else
+        //                retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+        //        }               
+        //    }
 
-                    if (ret == -2146232060)
-                        return false;//Foreign key violation
-                    else
-                        retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
-                }               
-            }
+        //    return retVal;
+        //}
 
-            return retVal;
-        }
-
-        private Boolean DeleteRoomList()
-        {
-            Data data = this.Data as Data;
-            Boolean retVal = true;          
+        //private Boolean DeleteRoomList()
+        //{
+        //    Data data = this.Data as Data;
+        //    Boolean retVal = true;          
            
-            this.CreateCommand("Lodge.RoomReservationDetailsDelete");           
-            this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
-            Int32 ret = this.ExecuteNonQuery();
+        //    this.CreateCommand("Lodge.RoomReservationDetailsDelete");           
+        //    this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
+        //    Int32 ret = this.ExecuteNonQuery();
 
-            if (ret == -2146232060)
-                retVal = false;//Foreign key violation
-            else
-                retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
+        //    if (ret == -2146232060)
+        //        retVal = false;//Foreign key violation
+        //    else
+        //        retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
                 
 
-            return retVal;
-        }
+        //    return retVal;
+        //}
 
         public override List<Crystal.Customer.Component.Action.Data> IsProductDeletable(BinAff.Core.Data subject)
         {
@@ -209,7 +196,7 @@ namespace Retinue.Lodge.Component.Room.Reservation
             return dataList;
         }
 
-        private bool DeleteCustomerRoomReservationLink()
+        private Boolean DeleteCustomerRoomReservationLink()
         {
             Boolean status = true;         
             base.CreateCommand("AutoTourism.CustomerRoomReservationLinkDelete");

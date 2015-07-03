@@ -31,6 +31,7 @@ using TarrifFac = Retinue.Lodge.Configuration.Facade.Tariff;
 using RoomFac = Retinue.Lodge.Configuration.Facade.Room;
 using RoomCatFac = Retinue.Lodge.Configuration.Facade.Room.Category;
 using RoomTypeFac = Retinue.Lodge.Configuration.Facade.Room.Type;
+using RoomDtlFac = Retinue.Lodge.Facade.RoomReservation.RoomDetails;
 
 namespace Retinue.Lodge.Facade.CheckIn
 {
@@ -135,7 +136,7 @@ namespace Retinue.Lodge.Facade.CheckIn
                 CustAuto.Data cust = new CustFac.Server(null).Convert(dto.Reservation.Customer) as CustAuto.Data;
                 cust.Checkin.Active = this.Convert(dto) as CustCrys.Action.Data;
                 cust.RoomReserver.Active = (cust.Checkin.Active as RoomChkCrys.Data).Reservation as CustCrys.Action.Data;
-                cust.Checkin.Active.ProductList = dto.Reservation.RoomList == null ? null : this.GetRoomDataList(dto.Reservation.RoomList);
+                cust.Checkin.Active.ProductList = dto.Reservation.RoomList == null ? null : new RoomDtlFac.Server(null).ConvertAll<Data, RoomDtlFac.Dto>(dto.Reservation.RoomList);
 
                 CustAuto.Server custServer = new CustAuto.Server(cust);
                 ReturnObject<Boolean> ret = (custServer as ICrud).Save();
@@ -563,66 +564,67 @@ namespace Retinue.Lodge.Facade.CheckIn
 
         }
 
-        private List<InvFac.LineItem.Dto> GroupRoomList(List<RoomFac.Dto> roomList)
+        private List<InvFac.LineItem.Dto> GroupRoomList(List<RoomDtlFac.Dto> productList)
         {
             Dto dto = (this.FormDto as DocFac.FormDto).Dto as Dto;
-            List<InvFac.LineItem.Dto> productList = new List<InvFac.LineItem.Dto>();
+            List<InvFac.LineItem.Dto> lineItemList = new List<InvFac.LineItem.Dto>();
             Boolean blnAdd = false;
 
-            if (roomList != null && roomList.Count > 0)
+            if (productList != null && productList.Count > 0)
             {
-                foreach (RoomFac.Dto dtoRoom in roomList)
+                foreach (RoomDtlFac.Dto product in productList)
                 {
                     //String roomDetails = String.Empty;
                     InvFac.LineItem.Dto productDto = new InvFac.LineItem.Dto
                     {
                         StartDate = dto.Reservation.BookingFrom,
-                        RoomCategoryId = dtoRoom.Category == null ? 0 : dtoRoom.Category.Id,
-                        RoomTypeId = dtoRoom.Type == null ? 0 : dtoRoom.Type.Id,
-                        RoomIsAC = dtoRoom.IsAirconditioned,
+                        RoomCategoryId = product.Room.Category == null ? 0 : product.Room.Category.Id,
+                        RoomTypeId = product.Room.Type == null ? 0 : product.Room.Type.Id,
+                        RoomIsAC = product.Room.IsAirconditioned,
                         Count = 1, //count is basically rooms of same type [i.e. same typeid, categoryId, and Ac] 
                         EndDate = dto.Reservation.BookingFrom.AddDays(1), //Every time one day for daywise bill - This will be configurable for 24 hours or check out fix time
+                        Extra = product.Room.ExtraAccomodation,
                     };
 
-                    if (productList.Count == 0)
+                    if (lineItemList.Count == 0)
                     {
-                        productList.Add(productDto);
-                        productDto.Description = this.GetRoomDescription(dtoRoom);
+                        lineItemList.Add(productDto);
+                        productDto.Description = this.GetRoomDescription(product);
                     }
                     else
                     {
                         blnAdd = true;
-                        foreach (InvFac.LineItem.Dto roomDto in productList)
+                        foreach (InvFac.LineItem.Dto roomDto in lineItemList)
                         {
                             if (productDto.RoomCategoryId == roomDto.RoomCategoryId
                                 && productDto.RoomTypeId == roomDto.RoomTypeId
                                 && productDto.RoomIsAC == roomDto.RoomIsAC)
                             {
                                 roomDto.Count++;
-                                productList.FindLast((p) =>
+                                lineItemList.FindLast((p) =>
                                 {
                                     return p.RoomCategoryId == roomDto.RoomCategoryId
                                         && p.RoomTypeId == roomDto.RoomTypeId
                                         && p.RoomIsAC == roomDto.RoomIsAC;
-                                }).Description = this.AppendRoomDescription(roomDto.Description, dtoRoom.Number, dtoRoom.Name);
+                                }).Description = this.AppendRoomDescription(roomDto.Description, product.Room.Number, product.Room.Name);
                                 blnAdd = false;
                                 break;
                             }
                             else
                             {
-                                productDto.Description = this.GetRoomDescription(dtoRoom);
+                                productDto.Description = this.GetRoomDescription(product);
                             }
                         }
                         if (blnAdd)
                         {
-                            productList.Add(productDto);
+                            lineItemList.Add(productDto);
                         }
                     }
 
                 }
             }
 
-            return productList;
+            return lineItemList;
         }
 
         //private void SetRoomDetail(List<RoomFac.Dto> roomList)
@@ -694,19 +696,19 @@ namespace Retinue.Lodge.Facade.CheckIn
         //    return productList;
         //}
 
-        private List<InvFac.LineItem.Dto> GenerateLineItemsForEachDay(int noOfdays,List<InvFac.LineItem.Dto> lineItems)
+        private List<InvFac.LineItem.Dto> GenerateLineItemsForEachDay(Int32 noOfdays, List<InvFac.LineItem.Dto> lineItems)
         {
             List<InvFac.LineItem.Dto> productList = new List<InvFac.LineItem.Dto>();
             DateTime stDate = DateTime.MinValue;
 
-            for (int i = 0; i < noOfdays; i++)
+            for (Int32 i = 0; i < noOfdays; i++)
             {
                 foreach (InvFac.LineItem.Dto lineItem in lineItems)
                 {
-                    if(i == 0)
+                    if (i == 0)
                         stDate = lineItem.StartDate;
 
-                    InvFac.LineItem.Dto productDto = new InvFac.LineItem.Dto()
+                    InvFac.LineItem.Dto productDto = new InvFac.LineItem.Dto
                     {
                         Id = lineItem.Id,
                         StartDate = stDate,
@@ -715,6 +717,7 @@ namespace Retinue.Lodge.Facade.CheckIn
                         RoomIsAC = lineItem.RoomIsAC,
                         Description = lineItem.Description,
                         Count = lineItem.Count,
+                        Extra = lineItem.Extra,
                         EndDate = stDate.AddDays(1)
                     };
 
@@ -726,13 +729,13 @@ namespace Retinue.Lodge.Facade.CheckIn
             return productList;
         }
 
-        private String GetRoomDescription(RoomFac.Dto room)
+        private String GetRoomDescription(RoomDtlFac.Dto product)
         {
             String roomList = String.Empty;
 
             return String.Format("{0}, {1}, {2} : Room - {3}({4})",
-                room.Category.Name, room.Type.Name, room.IsAirconditioned ? "AC" : "Non AC",
-                room.Number, room.Name);
+                product.Room.Category.Name, product.Room.Type.Name, product.Room.IsAirconditioned ? "AC" : "Non AC",
+                product.Room.Number, product.Room.Name);
         }
 
         private String AppendRoomDescription(String exisitng, String roomNumber, String roomName)

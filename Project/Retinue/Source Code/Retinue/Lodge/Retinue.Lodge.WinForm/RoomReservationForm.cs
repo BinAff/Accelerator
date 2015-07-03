@@ -157,7 +157,16 @@ namespace Retinue.Lodge.WinForm
 
         protected override Boolean ValidateForm()
         {
-            return this.ucRoomReservationDataEntry.ValidateForm(this.errorProvider);
+            Customer.WinForm.CustomerSummary customerSummery = base.SummaryList[0].Content as Customer.WinForm.CustomerSummary;
+            if (customerSummery.IsEmpty())
+            {
+                errorProvider.SetError(customerSummery, "Select a customer for reservation.");
+                return false;
+            }
+            else
+            {
+                return this.ucRoomReservationDataEntry.ValidateForm(this.errorProvider);
+            }
         }
 
         protected override Boolean SaveBefore()

@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using PresLib = BinAff.Presentation.Library;
 
 using RoomFac = Retinue.Lodge.Configuration.Facade.Room;
+using RoomDtlsFac = Retinue.Lodge.Facade.RoomReservation.RoomDetails;
 
 namespace Retinue.Lodge.WinForm
 {
@@ -12,7 +13,7 @@ namespace Retinue.Lodge.WinForm
     public partial class ExtraBedCaptureForm : Form
     {
 
-        public List<RoomFac.Dto> DataSource { get; set; }
+        public List<RoomDtlsFac.Dto> DataSource { get; set; }
 
         public Int32 TotalGuest
         {
@@ -29,7 +30,7 @@ namespace Retinue.Lodge.WinForm
         public ExtraBedCaptureForm()
         {
             InitializeComponent();
-            this.DataSource = new List<RoomFac.Dto>();
+            this.DataSource = new List<RoomDtlsFac.Dto>();
         }
 
         private void ExtraBedCaptureForm_Load(object sender, EventArgs e)
@@ -45,7 +46,10 @@ namespace Retinue.Lodge.WinForm
             {
                 foreach (DataGridViewRow row in this.dgvRooms.Rows)
                 {
-                    row.Cells[3].Value = row.Cells[4].Value;
+                    this.DataSource.Find((p) =>
+                    {
+                        return p.Room.Id == Convert.ToInt64(row.Cells[0].Value);
+                    }).ExtraRoom = Convert.ToInt16(row.Cells[5].Value);
                 }
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
@@ -59,13 +63,20 @@ namespace Retinue.Lodge.WinForm
 
         private void PopulateRoomGrid()
         {
-            this.dgvRooms.Columns[0].DataPropertyName = "Number";
-            this.dgvRooms.Columns[1].DataPropertyName = "Name";
-            this.dgvRooms.Columns[2].DataPropertyName = "Accomodation";
-            this.dgvRooms.Columns[3].DataPropertyName = "ExtraAccomodation";
+            this.dgvRooms.Columns[0].DataPropertyName = "Id";
+            this.dgvRooms.Columns[1].DataPropertyName = "Number";
+            this.dgvRooms.Columns[2].DataPropertyName = "Name";
+            this.dgvRooms.Columns[3].DataPropertyName = "Accomodation";
+            this.dgvRooms.Columns[4].DataPropertyName = "ExtraAccomodation";
             this.dgvRooms.AutoGenerateColumns = false;
 
-            this.dgvRooms.DataSource = this.DataSource;
+            List<RoomFac.Dto> roomList = new List<RoomFac.Dto>();
+            foreach (RoomDtlsFac.Dto roomDetails in this.DataSource)
+            {
+                roomList.Add(roomDetails.Room);
+            }
+
+            this.dgvRooms.DataSource = roomList;
         }
 
         private BinAff.Core.Message ValidateForm()
@@ -73,17 +84,17 @@ namespace Retinue.Lodge.WinForm
             Int32 occupiedExtraBed = 0, availableBed = 0;
             foreach(DataGridViewRow row in this.dgvRooms.Rows)
             {
-                if (Convert.ToInt32(row.Cells[3].Value) < Convert.ToInt32(row.Cells[4].Value))
+                if (Convert.ToInt32(row.Cells[4].Value) < Convert.ToInt32(row.Cells[5].Value))
                 {
                     return new BinAff.Core.Message
                     {
                         Category = BinAff.Core.Message.Type.Error,
                         Description = String.Format("Extra accomodation available in room ({0}) is {1}, where assigned ({2}).",
-                            row.Cells[0].Value, row.Cells[3].Value, row.Cells[4].Value),
+                            row.Cells[1].Value, row.Cells[4].Value, row.Cells[5].Value),
                     };
                 }
-                occupiedExtraBed += Convert.ToInt32(row.Cells[4].Value);
-                availableBed += Convert.ToInt32(row.Cells[2].Value);
+                occupiedExtraBed += Convert.ToInt32(row.Cells[5].Value);
+                availableBed += Convert.ToInt32(row.Cells[3].Value);
             }
             if (this.TotalGuest != availableBed + occupiedExtraBed)
             {

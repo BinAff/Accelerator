@@ -13,7 +13,7 @@
         protected override void Compose()
         {
             base.Name = "Project";
-            base.dataAccess = new Dao(this.Data as Data)
+            base.DataAccess = new Dao(this.Data as Data)
             {
                 ConnectionString = Properties.Settings.Default.License,
             };

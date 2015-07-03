@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using BinAff.Core;
-
-
-namespace Crystal.Reservation.Component
+﻿namespace Crystal.Reservation.Component
 {
 
     public abstract class Server : Customer.Component.Action.Server
@@ -15,13 +9,6 @@ namespace Crystal.Reservation.Component
         {
 
         }
-
-        protected override void CreateChildren()
-        {
-            base.CreateChildren();
-        }
-
-        //public abstract ReturnObject<Boolean> ChangeReservationToOccupied();
        
     }
 

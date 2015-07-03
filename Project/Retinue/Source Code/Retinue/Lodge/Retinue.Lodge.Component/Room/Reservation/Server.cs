@@ -36,11 +36,10 @@ namespace Retinue.Lodge.Component.Room.Reservation
         {
             base.CreateChildren();
 
-            base.AddChildren(new Room.Server(null)
+            base.AddChildren(new RoomDetails.Server(null)
             {
-                Type = ChildType.Independent,
-                IsReadOnly = true,
-            }, ((Data)base.Data).ProductList);
+                Type = ChildType.Dependent,
+            }, (base.Data as Data).ProductList);
         }
 
         private ReturnObject<Boolean> MakeReturnObject(List<Data> dataList)
@@ -97,6 +96,15 @@ namespace Retinue.Lodge.Component.Room.Reservation
         {
             return new Dao(this.Data as Data).ReadReservationId(artifactId);
         }
+
+        //protected override ReturnObject<BinAff.Core.Data> ReadAfter()
+        //{
+        //    (this.DataAccess as Dao).UpdateExtraRoomDetails();
+        //    return new ReturnObject<BinAff.Core.Data>
+        //    {
+        //        Value = this.Data,
+        //    };
+        //}
 
         //public ReturnObject<Boolean> RevertReservationAfterCheckIn()
         //{

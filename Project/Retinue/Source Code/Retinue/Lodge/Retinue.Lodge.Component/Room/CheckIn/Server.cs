@@ -111,9 +111,18 @@ namespace Retinue.Lodge.Component.Room.CheckIn
             return server.UpdateStatus();            
         }
 
+        //protected override ReturnObject<BinAff.Core.Data> ReadAfter()
+        //{
+        //    //(this.DataAccess as Dao).UpdateExtraRoomDetails();
+        //    return new ReturnObject<BinAff.Core.Data>
+        //    {
+        //        Value = this.Data,
+        //    };
+        //}
+
         ReturnObject<Boolean> ICheckIn.LinkInvoice()
         {
-            Boolean status = (this.dataAccess as Dao).LinkInvoice();
+            Boolean status = (this.DataAccess as Dao).LinkInvoice();
             return status ?
                 new ReturnObject<Boolean>
                 {

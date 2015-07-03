@@ -52,7 +52,7 @@ namespace Vanilla.Accountant.Facade.Invoice
             return new Dto 
             {
                 Id = comp.Id,
-                InvoiceNumber = comp.InvoiceNumber,                
+                InvoiceNumber = comp.InvoiceNumber,
                 Advance = comp.Advance,
                 Discount = comp.Discount,
                 Date = comp.Date,

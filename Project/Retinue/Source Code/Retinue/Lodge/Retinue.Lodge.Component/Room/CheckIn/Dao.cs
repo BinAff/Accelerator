@@ -86,26 +86,49 @@ namespace Retinue.Lodge.Component.Room.CheckIn
           return this.DeleteCustomerRoomCheckInLink();
         }
 
-        protected override Boolean ReadAfter()
-        {
-            Data data = this.Data as Data;
-            this.CreateCommand("Lodge.RoomReservationDetailsRead");     
-            this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
-            DataSet ds = this.ExecuteDataSet();
-            if (ds.Tables.Count > 0)
-            {
-                data.ProductList = new List<BinAff.Core.Data>();
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    data.ProductList.Add(new Room.Data
-                    {
-                        Id = Convert.IsDBNull(dr["RoomId"]) ? 0 : Convert.ToInt64(dr["RoomId"])
-                    });
-                }
-            }
+        //internal Boolean UpdateExtraRoomDetails()
+        //{
+        //    Data data = this.Data as Data;
 
-            return true;
-        }
+        //    this.CreateCommand("Lodge.RoomReservationDetailsRead");
+        //    this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
+
+        //    DataSet ds = this.ExecuteDataSet();
+
+        //    if (ds.Tables.Count > 0)
+        //    {
+        //        foreach (DataRow dr in ds.Tables[0].Rows)
+        //        {
+        //            (data.ProductList.Find((p) =>
+        //            {
+        //                return p.Id == Convert.ToInt64(dr["RoomId"]);
+        //            }) as Room.Data).ExtraAccomodation = Convert.ToInt16(Convert.IsDBNull(dr["ExtraAccomodation"]) ? 0 : dr["ExtraAccomodation"]);
+        //        }
+        //    }
+
+        //    return true;
+        //}
+
+        //protected override Boolean ReadAfter()
+        //{
+        //    Data data = this.Data as Data;
+        //    this.CreateCommand("Lodge.RoomReservationDetailsRead");     
+        //    this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
+        //    DataSet ds = this.ExecuteDataSet();
+        //    if (ds.Tables.Count > 0)
+        //    {
+        //        data.ProductList = new List<BinAff.Core.Data>();
+        //        foreach (DataRow dr in ds.Tables[0].Rows)
+        //        {
+        //            data.ProductList.Add(new Room.Data
+        //            {
+        //                Id = Convert.IsDBNull(dr["RoomId"]) ? 0 : Convert.ToInt64(dr["RoomId"])
+        //            });
+        //        }
+        //    }
+
+        //    return true;
+        //}
 
         //private Boolean InsertRoomList()
         //{

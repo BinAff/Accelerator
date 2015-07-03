@@ -10,12 +10,27 @@ namespace BinAff.Core
     public abstract class Crud : ICrud
     {
 
+        private readonly Boolean isReadParallel = true;
+        private readonly Boolean isWriteParallel = false;
+
         private readonly String logPath = Environment.CurrentDirectory + ConfigurationManager.AppSettings["ExceptionPath"];
         private Utility.Log.Server logWritter;
 
+        protected Action actionType;
+        private List<Crud> dependentChildren; //Child class will hold parent reference
+        private List<Crud> independentChildren; //Parent class will hold child reference
+
+        private Boolean isMultiValuedChild; //If the child is getting added using AddChildren();
+        //In case of AddChildren(), initially data will be null for read operation.
+        //So there is secondtime call of CreateChildren() to protect infinite loop
+        //this flag is used.
+        private Boolean isChildrenCreatedAlready;
+
+        #region Properties
+
         public Data Data { get; protected set; }
 
-        public Data parentData;
+        private Data parentData;
         public Data ParentData 
         {
             get
@@ -33,21 +48,7 @@ namespace BinAff.Core
             }
         }
 
-        protected Action actionType;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private Boolean isMultiValuedChild;
-
-        /// <summary>
-        /// In case of AddChildren(), initially data will be null for read operation.
-        /// So there is secondtime call of CreateChildren() to protect infinite loop
-        /// this flag is used.
-        /// </summary>
-        private Boolean isChildrenCreatedAlready;
-
-        public Dao dataAccess;
+        private Dao dataAccess;
         /// <summary>
         /// Object for data access from database
         /// </summary>
@@ -64,7 +65,7 @@ namespace BinAff.Core
             }
         }
 
-        public Validator validator;
+        private Validator validator;
         /// <summary>
         /// Object for validation
         /// </summary>
@@ -106,15 +107,7 @@ namespace BinAff.Core
         /// </summary>
         public ChildType Type { get; set; }
 
-        /// <summary>
-        /// Child class will hold parent reference
-        /// </summary>
-        private List<Crud> dependentChildren;
-
-        /// <summary>
-        /// Parent class will hold child reference
-        /// </summary>
-        private List<Crud> independentChildren;
+        #endregion
 
         public Crud(Data data)
         {
@@ -124,34 +117,6 @@ namespace BinAff.Core
             this.independentChildren = new List<Crud>();
             this.isChildrenCreatedAlready = false;
             this.Compose();
-        }
-
-        protected abstract void Compose();
-
-        /// <summary>
-        /// Create data object
-        /// </summary>
-        /// <returns></returns>
-        internal protected abstract Data CreateDataObject();
-
-        /// <summary>
-        /// Create new instance
-        /// </summary>
-        /// <param name="data">Data object</param>
-        /// <returns></returns>
-        protected abstract Crud CreateInstance(Data data);
-
-        /// <summary>
-        /// Create children component list
-        /// </summary>
-        protected virtual void CreateChildren()
-        {
-
-        }
-
-        protected virtual void FindChildrenData()
-        {
-
         }
 
         /// <summary>
@@ -210,7 +175,6 @@ namespace BinAff.Core
         {
             if (dataList == null)
             {
-
                 Crud child = schema.CreateInstance(null);
                 child.Type = schema.Type;
                 child.IsReadOnly = schema.IsReadOnly;
@@ -235,9 +199,9 @@ namespace BinAff.Core
             }
             if (dataList != null && dataList.Count > 0)
             {
-                foreach (Data data in dataList)
+                for (Int32 i = 0; i < dataList.Count; i++)
                 {
-                    Crud child = schema.CreateInstance(data);
+                    Crud child = schema.CreateInstance(dataList[i]);
                     child.Type = schema.Type;
                     child.IsReadOnly = schema.IsReadOnly;
                     child.IsSkip = schema.IsSkip;
@@ -261,7 +225,7 @@ namespace BinAff.Core
         /// <returns></returns>
         private ReturnObject<Boolean> SaveInternal()
         {
-            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
+            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>
             {
                 Value = true,
                 MessageList = new List<Message>()
@@ -312,7 +276,7 @@ namespace BinAff.Core
                 //Save independent children
                 foreach (ICrud child in this.independentChildren)
                 {
-                    if (!((Crud)child).IsReadOnly && !this.SaveOrDelete(child, retObj).Value) return retObj;
+                    if (!(child as Crud).IsReadOnly && !this.SaveOrDelete(child, retObj).Value) return retObj;
                 }
 
                 //Save own
@@ -321,7 +285,7 @@ namespace BinAff.Core
                 //Save dependent children
                 foreach (ICrud child in this.dependentChildren)
                 {
-                    if (!((Crud)child).IsReadOnly && !this.SaveOrDelete(child, retObj).Value) return retObj;
+                    if (!(child as Crud).IsReadOnly && !this.SaveOrDelete(child, retObj).Value) return retObj;
                 }
 
                 ////Create link data in case of update
@@ -382,7 +346,7 @@ namespace BinAff.Core
             Data d = this.CreateDataObject();
             d.Id = this.Data.Id;
             Crud me = this.CreateInstance(d);
-            me.Read();
+            me.ReadInternal();
             me.dependentChildren.Clear();
             me.independentChildren.Clear();
             me.actionType = Action.Delete;
@@ -421,24 +385,42 @@ namespace BinAff.Core
             if(this.Validator != null) valMsgLst = val.Validate();
 
             //Validate independent children
-            foreach (Crud child in this.independentChildren)
+            this.RunForEach<Crud>(this.isWriteParallel, this.independentChildren, (p) =>
             {
-                if (!child.IsSkip && !child.IsReadOnly && child.Validator != null)
+                if (!p.IsSkip && !p.IsReadOnly && p.Validator != null)
                 {
-                    val = child.Validator;
+                    val = p.Validator;
                     valMsgLst.AddRange(val.Validate());
                 }
-            }
+                return true;
+            });
+            //foreach (Crud child in this.independentChildren)
+            //{
+            //    if (!child.IsSkip && !child.IsReadOnly && child.Validator != null)
+            //    {
+            //        val = child.Validator;
+            //        valMsgLst.AddRange(val.Validate());
+            //    }
+            //}
 
             //Validate independent children
-            foreach (Crud child in this.dependentChildren)
+            this.RunForEach<Crud>(this.isWriteParallel, this.dependentChildren, (p) =>
             {
-                if (!child.IsSkip && !child.IsReadOnly && child.Validator != null)
+                if (!p.IsSkip && !p.IsReadOnly && p.Validator != null)
                 {
-                    val = child.Validator;
+                    val = p.Validator;
                     valMsgLst.AddRange(val.Validate());
                 }
-            }
+                return true;
+            });
+            //foreach (Crud child in this.dependentChildren)
+            //{
+            //    if (!child.IsSkip && !child.IsReadOnly && child.Validator != null)
+            //    {
+            //        val = child.Validator;
+            //        valMsgLst.AddRange(val.Validate());
+            //    }
+            //}
             return valMsgLst;
         }
 
@@ -453,9 +435,9 @@ namespace BinAff.Core
         /// <returns></returns>
         private ReturnObject<Boolean> SaveOrDelete(ICrud crud, ReturnObject<Boolean> retObj)
         {
-            if (!((Crud)crud).IsSkip && ((Crud)crud).Data != null)
+            if (!(crud as Crud).IsSkip && (crud as Crud).Data != null)
             {
-                if((((Crud)crud).actionType == Action.Delete && this.actionType == Action.Update))
+                if(((crud as Crud).actionType == Action.Delete && this.actionType == Action.Update))
                 {
                     if (!this.ManipulateReturnObject(retObj, crud.Delete()).Value) return retObj;
                 }
@@ -473,7 +455,7 @@ namespace BinAff.Core
         /// <returns></returns>
         protected virtual ReturnObject<Boolean> Create()
         {
-            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
+            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>
             {
                 MessageList = new List<Message>()
             };
@@ -504,7 +486,7 @@ namespace BinAff.Core
         /// <returns></returns>
         protected virtual ReturnObject<Boolean> Update()
         {
-            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
+            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>
             {
                 MessageList = new List<Message>()
             };
@@ -531,20 +513,19 @@ namespace BinAff.Core
 
         private ReturnObject<Boolean> DeleteInternal()
         {
-            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
+            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>
             {
                 Value = true,
                 MessageList = new List<Message>()
             };
 
+            this.ReadInternal();
             this.actionType = Action.Delete;
-            this.Read();
             this.dependentChildren.Clear();
             this.independentChildren.Clear();
-            this.actionType = Action.Delete;
             this.CreateChildren();
 
-            if (this.Data.Id != 0) //There is no data to delete
+            if (this.Data.Id != 0) //There is data to delete
             {
                 using (TransactionScope T = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0)))
                 {
@@ -552,7 +533,7 @@ namespace BinAff.Core
                     if (!this.ManipulateReturnObject(retObj, this.DeleteBefore()).Value) return retObj;
 
                     //Check the data is deletable or not
-                    if(!this.ManipulateReturnObject(retObj, this.validator.IsDeletable()).Value) return retObj;
+                    if (!this.ManipulateReturnObject(retObj, this.validator.IsDeletable()).Value) return retObj;
 
                     //Delete own with all children
                     if (!this.ManipulateReturnObject(retObj, this.Delete()).Value) return retObj;
@@ -572,7 +553,7 @@ namespace BinAff.Core
         /// <returns></returns>
         protected virtual ReturnObject<Boolean> Delete()
         {
-            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
+            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>
             {
                 Value = true,
                 MessageList = new List<Message>()
@@ -598,7 +579,7 @@ namespace BinAff.Core
         {
             if (!this.IsSkip && !this.IsReadOnly && this.Data != null)
             {
-                ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
+                ReturnObject<Boolean> retObj = new ReturnObject<Boolean>
                 {
                     Value = this.DataAccess.Delete(),
                     MessageList = new List<Message>()
@@ -619,7 +600,7 @@ namespace BinAff.Core
             }
 
             //Data not deleted due to rule
-            return new ReturnObject<Boolean>()
+            return new ReturnObject<Boolean>
             {
                 Value = true
             };
@@ -632,25 +613,39 @@ namespace BinAff.Core
         /// <returns></returns>
         protected virtual ReturnObject<Boolean> DeleteChildren(List<Crud> children)
         {
-            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
+            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>
             {
                 Value = true,
                 MessageList = new List<Message>()
             };
-            //Parallel.ForEach<ICrud>(children, child =>
-            //{
-            //    if (!((Crud)child).IsSkip && !((Crud)child).IsReadOnly && ((Crud)child).Data != null)
-            //    {
-            //        if (!ManipulateReturnObject(retObj, child.Delete()).Value) return;
-            //    }
-            //});
-            foreach (ICrud child in children)
+            this.RunForEach<Crud>(this.isWriteParallel, children, (p) =>
             {
-                if (!((Crud)child).IsSkip && !((Crud)child).IsReadOnly && ((Crud)child).Data != null)
+                if (!p.IsSkip && !p.IsReadOnly && p.Data != null)
                 {
-                    if (!ManipulateReturnObject(retObj, child.Delete()).Value) return retObj;
+                    if (!ManipulateReturnObject(retObj, p.DeleteInternal()).Value) return true;
                 }
-            }
+                return true;
+            });
+            //if (this.isWriteParallel)
+            //{
+            //    Parallel.ForEach<ICrud>(children, child =>
+            //    {
+            //        if (!(child as Crud).IsSkip && !(child as Crud).IsReadOnly && (child as Crud).Data != null)
+            //        {
+            //            if (!ManipulateReturnObject(retObj, child.Delete()).Value) return;
+            //        }
+            //    });
+            //}
+            //else
+            //{
+            //    foreach (ICrud child in children)
+            //    {
+            //        if (!(child as Crud).IsSkip && !(child as Crud).IsReadOnly && (child as Crud).Data != null)
+            //        {
+            //            if (!ManipulateReturnObject(retObj, child.Delete()).Value) return retObj;
+            //        }
+            //    }
+            //}
             return retObj;
         }
 
@@ -688,24 +683,18 @@ namespace BinAff.Core
                 //Create children
                 this.CreateChildren();
                 //Read dependent
-                //Parallel.ForEach<ICrud>(this.dependentChildren, child =>
-                //{
-                //    retObj = this.ReadChild(child, retObj);
-                //});
-                foreach (ICrud child in this.dependentChildren)
+                this.RunForEach<Crud>(this.isReadParallel, this.dependentChildren, (p) =>
                 {
-                    retObj = this.ReadChild(child, retObj);
-                }
+                    retObj = this.ReadChild(p as ICrud, retObj);
+                    return true;
+                });
 
                 //Read independent
-                //Parallel.ForEach<ICrud>(this.independentChildren, child =>
-                //{
-                //    retObj = this.ReadChild(child, retObj);
-                //});
-                foreach (ICrud child in this.independentChildren)
+                this.RunForEach<Crud>(this.isReadParallel, this.independentChildren, (p) =>
                 {
-                    retObj = this.ReadChild(child, retObj);
-                }
+                    retObj = this.ReadChild(p as ICrud, retObj);
+                    return true;
+                });
             }
 
             return retObj;
@@ -741,8 +730,8 @@ namespace BinAff.Core
             catch (Exception ex)
             {
                 this.logWritter.Write(ex, "Module: " + (child as Crud).Name,
-                    "Server Type: " + (child as Crud).ToString() + Environment.NewLine +
-                    "Data Type: " + (child as Crud).Data.ToString() + Environment.NewLine +
+                    "Server Type     : " + (child as Crud).ToString() + Environment.NewLine +
+                    "Data Type       : " + (child as Crud).Data.ToString() + Environment.NewLine +
                     "Data Access Type: " + (child as Crud).DataAccess.ToString());
                 throw;
             }
@@ -752,18 +741,13 @@ namespace BinAff.Core
         {
             ReturnObject<List<BinAff.Core.Data>> retList = new ReturnObject<List<BinAff.Core.Data>>
             {
-                Value = ((Dao)this.DataAccess).ReadAll()
+                Value = (this.DataAccess as Dao).ReadAll()
             };
-            Parallel.ForEach<BinAff.Core.Data>(retList.Value, data =>
+            this.RunForEach<BinAff.Core.Data>(this.isReadParallel, retList.Value, (p) =>
             {
-                (this.CreateInstance(data) as ICrud).Read();
+                (this.CreateInstance(p) as ICrud).Read();
+                return true;
             });
-            //foreach (BinAff.Core.Data data in retList.Value)
-            //{
-            //    ICrud crud = this.CreateInstance(data);
-            //    crud.Read();
-            //}
-
             return retList;
         }
 
@@ -775,40 +759,78 @@ namespace BinAff.Core
                 MessageList = new List<Message>(),
             };
 
-            Parallel.ForEach<BinAff.Core.Data>(dataList, data =>
+            if (this.isReadParallel)
             {
-                this.dataAccess.Data = data;
-                ReturnObject<BinAff.Core.Data> ret = (this.CreateInstance(data) as ICrud).Read();
-                if (ret.HasError())
+                Parallel.ForEach<BinAff.Core.Data>(dataList, data =>
                 {
-                    retList.MessageList.AddRange(ret.MessageList);
-                    return;
+                    this.dataAccess.Data = data;
+                    ReturnObject<BinAff.Core.Data> ret = (this.CreateInstance(data) as ICrud).Read();
+                    if (ret.HasError())
+                    {
+                        retList.MessageList.AddRange(ret.MessageList);
+                        return;
+                    }
+                    retList.Value.Add(ret.Value);
+                });
+            }
+            else
+            {
+                foreach (Data data in dataList)
+                {
+                    ICrud crud = this.CreateInstance(data);
+                    this.dataAccess.Data = data;
+                    ReturnObject<BinAff.Core.Data> ret = crud.Read();
+                    if (ret.HasError())
+                    {
+                        return new ReturnObject<List<Data>>
+                        {
+                            MessageList = ret.MessageList,
+                        };
+                    }
+                    retList.Value.Add(ret.Value);
                 }
-                retList.Value.Add(ret.Value);
-            });
-            //foreach (Data data in dataList)
-            //{
-            //    ICrud crud = this.CreateInstance(data);
-            //    this.dataAccess.Data = data;
-            //    ReturnObject<BinAff.Core.Data> ret = crud.Read();
-            //    if (ret.HasError())
-            //    {
-            //        return new ReturnObject<List<Data>>
-            //        {
-            //            MessageList = ret.MessageList,
-            //        };
-            //    }
-            //    retList.Value.Add(ret.Value);
-            //}
+            }
 
             return retList;
         }
 
-        #region Hook
+        #region Mandatory Hook
+
+        protected abstract void Compose();
+
+        /// <summary>
+        /// Create data object
+        /// </summary>
+        /// <returns></returns>
+        internal protected abstract Data CreateDataObject();
+
+        /// <summary>
+        /// Create new instance
+        /// </summary>
+        /// <param name="data">Data object</param>
+        /// <returns></returns>
+        protected abstract Crud CreateInstance(Data data);
+
+        #endregion
+
+        #region Optional Hook
+
+        /// <summary>
+        /// Create children component list
+        /// </summary>
+        protected virtual void CreateChildren()
+        {
+
+        }
+
+        protected virtual void FindChildrenData()
+        {
+
+        }
 
         protected virtual ReturnObject<Boolean> CreateBefore()
         {
-            return new ReturnObject<Boolean>()
+            return new ReturnObject<Boolean>
             {
                 Value = true,
                 MessageList = new List<Message>()
@@ -817,7 +839,7 @@ namespace BinAff.Core
 
         protected virtual ReturnObject<Boolean> CreateAfter()
         {
-            return new ReturnObject<Boolean>()
+            return new ReturnObject<Boolean>
             {
                 Value = true,
                 MessageList = new List<Message>()
@@ -826,7 +848,7 @@ namespace BinAff.Core
 
         protected virtual ReturnObject<Boolean> UpdateBefore()
         {
-            return new ReturnObject<Boolean>()
+            return new ReturnObject<Boolean>
             {
                 Value = true,
                 MessageList = new List<Message>()
@@ -835,7 +857,7 @@ namespace BinAff.Core
 
         protected virtual ReturnObject<Boolean> UpdateAfter()
         {
-            return new ReturnObject<Boolean>()
+            return new ReturnObject<Boolean>
             {
                 Value = true,
                 MessageList = new List<Message>()
@@ -844,7 +866,7 @@ namespace BinAff.Core
 
         protected virtual ReturnObject<Boolean> DeleteBefore()
         {
-            return new ReturnObject<Boolean>()
+            return new ReturnObject<Boolean>
             {
                 Value = true,
                 MessageList = new List<Message>()
@@ -853,7 +875,7 @@ namespace BinAff.Core
 
         protected virtual ReturnObject<Boolean> DeleteAfter()
         {
-            return new ReturnObject<Boolean>()
+            return new ReturnObject<Boolean>
             {
                 Value = true,
                 MessageList = new List<Message>()
@@ -924,6 +946,24 @@ namespace BinAff.Core
             retObj.Value = this.Data;
             if (retObj.HasError()) retObj.Value = null;
             return retObj;
+        }
+
+        private void RunForEach<T>(Boolean isParallel, List<T> list, Predicate<T> predicate)
+        {
+            if (isParallel)
+            {
+                Parallel.ForEach<T>(list, data =>
+                {
+                    predicate(data);
+                });
+            }
+            else
+            {
+                foreach (T data in list)
+                {
+                    predicate(data);
+                }
+            }
         }
 
         public enum ChildType

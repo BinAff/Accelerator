@@ -82,10 +82,10 @@
             // txtFilteredRoomCount
             // 
             this.txtFilteredRoomCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtFilteredRoomCount.Location = new System.Drawing.Point(116, 3);
+            this.txtFilteredRoomCount.Location = new System.Drawing.Point(152, 3);
             this.txtFilteredRoomCount.Name = "txtFilteredRoomCount";
             this.txtFilteredRoomCount.ReadOnly = true;
-            this.txtFilteredRoomCount.Size = new System.Drawing.Size(103, 20);
+            this.txtFilteredRoomCount.Size = new System.Drawing.Size(67, 20);
             this.txtFilteredRoomCount.TabIndex = 999;
             this.txtFilteredRoomCount.TabStop = false;
             // 
@@ -96,7 +96,7 @@
             this.lblTotalRooms.Location = new System.Drawing.Point(43, 3);
             this.lblTotalRooms.Margin = new System.Windows.Forms.Padding(3);
             this.lblTotalRooms.Name = "lblTotalRooms";
-            this.lblTotalRooms.Size = new System.Drawing.Size(67, 18);
+            this.lblTotalRooms.Size = new System.Drawing.Size(103, 18);
             this.lblTotalRooms.TabIndex = 106;
             this.lblTotalRooms.Text = "Total Rooms";
             this.lblTotalRooms.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -104,10 +104,10 @@
             // txtAvailableRoomCount
             // 
             this.txtAvailableRoomCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtAvailableRoomCount.Location = new System.Drawing.Point(298, 3);
+            this.txtAvailableRoomCount.Location = new System.Drawing.Point(334, 3);
             this.txtAvailableRoomCount.Name = "txtAvailableRoomCount";
             this.txtAvailableRoomCount.ReadOnly = true;
-            this.txtAvailableRoomCount.Size = new System.Drawing.Size(104, 20);
+            this.txtAvailableRoomCount.Size = new System.Drawing.Size(68, 20);
             this.txtAvailableRoomCount.TabIndex = 999;
             this.txtAvailableRoomCount.TabStop = false;
             // 
@@ -118,7 +118,7 @@
             this.lblAvailableRooms.Location = new System.Drawing.Point(225, 3);
             this.lblAvailableRooms.Margin = new System.Windows.Forms.Padding(3);
             this.lblAvailableRooms.Name = "lblAvailableRooms";
-            this.lblAvailableRooms.Size = new System.Drawing.Size(67, 18);
+            this.lblAvailableRooms.Size = new System.Drawing.Size(103, 18);
             this.lblAvailableRooms.TabIndex = 108;
             this.lblAvailableRooms.Text = "Available Rooms";
             this.lblAvailableRooms.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -130,7 +130,7 @@
             this.txtMale.MaxLength = 3;
             this.txtMale.Name = "txtMale";
             this.txtMale.Size = new System.Drawing.Size(399, 20);
-            this.txtMale.TabIndex = 12;
+            this.txtMale.TabIndex = 11;
             // 
             // txtFemale
             // 
@@ -139,7 +139,7 @@
             this.txtFemale.MaxLength = 3;
             this.txtFemale.Name = "txtFemale";
             this.txtFemale.Size = new System.Drawing.Size(399, 20);
-            this.txtFemale.TabIndex = 13;
+            this.txtFemale.TabIndex = 12;
             // 
             // txtChild
             // 
@@ -148,7 +148,7 @@
             this.txtChild.MaxLength = 3;
             this.txtChild.Name = "txtChild";
             this.txtChild.Size = new System.Drawing.Size(399, 20);
-            this.txtChild.TabIndex = 14;
+            this.txtChild.TabIndex = 13;
             // 
             // txtInfant
             // 
@@ -157,7 +157,7 @@
             this.txtInfant.MaxLength = 3;
             this.txtInfant.Name = "txtInfant";
             this.txtInfant.Size = new System.Drawing.Size(399, 20);
-            this.txtInfant.TabIndex = 15;
+            this.txtInfant.TabIndex = 14;
             // 
             // txtRemarks
             // 
@@ -166,7 +166,7 @@
             this.txtRemarks.Multiline = true;
             this.txtRemarks.Name = "txtRemarks";
             this.txtRemarks.Size = new System.Drawing.Size(399, 42);
-            this.txtRemarks.TabIndex = 1015;
+            this.txtRemarks.TabIndex = 15;
             // 
             // label16
             // 
@@ -224,7 +224,7 @@
             this.cboAC.Location = new System.Drawing.Point(238, 219);
             this.cboAC.Name = "cboAC";
             this.cboAC.Size = new System.Drawing.Size(399, 21);
-            this.cboAC.TabIndex = 1014;
+            this.cboAC.TabIndex = 6;
             this.cboAC.SelectedIndexChanged += new System.EventHandler(this.cboAC_SelectedIndexChanged);
             // 
             // txtStatus
@@ -246,7 +246,7 @@
             this.cboType.Name = "cboType";
             this.cboType.Size = new System.Drawing.Size(399, 21);
             this.cboType.Sorted = true;
-            this.cboType.TabIndex = 1013;
+            this.cboType.TabIndex = 5;
             this.cboType.SelectedIndexChanged += new System.EventHandler(this.cboType_SelectedIndexChanged);
             // 
             // cboCategory
@@ -258,7 +258,7 @@
             this.cboCategory.Name = "cboCategory";
             this.cboCategory.Size = new System.Drawing.Size(399, 21);
             this.cboCategory.Sorted = true;
-            this.cboCategory.TabIndex = 1012;
+            this.cboCategory.TabIndex = 4;
             this.cboCategory.SelectedIndexChanged += new System.EventHandler(this.cboCategory_SelectedIndexChanged);
             // 
             // txtRooms
@@ -269,7 +269,7 @@
             this.txtRooms.MaxLength = 3;
             this.txtRooms.Name = "txtRooms";
             this.txtRooms.Size = new System.Drawing.Size(34, 20);
-            this.txtRooms.TabIndex = 1011;
+            this.txtRooms.TabIndex = 3;
             // 
             // label1
             // 
@@ -291,7 +291,7 @@
             this.dtFromTime.Name = "dtFromTime";
             this.dtFromTime.ShowUpDown = true;
             this.dtFromTime.Size = new System.Drawing.Size(128, 20);
-            this.dtFromTime.TabIndex = 1009;
+            this.dtFromTime.TabIndex = 1;
             // 
             // lstSelectedRoom
             // 
@@ -302,7 +302,7 @@
             this.tpnlRoom.SetRowSpan(this.lstSelectedRoom, 2);
             this.lstSelectedRoom.Size = new System.Drawing.Size(299, 110);
             this.lstSelectedRoom.Sorted = true;
-            this.lstSelectedRoom.TabIndex = 10;
+            this.lstSelectedRoom.TabIndex = 9;
             this.lstSelectedRoom.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstSelectedRoom_MouseDoubleClick);
             // 
             // lstRoomList
@@ -314,7 +314,7 @@
             this.tpnlRoom.SetRowSpan(this.lstRoomList, 2);
             this.lstRoomList.Size = new System.Drawing.Size(292, 110);
             this.lstRoomList.Sorted = true;
-            this.lstRoomList.TabIndex = 8;
+            this.lstRoomList.TabIndex = 7;
             this.lstRoomList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lstRoomList_MouseDoubleClick);
             // 
             // btnRemoveRoom
@@ -324,7 +324,7 @@
             this.btnRemoveRoom.Location = new System.Drawing.Point(301, 65);
             this.btnRemoveRoom.Name = "btnRemoveRoom";
             this.btnRemoveRoom.Size = new System.Drawing.Size(31, 22);
-            this.btnRemoveRoom.TabIndex = 11;
+            this.btnRemoveRoom.TabIndex = 10;
             this.btnRemoveRoom.Text = "◄";
             this.btnRemoveRoom.UseVisualStyleBackColor = true;
             this.btnRemoveRoom.Click += new System.EventHandler(this.btnRemoveRoom_Click);
@@ -336,7 +336,7 @@
             this.btnAddRoom.Location = new System.Drawing.Point(301, 37);
             this.btnAddRoom.Name = "btnAddRoom";
             this.btnAddRoom.Size = new System.Drawing.Size(31, 22);
-            this.btnAddRoom.TabIndex = 9;
+            this.btnAddRoom.TabIndex = 8;
             this.btnAddRoom.Text = "►";
             this.btnAddRoom.UseVisualStyleBackColor = true;
             this.btnAddRoom.Click += new System.EventHandler(this.btnAddRoom_Click);
@@ -348,7 +348,7 @@
             this.dtFrom.Location = new System.Drawing.Point(3, 3);
             this.dtFrom.Name = "dtFrom";
             this.dtFrom.Size = new System.Drawing.Size(265, 20);
-            this.dtFrom.TabIndex = 1008;
+            this.dtFrom.TabIndex = 0;
             this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
             // 
             // txtToDate
@@ -436,15 +436,15 @@
             // 
             this.tpnlRooms.ColumnCount = 5;
             this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tpnlRooms.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tpnlRooms.Controls.Add(this.txtAvailableRoomCount, 4, 0);
-            this.tpnlRooms.Controls.Add(this.lblAvailableRooms, 3, 0);
             this.tpnlRooms.Controls.Add(this.txtFilteredRoomCount, 2, 0);
             this.tpnlRooms.Controls.Add(this.lblTotalRooms, 1, 0);
             this.tpnlRooms.Controls.Add(this.txtRooms, 0, 0);
+            this.tpnlRooms.Controls.Add(this.lblAvailableRooms, 3, 0);
             this.tpnlRooms.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tpnlRooms.Location = new System.Drawing.Point(235, 120);
             this.tpnlRooms.Margin = new System.Windows.Forms.Padding(0);
@@ -506,7 +506,7 @@
             this.txtDays.MaxLength = 3;
             this.txtDays.Name = "txtDays";
             this.txtDays.Size = new System.Drawing.Size(399, 20);
-            this.txtDays.TabIndex = 1010;
+            this.txtDays.TabIndex = 2;
             this.txtDays.TextChanged += new System.EventHandler(this.txtDays_TextChanged);
             // 
             // label17

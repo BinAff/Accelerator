@@ -7,19 +7,13 @@ namespace Crystal.Accountant.Component.Invoice
     public class Data : Crystal.Customer.Component.Action.Data
     {
         
-        public Int32 SerialNumber { get; set; }
+        public Int32 SerialNumber { get; internal set; }
 
-        private String invoiceNumber;
         public String InvoiceNumber
         {
             get
             {
-                return this.invoiceNumber;
-                //return new Server(this).FormatInvoiceNumber();
-            }
-            internal set
-            {
-
+                return BinAff.Utility.Common.GenerateCode("INV", this.SerialNumber, "-", 5); //Should come from rule
             }
         }
 

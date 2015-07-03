@@ -28,26 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tpnlContainer = new System.Windows.Forms.TableLayoutPanel();
-            this.ucCustomerSummary = new Retinue.Customer.WinForm.CustomerSummary();
-            this.txtInfant = new System.Windows.Forms.TextBox();
-            this.txtFemale = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.txtMale = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtChild = new System.Windows.Forms.TextBox();
-            this.txtStatus = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.txtReservationNo = new System.Windows.Forms.TextBox();
-            this.lblReservationStatus = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.txtFemale = new System.Windows.Forms.TextBox();
+            this.txtInfant = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.txtDays = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtChild = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtRooms = new System.Windows.Forms.TextBox();
+            this.txtReservationNo = new System.Windows.Forms.TextBox();
+            this.ucCustomerSummary = new Retinue.Customer.WinForm.CustomerSummary();
+            this.txtStatus = new System.Windows.Forms.TextBox();
+            this.lblReservationStatus = new System.Windows.Forms.Label();
             this.tpnlFrom = new System.Windows.Forms.TableLayoutPanel();
             this.txtTime = new System.Windows.Forms.TextBox();
             this.txtDate = new System.Windows.Forms.TextBox();
@@ -91,7 +91,7 @@
             this.tpnlContainer.Location = new System.Drawing.Point(0, 0);
             this.tpnlContainer.Name = "tpnlContainer";
             this.tpnlContainer.RowCount = 12;
-            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 193F));
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 162F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
@@ -103,76 +103,13 @@
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tpnlContainer.Size = new System.Drawing.Size(556, 543);
+            this.tpnlContainer.Size = new System.Drawing.Size(556, 511);
             this.tpnlContainer.TabIndex = 0;
-            // 
-            // ucCustomerSummary
-            // 
-            this.tpnlContainer.SetColumnSpan(this.ucCustomerSummary, 3);
-            this.ucCustomerSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucCustomerSummary.Location = new System.Drawing.Point(0, 0);
-            this.ucCustomerSummary.Margin = new System.Windows.Forms.Padding(0);
-            this.ucCustomerSummary.Name = "ucCustomerSummary";
-            this.ucCustomerSummary.Size = new System.Drawing.Size(556, 193);
-            this.ucCustomerSummary.TabIndex = 1;
-            // 
-            // txtInfant
-            // 
-            this.txtInfant.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtInfant.Location = new System.Drawing.Point(196, 505);
-            this.txtInfant.MaxLength = 3;
-            this.txtInfant.Name = "txtInfant";
-            this.txtInfant.ReadOnly = true;
-            this.txtInfant.Size = new System.Drawing.Size(357, 20);
-            this.txtInfant.TabIndex = 119;
-            // 
-            // txtFemale
-            // 
-            this.txtFemale.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtFemale.Location = new System.Drawing.Point(196, 457);
-            this.txtFemale.MaxLength = 3;
-            this.txtFemale.Name = "txtFemale";
-            this.txtFemale.ReadOnly = true;
-            this.txtFemale.Size = new System.Drawing.Size(357, 20);
-            this.txtFemale.TabIndex = 116;
-            // 
-            // label11
-            // 
-            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label11.Location = new System.Drawing.Point(3, 505);
-            this.label11.Margin = new System.Windows.Forms.Padding(3);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(160, 18);
-            this.label11.TabIndex = 120;
-            this.label11.Text = "Infant";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label10
-            // 
-            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.Location = new System.Drawing.Point(3, 481);
-            this.label10.Margin = new System.Windows.Forms.Padding(3);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(160, 18);
-            this.label10.TabIndex = 117;
-            this.label10.Text = "Child";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label9
-            // 
-            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label9.Location = new System.Drawing.Point(3, 457);
-            this.label9.Margin = new System.Windows.Forms.Padding(3);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(160, 18);
-            this.label9.TabIndex = 115;
-            this.label9.Text = "Female";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtMale
             // 
             this.txtMale.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtMale.Location = new System.Drawing.Point(196, 433);
+            this.txtMale.Location = new System.Drawing.Point(196, 402);
             this.txtMale.MaxLength = 3;
             this.txtMale.Name = "txtMale";
             this.txtMale.ReadOnly = true;
@@ -182,7 +119,7 @@
             // label3
             // 
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(3, 433);
+            this.label3.Location = new System.Drawing.Point(3, 402);
             this.label3.Margin = new System.Windows.Forms.Padding(3);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(160, 18);
@@ -190,62 +127,62 @@
             this.label3.Text = "Male";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtChild
+            // txtFemale
             // 
-            this.txtChild.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtChild.Location = new System.Drawing.Point(196, 481);
-            this.txtChild.MaxLength = 3;
-            this.txtChild.Name = "txtChild";
-            this.txtChild.ReadOnly = true;
-            this.txtChild.Size = new System.Drawing.Size(357, 20);
-            this.txtChild.TabIndex = 118;
+            this.txtFemale.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtFemale.Location = new System.Drawing.Point(196, 426);
+            this.txtFemale.MaxLength = 3;
+            this.txtFemale.Name = "txtFemale";
+            this.txtFemale.ReadOnly = true;
+            this.txtFemale.Size = new System.Drawing.Size(357, 20);
+            this.txtFemale.TabIndex = 116;
             // 
-            // txtStatus
+            // txtInfant
             // 
-            this.txtStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtStatus.Location = new System.Drawing.Point(196, 220);
-            this.txtStatus.Name = "txtStatus";
-            this.txtStatus.ReadOnly = true;
-            this.txtStatus.Size = new System.Drawing.Size(357, 20);
-            this.txtStatus.TabIndex = 1031;
-            this.txtStatus.TabStop = false;
+            this.txtInfant.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtInfant.Location = new System.Drawing.Point(196, 474);
+            this.txtInfant.MaxLength = 3;
+            this.txtInfant.Name = "txtInfant";
+            this.txtInfant.ReadOnly = true;
+            this.txtInfant.Size = new System.Drawing.Size(357, 20);
+            this.txtInfant.TabIndex = 119;
             // 
-            // label17
+            // label9
             // 
-            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label17.Location = new System.Drawing.Point(3, 196);
-            this.label17.Margin = new System.Windows.Forms.Padding(3);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(160, 18);
-            this.label17.TabIndex = 1028;
-            this.label17.Text = "Reservation No";
-            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label9.Location = new System.Drawing.Point(3, 426);
+            this.label9.Margin = new System.Windows.Forms.Padding(3);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(160, 18);
+            this.label9.TabIndex = 115;
+            this.label9.Text = "Female";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtReservationNo
+            // label10
             // 
-            this.txtReservationNo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtReservationNo.Location = new System.Drawing.Point(196, 196);
-            this.txtReservationNo.Name = "txtReservationNo";
-            this.txtReservationNo.ReadOnly = true;
-            this.txtReservationNo.Size = new System.Drawing.Size(357, 20);
-            this.txtReservationNo.TabIndex = 1029;
-            this.txtReservationNo.TabStop = false;
+            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label10.Location = new System.Drawing.Point(3, 450);
+            this.label10.Margin = new System.Windows.Forms.Padding(3);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(160, 18);
+            this.label10.TabIndex = 117;
+            this.label10.Text = "Child";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblReservationStatus
+            // txtDays
             // 
-            this.lblReservationStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblReservationStatus.Location = new System.Drawing.Point(3, 220);
-            this.lblReservationStatus.Margin = new System.Windows.Forms.Padding(3);
-            this.lblReservationStatus.Name = "lblReservationStatus";
-            this.lblReservationStatus.Size = new System.Drawing.Size(160, 18);
-            this.lblReservationStatus.TabIndex = 1030;
-            this.lblReservationStatus.Text = "Status";
-            this.lblReservationStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.txtDays.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtDays.Location = new System.Drawing.Point(196, 237);
+            this.txtDays.MaxLength = 3;
+            this.txtDays.Name = "txtDays";
+            this.txtDays.ReadOnly = true;
+            this.txtDays.Size = new System.Drawing.Size(357, 20);
+            this.txtDays.TabIndex = 1018;
             // 
             // label4
             // 
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(3, 292);
+            this.label4.Location = new System.Drawing.Point(3, 261);
             this.label4.Margin = new System.Windows.Forms.Padding(3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(160, 18);
@@ -253,20 +190,42 @@
             this.label4.Text = "Total Rooms";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtDays
+            // label11
             // 
-            this.txtDays.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtDays.Location = new System.Drawing.Point(196, 268);
-            this.txtDays.MaxLength = 3;
-            this.txtDays.Name = "txtDays";
-            this.txtDays.ReadOnly = true;
-            this.txtDays.Size = new System.Drawing.Size(357, 20);
-            this.txtDays.TabIndex = 1018;
+            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label11.Location = new System.Drawing.Point(3, 474);
+            this.label11.Margin = new System.Windows.Forms.Padding(3);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(160, 18);
+            this.label11.TabIndex = 120;
+            this.label11.Text = "Infant";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label17
+            // 
+            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label17.Location = new System.Drawing.Point(3, 165);
+            this.label17.Margin = new System.Windows.Forms.Padding(3);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(160, 18);
+            this.label17.TabIndex = 1028;
+            this.label17.Text = "Reservation No";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtChild
+            // 
+            this.txtChild.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtChild.Location = new System.Drawing.Point(196, 450);
+            this.txtChild.MaxLength = 3;
+            this.txtChild.Name = "txtChild";
+            this.txtChild.ReadOnly = true;
+            this.txtChild.Size = new System.Drawing.Size(357, 20);
+            this.txtChild.TabIndex = 118;
             // 
             // label2
             // 
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(3, 268);
+            this.label2.Location = new System.Drawing.Point(3, 237);
             this.label2.Margin = new System.Windows.Forms.Padding(3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(160, 18);
@@ -277,12 +236,53 @@
             // txtRooms
             // 
             this.txtRooms.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtRooms.Location = new System.Drawing.Point(196, 292);
+            this.txtRooms.Location = new System.Drawing.Point(196, 261);
             this.txtRooms.MaxLength = 3;
             this.txtRooms.Name = "txtRooms";
             this.txtRooms.ReadOnly = true;
             this.txtRooms.Size = new System.Drawing.Size(357, 20);
             this.txtRooms.TabIndex = 1020;
+            // 
+            // txtReservationNo
+            // 
+            this.txtReservationNo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtReservationNo.Location = new System.Drawing.Point(196, 165);
+            this.txtReservationNo.Name = "txtReservationNo";
+            this.txtReservationNo.ReadOnly = true;
+            this.txtReservationNo.Size = new System.Drawing.Size(357, 20);
+            this.txtReservationNo.TabIndex = 1029;
+            this.txtReservationNo.TabStop = false;
+            // 
+            // ucCustomerSummary
+            // 
+            this.tpnlContainer.SetColumnSpan(this.ucCustomerSummary, 3);
+            this.ucCustomerSummary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucCustomerSummary.Location = new System.Drawing.Point(0, 0);
+            this.ucCustomerSummary.Margin = new System.Windows.Forms.Padding(0);
+            this.ucCustomerSummary.Name = "ucCustomerSummary";
+            this.ucCustomerSummary.Size = new System.Drawing.Size(556, 162);
+            this.ucCustomerSummary.TabIndex = 1;
+            // 
+            // txtStatus
+            // 
+            this.txtStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtStatus.Location = new System.Drawing.Point(196, 189);
+            this.txtStatus.Name = "txtStatus";
+            this.txtStatus.ReadOnly = true;
+            this.txtStatus.Size = new System.Drawing.Size(357, 20);
+            this.txtStatus.TabIndex = 1031;
+            this.txtStatus.TabStop = false;
+            // 
+            // lblReservationStatus
+            // 
+            this.lblReservationStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblReservationStatus.Location = new System.Drawing.Point(3, 189);
+            this.lblReservationStatus.Margin = new System.Windows.Forms.Padding(3);
+            this.lblReservationStatus.Name = "lblReservationStatus";
+            this.lblReservationStatus.Size = new System.Drawing.Size(160, 18);
+            this.lblReservationStatus.TabIndex = 1030;
+            this.lblReservationStatus.Text = "Status";
+            this.lblReservationStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tpnlFrom
             // 
@@ -292,7 +292,7 @@
             this.tpnlFrom.Controls.Add(this.txtTime, 1, 0);
             this.tpnlFrom.Controls.Add(this.txtDate, 0, 0);
             this.tpnlFrom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tpnlFrom.Location = new System.Drawing.Point(193, 241);
+            this.tpnlFrom.Location = new System.Drawing.Point(193, 210);
             this.tpnlFrom.Margin = new System.Windows.Forms.Padding(0);
             this.tpnlFrom.Name = "tpnlFrom";
             this.tpnlFrom.RowCount = 1;
@@ -321,7 +321,7 @@
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 244);
+            this.label1.Location = new System.Drawing.Point(3, 213);
             this.label1.Margin = new System.Windows.Forms.Padding(3);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(160, 18);
@@ -333,11 +333,11 @@
             // 
             this.dgvRoom.AllowUserToAddRows = false;
             this.dgvRoom.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            this.dgvRoom.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            this.dgvRoom.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvRoom.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgvRoom.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRoom.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -347,17 +347,17 @@
             this.ExtraBed});
             this.tpnlContainer.SetColumnSpan(this.dgvRoom, 3);
             this.dgvRoom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvRoom.Location = new System.Drawing.Point(3, 316);
+            this.dgvRoom.Location = new System.Drawing.Point(3, 285);
             this.dgvRoom.Name = "dgvRoom";
             this.dgvRoom.ReadOnly = true;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvRoom.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvRoom.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvRoom.Size = new System.Drawing.Size(550, 111);
             this.dgvRoom.TabIndex = 1034;
             // 
@@ -383,7 +383,7 @@
             this.Display.HeaderText = "Details";
             this.Display.Name = "Display";
             this.Display.ReadOnly = true;
-            this.Display.Width = 200;
+            this.Display.Width = 250;
             // 
             // ExtraBed
             // 
@@ -399,7 +399,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tpnlContainer);
             this.Name = "ReservationSummary";
-            this.Size = new System.Drawing.Size(578, 579);
+            this.Size = new System.Drawing.Size(578, 534);
             this.tpnlContainer.ResumeLayout(false);
             this.tpnlContainer.PerformLayout();
             this.tpnlFrom.ResumeLayout(false);
@@ -433,10 +433,10 @@
         private System.Windows.Forms.TextBox txtTime;
         private System.Windows.Forms.TextBox txtDate;
         private System.Windows.Forms.DataGridView dgvRoom;
+        private Customer.WinForm.CustomerSummary ucCustomerSummary;
         private System.Windows.Forms.DataGridViewTextBoxColumn Number;
         private System.Windows.Forms.DataGridViewTextBoxColumn RoomName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Display;
         private System.Windows.Forms.DataGridViewTextBoxColumn ExtraBed;
-        private Customer.WinForm.CustomerSummary ucCustomerSummary;
     }
 }

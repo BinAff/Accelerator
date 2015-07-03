@@ -106,6 +106,10 @@
     <Compile Include="Room\Reservation\Navigator\Artifact\Data.cs" />
     <Compile Include="Room\Reservation\Navigator\Artifact\Server.cs" />
     <Compile Include="Room\Reservation\Navigator\Artifact\Validator.cs" />
+    <Compile Include="Room\Reservation\RoomDetails\Dao.cs" />
+    <Compile Include="Room\Reservation\RoomDetails\Data.cs" />
+    <Compile Include="Room\Reservation\RoomDetails\Server.cs" />
+    <Compile Include="Room\Reservation\RoomDetails\Validator.cs" />
     <Compile Include="Room\Reservation\Server.cs" />
     <Compile Include="Room\Reservation\Validator.cs" />
     <Compile Include="Room\Reserver\Dao.cs" />

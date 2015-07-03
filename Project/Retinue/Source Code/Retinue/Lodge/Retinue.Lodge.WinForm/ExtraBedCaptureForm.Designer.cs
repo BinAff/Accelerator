@@ -29,15 +29,16 @@
         private void InitializeComponent()
         {
             this.dgvRooms = new System.Windows.Forms.DataGridView();
+            this.pnlHeader = new System.Windows.Forms.Panel();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.txtTotalGuest = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RoomName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Bed = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ExtraAccomodation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ExtraAccomodationAvailed = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pnlHeader = new System.Windows.Forms.Panel();
-            this.btnOk = new System.Windows.Forms.Button();
-            this.txtTotalGuest = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRooms)).BeginInit();
             this.pnlHeader.SuspendLayout();
             this.SuspendLayout();
@@ -48,6 +49,7 @@
             this.dgvRooms.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllHeaders;
             this.dgvRooms.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRooms.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Id,
             this.Number,
             this.RoomName,
             this.Bed,
@@ -58,43 +60,6 @@
             this.dgvRooms.Name = "dgvRooms";
             this.dgvRooms.Size = new System.Drawing.Size(423, 142);
             this.dgvRooms.TabIndex = 1037;
-            // 
-            // Number
-            // 
-            this.Number.Frozen = true;
-            this.Number.HeaderText = "Number";
-            this.Number.Name = "Number";
-            this.Number.ReadOnly = true;
-            this.Number.Width = 69;
-            // 
-            // RoomName
-            // 
-            this.RoomName.Frozen = true;
-            this.RoomName.HeaderText = "Room Name";
-            this.RoomName.Name = "RoomName";
-            this.RoomName.ReadOnly = true;
-            this.RoomName.Width = 91;
-            // 
-            // Bed
-            // 
-            this.Bed.Frozen = true;
-            this.Bed.HeaderText = "Bed";
-            this.Bed.Name = "Bed";
-            this.Bed.ReadOnly = true;
-            this.Bed.Width = 51;
-            // 
-            // ExtraAccomodation
-            // 
-            this.ExtraAccomodation.HeaderText = "Extra Bed";
-            this.ExtraAccomodation.Name = "ExtraAccomodation";
-            this.ExtraAccomodation.ReadOnly = true;
-            this.ExtraAccomodation.Width = 78;
-            // 
-            // ExtraAccomodationAvailed
-            // 
-            this.ExtraAccomodationAvailed.HeaderText = "Availed";
-            this.ExtraAccomodationAvailed.Name = "ExtraAccomodationAvailed";
-            this.ExtraAccomodationAvailed.Width = 67;
             // 
             // pnlHeader
             // 
@@ -141,6 +106,52 @@
             this.label1.Text = "Total Guests:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // Id
+            // 
+            this.Id.Frozen = true;
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            this.Id.Visible = false;
+            this.Id.Width = 41;
+            // 
+            // Number
+            // 
+            this.Number.Frozen = true;
+            this.Number.HeaderText = "Number";
+            this.Number.Name = "Number";
+            this.Number.ReadOnly = true;
+            this.Number.Width = 69;
+            // 
+            // RoomName
+            // 
+            this.RoomName.Frozen = true;
+            this.RoomName.HeaderText = "Room Name";
+            this.RoomName.Name = "RoomName";
+            this.RoomName.ReadOnly = true;
+            this.RoomName.Width = 91;
+            // 
+            // Bed
+            // 
+            this.Bed.Frozen = true;
+            this.Bed.HeaderText = "Bed";
+            this.Bed.Name = "Bed";
+            this.Bed.ReadOnly = true;
+            this.Bed.Width = 51;
+            // 
+            // ExtraAccomodation
+            // 
+            this.ExtraAccomodation.HeaderText = "Extra Bed";
+            this.ExtraAccomodation.Name = "ExtraAccomodation";
+            this.ExtraAccomodation.ReadOnly = true;
+            this.ExtraAccomodation.Width = 78;
+            // 
+            // ExtraAccomodationAvailed
+            // 
+            this.ExtraAccomodationAvailed.HeaderText = "Availed";
+            this.ExtraAccomodationAvailed.Name = "ExtraAccomodationAvailed";
+            this.ExtraAccomodationAvailed.Width = 67;
+            // 
             // ExtraBedCaptureForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -168,11 +179,12 @@
         private System.Windows.Forms.Panel pnlHeader;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtTotalGuest;
+        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn Number;
         private System.Windows.Forms.DataGridViewTextBoxColumn RoomName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Bed;
         private System.Windows.Forms.DataGridViewTextBoxColumn ExtraAccomodation;
         private System.Windows.Forms.DataGridViewTextBoxColumn ExtraAccomodationAvailed;
-        private System.Windows.Forms.Button btnOk;
     }
 }

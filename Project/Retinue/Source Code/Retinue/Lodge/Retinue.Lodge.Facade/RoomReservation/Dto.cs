@@ -5,6 +5,7 @@ using BinAff.Core;
 
 using CustFac = Retinue.Customer.Facade;
 using RoomRet = Retinue.Lodge.Configuration.Facade.Room;
+using RoomDtlsRet = Retinue.Lodge.Facade.RoomReservation.RoomDetails;
 
 namespace Retinue.Lodge.Facade.RoomReservation
 {
@@ -33,7 +34,8 @@ namespace Retinue.Lodge.Facade.RoomReservation
         public Status Status { get; set; }
         //public Boolean IsCheckedIn { get; set; }
 
-        public List<RoomRet.Dto> RoomList { get; set; }
+        public List<RoomDetails.Dto> RoomList { get; set; }
+
         public CustFac.Dto Customer { get; set; }
 
         public String ArtifactPath { get; set; }
@@ -46,10 +48,10 @@ namespace Retinue.Lodge.Facade.RoomReservation
             if (this.Customer != null) dto.Customer = this.Customer.Clone() as CustFac.Dto;
             if (dto.RoomList != null)
             {
-                dto.RoomList = new List<RoomRet.Dto>();
-                foreach (RoomRet.Dto room in this.RoomList)
+                dto.RoomList = new List<RoomDtlsRet.Dto>();
+                foreach (RoomDtlsRet.Dto room in this.RoomList)
                 {
-                    dto.RoomList.Add((room != null) ? room.Clone() as RoomRet.Dto : null);
+                    dto.RoomList.Add((room != null) ? room.Clone() as RoomDtlsRet.Dto : null);
                 }
             }
             return dto;

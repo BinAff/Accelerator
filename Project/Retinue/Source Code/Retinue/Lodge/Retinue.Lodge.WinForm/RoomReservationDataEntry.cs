@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
@@ -7,11 +8,11 @@ using BinAff.Core;
 using BinAff.Utility;
 using BinAff.Presentation.Library.Extension;
 
-using RoomRsvFac = Retinue.Lodge.Facade.RoomReservation;
+using RsvFac = Retinue.Lodge.Facade.RoomReservation;
 using RoomFac = Retinue.Lodge.Configuration.Facade.Room;
 using RoomCatFac = Retinue.Lodge.Configuration.Facade.Room.Category;
 using RoomTypeFac = Retinue.Lodge.Configuration.Facade.Room.Type;
-using System.Drawing;
+using RoomDtlsFac = Retinue.Lodge.Facade.RoomReservation.RoomDetails;
 
 namespace Retinue.Lodge.WinForm
 {
@@ -27,18 +28,18 @@ namespace Retinue.Lodge.WinForm
 
         internal List<RoomFac.Dto> RoomList { get; set; }
 
-        internal RoomRsvFac.Status ReservationStatus
+        internal RsvFac.Status ReservationStatus
         {
             get
             {
-                return (txtStatus.Text == "Cancel") ? RoomRsvFac.Status.Open : RoomRsvFac.Status.Canceled;
+                return (txtStatus.Text == "Cancel") ? RsvFac.Status.Open : RsvFac.Status.Canceled;
             }
         }
 
         private List<RoomFac.Dto> filteredRoomList;
         private Boolean isLoading = false;
 
-        private RoomRsvFac.Dto dto;
+        private RsvFac.Dto dto;
 
         internal delegate void OnRoomListChange(Int16 days, DateTime from);
         internal event OnRoomListChange RoomListChanged;
@@ -67,12 +68,12 @@ namespace Retinue.Lodge.WinForm
 
         private void btnRemoveRoom_Click(object sender, EventArgs e)
         {
-            this.RemoveRoom(this.lstSelectedRoom.SelectedItem as RoomFac.Dto);
+            this.RemoveRoom(this.lstSelectedRoom.SelectedItem as RoomDtlsFac.Dto);
         }
 
         private void lstSelectedRoom_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            this.RemoveRoom(this.lstSelectedRoom.SelectedItem as RoomFac.Dto);
+            this.RemoveRoom(this.lstSelectedRoom.SelectedItem as RoomDtlsFac.Dto);
         }
 
         private void cboCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -117,7 +118,7 @@ namespace Retinue.Lodge.WinForm
             this.PopulateRoomListsAndCounts();
         }
 
-        internal void LoadForm(RoomRsvFac.Dto dto)
+        internal void LoadForm(RsvFac.Dto dto)
         {
             this.dto = dto;
             this.cboCategory.Bind(this.CategoryList, "Name");
@@ -236,18 +237,10 @@ namespace Retinue.Lodge.WinForm
             {
                 if (totalNoOfGuest == 1 && noOfRooms == 1)
                 {
-                    foreach (RoomFac.Dto room in this.lstSelectedRoom.Items)
-                    {
-                        room.ExtraAccomodation = 0;
-                    }
                     return message;
                 }
                 else if (roomType == null || roomType.Name == "All")
                 {
-                    foreach (RoomFac.Dto room in this.lstSelectedRoom.Items)
-                    {
-                        room.ExtraAccomodation = 0;
-                    }
                     message.Description = "Unable to calculate accomodation for guests. Room type is required for sugession. Do you want to Continue?";
                     message.Category = BinAff.Core.Message.Type.Question;
                     return message;
@@ -260,10 +253,10 @@ namespace Retinue.Lodge.WinForm
             }
             else
             {
-                foreach (RoomFac.Dto room in this.dto.RoomList)
+                foreach (RoomDtlsFac.Dto product in this.dto.RoomList)
                 {
-                    availableBed += room.Accomodation;
-                    availableExtraBed += room.ExtraAccomodation;
+                    availableBed += product.Room.Accomodation;
+                    availableExtraBed += product.Room.ExtraAccomodation;
                 }
             }
             if (totalNoOfGuest > availableBed + availableExtraBed)
@@ -299,9 +292,14 @@ namespace Retinue.Lodge.WinForm
                     {
                         TotalGuest = totalNoOfGuest,
                     };
-                    foreach (RoomFac.Dto room in this.lstSelectedRoom.Items)
+
+                    foreach (RoomDtlsFac.Dto product in this.lstSelectedRoom.Items)
                     {
-                        frm.DataSource.Add(room.Clone() as RoomFac.Dto);
+                        frm.DataSource.Add(new RoomDtlsFac.Dto
+                        {
+                            ExtraRoom = product.ExtraRoom,
+                            Room = product.Room
+                        });
                     }
                     if (frm.ShowDialog(this) == DialogResult.OK)
                     {
@@ -403,20 +401,20 @@ namespace Retinue.Lodge.WinForm
             if (this.dto == null) return;
             switch (this.dto.Status)
             {
-                case RoomRsvFac.Status.Open:
-                case RoomRsvFac.Status.Canceled:
+                case RsvFac.Status.Open:
+                case RsvFac.Status.Canceled:
                     this.txtStatus.Text = this.dto.Status.ToString();
                     break;
-                case RoomRsvFac.Status.CheckedIn:
+                case RsvFac.Status.CheckedIn:
                     this.txtStatus.Text = "Checked In";
                     break;
-                case RoomRsvFac.Status.CheckOut:
+                case RsvFac.Status.CheckOut:
                     this.txtStatus.Text = "Checked Out";
                     break;
-                case RoomRsvFac.Status.Invoiced:
+                case RsvFac.Status.Invoiced:
                     this.txtStatus.Text = "Invoiced";
                     break;
-                case RoomRsvFac.Status.Paid:
+                case RsvFac.Status.Paid:
                     this.txtStatus.Text = "Paid";
                     break;
             }
@@ -472,7 +470,7 @@ namespace Retinue.Lodge.WinForm
             }
         }
 
-        internal RoomRsvFac.Dto AssignDto(RoomRsvFac.Dto dto)
+        internal RsvFac.Dto AssignDto(RsvFac.Dto dto)
         {
             dto.Id = dto == null ? 0 : dto.Id;
 
@@ -492,7 +490,7 @@ namespace Retinue.Lodge.WinForm
             dto.Remark = this.txtRemarks.Text.Trim();
             //dto.To = Convert.ToDateTime(this.txtTo.Text);
 
-            dto.Status = RoomRsvFac.Status.Open;
+            dto.Status = RsvFac.Status.Open;
             return dto;
         }
 
@@ -557,26 +555,35 @@ namespace Retinue.Lodge.WinForm
             {
                 this.filteredRoomList.Remove(selectedItem);
                 this.lstRoomList.Items.Remove(selectedItem);
-                if (this.dto == null) this.dto = new RoomRsvFac.Dto();
+
+                if (this.dto == null) this.dto = new RsvFac.Dto();
                 if (this.dto.RoomList == null)
                 {
-                    this.dto.RoomList = new List<RoomFac.Dto>();
+                    this.dto.RoomList = new List<RoomDtlsFac.Dto>();
                     this.lstSelectedRoom.Bind(this.dto.RoomList, "Name");
                 }
-                this.dto.RoomList.Add(selectedItem);
-                this.lstSelectedRoom.Items.Add(selectedItem);
+                this.dto.RoomList.Add(new RoomDtlsFac.Dto
+                {
+                    Room = selectedItem,
+                });
+                this.lstSelectedRoom.Items.Add(new RoomDtlsFac.Dto
+                {
+                    Room = selectedItem,
+                });
+
                 this.PopulateCount();
             }
         }
 
-        private void RemoveRoom(RoomFac.Dto selectedItem)
+        private void RemoveRoom(RoomDtlsFac.Dto selectedItem)
         {
             if (selectedItem != null)
             {
                 this.dto.RoomList.Remove(selectedItem);
                 this.lstSelectedRoom.Items.Remove(selectedItem);
-                this.filteredRoomList.Add(selectedItem);
-                this.lstRoomList.Items.Add(selectedItem);
+
+                this.filteredRoomList.Add(selectedItem.Room);
+                this.lstRoomList.Items.Add(selectedItem.Room);
                 this.PopulateCount();
             }
         }
@@ -601,6 +608,11 @@ namespace Retinue.Lodge.WinForm
                     && (p.IsAirconditioned == isAc || accessory == null || accessory.Name == "All")
                     && (this.dto == null || this.dto.RoomList == null || this.dto.RoomList.FindLast((q) => { return q.Id == p.Id; }) == null);
             });
+            foreach (RoomDtlsFac.Dto product in this.dto.RoomList)
+            {
+                this.filteredRoomList.Remove(this.filteredRoomList.Find((p) => { return p.Id == product.Room.Id; }));
+            }
+
             return this.filteredRoomList;
         }
 

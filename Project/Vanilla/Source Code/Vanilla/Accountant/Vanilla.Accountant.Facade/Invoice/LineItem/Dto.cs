@@ -12,12 +12,13 @@ namespace Vanilla.Accountant.Facade.Invoice.LineItem
         public String Description { get; set; }
         public Double UnitRate { get; set; }
         public Int32 Count { get; set; }
+        public Double Extra { get; set; }
 
         public Double Total
         {
             get
             {
-                return this.UnitRate * this.Count;
+                return this.UnitRate * this.Count + this.Extra;
             }
         }
         public Double LuxuryTax { get; set; }

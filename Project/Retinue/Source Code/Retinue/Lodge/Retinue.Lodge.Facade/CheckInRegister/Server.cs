@@ -8,6 +8,8 @@ using CrystalAction = Crystal.Customer.Component.Action;
 using LodgeFacade = Retinue.Lodge.Facade;
 using LodgeConfFac = Retinue.Lodge.Configuration.Facade;
 
+using RoomDtlsFac = Retinue.Lodge.Facade.RoomReservation.RoomDetails;
+
 namespace Retinue.Lodge.Facade.CheckInRegister
 {
 
@@ -95,14 +97,14 @@ namespace Retinue.Lodge.Facade.CheckInRegister
             //return dto;
         }
 
-        private String GetRooms(List<LodgeConfFac.Room.Dto> roomList)
+        private String GetRooms(List<RoomDtlsFac.Dto> productList)
         {
-            if (roomList == null || roomList.Count == 0)
+            if (productList == null || productList.Count == 0)
                 return String.Empty;
 
             StringBuilder strbRoom = new StringBuilder();
-            foreach (LodgeConfFac.Room.Dto room in roomList)
-                strbRoom.Append(", " + room.Number.ToString());
+            foreach (RoomDtlsFac.Dto room in productList)
+                strbRoom.Append(", " + room.Room.Number.ToString());
 
             return strbRoom.ToString().Substring(1);
         }

@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using BinAff.Core;
-using BinAff.Utility;
-using System;
-using Crystal.Reservation.Component;
 
 namespace Retinue.Lodge.Component.Room.Reservation
 {
@@ -20,17 +17,24 @@ namespace Retinue.Lodge.Component.Room.Reservation
         protected override List<Message> Validate()
         {            
             List<Message> retMsg = base.Validate();
-            Data data = (Data)base.Data;
+            Data data = base.Data as Data;
 
             if (data.NoOfDays == 0)
+            {
                 retMsg.Add(new Message("No of days cannot be 0.", Message.Type.Error));
-
-            //if (data.NoOfPersons == 0)
-            //    retMsg.Add(new Message("No of persons cannot be 0.", Message.Type.Error));
-
+            }
             if (data.NoOfRooms == 0)
+            {
                 retMsg.Add(new Message("No of rooms cannot be 0.", Message.Type.Error));
-
+            }
+            if (data.NoOfMale + data.NoOfFemale == 0)
+            {
+                retMsg.Add(new Message("There must be at least male or female guest.", Message.Type.Error));
+            }
+            if (data.ProductList != null && data.ProductList.Count > 0 && data.ProductList.Count > data.NoOfRooms)
+            {
+                retMsg.Add(new Message("Selected rooms cannot be greated than number of required room.", Message.Type.Error));
+            }
 
             ////If rooms are selected for reservation, then checking whether any of the selected rooms are already booked for the same dates
             //if (data.ProductList != null)

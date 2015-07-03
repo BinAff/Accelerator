@@ -552,7 +552,9 @@ namespace BinAff.Core
             {
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    ret.Add(this.CreateDataObject(row, this.Server.CreateDataObject()));
+                    Data data = this.CreateDataObject(row, this.Server.CreateDataObject());
+                    data.Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]);
+                    ret.Add(data);
                 }
             }
             return ret;

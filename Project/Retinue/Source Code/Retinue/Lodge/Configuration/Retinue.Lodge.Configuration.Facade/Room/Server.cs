@@ -70,19 +70,19 @@ namespace Retinue.Lodge.Configuration.Facade.Room
                 Number = room.Number,
                 Name = room.Name,
                 Description = room.Description,
-                Building = new Building.Server(null).Convert(room.Building) as Building.Dto,
+                Building = room.Building == null ? null : new Building.Server(null).Convert(room.Building) as Building.Dto,
                 Floor = room.Floor == null ? null : new Table
                 {
                     Id = room.Floor.Id,
                     Name = room.Floor.Name
                 },
-                Category = new Room.Category.Server(null).Convert(room.Category) as Room.Category.Dto,
-                Type = new Room.Type.Server(null).Convert(room.Type) as Room.Type.Dto,
+                Category = room.Category == null ? null : new Room.Category.Server(null).Convert(room.Category) as Room.Category.Dto,
+                Type = room.Type == null ? null : new Room.Type.Server(null).Convert(room.Type) as Room.Type.Dto,
                 IsAirconditioned = room.IsAirConditioned,
                 Accomodation = room.Accomodation,
                 ExtraAccomodation = room.ExtraAccomodation,
                 ImageList = room.ImageList == null ? null : GetImageList(room.ImageList),
-                StatusId = room.Status.Id,
+                StatusId = room.Status == null ? 0 : room.Status.Id,
             };
         }
 
@@ -95,14 +95,14 @@ namespace Retinue.Lodge.Configuration.Facade.Room
                 Number = room.Number,
                 Name = room.Name,
                 Description = room.Description,
-                Building = room.Building == null ? null : new BuildingCrys.Data() { Id = room.Building.Id },
+                Building = room.Building == null ? null : new BuildingCrys.Data { Id = room.Building.Id },
                 Floor = new BuildingCrys.Floor.Data
                 {
                     Id = room.Floor.Id,
                     Name = room.Floor.Name
                 },
-                Category = room.Category == null ? null : new CrysComp.Category.Data() { Id = room.Category.Id },
-                Type = room.Type == null ? null : new CrysComp.Type.Data() { Id = room.Type.Id },
+                Category = room.Category == null ? null : new CrysComp.Category.Data { Id = room.Category.Id },
+                Type = room.Type == null ? null : new CrysComp.Type.Data { Id = room.Type.Id },
                 Accomodation = room.Accomodation,
                 ExtraAccomodation = room.ExtraAccomodation,
                 IsAirConditioned = room.IsAirconditioned,
