@@ -84,7 +84,7 @@ namespace Vanilla.Form.WinForm
                     return;
                 }
             }
-            if (this.documentCollection.Current.IsModified) this.Close();
+            if (this.documentCollection.Current.IsModified) this.documentCollection.Current.Close();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)

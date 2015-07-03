@@ -243,11 +243,11 @@ namespace Vanilla.Utility.WinForm
                 //    saveDialogue.ShowDialog(this);
                 //}
                 ////this.Visible = true;
-            }            
+            }
         }
 
         private void Document_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
-        {            
+        {
             if (this.AuditInfoChanged != null && this.IsModified) this.AuditInfoChanged(this.Artifact);
         }
 
