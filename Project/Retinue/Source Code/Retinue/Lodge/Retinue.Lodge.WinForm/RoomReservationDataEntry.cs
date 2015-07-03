@@ -297,7 +297,7 @@ namespace Retinue.Lodge.WinForm
                     {
                         frm.DataSource.Add(new RoomDtlsFac.Dto
                         {
-                            ExtraRoom = product.ExtraRoom,
+                            ExtraAccomodation = product.ExtraAccomodation,
                             Room = product.Room
                         });
                     }

@@ -49,7 +49,7 @@ namespace Retinue.Lodge.WinForm
                     this.DataSource.Find((p) =>
                     {
                         return p.Room.Id == Convert.ToInt64(row.Cells[0].Value);
-                    }).ExtraRoom = Convert.ToInt16(row.Cells[5].Value);
+                    }).ExtraAccomodation = Convert.ToInt16(row.Cells[5].Value);
                 }
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();

@@ -14,9 +14,25 @@ namespace Retinue.Lodge.Facade.RoomReservation.RoomDetails
             }
         }
 
+        public String Number
+        {
+            get
+            {
+                return this.Room.Number;
+            }
+        }
+
+        public String Style
+        {
+            get
+            {
+                return this.Room.Style;
+            }
+        }
+
         public Retinue.Lodge.Configuration.Facade.Room.Dto Room { get; set; }
 
-        public Int16 ExtraRoom { get; set; }
+        public Int16 ExtraAccomodation { get; set; }
 
     }
 

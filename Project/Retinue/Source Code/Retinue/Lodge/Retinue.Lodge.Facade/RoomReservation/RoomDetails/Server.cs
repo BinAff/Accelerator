@@ -27,7 +27,7 @@ namespace Retinue.Lodge.Facade.RoomReservation.RoomDetails
             return new Dto
             {
                 Id = data.Id,
-                ExtraRoom = comp.ExtraAccomodation,
+                ExtraAccomodation = comp.ExtraAccomodation,
                 Room = comp.Room == null ? null : new RoomFac.Server(null).Convert(comp.Room) as RoomFac.Dto,
             };
         }
@@ -38,7 +38,7 @@ namespace Retinue.Lodge.Facade.RoomReservation.RoomDetails
             return new RoomDtlsRet.Data
             {
                 Id = dto.Id,
-                ExtraAccomodation = comp.ExtraRoom,
+                ExtraAccomodation = comp.ExtraAccomodation,
                 Room = comp.Room == null ? null : new RoomFac.Server(null).Convert(comp.Room) as RoomRet.Data,
             };
         }
