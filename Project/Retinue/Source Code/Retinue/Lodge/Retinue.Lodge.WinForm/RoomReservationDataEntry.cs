@@ -133,7 +133,16 @@ namespace Retinue.Lodge.WinForm
             this.dtFrom.CustomFormat = "dd/MM/yyyy"; //--MM should be in upper case
             if (this.dto == null || this.dto.Id == 0)
             {
-                this.dtFrom.Value = DateTime.Now;
+                try
+                {
+                    //this.dtFrom.Checked = false;
+                    this.dtFrom.Value = DateTime.Now;
+                }
+                catch
+                {
+                    throw;
+                }
+                //this.dtFrom.Checked = true;
 
                 //Commented Old Code
                 //this.dtFromTime.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
@@ -619,9 +628,12 @@ namespace Retinue.Lodge.WinForm
                     && (p.IsAirconditioned == isAc || accessory == null || accessory.Name == "All")
                     && (this.dto == null || this.dto.RoomList == null || this.dto.RoomList.FindLast((q) => { return q.Id == p.Id; }) == null);
             });
-            foreach (RoomDtlsFac.Dto product in this.dto.RoomList)
+            if (this.dto != null && this.dto.RoomList != null)
             {
-                this.filteredRoomList.Remove(this.filteredRoomList.Find((p) => { return p.Id == product.Room.Id; }));
+                foreach (RoomDtlsFac.Dto product in this.dto.RoomList)
+                {
+                    this.filteredRoomList.Remove(this.filteredRoomList.Find((p) => { return p.Id == product.Room.Id; }));
+                }
             }
 
             return this.filteredRoomList;
