@@ -32,8 +32,8 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.btnOk = new System.Windows.Forms.ToolStripButton();
             this.btnClose = new System.Windows.Forms.ToolStripButton();
+            this.btnOk = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -54,6 +54,18 @@
             this.toolStrip.Size = new System.Drawing.Size(962, 27);
             this.toolStrip.TabIndex = 100;
             // 
+            // btnClose
+            // 
+            this.btnClose.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnClose.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(30, 24);
+            this.btnClose.Text = "Î";
+            this.btnClose.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
             // btnOk
             // 
             this.btnOk.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -65,18 +77,6 @@
             this.btnOk.Text = "P";
             this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
-            // btnClose
-            // 
-            this.btnClose.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnClose.Font = new System.Drawing.Font("Wingdings 2", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
-            this.btnClose.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(25, 24);
-            this.btnClose.Text = "O";
-            this.btnClose.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // Document
             // 

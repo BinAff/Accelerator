@@ -44,7 +44,7 @@
             // 
             this.txtArrivedFrom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
             this.txtArrivedFrom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtArrivedFrom.Location = new System.Drawing.Point(217, 411);
+            this.txtArrivedFrom.Location = new System.Drawing.Point(217, 451);
             this.txtArrivedFrom.Name = "txtArrivedFrom";
             this.txtArrivedFrom.Size = new System.Drawing.Size(363, 20);
             this.txtArrivedFrom.TabIndex = 17;
@@ -53,7 +53,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label15.Location = new System.Drawing.Point(3, 408);
+            this.label15.Location = new System.Drawing.Point(3, 448);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(178, 24);
             this.label15.TabIndex = 1032;
@@ -64,7 +64,7 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label18.Location = new System.Drawing.Point(3, 366);
+            this.label18.Location = new System.Drawing.Point(3, 406);
             this.label18.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(178, 13);
@@ -74,7 +74,7 @@
             // txtCheckInRemark
             // 
             this.txtCheckInRemark.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtCheckInRemark.Location = new System.Drawing.Point(217, 435);
+            this.txtCheckInRemark.Location = new System.Drawing.Point(217, 475);
             this.txtCheckInRemark.Multiline = true;
             this.txtCheckInRemark.Name = "txtCheckInRemark";
             this.txtCheckInRemark.Size = new System.Drawing.Size(363, 42);
@@ -84,7 +84,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label19.Location = new System.Drawing.Point(3, 438);
+            this.label19.Location = new System.Drawing.Point(3, 478);
             this.label19.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(178, 13);
@@ -95,7 +95,7 @@
             // 
             this.txtPurpose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(220)))), ((int)(((byte)(214)))));
             this.txtPurpose.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtPurpose.Location = new System.Drawing.Point(217, 363);
+            this.txtPurpose.Location = new System.Drawing.Point(217, 403);
             this.txtPurpose.Multiline = true;
             this.txtPurpose.Name = "txtPurpose";
             this.txtPurpose.Size = new System.Drawing.Size(363, 42);
@@ -118,11 +118,11 @@
             this.tpnlContainer.Location = new System.Drawing.Point(0, 27);
             this.tpnlContainer.Name = "tpnlContainer";
             this.tpnlContainer.RowCount = 4;
-            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 360F));
+            this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 400F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tpnlContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-            this.tpnlContainer.Size = new System.Drawing.Size(616, 497);
+            this.tpnlContainer.Size = new System.Drawing.Size(616, 629);
             this.tpnlContainer.TabIndex = 1038;
             // 
             // ucRoomReservation
@@ -132,14 +132,15 @@
             this.ucRoomReservation.Location = new System.Drawing.Point(0, 0);
             this.ucRoomReservation.Margin = new System.Windows.Forms.Padding(0);
             this.ucRoomReservation.Name = "ucRoomReservation";
-            this.ucRoomReservation.Size = new System.Drawing.Size(616, 360);
+            this.ucRoomReservation.Size = new System.Drawing.Size(616, 400);
             this.ucRoomReservation.TabIndex = 1037;
             // 
             // CheckInForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(668, 519);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(668, 692);
             this.Controls.Add(this.tpnlContainer);
             this.IsVisibleCloseButton = true;
             this.IsVisibleOkButton = true;
