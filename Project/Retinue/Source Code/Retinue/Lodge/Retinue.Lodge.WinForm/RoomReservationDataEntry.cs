@@ -273,6 +273,13 @@ namespace Retinue.Lodge.WinForm
                 message.Description += String.Format("Total guests: {0}(Child - {1})", totalNoOfGuest, this.dto.NoOfChild) + Environment.NewLine + Environment.NewLine;
                 message.Description += String.Format("Extra bed required: {0}", totalNoOfGuest - availableBed) + Environment.NewLine;
                 message.Category = BinAff.Core.Message.Type.Information;
+                if (this.dto.RoomList != null && this.dto.RoomList.Count > 0)
+                {
+                    foreach (RoomDtlsFac.Dto product in this.dto.RoomList)
+                    {
+                        product.ExtraAccomodation = product.Room.ExtraAccomodation;
+                    }
+                }
             }
             else if (totalNoOfGuest > availableBed)
             {
