@@ -62,7 +62,7 @@ namespace BinAff.Utility.Log
 
         private void WriteException(StreamWriter fileStream, Exception exception)
         {
-            fileStream.WriteLine(Environment.NewLine + String.Format("**********************Exception Occured**********************"));
+            fileStream.WriteLine(Environment.NewLine + String.Format("***********************Exception Occured***********************"));
             fileStream.WriteLine(Environment.NewLine + String.Format("Date - {0}.{1}.{2}, Time - {3}:{4}:{5}:{6} :: Exception - {7}", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond, exception.Message));
             fileStream.WriteLine(Environment.NewLine + "Stack Trace :: " + exception.StackTrace);
             if (exception.InnerException != null)

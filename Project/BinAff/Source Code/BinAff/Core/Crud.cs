@@ -732,7 +732,8 @@ namespace BinAff.Core
                 this.logWritter.Write(ex, "Module: " + (child as Crud).Name,
                     "Server Type     : " + (child as Crud).ToString() + Environment.NewLine +
                     "Data Type       : " + (child as Crud).Data.ToString() + Environment.NewLine +
-                    "Data Access Type: " + (child as Crud).DataAccess.ToString());
+                    "Data Access Type: " + (child as Crud).DataAccess.ToString() + Environment.NewLine + Environment.NewLine +
+                    "Data            : " + BinAff.Utility.Serializer.Serialize(this.Data));
                 throw;
             }
         }
