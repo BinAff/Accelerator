@@ -63,20 +63,21 @@ namespace Retinue.Lodge.WinForm
 
         private void PopulateRoomGrid()
         {
-            this.dgvRooms.Columns[0].DataPropertyName = "Id";
+            this.dgvRooms.Columns[0].DataPropertyName = "RoomId";
             this.dgvRooms.Columns[1].DataPropertyName = "Number";
             this.dgvRooms.Columns[2].DataPropertyName = "Name";
             this.dgvRooms.Columns[3].DataPropertyName = "Accomodation";
-            this.dgvRooms.Columns[4].DataPropertyName = "ExtraAccomodation";
+            this.dgvRooms.Columns[4].DataPropertyName = "ExtraAccomodationAvailable";
+            this.dgvRooms.Columns[5].DataPropertyName = "ExtraAccomodation";
             this.dgvRooms.AutoGenerateColumns = false;
 
-            List<RoomFac.Dto> roomList = new List<RoomFac.Dto>();
-            foreach (RoomDtlsFac.Dto roomDetails in this.DataSource)
-            {
-                roomList.Add(roomDetails.Room);
-            }
+            //List<RoomFac.Dto> roomList = new List<RoomFac.Dto>();
+            //foreach (RoomDtlsFac.Dto roomDetails in this.DataSource)
+            //{
+            //    roomList.Add(roomDetails);
+            //}
 
-            this.dgvRooms.DataSource = roomList;
+            this.dgvRooms.DataSource = this.DataSource;
         }
 
         private BinAff.Core.Message ValidateForm()

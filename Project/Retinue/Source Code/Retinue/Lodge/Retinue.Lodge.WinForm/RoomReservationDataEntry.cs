@@ -302,7 +302,11 @@ namespace Retinue.Lodge.WinForm
 
                     foreach (RoomDtlsFac.Dto product in this.lstSelectedRoom.Items)
                     {
-                        frm.DataSource.Add(new RoomDtlsFac.Dto
+                        RoomDtlsFac.Dto existingProduct = this.dto.RoomList.Find((p) =>
+                        {
+                            return p.Room.Id == product.Room.Id;
+                        });
+                        frm.DataSource.Add(existingProduct != null ? existingProduct : new RoomDtlsFac.Dto
                         {
                             ExtraAccomodation = product.ExtraAccomodation,
                             Room = product.Room

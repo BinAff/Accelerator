@@ -6,6 +6,14 @@ namespace Retinue.Lodge.Facade.RoomReservation.RoomDetails
     public class Dto : BinAff.Facade.Library.Dto
     {
 
+        public Int64 RoomId
+        {
+            get
+            {
+                return this.Room.Id;
+            }
+        }
+
         public String Name
         {
             get
@@ -27,6 +35,22 @@ namespace Retinue.Lodge.Facade.RoomReservation.RoomDetails
             get
             {
                 return this.Room.Style;
+            }
+        }
+
+        public Int16 Accomodation
+        {
+            get
+            {
+                return this.Room.Accomodation;
+            }
+        }
+
+        public Int16 ExtraAccomodationAvailable
+        {
+            get
+            {
+                return this.Room.ExtraAccomodation;
             }
         }
 

@@ -343,7 +343,6 @@
             // 
             // dtFrom
             // 
-            this.dtFrom.Checked = false;
             this.dtFrom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dtFrom.Location = new System.Drawing.Point(3, 3);
             this.dtFrom.Name = "dtFrom";
