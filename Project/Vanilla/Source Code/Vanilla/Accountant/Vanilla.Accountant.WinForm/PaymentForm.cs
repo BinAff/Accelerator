@@ -314,7 +314,8 @@ namespace Vanilla.Accountant.WinForm
                     List<PayFac.LineItem.Dto> paymentList = this.dgvPayment.DataSource as List<PayFac.LineItem.Dto>;
                     foreach (PayFac.LineItem.Dto paymentDto in paymentList)
                     {
-                        if (paymentDto.Type.Name == "Cash")
+                        if (paymentDto.Type.Name == "Cash"
+                            && (this.cboPaymentType.SelectedItem as Table).Id != paymentDto.Type.Id)
                         {
                             this.errorProvider.SetError(this.cboPaymentType, "System will allow only one cash transaction.");
                             this.cboPaymentType.Focus();
@@ -323,22 +324,22 @@ namespace Vanilla.Accountant.WinForm
                     }
                 }
             }
-            else if ((this.cboPaymentType.SelectedItem as Table).Name != "Cash") // same card cannot have more than one transaction
-            {
-                if (this.dgvPayment.DataSource != null)
-                {
-                    List<PayFac.LineItem.Dto> paymentDtoList = this.dgvPayment.DataSource as List<PayFac.LineItem.Dto>;
-                    foreach (PayFac.LineItem.Dto paymentDto in paymentDtoList)
-                    {
-                        if (paymentDto.Type == (this.cboPaymentType.SelectedItem as Table) && paymentDto.Reference == this.txtLastFourDigit.Text.Trim())
-                        {
-                            this.errorProvider.SetError(this.cboPaymentType, "Same card cannot be used more than once.");
-                            this.cboPaymentType.Focus();
-                            return false;
-                        }
-                    }
-                }
-            }
+            //else if ((this.cboPaymentType.SelectedItem as Table).Name != "Cash") // same card cannot have more than one transaction
+            //{
+            //    if (this.dgvPayment.DataSource != null)
+            //    {
+            //        List<PayFac.LineItem.Dto> paymentDtoList = this.dgvPayment.DataSource as List<PayFac.LineItem.Dto>;
+            //        foreach (PayFac.LineItem.Dto paymentDto in paymentDtoList)
+            //        {
+            //            if (paymentDto.Type == (this.cboPaymentType.SelectedItem as Table) && paymentDto.Reference == this.txtLastFourDigit.Text.Trim())
+            //            {
+            //                this.errorProvider.SetError(this.cboPaymentType, "Same card cannot be used more than once.");
+            //                this.cboPaymentType.Focus();
+            //                return false;
+            //            }
+            //        }
+            //    }
+            //}
             return true;
         }
 

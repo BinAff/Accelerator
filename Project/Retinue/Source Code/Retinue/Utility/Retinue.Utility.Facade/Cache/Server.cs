@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using RoomFac = Retinue.Lodge.Configuration.Facade.Room;
+using PayTypeFac = Vanilla.Accountant.Facade.Payment;
 
 namespace Retinue.Utility.Facade.Cache
 {
@@ -40,6 +41,15 @@ namespace Retinue.Utility.Facade.Cache
                     Name = "All"
                 });
             });
+
+            //Task.Factory.StartNew(() =>
+            //{
+            //    cache.PaymentTypeList = new RoomFac.Type.Server(null).ReadAll<RoomFac.Type.Dto>();
+            //    cache.PaymentTypeList.Insert(0, new RoomFac.Type.Dto
+            //    {
+            //        Name = "All"
+            //    });
+            //});
 
             Task.Factory.StartNew(() =>
             {

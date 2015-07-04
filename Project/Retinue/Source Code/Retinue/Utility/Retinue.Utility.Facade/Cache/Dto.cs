@@ -10,6 +10,8 @@ namespace Retinue.Utility.Facade.Cache
         public List<Retinue.Lodge.Configuration.Facade.Room.Type.Dto> RoomTypeList { get; set; }
         public List<Retinue.Lodge.Configuration.Facade.Room.Dto> RoomList { get; set; }
 
+        public List<BinAff.Core.Table> PaymentTypeList { get; set; }
+
         public Retinue.Configuration.Rule.Facade.CustomerRuleDto CustomerRule { get; set; }
 
     }

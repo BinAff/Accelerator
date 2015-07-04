@@ -51,6 +51,10 @@
       <Project>{f6ab9943-f271-4293-b13e-dc58def3f59d}</Project>
       <Name>BinAff.Facade.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Accountant\Vanilla.Accountant.Facade\Vanilla.Accountant.Facade.csproj">
+      <Project>{e37dd43c-8ffd-4d8e-8fe7-c123428b3ffd}</Project>
+      <Name>Vanilla.Accountant.Facade</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\..\Vanilla\Source Code\Vanilla\Utility\Vanilla.Utility.Facade\Vanilla.Utility.Facade.csproj">
       <Project>{a10719af-5c9f-4903-ab83-089ec502eea2}</Project>
       <Name>Vanilla.Utility.Facade</Name>
