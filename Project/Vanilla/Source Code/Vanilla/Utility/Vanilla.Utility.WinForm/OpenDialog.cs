@@ -62,7 +62,8 @@ namespace Vanilla.Utility.WinForm
         {
             //document.Module.artifactPath = document.Path;
             Document doc = this.GetDocumentForm(document);
-            doc.MdiParent = this.Owner as System.Windows.Forms.Form;
+            doc.Owner = this.Owner;
+            //doc.MdiParent = this.Owner as System.Windows.Forms.Form;
             doc.AuditInfoChanged += doc_AuditInfoChanged;
             doc.Show();
         }

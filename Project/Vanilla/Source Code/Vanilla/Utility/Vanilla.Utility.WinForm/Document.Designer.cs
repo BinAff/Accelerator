@@ -45,6 +45,7 @@
             this.ClientSize = new System.Drawing.Size(792, 573);
             this.Controls.Add(this.pnlLoading);
             this.Name = "Document";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Document";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Document_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Document_FormClosed);

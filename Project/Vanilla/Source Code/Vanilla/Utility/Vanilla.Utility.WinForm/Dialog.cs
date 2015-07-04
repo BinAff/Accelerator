@@ -98,7 +98,7 @@ namespace Vanilla.Utility.WinForm
 
         void ucRegister_DocumentClicked()
         {
-            this.txtDocName.Text = this.ucRegister.CurrentArtifact.FullFileName;
+            this.txtDocName.Text = this.ucRegister.CurrentArtifact.FileName;
         }
 
         void ucRegister_DocumentDoubleClicked()
