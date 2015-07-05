@@ -57,7 +57,6 @@
             this.txtReservationNo = new System.Windows.Forms.TextBox();
             this.tpnlTo = new System.Windows.Forms.TableLayoutPanel();
             this.txtToTime = new System.Windows.Forms.TextBox();
-            this.tpnlRoom = new System.Windows.Forms.TableLayoutPanel();
             this.tpnlFrom = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -69,6 +68,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.tpnlFilter = new System.Windows.Forms.TableLayoutPanel();
+            this.tpnlRoom = new System.Windows.Forms.TableLayoutPanel();
             this.cboCategory = new System.Windows.Forms.ComboBox();
             this.cboAC = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -78,10 +78,10 @@
             this.tpnlContainer.SuspendLayout();
             this.tpnlRooms.SuspendLayout();
             this.tpnlTo.SuspendLayout();
-            this.tpnlRoom.SuspendLayout();
             this.tpnlFrom.SuspendLayout();
             this.tpnlGuests.SuspendLayout();
             this.tpnlFilter.SuspendLayout();
+            this.tpnlRoom.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtFilteredRoomCount
@@ -440,27 +440,6 @@
             this.txtToTime.TabIndex = 1034;
             this.txtToTime.TabStop = false;
             // 
-            // tpnlRoom
-            // 
-            this.tpnlRoom.ColumnCount = 3;
-            this.tpnlFilter.SetColumnSpan(this.tpnlRoom, 5);
-            this.tpnlRoom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.7075F));
-            this.tpnlRoom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.819296F));
-            this.tpnlRoom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.4732F));
-            this.tpnlRoom.Controls.Add(this.btnRemoveRoom, 1, 1);
-            this.tpnlRoom.Controls.Add(this.lstRoomList, 0, 0);
-            this.tpnlRoom.Controls.Add(this.btnAddRoom, 1, 0);
-            this.tpnlRoom.Controls.Add(this.lstSelectedRoom, 2, 0);
-            this.tpnlRoom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tpnlRoom.Location = new System.Drawing.Point(0, 48);
-            this.tpnlRoom.Margin = new System.Windows.Forms.Padding(0);
-            this.tpnlRoom.Name = "tpnlRoom";
-            this.tpnlRoom.RowCount = 2;
-            this.tpnlRoom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tpnlRoom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tpnlRoom.Size = new System.Drawing.Size(405, 116);
-            this.tpnlRoom.TabIndex = 1035;
-            // 
             // tpnlFrom
             // 
             this.tpnlFrom.ColumnCount = 2;
@@ -624,6 +603,27 @@
             this.tpnlFilter.Size = new System.Drawing.Size(405, 164);
             this.tpnlFilter.TabIndex = 1040;
             // 
+            // tpnlRoom
+            // 
+            this.tpnlRoom.ColumnCount = 3;
+            this.tpnlFilter.SetColumnSpan(this.tpnlRoom, 5);
+            this.tpnlRoom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.7075F));
+            this.tpnlRoom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5.819296F));
+            this.tpnlRoom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47.4732F));
+            this.tpnlRoom.Controls.Add(this.btnRemoveRoom, 1, 1);
+            this.tpnlRoom.Controls.Add(this.lstRoomList, 0, 0);
+            this.tpnlRoom.Controls.Add(this.btnAddRoom, 1, 0);
+            this.tpnlRoom.Controls.Add(this.lstSelectedRoom, 2, 0);
+            this.tpnlRoom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tpnlRoom.Location = new System.Drawing.Point(0, 48);
+            this.tpnlRoom.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlRoom.Name = "tpnlRoom";
+            this.tpnlRoom.RowCount = 2;
+            this.tpnlRoom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tpnlRoom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tpnlRoom.Size = new System.Drawing.Size(405, 116);
+            this.tpnlRoom.TabIndex = 1035;
+            // 
             // cboCategory
             // 
             this.cboCategory.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -710,12 +710,12 @@
             this.tpnlRooms.PerformLayout();
             this.tpnlTo.ResumeLayout(false);
             this.tpnlTo.PerformLayout();
-            this.tpnlRoom.ResumeLayout(false);
             this.tpnlFrom.ResumeLayout(false);
             this.tpnlGuests.ResumeLayout(false);
             this.tpnlGuests.PerformLayout();
             this.tpnlFilter.ResumeLayout(false);
             this.tpnlFilter.PerformLayout();
+            this.tpnlRoom.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
