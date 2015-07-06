@@ -138,12 +138,12 @@
             // btnSave
             // 
             this.btnSave.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnSave.Font = new System.Drawing.Font("Wingdings 2", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnSave.Font = new System.Drawing.Font("Wingdings", 24F);
             this.btnSave.Location = new System.Drawing.Point(216, 0);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(50, 50);
             this.btnSave.TabIndex = 1;
-            this.btnSave.Text = "P";
+            this.btnSave.Text = "<";
             this.toolTip.SetToolTip(this.btnSave, "Save");
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnOk_Click);
@@ -263,6 +263,7 @@
             // 
             // spnlLeftLink
             // 
+            this.spnlLeftLink.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.spnlLeftLink.ControlBarPosition = System.Windows.Forms.DockStyle.Top;
             this.spnlLeftLink.ControlButtons.Add(this.btnOpenLink);
             this.spnlLeftLink.ControlButtons.Add(this.btnAddLink);
@@ -271,7 +272,6 @@
             this.spnlLeftLink.IsControlBarVisible = true;
             this.spnlLeftLink.Location = new System.Drawing.Point(0, 0);
             this.spnlLeftLink.Name = "spnlLeftLink";
-            this.spnlLeftLink.Options = ((System.Collections.Generic.List<Vanilla.Utility.WinForm.SidePanel.Option>)(resources.GetObject("spnlLeftLink.Options")));
             this.spnlLeftLink.Size = new System.Drawing.Size(197, 295);
             this.spnlLeftLink.TabIndex = 9;
             this.spnlLeftLink.TitleBar = "Summary";
@@ -280,12 +280,12 @@
             // 
             // spnlReference
             // 
+            this.spnlReference.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.spnlReference.ControlBarPosition = System.Windows.Forms.DockStyle.Top;
             this.spnlReference.Dock = System.Windows.Forms.DockStyle.Fill;
             this.spnlReference.IsControlBarVisible = false;
             this.spnlReference.Location = new System.Drawing.Point(0, 0);
             this.spnlReference.Name = "spnlReference";
-            this.spnlReference.Options = ((System.Collections.Generic.List<Vanilla.Utility.WinForm.SidePanel.Option>)(resources.GetObject("spnlReference.Options")));
             this.spnlReference.Size = new System.Drawing.Size(130, 295);
             this.spnlReference.TabIndex = 10;
             this.spnlReference.TitleBar = "Reference";

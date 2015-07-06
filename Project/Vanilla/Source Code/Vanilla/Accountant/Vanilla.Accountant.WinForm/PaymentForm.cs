@@ -43,6 +43,11 @@ namespace Vanilla.Accountant.WinForm
 
         #region Event
 
+        private void PaymentForm_Load(object sender, EventArgs e)
+        {
+            this.tpnlContainer.Dock = DockStyle.Fill;
+        }
+
         private void btnPrint_Click(object sender, EventArgs e)
         {
             new PaymentReceipt().ShowDialog(this);

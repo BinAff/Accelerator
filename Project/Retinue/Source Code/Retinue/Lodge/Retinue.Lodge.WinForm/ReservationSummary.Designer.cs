@@ -140,6 +140,7 @@
             this.txtMale.Location = new System.Drawing.Point(3, 27);
             this.txtMale.MaxLength = 3;
             this.txtMale.Name = "txtMale";
+            this.txtMale.ReadOnly = true;
             this.txtMale.Size = new System.Drawing.Size(81, 20);
             this.txtMale.TabIndex = 11;
             // 
@@ -171,6 +172,7 @@
             this.txtFemale.Location = new System.Drawing.Point(95, 27);
             this.txtFemale.MaxLength = 3;
             this.txtFemale.Name = "txtFemale";
+            this.txtFemale.ReadOnly = true;
             this.txtFemale.Size = new System.Drawing.Size(81, 20);
             this.txtFemale.TabIndex = 12;
             // 
@@ -180,6 +182,7 @@
             this.txtChild.Location = new System.Drawing.Point(187, 27);
             this.txtChild.MaxLength = 3;
             this.txtChild.Name = "txtChild";
+            this.txtChild.ReadOnly = true;
             this.txtChild.Size = new System.Drawing.Size(81, 20);
             this.txtChild.TabIndex = 13;
             // 
@@ -200,6 +203,7 @@
             this.txtInfant.Location = new System.Drawing.Point(279, 27);
             this.txtInfant.MaxLength = 3;
             this.txtInfant.Name = "txtInfant";
+            this.txtInfant.ReadOnly = true;
             this.txtInfant.Size = new System.Drawing.Size(81, 20);
             this.txtInfant.TabIndex = 14;
             // 

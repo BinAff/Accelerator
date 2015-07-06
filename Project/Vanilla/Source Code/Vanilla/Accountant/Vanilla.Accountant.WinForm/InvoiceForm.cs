@@ -18,11 +18,22 @@ namespace Vanilla.Accountant.WinForm
 
     public partial class InvoiceForm : FrmWin.Document
     {
+        System.Windows.Forms.ToolStripButton btnPrint;
+        System.Windows.Forms.ToolStripButton btnCancel;
 
         public InvoiceForm(UtilFac.Artifact.Dto artifact)
             : base(artifact)
         {
             InitializeComponent();
+            this.btnPrint = base.AddToolStripButton("6", "Wingdings 2", "Print");
+            this.btnPrint.Click += btnPrint_Click;
+            this.btnCancel = base.AddToolStripButton("Í", "Wingdings 2", "Cancel");
+            this.btnCancel.Click += btnCancel_Click;
+        }
+
+        private void InvoiceForm_Load(object sender, EventArgs e)
+        {
+            this.tpnlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
@@ -126,7 +137,7 @@ namespace Vanilla.Accountant.WinForm
                 base.IsEnabledAddLinkButton = false;
                 base.IsEnabledOpenLinkButton = false;
 
-                this.txtDiscount.Enabled = false;
+                this.txtDiscount.ReadOnly = true;
                 this.btnPrint.Enabled = true;
                 this.btnCancel.Enabled = true;
             }
