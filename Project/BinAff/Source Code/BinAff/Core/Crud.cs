@@ -28,7 +28,23 @@ namespace BinAff.Core
 
         #region Properties
 
-        public Data Data { get; protected set; }
+        private Data data;
+        public Data Data
+        {
+            get
+            {
+                return this.data;
+            }
+            protected set
+            {
+                if (this.data != value)
+                {
+                    this.data = value;
+                    if (this.dataAccess != null) this.dataAccess.Data = value;
+                    if (this.validator != null) this.validator.Data = value;
+                }
+            }
+        }
 
         private Data parentData;
         public Data ParentData 
@@ -42,8 +58,8 @@ namespace BinAff.Core
                 if (this.parentData != value)
                 {
                     this.parentData = value;
-                    if (this.DataAccess != null) this.DataAccess.ParentData = value;
-                    if (this.Validator != null) this.Validator.ParentData = value;
+                    if (this.dataAccess != null) this.dataAccess.ParentData = value;
+                    if (this.validator != null) this.validator.ParentData = value;
                 }
             }
         }
@@ -128,8 +144,8 @@ namespace BinAff.Core
             if (this.actionType == Action.Delete && child.Data == null) return null;
             //Assign parent data
             child.ParentData = this.Data;
-            child.DataAccess.ParentData = this.Data;
-            if (child.Validator != null) child.Validator.ParentData = this.Data;
+            child.dataAccess.ParentData = this.Data;
+            if (child.validator != null) child.validator.ParentData = this.Data;
 
             if (child.Data == null)
             {            
@@ -138,15 +154,15 @@ namespace BinAff.Core
                     if (child.Type == ChildType.Dependent)
                     {
                         child.Data = child.CreateDataObject();
-                        child.DataAccess.Data = child.Data;
-                        if (child.Validator != null) child.Validator.Data = child.Data;
-                        child.DataAccess.ReadForParent();
+                        child.dataAccess.Data = child.Data;
+                        if (child.validator != null) child.validator.Data = child.Data;
+                        child.dataAccess.ReadForParent();
                     }
                 }
                 if (this.actionType == Action.Create || this.actionType == Action.Update)
                 {
-                    child.Validator = null;
-                    child.DataAccess = null;
+                    child.validator = null;
+                    child.dataAccess = null;
                     child = null;
                 }
             }
@@ -186,9 +202,9 @@ namespace BinAff.Core
                     if (child.Type == ChildType.Dependent)
                     {
                         child.Data = child.CreateDataObject();
-                        child.DataAccess.Data = child.Data;
-                        if (child.Validator != null) child.Validator.Data = child.Data;
-                        child.DataAccess.ReadForParent();
+                        child.dataAccess.Data = child.Data;
+                        if (child.validator != null) child.validator.Data = child.Data;
+                        child.dataAccess.ReadForParent();
                         if (!this.isChildrenCreatedAlready)
                         {
                             this.isChildrenCreatedAlready = true;
@@ -216,7 +232,7 @@ namespace BinAff.Core
 
         protected virtual Data GetDataForParent()
         {
-            return this.DataAccess.GetDataFromParentData();
+            return this.dataAccess.GetDataFromParentData();
         }
 
         /// <summary>
@@ -374,31 +390,31 @@ namespace BinAff.Core
         }
 
         /// <summary>
-        /// Validate component as per validation defined in Validator
-        /// Validation will be ignored if Validator is not declared
+        /// Validate component as per validation defined in validator
+        /// Validation will be ignored if validator is not declared
         /// </summary>
         /// <returns></returns>
         private List<Message> Validate()
         {
             List<Message> valMsgLst = new List<Message>();
-            IValidator val = this.Validator;
-            if(this.Validator != null) valMsgLst = val.Validate();
+            IValidator val = this.validator;
+            if(this.validator != null) valMsgLst = val.Validate();
 
             //Validate independent children
             this.RunForEach<Crud>(this.isWriteParallel, this.independentChildren, (p) =>
             {
-                if (!p.IsSkip && !p.IsReadOnly && p.Validator != null)
+                if (!p.IsSkip && !p.IsReadOnly && p.validator != null)
                 {
-                    val = p.Validator;
+                    val = p.validator;
                     valMsgLst.AddRange(val.Validate());
                 }
                 return true;
             });
             //foreach (Crud child in this.independentChildren)
             //{
-            //    if (!child.IsSkip && !child.IsReadOnly && child.Validator != null)
+            //    if (!child.IsSkip && !child.IsReadOnly && child.validator != null)
             //    {
-            //        val = child.Validator;
+            //        val = child.validator;
             //        valMsgLst.AddRange(val.Validate());
             //    }
             //}
@@ -406,18 +422,18 @@ namespace BinAff.Core
             //Validate independent children
             this.RunForEach<Crud>(this.isWriteParallel, this.dependentChildren, (p) =>
             {
-                if (!p.IsSkip && !p.IsReadOnly && p.Validator != null)
+                if (!p.IsSkip && !p.IsReadOnly && p.validator != null)
                 {
-                    val = p.Validator;
+                    val = p.validator;
                     valMsgLst.AddRange(val.Validate());
                 }
                 return true;
             });
             //foreach (Crud child in this.dependentChildren)
             //{
-            //    if (!child.IsSkip && !child.IsReadOnly && child.Validator != null)
+            //    if (!child.IsSkip && !child.IsReadOnly && child.validator != null)
             //    {
-            //        val = child.Validator;
+            //        val = child.validator;
             //        valMsgLst.AddRange(val.Validate());
             //    }
             //}
@@ -462,7 +478,7 @@ namespace BinAff.Core
 
             if (!this.IsSkip && !this.IsReadOnly)
             {
-                retObj.Value = this.DataAccess.Create();
+                retObj.Value = this.dataAccess.Create();
                 Message msg = new Message();
                 if (retObj.Value)
                 {
@@ -493,7 +509,7 @@ namespace BinAff.Core
 
             if (!this.IsSkip && !this.IsReadOnly)
             {
-                retObj.Value = this.DataAccess.Update();
+                retObj.Value = this.dataAccess.Update();
                 Message msg = new Message();
                 if (retObj.Value)
                 {
@@ -581,7 +597,7 @@ namespace BinAff.Core
             {
                 ReturnObject<Boolean> retObj = new ReturnObject<Boolean>
                 {
-                    Value = this.DataAccess.Delete(),
+                    Value = this.dataAccess.Delete(),
                     MessageList = new List<Message>()
                 };
                 Message msg = new Message();
@@ -705,7 +721,7 @@ namespace BinAff.Core
             ReturnObject<Data> retObj = new ReturnObject<Data>();
             if (!this.IsSkip && this.Data.Id != 0)//Data is not holding anything
             {
-                retObj.Value = this.DataAccess.Read();
+                retObj.Value = this.dataAccess.Read();
             }
 
             if (retObj.Value == null) retObj.MessageList = new List<Message> { new Message("No data found for " + this.Name, Message.Type.Information) };
@@ -732,7 +748,7 @@ namespace BinAff.Core
                 this.logWritter.Write(ex, "Module: " + (child as Crud).Name,
                     "Server Type     : " + (child as Crud).ToString() + Environment.NewLine +
                     "Data Type       : " + (child as Crud).Data.ToString() + Environment.NewLine +
-                    "Data Access Type: " + (child as Crud).DataAccess.ToString() + Environment.NewLine + Environment.NewLine +
+                    "Data Access Type: " + (child as Crud).dataAccess.ToString() + Environment.NewLine + Environment.NewLine +
                     "Data            : " + BinAff.Utility.Serializer.Serialize(this.Data));
                 throw;
             }
@@ -742,7 +758,7 @@ namespace BinAff.Core
         {
             ReturnObject<List<BinAff.Core.Data>> retList = new ReturnObject<List<BinAff.Core.Data>>
             {
-                Value = (this.DataAccess as Dao).ReadAll()
+                Value = (this.dataAccess as Dao).ReadAll()
             };
             this.RunForEach<BinAff.Core.Data>(this.isReadParallel, retList.Value, (p) =>
             {
