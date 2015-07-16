@@ -1,82 +1,62 @@
-﻿using BinAff.Utility;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
+using System.Linq;
 
 using BinAff.Core;
-using PresentationLibrary = BinAff.Presentation.Library;
+using BinAff.Utility;
+using BinAff.Presentation.Library.Extension;
+using PresLib = BinAff.Presentation.Library;
 
 using ConfFac = Retinue.Lodge.Configuration.Facade;
+using CatFac = Retinue.Lodge.Configuration.Facade.Room.Category;
+using TypeFac = Retinue.Lodge.Configuration.Facade.Room.Type;
 
 namespace Retinue.Lodge.Configuration.WinForm
 {
 
-    public partial class RoomTariff : PresentationLibrary.Form
+    public partial class RoomTariff : PresLib.Form
     {
 
-        private Configuration.Facade.Tariff.Dto dto;
         private Configuration.Facade.Tariff.FormDto formDto;
 
         public RoomTariff()
         {
             InitializeComponent();
-            
-            dtStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            dtEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            
-            //dgvTariff
-            dgvTariff.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            for (int i = 0; i < dgvTariff.Columns.Count; i++) dgvTariff.Columns[i].ReadOnly = true;
-            dgvTariff.MultiSelect = false;
+        }
 
-            dgvTariff.Columns[0].DataPropertyName = "CategoryText";
-            dgvTariff.Columns[1].DataPropertyName = "TypeText";
-            dgvTariff.Columns[2].DataPropertyName = "IsACText";
-            dgvTariff.Columns[3].DataPropertyName = "StartDate";
-            dgvTariff.Columns[4].DataPropertyName = "EndDate";
-            dgvTariff.Columns[5].DataPropertyName = "RateText";
+        private void RoomTariff_Load(object sender, EventArgs e)
+        {
+            this.dtStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 
-            dgvTariff.AutoGenerateColumns = false;
+            this.dgvTariff.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            for (int i = 0; i < dgvTariff.Columns.Count; i++) this.dgvTariff.Columns[i].ReadOnly = true;
+            this.dgvTariff.MultiSelect = false;
+            this.dgvTariff.Columns[0].DataPropertyName = "CategoryText";
+            this.dgvTariff.Columns[1].DataPropertyName = "TypeText";
+            this.dgvTariff.Columns[2].DataPropertyName = "IsACText";
+            this.dgvTariff.Columns[3].DataPropertyName = "StartDate";
+            this.dgvTariff.Columns[4].DataPropertyName = "EndDate";
+            this.dgvTariff.Columns[5].DataPropertyName = "IsExtraText";
+            this.dgvTariff.Columns[6].DataPropertyName = "RateText";
+            this.dgvTariff.AutoGenerateColumns = false;
 
-            this.dto = new Facade.Tariff.Dto();
-            this.formDto = new Facade.Tariff.FormDto { dto = this.dto };
-            LoadForm();
-            //Clear();
-
-            rdoCurrent.Checked = true;
-            //base.IsDeleteButton = false;
+            this.formDto = new Facade.Tariff.FormDto
+            {
+                Dto = new Facade.Tariff.Dto(),
+            };
+            this.LoadForm();
         }
 
         private void LoadForm()
         {
-            BinAff.Facade.Library.Server facade = new Configuration.Facade.Tariff.TariffServer(formDto);
+            BinAff.Facade.Library.Server facade = new Configuration.Facade.Tariff.TariffServer(this.formDto);
             facade.LoadForm();
 
-            //--populate room category
-            this.cboCategory.DataSource = null;
-            if (this.formDto.CategoryList != null && this.formDto.CategoryList.Count > 0)
-            {
-                this.cboCategory.DataSource = this.formDto.CategoryList;
-                this.cboCategory.ValueMember = "Id";
-                this.cboCategory.DisplayMember = "Name";
-                this.cboCategory.SelectedIndex = -1;
-            }
-
-            //--populate room type
-            this.cboType.DataSource = null;
-            if (this.formDto.TypeList != null && this.formDto.TypeList.Count > 0)
-            {
-                this.cboType.DataSource = this.formDto.TypeList;
-                this.cboType.ValueMember = "Id";
-                this.cboType.DisplayMember = "Name";
-                this.cboType.SelectedIndex = -1;
-            }
-            
-            //populate Tariff Grid
-            if (this.formDto.TariffList != null && this.formDto.TariffList.Count > 0)
-            {
-                dgvTariff.DataSource = this.formDto.TariffList;
-                PopulateFormData(this.formDto.TariffList[0]);   
-            }
+            this.cboCategory.Bind(this.formDto.CategoryList, "Name");
+            this.cboType.Bind(this.formDto.TypeList, "Name");
+            this.rdoCurrent.Checked = true;
+            this.dgvTariff.DataSource = this.formDto.TariffList;
         }
              
         private void btnAdd_Click(object sender, EventArgs e)
@@ -95,18 +75,13 @@ namespace Retinue.Lodge.Configuration.WinForm
 
             if (retVal)
             {
-                if (this.dto == null) this.dto = new Facade.Tariff.Dto();                
-                this.dto.Category = new Facade.Room.Category.Dto { Id = ((Facade.Room.Category.Dto)cboCategory.SelectedItem).Id };
-                this.dto.Type = new Facade.Room.Type.Dto { Id = ((Facade.Room.Type.Dto)cboType.SelectedItem).Id };
-                this.dto.IsAC = chkIsAC.Checked;
-                this.dto.StartDate = dtStartDate.Value;
-                this.dto.EndDate = dtEndDate.Value;
-                this.dto.Rate = System.Convert.ToDouble(txtRate.Text);
-
-                Facade.Tariff.FormDto formDto = new Facade.Tariff.FormDto 
-                { 
-                    dto = this.dto
-                };
+                this.formDto.Dto.Category = this.cboCategory.SelectedItem as CatFac.Dto;
+                this.formDto.Dto.Type = this.cboType.SelectedItem as TypeFac.Dto;
+                this.formDto.Dto.IsAC = this.chkIsAC.Checked;
+                this.formDto.Dto.StartDate = this.dtStartDate.Value;
+                this.formDto.Dto.EndDate = this.dtEndDate.Value;
+                this.formDto.Dto.IsExtra = this.chkIsExtraBed.Checked;
+                this.formDto.Dto.Rate = Convert.ToDouble(txtRate.Text);
 
                 BinAff.Facade.Library.Server facade = new ConfFac.Tariff.TariffServer(formDto);
 
@@ -116,14 +91,13 @@ namespace Retinue.Lodge.Configuration.WinForm
                 }
                 else
                 {
-                    this.dto.Id = ((ConfFac.Tariff.Dto)dgvTariff.SelectedRows[0].DataBoundItem).Id;
+                    this.formDto.Dto.Id = (dgvTariff.SelectedRows[0].DataBoundItem as ConfFac.Tariff.Dto).Id;
                     facade.Change();
                 }
                              
-                new PresentationLibrary.MessageBox
+                new PresLib.MessageBox
                 {
-                    DialogueType = facade.IsError ? PresentationLibrary.MessageBox.Type.Error : PresentationLibrary.MessageBox.Type.Information,
-                    Heading = "Splash",
+                    DialogueType = facade.IsError ? PresLib.MessageBox.Type.Error : PresLib.MessageBox.Type.Information,
                 }.Show(facade.DisplayMessageList);
 
                 if (!facade.IsError)
@@ -192,9 +166,9 @@ namespace Retinue.Lodge.Configuration.WinForm
         }
 
         private void PopulateFormData(ConfFac.Tariff.Dto dto)
-        {       
-
+        {
             //highlight category dropdown
+            //this.cboCategory.SelectedItem = dto.Category;
             for (int i = 0; i < cboCategory.Items.Count; i++)
             {
                 if (dto.Category.Id == ((ConfFac.Room.Category.Dto)cboCategory.Items[i]).Id)
@@ -205,7 +179,8 @@ namespace Retinue.Lodge.Configuration.WinForm
             }
 
             //highlight type dropdown
-            for (int i = 0; i < cboType.Items.Count; i++)
+            //this.cboType.SelectedItem = dto.Type;
+            for (Int32 i = 0; i < cboType.Items.Count; i++)
             {
                 if (dto.Type.Id == ((ConfFac.Room.Type.Dto)cboType.Items[i]).Id)
                 {
@@ -214,10 +189,11 @@ namespace Retinue.Lodge.Configuration.WinForm
                 }
             }
 
-            chkIsAC.Checked = dto.IsAC;
-            dtStartDate.Value = dto.StartDate;
-            dtEndDate.Value = dto.EndDate;
-            txtRate.Text = dto.Rate == 0 ? string.Empty : Converter.ConvertToIndianCurrency(Convert.ToDecimal(dto.Rate));
+            this.chkIsAC.Checked = dto.IsAC;
+            this.dtStartDate.Value = dto.StartDate;
+            this.dtEndDate.Value = dto.EndDate;
+            this.chkIsExtraBed.Checked = dto.IsExtra;
+            this.txtRate.Text = dto.RateText;
         }
 
         private void rdoAll_CheckedChanged(object sender, System.EventArgs e)
@@ -239,7 +215,7 @@ namespace Retinue.Lodge.Configuration.WinForm
         {
             if (dgvTariff.SelectedRows.Count > 0)
             {
-                PopulateFormData((ConfFac.Tariff.Dto)dgvTariff.SelectedRows[0].DataBoundItem);
+                this.PopulateFormData(dgvTariff.SelectedRows[0].DataBoundItem as ConfFac.Tariff.Dto);
             }
         }
 
@@ -254,7 +230,7 @@ namespace Retinue.Lodge.Configuration.WinForm
             {
                 if (source == "change")
                 {
-                    tariffId = ((ConfFac.Tariff.Dto)dgvTariff.SelectedRows[0].DataBoundItem).Id;
+                    tariffId = (dgvTariff.SelectedRows[0].DataBoundItem as ConfFac.Tariff.Dto).Id;
                     isSelectIndexRequired = true;
                 }
                 if (rdoAll.Checked)
@@ -283,6 +259,7 @@ namespace Retinue.Lodge.Configuration.WinForm
                     ret = tariff.ReadAllFutureTariff();
                     break;
             }
+            this.formDto.TariffList = ret.Value;
 
             //populate Tariff Grid
             if (ret.Value != null && ret.Value.Count > 0)
@@ -295,10 +272,10 @@ namespace Retinue.Lodge.Configuration.WinForm
                 {
                     for (int i = 0; i < dgvTariff.RowCount; i++)
                     {
-                        if (((ConfFac.Tariff.Dto)dgvTariff.Rows[i].DataBoundItem).Id == tariffId)
+                        if ((dgvTariff.Rows[i].DataBoundItem as ConfFac.Tariff.Dto).Id == tariffId)
                         {
                             dgvTariff.Rows[i].Selected = true;
-                            tariffDto = (ConfFac.Tariff.Dto)dgvTariff.Rows[i].DataBoundItem; 
+                            tariffDto = dgvTariff.Rows[i].DataBoundItem as ConfFac.Tariff.Dto; 
                             break;
                         }
                     }

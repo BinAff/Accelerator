@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 
 using BinAff.Core;
-
-using GenTariff = Crystal.Tariff.Component;
+using System.Transactions;
 
 namespace Retinue.Lodge.Component.Room.Tariff
 {
 
-    public class Server : GenTariff.Server, IRoomTariff
+    public class Server : Crystal.Tariff.Component.Server, IRoomTariff
     {
+
+        Data current;
 
         public Server(Data data)
             : base(data)
@@ -20,8 +21,8 @@ namespace Retinue.Lodge.Component.Room.Tariff
         protected override void Compose()
         {
             this.Name = "Room Tariff";
-            this.DataAccess = new Dao((Data)this.Data);
-            this.Validator = new Validator((Data)this.Data);
+            this.DataAccess = new Dao(this.Data as Data);
+            this.Validator = new Validator(this.Data as Data);
         }
 
         protected override BinAff.Core.Data CreateDataObject()
@@ -31,45 +32,19 @@ namespace Retinue.Lodge.Component.Room.Tariff
 
         protected override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data)
         {
-            return new Server((Data)data);
+            return new Server(data as Data);
         }
 
         protected override void CreateChildren()
         {
             base.CreateChildren();
 
-            base.AddChild(new Room.Server(((Data)this.Data).Product as Room.Data)
+            base.AddChild(new Room.Server((this.Data as Data).Product as Room.Data)
             {
                 Type = ChildType.Independent,
                 IsReadOnly = true,
             });
-        }        
-
-        ReturnObject<bool> IRoomTariff.UpdateForCategoryAndType(Category.Data category, Type.Data type, double rate)
-        {
-            ReturnObject<Boolean> retObj = new ReturnObject<Boolean>()
-            {
-                Value = false,
-                MessageList = new List<Message>()
-            };
-
-            retObj.Value = new Dao((Data)this.Data).ModifyForCategoryAndType(category, type, rate);
-
-            if (retObj.Value)
-                retObj.MessageList.Add(new Message()
-                {
-                    Category = Message.Type.Information,
-                    Description = "Rates modified successfully."
-                });
-            else
-                retObj.MessageList.Add(new Message()
-                {
-                    Category = Message.Type.Error,
-                    Description = "Error to modifying rates."
-                });
-
-            return retObj;
-        }
+        } 
 
         protected override String GetProductType()
         {          
@@ -82,29 +57,57 @@ namespace Retinue.Lodge.Component.Room.Tariff
             return "Room has tariff attached from " + d.StartDate.ToShortDateString() + " to " + d.EndDate.ToShortDateString();
         }
 
+        protected override ReturnObject<Boolean> UpdateBefore()
+        {
+            current = this.Data.Clone() as Data;
+            current.StartDate = DateTime.Today.AddDays(1);
+            current.Id = 0;
+
+            this.Read();
+            (this.Data as Data).EndDate = DateTime.Today;
+            
+            //Calculation for 12am
+            if ((this.Data as Data).EndDate.Date.CompareTo(current.StartDate.Date) == 0)
+            {
+                (this.Data as Data).EndDate.AddDays(-1);
+            }
+
+            return new ReturnObject<Boolean>
+            {
+                Value = true,
+            };
+        }
+
+        protected override ReturnObject<Boolean> UpdateAfter()
+        {
+            this.Data = current;
+            return (this as ICrud).Save();
+        }
+
         ReturnObject<List<BinAff.Core.Data>> IRoomTariff.GetExistingTariff()
         {
-            return new ReturnObject<List<BinAff.Core.Data>>()
+            return new ReturnObject<List<BinAff.Core.Data>>
             {
-                Value = new Dao((Data)this.Data).GetExistingTariff(),
+                Value = (this.DataAccess as Dao).GetExistingTariff(),
             };
         }
         
         ReturnObject<List<BinAff.Core.Data>> IRoomTariff.ReadAllCurrentTariff()
         {
-            return new ReturnObject<List<BinAff.Core.Data>>()
+            return new ReturnObject<List<BinAff.Core.Data>>
             {
-                Value = new Dao((Data)this.Data).ReadAllCurrentTariff(),
+                Value = (this.DataAccess as Dao).ReadAllCurrentTariff(),
             };
         }
         
         ReturnObject<List<BinAff.Core.Data>> IRoomTariff.ReadAllFutureTariff()
         {
-            return new ReturnObject<List<BinAff.Core.Data>>()
+            return new ReturnObject<List<BinAff.Core.Data>>
             {
-                Value = new Dao((Data)this.Data).ReadAllFutureTariff(),
+                Value = (this.DataAccess as Dao).ReadAllFutureTariff(),
             };
         }
+
     }
 
 }

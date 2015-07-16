@@ -28,7 +28,7 @@ namespace Crystal.Tariff.Component
             if (ValidationRule.IsNullOrEmpty(data.Rate) || (data.Rate <= 0))
                 retMsg.Add(new Message("Rate cannot be empty.", Message.Type.Error));
 
-            if (ValidationRule.IsDateLessThanToday(data.StartDate))
+            if (ValidationRule.IsDateLessThanToday(data.StartDate) && this.Data.Id == 0)
                 retMsg.Add(new Message("Start date cannot be less than today.", Message.Type.Error));
 
             if (ValidationRule.IsDateLess(data.EndDate,data.StartDate))

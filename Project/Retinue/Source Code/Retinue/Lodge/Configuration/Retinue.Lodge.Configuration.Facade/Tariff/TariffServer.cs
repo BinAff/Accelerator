@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using BinAff.Core;
 using BinAff.Utility;
 
-using CrystalLodge = Retinue.Lodge.Component;
+using TarrifComp = Retinue.Lodge.Component.Room.Tariff;
+using CatComp = Retinue.Lodge.Component.Room.Category;
+using TypeComp = Retinue.Lodge.Component.Room.Type;
 
 namespace Retinue.Lodge.Configuration.Facade.Tariff
 {
@@ -18,38 +20,75 @@ namespace Retinue.Lodge.Configuration.Facade.Tariff
 
         }
 
+        public override BinAff.Facade.Library.Dto Convert(Data data)
+        {
+            TarrifComp.Data comp = data as TarrifComp.Data;
+            return new Dto
+            {
+                Id = comp.Id,
+                Category = new Room.Category.Server(null).Convert(comp.Category) as Room.Category.Dto,
+                Type = new Room.Type.Server(null).Convert(comp.Type) as Room.Type.Dto,
+                IsAC = comp.IsAC,
+                StartDate = comp.StartDate,
+                EndDate = comp.EndDate,
+                IsExtra = comp.IsExtra,
+                Rate = comp.Rate
+            };
+        }
+
+        public override Data Convert(BinAff.Facade.Library.Dto dto)
+        {
+            Dto comp = dto as Dto;
+            return new TarrifComp.Data
+            {
+                Id = comp.Id,
+                Category = new Room.Category.Server(null).Convert(comp.Category) as CatComp.Data,
+                Type = new Room.Type.Server(null).Convert(comp.Type) as TypeComp.Data,
+                IsAC = comp.IsAC,
+                StartDate = comp.StartDate,
+                EndDate = comp.EndDate,
+                IsExtra = comp.IsExtra,
+                Rate = comp.Rate
+            };
+        }
+
         public override void LoadForm()
         {
             FormDto formDto = this.FormDto as FormDto;
+            //Circuler reference
+            //Retinue.Utility.Facade.Cache.Dto cache = BinAff.Facade.Cache.Server.Current.Cache["Main"] as Retinue.Utility.Facade.Cache.Dto;
+            //formDto.CategoryList = cache.RoomCategoryList;
+            //formDto.TypeList = cache.RoomTypeList;
+
             formDto.CategoryList = new Room.Category.Server(null).ReadAll<Room.Category.Dto>();
             formDto.TypeList = new Room.Type.Server(null).ReadAll<Room.Type.Dto>();
             formDto.TariffList = this.ReadAllCurrentTariff().Value;
         }
-        
+
         ReturnObject<List<Dto>> ITariff.ReadAllTariff()
         {
-            ICrud crud = new CrystalLodge.Room.Tariff.Server(null);
-            ReturnObject<List<BinAff.Core.Data>> lstData = crud.ReadAll();
-
+            ReturnObject<List<BinAff.Core.Data>> lstData = (new TarrifComp.Server(null) as ICrud).ReadAll();
             if (lstData.HasError())
+            {
                 return new ReturnObject<List<Dto>>
                 {
                     MessageList = lstData.MessageList
                 };
+            }
 
             return GetTariff(lstData.Value);
         }
 
         ReturnObject<List<Dto>> ITariff.ReadAllCurrentTariff()
         {
-            return this.ReadAllCurrentTariff();            
+            return this.ReadAllCurrentTariff();
         }
 
         ReturnObject<List<Dto>> ITariff.ReadAllFutureTariff()
         {
-            return this.ReadAllFutureTariff();            
+            return this.ReadAllFutureTariff();
         }
-              
+
         public override void Add()
         {
             this.Save("add");
@@ -62,86 +101,34 @@ namespace Retinue.Lodge.Configuration.Facade.Tariff
 
         private void Save(String action)
         {
-            Dto tariffDto = (this.FormDto as FormDto).dto;
-            CrystalLodge.Room.Tariff.Data tariffData = new CrystalLodge.Room.Tariff.Data
-            {
-                Id = action == "add" ? 0 :  tariffDto.Id,
-                category = new CrystalLodge.Room.Category.Data { Id = tariffDto.Category.Id },
-                type = new CrystalLodge.Room.Type.Data { Id = tariffDto.Type.Id },
-                isAC = tariffDto.IsAC,
-                StartDate = tariffDto.StartDate,
-                EndDate = tariffDto.EndDate,
-                Rate = tariffDto.Rate
-            };
+            TarrifComp.Data tariffData = this.Convert((this.FormDto as FormDto).Dto) as TarrifComp.Data;
 
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
-            CrystalLodge.Room.Tariff.IRoomTariff iTariff = new CrystalLodge.Room.Tariff.Server(tariffData);
-            List<BinAff.Core.Data> existData = iTariff.GetExistingTariff().Value;
+            TarrifComp.IRoomTariff iTariff = new TarrifComp.Server(tariffData);
+            List<BinAff.Core.Data> isExsists = iTariff.GetExistingTariff().Value; //Why it is here? it should be in component
 
-            if (action == "add")
+            if (action == "change")
             {
-                if (existData == null)
-                {
-                    //save
-                    ICrud crud = new CrystalLodge.Room.Tariff.Server(tariffData);
-                    crud.Save();
-
-                    ret.Value = true;
-                    ret.MessageList = new List<Message>
-                    { 
-                        new Message("Tariff added successfully.", Message.Type.Information)
-                    };
-                }
-                else
-                {
-                    this.IsError = true;
-                    ret.Value = false;
-                    ret.MessageList = new List<Message> 
-                    { 
-                        new Message("Tariff conflicts for the period selected. Please update the existing tariff.", Message.Type.Error)
-                    };
-                }
+                if (isExsists != null && isExsists.Count == 1 && isExsists[0].Id == tariffData.Id) isExsists = null;
             }
-
-            else //action is change
+            if (isExsists == null)
             {
-                //condition for change record
-                if (existData != null && existData.Count == 1 && existData[0].Id == tariffData.Id) existData = null;
-
-                if (existData == null)
-                {
-                    //save
-                    ICrud crud = new CrystalLodge.Room.Tariff.Server(tariffData);
-                    ret = crud.Save();
-
-                    if (!ret.Value)
-                        this.IsError = true;
-
-                    //{                        
-                    //    ret.MessageList = new List<Message> { 
-                    //        new Message("Tariff changed successfully.", Message.Type.Information)
-                    //    };
-                    //}  
-                    //else
-                    //    this.IsError = true;
-                }
-                else
-                {
-                    this.IsError = true;
-                    ret.Value = false;
-                    ret.MessageList = new List<Message> { 
-                            new Message("Tariff exists for the given period.\n\rCannot replace the existing tariff.", Message.Type.Error)
-                        };
-                }
+                ret = (new TarrifComp.Server(tariffData) as ICrud).Save();
             }
-
-            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);  
-           
+            else
+            {
+                ret.Value = false;
+                ret.MessageList = new List<Message> 
+                {
+                    new Message("Tariff conflicts for the period selected. Please update the existing tariff.", Message.Type.Error)
+                };
+            }
+            this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
         }
-        
+
         private ReturnObject<List<Dto>> ReadAllCurrentTariff()
         {
-            CrystalLodge.Room.Tariff.IRoomTariff iTariff = new CrystalLodge.Room.Tariff.Server(null);
+            TarrifComp.IRoomTariff iTariff = new TarrifComp.Server(null);
             ReturnObject<List<BinAff.Core.Data>> lstData = iTariff.ReadAllCurrentTariff();
 
             if (lstData.HasError())
@@ -157,7 +144,7 @@ namespace Retinue.Lodge.Configuration.Facade.Tariff
 
         private ReturnObject<List<Dto>> ReadAllFutureTariff()
         {
-            CrystalLodge.Room.Tariff.IRoomTariff iTariff = new CrystalLodge.Room.Tariff.Server(null);
+            TarrifComp.IRoomTariff iTariff = new TarrifComp.Server(null);
             ReturnObject<List<BinAff.Core.Data>> lstData = iTariff.ReadAllFutureTariff();
 
             if (lstData.HasError())
@@ -170,42 +157,18 @@ namespace Retinue.Lodge.Configuration.Facade.Tariff
 
             return GetTariff(lstData.Value);
         }
-        
+
         private ReturnObject<List<Dto>> GetTariff(List<BinAff.Core.Data> TariffList)
         {
-            ReturnObject<List<Dto>> ret = new ReturnObject<List<Dto>>()
+            ReturnObject<List<Dto>> ret = new ReturnObject<List<Dto>>
             {
-                Value = new List<Dto>(),
+                Value = TariffList.ConvertAll<Dto>(p => this.Convert(p) as Dto),
             };
-
-            //Populate data in dto from business entity
-            foreach (BinAff.Core.Data data in TariffList)
-            {
-                ret.Value.Add(new Dto
-                {
-                    Id = data.Id,
-                    Category = new Room.Category.Dto
-                    {
-                        Id = ((Retinue.Lodge.Component.Room.Tariff.Data)data).category.Id                        
-                    },
-                    Type = new Room.Type.Dto()
-                    {
-                        Id = ((Retinue.Lodge.Component.Room.Tariff.Data)data).type.Id                        
-                    },
-                    IsAC = ((CrystalLodge.Room.Tariff.Data)data).isAC,
-                    Rate = ((CrystalLodge.Room.Tariff.Data)data).Rate,
-                    StartDate = ((CrystalLodge.Room.Tariff.Data)data).StartDate,
-                    EndDate = ((CrystalLodge.Room.Tariff.Data)data).EndDate,
-                    IsACText = ((CrystalLodge.Room.Tariff.Data)data).isAC ? "Yes" : "No",
-                    RateText = Converter.ConvertToIndianCurrency(System.Convert.ToDecimal(((CrystalLodge.Room.Tariff.Data)data).Rate)),
-                });
-            }
 
             //update category name and type name
             if (ret.Value != null && ret.Value.Count > 0)
             {
                 FormDto formDto = this.FormDto as FormDto;
-
                 //update category
                 if (formDto != null && formDto.CategoryList != null && formDto.CategoryList.Count > 0)
                 {
@@ -216,7 +179,6 @@ namespace Retinue.Lodge.Configuration.Facade.Tariff
                             if (dto.Category.Id == categoryDto.Id)
                             {
                                 dto.Category.Name = categoryDto.Name;
-                                dto.CategoryText = categoryDto.Name;
                                 break;
                             }
                         }
@@ -233,25 +195,27 @@ namespace Retinue.Lodge.Configuration.Facade.Tariff
                             if (dto.Type.Id == typeDto.Id)
                             {
                                 dto.Type.Name = typeDto.Name;
-                                dto.TypeText = typeDto.Name;
                                 break;
                             }
                         }
                     }
                 }
+                ret.Value.Sort(delegate(Dto x, Dto y)
+                {
+                    int compareResult = x.CategoryText.CompareTo(y.CategoryText);
+                    if (compareResult != 0) return compareResult;
+                    compareResult = x.TypeText.CompareTo(y.TypeText);
+                    if (compareResult != 0) return compareResult;
+                    compareResult = x.IsAC.CompareTo(y.IsAC);
+                    if (compareResult != 0) return compareResult;
+                    compareResult = x.IsExtra.CompareTo(y.IsExtra);
+                    if (compareResult != 0) return compareResult;
+                    compareResult = x.StartDate.CompareTo(y.StartDate);
+                    if (compareResult != 0) return compareResult;
+                    return x.EndDate.CompareTo(y.EndDate);
+                });
             }
-
             return ret;
-        }
-
-        public override BinAff.Facade.Library.Dto Convert(Data data)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Data Convert(BinAff.Facade.Library.Dto dto)
-        {
-            throw new NotImplementedException();
         }
 
     }

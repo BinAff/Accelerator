@@ -14,57 +14,33 @@ namespace Crystal.Tariff.Component
 
         }
 
-        protected abstract override void Compose();
-
-        protected override void AssignParameter(string procedureName)
+        protected override void AssignParameter(String procedureName)
         {
-            base.AddInParameter("@Rate", DbType.Int64, ((Data)this.Data).Rate);
-            base.AddInParameter("@StartDate", DbType.DateTime, ((Data)this.Data).StartDate);
-            base.AddInParameter("@EndDate", DbType.DateTime, ((Data)this.Data).EndDate);
+            Data data = this.Data as Data;
+            base.AddInParameter("@StartDate", DbType.DateTime, (data).StartDate);
+            base.AddInParameter("@EndDate", DbType.DateTime, (data).EndDate);
+            base.AddInParameter("@IsExtra", DbType.Boolean, (data).IsExtra);
+            base.AddInParameter("@Rate", DbType.Int64, (data).Rate);
 
-            if (((Data)this.Data).Product != null)
-                base.AddInParameter("@ItemId", DbType.Int64, ((Data)this.Data).Product.Id);
+            if (data.Product != null)
+            {
+                base.AddInParameter("@ItemId", DbType.Int64, data.Product.Id);
+            }
         }
 
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
+        protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
         {
-            Data dt = (Data)data;
-            DataRow row;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                row = ds.Tables[0].Rows[0];
-
-                dt.Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]);
-                dt.Product = this.BindItem(Convert.IsDBNull(row["ItemId"]) ? 0 : Convert.ToInt32(row["ItemId"]));                
-                dt.StartDate = Convert.IsDBNull(row["StartDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["StartDate"]);
-                dt.EndDate = Convert.IsDBNull(row["EndDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["EndDate"]);
-                dt.Rate = Convert.IsDBNull(row["Rate"]) ? 0 : Convert.ToDouble(row["Rate"]);
-            }
+            Data dt = data as Data;
+            dt.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
+            //dt.Product = this.BindItem(Convert.IsDBNull(dr["ItemId"]) ? 0 : Convert.ToInt32(dr["ItemId"]));
+            dt.StartDate = Convert.IsDBNull(dr["StartDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["StartDate"]);
+            dt.EndDate = Convert.IsDBNull(dr["EndDate"]) ? DateTime.MinValue : Convert.ToDateTime(dr["EndDate"]);
+            dt.IsExtra = Convert.IsDBNull(dr["IsExtra"]) ? false : Convert.ToBoolean(dr["IsExtra"]);
+            dt.Rate = Convert.IsDBNull(dr["Rate"]) ? 0 : Convert.ToDouble(dr["Rate"]);
             return dt;
         }
 
-        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
-        {
-            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
-
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    Data data = this.CreateDataObject();
-                    data.Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]);
-                    data.Product = this.BindItem(Convert.IsDBNull(row["ItemId"]) ? 0 : Convert.ToInt32(row["ItemId"]));
-                    data.StartDate = Convert.IsDBNull(row["StartDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["StartDate"]);
-                    data.EndDate = Convert.IsDBNull(row["EndDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["EndDate"]);
-                    data.Rate = Convert.IsDBNull(row["Rate"]) ? 0 : Convert.ToDouble(row["Rate"]);
-                    ret.Add(data);
-                }
-            }
-            return ret;
-        }
-
         protected abstract Product.Component.Data BindItem(Int64 itemId);
-        protected abstract Data CreateDataObject();
 
         public abstract List<Data> IsProductDeletable(BinAff.Core.Data subject);
 

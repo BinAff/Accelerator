@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using BinAff.Core;
-using System;
 
 namespace Crystal.Tariff.Component
 {
@@ -15,28 +15,31 @@ namespace Crystal.Tariff.Component
 
         }
 
-        protected abstract override void Compose();
-        protected abstract override BinAff.Core.Data CreateDataObject();
-        protected abstract override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data);
-
         protected override ReturnObject<Boolean> IsSubjectDeletable(BinAff.Core.Data subject)
         {
             if (subject.GetType().ToString() == GetProductType())
-                return IsProductDeletable(subject);
+            {
+                return this.IsProductDeletable(subject);
+            }
             else
-                return new ReturnObject<bool>()
+            {
+                return new ReturnObject<Boolean>()
                 {
-                    MessageList = new List<Message>() { 
+                    MessageList = new List<Message>
+                    { 
                         new Message("Unknown deletable type detected.",Message.Type.Error)
                     }
                 };
+            }
         }
         
         protected abstract String GetProductType();
 
+        protected abstract String GetMessage(Data data);
+
         private ReturnObject<Boolean> IsProductDeletable(BinAff.Core.Data subject)
         {
-            return MakeReturnObject(((Dao)this.DataAccess).IsProductDeletable(subject));
+            return MakeReturnObject((this.DataAccess as Dao).IsProductDeletable(subject));
         }
 
         private ReturnObject<Boolean> MakeReturnObject(List<Data> dataList)
@@ -45,9 +48,11 @@ namespace Crystal.Tariff.Component
             Int32 count = dataList.Count;
             if (count > 0)
             {
-                String msg = "Unable to delete. Following " + this.Name + " has this dependency: ";                
-                foreach (Data data in dataList)                
-                    msg += GetMessage(data);               
+                String msg = "Unable to delete. Following " + this.Name + " has this dependency: ";
+                foreach (Data data in dataList)
+                {
+                    msg += GetMessage(data);
+                }
                 
                 ret.MessageList = new List<Message>
                 {
@@ -60,8 +65,6 @@ namespace Crystal.Tariff.Component
             }
             return ret;
         }
-
-        protected abstract String GetMessage(Data data);
               
     }
 

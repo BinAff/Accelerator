@@ -18,22 +18,37 @@ namespace Vanilla.Accountant.WinForm
 
     public partial class InvoiceForm : FrmWin.Document
     {
-        System.Windows.Forms.ToolStripButton btnPrint;
         System.Windows.Forms.ToolStripButton btnCancel;
+        System.Windows.Forms.ToolStripButton btnPay;
+        System.Windows.Forms.ToolStripButton btnPrint;
 
         public InvoiceForm(UtilFac.Artifact.Dto artifact)
             : base(artifact)
         {
             InitializeComponent();
-            this.btnPrint = base.AddToolStripButton("6", "Wingdings 2", "Print");
-            this.btnPrint.Click += btnPrint_Click;
             this.btnCancel = base.AddToolStripButton("Í", "Wingdings 2", "Cancel");
             this.btnCancel.Click += btnCancel_Click;
+            this.btnPay = base.AddToolStripButton("<", "Wingdings 2", "Pay");
+            this.btnPay.Click += btnPay_Click;
+            this.btnPrint = base.AddToolStripButton("6", "Wingdings 2", "Print");
+            this.btnPrint.Click += btnPrint_Click;
         }
 
         private void InvoiceForm_Load(object sender, EventArgs e)
         {
             this.tpnlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            //Can be added later
+            //Disabled initially, enabled after generation
+        }
+
+        private void btnPay_Click(object sender, EventArgs e)
+        {
+            //Can be added later
+            //Disabled initially, enabled after generation
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
@@ -43,12 +58,6 @@ namespace Vanilla.Accountant.WinForm
           
             System.Windows.Forms.Form form = new Vanilla.Accountant.WinForm.InvoiceReceipt();           
             form.ShowDialog();           
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            //Can be added later
-            //Disabled initially, enabled after generation
         }
 
         private void txtDiscount_TextChanged(object sender, EventArgs e)
@@ -126,8 +135,9 @@ namespace Vanilla.Accountant.WinForm
                 base.IsEnabledSaveButton = true;
                 base.IsEnabledDeleteButton = true;
 
-                this.btnPrint.Enabled = false;
                 this.btnCancel.Enabled = false;
+                this.btnPay.Enabled = false;
+                this.btnPrint.Enabled = false;
             }
             else
             {
@@ -138,8 +148,10 @@ namespace Vanilla.Accountant.WinForm
                 base.IsEnabledOpenLinkButton = false;
 
                 this.txtDiscount.ReadOnly = true;
-                this.btnPrint.Enabled = true;
+
                 this.btnCancel.Enabled = true;
+                this.btnPay.Enabled = true;
+                this.btnPrint.Enabled = true;
             }
         }
 

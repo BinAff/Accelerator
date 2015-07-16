@@ -2,11 +2,10 @@
 using System.Data;
 using System.Collections.Generic;
 
-using GenTariff = Crystal.Tariff.Component;
-
 namespace Retinue.Lodge.Component.Room.Tariff
 {
-    public class Dao : GenTariff.Dao
+
+    public class Dao : Crystal.Tariff.Component.Dao
     {
 
         public Dao(Data data)
@@ -17,22 +16,32 @@ namespace Retinue.Lodge.Component.Room.Tariff
 
         protected override void Compose()
         {
-            base.CreateStoredProcedure = "Lodge.RoomTariffInsert";
+            base.CreateStoredProcedure = "Lodge.TariffInsert";
             base.NumberOfRowsAffectedInCreate = 1;
-            base.ReadStoredProcedure = "Lodge.RoomTariffRead";
-            base.ReadAllStoredProcedure = "Lodge.RoomTariffReadAll";
-            base.UpdateStoredProcedure = "Lodge.RoomTariffUpdate";
+            base.ReadStoredProcedure = "Lodge.TariffRead";
+            base.ReadAllStoredProcedure = "Lodge.TariffReadAll";
+            base.UpdateStoredProcedure = "Lodge.TariffUpdate";
             base.NumberOfRowsAffectedInUpdate = -1;
-            base.DeleteStoredProcedure = "Lodge.RoomTariffDelete";
+            base.DeleteStoredProcedure = "Lodge.TariffDelete";
             base.NumberOfRowsAffectedInDelete = -1;
         }
 
         protected override void AssignParameter(string procedureName)
         {
             base.AssignParameter(procedureName);
-            base.AddInParameter("@CategoryId", DbType.Int64, ((Data)this.Data).category.Id);
-            base.AddInParameter("@TypeId", DbType.Int64, ((Data)this.Data).type.Id);
-            base.AddInParameter("@IsAC", DbType.Boolean, ((Data)this.Data).isAC);           
+            base.AddInParameter("@CategoryId", DbType.Int64, ((Data)this.Data).Category.Id);
+            base.AddInParameter("@TypeId", DbType.Int64, ((Data)this.Data).Type.Id);
+            base.AddInParameter("@IsAC", DbType.Boolean, ((Data)this.Data).IsAC);
+        }
+
+        protected override BinAff.Core.Data CreateDataObject(DataRow dr, BinAff.Core.Data data)
+        {
+            base.CreateDataObject(dr, data);
+            Data dt = data as Data;
+            dt.Category = Convert.IsDBNull(dr["CategoryId"]) ? null : new Category.Data() { Id = Convert.ToInt64(dr["CategoryId"]) };
+            dt.Type = Convert.IsDBNull(dr["TypeId"]) ? null : new Room.Type.Data() { Id = Convert.ToInt64(dr["TypeId"]) };
+            dt.IsAC = Convert.IsDBNull(dr["IsAirConditioned"]) ? false : Convert.ToBoolean(dr["IsAirConditioned"]);
+            return dt;
         }
 
         protected override Crystal.Product.Component.Data BindItem(Int64 itemId)
@@ -41,31 +50,6 @@ namespace Retinue.Lodge.Component.Room.Tariff
             {
                 Id = itemId
             };
-        }
-
-        protected override GenTariff.Data CreateDataObject()
-        {
-            return new Data();
-        }
-
-        public Boolean ModifyForCategoryAndType(Category.Data category, Type.Data type, double rate)
-        {
-            Boolean retVal = true;      
-
-            base.CreateConnection();
-            this.CreateCommand("Lodge.RoomTariffModifyRate");
-            this.AddInParameter("@CategoryId", DbType.Int64, category.Id);
-            this.AddInParameter("@TypeId", DbType.Int64, type.Id);
-            this.AddInParameter("@Rate", DbType.Double, rate);
-            Int32 ret = this.ExecuteNonQuery();
-            base.CloseConnection();
-
-            if (ret == -2146232060)
-                retVal = false;//Foreign key violation
-            else
-                retVal = ret == this.NumberOfRowsAffectedInDelete || this.NumberOfRowsAffectedInDelete == -1;
-
-            return retVal;
         }
 
         public override List<Crystal.Tariff.Component.Data> IsProductDeletable(BinAff.Core.Data subject)
@@ -103,17 +87,16 @@ namespace Retinue.Lodge.Component.Room.Tariff
             Data data = this.Data as Data;
             if (data != null)
             {
-
                 this.CreateConnection();
                 this.CreateCommand("Lodge.TariffIsExist");
-                base.AddInParameter("@CategoryId", DbType.Int64, data.category.Id);
-                base.AddInParameter("@TypeId", DbType.Int64, data.type.Id);
-                base.AddInParameter("@IsAC", DbType.Boolean, data.isAC);
+                base.AddInParameter("@CategoryId", DbType.Int64, data.Category.Id);
+                base.AddInParameter("@TypeId", DbType.Int64, data.Type.Id);
+                base.AddInParameter("@IsAC", DbType.Boolean, data.IsAC);
                 base.AddInParameter("@StartDate", DbType.DateTime, data.StartDate);
                 base.AddInParameter("@EndDate", DbType.DateTime, data.EndDate);
+                base.AddInParameter("@IsExtra", DbType.Boolean, data.IsExtra);
                 DataSet ds = this.ExecuteDataSet();
                 retList = (ds != null && ds.Tables[0].Rows.Count > 0) ? (List<BinAff.Core.Data>)CreateDataObjectList(ds) : null;
-
                 this.CloseConnection();
             }
             return retList;
@@ -142,47 +125,6 @@ namespace Retinue.Lodge.Component.Room.Tariff
             return dataList;
         }
 
-        protected override List<BinAff.Core.Data> CreateDataObjectList(DataSet ds)
-        {
-            List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
-
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    ret.Add(new Data
-                    {                       
-                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),                    
-                        StartDate = Convert.IsDBNull(row["StartDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["StartDate"]),
-                        EndDate = Convert.IsDBNull(row["EndDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["EndDate"]),
-                        Rate = Convert.IsDBNull(row["Rate"]) ? 0 : Convert.ToDouble(row["Rate"]),
-                        category = Convert.IsDBNull(row["CategoryId"]) ? null : new Category.Data() { Id = Convert.ToInt64(row["CategoryId"]) },
-                        type = Convert.IsDBNull(row["TypeId"]) ? null : new Room.Type.Data() { Id = Convert.ToInt64(row["TypeId"]) },
-                        isAC = Convert.IsDBNull(row["IsAirConditioned"]) ? false : Convert.ToBoolean(row["IsAirConditioned"])                     
-                    });
-                }
-            }
-            return ret;
-        }
-
-        protected override BinAff.Core.Data CreateDataObject(DataSet ds, BinAff.Core.Data data)
-        {
-            Data dt = (Data)data;
-            DataRow row;
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-            {
-                row = ds.Tables[0].Rows[0];
-
-                dt.Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]);               
-                dt.StartDate = Convert.IsDBNull(row["StartDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["StartDate"]);
-                dt.EndDate = Convert.IsDBNull(row["EndDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["EndDate"]);
-                dt.Rate = Convert.IsDBNull(row["Rate"]) ? 0 : Convert.ToDouble(row["Rate"]);
-                dt.category = Convert.IsDBNull(row["CategoryId"]) ? null : new Category.Data() { Id = Convert.ToInt64(row["CategoryId"]) };
-                dt.type = Convert.IsDBNull(row["TypeId"]) ? null : new Room.Type.Data() { Id = Convert.ToInt64(row["TypeId"]) };
-                dt.isAC = Convert.IsDBNull(row["IsAirConditioned"]) ? false : Convert.ToBoolean(row["IsAirConditioned"]);
-            }
-            return dt;
-        }
-
     }
+
 }
