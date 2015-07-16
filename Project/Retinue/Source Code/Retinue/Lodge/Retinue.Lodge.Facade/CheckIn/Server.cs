@@ -583,7 +583,7 @@ namespace Retinue.Lodge.Facade.CheckIn
                         RoomIsAC = product.Room.IsAirconditioned,
                         Count = 1, //count is basically rooms of same type [i.e. same typeid, categoryId, and Ac] 
                         EndDate = dto.Reservation.BookingFrom.AddDays(1), //Every time one day for daywise bill - This will be configurable for 24 hours or check out fix time
-                        Extra = product.Room.ExtraAccomodation,
+                        ExtraCount = product.Room.ExtraAccomodation,
                     };
 
                     if (lineItemList.Count == 0)
@@ -717,7 +717,7 @@ namespace Retinue.Lodge.Facade.CheckIn
                         RoomIsAC = lineItem.RoomIsAC,
                         Description = lineItem.Description,
                         Count = lineItem.Count,
-                        Extra = lineItem.Extra,
+                        ExtraCount = lineItem.ExtraCount,
                         EndDate = stDate.AddDays(1)
                     };
 
@@ -769,7 +769,7 @@ namespace Retinue.Lodge.Facade.CheckIn
             //Reservation advances
         }
 
-        private void AttachTariff(List<InvFac.LineItem.Dto> roomList)
+        private void AttachTariff(List<InvFac.LineItem.Dto> lineItemList)
         {
             //hit Lodge Room Tariff component
             TarrifFac.ITariff tariff = new TarrifFac.TariffServer(null);
@@ -777,16 +777,22 @@ namespace Retinue.Lodge.Facade.CheckIn
 
             if (tariffList != null && tariffList.Count > 0)
             {
-                foreach (InvFac.LineItem.Dto roomDto in roomList)
+                foreach (InvFac.LineItem.Dto lineItem in lineItemList)
                 {
-                    foreach (TarrifFac.Dto tariffDto in tariffList)
+                    lineItem.UnitRate = tariffList.Find((p) =>
                     {
-                        if (roomDto.RoomCategoryId == tariffDto.Category.Id && roomDto.RoomTypeId == tariffDto.Type.Id && roomDto.RoomIsAC == tariffDto.IsAC)
-                        {
-                            roomDto.UnitRate = tariffDto.Rate;
-                            break;
-                        }
-                    }
+                        return lineItem.RoomCategoryId == p.Category.Id
+                            && lineItem.RoomTypeId == p.Type.Id
+                            && lineItem.RoomIsAC == p.IsAC
+                            && !p.IsExtra;
+                    }).Rate;
+                    lineItem.ExtraRate = tariffList.Find((p) =>
+                    {
+                        return lineItem.RoomCategoryId == p.Category.Id
+                            && lineItem.RoomTypeId == p.Type.Id
+                            && lineItem.RoomIsAC == p.IsAC
+                            && p.IsExtra;
+                    }).Rate;
                 }
             }
         }

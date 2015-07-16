@@ -64,6 +64,7 @@
             this.btnClose.Size = new System.Drawing.Size(30, 24);
             this.btnClose.Text = "Î";
             this.btnClose.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.btnClose.ToolTipText = "Cancel";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // btnOk
@@ -76,6 +77,7 @@
             this.btnOk.Size = new System.Drawing.Size(28, 24);
             this.btnOk.Text = "P";
             this.btnOk.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.btnOk.ToolTipText = "Ok";
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // Document

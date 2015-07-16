@@ -44,6 +44,16 @@ namespace Retinue.Lodge.Component.Room.Tariff
                 Type = ChildType.Independent,
                 IsReadOnly = true,
             });
+            base.AddChild(new Room.Category.Server((this.Data as Data).Category as Room.Category.Data)
+            {
+                Type = ChildType.Independent,
+                IsReadOnly = true,
+            });
+            base.AddChild(new Room.Type.Server((this.Data as Data).Type as Room.Type.Data)
+            {
+                Type = ChildType.Independent,
+                IsReadOnly = true,
+            });
         } 
 
         protected override String GetProductType()
@@ -88,7 +98,7 @@ namespace Retinue.Lodge.Component.Room.Tariff
         {
             return new ReturnObject<List<BinAff.Core.Data>>
             {
-                Value = (this.DataAccess as Dao).GetExistingTariff(),
+                Value = this.GetTariff((this.DataAccess as Dao).GetExistingTariff()),
             };
         }
         
@@ -96,7 +106,7 @@ namespace Retinue.Lodge.Component.Room.Tariff
         {
             return new ReturnObject<List<BinAff.Core.Data>>
             {
-                Value = (this.DataAccess as Dao).ReadAllCurrentTariff(),
+                Value = this.GetTariff((this.DataAccess as Dao).ReadAllCurrentTariff()),
             };
         }
         
@@ -104,8 +114,17 @@ namespace Retinue.Lodge.Component.Room.Tariff
         {
             return new ReturnObject<List<BinAff.Core.Data>>
             {
-                Value = (this.DataAccess as Dao).ReadAllFutureTariff(),
+                Value = this.GetTariff((this.DataAccess as Dao).ReadAllFutureTariff()),
             };
+        }
+
+        private List<BinAff.Core.Data> GetTariff(List<BinAff.Core.Data> compList)
+        {
+            foreach (Data comp in compList)
+            {
+                (this.CreateInstance(comp) as ICrud).Read();
+            }
+            return compList;
         }
 
     }

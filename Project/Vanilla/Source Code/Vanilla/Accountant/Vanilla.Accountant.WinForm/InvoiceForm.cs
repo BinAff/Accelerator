@@ -182,10 +182,12 @@ namespace Vanilla.Accountant.WinForm
                 this.dgvProduct.Columns[2].DataPropertyName = "Description";
                 this.dgvProduct.Columns[3].DataPropertyName = "UnitRate";
                 this.dgvProduct.Columns[4].DataPropertyName = "Count";
-                this.dgvProduct.Columns[5].DataPropertyName = "Total";
-                this.dgvProduct.Columns[6].DataPropertyName = "ServiceTax";
-                this.dgvProduct.Columns[7].DataPropertyName = "LuxuryTax";
-                this.dgvProduct.Columns[8].DataPropertyName = "GrandTotal";
+                this.dgvProduct.Columns[5].DataPropertyName = "ExtraRate";
+                this.dgvProduct.Columns[6].DataPropertyName = "ExtraCount";
+                this.dgvProduct.Columns[7].DataPropertyName = "Total";
+                this.dgvProduct.Columns[8].DataPropertyName = "ServiceTax";
+                this.dgvProduct.Columns[9].DataPropertyName = "LuxuryTax";
+                this.dgvProduct.Columns[10].DataPropertyName = "GrandTotal";
                 
                 this.dgvProduct.AutoGenerateColumns = false;
                 this.dgvProduct.DataSource = invoiceList;               

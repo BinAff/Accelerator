@@ -33,7 +33,9 @@ namespace Vanilla.Accountant.Facade.Invoice.LineItem
                 EndDate = comp.End,
                 Description = comp.Description,
                 UnitRate = comp.UnitRate,
-                Count = comp.Count,                
+                Count = comp.Count,
+                ExtraRate = comp.ExtraRate,
+                ExtraCount = comp.ExtraCount,
             };
             if (comp.TaxList != null && comp.TaxList.Count > 0)
             {
@@ -59,6 +61,8 @@ namespace Vanilla.Accountant.Facade.Invoice.LineItem
                 Description = comp.Description,
                 UnitRate = comp.UnitRate,
                 Count = comp.Count,
+                ExtraRate = comp.ExtraRate,
+                ExtraCount = comp.ExtraCount,
             };
             if (comp.TaxList != null && comp.TaxList.Count > 0)
             {
