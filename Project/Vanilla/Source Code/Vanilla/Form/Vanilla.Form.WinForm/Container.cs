@@ -168,6 +168,7 @@ namespace Vanilla.Form.WinForm
             this.Text = "Forms";
             base.facade = new Facade.Container.Server(null);
             base.IsPathShown = true;
+            this.InitializeAttachment();
         }
 
         protected override UtilWin.Container CreateExecutableInstance(AccFac.Dto dto)
@@ -316,52 +317,11 @@ namespace Vanilla.Form.WinForm
 
         #region Attachment
 
-        private void HandleAttachment(Document child)
+        private void InitializeAttachment()
         {
-            this.lblAttachmentHeading.Text = child.AttachmentName;
-
+            this.dgvAttachmentList.CellMouseClick += dgvAttachmentList_CellMouseClick;
+            this.dgvAttachmentList.CellDoubleClick += dgvAttachmentList_CellDoubleClick;
             this.dgvAttachmentList.AutoGenerateColumns = false;
-            this.formDto = new Facade.Container.FormDto
-            {
-                DocumentFormDto = new Facade.Document.FormDto
-                {
-                    Document = new ArtfFac.Dto
-                    {
-                        IsAttachmentSupported = child.IsAttachmentSupported,
-                        AttachmentList = child.AttachmentList,
-                    }
-                }
-            };
-
-            this.dgvAttachmentList.Rows.Clear();
-            ArtfFac.Dto document = (this.formDto as Facade.Container.FormDto).DocumentFormDto.Document;
-            if (document.AttachmentList != null)
-            {
-                foreach (ArtfFac.Dto attachment in document.AttachmentList)
-                {
-                    this.dgvAttachmentList.Rows.Add(attachment.FullPath, "Delete");
-                }
-            }
-            this.btnAttach.Enabled = child.IsEnabledAttchment;
-            if (document.IsAttachmentSupported)
-            {
-                this.dgvAttachmentList.Show();
-            }
-            else
-            {
-                this.dgvAttachmentList.Hide();
-            }
-        }
-
-        private void BindAttachmentList(Document attachment)
-        {
-            ArtfFac.Dto artifact = (this.formDto as Facade.Container.FormDto).DocumentFormDto.Document;
-            if (artifact.AttachmentList == null)
-            {
-                artifact.AttachmentList = new List<ArtfFac.Dto>();
-            }
-            artifact.AttachmentList.Add(attachment.Artifact);
-            this.dgvAttachmentList.Rows.Add(attachment.Artifact.Path, "Delete");
         }
 
         private void dgvAttachmentList_CellMouseClick(object sender, System.Windows.Forms.DataGridViewCellMouseEventArgs e)
@@ -408,8 +368,56 @@ namespace Vanilla.Form.WinForm
 
             Type type = Type.GetType(document.ComponentDefinition.ComponentFormType, true);
             FrmWin.Document form = (FrmWin.Document)Activator.CreateInstance(type, document);
+            form.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            form.ShowInTaskbar = false;
             this.documentCollection.Current.RaiseAttachmentArtifactLoaded(form);
-            form.Show();
+            form.ShowDialog(this);
+        }
+
+        private void HandleAttachment(Document child)
+        {
+            this.lblAttachmentHeading.Text = child.AttachmentName;
+            this.formDto = new Facade.Container.FormDto
+            {
+                DocumentFormDto = new Facade.Document.FormDto
+                {
+                    Document = new ArtfFac.Dto
+                    {
+                        IsAttachmentSupported = child.IsAttachmentSupported,
+                        AttachmentList = child.AttachmentList,
+                    }
+                }
+            };
+
+            this.dgvAttachmentList.Rows.Clear();
+            ArtfFac.Dto document = (this.formDto as Facade.Container.FormDto).DocumentFormDto.Document;
+            if (document.AttachmentList != null)
+            {
+                foreach (ArtfFac.Dto attachment in document.AttachmentList)
+                {
+                    this.dgvAttachmentList.Rows.Add(attachment.FullPath, "Delete");
+                }
+            }
+            this.btnAttach.Enabled = child.IsEnabledAttchment;
+            if (document.IsAttachmentSupported)
+            {
+                this.dgvAttachmentList.Show();
+            }
+            else
+            {
+                this.dgvAttachmentList.Hide();
+            }
+        }
+
+        private void BindAttachmentList(Document attachment)
+        {
+            ArtfFac.Dto artifact = (this.formDto as Facade.Container.FormDto).DocumentFormDto.Document;
+            if (artifact.AttachmentList == null)
+            {
+                artifact.AttachmentList = new List<ArtfFac.Dto>();
+            }
+            artifact.AttachmentList.Add(attachment.Artifact);
+            this.dgvAttachmentList.Rows.Add(attachment.Artifact.Path, "Delete");
         }
 
         #endregion
