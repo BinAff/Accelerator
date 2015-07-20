@@ -13,7 +13,7 @@ namespace Crystal.Navigator.Component.Artifact
         ReturnObject<Boolean> UpdaterModuleArtifactLink();
         ReturnObject<Data> ReadWithParent();
         ReturnObject<Data> ReadForComponent();
-        ReturnObject<BinAff.Core.Data> ReadComponentLink();
+        ReturnObject<BinAff.Core.Data> ReadLinkedComponent();
 
         ReturnObject<Boolean> CreateAttachmentLink(Data attachment);
         ReturnObject<List<Data>> ReadAttachmentLink();

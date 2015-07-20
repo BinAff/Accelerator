@@ -224,7 +224,7 @@ namespace Vanilla.Form.Facade.Document
 
         protected BinAff.Core.Data ReadComponentForArtifact(Int64 artifactId)
         {
-            ReturnObject<BinAff.Core.Data> ret = (this.GetArtifactServer(this.GetArtifactData(artifactId)) as Crystal.Navigator.Component.Artifact.IArtifact).ReadComponentLink();
+            ReturnObject<BinAff.Core.Data> ret = (this.GetArtifactServer(this.GetArtifactData(artifactId)) as Crystal.Navigator.Component.Artifact.IArtifact).ReadLinkedComponent();
             if (this.IsError = ret.HasError())
             {
                 this.DisplayMessageList = ret.GetMessage(Message.Type.Error);
