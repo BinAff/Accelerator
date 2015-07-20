@@ -93,10 +93,10 @@ namespace Vanilla.Form.Facade.Document
 
         public virtual ReturnObject<Boolean> ValidateDelete()
         {
-            Int64 componentId = this.ReadComponentIdForArtifact(this.Data.Id);
-            if (componentId == 0) return new ReturnObject<Boolean> { Value = true }; //No component attached with artifact
+            BinAff.Core.Data comp = this.ReadComponentForArtifact(this.Data.Id);
+            if (comp.Id == 0) return new ReturnObject<Boolean> { Value = true }; //No component attached with artifact
             this.componentServer = this.GetComponentServer();
-            (this.componentServer as Crud).Data.Id = componentId;
+            (this.componentServer as Crud).Data.Id = comp.Id;
             BinAff.Core.Observer.IRegistrar registrar = this.GetRegisterer();
             if (registrar == null) return new ReturnObject<Boolean> { Value = true };
             ReturnObject<Boolean> ret = registrar.Register(this.componentServer as BinAff.Core.Observer.ISubject);
@@ -222,9 +222,18 @@ namespace Vanilla.Form.Facade.Document
             }
         }
 
-        protected Int64 ReadComponentIdForArtifact(Int64 artifactId)
+        protected BinAff.Core.Data ReadComponentForArtifact(Int64 artifactId)
         {
-            return (this.GetArtifactServer(this.GetArtifactData(artifactId)) as Crystal.Navigator.Component.Artifact.IArtifact).ReadComponentLink().Value.Id;
+            ReturnObject<BinAff.Core.Data> ret = (this.GetArtifactServer(this.GetArtifactData(artifactId)) as Crystal.Navigator.Component.Artifact.IArtifact).ReadComponentLink();
+            if (this.IsError = ret.HasError())
+            {
+                this.DisplayMessageList = ret.GetMessage(Message.Type.Error);
+                return null;
+            }
+            else
+            {
+                return ret.Value;
+            }
         }
 
         protected abstract ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData);

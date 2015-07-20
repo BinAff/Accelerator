@@ -310,9 +310,9 @@ namespace Retinue.Customer.Facade
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean> { Value = true };
 
-            Int64 componentId = this.ReadComponentIdForArtifact(this.Data.Id);
-            if (componentId == 0) return ret;
-            ReturnObject<Data> retData = (new CustAuto.Server(new CustAuto.Data { Id = componentId }) as ICrud).Read();
+            BinAff.Core.Data cust = this.ReadComponentForArtifact(this.Data.Id);
+            if (cust.Id == 0) return ret;
+            ReturnObject<Data> retData = (new CustAuto.Server(cust as CustAuto.Data) as ICrud).Read();
 
             LodgeRet.Room.Reserver.Data reservationData = (retData.Value as CustAuto.Data).RoomReserver;
             LodgeRet.Room.CheckInContainer.Data checkInData = (retData.Value as CustAuto.Data).Checkin;

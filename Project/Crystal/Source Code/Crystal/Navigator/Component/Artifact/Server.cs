@@ -107,13 +107,13 @@ namespace Crystal.Navigator.Component.Artifact
             return ret;
         }
 
-        ReturnObject<Data> IArtifact.ReadComponentLink()
+        ReturnObject<BinAff.Core.Data> IArtifact.ReadComponentLink()
         {
             Int64 compId = (this.DataAccess as Dao).ReadComponentLink();
             
             if (compId == 0)
             {
-                return new ReturnObject<Data>
+                return new ReturnObject<BinAff.Core.Data>
                 {
                     MessageList = new List<Message>
                     {
@@ -125,7 +125,7 @@ namespace Crystal.Navigator.Component.Artifact
             {
                 Data data = this.CreateComponentDataObject() as Data;
                 data.Id = compId;
-                return new ReturnObject<Data>
+                return new ReturnObject<BinAff.Core.Data>
                 {
                     Value = data,
                 };
