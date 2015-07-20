@@ -107,9 +107,29 @@ namespace Crystal.Navigator.Component.Artifact
             return ret;
         }
 
-        Int64 IArtifact.ReadComponentLink()
+        ReturnObject<Data> IArtifact.ReadComponentLink()
         {
-            return (this.DataAccess as Dao).ReadComponentLink();
+            Int64 compId = (this.DataAccess as Dao).ReadComponentLink();
+            
+            if (compId == 0)
+            {
+                return new ReturnObject<Data>
+                {
+                    MessageList = new List<Message>
+                    {
+                        new Message("No component found attached with artifact", Message.Type.Error),
+                    },
+                };
+            }
+            else
+            {
+                Data data = this.CreateComponentDataObject() as Data;
+                data.Id = compId;
+                return new ReturnObject<Data>
+                {
+                    Value = data,
+                };
+            }
         }
 
         ReturnObject<Boolean> IArtifact.CreateAttachmentLink(Data attachment)
