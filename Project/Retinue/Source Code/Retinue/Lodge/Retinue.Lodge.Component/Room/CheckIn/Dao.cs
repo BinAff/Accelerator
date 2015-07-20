@@ -172,9 +172,9 @@ namespace Retinue.Lodge.Component.Room.CheckIn
         //    return retVal;
         //}
 
-        internal List<Data> IsReservationDeletable(Reservation.Data data)
+        internal List<Crystal.Customer.Component.Action.Data> IsReservationDeletable(Reservation.Data data)
         {
-            List<Data> dataList = new List<Data>();
+            List<Crystal.Customer.Component.Action.Data> dataList = new List<Crystal.Customer.Component.Action.Data>();
             this.CreateConnection();
             this.CreateCommand("Lodge.IsReservationDeletable");
             this.AddInParameter("@ReservationId", DbType.Int64, data.Id);
@@ -185,6 +185,7 @@ namespace Retinue.Lodge.Component.Room.CheckIn
                 {
                     dataList.Add(new Data
                     {
+                        Id = Convert.IsDBNull(row["Id"]) ? 0 : Convert.ToInt64(row["Id"]),
                         Date = Convert.IsDBNull(row["CheckInDate"]) ? DateTime.MinValue : Convert.ToDateTime(row["CheckInDate"]),
                         Reservation = new Reservation.Data()
                         {

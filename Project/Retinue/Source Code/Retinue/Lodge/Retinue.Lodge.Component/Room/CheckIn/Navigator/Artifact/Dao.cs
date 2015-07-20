@@ -21,6 +21,8 @@ namespace Retinue.Lodge.Component.Room.CheckIn.Navigator.Artifact
             base.ReadComponentLinkSPName = "Lodge.CheckInArtifactReadLink";
             base.UpdateComponentLinkSPName = "Lodge.CheckInArtifactUpdateLink";
             base.DeleteComponentLinkSPName = "Lodge.CheckInArtifactDeleteLink";
+
+            base.ReadForComponentSPName = "Lodge.CheckInArtifactReadForComponent";
         }
 
         protected override BinAff.Core.Data CreateDataObject(Int64 id, ArtfComp.Category category)

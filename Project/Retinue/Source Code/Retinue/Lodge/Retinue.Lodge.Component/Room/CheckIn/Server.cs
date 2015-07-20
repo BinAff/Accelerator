@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Transactions;
 
 using BinAff.Core;
 
-using InvCrys = Crystal.Accountant.Component.Invoice;
-
+using ActivityCrys = Crystal.Activity.Component;
+using ActionCrys = Crystal.Customer.Component.Action;
 using RoomRsvCrys = Retinue.Lodge.Component.Room.Reservation;
-using Crystal.Customer.Component.Action;
-using Crystal.Activity.Component;
-using System.Transactions;
+using InvCrys = Crystal.Accountant.Component.Invoice;
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
 
 namespace Retinue.Lodge.Component.Room.CheckIn
 {
@@ -55,60 +55,39 @@ namespace Retinue.Lodge.Component.Room.CheckIn
             });
         }
 
-        protected override ReturnObject<Boolean> IsSubjectDeletable(BinAff.Core.Data subject)
+        protected override ReturnObject<Boolean> IsDependedDeletable(BinAff.Core.Data subject)
         {
-            ReturnObject<Boolean> ret = base.IsSubjectDeletable(subject);
-            if (ret.MessageList == null || ret.MessageList.Count == 0)
-            {
-                ret = (subject.GetType().ToString() == "Retinue.Lodge.Component.Room.Reservation.Data") ?
-                    this.MakeReturnObject((this.DataAccess as Dao).IsReservationDeletable(subject as RoomRsvCrys.Data)) :
-                    new ReturnObject<Boolean>
-                    {
-                        MessageList = { new Message("Unknown deletable type detected.", Message.Type.Error) }
-                    };
-            }
-            return ret;
-        }
-
-        private ReturnObject<Boolean> MakeReturnObject(List<Data> dataList)
-        {  
-            ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
-            Int32 count = dataList.Count;
-            if (count > 0)
-            {
-                String msg = "Unable to delete. Following " + this.Name + " has this dependency: ";
-                foreach (Data data in dataList)
+            return (subject is Retinue.Lodge.Component.Room.Reservation.Data) ?
+                base.MakeReturnObject((this.DataAccess as Dao).IsReservationDeletable(subject as RoomRsvCrys.Data)) :
+                new ReturnObject<Boolean>
                 {
-                    msg += GetMessage(data);
-                }               
-                ret.MessageList = new List<Message>
-                {
-                    new Message(msg, Message.Type.Error)
+                    MessageList = { new Message("Unknown deletable type detected.", Message.Type.Error) }
                 };
-            }
-            else
-            {
-                ret.Value = true;
-            }
-            return ret;
         }
 
-        protected override String GetProductType()
+        protected override System.Type GetProductType()
         {
-            return "Retinue.Lodge.Component.Room.Data";
+            return typeof(Retinue.Lodge.Component.Room.Data);
         }
 
-        protected override String GetMessage(Crystal.Customer.Component.Action.Data data )
+        protected override String GetMessage(ActionCrys.Data data )
         {
             Data d = data as Data;
-            return "Room has reservation from " + d.Date.ToShortDateString() + " till " + d.Date.AddDays(d.Reservation.NoOfDays).ToShortDateString();
+            Navigator.Artifact.Data artf = new Navigator.Artifact.Data
+            {
+                ComponentData = d,
+            };
+            (new Navigator.Artifact.Server(artf) as ArtfCrys.IArtifact).ReadForComponent();
+            return String.Format(" Room is already checked in from {0} to {1}. Depended form path: {2}.",
+                d.Date.ToShortDateString(),
+                d.Date.AddDays(d.Reservation.NoOfDays).ToShortDateString(),
+                artf.FullPath);
         }
 
         //call reservation component and save the Reservation status to CheckIn
         protected override ReturnObject<Boolean> CreateAfter()
         {
-            Crystal.Customer.Component.Action.IAction server = new RoomRsvCrys.Server((this.Data as Data).Reservation);
-            return server.UpdateStatus();            
+            return (new RoomRsvCrys.Server((this.Data as Data).Reservation) as ActionCrys.IAction).UpdateStatus();            
         }
 
         //protected override ReturnObject<BinAff.Core.Data> ReadAfter()
@@ -146,7 +125,7 @@ namespace Retinue.Lodge.Component.Room.CheckIn
                 ret = (new RoomRsvCrys.Server(data.Reservation) as ICrud).Save();
                 if (ret.Value)
                 {
-                    ret = (this as IActivity).Complete();
+                    ret = (this as ActivityCrys.IActivity).Complete();
                     if (ret.Value) t.Complete();
                 }
             }
@@ -163,11 +142,11 @@ namespace Retinue.Lodge.Component.Room.CheckIn
             return (new RoomRsvCrys.Server(new RoomRsvCrys.Data
             {
                 Id = (this.Data as Data).Reservation.Id,
-                Status = new Crystal.Customer.Component.Action.Status.Data
+                Status = new ActionCrys.Status.Data
                 {
                     Id = 10001 // To make the reservation open
                 },
-            }) as Crystal.Customer.Component.Action.IAction).UpdateStatus();
+            }) as ActionCrys.IAction).UpdateStatus();
         }
 
         public ReturnObject<Boolean> IsCheckInDeletable()

@@ -68,15 +68,16 @@ namespace Retinue.Lodge.Component.Room.Reservation
             return ret;
         }
 
-        protected override String GetProductType()
+        protected override System.Type GetProductType()
         {
-            return "Retinue.Lodge.Component.Room.Data";
+            return typeof(Retinue.Lodge.Component.Room.Data);
         }
 
         protected override String GetMessage(Crystal.Customer.Component.Action.Data data)
         {
-            Data d = data as Data;            
-            return "Room has reservation from " + d.Date.ToShortDateString() + " till " + d.Date.AddDays(d.NoOfDays).ToShortDateString();
+            Data d = data as Data;
+            return String.Format("Room is reserved from {0} to {1}.",
+                 d.Date.ToShortDateString(), d.Date.AddDays(d.NoOfDays).ToShortDateString());
         }
 
         //public override ReturnObject<Boolean> ChangeReservationToOccupied()

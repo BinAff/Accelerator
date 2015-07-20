@@ -3,6 +3,7 @@ using System;
 
 using BinAff.Core;
 
+using ArtfCrys = Crystal.Navigator.Component.Artifact;
 using CrysArtfObserver = Crystal.Navigator.Component.Artifact.Observer;
 
 namespace Crystal.Customer.Component.Action
@@ -17,12 +18,6 @@ namespace Crystal.Customer.Component.Action
 
         }
 
-        protected abstract override void Compose();
-
-        protected abstract override BinAff.Core.Data CreateDataObject();
-
-        protected abstract override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data);
-
         protected override void CreateChildren()
         {
             base.AddChild(new Status.Server(((Data)this.Data).Status)
@@ -32,7 +27,23 @@ namespace Crystal.Customer.Component.Action
             });
         }
 
-        ReturnObject<List<Data>> IAction.Search(Status.Data status, System.DateTime startDate, System.DateTime endDate)
+        protected override ReturnObject<Boolean> IsSubjectDeletable(BinAff.Core.Data subject)
+        {
+            if (subject.GetType() == this.GetProductType())
+            {
+                return this.IsProductDeletable(subject);
+            }
+            else if (subject is Crystal.Customer.Component.Action.Status.Data)
+            {
+                return this.IsStatusDeletable(subject as Status.Data);
+            }
+            else
+            {
+                return this.IsDependedDeletable(subject);
+            }
+        }
+
+        ReturnObject<List<Data>> IAction.Search(Status.Data status, DateTime startDate, DateTime endDate)
         {
             ReturnObject<List<Data>> ret = new ReturnObject<List<Data>>
             {
@@ -59,45 +70,50 @@ namespace Crystal.Customer.Component.Action
             return ret;
         }
 
-        protected override ReturnObject<Boolean> IsSubjectDeletable(BinAff.Core.Data subject)
-        {
-            if (subject.GetType().ToString() == GetProductType())
-            {
-                return IsProductDeletable(subject);
-            }
-            else switch (subject.GetType().ToString())
-            {
-                case "Crystal.Customer.Component.Action.Status.Data":
-                    return IsStatusDeletable((Status.Data)subject);
-                default:
-                    return new ReturnObject<Boolean>();                    
-            }
-        }
+        #region Mandatory Hook
 
-        private ReturnObject<Boolean> IsProductDeletable(BinAff.Core.Data subject)
-        {
-            return MakeReturnObject(((Dao)this.DataAccess).IsProductDeletable(subject));
-        }
+        protected abstract Type GetProductType();
 
-        protected abstract String GetProductType();
+        protected abstract String GetMessage(Data data);
 
-        private ReturnObject<Boolean> IsStatusDeletable(Status.Data data)
+        #endregion
+
+        #region Optional Hook
+
+        protected virtual ReturnObject<Boolean> IsDependedDeletable(BinAff.Core.Data subject)
         {
             throw new NotImplementedException();
         }
 
-        private ReturnObject<Boolean> MakeReturnObject(List<Data> dataList)
+        #endregion
+
+        private ReturnObject<Boolean> IsProductDeletable(BinAff.Core.Data subject)
+        {
+            ReturnObject<Boolean> ret = this.MakeReturnObject((this.DataAccess as Dao).IsProductDeletable(subject));
+            if (!ret.HasError()) ret = this.IsDependedDeletable(subject);
+            return ret;
+        }
+
+        private ReturnObject<Boolean> IsStatusDeletable(Status.Data data)
+        {
+            //Need to implement
+            throw new NotImplementedException();
+        }
+
+        protected ReturnObject<Boolean> MakeReturnObject(List<Data> dataList)
         {
             ReturnObject<Boolean> ret = new ReturnObject<Boolean>();
             Int32 count = dataList.Count;
             if (count > 0)
             {
-                String msg = "Unable to delete. Following " + this.Name + " has this dependency: ";
-                //Show max 4
+                String msg = "Unable to delete...\n";
+
                 foreach (Data data in dataList)
                 {
-                    msg += GetMessage(data);
+                    msg += this.GetMessage(data);
+                    msg += Environment.NewLine;
                 }
+                //Show max 4
                 //for (Int16 i = 0; i < (count > 4 ? 4 : count); i++)
                 //{
                 //    msg += dataList[i].;
@@ -115,8 +131,6 @@ namespace Crystal.Customer.Component.Action
             }
             return ret;
         }
-
-        protected abstract String GetMessage(Data data);
 
     }
 
