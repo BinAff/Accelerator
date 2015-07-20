@@ -14,12 +14,6 @@ namespace Crystal.Report.Component.Navigator.Artifact
 
         }
 
-        protected abstract override void Compose();
-
-        protected abstract override BinAff.Core.Crud CreateInstance(BinAff.Core.Data data);
-
-        protected abstract override BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData);
-
         protected override ReturnObject<Boolean> DeleteAfter()
         {
             if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)

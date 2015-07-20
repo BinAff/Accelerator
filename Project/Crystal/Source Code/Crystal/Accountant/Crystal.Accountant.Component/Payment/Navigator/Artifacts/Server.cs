@@ -35,9 +35,14 @@ namespace Crystal.Accountant.Component.Payment.Navigator.Artifact
             return new Server(data as Data);
         }
 
-        protected override BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData)
+        protected override BinAff.Core.Crud CreateComponentServerInstance(BinAff.Core.Data componentData)
         {            
-            return new Payment.Server(moduleData as Payment.Data);
+            return new Payment.Server(componentData as Payment.Data);
+        }
+
+        protected override BinAff.Core.Data CreateComponentDataObject()
+        {
+            return new Payment.Data();
         }
 
         protected override ReturnObject<Boolean> DeleteAfter()

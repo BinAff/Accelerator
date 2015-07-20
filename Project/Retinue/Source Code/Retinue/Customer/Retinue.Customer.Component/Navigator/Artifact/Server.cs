@@ -34,11 +34,16 @@ namespace Retinue.Customer.Component.Navigator.Artifact
             return new Server(data as Data);
         }
 
-        protected override BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData)
+        protected override BinAff.Core.Crud CreateComponentServerInstance(BinAff.Core.Data componentData)
         {
             //Find out customer data from customer form
-            return new Retinue.Customer.Component.Server(moduleData as Retinue.Customer.Component.Data);
-        }               
+            return new Retinue.Customer.Component.Server(componentData as Retinue.Customer.Component.Data);
+        }
+
+        protected override BinAff.Core.Data CreateComponentDataObject()
+        {
+            return new Retinue.Customer.Component.Data();
+        }
 
         protected override ReturnObject<bool> DeleteAfter()
         {

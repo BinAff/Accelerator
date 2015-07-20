@@ -32,9 +32,14 @@ namespace Retinue.Lodge.Component.CheckInReport.Navigator.Artifact
             return new Server(data as Data);
         }
 
-        protected override BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData)
+        protected override BinAff.Core.Crud CreateComponentServerInstance(BinAff.Core.Data componentData)
         {
-            return new CheckInReport.Server(moduleData as CheckInReport.Data);
+            return new CheckInReport.Server(componentData as CheckInReport.Data);
+        }
+
+        protected override BinAff.Core.Data CreateComponentDataObject()
+        {
+            return new CheckInReport.Data();
         }
 
         protected override ICrud GetComponentServer()

@@ -224,7 +224,7 @@ namespace Vanilla.Form.Facade.Document
 
         protected Int64 ReadComponentIdForArtifact(Int64 artifactId)
         {
-            return (this.GetArtifactServer(this.GetArtifactData(artifactId)) as Crystal.Navigator.Component.Artifact.IArtifact).ReadComponentId();
+            return (this.GetArtifactServer(this.GetArtifactData(artifactId)) as Crystal.Navigator.Component.Artifact.IArtifact).ReadComponentLink();
         }
 
         protected abstract ArtfCrys.Server GetArtifactServer(BinAff.Core.Data artifactData);

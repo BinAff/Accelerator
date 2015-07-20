@@ -27,7 +27,12 @@ namespace Crystal.Navigator.Component.SearchAgent
             return new Server(this.Data as Data);
         }
 
-        protected override BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData)
+        protected override BinAff.Core.Crud CreateComponentServerInstance(BinAff.Core.Data componentData)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override BinAff.Core.Data CreateComponentDataObject()
         {
             throw new System.NotImplementedException();
         }

@@ -32,9 +32,14 @@ namespace Crystal.Customer.Component.Report.Navigator.Artifact
             return new Server(data as Data);
         }
 
-        protected override BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData)
+        protected override BinAff.Core.Crud CreateComponentServerInstance(BinAff.Core.Data componentData)
         {            
-            return new Customer.Component.Report.Server(moduleData as Customer.Component.Report.Data);
+            return new Customer.Component.Report.Server(componentData as Customer.Component.Report.Data);
+        }
+
+        protected override BinAff.Core.Data CreateComponentDataObject()
+        {
+            return new Customer.Component.Report.Data();
         }
 
         protected override ICrud GetComponentServer()

@@ -42,11 +42,10 @@ namespace Crystal.Navigator.Component.Artifact
                 IsReadOnly = true,
             });
             
-            Crud module = this.CreateModuleServerInstance((this.Data as Data).ComponentData);
-            module.Type = ChildType.Independent;
-            module.IsReadOnly = base.actionType != Action.Delete;
-            base.AddChild(module);           
-
+            Crud comp = this.CreateComponentServerInstance((this.Data as Data).ComponentData);
+            comp.Type = ChildType.Independent;
+            comp.IsReadOnly = base.actionType != Action.Delete;
+            base.AddChild(comp);
         }
 
         protected override ReturnObject<Boolean> DeleteBefore()
@@ -61,12 +60,14 @@ namespace Crystal.Navigator.Component.Artifact
         {
             if ((this.Data as Data).ComponentData != null && (this.Data as Data).ComponentData.Id > 0)
             {
-                return (this.CreateModuleServerInstance((this.Data as Data).ComponentData) as ICrud).Delete();
+                return (this.CreateComponentServerInstance((this.Data as Data).ComponentData) as ICrud).Delete();
             }
             return base.DeleteAfter();
         }
 
-        protected abstract BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData);
+        protected abstract BinAff.Core.Crud CreateComponentServerInstance(BinAff.Core.Data componentData);
+
+        protected abstract BinAff.Core.Data CreateComponentDataObject();
 
         ReturnObject<Data> IArtifact.FormTree()
         {
@@ -106,7 +107,7 @@ namespace Crystal.Navigator.Component.Artifact
             return ret;
         }
 
-        Int64 IArtifact.ReadComponentId()
+        Int64 IArtifact.ReadComponentLink()
         {
             return (this.DataAccess as Dao).ReadComponentLink();
         }
@@ -310,6 +311,8 @@ namespace Crystal.Navigator.Component.Artifact
             return matchedList;
         }
 
+        #region IObserver
+
         ReturnObject<Boolean> Observer.IObserver.UpdateArtifactComponentLink(Data subject)
         {
             Boolean ret = (this.DataAccess as Dao).UpdateComponentLink();
@@ -329,6 +332,8 @@ namespace Crystal.Navigator.Component.Artifact
             }
             return ret;
         }
+
+        #endregion
 
     }
 

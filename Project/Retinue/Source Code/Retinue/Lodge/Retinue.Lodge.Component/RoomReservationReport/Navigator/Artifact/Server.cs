@@ -2,6 +2,7 @@
 
 namespace Retinue.Lodge.Component.RoomReservationReport.Navigator.Artifact
 {
+
     public class Server : Crystal.Report.Component.Navigator.Artifact.Server
     {
 
@@ -31,9 +32,14 @@ namespace Retinue.Lodge.Component.RoomReservationReport.Navigator.Artifact
             return new Server(data as Data);
         }
 
-        protected override BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData)
+        protected override BinAff.Core.Crud CreateComponentServerInstance(BinAff.Core.Data componentData)
         {
-            return new RoomReservationReport.Server(moduleData as RoomReservationReport.Data);
+            return new RoomReservationReport.Server(componentData as RoomReservationReport.Data);
+        }
+
+        protected override BinAff.Core.Data CreateComponentDataObject()
+        {
+            return new RoomReservationReport.Data();
         }
 
         protected override ICrud GetComponentServer()

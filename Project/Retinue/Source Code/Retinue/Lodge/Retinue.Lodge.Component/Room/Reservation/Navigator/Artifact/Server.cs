@@ -35,9 +35,14 @@ namespace Retinue.Lodge.Component.Room.Reservation.Navigator.Artifact
             return new Server(data as Data);
         }
 
-        protected override BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData)
+        protected override BinAff.Core.Crud CreateComponentServerInstance(BinAff.Core.Data componentData)
         {
-            return new Room.Reservation.Server(moduleData as Room.Reservation.Data);
+            return new Room.Reservation.Server(componentData as Room.Reservation.Data);
+        }
+
+        protected override BinAff.Core.Data CreateComponentDataObject()
+        {
+            return new Room.Reservation.Data();
         }
 
         protected override ArtfComp.Server GetAttachmentServer(ArtfComp.Data attachment)

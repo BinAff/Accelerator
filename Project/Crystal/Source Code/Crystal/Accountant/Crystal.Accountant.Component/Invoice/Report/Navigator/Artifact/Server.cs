@@ -36,9 +36,14 @@ namespace Crystal.Accountant.Component.Invoice.Report.Navigator.Artifact
             return new Server(data as Data);
         }
 
-        protected override BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData)
+        protected override BinAff.Core.Crud CreateComponentServerInstance(BinAff.Core.Data componentData)
         {            
-            return new Report.Server(moduleData as Report.Data);
+            return new Report.Server(componentData as Report.Data);
+        }
+
+        protected override BinAff.Core.Data CreateComponentDataObject()
+        {
+            return new Report.Data();
         }
 
         protected override ICrud GetComponentServer()

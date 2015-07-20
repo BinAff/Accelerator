@@ -37,10 +37,15 @@ namespace Retinue.Lodge.Component.Room.CheckIn.Navigator.Artifact
             return new Server(data as Data);
         }
 
-        protected override BinAff.Core.Crud CreateModuleServerInstance(BinAff.Core.Data moduleData)
+        protected override BinAff.Core.Crud CreateComponentServerInstance(BinAff.Core.Data componentData)
         {
             //Find out CheckIn data from CheckIn form
-            return new ChkInRet.Server(moduleData as ChkInRet.Data);
+            return new ChkInRet.Server(componentData as ChkInRet.Data);
+        }
+
+        protected override BinAff.Core.Data CreateComponentDataObject()
+        {
+            return new ChkInRet.Data();
         }
 
         protected override ArtfComp.Server GetAttachmentServer(ArtfComp.Data attachment)
