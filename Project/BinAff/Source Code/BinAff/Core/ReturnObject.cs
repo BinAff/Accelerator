@@ -41,6 +41,13 @@ namespace BinAff.Core
             };
         }
 
+        public ReturnObject<T> MergeMessageList<T1>(ReturnObject<T1> ret)
+        {
+            if (this.MessageList == null) this.MessageList = new List<Message>();
+            this.MessageList.AddRange(ret.MessageList);
+            return this;
+        }
+
         #region IDisposable Members
 
         public void Dispose()
