@@ -178,6 +178,7 @@ namespace Vanilla.Utility.WinForm
             this.executable.Show();
             ArtfFac.Dto currentArtifact = new ArtfFac.Server(null).Read(path, this.facade.GetCategory(), componentCode);
             Document form = this.InstantiateForm(currentArtifact);
+            form.Show();
             this.AddDocument(form);
         }
 

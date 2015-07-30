@@ -65,9 +65,7 @@ namespace Crystal.Navigator.Component.Artifact
             return base.DeleteAfter();
         }
 
-        protected abstract BinAff.Core.Crud CreateComponentServerInstance(BinAff.Core.Data componentData);
-
-        protected abstract BinAff.Core.Data CreateComponentDataObject();
+        #region IArtifact
 
         ReturnObject<Data> IArtifact.FormTree()
         {
@@ -107,6 +105,11 @@ namespace Crystal.Navigator.Component.Artifact
             return ret;
         }
 
+        ReturnObject<Data> IArtifact.ReadForPath()
+        {
+            return (this.CreateInstance((this.DataAccess as Dao).ReadForPath() as Data) as ICrud).Read().Convert<Data>();
+        }
+
         ReturnObject<BinAff.Core.Data> IArtifact.ReadLinkedComponent()
         {
             Int64 compId = (this.DataAccess as Dao).ReadComponentLink();
@@ -123,7 +126,7 @@ namespace Crystal.Navigator.Component.Artifact
             }
             else
             {
-                Data data = this.CreateComponentDataObject() as Data;
+                BinAff.Core.Data data = this.CreateComponentDataObject() as BinAff.Core.Data;
                 data.Id = compId;
                 (this.CreateComponentServerInstance(data) as ICrud).Read();
                 return new ReturnObject<BinAff.Core.Data>
@@ -174,6 +177,30 @@ namespace Crystal.Navigator.Component.Artifact
             return base.Read().Convert<Data>();
         }
 
+        ReturnObject<List<Data>> IArtifact.ReadAttacher()
+        {
+            return this.ReadAttacher();
+        }
+
+        #endregion
+
+        #region Mandatory Hook
+
+        protected abstract BinAff.Core.Crud CreateComponentServerInstance(BinAff.Core.Data componentData);
+
+        protected abstract BinAff.Core.Data CreateComponentDataObject();
+
+        #endregion
+
+        #region Conditional Mandatory Hook
+
+        protected virtual Server GetAttachmentServer(Data attachment)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         protected virtual ReturnObject<Boolean> CreateAttachmentLink(Data attachment)
         {
             if (!(this.Data as Data).IsAttachmentSupported)
@@ -207,62 +234,11 @@ namespace Crystal.Navigator.Component.Artifact
             return ret;
         }
 
-        private ReturnObject<List<Data>> ReadAttachmentLink()
+        protected List<BinAff.Core.Data> ReadArtifactListForMudule()
         {
-            if (!(this.Data as Data).IsAttachmentSupported)
-            {
-                return new ReturnObject<List<Data>>
-                {
-                    MessageList = new List<Message>
-                    {
-                        new Message("Attachment not supported", Message.Type.Information),
-                    }
-                };
-            }
-            return new ReturnObject<List<Data>>
-            {
-                Value = (this.DataAccess as Dao).ReadAttachmentLink()
-            };
+            return (this.DataAccess as Dao).ReadArtifactListForMudule();
         }
-
-        private ReturnObject<Boolean> DeleteAttachmentLink(Data attachment)
-        {
-            if (!(this.Data as Data).IsAttachmentSupported)
-            {
-                return new ReturnObject<Boolean>
-                {
-                    MessageList = new List<Message>
-                    {
-                        new Message("Attachment not supported", Message.Type.Information),
-                    }
-                };
-            }
-            ReturnObject<Boolean> ret = new ReturnObject<bool>
-            {
-                Value = (this.DataAccess as Dao).DeleteAttachmentLink(attachment)
-            };
-            if (ret.Value)
-            {
-                ret.MessageList = new List<Message>
-                {
-                    new Message("Attachment link deleted successfully.", Message.Type.Information)
-                };
-            }
-            else
-            {
-                ret.MessageList = new List<Message>
-                {
-                    new Message("Unable to delete attachment link.", Message.Type.Error)
-                };
-            }
-            return ret;
-        }
-
-        protected virtual Server GetAttachmentServer(Data attachment)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         /// <summary>
         /// Form artifact tree from database related record
         /// </summary>
@@ -305,11 +281,6 @@ namespace Crystal.Navigator.Component.Artifact
             }
         }
 
-        protected virtual List<BinAff.Core.Data> ReadArtifactListForMudule()
-        {
-            return (this.DataAccess as Dao).ReadArtifactListForMudule();
-        }
-
         private List<BinAff.Core.Data> FindRoot(List<BinAff.Core.Data> dataList)
         {
             List<BinAff.Core.Data> ret = new List<BinAff.Core.Data>();
@@ -330,6 +301,60 @@ namespace Crystal.Navigator.Component.Artifact
                     matchedList.Add(data as Data);
             }
             return matchedList;
+        }
+
+        private ReturnObject<List<Data>> ReadAttachmentLink()
+        {
+            List<Data> attachmentList = (this.DataAccess as Dao).ReadAttachmentLink();
+            foreach (Data attachment in attachmentList)
+            {
+                (this.CreateInstance(attachment) as ICrud).Read();
+            }
+            return new ReturnObject<List<Data>>
+            {
+                Value = attachmentList,
+            };
+        }
+
+        private ReturnObject<List<Data>> ReadAttacher()
+        {
+            return new ReturnObject<List<Data>>
+            {
+                Value = (this.DataAccess as Dao).ReadAttacher(),
+            };
+        }
+
+        private ReturnObject<Boolean> DeleteAttachmentLink(Data attachment)
+        {
+            if (!(this.Data as Data).IsAttachmentSupported)
+            {
+                return new ReturnObject<Boolean>
+                {
+                    MessageList = new List<Message>
+                    {
+                        new Message("Attachment not supported", Message.Type.Information),
+                    }
+                };
+            }
+            ReturnObject<Boolean> ret = new ReturnObject<bool>
+            {
+                Value = (this.DataAccess as Dao).DeleteAttachmentLink(attachment)
+            };
+            if (ret.Value)
+            {
+                ret.MessageList = new List<Message>
+                {
+                    new Message("Attachment link deleted successfully.", Message.Type.Information)
+                };
+            }
+            else
+            {
+                ret.MessageList = new List<Message>
+                {
+                    new Message("Unable to delete attachment link.", Message.Type.Error)
+                };
+            }
+            return ret;
         }
 
         #region IObserver

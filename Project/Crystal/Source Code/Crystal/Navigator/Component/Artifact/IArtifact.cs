@@ -11,7 +11,10 @@ namespace Crystal.Navigator.Component.Artifact
 
         ReturnObject<Data> FormTree();
         ReturnObject<Boolean> UpdaterModuleArtifactLink();
+
         ReturnObject<Data> ReadWithParent();
+
+        ReturnObject<Data> ReadForPath();
         ReturnObject<Data> ReadForComponent();
         ReturnObject<BinAff.Core.Data> ReadLinkedComponent();
 
@@ -20,6 +23,8 @@ namespace Crystal.Navigator.Component.Artifact
         ReturnObject<Boolean> DeleteAttachmentLink(Data attachment);
 
         ReturnObject<Server> GetAttachmentServer(Data attachment);
+
+        ReturnObject<List<Data>> ReadAttacher();
 
     }
 

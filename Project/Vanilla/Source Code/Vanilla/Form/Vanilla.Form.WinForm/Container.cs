@@ -223,6 +223,7 @@ namespace Vanilla.Form.WinForm
         protected override void AddDocumentAfter(UtilWin.Document document)
         {
             Document doc = document as Document;
+            document.TopLevel = false;
             this.pnlDocument.Controls.Add(document);
             document.Dock = System.Windows.Forms.DockStyle.Fill;
             doc.IsVisibleCloseButton = false;

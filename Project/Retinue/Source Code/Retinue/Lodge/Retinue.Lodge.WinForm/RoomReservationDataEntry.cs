@@ -465,7 +465,7 @@ namespace Retinue.Lodge.WinForm
                 this.txtFemale.Text = this.dto.NoOfFemale == 0 ? String.Empty : this.dto.NoOfFemale.ToString();
                 this.txtChild.Text = this.dto.NoOfChild == 0 ? String.Empty : this.dto.NoOfChild.ToString();
                 this.txtInfant.Text = this.dto.NoOfInfant == 0 ? String.Empty : this.dto.NoOfInfant.ToString();
-                this.txtRemarks.Text = this.dto.Remark.ToString();
+                this.txtRemarks.Text = Convert.ToString(this.dto.Remark);
                 this.txtReservationNo.Text = this.dto.ReservationNo;
 
                 if (!ValidationRule.IsMinimumDate(this.dto.BookingFrom))

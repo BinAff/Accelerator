@@ -118,10 +118,9 @@ namespace Crystal.Navigator.Component.Artifact
 
         protected abstract BinAff.Core.Data CreateDataObject(Int64 id, Category category);        
 
-        public override BinAff.Core.Data Read()
+        public BinAff.Core.Data ReadForPath()
         {
-            if (this.Data != null &&
-                !String.IsNullOrEmpty((this.Data as Data).Path) && (this.Data as Data).CreatedBy == null)
+            if (this.Data != null && !String.IsNullOrEmpty((this.Data as Data).Path))
             {
                 this.CreateConnection();
                 this.CreateCommand("Navigator.ArtifactReadForPath");
@@ -131,12 +130,12 @@ namespace Crystal.Navigator.Component.Artifact
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
-                    this.Data.Id = Convert.IsDBNull(dr["Id"]) ? 0 : Convert.ToInt64(dr["Id"]);
+                    this.CreateDataObject(dr, this.Data);
                 }
                 
                 this.CloseConnection();
             }
-            return base.Read();
+            return this.Data;
         }
 
         protected override Boolean ReadBefore()
@@ -318,12 +317,11 @@ namespace Crystal.Navigator.Component.Artifact
             base.AddInParameter("@Id", DbType.Int64, this.Data.Id);
             DataSet ds = this.ExecuteDataSet();
 
-            //Attach dummy artifacts as attachment
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    ret.Add(new Data { Id = Convert.ToInt64(dr["AttachmentId"]) });
+                    ret.Add(this.CreateDataObject(Convert.ToInt64(dr["AttachmentId"]), Category.Form) as Data);
                 }
             }
             this.CloseConnection();
@@ -348,6 +346,31 @@ namespace Crystal.Navigator.Component.Artifact
             base.CloseConnection();
 
             return status;
+        }
+
+        protected internal virtual List<Data> ReadAttacher()
+        {
+            List<Data> ret = new List<Data>();
+            base.CreateConnection();
+            base.CreateCommand("Navigator.ArtifactAttachmentLinkReadForAttachment");
+            base.AddInParameter("@AttachmentId", DbType.Int64, this.Data.Id);
+            DataSet ds = this.ExecuteDataSet();
+
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    ret.Add(new Data
+                    {
+                        Id = Convert.ToInt64(dr["Id"]),
+                        FileName = Convert.ToString(dr["FileName"]),
+                        Extension = Convert.ToString(dr["Extension"]),
+                        Path = Convert.ToString(dr["Path"]),
+                    });
+                }
+            }
+            this.CloseConnection();
+            return ret;
         }
 
     }

@@ -326,7 +326,7 @@ namespace Vanilla.Utility.Facade.Artifact
             data.Id = 1; //Just to call read method in data access
             data.Path = path;
 
-            ReturnObject<BinAff.Core.Data> ret = (Activator.CreateInstance(artifactComponentType, data) as ICrud).Read();
+            ReturnObject<ArtfCrys.Data> ret = (Activator.CreateInstance(artifactComponentType, data) as ArtfCrys.IArtifact).ReadForPath();
             this.DisplayMessageList = ret.GetMessage((this.IsError = ret.HasError()) ? Message.Type.Error : Message.Type.Information);
             if (!this.IsError)
             {
