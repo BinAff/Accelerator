@@ -669,7 +669,8 @@ namespace BinAff.Core
         {
             ReturnObject<Data> retObj = new ReturnObject<Data>
             {
-                MessageList = new List<Message>()
+                Value = this.Data,
+                MessageList = new List<Message>(),
             };
 
             this.actionType = Action.Read;
@@ -677,13 +678,13 @@ namespace BinAff.Core
             if (this.Data.Id != 0) //There is data to read
             {
                 //Manage before hook
-                if (this.ManipulateReturnObject(retObj, this.ReadBefore()).HasError()) return retObj;
+                if (retObj.MergeMessageList(this.ReadBefore()).HasError()) return retObj;
                 
                 //Read own
-                if (this.ManipulateReturnObject(retObj, this.Read()).HasError()) return retObj;
+                if (retObj.MergeMessageList(this.Read()).HasError()) return retObj;
 
                 //Manage after hook
-                if (this.ManipulateReturnObject(retObj, this.ReadAfter()).HasError()) return retObj;
+                if (retObj.MergeMessageList(this.ReadAfter()).HasError()) return retObj;
             }
 
             return retObj;
@@ -950,18 +951,6 @@ namespace BinAff.Core
             }
             retObj.Value &= result.Value;
             if (retObj.HasError()) retObj.Value = false;
-            return retObj;
-        }
-
-        protected ReturnObject<Data> ManipulateReturnObject(ReturnObject<Data> retObj, ReturnObject<Data> result)
-        {
-            if (result.MessageList != null && result.MessageList.Count > 0)
-            {
-                if (retObj.MessageList == null) retObj.MessageList = new List<Message>();
-                retObj.MessageList.AddRange(result.MessageList);
-            }
-            retObj.Value = this.Data;
-            if (retObj.HasError()) retObj.Value = null;
             return retObj;
         }
 
