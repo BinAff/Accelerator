@@ -49,6 +49,18 @@ namespace BinAff.Core
             return this;
         }
 
+        //protected ReturnObject<Boolean> ManipulateReturnObject(ReturnObject<Boolean> retObj, ReturnObject<Boolean> result)
+        //{
+        //    if (result.MessageList != null && result.MessageList.Count > 0)
+        //    {
+        //        if (retObj.MessageList == null) retObj.MessageList = new List<Message>();
+        //        retObj.MessageList.AddRange(result.MessageList);
+        //    }
+        //    retObj.Value &= result.Value;
+        //    if (retObj.HasError()) retObj.Value = false;
+        //    return retObj;
+        //}
+
         #region IDisposable Members
 
         public void Dispose()
