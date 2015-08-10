@@ -1,3 +1,0 @@
-Create one column [ExtraAccomodation] [smallint] NOT NULL,  in table [Lodge].[RoomReservationDetails]. Make default value 0.
-
-Run Script: Script.SQL
